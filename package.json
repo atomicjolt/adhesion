@@ -1,7 +1,7 @@
 {
-  "name": "lti_starter_app",
+  "name": "adhesion",
   "version": "0.0.1",
-  "description": "Javascript for the LTI Starter App.",
+  "description": "Javascript for the Adhesion.",
   "engines": {
     "node": "5.10.1"
   },
@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/atomicjolt/lti_starter_app"
+    "url": "https://github.com/atomicjolt/adhesion"
   },
   "keywords": [
     "react",

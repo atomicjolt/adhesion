@@ -1,17 +1,17 @@
-# LTI Starter App
+# Adhesion
 -----------------------
 This project provides a starting point for building a LTI tools using React with Ruby on Rails as a backend.
 There are many starter kits that will help you get started with React and Redux. This is the one created by, maintained by and used by [Atomic Jolt](http://www.atomicjolt.com). 
 
 
-## Build a new application using the LTI Starter App Rails application template:
-Since the project is not public you will need to have a local copy of the lti_starter_app project.
+## Build a new application using the Adhesion Rails application template:
+Since the project is not public you will need to have a local copy of the adhesion project.
 Be sure to use the correct relative path:
 
-`rails new my_app -m ./lti_starter_app/template.rb`
+`rails new my_app -m ./adhesion/template.rb`
 
 
-## Running LTI Starter App
+## Running Adhesion
 -----------
 
 ### With Foreman
@@ -34,7 +34,7 @@ $ rails server
 $ npm run hot
 ```
 
-## Setting up LTI Starter App
+## Setting up Adhesion
 -----------
 
 ### File Modifications
@@ -42,7 +42,7 @@ $ npm run hot
 #### Change bin/bootstrap
 In bin/bootstrap change the following line to point to a dropbox folder containing the correct config files for
 the project:
-DROPBOX_FOLDER=aj-dev/lti_starter_app
+DROPBOX_FOLDER=aj-dev/adhesion
 
 #### Change .env
 Rename `.env.example` to `.env` and configure it to your liking.
@@ -50,9 +50,9 @@ Rename `.env.example` to `.env` and configure it to your liking.
 Note: the App and Assets subdomains must be different.
 
 #### Modify application name
-1. Open application.rb and change `ltistarterapp` to the name you choose.
-2. Do a global search and replace for `lti_starter_app` and change it to the name you choose.
-3. Do a global search and replace for `ltistarterapp` (use only letters or numbers for this name. Special characters like '_' will result in errors).
+1. Open application.rb and change `Adhesion` to the name you choose.
+2. Do a global search and replace for `adhesion` and change it to the name you choose.
+3. Do a global search and replace for `Adhesion` (use only letters or numbers for this name. Special characters like '_' will result in errors).
 
 ### Setup script
 Run the setup script to configure your local nginx and to setup symlinks to your configuration files (database.yml, etc)
@@ -148,7 +148,7 @@ $ npm-check-updates -u
 
 #### React
 Most LTI applications need to be single page applications in order to avoid a bug that prevents cookies from being written in some
-browsers. The LTI Starter App uses React. During development run the [React Hot Loader](https://github.com/gaearon/react-hot-loader).
+browsers. The Adhesion uses React. During development run the [React Hot Loader](https://github.com/gaearon/react-hot-loader).
 
 
 ### <a name="seeds"></a>Setting up Database
@@ -185,28 +185,28 @@ $ rake db:seed
 ### <a name="developer_key"></a>Obtain a Canvas Developer Key
 
 Only a Canvas Account Admin can create a developer key for your LTI Application. To create a key, go to 
-Accounts, Developer Keys and enter the info described below below. Be sure to replace `ltistarterapp.ngrok.io` with your domain. You will need an ID and secret for development and for production. The development URI will use ngrok while the production URI will use your domain (e.g. ltistarterapp.herokuapp.com).
+Accounts, Developer Keys and enter the info described below below. Be sure to replace `Adhesion.ngrok.io` with your domain. You will need an ID and secret for development and for production. The development URI will use ngrok while the production URI will use your domain (e.g. Adhesion.herokuapp.com).
 
 **Oauth2 Redirect URI:**
 https://reactrailsstarterapp.atomicjolt.xyz/auth/[provider]/callback
 **Key Name:**
-Can be anything you choose (e.g. LTI Starter App)
+Can be anything you choose (e.g. Adhesion)
 
 **Owner Email:***
 Address that will receive email about technical issues related to the tool.
 
 **Tool ID:**
-Unique ID for the tool (e.g. ltistarterapp)
+Unique ID for the tool (e.g. Adhesion)
 
 **Redirect URI:**
-https://ltistarterapp.ngrok.io/auth/canvas/callback
+https://Adhesion.ngrok.io/auth/canvas/callback
 OR
-https://ltistarterapp.herokuapp.com/auth/canvas/callback
+https://Adhesion.herokuapp.com/auth/canvas/callback
 
 **Icon URL:**
-https://ltistarterapp.ngrok.io/images/icon.png
+https://Adhesion.ngrok.io/images/icon.png
 OR
-https://ltistarterapp.herokuapp.com/images/icon.png
+https://Adhesion.herokuapp.com/images/icon.png
 
 Once you press Save Key, a Developer ID and Key will be generated and displayed in the Details column of the Developer Keys table when you mouse over the row. Add these credentials to your .env file or `config/secrets.yml` file under DEVELOPER_ID and DEVELOPER_KEY (in .env) or `developer_id` and `developer_key` (in secrets.yml).
 
