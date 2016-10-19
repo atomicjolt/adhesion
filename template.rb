@@ -6,9 +6,9 @@ require "fileutils"
 require "securerandom"
 
 
-#repo = "git@github.com:atomicjolt/adhesion.git"
-#repo = "https://github.com/atomicjolt/adhesion.git"
-repo = "git@bitbucket.com:atomicjolt/adhesion.git"
+#repo = "git@github.com:atomicjolt/lti_starter_app.git"
+repo = "https://github.com/atomicjolt/lti_starter_app.git"
+#repo = "git@bitbucket.com:atomicjolt/lti_starter_app.git"
 
 # keep track if the initial directory
 @working_dir = destination_root
