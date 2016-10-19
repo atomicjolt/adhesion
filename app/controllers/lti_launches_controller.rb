@@ -3,13 +3,13 @@ class LtiLaunchesController < ApplicationController
   layout "client"
 
   skip_before_filter :verify_authenticity_token
-  before_action :check_for_iframes_problem, :only => [:index]
+  #before_action :check_for_iframes_problem, :only => [:index]
   before_action :do_lti, :only => [:index]
-  before_action :check_for_user_auth, :only => [:index]
+  #before_action :check_for_user_auth, :only => [:index]
 
   def index
-    @course = Course.for_lti_launch(current_user, params[:custom_canvas_course_id],
-      params[:context_title], request.referer, UserCourse.lti_role_id(@provider))
+    # @course = Course.for_lti_launch(current_user, params[:custom_canvas_course_id],
+    #   params[:context_title], request.referer, UserCourse.lti_role_id(@provider))
   end
 
   # IE and Safari don't let you set cookies when you are loaded in an iframe and
