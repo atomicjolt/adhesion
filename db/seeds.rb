@@ -7,7 +7,7 @@ lti_applications = [{
   lti_key: "adhesion",
   description: "LTI Integration Platform",
   client_application_name: "app",
-  canvas_uri: "https://atomicjolt.instructure.com"
+  lti_consumer_uri: "https://atomicjolt.instructure.com"
 }]
 
 lti_applications.each do |attrs|
