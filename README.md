@@ -1,15 +1,5 @@
 # Adhesion
 -----------------------
-This project provides a starting point for building a LTI tools using React with Ruby on Rails as a backend.
-There are many starter kits that will help you get started with React and Redux. This is the one created by, maintained by and used by [Atomic Jolt](http://www.atomicjolt.com). 
-
-
-## Build a new application using the Adhesion Rails application template:
-Since the project is not public you will need to have a local copy of the adhesion project.
-Be sure to use the correct relative path:
-
-`rails new my_app -m ./adhesion/template.rb`
-
 
 ## Running Adhesion
 -----------
@@ -97,7 +87,7 @@ Rename `config/secrets.example.yml` to `config/secrets.yml`. Open the file and c
 
 *This file should not be committed to your repository.*
 
-You will need to [obtain a Developer ID and Key from an Account Admin for the instance of Canvas the tool will be installed in](#developer_key).
+You will need to [obtain a Developer ID and Key from an Account Admin for the instance of Canvas the tool will be installed in](#canvas_developer_key).
 You will also need to setup a default account and provide that account's "code" for the "application_code" entry in secrets.yml. See the [seeds](#seeds) section below for information on setting up the default account.
 
 ### Project Dependencies
@@ -154,8 +144,8 @@ browsers. The Adhesion uses React. During development run the [React Hot Loader]
 ### <a name="seeds"></a>Setting up Database
 
 If you have setup .env and the secrets.yml file then the seeds file shouldn't need to be changed. However,
-if you need to customize the values in the database or add addition records to the database, 
-open db/seeds.rb and configuration a default account for development and production. 
+if you need to customize the values in the database or add addition records to the database,
+open db/seeds.rb and configuration a default account for development and production.
 Here's a summary of the values and their purpose:
 
 - **code:** Uniquely identifies the account. This is used for the subdomain when running
@@ -182,13 +172,16 @@ $ rake db:seed
 ```
 
 
-### <a name="developer_key"></a>Obtain a Canvas Developer Key
+### <a name="canvas_developer_key"></a>Obtain a Canvas Developer Key
 
-Only a Canvas Account Admin can create a developer key for your LTI Application. To create a key, go to 
-Accounts, Developer Keys and enter the info described below below. Be sure to replace `Adhesion.ngrok.io` with your domain. You will need an ID and secret for development and for production. The development URI will use ngrok while the production URI will use your domain (e.g. Adhesion.herokuapp.com).
+Only a Canvas Account Admin can create a developer key for your LTI Application. To create a key, go to
+Accounts, Developer Keys and enter the info described below below. Be sure to replace `adhesion.atomicjolt.xyz` with your domain.
+(atomicjolt.xyz will only work for AtomicJolt employees). Also, note that 'lti' is the subdomain specified in the .env file
+You will need an ID and secret for development and for production. The development URI will use atomicjolt.xyz while the
+production URI will use your domain (e.g. ltistarterapp.herokuapp.com).
 
 **Oauth2 Redirect URI:**
-https://reactrailsstarterapp.atomicjolt.xyz/auth/[provider]/callback
+https://adhesion.atomicjolt.xyz/auth/[provider]/callback
 **Key Name:**
 Can be anything you choose (e.g. Adhesion)
 
@@ -199,16 +192,16 @@ Address that will receive email about technical issues related to the tool.
 Unique ID for the tool (e.g. Adhesion)
 
 **Redirect URI:**
-https://Adhesion.ngrok.io/auth/canvas/callback
+https://adhesion.atomicjolt.xyz/users/auth/canvas/callback
 OR
-https://Adhesion.herokuapp.com/auth/canvas/callback
+https://ltistarterapp.herokuapp.com/users/auth/canvas/callback
 
 **Icon URL:**
-https://Adhesion.ngrok.io/images/icon.png
+https://adhesion.atomicjolt.xyz/images/icon.png
 OR
 https://Adhesion.herokuapp.com/images/icon.png
 
-Once you press Save Key, a Developer ID and Key will be generated and displayed in the Details column of the Developer Keys table when you mouse over the row. Add these credentials to your .env file or `config/secrets.yml` file under DEVELOPER_ID and DEVELOPER_KEY (in .env) or `developer_id` and `developer_key` (in secrets.yml).
+Once you press Save Key, a Developer ID and Key will be generated and displayed in the Details column of the Developer Keys table when you mouse over the row. Add these credentials to your .env file or `config/secrets.yml` file under CANVAS_DEVELOPER_ID and CANVAS_DEVELOPER_KEY (in .env) or `canvas_developer_id` and `canvas_developer_key` (in secrets.yml).
 
 
 ## Deployment
