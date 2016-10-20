@@ -48,6 +48,9 @@ gem 'rack-cors', :require => 'rack/cors'
 # Paging
 gem 'will_paginate'
 
+# Scorm cloud ruby client
+gem 'scorm_cloud', :git => 'git@github.com:instructure/scorm-cloud.git'
+
 group :development do
   gem 'spring'
   gem 'better_errors'

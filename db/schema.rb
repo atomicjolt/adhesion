@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20120209004849) do
+ActiveRecord::Schema.define(version: 20161020201934) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,10 +74,25 @@ ActiveRecord::Schema.define(version: 20120209004849) do
 
   add_index "permissions", ["role_id", "user_id"], name: "index_permissions_on_role_id_and_user_id", using: :btree
 
+  create_table "registrations", force: :cascade do |t|
+    t.integer  "lms_course_id"
+    t.integer  "lms_user_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "registrations", ["lms_course_id"], name: "index_registrations_on_lms_course_id", using: :btree
+  add_index "registrations", ["lms_user_id"], name: "index_registrations_on_lms_user_id", using: :btree
+
   create_table "roles", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "scorm_courses", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|

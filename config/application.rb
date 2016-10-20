@@ -33,6 +33,9 @@ module Adhesion
       'X-Frame-Options' => 'ALLOWALL'
     }
 
+    config.scorm_cloud.appid = "ZCEBRZK01B"
+    config.scorm_cloud.secretkey = "8wpOLuN2usrqziHStohCynr0TsRUpEkA6CnekWmd"
+
     config.middleware.insert_before 0, "Rack::Cors" do
       allow do
         origins '*'
