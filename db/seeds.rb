@@ -3,9 +3,9 @@ puts 'CREATED ADMIN USER: ' << admin.email
 
 # Add an LTI Application
 lti_applications = [{
-  name: "LTI Starter App",
-  lti_key: "lti-starter-app",
-  description: "LTI Starter App by Atomic Jolt",
+  name: "Adhesion",
+  lti_key: "adhesion",
+  description: "LTI Integration Platform",
   client_application_name: "app",
   canvas_uri: "https://atomicjolt.instructure.com"
 }]
