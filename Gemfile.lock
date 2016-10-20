@@ -4,6 +4,13 @@ GIT
   specs:
     heroku_secrets (0.0.2)
 
+GIT
+  remote: git@github.com:instructure/scorm-cloud.git
+  revision: bec7a2043849fa51ac091c25911a397dbc054ec3
+  specs:
+    scorm_cloud (0.0.5)
+      multipart-post
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -377,6 +384,7 @@ DEPENDENCIES
   rolify
   rspec-rails
   sass-rails
+  scorm_cloud!
   selenium-webdriver
   sendgrid
   shoulda-matchers

@@ -46,7 +46,8 @@ Rails.application.routes.draw do
       resources :users
     end
     resources :jwts
-    resources :courses, only: [] do
+    resources :courses, only: [:index, :show, :create, :destroy] do
+      get 'launch' => 'courses#launch'
       resources :students, only: [:index]
       resources :sections, only: [] do
         resources :students, only: [:index]
