@@ -10,7 +10,8 @@ const requests = [
   "LOAD_PACKAGES",
   "LOAD_LAUNCH_URL",
   "UPLOAD_PACKAGE",
-  "REMOVE_PACKAGE"
+  "REMOVE_PACKAGE",
+  "UPDATE_UPLOAD_FILE"
 ];
 
 export const Constants = wrapper(actions, requests);

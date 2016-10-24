@@ -1,0 +1,67 @@
+.c-list__upload{
+  margin: 1rem 0 2rem;
+  border-radius: $radius;
+  border: 0.2rem dashed $light-gray;
+  @include display-flex;
+  @include align-items(center);
+  padding: 1rem;
+  min-height: 6rem;
+
+  .c-icon-upload{
+    width: 3rem;
+    margin: 0 2rem 0 1rem;
+    .c-path{
+      fill: $subtext-color;
+    }
+  }
+  .c-icon{
+    width: 2rem;
+    height: 2rem;
+    margin: 0 0 0 1rem;
+    display: inline-block;
+  }
+}
+
+.c-upload-error{
+  margin: 0 1rem;
+  max-width: 22rem;
+  .c-icon-error{
+    width: 2rem;
+    height: 2rem;
+    display: inline;
+    .c-path{
+      fill: $red;
+    }
+  }
+  span{
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: $text-color;
+    max-width: 20rem;
+  }
+}
+
+.c-progress-bar{
+  height: 0.8rem; 
+  position: relative;
+  border-radius: 0.4rem;
+  overflow: hidden;
+  max-width: 20rem;
+  width: 100%;
+  background: $lighter-gray;
+
+  &.blue span{
+    background: $blue;
+  }
+
+  &.red span{
+    background: $red;
+  }
+
+  span{
+    display: block;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+}

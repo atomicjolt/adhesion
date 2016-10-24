@@ -1,0 +1,27 @@
+.c-header{
+  padding: 0 0 1.5rem;
+  border-bottom: 0.1rem solid #eaeaea;
+  margin-bottom: 1.6rem;
+  @include display-flex;
+  @include align-items(center);
+  @include justify-content(space-between);
+}
+
+  .c-header__title{
+    font-size: 3rem;
+    font-weight: 400;
+    color: $text-color;
+    display: inline-block;
+    line-height: 1.1;
+    margin: 0;
+    @include truncate;
+    @include flex(1);
+  }
+
+  .c-score{
+    font-size: 2rem;
+    font-weight: 500;
+    color: $subtext-color;
+    display: inline-block;
+    margin-top: 0.4rem;
+  }

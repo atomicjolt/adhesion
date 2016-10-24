@@ -1,0 +1,90 @@
+.c-btn{
+  height: 3.5rem;
+  border-radius: $radius;
+  font-size: 1.4rem;
+  font-weight: 300;
+  padding: 0.5rem 0.8rem;
+  background: $light-gray;
+  border: none;
+  outline: none;
+}
+
+.c-btn--go{
+  background: $lighter-gray;
+  color: $gray;
+  font-size: 1.2rem;
+  pointer-events: none;
+
+  &.is-active{
+    background: $green-alt;
+    color: $white;
+    font-weight: 600;
+    @include transition(all 0.1s ease);
+    pointer-events: auto;
+
+    &:hover{
+      background: $green;
+      cursor: pointer;
+    }
+    &:active{
+      @include transform(scale(0.95));
+    }
+  }
+}
+
+.c-btn--upload{
+  background: $blue;
+  color: $white;
+  font-weight: 500;
+
+  .c-icon-upload{
+    width: 1.6rem;
+    height: 1.6rem;
+    .c-path{
+      fill: $white;
+    }
+  }
+  &:hover{
+    background: darken($blue, 10%);
+    cursor: pointer;
+  }
+  &:active{
+    @include transform(scale(0.95));
+  }
+}
+
+.c-btn--white{
+  background: $white;
+  border: 0.1rem solid $lighter-gray;
+  color: $text-color;
+  font-weight: 500;
+  margin-left: 0.5rem;
+
+  &:hover{
+    background: $lightest-gray;
+    cursor: pointer;
+  }
+  &:active{
+    @include transform(scale(0.95));
+  }
+}
+
+.c-icon-btn{
+  background: none;
+  border: none;
+  outline: none;
+  display: inline-block;
+  padding: 0;
+  cursor: pointer;
+
+  &:hover{
+    .c-path{
+      fill: $blue;
+    }
+  }
+  &:active{
+    .c-icon{
+      @include transform(scale(0.9));
+    }
+  }
+}

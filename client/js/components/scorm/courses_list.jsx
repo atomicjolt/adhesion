@@ -20,7 +20,9 @@ export default (props) => {
 
   return (
     <div>
-      {items}
+      <ul className="c-list">
+        {items}
+      </ul>
     </div>
   );
 }
