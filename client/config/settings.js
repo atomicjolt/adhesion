@@ -38,7 +38,8 @@ module.exports = {
   staticDir: clientAppPath + 'static',
 
   entries: {
-    app: clientAppPath + 'js/app.jsx'
+    scorm: clientAppPath + 'js/scorm.jsx',
+    attendance: clientAppPath + 'js/attendance.jsx'
   },
 
   cssEntries: {

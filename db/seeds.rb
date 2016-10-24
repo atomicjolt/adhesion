@@ -2,12 +2,22 @@ admin = CreateAdminService.create_admin
 puts 'CREATED ADMIN USER: ' << admin.email
 
 # Add an LTI Application
-lti_applications = [{
-  name: "Adhesion",
-  lti_key: "adhesion",
+lti_applications = [
+{
+  name: "SCORM Player",
+  lti_key: "scorm-player",
   description: "LTI Integration Platform",
-  client_application_name: "app",
-  lti_consumer_uri: "https://atomicjolt.instructure.com"
+  client_application_name: "scorm",
+  lti_consumer_uri: "https://atomicjolt.instructure.com",
+  lti_secret: Rails.application.secrets.scorm_lti_key
+},
+{
+  name: "Attendance",
+  lti_key: "attendance",
+  description: "LTI Integration Platform",
+  client_application_name: "attendance",
+  lti_consumer_uri: "https://atomicjolt.instructure.com",
+  lti_secret: Rails.application.secrets.attendance_lti_key
 }]
 
 lti_applications.each do |attrs|
