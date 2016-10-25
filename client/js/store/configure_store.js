@@ -3,9 +3,10 @@ import { persistState }                          from 'redux-devtools';
 import rootReducer                               from '../reducers';
 import DevTools                                  from '../dev/dev_tools.jsx';
 import API                                       from '../middleware/api';
+import Redirect                                  from '../middleware/redirect';
 import CanvasApi                                 from '../libs/canvas/middleware';
 
-let middleware = [ API, CanvasApi ];
+let middleware = [ API, CanvasApi, Redirect ];
 
 let enhancers = [
   applyMiddleware(...middleware)
