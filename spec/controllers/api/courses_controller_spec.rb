@@ -13,7 +13,7 @@ RSpec.describe Api::CoursesController, type: :controller do
     #
     @user = FactoryGirl.create(:user)
     @user.confirm
-    #
+
     # @admin = CreateAdminService.create_admin(@account)
 
     @user_token = AuthToken.issue_token({ user_id: @user.id })
@@ -173,6 +173,54 @@ RSpec.describe Api::CoursesController, type: :controller do
       delete :destroy, id:1
       expect(response).to have_http_status 400
 
+    end
+  end
+
+  describe "scorm_cloud_request" do
+    # mock_cloud_exception = ScormCloud::RequestError.new(REXML::Document.new, "")
+    # it "should return response" do
+    #   result = controller.scorm_cloud_request do
+    #     {result:"Fake Response"}
+    #   end
+    #   expect(result).to eq({result:"Fake Response"})
+    # end
+
+    # it "should catch errors" do
+    #   # expect(controller).to receive(:scorm_cloud_request).at_least(:once).and_raise(mock_cloud_exception)
+    #   result = controller.scorm_cloud_request do
+    #     raise ScormCloud::RequestError.new(REXML::Document.new, "")
+    #   end
+    #   byebug
+    #   expect(result).to eq({})
+    # end
+  end
+
+  describe "GET preview" do
+    mock_scorm_cloud = ScormCloud::ScormCloud.new("", "")
+    mock_course_service = ScormCloud::CourseService.new("")
+    mock_cloud_exception = ScormCloud::RequestError.new(REXML::Document.new, "")
+
+    it "should return preview url" do
+      FAKE_URL = "http://preview.url.com"
+      expect(ScormCloud::ScormCloud).to receive(:new).and_return(mock_scorm_cloud)
+      expect(mock_scorm_cloud).to receive(:course).at_least(:once).and_return(mock_course_service)
+      expect(mock_course_service).to receive(:preview).and_return(FAKE_URL)
+
+      get :preview, course_id: 1
+      response_body = JSON.parse(response.body)
+
+      expect(response_body).to eq({"launch_url" => FAKE_URL})
+    end
+
+    it "should handle errors" do
+      expect(ScormCloud::ScormCloud).to receive(:new).and_return(mock_scorm_cloud)
+      expect(mock_scorm_cloud).to receive(:course).at_least(:once).and_return(mock_course_service)
+      expect(mock_course_service).to receive(:preview).and_raise(mock_cloud_exception)
+
+      get :preview, course_id: 1
+      response_body = JSON.parse(response.body)
+
+      expect(response_body).to eq({"error" => {"msg"=>"Request failed with an unknown error. Entire response: "}})
     end
   end
 

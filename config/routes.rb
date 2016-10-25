@@ -46,6 +46,7 @@ Rails.application.routes.draw do
     resources :jwts
     resources :courses, only: [:index, :show, :create, :destroy] do
       get 'launch' => 'courses#launch'
+      get 'preview' => 'courses#preview'
       resources :students, only: [:index]
       resources :sections, only: [] do
         resources :students, only: [:index]

@@ -81,4 +81,24 @@ class Api::CoursesController < ApplicationController
 			render json: {error: e}, status: 500
 		end
 	end
+
+	def scorm_cloud_request
+		begin
+			return yield
+		rescue ScormCloud::InvalidPackageError => e
+		  render json: {error: e}, status: 400
+		rescue ScormCloud::RequestError => e
+			render json: {error: e}, status: 400
+		rescue ScormCloud::Error => e
+			render json: {error: e}, status: 500
+		end
+	end
+
+	def preview
+		scorm_cloud_request do
+			preview_url = scorm_cloud.course.preview(1, "")
+			render json: {launch_url: preview_url}
+		end
+	end
+
 end
