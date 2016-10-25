@@ -1,10 +1,4 @@
 GIT
-  remote: git://github.com/alexpeattie/heroku_secrets.git
-  revision: 717af8e0acf399bc88d2c8c1a7e230023942af0f
-  specs:
-    heroku_secrets (0.0.2)
-
-GIT
   remote: git@github.com:instructure/scorm-cloud.git
   revision: bec7a2043849fa51ac091c25911a397dbc054ec3
   specs:
@@ -50,11 +44,16 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.4.0)
+    airbrussh (1.1.1)
+      sshkit (>= 1.6.1, != 1.7.0)
     arel (6.0.3)
     attr_encrypted (3.0.3)
       encryptor (~> 3.0.0)
     autoprefixer-rails (6.5.1)
       execjs
+    aws-sdk-v1 (1.66.0)
+      json (~> 1.4)
+      nokogiri (>= 1.4.4)
     bcrypt (3.1.11)
     better_errors (2.1.1)
       coderay (>= 1.0.0)
@@ -65,6 +64,34 @@ GEM
     builder (3.2.2)
     byebug (9.0.6)
     cancancan (1.15.0)
+    cap-ec2 (1.0.0)
+      aws-sdk-v1
+      capistrano (>= 3.0)
+      colorize
+      terminal-table
+    capistrano (3.6.1)
+      airbrussh (>= 1.0.0)
+      capistrano-harrow
+      i18n
+      rake (>= 10.0.0)
+      sshkit (>= 1.9.0)
+    capistrano-bundler (1.2.0)
+      capistrano (~> 3.1)
+      sshkit (~> 1.2)
+    capistrano-db-tasks (0.4)
+      capistrano (>= 3.0.0)
+    capistrano-harrow (0.5.3)
+    capistrano-logtail (0.1.1)
+      capistrano (>= 3.0.0, < 4.0.0)
+    capistrano-rails (1.1.8)
+      capistrano (~> 3.1)
+      capistrano-bundler (~> 1.1)
+    capistrano-shell (0.2.0)
+      capistrano (~> 3.1)
+    capistrano-upload (1.0.1)
+      capistrano (~> 3.0, >= 3.0.0)
+    capistrano3-unicorn (0.2.1)
+      capistrano (~> 3.1, >= 3.1.0)
     capybara (2.10.1)
       addressable
       mime-types (>= 1.16)
@@ -75,6 +102,7 @@ GEM
     childprocess (0.5.9)
       ffi (~> 1.0, >= 1.0.11)
     coderay (1.1.1)
+    colorize (0.8.1)
     concurrent-ruby (1.0.2)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
@@ -173,6 +201,9 @@ GEM
     multi_xml (0.5.5)
     multipart-post (2.0.0)
     nenv (0.3.0)
+    net-scp (1.2.1)
+      net-ssh (>= 2.6.5)
+    net-ssh (3.2.0)
     nokogiri (1.6.8.1)
       mini_portile2 (~> 2.1.0)
     non-stupid-digest-assets (1.0.8)
@@ -229,14 +260,9 @@ GEM
       rails-deprecated_sanitizer (>= 1.0.1)
     rails-html-sanitizer (1.0.3)
       loofah (~> 2.0)
-    rails_12factor (0.0.3)
-      rails_serve_static_assets
-      rails_stdout_logging
     rails_apps_pages (0.6.7)
     rails_apps_testing (0.3.12)
     rails_layout (1.0.34)
-    rails_serve_static_assets (0.0.5)
-    rails_stdout_logging (0.0.5)
     railties (4.2.7)
       actionpack (= 4.2.7)
       activesupport (= 4.2.7)
@@ -310,6 +336,11 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     sqlite3 (1.3.12)
+    sshkit (1.11.3)
+      net-scp (>= 1.1.2)
+      net-ssh (>= 2.8.0)
+    terminal-table (1.7.3)
+      unicode-display_width (~> 1.1.1)
     thin (1.5.1)
       daemons (>= 1.0.9)
       eventmachine (>= 0.12.6)
@@ -321,6 +352,7 @@ GEM
       thread_safe (~> 0.1)
     uglifier (3.0.2)
       execjs (>= 0.3.0, < 3)
+    unicode-display_width (1.1.1)
     unicorn (5.1.0)
       kgio (~> 2.6)
       raindrops (~> 0.7)
@@ -349,6 +381,15 @@ DEPENDENCIES
   binding_of_caller
   byebug
   cancancan
+  cap-ec2
+  capistrano
+  capistrano-bundler
+  capistrano-db-tasks
+  capistrano-logtail
+  capistrano-rails
+  capistrano-shell
+  capistrano-upload
+  capistrano3-unicorn
   capybara
   database_cleaner
   devise
@@ -358,7 +399,6 @@ DEPENDENCIES
   guard-bundler
   guard-rails
   guard-rspec
-  heroku_secrets!
   httparty
   hub
   ims-lti (~> 1.1.13)
@@ -374,7 +414,6 @@ DEPENDENCIES
   quiet_assets
   rack-cors
   rails (= 4.2.7)
-  rails_12factor
   rails_apps_pages
   rails_apps_testing
   rails_layout
