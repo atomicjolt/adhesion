@@ -42,7 +42,7 @@
 }
 
 .c-progress-bar{
-  height: 0.8rem; 
+  height: 0.8rem;
   position: relative;
   border-radius: 0.4rem;
   overflow: hidden;
@@ -63,5 +63,20 @@
     height: 100%;
     position: relative;
     overflow: hidden;
+  }
+
+  .progress {
+    background-color: $blue;
+    -webkit-animation: progressBar 1s ease-in-out;
+    -webkit-animation-fill-mode:both;
+    -moz-animation: progressBar 1s ease-in-out;
+    -moz-animation-fill-mode:both;
+    animation: progressBar 1s ease-in-out;
+    animation-fill-mode:both;
+  }
+
+  @keyframes progressBar {
+    0% { width: 0; }
+    100% { width: 100%; }
   }
 }

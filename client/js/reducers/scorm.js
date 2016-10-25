@@ -17,9 +17,18 @@ export default (state = initialState, action) => {
         file: null
       }; //TODO check if always is an array
 
+    case PackageConstants.UPLOAD_PACKAGE:
+      let file = action.upload;
+      let showUpload = true;
+      return {...state, showUploading: showUpload, file: file};
+
     case PackageConstants.REMOVE_PACKAGE_DONE:
     case PackageConstants.UPLOAD_PACKAGE_DONE:
-      return {...state, shouldRefreshList: true};
+      if (action.error) {
+        return {...state, file: action.original.upload, uploadError: true}
+      } else {
+        return {...state, shouldRefreshList: true};
+      }
 
     case PackageConstants.UPDATE_UPLOAD_FILE:
       // TODO: need to update state with response (this is for error)
