@@ -4,6 +4,11 @@ import React                    from 'react';
 import { connect }              from 'react-redux';
 
 export default class Course extends React.Component {
+  static propTypes = {
+    course: React.PropTypes.object.isRequired,
+    studentId: React.PropTypes.number.isRequired,
+  };
+
   handleLaunch(){
     this.props.loadLaunchUrl(this.props.course.id, this.props.studentId);
   }
@@ -22,7 +27,7 @@ export default class Course extends React.Component {
             <path d="M0 0h48v48h-48z" fill="none"/>
           </svg>
           <div className="c-list-item__contain">
-            <div className="c-list-item__title">Golf Explained - Run-time Basic Calls</div>
+            <div className="c-list-item__title">{this.props.course.title}</div>
             <div className="c-list-item__type">
               <div className="c-dropdown">
                 <select>
