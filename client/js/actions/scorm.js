@@ -23,6 +23,7 @@ export const loadPackages = () => ({
   url: '/api/courses'
 });
 
+//TODO use studentID
 export const loadLaunchUrl = (courseId, studentId) => ({
   method: Network.GET,
   type: Constants.LOAD_LAUNCH_URL,
@@ -46,6 +47,7 @@ export const removePackage = (courseId) => ({
   url: `/api/courses/${courseId}`
 });
 
+// TODO add redirect_url
 export const previewPackage = (courseId) => ({
   method: Network.GET,
   type: Constants.PREVIEW_PACKAGE,
