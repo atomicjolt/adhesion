@@ -3,6 +3,18 @@
 import React                    from 'react';
 import { connect }              from 'react-redux';
 
+const DeleteButton = (props) => {
+  return (
+    <button className="c-icon-btn" onClick={(e) => props.handleClick(e)}>
+      <svg className="c-icon" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+        <path className="c-path" d="M12 38c0 2.21 1.79 4 4 4h16c2.21 0 4-1.79 4-4v-24h-24v24zm26-30h-7l-2-2h-10l-2 2h-7v4h28v-4z"/>
+        <path d="M0 0h48v48h-48z" fill="none"/>
+      </svg>
+    </button>
+  );
+};
+
+
 export default class Course extends React.Component {
   static propTypes = {
     course: React.PropTypes.object.isRequired,
@@ -50,12 +62,7 @@ export default class Course extends React.Component {
                 <path d="M0 0h48v48h-48z" fill="none"/>
               </svg>
             </button>
-            <button className="c-icon-btn">
-              <svg className="c-icon" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
-                <path className="c-path" d="M12 38c0 2.21 1.79 4 4 4h16c2.21 0 4-1.79 4-4v-24h-24v24zm26-30h-7l-2-2h-10l-2 2h-7v4h28v-4z"/>
-                <path d="M0 0h48v48h-48z" fill="none"/>
-              </svg>
-            </button>
+            <DeleteButton handleClick={() => this.handleRemove()}/>
           </div>
         </div>
         <div className="c-list-item__description"></div>
