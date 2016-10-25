@@ -27,7 +27,7 @@ const FileUpload = (props) => {
       <input
           id="upload"
           type="file"
-          onChange={(e) => handleChange(e)} 
+          onChange={(e) => handleChange(e)}
           style={{ zIndex: "-1", width: "0.1px", height: "0.1px", opacity: "0", overflow:"hidden", position: "absolute" }}/>
     </div>
   );
@@ -78,7 +78,8 @@ export default class ScormIndex extends React.Component {
           list={this.props.scormList}
           userId={this.props.userId}
           loadLaunchUrl={this.props.loadLaunchUrl}
-          removePackage={this.props.removePackage} />
+          removePackage={this.props.removePackage}
+          previewPackage={this.props.previewPackage} />
 
       </div>
     );

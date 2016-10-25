@@ -11,7 +11,8 @@ const requests = [
   "LOAD_LAUNCH_URL",
   "UPLOAD_PACKAGE",
   "REMOVE_PACKAGE",
-  "UPDATE_UPLOAD_FILE"
+  "UPDATE_UPLOAD_FILE",
+  "PREVIEW_PACKAGE"
 ];
 
 export const Constants = wrapper(actions, requests);
@@ -43,4 +44,10 @@ export const removePackage = (courseId) => ({
   method: Network.DEL,
   type: Constants.REMOVE_PACKAGE,
   url: `/api/courses/${courseId}`
+});
+
+export const previewPackage = (courseId) => ({
+  method: Network.GET,
+  type: Constants.PREVIEW_PACKAGE,
+  url: `/api/courses/${courseId}/preview`
 });

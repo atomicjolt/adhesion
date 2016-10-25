@@ -16,7 +16,7 @@ const DeleteButton = (props) => {
 
 const PreviewButton = (props) => {
   return (
-    <button className="c-icon-btn">
+    <button className="c-icon-btn" onClick={(e) => props.handleClick(e)}>
       <svg className="c-icon" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
         <path className="c-path" d="M24 9C14 9 5.46 15.22 2 24c3.46 8.78 12 15 22 15s18.54-6.22 22-15C42.54 15.22 34.01 9 24 9zm0 25c-5.52 0-10-4.48-10-10s4.48-10 10-10 10 4.48 10 10-4.48 10-10 10zm0-16c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6z"/>
         <path d="M0 0h48v48h-48z" fill="none"/>
@@ -39,6 +39,10 @@ export default class Course extends React.Component {
   handleRemove(){
     const courseId = this.props.course.id;
     this.props.removePackage(courseId);
+  }
+
+  handlePreview(){
+    this.props.previewPackage(this.props.course.id);
   }
 
   render(){
@@ -67,7 +71,7 @@ export default class Course extends React.Component {
             </div>
           </div>
           <div className="c-list-item__icons">
-            <PreviewButton />
+            <PreviewButton handleClick={() => this.handlePreview()}/>
             <DeleteButton handleClick={() => this.handleRemove()}/>
           </div>
         </div>

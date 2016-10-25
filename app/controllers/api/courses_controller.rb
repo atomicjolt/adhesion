@@ -96,7 +96,7 @@ class Api::CoursesController < ApplicationController
 
 	def preview
 		scorm_cloud_request do
-			preview_url = scorm_cloud.course.preview(1, "")
+			preview_url = scorm_cloud.course.preview(params[:id], params[:redirect_url])
 			render json: {launch_url: preview_url}
 		end
 	end

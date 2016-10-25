@@ -176,6 +176,7 @@ RSpec.describe Api::CoursesController, type: :controller do
     end
   end
 
+  # TODO figure out how to test scorm_cloud_request
   describe "scorm_cloud_request" do
     # mock_cloud_exception = ScormCloud::RequestError.new(REXML::Document.new, "")
     # it "should return response" do
@@ -186,12 +187,16 @@ RSpec.describe Api::CoursesController, type: :controller do
     # end
 
     # it "should catch errors" do
-    #   # expect(controller).to receive(:scorm_cloud_request).at_least(:once).and_raise(mock_cloud_exception)
-    #   result = controller.scorm_cloud_request do
-    #     raise ScormCloud::RequestError.new(REXML::Document.new, "")
-    #   end
-    #   byebug
-    #   expect(result).to eq({})
+      # expect(controller).to receive(:scorm_cloud_request).at_least(:once).and_raise(mock_cloud_exception)
+      # result = controller.scorm_cloud_request do
+        # raise ScormCloud::RequestError.new(REXML::Document.new, "")
+      # end
+      # byebug
+      # expect(result).to eq({})
+
+      # get controller.scorm_cloud_request do
+      #   raise "HOWDY"
+      # end
     # end
   end
 
