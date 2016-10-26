@@ -5,7 +5,7 @@
 DROPBOX_FOLDER=aj-dev/adhesion
 
 # All config files for project
-files=("config/secrets.yml" "config/database.yml")
+files=("config/secrets.yml" "config/database.yml" "config/deploy/production.rb")
 
 for file in "${files[@]}"
 do
