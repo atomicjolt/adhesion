@@ -1,25 +1,25 @@
 class ScormCourseController < ApplicationController
   protect_from_forgery with: :null_session
+  before_action :setup
 
 
   #TODO figure out authentication
 
-  # NOTE:
-  # Pass course params when registered
-  # Get username from current_user
   def create
-		# registration = Registration.where(registration_params).first
-		# if registration.nil?
-		registration = Registration.create #registration_params
-		scorm_cloud.registration.create_registration(
-              1,
-              registration.id,
-              "",
-              "",
-              1# registration_params[:lms_user_id]
-          )
-		# end
-    url = scorm_cloud.registration.launch(registration.id, lti_launches_url)
-    redirect_to url
+		launch = @scorm_cloud.launch_course(
+      scorm_course_id: params[:course_id],
+			lms_user_id: params[:custom_canvas_user_id], #TODO use canvas user id to create registrations
+			first_name: params[:lis_person_name_given],  # TODO use given, and family name from params
+      last_name: params[:lis_person_name_family],  # TODO use given, and family name from params
+			redirect_url: lti_launches_url # TODO create finished with test endpoint
+		)
+
+    redirect_to launch[:response]
   end
+
+  private
+    def setup
+      @scorm_cloud = ScormCloudService.new
+    end
+
 end
