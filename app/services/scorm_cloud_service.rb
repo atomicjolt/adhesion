@@ -6,9 +6,37 @@ class ScormCloudService
     @scorm_cloud = ScormCloud::ScormCloud.new(ENV["SCORM_CLOUD_APP_ID"], ENV["SCORM_CLOUD_SECRET_KEY"])
   end
 
+  def split_name(name)
+      parts = name.split(" ")
+      [parts.shift, parts.join(' ')]
+  end
+
+
+  def launch_course(lms_course_id, lms_user_id, name, redirect_url)
+    scorm_cloud_request do
+      registration_params = {
+        lms_course_id: lms_course_id,
+        lms_user_id: lms_user_id
+      }
+  		registration = Registration.where(registration_params).first
+  		if registration.nil?
+  			registration = Registration.create registration_params
+        processed_name = split_name(name)
+  			response = @scorm_cloud.registration.create_registration(
+          registration_params[:lms_course_id],
+          registration.id,
+          processed_name[0],
+          processed_name[1],
+          registration_params[:lms_user_id]
+        )
+  		end
+      @scorm_cloud.registration.launch(registration.id, redirect_url)
+    end
+  end
+
   def list_courses
     scorm_cloud_request do
-      return @scorm_cloud.course.get_course_list
+      @scorm_cloud.course.get_course_list
     end
   end
 
@@ -22,9 +50,10 @@ class ScormCloudService
 
 	def scorm_cloud_request(handle_fail = nil)
 		begin
-      response = {status: 200}
-      response[:response] = yield
-			return response
+      return {
+        status: 200,
+        response: yield
+      }
 		rescue ScormCloud::InvalidPackageError => e
 		  response = {error: e.to_s, status: 400}
 		rescue ScormCloud::RequestError => e
