@@ -3,23 +3,25 @@ class Api::CoursesController < ApplicationController
 	before_action :setup
 	# before_action :validate_token # TODO: make sure to add account back in for security
 
-    def registration_params
-        permitted = params.permit(:course_id, :user_id)
-        return {
-            lms_course_id: permitted[:course_id],
-            # lms_user_id: current_user.id
-            lms_user_id: 1
-        }
-    end
+    # def registration_params
+    #     permitted = params.permit(:course_id, :user_id)
+    #     return {
+    #         lms_course_id: permitted[:course_id],
+    #         # lms_user_id: current_user.id
+    #         lms_user_id: 1
+    #     }
+    # end
+
+	def send_scorm_cloud_response(response)
+		render json: response, status: response[:status]
+	end
 
 	def index
-		response = @scorm_cloud.list_courses
-    render json: {response: response}, status: response[:status]
+		send_scorm_cloud_response(@scorm_cloud.list_courses)
 	end
 
 	def create
-		response = @scorm_cloud.upload_course(params[:filename])
-		render json: {response: response}, status: response[:status]
+		send_scorm_cloud_response(@scorm_cloud.upload_course(params[:filename]))
 	end
 
 	def launch
@@ -29,22 +31,20 @@ class Api::CoursesController < ApplicationController
 			"fake name",
 			lti_launches_url
 		)
-		render json: {response: response}, status: response[:status]
+		send_scorm_cloud_response(response)
 	end
 
 	def show
-		response = @scorm_cloud.show_course(params[:id])
-		render json: {response: response}, status: response[:status]
+		send_scorm_cloud_response(@scorm_cloud.show_course(params[:id]))
 	end
 
 	def destroy
-		response = @scorm_cloud.remove_course(params[:id])
-		render json: {response: response}, status: response[:status]
+		send_scorm_cloud_response(@scorm_cloud.remove_course(params[:id]))
 	end
 
 	def preview
-		response = @scorm_cloud.preview_course(params[:course_id], params[:redirect_url])
-		render json: {response: response}, status: response[:status]
+		send_scorm_cloud_response(
+			@scorm_cloud.preview_course(params[:course_id], params[:redirect_url]))
 	end
 
 	def import
