@@ -37,6 +37,7 @@ const FileUpload = (props) => {
 
 const select = (state, props) => {
   return {
+    lms_course_id: state.settings.lms_course_id,
     userId: state.settings.userId,
     scormList: state.scorm.scormList,
     shouldRefreshList: state.scorm.shouldRefreshList,
@@ -61,16 +62,17 @@ export default class ScormIndex extends React.Component {
     }
   }
 
-  createAssignment(courseId){
+  createAssignment(){
+    const courseId = this.props.lms_course_id;
     const query = {
       assignment: {
         name: "Uploaded Assignment"
       }
     };
-
+    
     this.props.canvasRequest(
       create_assignment,
-      {course_id: 923},
+      {course_id: courseId},
       query
     );
   };
