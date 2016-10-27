@@ -48,10 +48,27 @@ class ScormCloudService
     end
   end
 
-  def show_course(id)
+  def show_course(course_id)
     scorm_cloud_request do
-	    @scorm_cloud.course.get_attributes(id)
+	    @scorm_cloud.course.get_attributes(course_id)
     end
+  end
+
+  def remove_course(course_id)
+    scorm_cloud_request do
+      response = @scorm_cloud.course.delete_course(course_id)
+      if response == true
+    		course = ScormCourse.find(course_id)
+        course.destroy unless course.nil?
+      end
+      response
+    end
+  end
+
+  def preview_course(course_id, redirect_url)
+		scorm_cloud_request do
+			@scorm_cloud.course.preview(course_id, redirect_url)
+		end
   end
 
 	def scorm_cloud_request(handle_fail = nil)
