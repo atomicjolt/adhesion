@@ -63,6 +63,11 @@ export default class Course extends React.Component {
     this.setState({isShowDesc: (this.state.isShowDesc) ? false : true});
   }
 
+  handleImport(){
+    console.log("import");
+    this.props.importPackage(this.props.course.id);
+  }
+
   handleImportType(event){
     var isDropdownBtnActive = false;
 
@@ -96,7 +101,9 @@ export default class Course extends React.Component {
                   <path d="M0 0h48v48h-48z" fill="none"/>
                 </svg>
               </div>
-              <button className="c-btn c-btn--go is-active">Go</button>
+              <button
+                className="c-btn c-btn--go is-active"
+                onClick={() => this.handleImport()}>Go</button>
             </div>
           </div>
           <div className="c-list-item__icons">

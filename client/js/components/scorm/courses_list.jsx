@@ -12,7 +12,8 @@ export default (props) => {
         userId: props.userId,
         loadLaunchUrl: props.loadLaunchUrl,
         removePackage: props.removePackage,
-        previewPackage: props.previewPackage
+        previewPackage: props.previewPackage,
+        importPackage: props.importPackage
       };
 
       return <Course key={key+"PackageItem"} {...itemProps} />;
