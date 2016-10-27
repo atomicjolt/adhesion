@@ -63,7 +63,7 @@ export default class ScormIndex extends React.Component {
     }
   }
 
-  createAssignment(lmsCourseId, packageId, assignmentName){
+  createAssignment(packageId, assignmentName){
     const query = {
       assignment: {
         name: assignmentName,
@@ -76,7 +76,7 @@ export default class ScormIndex extends React.Component {
 
     this.props.canvasRequest(
       create_assignment,
-      {course_id: lmsCourseId},
+      {course_id: this.props.lmsCourseId},
       query
     );
   };
@@ -100,13 +100,10 @@ export default class ScormIndex extends React.Component {
 
         <CoursesList
           list={this.props.scormList}
-          userId={this.props.userId}
-          lmsCourseId={this.props.lmsCourseId}
-          loadLaunchUrl={this.props.loadLaunchUrl}
           removePackage={this.props.removePackage}
           previewPackage={this.props.previewPackage}
           importPackage={
-            (lmsCourseId, packageId, assignmentName) => this.createAssignment(lmsCourseId, packageId, assignmentName)
+            (packageId, assignmentName) => this.createAssignment(packageId, assignmentName)
           }
         />
 

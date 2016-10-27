@@ -42,13 +42,8 @@ export default class Course extends React.Component {
   }
 
   static propTypes = {
-    course: React.PropTypes.object.isRequired,
-    studentId: React.PropTypes.number.isRequired,
+    course: React.PropTypes.object.isRequired
   };
-
-  handleLaunch(){
-    this.props.loadLaunchUrl(this.props.course.id, this.props.studentId);
-  }
 
   handleRemove(){
     const courseId = this.props.course.id;
@@ -65,7 +60,6 @@ export default class Course extends React.Component {
 
   handleImport(){
     this.props.importPackage(
-      this.props.lmsCourseId,
       this.props.course.id,
       this.props.course.title
     );
