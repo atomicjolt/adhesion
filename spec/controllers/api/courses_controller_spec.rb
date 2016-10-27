@@ -229,4 +229,20 @@ RSpec.describe Api::CoursesController, type: :controller do
     end
   end
 
+  describe "GET import" do
+    mock_canvas_api = Canvas.new("","")
+    it "should register assignment" do
+      expect(Canvas).to receive(:new).and_return(mock_canvas_api)
+      expect(mock_canvas_api).to receive(:proxy).with("CREATE_ASSIGNMENT", any_args)
+
+      get :import, course_id: 1
+    end
+
+    it "should fetch external tool sessionless launch url" do
+      expect(Canvas).to receive(:new).and_return(mock_canvas_api)
+      expect(mock_canvas_api).to receive(:proxy).with("GET_SESSIONLESS_LAUNCH_URL_FOR_EXTERNAL_TOOL_COURSES", any_args)
+
+      get :import, course_id: 1
+    end
+  end
 end
