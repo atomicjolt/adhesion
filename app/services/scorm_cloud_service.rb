@@ -12,21 +12,20 @@ class ScormCloudService
   end
 
 
-  def launch_course(lms_course_id, lms_user_id, name, redirect_url)
+  def launch_course(scorm_course_id:, lms_user_id:, first_name:, last_name:, redirect_url:)
     scorm_cloud_request do
       registration_params = {
-        lms_course_id: lms_course_id,
+        lms_course_id: scorm_course_id,
         lms_user_id: lms_user_id
       }
   		registration = Registration.where(registration_params).first
   		if registration.nil?
   			registration = Registration.create registration_params
-        processed_name = split_name(name)
   			response = @scorm_cloud.registration.create_registration(
-          registration_params[:lms_course_id],
+          registration_params[:scorm_course_id],
           registration.id,
-          processed_name[0],
-          processed_name[1],
+          first_name,
+          last_name,
           registration_params[:lms_user_id]
         )
   		end
