@@ -3,15 +3,6 @@ class Api::CoursesController < ApplicationController
 	before_action :setup
 	# before_action :validate_token # TODO: make sure to add account back in for security
 
-    # def registration_params
-    #     permitted = params.permit(:course_id, :user_id)
-    #     return {
-    #         lms_course_id: permitted[:course_id],
-    #         # lms_user_id: current_user.id
-    #         lms_user_id: 1
-    #     }
-    # end
-
 	def send_scorm_cloud_response(response)
 		render json: response, status: response[:status]
 	end
@@ -25,6 +16,7 @@ class Api::CoursesController < ApplicationController
 	end
 
 	def launch
+		# TODO get real name, and redirect_url
 		response = @scorm_cloud.launch_course(
 			params[:course_id],
 			params[:lms_user_id],

@@ -1,7 +1,12 @@
 class ScormCourseController < ApplicationController
   protect_from_forgery with: :null_session
 
+
   #TODO figure out authentication
+
+  # NOTE:
+  # Pass course params when registered
+  # Get username from current_user
   def create
 		# registration = Registration.where(registration_params).first
 		# if registration.nil?
@@ -15,7 +20,6 @@ class ScormCourseController < ApplicationController
           )
 		# end
     url = scorm_cloud.registration.launch(registration.id, lti_launches_url)
-    # TODO post grade back to another method in this controller
     redirect_to url
   end
 end
