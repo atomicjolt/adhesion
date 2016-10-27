@@ -15,15 +15,15 @@ class Api::CoursesController < ApplicationController
 		send_scorm_cloud_response(@scorm_cloud.upload_course(params[:filename]))
 	end
 
-	def launch
-		response = @scorm_cloud.launch_course(
-			params[:course_id],
-			params[:lms_user_id],
-			current_user.name,
-			lti_launches_url
-		)
-		send_scorm_cloud_response(response)
-	end
+	# def launch
+	# 	response = @scorm_cloud.launch_course(
+	# 		params[:course_id],
+	# 		params[:lms_user_id],
+	# 		current_user.name,
+	# 		lti_launches_url
+	# 	)
+	# 	send_scorm_cloud_response(response)
+	# end
 
 	def show
 		send_scorm_cloud_response(@scorm_cloud.show_course(params[:id]))
@@ -41,6 +41,5 @@ class Api::CoursesController < ApplicationController
   private
     def setup
       @scorm_cloud = ScormCloudService.new
-      @canvas_api = Canvas.new(ENV["APP_DEFAULT_CANVAS_URL"], ENV["CANVAS_TOKEN"]);
     end
 end
