@@ -37,7 +37,8 @@ export const uploadPackage = (file) => {
     method: Network.POST,
     type: Constants.UPLOAD_PACKAGE,
     url: `/api/courses`,
-    body: form
+    body: form,
+    upload: file
   };
 };
 

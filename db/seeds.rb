@@ -9,7 +9,8 @@ lti_applications = [
   description: "LTI Integration Platform",
   client_application_name: "scorm",
   lti_consumer_uri: "https://atomicjolt.instructure.com",
-  lti_secret: Rails.application.secrets.scorm_lti_key
+  lti_secret: Rails.application.secrets.scorm_lti_key,
+  canvas_api_permissions: "" # List Canvas API methods the app is allowed to use. A full list of constants can be found in canvas_urls
 },
 {
   name: "Attendance",
@@ -17,7 +18,8 @@ lti_applications = [
   description: "LTI Integration Platform",
   client_application_name: "attendance",
   lti_consumer_uri: "https://atomicjolt.instructure.com",
-  lti_secret: Rails.application.secrets.attendance_lti_key
+  lti_secret: Rails.application.secrets.attendance_lti_key,
+  canvas_api_permissions: "" # List Canvas API methods the app is allowed to use. A full list of constants can be found in canvas_urls
 }]
 
 lti_applications.each do |attrs|

@@ -38,9 +38,6 @@ gem 'yajl-ruby', require: 'yajl'
 gem 'unicorn'
 gem 'unicorn-rails'
 
-# Used for deploying to Heroku. Can be removed if not deploying to Heroku.
-gem 'heroku_secrets', github: 'alexpeattie/heroku_secrets'
-
 # API Related
 gem 'httparty'
 gem 'rack-cors', :require => 'rack/cors'
@@ -88,6 +85,13 @@ group :test do
 end
 
 group :production do
-  gem 'rails_12factor'
+  gem 'capistrano', require: false
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano3-unicorn', require: false
+  gem 'capistrano-shell', require: false
+  gem 'capistrano-logtail', require: false
+  gem 'capistrano-upload', require: false
+  gem 'capistrano-db-tasks', require: false
+  gem 'cap-ec2', require: false
 end
-
