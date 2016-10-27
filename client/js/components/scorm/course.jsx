@@ -3,12 +3,6 @@
 import React                    from 'react';
 import { connect }              from 'react-redux';
 
-const select = (state, props) => {
-  return {
-
-  };
-};
-
 const DeleteButton = (props) => {
   return (
     <button className="c-icon-btn" onClick={(e) => props.handleClick(e)}>
@@ -31,7 +25,6 @@ const PreviewButton = (props) => {
   );
 };
 
-@connect(select, null, null, { withRefs: true })
 export default class Course extends React.Component {
   constructor(props){
     super(props);
@@ -114,5 +107,4 @@ export default class Course extends React.Component {
       </li>
     );
   }
-
 }
