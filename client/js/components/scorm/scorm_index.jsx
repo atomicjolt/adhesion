@@ -81,6 +81,7 @@ export default class ScormIndex extends React.Component {
           loadLaunchUrl={this.props.loadLaunchUrl}
           removePackage={this.props.removePackage}
           previewPackage={this.props.previewPackage}
+          importPackage={this.props.importPackage}
         />
 
       </div>

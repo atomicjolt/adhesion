@@ -19,6 +19,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :scorm_course
+
   devise_for :users, controllers: {
     sessions: "sessions",
     registrations: "registrations",
@@ -47,6 +49,7 @@ Rails.application.routes.draw do
     resources :courses, only: [:index, :show, :create, :destroy] do
       get 'launch' => 'courses#launch'
       get 'preview' => 'courses#preview'
+      get 'import' => 'courses#import'
       resources :students, only: [:index]
       resources :sections, only: [] do
         resources :students, only: [:index]
