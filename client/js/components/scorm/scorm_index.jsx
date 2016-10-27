@@ -37,7 +37,7 @@ const FileUpload = (props) => {
 
 const select = (state, props) => {
   return {
-    lms_course_id: state.settings.lms_course_id,
+    lmsCourseId: state.settings.lms_course_id,
     userId: state.settings.userId,
     scormList: state.scorm.scormList,
     shouldRefreshList: state.scorm.shouldRefreshList,
@@ -62,17 +62,30 @@ export default class ScormIndex extends React.Component {
     }
   }
 
-  createAssignment(){
-    const courseId = this.props.lms_course_id;
+  createAssignment(lmsCourseId, assignmentName){
+    const courseId = this.props.lmsCourseId;
+    // {
+    // 	"assignment": {
+    // 		"name":"external tool assignment 2",
+    // 		"submission_types":["external_tool"],
+    // 		"external_tool_tag_attributes":{
+    // 			"url":"https://adhesion.atomicjolt.xyz/lti_launches"
+    // 		}
+    // 	}
+    // }
     const query = {
       assignment: {
-        name: "Uploaded Assignment"
+        name: assignmentName,
+        submission_types: ["external_tool"],
+        external_tool_tag_attributes: {
+          url:"https://adhesion.atomicjolt.xyz/lti_launches"
+        }
       }
     };
-    
+
     this.props.canvasRequest(
       create_assignment,
-      {course_id: courseId},
+      {course_id: lmsCourseId},
       query
     );
   };
@@ -97,10 +110,13 @@ export default class ScormIndex extends React.Component {
         <CoursesList
           list={this.props.scormList}
           userId={this.props.userId}
+          lmsCourseId={this.props.lmsCourseId}
           loadLaunchUrl={this.props.loadLaunchUrl}
           removePackage={this.props.removePackage}
           previewPackage={this.props.previewPackage}
-          importPackage={(courseId) => this.createAssignment(courseId)}
+          importPackage={
+            (lmsCourseId, assignmentName) => this.createAssignment(lmsCourseId, assignmentName)
+          }
         />
 
       </div>

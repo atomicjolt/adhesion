@@ -64,7 +64,10 @@ export default class Course extends React.Component {
   }
 
   handleImport(){
-    this.props.importPackage(this.props.course.id);
+    this.props.importPackage(
+      this.props.lmsCourseId,
+      this.props.course.title
+    );
   }
 
   handleImportType(event){
