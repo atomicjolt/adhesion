@@ -39,6 +39,7 @@ const select = (state, props) => {
   return {
     lmsCourseId: state.settings.lms_course_id,
     userId: state.settings.userId,
+    apiUrl: state.settings.apiUrl,
     scormList: state.scorm.scormList,
     shouldRefreshList: state.scorm.shouldRefreshList,
     scormFile: state.scorm.file,
@@ -62,23 +63,13 @@ export default class ScormIndex extends React.Component {
     }
   }
 
-  createAssignment(lmsCourseId, assignmentName){
-    const courseId = this.props.lmsCourseId;
-    // {
-    // 	"assignment": {
-    // 		"name":"external tool assignment 2",
-    // 		"submission_types":["external_tool"],
-    // 		"external_tool_tag_attributes":{
-    // 			"url":"https://adhesion.atomicjolt.xyz/lti_launches"
-    // 		}
-    // 	}
-    // }
+  createAssignment(lmsCourseId, packageId, assignmentName){
     const query = {
       assignment: {
         name: assignmentName,
         submission_types: ["external_tool"],
         external_tool_tag_attributes: {
-          url:"https://adhesion.atomicjolt.xyz/lti_launches"
+          url: `${this.props.apiUrl}scorm_course?course_id=${packageId}`
         }
       }
     };
@@ -115,7 +106,7 @@ export default class ScormIndex extends React.Component {
           removePackage={this.props.removePackage}
           previewPackage={this.props.previewPackage}
           importPackage={
-            (lmsCourseId, assignmentName) => this.createAssignment(lmsCourseId, assignmentName)
+            (lmsCourseId, packageId, assignmentName) => this.createAssignment(lmsCourseId, packageId, assignmentName)
           }
         />
 
