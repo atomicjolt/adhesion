@@ -48,6 +48,12 @@ class ScormCloudService
     end
   end
 
+  def show_course(id)
+    scorm_cloud_request do
+	    @scorm_cloud.course.get_attributes(id)
+    end
+  end
+
 	def scorm_cloud_request(handle_fail = nil)
 		begin
       return {
