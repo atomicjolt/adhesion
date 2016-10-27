@@ -2,7 +2,6 @@ admin = CreateAdminService.create_admin
 puts 'CREATED ADMIN USER: ' << admin.email
 
 # Add an LTI Application
-<<<<<<< HEAD
 lti_applications = [
 {
   name: "SCORM Player",
@@ -22,17 +21,6 @@ lti_applications = [
   lti_consumer_uri: "https://atomicjolt.instructure.com",
   lti_secret: Rails.application.secrets.attendance_lti_key,
   canvas_api_permissions: "" # List Canvas API methods the app is allowed to use. A full list of constants can be found in canvas_urls
-=======
-lti_applications = [{
-  name: "LTI Starter App",
-  description: "LTI Starter App by Atomic Jolt",
-  lti_key: "lti-starter-app",
-  lti_secret: Rails.application.secrets.scorm_lti_key,
-  lti_consumer_uri: "https://atomicjolt.instructure.com",
-  client_application_name: "app",
-  canvas_api_permissions: "LIST_ACCOUNTS", # List Canvas API methods the app is allowed to use. A full list of constants can be found in canvas_urls
-  canvas_token: Rails.application.secrets.canvas_token # This is only required if the app needs API access and doesn't want each user to do the oauth dance
->>>>>>> upstream/master
 }]
 
 lti_applications.each do |attrs|
