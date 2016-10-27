@@ -71,20 +71,20 @@ class ScormCloudService
 		end
   end
 
-	def scorm_cloud_request(handle_fail = nil)
-		begin
+  def scorm_cloud_request(handle_fail = nil)
+    begin
       return {
         status: 200,
         response: yield
       }
-		rescue ScormCloud::InvalidPackageError => e
-		  response = {error: e.to_s, status: 400}
-		rescue ScormCloud::RequestError => e
-			response = {error: e.to_s, status:400}
-		rescue ScormCloud::Error => e
-			response = {error: e.to_s, status: 400}
-		end
+    rescue ScormCloud::InvalidPackageError => e
+      response = {error: e.to_s, status: 400}
+    rescue ScormCloud::RequestError => e
+      response = {error: e.to_s, status:400}
+    rescue ScormCloud::Error => e
+      response = {error: e.to_s, status: 400}
+    end
     handle_fail.call if handle_fail.respond_to? :call
     return response
-	end
+  end
 end
