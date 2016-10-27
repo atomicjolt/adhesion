@@ -5,6 +5,8 @@ import { connect }              from 'react-redux';
 import * as ScormActions        from '../../actions/scorm';
 import CoursesList              from './courses_list';
 import Uploader                 from './uploader';
+import { create_assignment }    from '../../libs/canvas/constants/assignments';
+import canvasRequest            from '../../libs/canvas/action';
 
 const FileUpload = (props) => {
   const handleChange = (e) => {
@@ -43,7 +45,7 @@ const select = (state, props) => {
   };
 };
 
-@connect(select, ScormActions, null, { withRefs: true })
+@connect(select, {...ScormActions, canvasRequest}, null, { withRefs: true })
 export default class ScormIndex extends React.Component {
   constructor(props){
     super(props);
@@ -58,6 +60,21 @@ export default class ScormIndex extends React.Component {
       this.props.loadPackages();
     }
   }
+
+  createAssignment(courseId){
+    const query = {
+      assignment: {
+        name: "Uploaded Assignment"
+      }
+    };
+
+    this.props.canvasRequest(
+      create_assignment,
+      {course_id: 923},
+      query
+    );
+  };
+
 
   render(){
     var uploader = (this.props.scormFile) ? <Uploader /> : null;
@@ -81,7 +98,7 @@ export default class ScormIndex extends React.Component {
           loadLaunchUrl={this.props.loadLaunchUrl}
           removePackage={this.props.removePackage}
           previewPackage={this.props.previewPackage}
-          importPackage={this.props.importPackage}
+          importPackage={(courseId) => this.createAssignment(courseId)}
         />
 
       </div>
