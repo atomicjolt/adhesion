@@ -16,11 +16,10 @@ class Api::CoursesController < ApplicationController
 	end
 
 	def launch
-		# TODO get real name, and redirect_url
 		response = @scorm_cloud.launch_course(
 			params[:course_id],
 			params[:lms_user_id],
-			"fake name",
+			current_user.name,
 			lti_launches_url
 		)
 		send_scorm_cloud_response(response)
@@ -37,15 +36,6 @@ class Api::CoursesController < ApplicationController
 	def preview
 		send_scorm_cloud_response(
 			@scorm_cloud.preview_course(params[:course_id], params[:redirect_url]))
-	end
-
-	def import
-		@canvas_api.proxy("GET_SESSIONLESS_LAUNCH_URL_FOR_EXTERNAL_TOOL_COURSES", {})
-		@canvas_api.proxy("CREATE_ASSIGNMENT", {
-			assignment: {name: "Test Assignment"}
-		});
-
-		render json: {}
 	end
 
   private
