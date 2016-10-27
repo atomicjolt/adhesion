@@ -64,7 +64,6 @@ export default class Course extends React.Component {
   }
 
   handleImport(){
-    console.log("import");
     this.props.importPackage(this.props.course.id);
   }
 
