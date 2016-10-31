@@ -23,10 +23,11 @@ class ScormCourseController < ApplicationController
   end
 
   def index
-    render json: params
+    render file: "public/scorm_return.html", :layout => false
   end
 
   def postback
+    byebug
   end
 
   private
