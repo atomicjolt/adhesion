@@ -11,15 +11,18 @@ class ScormCloudService
       [parts.shift, parts.join(' ')]
   end
 
+  def find_registration(lms_course_id,lms_user_id)
+    registration_params = {
+        lms_course_id: lms_course_id,
+        lms_user_id: lms_user_id
+      }
+		Registration.where(registration_params).first
+  end
 
   def launch_course(scorm_course_id:, lms_user_id:, first_name:, last_name:, redirect_url:, postback_url:)
     scorm_cloud_request do
-      registration_params = {
-        lms_course_id: scorm_course_id,
-        lms_user_id: lms_user_id
-      }
-  		registration = Registration.where(registration_params).first
-  		if registration.nil?
+      registration = find_registration(scorm_course_id, lms_user_id)
+      if registration.nil?
   			registration = Registration.create registration_params
   			response = @scorm_cloud.registration.create_registration(
           registration_params[:lms_course_id],
@@ -28,7 +31,6 @@ class ScormCloudService
           last_name,
           registration_params[:lms_user_id],
           {
-            authtype: "httpbasic",
             postbackurl: postback_url
           }
         )
@@ -83,6 +85,14 @@ class ScormCloudService
   def course_manifest(course_id)
     scorm_cloud_request do
       @scorm_cloud.course.get_manifest(course_id)
+    end
+  end
+
+  def registration_result(lms_course_id, lms_user_id)
+    scorm_cloud_request do
+      reg = find_registration(lms_course_id, lms_user_id)
+      resp = @scorm_cloud.registration.get_registration_result(reg.id) unless reg.nil?
+      Hash.from_xml(resp)
     end
   end
 
