@@ -28,6 +28,7 @@ class ScormCloudService
           last_name,
           registration_params[:lms_user_id],
           {
+            authtype: "httpbasic",
             postbackurl: postback_url
           }
         )
@@ -71,6 +72,18 @@ class ScormCloudService
 		scorm_cloud_request do
 			@scorm_cloud.course.preview(course_id, redirect_url)
 		end
+  end
+
+  def course_metadata(course_id)
+    scorm_cloud_request do
+      @scorm_cloud.course.get_metadata(course_id)
+    end
+  end
+
+  def course_manifest(course_id)
+    scorm_cloud_request do
+      @scorm_cloud.course.get_manifest(course_id)
+    end
   end
 
   def scorm_cloud_request(handle_fail = nil)

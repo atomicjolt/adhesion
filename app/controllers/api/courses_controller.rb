@@ -26,7 +26,9 @@ class Api::CoursesController < ApplicationController
 	# end
 
 	def show
-		send_scorm_cloud_response(@scorm_cloud.show_course(params[:id]))
+		response = @scorm_cloud.course_manifest(params[:id])
+    response[:response] = Hash.from_xml(response[:response])
+		send_scorm_cloud_response(response)
 	end
 
 	def destroy
