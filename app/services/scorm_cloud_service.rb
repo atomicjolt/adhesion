@@ -19,11 +19,39 @@ class ScormCloudService
 		Registration.where(registration_params).first
   end
 
-  def launch_course(scorm_course_id:, lms_user_id:, first_name:, last_name:, redirect_url:, postback_url:)
+  def sync_registration(params)
+    reg = Registration.where(reg_params(params)).first
+    result = registration_result(reg.lms_course_id, reg.lms_user_id) unless reg.nil?
+    byebug
+  end
+
+  def reg_params(params)
+    {
+      lms_course_id: params[:course_id],
+      lms_user_id: params[:custom_canvas_user_id],
+      lis_result_sourcedid: params[:lis_result_sourcedid],
+      lis_outcome_service_url: params[:lis_outcome_service_url]
+    }
+  end
+
+  def launch_course(
+    scorm_course_id:,
+    lms_user_id:,
+    first_name:,
+    last_name:,
+    redirect_url:,
+    postback_url:,
+    lti_credentials: {},
+    result_params: {}
+    )
     scorm_cloud_request do
+      registration_params = {
+        lms_course_id: scorm_course_id,
+        lms_user_id: lms_user_id
+      }
       registration = find_registration(scorm_course_id, lms_user_id)
       if registration.nil?
-  			registration = Registration.create registration_params
+  			registration = Registration.create reg_params(result_params)
   			response = @scorm_cloud.registration.create_registration(
           registration_params[:lms_course_id],
           registration.id,
@@ -35,6 +63,21 @@ class ScormCloudService
           }
         )
   		end
+
+      # a = Registration.new(reg_params(result_params))
+      # tp_params = {
+      #   'lis_outcome_service_url' =>  a[:lis_outcome_service_url],
+      #   'lis_result_sourcedid' => a[:lis_result_sourcedid],
+      #   'user_id' => a[:lms_user_id]
+      # }
+      # @tp = IMS::LTI::ToolProvider.new(
+      #   lti_credentials.lti_key,
+      #   lti_credentials.lti_secret,
+      #   tp_params)
+
+      # byebug
+      registration.sync
+
       @scorm_cloud.registration.launch(registration.id, redirect_url)
     end
   end
