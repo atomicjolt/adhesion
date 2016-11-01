@@ -1,6 +1,10 @@
 require "scorm_cloud"
 
 class ScormCloudService
+  # PACKAGE_FORMATS = {
+  #   COURSE: "course"
+  #   # Other formats not yet supported
+  # }
 
   def initialize
     @scorm_cloud = ScormCloud::ScormCloud.new(ENV["SCORM_CLOUD_APP_ID"], ENV["SCORM_CLOUD_SECRET_KEY"])
@@ -11,6 +15,16 @@ class ScormCloudService
       [parts.shift, parts.join(' ')]
   end
 
+  def reg_params(params)
+    {
+      lms_course_id: params[:course_id],
+      lms_user_id: params[:custom_canvas_user_id],
+      lis_result_sourcedid: params[:lis_result_sourcedid],
+      lis_outcome_service_url: params[:lis_outcome_service_url]
+    }
+  end
+
+
   def find_registration(lms_course_id,lms_user_id)
     registration_params = {
         lms_course_id: lms_course_id,
@@ -19,19 +33,52 @@ class ScormCloudService
 		Registration.where(registration_params).first
   end
 
-  def sync_registration(params)
-    reg = Registration.where(reg_params(params)).first
-    result = registration_result(reg.lms_course_id, reg.lms_user_id) unless reg.nil?
-    byebug
+
+  # def package_format(reg_result)
+  #   reg_result.dig :response, "rsp", "registrationreport" unless reg_result.nil?
+  # end
+
+  # def calculate
+  def package_score(reg_result)
+    score = reg_result.dig(:response,"rsp","registrationreport", "score")
+    score.to_i / 100.0
   end
 
-  def reg_params(params)
-    {
-      lms_course_id: params[:course_id],
-      lms_user_id: params[:custom_canvas_user_id],
-      lis_result_sourcedid: params[:lis_result_sourcedid],
-      lis_outcome_service_url: params[:lis_outcome_service_url]
-    }
+  def package_complete?(reg_result)
+    result = reg_result.dig(:response,"rsp","registrationreport", "complete")
+    result == "complete"
+  end
+
+  def sync_registration(sync_params)
+    byebug
+    reg = Registration.where(reg_params(sync_params)).first
+    result = registration_result(reg.lms_course_id, reg.lms_user_id) unless reg.nil?
+    return if result.nil?
+
+    dirty = false
+    new_score = package_score(result)
+
+    if(reg.score != new_score)
+      dirty = true
+      reg.score = new_score
+      reg.save!
+    end
+
+    if(package_complete?(result) && dirty == true)
+      tp_params = {
+        'lis_outcome_service_url' =>  reg[:lis_outcome_service_url],
+        'lis_result_sourcedid' => reg[:lis_result_sourcedid],
+        'user_id' => reg[:lms_user_id]
+      }
+      @tp = IMS::LTI::ToolProvider.new(
+        sync_params[:lti_params].lti_key,
+        sync_params[:lti_params].lti_secret,
+        tp_params
+      )
+      @tp.post_replace_result!(reg.score)
+      byebug
+    end
+    byebug
   end
 
   def launch_course(
@@ -76,7 +123,7 @@ class ScormCloudService
       #   tp_params)
 
       # byebug
-      registration.sync
+      # registration.sync
 
       @scorm_cloud.registration.launch(registration.id, redirect_url)
     end
@@ -134,9 +181,9 @@ class ScormCloudService
   def registration_result(lms_course_id, lms_user_id)
     scorm_cloud_request do
       reg = find_registration(lms_course_id, lms_user_id)
-      resp = @scorm_cloud.registration.get_registration_result(reg.id) unless reg.nil?
-      Hash.from_xml(resp)
-    end
+        resp = @scorm_cloud.registration.get_registration_result(reg.id) unless reg.nil?
+        Hash.from_xml(resp)
+      end
   end
 
   def scorm_cloud_request(handle_fail = nil)
