@@ -12,13 +12,14 @@ class ScormCourseController < ApplicationController
       lms_user_id: params[:custom_canvas_user_id],
       first_name: params[:lis_person_name_given],
       last_name: params[:lis_person_name_family],
-      redirect_url: params[:launch_presentation_return_url],
+      redirect_url: scorm_course_index_url,
+      # params[:launch_presentation_return_url],
       postback_url: scorm_course_postback_url,
       lti_credentials: current_lti_application,
       result_params: params
     )
 
-    sync_params = params.merge(sync_params)
+    sync_params = params.merge({lti_params: current_lti_application})
     @scorm_cloud.sync_registration(sync_params)
 
     if launch[:status] == 200
@@ -29,6 +30,7 @@ class ScormCourseController < ApplicationController
   end
 
   def index
+    byebug
     render file: "public/scorm_return.html", :layout => false
   end
 

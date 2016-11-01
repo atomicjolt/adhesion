@@ -16,12 +16,12 @@ class ScormCloudService
   end
 
   def reg_params(params)
-    {
-      lms_course_id: params[:course_id],
-      lms_user_id: params[:custom_canvas_user_id],
-      lis_result_sourcedid: params[:lis_result_sourcedid],
-      lis_outcome_service_url: params[:lis_outcome_service_url]
-    }
+    resp = {}
+    resp[:lms_course_id] = params[:course_id] unless params[:course_id].nil?
+    resp[:lms_user_id] =  params[:custom_canvas_user_id] unless params[:custom_canvas_user_id].nil?
+    resp[:lis_result_sourcedid] = params[:lis_result_sourcedid] unless params[:lis_result_sourcedid].nil?
+    resp[:lis_outcome_service_url] = params[:lis_outcome_service_url] unless params[:lis_outcome_service_url].nil?
+    resp
   end
 
 
@@ -33,12 +33,6 @@ class ScormCloudService
 		Registration.where(registration_params).first
   end
 
-
-  # def package_format(reg_result)
-  #   reg_result.dig :response, "rsp", "registrationreport" unless reg_result.nil?
-  # end
-
-  # def calculate
   def package_score(reg_result)
     score = reg_result.dig(:response,"rsp","registrationreport", "score")
     score.to_i / 100.0
@@ -50,7 +44,6 @@ class ScormCloudService
   end
 
   def sync_registration(sync_params)
-    byebug
     reg = Registration.where(reg_params(sync_params)).first
     result = registration_result(reg.lms_course_id, reg.lms_user_id) unless reg.nil?
     return if result.nil?
@@ -76,9 +69,7 @@ class ScormCloudService
         tp_params
       )
       @tp.post_replace_result!(reg.score)
-      byebug
     end
-    byebug
   end
 
   def launch_course(
@@ -110,21 +101,6 @@ class ScormCloudService
           }
         )
   		end
-
-      # a = Registration.new(reg_params(result_params))
-      # tp_params = {
-      #   'lis_outcome_service_url' =>  a[:lis_outcome_service_url],
-      #   'lis_result_sourcedid' => a[:lis_result_sourcedid],
-      #   'user_id' => a[:lms_user_id]
-      # }
-      # @tp = IMS::LTI::ToolProvider.new(
-      #   lti_credentials.lti_key,
-      #   lti_credentials.lti_secret,
-      #   tp_params)
-
-      # byebug
-      # registration.sync
-
       @scorm_cloud.registration.launch(registration.id, redirect_url)
     end
   end
