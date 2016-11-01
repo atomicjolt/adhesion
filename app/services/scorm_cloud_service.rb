@@ -1,11 +1,6 @@
 require "scorm_cloud"
 
 class ScormCloudService
-  # PACKAGE_FORMATS = {
-  #   COURSE: "course"
-  #   # Other formats not yet supported
-  # }
-
   def initialize
     @scorm_cloud = ScormCloud::ScormCloud.new(ENV["SCORM_CLOUD_APP_ID"], ENV["SCORM_CLOUD_SECRET_KEY"])
   end
@@ -17,6 +12,7 @@ class ScormCloudService
 
   def reg_params(params)
     resp = {}
+    resp[:id] = params[:id] unless params[:id].nil?
     resp[:lms_course_id] = params[:course_id] unless params[:course_id].nil?
     resp[:lms_user_id] =  params[:custom_canvas_user_id] unless params[:custom_canvas_user_id].nil?
     resp[:lis_result_sourcedid] = params[:lis_result_sourcedid] unless params[:lis_result_sourcedid].nil?
@@ -43,13 +39,14 @@ class ScormCloudService
     result == "complete"
   end
 
-  def sync_registration(sync_params)
-    reg = Registration.where(reg_params(sync_params)).first
-    result = registration_result(reg.lms_course_id, reg.lms_user_id) unless reg.nil?
-    return if result.nil?
+  def reg_id(reg_result)
+    reg_result.dig(:response,"rsp","registrationreport", "regid")
+  end
 
+  def update_sync(reg_result, lti_params)
+    reg = Registration.find(reg_id(reg_result))
     dirty = false
-    new_score = package_score(result)
+    new_score = package_score(reg_result)
 
     if(reg.score != new_score)
       dirty = true
@@ -57,19 +54,36 @@ class ScormCloudService
       reg.save!
     end
 
-    if(package_complete?(result) && dirty == true)
+    if(package_complete?(reg_result) && dirty == true)
       tp_params = {
         'lis_outcome_service_url' =>  reg[:lis_outcome_service_url],
         'lis_result_sourcedid' => reg[:lis_result_sourcedid],
         'user_id' => reg[:lms_user_id]
       }
-      @tp = IMS::LTI::ToolProvider.new(
-        sync_params[:lti_params].lti_key,
-        sync_params[:lti_params].lti_secret,
+      provider = IMS::LTI::ToolProvider.new(
+        lti_params.lti_key,
+        lti_params.lti_secret,
         tp_params
       )
-      @tp.post_replace_result!(reg.score)
+       response = provider.post_replace_result!(reg.score)
+       puts response
+       if response.success?
+          # grade write worked
+       elsif response.processing?
+       elsif response.unsupported?
+       else
+         byebug
+          # failed
+       end
     end
+  end
+
+  def sync_registration(registration_params, lti_params)
+    result = registration_result(
+      registration_params[:course_id], registration_params[:custom_canvas_user_id]
+    )
+    return if result.nil?
+    update_sync(result, lti_params)
   end
 
   def launch_course(

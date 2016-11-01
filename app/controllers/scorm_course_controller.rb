@@ -6,21 +6,19 @@ class ScormCourseController < ApplicationController
   #TODO figure out authentication
 
   def create
-    # byebug
     launch = @scorm_cloud.launch_course(
       scorm_course_id: params[:course_id],
       lms_user_id: params[:custom_canvas_user_id],
       first_name: params[:lis_person_name_given],
       last_name: params[:lis_person_name_family],
-      redirect_url: scorm_course_index_url,
-      # params[:launch_presentation_return_url],
-      postback_url: scorm_course_postback_url,
+      redirect_url: params[:launch_presentation_return_url],
+      postback_url: "http://43a89bba.ngrok.io/scorm_course/postback",
+      # scorm_course_postback_url,
       lti_credentials: current_lti_application,
       result_params: params
     )
 
-    sync_params = params.merge({lti_params: current_lti_application})
-    @scorm_cloud.sync_registration(sync_params)
+    @scorm_cloud.sync_registration(params, current_lti_application)
 
     if launch[:status] == 200
       redirect_to launch[:response]
@@ -30,12 +28,13 @@ class ScormCourseController < ApplicationController
   end
 
   def index
-    byebug
     render file: "public/scorm_return.html", :layout => false
   end
 
   def postback
-    byebug
+    response = Hash.from_xml(params[:data])
+    @scorm_cloud.update_sync(response["registrationreport"], current_lti_application)
+    render json: {}, status: 200
   end
 
   private
