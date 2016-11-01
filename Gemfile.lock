@@ -359,6 +359,7 @@ GEM
     unicorn-rails (2.2.1)
       rack
       unicorn
+    vcr (3.0.3)
     warden (1.2.6)
       rack (>= 1.0)
     webmock (2.1.0)
@@ -431,6 +432,7 @@ DEPENDENCIES
   uglifier
   unicorn
   unicorn-rails
+  vcr
   webmock
   will_paginate
   yajl-ruby

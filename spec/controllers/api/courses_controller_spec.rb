@@ -244,5 +244,5 @@ RSpec.describe Api::CoursesController, type: :controller do
   #
   #     get :import, course_id: 1
   #   end
-  # end
+  end
 end

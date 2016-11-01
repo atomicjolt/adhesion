@@ -1,8 +1,8 @@
 class Course < ActiveRecord::Base
-    belongs_to :account
+
+    belongs_to :lti_application
+
     has_many :sections, :dependent => :destroy
-    belongs_to :chart
-    has_many :notes
 
     has_many :user_courses, dependent: :destroy
     has_many :users, :through => :user_courses

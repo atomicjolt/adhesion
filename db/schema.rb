@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161026230713) do
+ActiveRecord::Schema.define(version: 20161101213510) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,17 @@ ActiveRecord::Schema.define(version: 20161026230713) do
 
   add_index "authentications", ["provider", "uid"], name: "index_authentications_on_provider_and_uid", using: :btree
   add_index "authentications", ["user_id"], name: "index_authentications_on_user_id", using: :btree
+
+  create_table "courses", force: :cascade do |t|
+    t.integer  "lti_application_id"
+    t.string   "lms_course_id"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "courses", ["lms_course_id"], name: "index_courses_on_lms_course_id", using: :btree
+  add_index "courses", ["lti_application_id"], name: "index_courses_on_lti_application_id", using: :btree
 
   create_table "lti_applications", force: :cascade do |t|
     t.string   "name"
@@ -95,6 +106,29 @@ ActiveRecord::Schema.define(version: 20161026230713) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "sections", force: :cascade do |t|
+    t.integer  "course_id"
+    t.string   "lms_section_id"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "sections", ["course_id"], name: "index_sections_on_course_id", using: :btree
+  add_index "sections", ["lms_section_id"], name: "index_sections_on_lms_section_id", using: :btree
+
+  create_table "user_courses", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "course_id"
+    t.integer "role_id",    default: 2
+    t.integer "section_id"
+  end
+
+  add_index "user_courses", ["course_id"], name: "index_user_courses_on_course_id", using: :btree
+  add_index "user_courses", ["role_id"], name: "index_user_courses_on_role_id", using: :btree
+  add_index "user_courses", ["section_id"], name: "index_user_courses_on_section_id", using: :btree
+  add_index "user_courses", ["user_id"], name: "index_user_courses_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",    null: false
