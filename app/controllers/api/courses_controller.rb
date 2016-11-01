@@ -15,19 +15,9 @@ class Api::CoursesController < ApplicationController
 		send_scorm_cloud_response(@scorm_cloud.upload_course(params[:filename]))
 	end
 
-	# def launch
-	# 	response = @scorm_cloud.launch_course(
-	# 		params[:course_id],
-	# 		params[:lms_user_id],
-	# 		current_user.name,
-	# 		lti_launches_url
-	# 	)
-	# 	send_scorm_cloud_response(response)
-	# end
-
 	def show
 		response = @scorm_cloud.course_manifest(params[:id])
-    response[:response] = Hash.from_xml(response[:response])
+    response[:response] = Hash.from_xml(response[:response]) #TODO move parsing to service
 		send_scorm_cloud_response(response)
 	end
 
