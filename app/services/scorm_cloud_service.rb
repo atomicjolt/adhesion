@@ -30,31 +30,38 @@ class ScormCloudService
   end
 
   def package_score(reg_result)
-    score = reg_result.dig(:response,"rsp","registrationreport", "score")
+    score = reg_result["score"]
     score.to_i / 100.0
   end
 
   def package_complete?(reg_result)
-    result = reg_result.dig(:response,"rsp","registrationreport", "complete")
+    result = reg_result["complete"]
     result == "complete"
   end
 
   def reg_id(reg_result)
-    reg_result.dig(:response,"rsp","registrationreport", "regid")
+    reg_result["regid"]
   end
 
   def update_sync(reg_result, lti_params)
+    puts "Reg ID: "
+    puts reg_id(reg_result)
+    puts reg_result
     reg = Registration.find(reg_id(reg_result))
     dirty = false
     new_score = package_score(reg_result)
-
     if(reg.score != new_score)
       dirty = true
       reg.score = new_score
       reg.save!
     end
-
+    puts "BEFORE UPDATING"
+    puts "Package Complete: ", package_complete?(reg_result)
+    puts "Dirty: ", dirty
+    # byebug
     if(package_complete?(reg_result) && dirty == true)
+      byebug
+      puts "INSIDE UPDATE"
       tp_params = {
         'lis_outcome_service_url' =>  reg[:lis_outcome_service_url],
         'lis_result_sourcedid' => reg[:lis_result_sourcedid],
@@ -68,6 +75,7 @@ class ScormCloudService
        response = provider.post_replace_result!(reg.score)
        puts response
        if response.success?
+         byebug
           # grade write worked
        elsif response.processing?
        elsif response.unsupported?
@@ -83,7 +91,7 @@ class ScormCloudService
       registration_params[:course_id], registration_params[:custom_canvas_user_id]
     )
     return if result.nil?
-    update_sync(result, lti_params)
+    update_sync(result[:response]["rsp"]["registrationreport"], lti_params)
   end
 
   def launch_course(
@@ -104,6 +112,7 @@ class ScormCloudService
       registration = find_registration(scorm_course_id, lms_user_id)
       if registration.nil?
   			registration = Registration.create reg_params(result_params)
+        byebug
   			response = @scorm_cloud.registration.create_registration(
           registration_params[:lms_course_id],
           registration.id,
