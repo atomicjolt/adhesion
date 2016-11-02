@@ -34,6 +34,11 @@ export default (state = initialState, action) => {
       // TODO: need to update state with response (this is for error)
       return {...state, file: action.file};
 
+    case PackageConstants.REMOVE_ERROR:
+      delete state.file;
+      delete state.uploadError;
+      return {...state, file: null, uploadError: false};
+
     default:
       return state;
   }

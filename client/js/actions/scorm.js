@@ -3,6 +3,7 @@ import Network    from '../constants/network';
 
 // Local actions
 const actions = [
+  "REMOVE_ERROR"
 ];
 
 // Actions that make an api request
@@ -60,4 +61,8 @@ export const importPackage = (courseId) => ({
   method: Network.GET,
   type: Constants.IMPORT_PACKAGE,
   url: `api/courses/${courseId}/import`
+});
+
+export const removeError = () => ({
+  type: Constants.REMOVE_ERROR
 });

@@ -90,9 +90,10 @@ export default class ScormIndex extends React.Component {
 
         <div className="c-header">
           <h1 className="c-header__title">SCORM</h1>
-          <div className="c-header__btns">
+          <div className="c-header__btns" onClick={(e)=>{this.props.removeError()}}>
             <FileUpload
-              uploadPackage={this.props.uploadPackage}/>
+              uploadPackage={this.props.uploadPackage}
+            />
           </div>
         </div>
 

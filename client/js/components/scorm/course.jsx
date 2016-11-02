@@ -72,11 +72,6 @@ export default class Course extends React.Component {
     return (
       <li className="c-list__item c-list__item--choose">
         <div className="c-list-item__main">
-          <svg className="c-icon-arrow" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" onClick={(e)=>{ e.preventDefault(); this.handleDesc(); }}>
-            <path className="c-path" d="M14 20l10 10 10-10z"/>
-            <path d="M0 0h48v48h-48z" fill="none"/>
-          </svg>
-          <div className="c-list-item__click" onClick={(e)=>{ e.preventDefault(); this.handleDesc(); }}></div>
           <div className="c-list-item__contain">
             <div className="c-list-item__title">{this.props.course.title}</div>
             <div className="c-list-item__type">
@@ -100,9 +95,6 @@ export default class Course extends React.Component {
             <PreviewButton handleClick={() => this.handlePreview()}/>
             <DeleteButton handleClick={() => this.handleRemove()}/>
           </div>
-        </div>
-        <div className="c-list-item__description" style={{display: (this.state.isShowDesc) ? "block" : "none"}}>
-          <p>This is a desctiption that lives down here.</p>
         </div>
       </li>
     );
