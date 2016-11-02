@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161031232429) do
+ActiveRecord::Schema.define(version: 20161101215641) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -84,10 +84,12 @@ ActiveRecord::Schema.define(version: 20161031232429) do
     t.decimal  "score",                   default: 0.0
     t.text     "lis_result_sourcedid",    default: ""
     t.text     "lis_outcome_service_url", default: ""
+    t.integer  "lti_application_id"
   end
 
   add_index "registrations", ["lms_course_id"], name: "index_registrations_on_lms_course_id", using: :btree
   add_index "registrations", ["lms_user_id"], name: "index_registrations_on_lms_user_id", using: :btree
+  add_index "registrations", ["lti_application_id"], name: "index_registrations_on_lti_application_id", using: :btree
 
   create_table "roles", force: :cascade do |t|
     t.string   "name"
