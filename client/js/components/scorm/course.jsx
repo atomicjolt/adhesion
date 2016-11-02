@@ -3,12 +3,6 @@
 import React                    from 'react';
 import { connect }              from 'react-redux';
 
-const select = (state, props) => {
-  return {
-
-  };
-};
-
 const GradedAssign = (props) => {
   return (
     <button className="c-icon-btn" style={{display: (props.isGradeActive) ? "inline" : "none"}}>
@@ -42,7 +36,6 @@ const PreviewButton = (props) => {
   );
 };
 
-@connect(select, null, null, { withRefs: true })
 export default class Course extends React.Component {
   constructor(props){
     super(props);
@@ -54,8 +47,7 @@ export default class Course extends React.Component {
   }
 
   static propTypes = {
-    course: React.PropTypes.object.isRequired,
-    studentId: React.PropTypes.number.isRequired,
+    course: React.PropTypes.object.isRequired
   };
 
   handleLaunch(){
@@ -80,6 +72,13 @@ export default class Course extends React.Component {
     this.setState({isShowDesc: (this.state.isShowDesc) ? false : true});
   }
 
+  handleImport(){
+    this.props.importPackage(
+      this.props.course.id,
+      this.props.course.title
+    );
+  }
+
   handleImportType(event){
     var isGoBtnActive = "inactive";
 
@@ -92,7 +91,7 @@ export default class Course extends React.Component {
 
   handleGoClick(){
     // TODO: need to have an action that sets the import type for the course.
-    (this.state.isGoBtnActive == "active") ? this.setState({isGradeActive: true}) : null; 
+    (this.state.isGoBtnActive == "active") ? this.setState({isGradeActive: true}) : null;
   }
 
   render(){
@@ -109,7 +108,7 @@ export default class Course extends React.Component {
                                                               </svg>
                                                             </div>
                                                             <button className={"c-btn c-btn--go is-" + this.state.isGoBtnActive} onClick={ (e)=>{this.handleGoClick() }}>Go</button>
-                                                          </div> 
+                                                          </div>
                                                         : <div className="c-list-item__type" style={{minWidth: "20rem"}}>{this.state.selectVal}</div>;
 
     return (
@@ -129,9 +128,6 @@ export default class Course extends React.Component {
             <PreviewButton handleClick={() => this.handlePreview()}/>
             <DeleteButton handleClick={() => this.handleRemove()}/>
           </div>
-        </div>
-        <div className="c-list-item__description" style={{display: (this.state.isShowDesc) ? "block" : "none"}}>
-          <p>{this.props.course.description}</p>
         </div>
       </li>
     );

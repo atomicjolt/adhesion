@@ -8,11 +8,12 @@ export default (props) => {
   if(props.list) {
     items = props.list.map((item, key)=>{
       const itemProps = {
-        course: {...item, description: "I'm a course description (I will need to be replaced)."},
+        course: item,
         userId: props.userId,
         loadLaunchUrl: props.loadLaunchUrl,
         removePackage: props.removePackage,
-        previewPackage: props.previewPackage
+        previewPackage: props.previewPackage,
+        importPackage: props.importPackage
       };
 
       return <Course key={key+"PackageItem"} {...itemProps} />;
@@ -26,4 +27,4 @@ export default (props) => {
       </ul>
     </div>
   );
-}
+};

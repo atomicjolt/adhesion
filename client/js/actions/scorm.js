@@ -12,7 +12,8 @@ const requests = [
   "UPLOAD_PACKAGE",
   "REMOVE_PACKAGE",
   "UPDATE_UPLOAD_FILE",
-  "PREVIEW_PACKAGE"
+  "PREVIEW_PACKAGE",
+  "IMPORT_PACKAGE"
 ];
 
 export const Constants = wrapper(actions, requests);
@@ -53,4 +54,10 @@ export const previewPackage = (courseId) => ({
   method: Network.GET,
   type: Constants.PREVIEW_PACKAGE,
   url: `/api/courses/${courseId}/preview`
+});
+
+export const importPackage = (courseId) => ({
+  method: Network.GET,
+  type: Constants.IMPORT_PACKAGE,
+  url: `api/courses/${courseId}/import`
 });

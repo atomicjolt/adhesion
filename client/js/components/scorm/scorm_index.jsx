@@ -5,6 +5,8 @@ import { connect }              from 'react-redux';
 import * as ScormActions        from '../../actions/scorm';
 import CoursesList              from './courses_list';
 import Uploader                 from './uploader';
+import { create_assignment }    from '../../libs/canvas/constants/assignments';
+import canvasRequest            from '../../libs/canvas/action';
 
 const FileUpload = (props) => {
   const handleChange = (e) => {
@@ -35,7 +37,9 @@ const FileUpload = (props) => {
 
 const select = (state, props) => {
   return {
+    lmsCourseId: state.settings.lms_course_id,
     userId: state.settings.userId,
+    apiUrl: state.settings.apiUrl,
     scormList: state.scorm.scormList,
     shouldRefreshList: state.scorm.shouldRefreshList,
     scormFile: state.scorm.file,
@@ -43,7 +47,7 @@ const select = (state, props) => {
   };
 };
 
-@connect(select, ScormActions, null, { withRefs: true })
+@connect(select, {...ScormActions, canvasRequest}, null, { withRefs: true })
 export default class ScormIndex extends React.Component {
   constructor(props){
     super(props);
@@ -58,6 +62,25 @@ export default class ScormIndex extends React.Component {
       this.props.loadPackages();
     }
   }
+
+  createAssignment(packageId, assignmentName){
+    const query = {
+      assignment: {
+        name: assignmentName,
+        submission_types: ["external_tool"],
+        external_tool_tag_attributes: {
+          url: `${this.props.apiUrl}scorm_course?course_id=${packageId}`
+        }
+      }
+    };
+
+    this.props.canvasRequest(
+      create_assignment,
+      {course_id: this.props.lmsCourseId},
+      query
+    );
+  };
+
 
   render(){
     var uploader = (this.props.scormFile) ? <Uploader /> : null;
@@ -77,10 +100,12 @@ export default class ScormIndex extends React.Component {
 
         <CoursesList
           list={this.props.scormList}
-          userId={this.props.userId}
-          loadLaunchUrl={this.props.loadLaunchUrl}
           removePackage={this.props.removePackage}
-          previewPackage={this.props.previewPackage} />
+          previewPackage={this.props.previewPackage}
+          importPackage={
+            (packageId, assignmentName) => this.createAssignment(packageId, assignmentName)
+          }
+        />
 
       </div>
     );

@@ -12,7 +12,7 @@ export default (state = initialState, action) => {
     case PackageConstants.LOAD_PACKAGES_DONE:
       return {
         ...state,
-        scormList: action.payload,
+        scormList: action.payload.response,
         shouldRefreshList: false,
         file: null
       }; //TODO check if always is an array
