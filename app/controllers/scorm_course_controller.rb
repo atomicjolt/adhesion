@@ -12,13 +12,12 @@ class ScormCourseController < ApplicationController
       first_name: params[:lis_person_name_given],
       last_name: params[:lis_person_name_family],
       redirect_url: params[:launch_presentation_return_url],
-      postback_url: "http://43a89bba.ngrok.io/scorm_course/postback",
-      # scorm_course_postback_url,
+      postback_url: scorm_course_postback_url,
       lti_credentials: current_lti_application,
       result_params: params
     )
 
-    @scorm_cloud.sync_registration(params, current_lti_application)
+    @scorm_cloud.sync_registration(params)
 
     if launch[:status] == 200
       redirect_to launch[:response]
@@ -33,7 +32,7 @@ class ScormCourseController < ApplicationController
 
   def postback
     response = Hash.from_xml(params[:data])
-    @scorm_cloud.update_sync(response["registrationreport"], current_lti_application)
+    @scorm_cloud.update_sync(response["registrationreport"])
     render json: {}, status: 200
   end
 
