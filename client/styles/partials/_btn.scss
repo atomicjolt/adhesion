@@ -30,6 +30,22 @@
       @include transform(scale(0.95));
     }
   }
+
+  &.is-inactive{
+    background: $lighter-gray;
+    color: $gray;
+    font-weight: 600;
+    @include transition(all 0.1s ease);
+    pointer-events: auto;
+
+    &:hover{
+      background: $lighter-gray;
+      cursor: pointer;
+    }
+    &:active{
+      @include transform(scale(0.95));
+    }
+  }
 }
 
 .c-btn--upload{
