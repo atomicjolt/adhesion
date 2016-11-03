@@ -8,7 +8,10 @@ const Writeback = store => next => action => {
       const state = store.getState();
       store.dispatch(PackageActions.updatePackage(
         action.payload.integration_id,
-        {lms_assignment_id: action.payload.id}
+        {
+          lms_assignment_id: action.payload.id,
+          points_possible: action.payload.points_possible
+        }
       ));
       break;
   }
