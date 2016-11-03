@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161027182508) do
+ActiveRecord::Schema.define(version: 20161101213510) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,17 @@ ActiveRecord::Schema.define(version: 20161027182508) do
 
   add_index "authentications", ["provider", "uid"], name: "index_authentications_on_provider_and_uid", using: :btree
   add_index "authentications", ["user_id"], name: "index_authentications_on_user_id", using: :btree
+
+  create_table "courses", force: :cascade do |t|
+    t.integer  "lti_application_id"
+    t.string   "lms_course_id"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "courses", ["lms_course_id"], name: "index_courses_on_lms_course_id", using: :btree
+  add_index "courses", ["lti_application_id"], name: "index_courses_on_lti_application_id", using: :btree
 
   create_table "lti_application_instances", force: :cascade do |t|
     t.integer  "lti_application_id"
