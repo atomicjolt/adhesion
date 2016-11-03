@@ -9,6 +9,8 @@ export default (props) => {
     items = props.list.map((item, key)=>{
       const itemProps = {
         course: item,
+        userId: props.userId,
+        loadLaunchUrl: props.loadLaunchUrl,
         removePackage: props.removePackage,
         previewPackage: props.previewPackage,
         importPackage: props.importPackage
