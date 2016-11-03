@@ -1,7 +1,15 @@
 class Api::CoursesController < ApplicationController
+  include Concerns::CanvasSupport
+  include Concerns::JwtToken
+
+  before_action :validate_token
+
 	protect_from_forgery with: :null_session
 	before_action :setup
-	# before_action :validate_token # TODO: make sure to add account back in for security
+
+  def course_params
+    params.require(:course).permit(:lms_assignment_id, :points_possible)
+  end
 
 	def send_scorm_cloud_response(response)
 		render json: response, status: response[:status]
@@ -20,6 +28,23 @@ class Api::CoursesController < ApplicationController
     response[:response] = Hash.from_xml(response[:response]) #TODO move parsing to service
 		send_scorm_cloud_response(response)
 	end
+
+  def update
+    course = ScormCourse.find(params[:id])
+    course.update_attributes(course_params)
+    render json: course
+  end
+
+  # def import
+  #   result = canvas_api.proxy(
+  #     "CREATE_ASSIGNMENT",
+  #     {course_id:params[:lms_course_id]},
+  #     params[:course]
+  #   )
+  #   byebug
+  #   render json: {}
+  #   # save id in scorm course
+  # end
 
 	def destroy
 		send_scorm_cloud_response(@scorm_cloud.remove_course(params[:id]))
