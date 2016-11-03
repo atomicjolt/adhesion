@@ -114,11 +114,6 @@ export default class Course extends React.Component {
     return (
       <li className="c-list__item c-list__item--choose">
         <div className="c-list-item__main">
-          <svg className="c-icon-arrow" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" onClick={(e)=>{ e.preventDefault(); this.handleDesc(); }}>
-            <path className="c-path" d="M14 20l10 10 10-10z"/>
-            <path d="M0 0h48v48h-48z" fill="none"/>
-          </svg>
-          <div className="c-list-item__click" onClick={(e)=>{ e.preventDefault(); this.handleDesc(); }}></div>
           <div className="c-list-item__contain">
             <div className="c-list-item__title">{this.props.course.title}</div>
             { dropdownSection }

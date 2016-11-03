@@ -31,12 +31,6 @@
     padding-right: 14rem;
     position: relative;
 
-    &:hover{
-      cursor: pointer;
-      .c-icon-arrow .c-path{
-        fill: $blue;
-      }
-    }
     &.is-open{
       .c-icon-arrow{
         @include transform(rotate(0));
