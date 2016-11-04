@@ -14,6 +14,10 @@ const Writeback = store => next => action => {
         }
       ));
       break;
+    case PackageConstants.UPDATE_PACKAGE_DONE:
+      store.dispatch(PackageActions.loadPackages());
+      break;
+
   }
 
   // call the next middleWare
