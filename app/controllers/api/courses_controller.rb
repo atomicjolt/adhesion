@@ -2,10 +2,16 @@ class Api::CoursesController < ApplicationController
   include Concerns::CanvasSupport
   include Concerns::JwtToken
 
-  before_action :validate_token
+  # before_action :validate_token
+  # TODO before action protect canas api
 
 	protect_from_forgery with: :null_session
 	before_action :setup
+
+  SCORM_ASSIGNMENT_STATE = {
+    GRADED: "GRADED",
+    UNGRADED: "UNGRADED"
+  }
 
   def course_params
     params.require(:course).permit(:lms_assignment_id, :points_possible)
@@ -15,8 +21,30 @@ class Api::CoursesController < ApplicationController
 		render json: response, status: response[:status]
 	end
 
+  def courseMeta(scorm_cloud_course)
+    scorm_course = ScormCourse.find(scorm_cloud_course.id)
+    resp = {
+      title: scorm_cloud_course.title,
+      id: scorm_cloud_course.id
+    }
+
+    if(scorm_course.lms_assignment_id.nil? == false)
+      resp[:lms_assignment_id] = scorm_course.lms_assignment_id
+      if !scorm_course.points_possible.nil? && scorm_course.points_possible > 0
+        resp[:is_graded] = SCORM_ASSIGNMENT_STATE[:GRADED]
+      else
+        resp[:is_graded] = SCORM_ASSIGNMENT_STATE[:UNGRADED]
+      end
+    end
+
+    resp
+  end
+
 	def index
-		send_scorm_cloud_response(@scorm_cloud.list_courses)
+    result = @scorm_cloud.list_courses
+    result[:response].map!{|sc| courseMeta sc}
+
+    send_scorm_cloud_response(result)
 	end
 
 	def create
