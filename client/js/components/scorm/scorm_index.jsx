@@ -5,7 +5,7 @@ import { connect }              from 'react-redux';
 import * as ScormActions        from '../../actions/scorm';
 import CoursesList              from './courses_list';
 import Uploader                 from './uploader';
-import { create_assignment }    from '../../libs/canvas/constants/assignments';
+import { create_assignment, delete_assignment }    from '../../libs/canvas/constants/assignments';
 import canvasRequest            from '../../libs/canvas/action';
 
 const FileUpload = (props) => {
@@ -96,6 +96,15 @@ export default class ScormIndex extends React.Component {
     );
   };
 
+  deleteAssignment(assignmentId, packageId){
+    this.props.removePackage(packageId);
+    if(!assignmentId){return;}
+    this.props.canvasRequest(
+      delete_assignment,
+      {course_id: this.props.lmsCourseId, id:assignmentId}
+    );
+  }
+
 
   render(){
     var uploader = (this.props.scormFile) ? <Uploader /> : null;
@@ -115,7 +124,7 @@ export default class ScormIndex extends React.Component {
 
         <CoursesList
           list={this.props.scormList}
-          removePackage={this.props.removePackage}
+          removePackage={this.deleteAssignment.bind(this)}
           previewPackage={this.props.previewPackage}
           importPackage={
             (packageId, assignmentName) => this.createAssignment(packageId, assignmentName)

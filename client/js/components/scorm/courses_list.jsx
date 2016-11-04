@@ -9,13 +9,13 @@ export default (props) => {
     items = props.list.map((item, key)=>{
       const itemProps = {
         course: item,
-        userId: props.userId,
-        lmsCourseId: props.lmsCourseId,
-        loadLaunchUrl: props.loadLaunchUrl,
+        // userId: props.userId,
+        // lmsCourseId: props.lmsCourseId,
+        // loadLaunchUrl: props.loadLaunchUrl,
         removePackage: props.removePackage,
         previewPackage: props.previewPackage,
         importPackage: props.importPackage,
-        assignmentParams: props.assignmentParams
+        // assignmentParams: props.assignmentParams
       };
 
       return <Course key={key+"PackageItem"} {...itemProps} />;

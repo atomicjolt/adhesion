@@ -41,7 +41,7 @@ export default class Course extends React.Component {
     super(props);
 
     this.state = { isShowDesc: false, isGoBtnActive: "inactive", selectVal: "0", isGradeActive: false};
-    this.handleDesc = this.handleDesc.bind(this);
+    // this.handleDesc = this.handleDesc.bind(this);
     this.handleImportType = this.handleImportType.bind(this);
     this.handleGoClick = this.handleGoClick.bind(this);
   }
@@ -50,9 +50,9 @@ export default class Course extends React.Component {
     course: React.PropTypes.object.isRequired
   };
 
-  handleLaunch(){
-    this.props.loadLaunchUrl(this.props.course.id, this.props.studentId);
-  }
+  // handleLaunch(){
+  //   this.props.loadLaunchUrl(this.props.course.id, this.props.studentId);
+  // }
 
   handleGraded(){
     const courseId = this.props.course.id;
@@ -60,24 +60,27 @@ export default class Course extends React.Component {
   }
 
   handleRemove(){
-    const courseId = this.props.course.id;
-    this.props.removePackage(courseId);
+    // TODO figure out why canvas api request is failing
+    this.props.removePackage(
+      this.props.course.lms_assignment_id,
+      this.props.course.id
+    );
   }
 
   handlePreview(){
     this.props.previewPackage(this.props.course.id);
   }
 
-  handleDesc(){
-    this.setState({isShowDesc: (this.state.isShowDesc) ? false : true});
-  }
+  // handleDesc(){
+  //   this.setState({isShowDesc: (this.state.isShowDesc) ? false : true});
+  // }
 
-  handleImport(){
-    this.props.importPackage(
-      this.props.course.id,
-      this.props.course.title
-    );
-  }
+  // handleImport(){
+  //   this.props.importPackage(
+  //     this.props.course.id,
+  //     this.props.course.title
+  //   );
+  // }
 
   handleImportType(event){
     var isGoBtnActive = "inactive";
