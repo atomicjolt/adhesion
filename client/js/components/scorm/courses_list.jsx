@@ -10,10 +10,12 @@ export default (props) => {
       const itemProps = {
         course: item,
         userId: props.userId,
+        lmsCourseId: props.lmsCourseId,
         loadLaunchUrl: props.loadLaunchUrl,
         removePackage: props.removePackage,
         previewPackage: props.previewPackage,
-        importPackage: props.importPackage
+        importPackage: props.importPackage,
+        assignmentParams: props.assignmentParams
       };
 
       return <Course key={key+"PackageItem"} {...itemProps} />;

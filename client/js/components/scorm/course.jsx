@@ -91,7 +91,20 @@ export default class Course extends React.Component {
 
   handleGoClick(){
     // TODO: need to have an action that sets the import type for the course.
-    (this.state.isGoBtnActive == "active") ? this.setState({isGradeActive: true}) : null;
+    if(this.state.isGoBtnActive == "active"){
+      const params = this.props.importPackage(
+        this.props.course.id,
+        this.props.course.title
+      );
+      // this.props.importPackage(
+      //   this.props.course.id,
+      //   {
+      //     course: params,
+      //     lms_course_id: this.props.lmsCourseId
+      //   }
+      // );
+      this.setState({isGradeActive: true});
+    }
   }
 
   render(){
