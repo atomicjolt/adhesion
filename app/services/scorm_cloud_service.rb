@@ -85,6 +85,14 @@ class ScormCloudService
     update_sync(result[:response]["rsp"]["registrationreport"])
   end
 
+  # def canvas_assignment_id(canvas_api, course_id)
+  #   byebug
+  #   # assignments = canvas_api.
+  #   # a[0]["integration_id"]
+  #   assignments = canvas_api.proxy("LIST_ASSIGNMENTS", {course_id: 923})
+  #   return 0
+  # end
+
   def launch_course(
     scorm_course_id:,
     lms_user_id:,
