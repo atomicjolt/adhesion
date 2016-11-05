@@ -33,4 +33,13 @@ describe "Scorm Cloud Service" do
 
     expect(ran).to eq false
   end
+
+  it "should return hash with proper signature" do
+    subject = ScormCloudService.new
+    result = subject.scorm_cloud_request do
+      true
+    end
+    expected_result = {status: 200, response: true}
+    expect(result).to eq expected_result
+  end
 end
