@@ -42,6 +42,7 @@ class Api::CoursesController < ApplicationController
 
 	def index
     result = @scorm_cloud.list_courses
+    # TODO sync local table when api call courses aren't found locally
     result[:response].map!{|sc| courseMeta sc}
 
     send_scorm_cloud_response(result)
