@@ -12,7 +12,7 @@ const select = (state, props) => {
   };
 };
 
-@connect(select, null, null, { withRefs: true })
+@connect(select, ScormActions, null, { withRefs: true })
 export default class Uploader extends React.Component {
     constructor(props) {
         super(props);
@@ -53,6 +53,21 @@ export default class Uploader extends React.Component {
       }
     }
 
+    renderButton() {
+      if (this.props.error) {
+        return (
+          <button className="c-icon-btn" onClick={(e)=>{this.props.removeError()}}>
+            <svg className="c-icon" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+              <path d="M0 0h48v48h-48z" fill="none"/>
+              <path className="c-path" d="M29.17 16l-5.17 5.17-5.17-5.17-2.83 2.83 5.17 5.17-5.17 5.17 2.83 2.83 5.17-5.17 5.17 5.17 2.83-2.83-5.17-5.17 5.17-5.17-2.83-2.83zm-5.17-12c-11.05 0-20 8.95-20 20s8.95 20 20 20 20-8.95 20-20-8.95-20-20-20zm0 36c-8.82 0-16-7.18-16-16s7.18-16 16-16 16 7.18 16 16-7.18 16-16 16z"/>
+            </svg>
+          </button>
+        );
+      } else {
+        return;
+      }
+    }
+
     render() {
       return (
         <ul className="c-upload">
@@ -64,12 +79,7 @@ export default class Uploader extends React.Component {
             <div className="c-list-item__title">{this.props.scormFile.name}</div>
             {this.renderError()}
             {this.renderProgress()}
-            <button className="c-icon-btn">
-              <svg className="c-icon" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
-                <path d="M0 0h48v48h-48z" fill="none"/>
-                <path className="c-path" d="M29.17 16l-5.17 5.17-5.17-5.17-2.83 2.83 5.17 5.17-5.17 5.17 2.83 2.83 5.17-5.17 5.17 5.17 2.83-2.83-5.17-5.17 5.17-5.17-2.83-2.83zm-5.17-12c-11.05 0-20 8.95-20 20s8.95 20 20 20 20-8.95 20-20-8.95-20-20-20zm0 36c-8.82 0-16-7.18-16-16s7.18-16 16-16 16 7.18 16 16-7.18 16-16 16z"/>
-              </svg>
-            </button>
+            {this.renderButton()}
           </li>
         </ul>
       )

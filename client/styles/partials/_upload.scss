@@ -67,11 +67,11 @@
 
   .progress {
     background-color: $blue;
-    -webkit-animation: progressBar 1s ease-in-out;
+    -webkit-animation: progressBar 2s ease-in-out;
     -webkit-animation-fill-mode:both;
-    -moz-animation: progressBar 1s ease-in-out;
+    -moz-animation: progressBar 2s ease-in-out;
     -moz-animation-fill-mode:both;
-    animation: progressBar 1s ease-in-out;
+    animation: progressBar 2s ease-in-out;
     animation-fill-mode:both;
   }
 
