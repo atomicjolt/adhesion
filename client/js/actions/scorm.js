@@ -65,13 +65,6 @@ export const updatePackage = (courseId, body = {}) => ({
   body
 });
 
-// export const importPackage = (courseId, body) => ({
-//   method: Network.POST,
-//   type: Constants.IMPORT_PACKAGE,
-//   url: `api/courses/${courseId}/import`,
-//   body
-// });
-
 export const removeError = () => ({
   type: Constants.REMOVE_ERROR
 });

@@ -63,19 +63,6 @@ export default class ScormIndex extends React.Component {
     }
   }
 
-  // assignmentParams(packageId, assignmentName){
-  //   return {
-  //     assignment: {
-  //       name: assignmentName,
-  //       submission_types: ["external_tool"],
-  //       integration_id: "atomic-scorm",
-  //       external_tool_tag_attributes: {
-  //         url: `${this.props.apiUrl}scorm_course?course_id=${packageId}`
-  //       }
-  //     }
-  //   };
-  // }
-
   createAssignment(packageId, assignmentName){
     const query = {
       assignment: {
