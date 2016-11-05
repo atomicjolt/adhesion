@@ -10,6 +10,7 @@ gem 'rails', '4.2.7'
 
 # Database
 gem "pg"
+gem "apartment"
 
 # UI
 gem 'sass-rails'
@@ -37,6 +38,9 @@ gem 'yajl-ruby', require: 'yajl'
 # deployment
 gem 'unicorn'
 gem 'unicorn-rails'
+
+# Used for deploying to Heroku. Can be removed if not deploying to Heroku.
+gem 'heroku_secrets', git: 'https://github.com/alexpeattie/heroku_secrets.git'
 
 # API Related
 gem 'httparty'
@@ -83,6 +87,7 @@ group :test do
   gem 'selenium-webdriver'
   gem 'shoulda-matchers'
   gem 'webmock'
+  gem 'test_after_commit'
 end
 
 group :production do
