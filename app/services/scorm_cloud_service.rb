@@ -85,14 +85,6 @@ class ScormCloudService
     update_sync(result[:response]["rsp"]["registrationreport"])
   end
 
-  # def canvas_assignment_id(canvas_api, course_id)
-  #   byebug
-  #   # assignments = canvas_api.
-  #   # a[0]["integration_id"]
-  #   assignments = canvas_api.proxy("LIST_ASSIGNMENTS", {course_id: 923})
-  #   return 0
-  # end
-
   def launch_course(
     scorm_course_id:,
     lms_user_id:,
@@ -129,6 +121,19 @@ class ScormCloudService
     end
   end
 
+
+  def list_courses_local(courses)
+    course_ids = courses.map{ |c| c[:id].to_i }
+    existing_course_ids = ScormCourse.all.map{ |c| c[:id] }
+    extra = existing_course_ids - course_ids
+    needed = course_ids - existing_course_ids
+
+    extra.each { |id| ScormCourse.destroy(id) }
+    # needed.each { |id| ScormCourse.create(:scorm_cloud_id = id)}
+
+    byebug
+  end
+
   def list_courses
     scorm_cloud_request do
       @scorm_cloud.course.get_course_list
@@ -153,7 +158,7 @@ class ScormCloudService
     scorm_cloud_request do
       response = @scorm_cloud.course.delete_course(course_id)
       if response == true
-    		course = ScormCourse.find(course_id)
+    		course = ScormCourse.where(scorm_cloud_id: course_id).first
         course.destroy unless course.nil?
       end
       response

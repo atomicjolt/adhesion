@@ -21,10 +21,11 @@ class Api::CoursesController < ApplicationController
 	end
 
   def courseMeta(scorm_cloud_course)
-    scorm_course = ScormCourse.find(scorm_cloud_course.id)
+    scorm_course = ScormCourse.where(scorm_cloud_id: scorm_cloud_course.id).first
     resp = {
       title: scorm_cloud_course.title,
-      id: scorm_cloud_course.id
+      id: scorm_cloud_course.id,
+      scorm_cloud_id:scorm_course.scorm_cloud_id
     }
 
     if(scorm_course.lms_assignment_id.nil? == false)
@@ -58,7 +59,7 @@ class Api::CoursesController < ApplicationController
 	end
 
   def update
-    course = ScormCourse.find(params[:id])
+    course = ScormCourse.where(scorm_cloud_id: params[:id]).first
     course.update_attributes(course_params)
     render json: course
   end
