@@ -42,4 +42,32 @@ describe "Scorm Cloud Service" do
     expected_result = {status: 200, response: true}
     expect(result).to eq expected_result
   end
+
+  describe "sync_courses" do
+    it "should sync courses table" do
+
+      ScormCourse.create
+      ScormCourse.create
+
+      subject = ScormCloudService.new
+      subject.sync_courses([
+        {
+          "id": "2",
+          "title": "Golf Explained - Run-time Advanced Calls",
+          "versions": "-1",
+          "registrations": "0",
+          "size": "126651"
+        },
+        {
+          "id": "3",
+          "title": "Golf Explained - Run-time Advanced Calls",
+          "versions": "-1",
+          "registrations": "0",
+          "size": "126651"
+        }
+      ])
+
+     expect(ScormCourse.all.map{|c| c[:id]}).to eq([2,3])
+    end
+  end
 end

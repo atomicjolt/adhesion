@@ -122,16 +122,14 @@ class ScormCloudService
   end
 
 
-  def list_courses_local(courses)
+  def sync_courses(courses)
     course_ids = courses.map{ |c| c[:id].to_i }
     existing_course_ids = ScormCourse.all.map{ |c| c[:id] }
     extra = existing_course_ids - course_ids
     needed = course_ids - existing_course_ids
 
     extra.each { |id| ScormCourse.destroy(id) }
-    # needed.each { |id| ScormCourse.create(:scorm_cloud_id = id)}
-
-    byebug
+    needed.each { |id| ScormCourse.create(scorm_cloud_id: id) }
   end
 
   def list_courses
