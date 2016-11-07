@@ -9,12 +9,12 @@ const actions = [
 // Actions that make an api request
 const requests = [
   "LOAD_PACKAGES",
-  "LOAD_LAUNCH_URL",
+  // "LOAD_LAUNCH_URL",
   "UPLOAD_PACKAGE",
   "REMOVE_PACKAGE",
   "UPDATE_UPLOAD_FILE",
   "PREVIEW_PACKAGE",
-  "IMPORT_PACKAGE",
+  // "IMPORT_PACKAGE",
   "UPDATE_PACKAGE"
 ];
 
@@ -26,12 +26,11 @@ export const loadPackages = () => ({
   url: '/api/courses'
 });
 
-//TODO use studentID
-export const loadLaunchUrl = (courseId, studentId) => ({
-  method: Network.GET,
-  type: Constants.LOAD_LAUNCH_URL,
-  url: `/api/courses/${courseId}/launch`
-});
+// export const loadLaunchUrl = (courseId, studentId) => ({
+//   method: Network.GET,
+//   type: Constants.LOAD_LAUNCH_URL,
+//   url: `/api/courses/${courseId}/launch`
+// });
 
 export const uploadPackage = (file) => {
   var form = new FormData();
@@ -51,7 +50,6 @@ export const removePackage = (courseId) => ({
   url: `/api/courses/${courseId}`
 });
 
-// TODO add redirect_url
 export const previewPackage = (courseId) => ({
   method: Network.GET,
   type: Constants.PREVIEW_PACKAGE,
