@@ -4,9 +4,10 @@ import rootReducer                               from '../reducers';
 import DevTools                                  from '../../dev/dev_tools.jsx';
 import API                                       from '../middleware/api';
 import Redirect                                  from '../middleware/redirect';
+import Writeback                                 from '../middleware/writeback';
 import CanvasApi                                 from '../../libs/canvas/middleware';
 
-let middleware = [ API, CanvasApi, Redirect ];
+let middleware = [ API, CanvasApi, Redirect, Writeback ];
 
 let enhancers = [
   applyMiddleware(...middleware)
