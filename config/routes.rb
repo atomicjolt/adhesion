@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   end
 
   match 'scorm_course/postback' => 'scorm_course#postback', :via => :post
-  resources :scorm_course 
+  resources :scorm_course
 
   devise_for :users, controllers: {
     sessions: "sessions",
@@ -45,6 +45,13 @@ Rails.application.routes.draw do
     resources :lti_installs
   end
 
+
+  resources :courses, only:[] do
+    resources :exports, only: [] do
+      get 'attendance', on: :collection
+    end
+  end
+
   namespace :api do
     resources :jwts
     resources :courses, only: [:index, :show, :create, :destroy] do
@@ -55,6 +62,11 @@ Rails.application.routes.draw do
       resources :sections, only: [] do
         resources :students, only: [:index]
       end
+
+      resources :attendances, only: [:index, :create, :update] do
+        get 'search', on: :collection
+      end
+
     end
   end
 

@@ -1,5 +1,5 @@
 <% content_for :head do -%>
-  <%= webpack_styles_tag 'styles' %>
+  <%= webpack_styles_tag "#{current_lti_application.client_application_name}_styles" %>
 <% end -%>
 
 <%= render 'shared/default_client_settings' %>

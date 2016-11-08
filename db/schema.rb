@@ -16,6 +16,15 @@ ActiveRecord::Schema.define(version: 20161026230713) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "attendances", force: :cascade do |t|
+    t.integer "lms_student_id"
+    t.integer "lms_course_id"
+    t.date    "date"
+    t.string  "status"
+    t.string  "name"
+    t.string  "sortable_name"
+  end
+
   create_table "authentications", force: :cascade do |t|
     t.integer  "user_id"
     t.string   "provider"

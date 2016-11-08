@@ -20,7 +20,8 @@ lti_applications = [
   client_application_name: "attendance",
   lti_consumer_uri: "https://atomicjolt.instructure.com",
   lti_secret: Rails.application.secrets.attendance_lti_key,
-  canvas_api_permissions: "" # List Canvas API methods the app is allowed to use. A full list of constants can be found in canvas_urls
+  canvas_token: Rails.application.secrets.canvas_token,
+  canvas_api_permissions: "LIST_USERS_IN_COURSE_USERS" # List Canvas API methods the app is allowed to use. A full list of constants can be found in canvas_urls
 }]
 
 lti_applications.each do |attrs|
