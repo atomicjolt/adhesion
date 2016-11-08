@@ -4,6 +4,7 @@ class LtiApplication < ActiveRecord::Base
   validates :lti_key, uniqueness: true
   validates :lti_secret, presence: true
   validates :lti_consumer_uri, presence: true
+  has_many :registrations
 
   before_validation :set_lti
 
