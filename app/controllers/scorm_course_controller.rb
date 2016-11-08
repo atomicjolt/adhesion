@@ -26,10 +26,6 @@ class ScormCourseController < ApplicationController
     end
   end
 
-  def index
-    render file: "public/scorm_return.html", :layout => false
-  end
-
   def postback
     response = Hash.from_xml(params[:data])
     @scorm_cloud.update_sync(response["registrationreport"])
