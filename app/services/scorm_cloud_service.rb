@@ -11,10 +11,10 @@ class ScormCloudService
     @scorm_cloud = ScormCloud::ScormCloud.new(ENV["SCORM_CLOUD_APP_ID"], ENV["SCORM_CLOUD_SECRET_KEY"])
   end
 
-  def split_name(name)
-      parts = name.split(" ")
-      [parts.shift, parts.join(' ')]
-  end
+  # def split_name(name)
+  #     parts = name.split(" ")
+  #     [parts.shift, parts.join(' ')]
+  # end
 
   def reg_params(params)
     resp = {}
@@ -80,12 +80,15 @@ class ScormCloudService
 
   def sync_courses(courses)
     course_ids = courses.map{ |c| c.id.to_i } # TODO support string as course id, scorm cloud dashboard assigns GUID type ids :(
-    existing_course_ids = ScormCourse.all.map{ |c| c[:id] }
+    existing_course_ids = ScormCourse.all.map{ |c| c[:scorm_cloud_id] }
     extra = existing_course_ids - course_ids
     needed = course_ids - existing_course_ids
 
-    extra.each { |id| ScormCourse.destroy(id) }
-    needed.each { |id| ScormCourse.create(scorm_cloud_id: id) }
+    extra.each do |scorm_cloud_id|
+      ScormCourse.find_by(scorm_cloud_id: scorm_cloud_id).destroy
+    end
+
+    needed.each { |scorm_cloud_id| ScormCourse.create(scorm_cloud_id: scorm_cloud_id) }
 
     result = courses.select do |course|
       local_course = ScormCourse.find_by(scorm_cloud_id: course.id)

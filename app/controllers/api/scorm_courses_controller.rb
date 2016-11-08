@@ -32,7 +32,7 @@ class Api::ScormCoursesController < ApplicationController
 	end
 
   def update
-    course = ScormCourse.where(scorm_cloud_id: params[:id]).first
+    course = ScormCourse.find_by(scorm_cloud_id: params[:id])
     course.update_attributes(course_params)
     render json: course
   end
