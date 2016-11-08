@@ -88,13 +88,13 @@ class ScormCloudService
     needed.each { |id| ScormCourse.create(scorm_cloud_id: id) }
 
     result = courses.select do |course|
-      local_course = ScormCourse.where(scorm_cloud_id: course.id).first
+      local_course = ScormCourse.find_by(scorm_cloud_id: course.id)
       return false if local_course.nil?
       true
     end
 
     result = result.map do |course|
-      local_course = ScormCourse.where(scorm_cloud_id: course.id).first
+      local_course = ScormCourse.find_by(scorm_cloud_id: course.id)
       resp = {
         title: course.title,
         id:local_course.scorm_cloud_id
@@ -111,7 +111,7 @@ class ScormCloudService
       resp
     end
 
-    result.compact
+    result
   end
 
 ### Scorm Cloud api wrapper methods
@@ -176,7 +176,7 @@ class ScormCloudService
     scorm_cloud_request do
       response = @scorm_cloud.course.delete_course(course_id)
       if response == true
-    		course = ScormCourse.where(scorm_cloud_id: course_id).first
+    		course = ScormCourse.find_by(scorm_cloud_id: course_id)
         course.destroy unless course.nil?
       end
       response
