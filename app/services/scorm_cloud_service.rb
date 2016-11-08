@@ -34,16 +34,10 @@ class ScormCloudService
 
   def update_sync(reg_result)
     reg = Registration.find(reg_id(reg_result))
-    dirty = false
     new_score = package_score(reg_result)
+    reg.score = new_score
 
-    if(reg.score != new_score)
-      dirty = true
-      reg.score = new_score
-      reg.save!
-    end
-
-    if(package_complete?(reg_result) && dirty == true)
+    if(package_complete?(reg_result) && reg.changed?)
       tp_params = {
         'lis_outcome_service_url' =>  reg[:lis_outcome_service_url],
         'lis_result_sourcedid' => reg[:lis_result_sourcedid],
@@ -56,6 +50,7 @@ class ScormCloudService
       )
        response = provider.post_replace_result!(reg.score)
        if response.success?
+         reg.save!
           # grade write worked
        elsif response.processing?
        elsif response.unsupported?
