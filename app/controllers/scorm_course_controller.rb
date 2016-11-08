@@ -28,7 +28,7 @@ class ScormCourseController < ApplicationController
 
   def postback
     response = Hash.from_xml(params[:data])
-    @scorm_cloud.update_sync(response["registrationreport"])
+    @scorm_cloud.sync_registration_score(response["registrationreport"])
     render json: {}, status: 200
   end
 
