@@ -34,7 +34,7 @@ export const loadPackages = () => ({
 
 export const uploadPackage = (file) => {
   var form = new FormData();
-  form.append('filename', file);
+  form.append('file', file);
   return {
     method: Network.POST,
     type: Constants.UPLOAD_PACKAGE,

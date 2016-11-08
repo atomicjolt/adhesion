@@ -48,7 +48,7 @@ class Api::ScormCoursesController < ApplicationController
 	end
 
 	def create
-		send_scorm_cloud_response(@scorm_cloud.upload_course(params[:filename]))
+		send_scorm_cloud_response(@scorm_cloud.upload_course(params[:file]))
 	end
 
 	def show
