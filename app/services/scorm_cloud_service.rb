@@ -11,26 +11,21 @@ class ScormCloudService
   end
 
   def reg_params(params)
-    params.permit(:id, :course_id, :custom_canvas_user_id, :lis_result_sourcedid, :lis_outcome_service_url)
-  end
-
-
-  def find_registration(lms_course_id,lms_user_id)
-    registration_params = {
-        lms_course_id: lms_course_id,
-        lms_user_id: lms_user_id
-      }
-		Registration.where(registration_params).first
+    resp = {}
+    resp[:id] = params[:id] unless params[:id].nil?
+    resp[:lms_course_id] = params[:course_id] unless params[:course_id].nil?
+    resp[:lms_user_id] =  params[:custom_canvas_user_id] unless params[:custom_canvas_user_id].nil?
+    resp[:lis_result_sourcedid] = params[:lis_result_sourcedid] unless params[:lis_result_sourcedid].nil?
+    resp[:lis_outcome_service_url] = params[:lis_outcome_service_url] unless params[:lis_outcome_service_url].nil?
+    resp
   end
 
   def package_score(reg_result)
-    score = reg_result["score"]
-    score.to_i / 100.0
+    reg_result["score"].to_i / 100.0
   end
 
   def package_complete?(reg_result)
-    result = reg_result["complete"]
-    result == "complete"
+    reg_result["complete"] == "complete"
   end
 
   def reg_id(reg_result)
@@ -98,13 +93,13 @@ class ScormCloudService
     result_params: {}
     )
     scorm_cloud_request do
-      registration_params = {
+      registration = Registration.find_by(
         lms_course_id: scorm_course_id,
         lms_user_id: lms_user_id
-      }
-      registration = find_registration(scorm_course_id, lms_user_id)
+      )
+      registration_params = reg_params(result_params)
       if registration.nil?
-  			registration = Registration.create reg_params(result_params)
+  			registration = Registration.create registration_params
         registration.lti_application = lti_credentials
         registration.save!
 
@@ -174,10 +169,13 @@ class ScormCloudService
 
   def registration_result(lms_course_id, lms_user_id)
     scorm_cloud_request do
-      reg = find_registration(lms_course_id, lms_user_id)
-        resp = @scorm_cloud.registration.get_registration_result(reg.id) unless reg.nil?
-        Hash.from_xml(resp)
-      end
+      reg = Registration.find_by(
+        lms_course_id: lms_course_id,
+        lms_user_id: lms_user_id
+      )
+      resp = @scorm_cloud.registration.get_registration_result(reg.id) unless reg.nil?
+      Hash.from_xml(resp)
+    end
   end
 
   def scorm_cloud_request(handle_fail = nil)
