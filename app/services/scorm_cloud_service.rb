@@ -97,7 +97,6 @@ class ScormCloudService
       local_course = ScormCourse.where(scorm_cloud_id: course.id).first
       resp = {
         title: course.title,
-        # id: course.id,
         id:local_course.scorm_cloud_id
       }
 

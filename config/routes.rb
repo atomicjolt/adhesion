@@ -48,9 +48,9 @@ Rails.application.routes.draw do
   namespace :api do
     resources :jwts
     resources :scorm_courses do
-      get 'launch' => 'courses#launch'
-      get 'preview' => 'courses#preview'
-      post 'import' => 'courses#import'
+      get 'launch' => 'scorm_courses#launch'
+      get 'preview' => 'scorm_courses#preview'
+      post 'import' => 'scorm_courses#import'
       resources :students, only: [:index]
       resources :sections, only: [] do
         resources :students, only: [:index]

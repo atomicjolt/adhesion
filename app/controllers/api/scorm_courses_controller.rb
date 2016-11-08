@@ -43,7 +43,7 @@ class Api::ScormCoursesController < ApplicationController
 
 	def preview
 		send_scorm_cloud_response(
-			@scorm_cloud.preview_course(params[:course_id], params[:redirect_url]))
+			@scorm_cloud.preview_course(params[:scorm_course_id], params[:redirect_url]))
 	end
 
   private
