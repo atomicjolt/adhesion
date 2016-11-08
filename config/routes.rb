@@ -47,7 +47,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :jwts
-    resources :courses do
+    resources :scorm_courses do
       get 'launch' => 'courses#launch'
       get 'preview' => 'courses#preview'
       post 'import' => 'courses#import'

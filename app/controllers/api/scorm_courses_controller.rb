@@ -1,4 +1,4 @@
-class Api::CoursesController < ApplicationController
+class Api::ScormCoursesController < ApplicationController
   include Concerns::CanvasSupport
   include Concerns::JwtToken
 
