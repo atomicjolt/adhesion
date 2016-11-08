@@ -1,6 +1,6 @@
 import * as PackageActions from "../actions/scorm";
 import { Constants as PackageConstants }   from "../actions/scorm";
-import { DONE }    from "../constants/wrapper";
+import { DONE }    from "../../constants/wrapper";
 
 const Writeback = store => next => action => {
   switch(action.type){
