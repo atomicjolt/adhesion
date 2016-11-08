@@ -1,4 +1,4 @@
-class Api::CoursesController < ApplicationController
+class Api::ScormCoursesController < ApplicationController
   include Concerns::CanvasSupport
   include Concerns::JwtToken
 
@@ -8,7 +8,7 @@ class Api::CoursesController < ApplicationController
   before_action :setup
 
   def course_params
-    params.require(:course).permit(:lms_assignment_id, :points_possible)
+    params.require(:scorm_course).permit(:lms_assignment_id, :points_possible)
   end
 
 	def send_scorm_cloud_response(response)
@@ -22,7 +22,7 @@ class Api::CoursesController < ApplicationController
 	end
 
 	def create
-		send_scorm_cloud_response(@scorm_cloud.upload_course(params[:filename]))
+		send_scorm_cloud_response(@scorm_cloud.upload_course(params[:file]))
 	end
 
 	def show

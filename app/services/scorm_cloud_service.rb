@@ -26,23 +26,12 @@ class ScormCloudService
     resp
   end
 
-
-  def find_registration(lms_course_id,lms_user_id)
-    registration_params = {
-        lms_course_id: lms_course_id,
-        lms_user_id: lms_user_id
-      }
-		Registration.where(registration_params).first
-  end
-
   def package_score(reg_result)
-    score = reg_result["score"]
-    score.to_i / 100.0
+    reg_result["score"].to_i / 100.0
   end
 
   def package_complete?(reg_result)
-    result = reg_result["complete"]
-    result == "complete"
+    reg_result["complete"] == "complete"
   end
 
   def reg_id(reg_result)
@@ -54,16 +43,10 @@ class ScormCloudService
 
   def sync_registration_score(reg_result)
     reg = Registration.find(reg_id(reg_result))
-    dirty = false
     new_score = package_score(reg_result)
+    reg.score = new_score
 
-    if(reg.score != new_score)
-      dirty = true
-      reg.score = new_score
-      reg.save!
-    end
-
-    if(package_complete?(reg_result) && dirty == true)
+    if(package_complete?(reg_result) && reg.changed?)
       tp_params = {
         'lis_outcome_service_url' =>  reg[:lis_outcome_service_url],
         'lis_result_sourcedid' => reg[:lis_result_sourcedid],
@@ -76,6 +59,7 @@ class ScormCloudService
       )
        response = provider.post_replace_result!(reg.score)
        if response.success?
+         reg.save!
           # grade write worked
        elsif response.processing?
        elsif response.unsupported?
@@ -144,13 +128,13 @@ class ScormCloudService
     result_params: {}
     )
     scorm_cloud_request do
-      registration_params = {
+      registration = Registration.find_by(
         lms_course_id: scorm_course_id,
         lms_user_id: lms_user_id
-      }
-      registration = find_registration(scorm_course_id, lms_user_id)
+      )
+      registration_params = reg_params(result_params)
       if registration.nil?
-  			registration = Registration.create reg_params(result_params)
+  			registration = Registration.create registration_params
         registration.lti_application = lti_credentials
         registration.save!
 
@@ -220,10 +204,13 @@ class ScormCloudService
 
   def registration_result(lms_course_id, lms_user_id)
     scorm_cloud_request do
-      reg = find_registration(lms_course_id, lms_user_id)
-        resp = @scorm_cloud.registration.get_registration_result(reg.id) unless reg.nil?
-        Hash.from_xml(resp)
-      end
+      reg = Registration.find_by(
+        lms_course_id: lms_course_id,
+        lms_user_id: lms_user_id
+      )
+      resp = @scorm_cloud.registration.get_registration_result(reg.id) unless reg.nil?
+      Hash.from_xml(resp)
+    end
   end
 
   def scorm_cloud_request(handle_fail = nil)
