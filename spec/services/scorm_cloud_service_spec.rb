@@ -1,6 +1,15 @@
 require 'rails_helper'
 require 'scorm_cloud'
 
+  class MockCourse
+    attr_accessor :id
+    attr_accessor :title
+    def initialize(id)
+      @id = id
+      @title = ""
+    end
+  end
+
 describe "Scorm Cloud Service" do
   before(:example) do
   end
@@ -47,27 +56,20 @@ describe "Scorm Cloud Service" do
     it "should sync courses table" do
 
       ScormCourse.create
-      ScormCourse.create
+      graded_course = ScormCourse.create
+      graded_course.lms_assignment_id = 1
+      graded_course.points_possible = 5
+      graded_course.save!
 
       subject = ScormCloudService.new
-      subject.sync_courses([
-        {
-          "id": "2",
-          "title": "Golf Explained - Run-time Advanced Calls",
-          "versions": "-1",
-          "registrations": "0",
-          "size": "126651"
-        },
-        {
-          "id": "3",
-          "title": "Golf Explained - Run-time Advanced Calls",
-          "versions": "-1",
-          "registrations": "0",
-          "size": "126651"
-        }
+      result = subject.sync_courses([
+        MockCourse.new(2),
+        MockCourse.new(3)
       ])
 
      expect(ScormCourse.all.map{|c| c[:id]}).to eq([2,3])
+     expect(result[0][:lms_assignment_id]).to eq(1)
+     expect(result[0][:is_graded]).to eq("GRADED")
     end
   end
 end
