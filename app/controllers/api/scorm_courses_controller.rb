@@ -13,7 +13,7 @@ class Api::ScormCoursesController < ApplicationController
   }
 
   def course_params
-    params.require(:course).permit(:lms_assignment_id, :points_possible)
+    params.require(:scorm_course).permit(:lms_assignment_id, :points_possible)
   end
 
 	def send_scorm_cloud_response(response)
