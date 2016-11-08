@@ -95,7 +95,7 @@ class ScormCloudService
   end
 
   def sync_courses(courses)
-    course_ids = courses.map{ |c| c[:id].to_i }
+    course_ids = courses.map{ |c| c.id.to_i } # TODO support string as course id, scorm cloud dashboard assigns GUID type ids :(
     existing_course_ids = ScormCourse.all.map{ |c| c[:id] }
     extra = existing_course_ids - course_ids
     needed = course_ids - existing_course_ids
@@ -103,22 +103,32 @@ class ScormCloudService
     extra.each { |id| ScormCourse.destroy(id) }
     needed.each { |id| ScormCourse.create(scorm_cloud_id: id) }
 
-    result = updated_courses = courses.select do |course|
-      local_course = ScormCourse.where(scorm_cloud_id: course[:id]).first
+    result = courses.select do |course|
+      local_course = ScormCourse.where(scorm_cloud_id: course.id).first
       return false if local_course.nil?
-
-      if(local_course.lms_assignment_id.nil? == false)
-        course[:lms_assignment_id] = local_course.lms_assignment_id
-        if !local_course.points_possible.nil? && local_course.points_possible > 0
-          course[:is_graded] = SCORM_ASSIGNMENT_STATE[:GRADED]
-        else
-          course[:is_graded] = SCORM_ASSIGNMENT_STATE[:UNGRADED]
-        end
-      end
       true
     end
 
-    result
+    result = result.map do |course|
+      local_course = ScormCourse.where(scorm_cloud_id: course.id).first
+      resp = {
+        title: course.title,
+        # id: course.id,
+        id:local_course.scorm_cloud_id
+      }
+
+      if(local_course.lms_assignment_id.nil? == false)
+        resp[:lms_assignment_id] = local_course.lms_assignment_id
+        if !local_course.points_possible.nil? && local_course.points_possible > 0
+          resp[:is_graded] = SCORM_ASSIGNMENT_STATE[:GRADED]
+        else
+          resp[:is_graded] = SCORM_ASSIGNMENT_STATE[:UNGRADED]
+        end
+      end
+      resp
+    end
+
+    result.compact
   end
 
 ### Scorm Cloud api wrapper methods
