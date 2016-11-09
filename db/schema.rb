@@ -50,7 +50,6 @@ ActiveRecord::Schema.define(version: 20161107150841) do
   add_index "authentications", ["user_id"], name: "index_authentications_on_user_id", using: :btree
 
   create_table "courses", force: :cascade do |t|
-    t.integer  "lti_application_id"
     t.string   "lms_course_id"
     t.string   "name"
     t.datetime "created_at"
@@ -58,7 +57,6 @@ ActiveRecord::Schema.define(version: 20161107150841) do
   end
 
   add_index "courses", ["lms_course_id"], name: "index_courses_on_lms_course_id", using: :btree
-  add_index "courses", ["lti_application_id"], name: "index_courses_on_lti_application_id", using: :btree
 
   create_table "lti_application_instances", force: :cascade do |t|
     t.integer  "lti_application_id"
