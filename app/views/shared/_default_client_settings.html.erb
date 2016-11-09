@@ -9,6 +9,8 @@
     settings[:displayName] = current_user.display_name
     settings[:oauthConsumerKey] = params[:oauth_consumer_key]
     settings[:lms_course_id] = params[:custom_canvas_course_id]
+    settings[:lmsUserId] = current_user.lti_user_id
+    settings[:ltiProvider] = lti_provider
   end
 %>
 <script type="text/javascript">
