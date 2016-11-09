@@ -53,7 +53,8 @@ module.exports = {
   },
 
   cssEntries: {
-    styles: clientAppPath + 'styles/styles.js'
+    scorm_styles: clientAppPath + 'styles/scorm_styles.js',
+    attendance_styles: clientAppPath + 'styles/attendance_styles.js'
   }
 
 };

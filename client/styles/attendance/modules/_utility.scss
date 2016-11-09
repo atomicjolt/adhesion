@@ -1,0 +1,26 @@
+
+@mixin transition($transition...) {
+  -webkit-transition: $transition;
+     -moz-transition: $transition;
+      -ms-transition: $transition;
+          transition: $transition;
+}
+@mixin transform($transform...) {
+  -webkit-transform: $transform;
+     -moz-transform: $transform;
+      -ms-transform: $transform;
+          transform: $transform;
+}
+
+@mixin semi-bold{
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+}
+@mixin regular{
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+}
+@mixin bold{
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+}

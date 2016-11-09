@@ -1,7 +1,4 @@
 class Course < ActiveRecord::Base
-
-    belongs_to :lti_application
-
     has_many :sections, :dependent => :destroy
 
     has_many :user_courses, dependent: :destroy
