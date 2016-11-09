@@ -11,7 +11,7 @@ lti_applications = [{
   name: "Attendance",
   description: "Attendance Application",
   client_application_name: "attendance",
-  canvas_api_permissions: "" # List Canvas API methods the app is allowed to use. A full list of constants can be found in canvas_urls
+  canvas_api_permissions: "CREATE_ASSIGNMENT,DELETE_ASSIGNMENT" # List Canvas API methods the app is allowed to use. A full list of constants can be found in canvas_urls
 }]
 
 lti_application_instances = [{

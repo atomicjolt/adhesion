@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161101213510) do
+ActiveRecord::Schema.define(version: 20161107150841) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -95,12 +95,18 @@ ActiveRecord::Schema.define(version: 20161101213510) do
   create_table "registrations", force: :cascade do |t|
     t.integer  "lms_course_id"
     t.integer  "lms_user_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+    t.integer  "status",                  default: 0
+    t.decimal  "score",                   default: 0.0
+    t.text     "lis_result_sourcedid",    default: ""
+    t.text     "lis_outcome_service_url", default: ""
+    t.integer  "lti_application_id"
   end
 
   add_index "registrations", ["lms_course_id"], name: "index_registrations_on_lms_course_id", using: :btree
   add_index "registrations", ["lms_user_id"], name: "index_registrations_on_lms_user_id", using: :btree
+  add_index "registrations", ["lti_application_id"], name: "index_registrations_on_lti_application_id", using: :btree
 
   create_table "roles", force: :cascade do |t|
     t.string   "name"
@@ -109,9 +115,15 @@ ActiveRecord::Schema.define(version: 20161101213510) do
   end
 
   create_table "scorm_courses", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.integer  "lms_assignment_id"
+    t.float    "points_possible"
+    t.integer  "scorm_cloud_id"
   end
+
+  add_index "scorm_courses", ["lms_assignment_id"], name: "index_scorm_courses_on_lms_assignment_id", using: :btree
+  add_index "scorm_courses", ["scorm_cloud_id"], name: "index_scorm_courses_on_scorm_cloud_id", unique: true, using: :btree
 
   create_table "sections", force: :cascade do |t|
     t.integer  "course_id"
