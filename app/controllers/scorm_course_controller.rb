@@ -27,9 +27,24 @@ class ScormCourseController < ApplicationController
   end
 
   def postback
+    puts params[:password]
+    puts response
+
     response = Hash.from_xml(params[:data])
-    @scorm_cloud.sync_registration_score(response["registrationreport"])
+    registration_report = response["registration_report"]
+    reg_id = registration_report && registration_report["regid"]
+    return json: {}, status: 400 if registration_report.nil? || reg_id.nil?
+    validate_postback(reg_id, params[:password])
+
+    @scorm_cloud.sync_registration_score(registration_report)
     render json: {}, status: 200
+  end
+
+  def validate_postback(reg_id, password)
+    reg = Registration.find(reg_id)
+    if reg != password
+      render json: {error: "Postback password does not match registration"}, status: :unauthorized
+    end
   end
 
   private
