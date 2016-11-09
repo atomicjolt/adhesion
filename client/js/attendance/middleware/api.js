@@ -3,9 +3,18 @@ import { DONE }    from "../../constants/wrapper";
 
 const API = store => next => action => {
 
-  function request(method, url, params, body){
+  function request(method, url, params, body, headers){
     const state = store.getState();
-    const promise = api.execRequest(method, url, state.settings.apiUrl, state.jwt, state.settings.csrfToken, params, body);
+    const updatedParams = {
+      ...{
+        // Add consumer key to requests so we can figure out which lti app requests are originating from
+        oauth_consumer_key: state.settings.oauthConsumerKey
+      },
+      ...params
+    };
+
+    const promise = api.execRequest(method, url, state.settings.apiUrl, state.jwt, state.settings.csrfToken, updatedParams, body, headers);
+
     if(promise){
       promise.then(
         (response) => {
@@ -29,7 +38,7 @@ const API = store => next => action => {
   };
 
   if(action.method){
-    request(action.method, action.url, action.params, action.body);
+    request(action.method, action.url, action.params, action.body, action.headers);
   }
 
   // call the next middleWare
