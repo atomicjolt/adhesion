@@ -9,12 +9,10 @@ const actions = [
 // Actions that make an api request
 const requests = [
   "LOAD_PACKAGES",
-  // "LOAD_LAUNCH_URL",
   "UPLOAD_PACKAGE",
   "REMOVE_PACKAGE",
   "UPDATE_UPLOAD_FILE",
   "PREVIEW_PACKAGE",
-  // "IMPORT_PACKAGE",
   "UPDATE_PACKAGE"
 ];
 
@@ -25,12 +23,6 @@ export const loadPackages = () => ({
   type: Constants.LOAD_PACKAGES,
   url: '/api/scorm_courses'
 });
-
-// export const loadLaunchUrl = (courseId, studentId) => ({
-//   method: Network.GET,
-//   type: Constants.LOAD_LAUNCH_URL,
-//   url: `/api/scorm_courses/${courseId}/launch`
-// });
 
 export const uploadPackage = (file) => {
   var form = new FormData();

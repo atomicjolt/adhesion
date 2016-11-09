@@ -1,5 +1,4 @@
 import { Constants as PackageConstants }   from "../actions/scorm";
-import _                                   from 'lodash';
 
 const initialState = {
   scormList: [],
@@ -15,17 +14,17 @@ export default (state = initialState, action) => {
         scormList: action.payload.response,
         shouldRefreshList: false,
         file: null
-      }; 
+      };
 
     case PackageConstants.UPLOAD_PACKAGE:
       let file = action.upload;
       let showUpload = true;
-      return {...state, showUploading: showUpload, file: file};
+      return {...state, showUploading: showUpload, file};
 
     case PackageConstants.REMOVE_PACKAGE_DONE:
     case PackageConstants.UPLOAD_PACKAGE_DONE:
       if (action.error) {
-        return {...state, file: action.original.upload, uploadError: true}
+        return {...state, file: action.original.upload, uploadError: true};
       } else {
         return {...state, shouldRefreshList: true};
       }
