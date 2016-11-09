@@ -15,7 +15,6 @@ export default (state = initialState(), action) => {
     case AttendanceConstants.GET_STUDENT_ATTENDANCE_DONE:
     case AttendanceConstants.DOWNLOAD_FILE_DONE:
     case ErrorConstants.ERROR:
-      debugger;
       const status = action.response ? action.response.status : "";
       const newState = {...state, ...{showError: action.error, statusCode: status}};
       return newState;

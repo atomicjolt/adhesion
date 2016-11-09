@@ -62,11 +62,12 @@ Rails.application.routes.draw do
       resources :sections, only: [] do
         resources :students, only: [:index]
       end
+    end
 
+    resources :courses do
       resources :attendances, only: [:index, :create, :update] do
         get 'search', on: :collection
       end
-
     end
   end
 
