@@ -54,7 +54,7 @@ describe('Student List', () => {
       const students = result.markAll("PRESENT");
       expect(props.markStudents).toHaveBeenCalledWith(
         students,
-        props.settings.lms_course_id,
+        props.settings.lmsCourseId,
         props.application.date,
         "PRESENT"
       );
