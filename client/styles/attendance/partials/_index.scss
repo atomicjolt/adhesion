@@ -1,0 +1,353 @@
+.c-top-bar{
+  height: 6rem;
+  padding: 1rem;
+  max-width: 75rem;
+  position: relative;
+}
+
+.c-btn{
+  padding: 1rem 2rem;
+  @include bold;
+  color: $gray;
+  text-transform: uppercase;
+  font-size: 1.4rem;
+  border: none;
+  outline: none;
+  background: none;
+  @include transition(all 0.1s ease);
+  cursor: pointer;
+  height: 4rem;
+}
+
+.c-btn--mark-all{
+    background: $lightest-gray;
+    margin-right: 1rem;
+    &:hover{
+      background: $green;
+      color: $white;
+    }
+}
+
+.c-btn--unmark-all{
+    background: $lightest-gray;
+    margin-right: 1rem;
+    &:hover{
+      background: $gray;
+      color: $white;
+    }
+}
+
+.c-date-picker{
+  position: absolute;
+  display: inline-block;
+  right: 1rem;
+  z-index: 1;
+}
+
+.c-date-calendar{
+  position: absolute;
+  top: 45px;
+  z-index: 1;
+}
+
+.c-btn--previous{
+  padding: 0;
+  height: 4rem;
+  background: $lightest-gray;
+  svg{
+    width: 2rem;
+    height: 2rem;
+    position: relative;
+    top: 0rem;
+    @include transform(rotate(90deg));
+    path:nth-of-type(1){
+      fill: $gray;
+    }
+  }
+  &:hover{
+    background: $light-gray;
+    svg path:nth-of-type(1){
+      fill: $white;
+    }
+  }
+}
+.c-btn--date{
+  padding: 0.8rem 1rem;
+  width: 170px;
+  border: 0.2rem solid $lightest-gray;
+  position: relative;
+  color: $dark-gray;
+  span{
+    margin-right: 18px
+  }
+  svg{
+    width: 2rem;
+    height: 2rem;
+    position: absolute;
+    top: 0.8rem;
+    right: 0.8rem;
+    path:nth-of-type(1){
+      fill: $gray;
+    }
+  }
+  &:hover{
+    svg path:nth-of-type(1){
+      fill: $blue;
+    }
+  }
+}
+.c-btn--next{
+  padding: 0;
+  height: 4rem;
+  background: $lightest-gray;
+  svg{
+    width: 2rem;
+    height: 2rem;
+    position: relative;
+    top: 0rem;
+    @include transform(rotate(-90deg));
+    path:nth-of-type(1){
+      fill: $gray;
+    }
+  }
+  &:hover{
+    background: $light-gray;
+    svg path:nth-of-type(1){
+      fill: $white;
+    }
+  }
+}
+
+.c-table{
+  margin-top: 1rem;
+  width: 100%;
+  max-width: 75rem;
+  border-collapse: collapse;
+
+  tr{
+
+    &:hover{
+      td{
+        background: $lightest-gray;
+      }
+    }
+
+    td{
+      vertical-align: middle;
+      padding: 1rem;
+      border-bottom: 0.1rem solid $light-gray;
+      border-top: 0.1rem solid $light-gray;
+    }
+    td:nth-of-type(1){
+      width: 6rem;
+      text-align: center;
+    }
+    td:nth-of-type(2){
+      text-align: left;
+    }
+    td:nth-of-type(3){
+      text-align: right;
+    }
+  }
+}
+
+.c-name{
+  @include semi-bold;
+  color: $dark-gray;
+  font-size: 1.6rem;
+}
+
+.c-profile-pic{
+  width: 4rem;
+  height: 4rem;
+}
+
+.c-attendance{
+
+  input[type="radio"]{
+    width: 0.01rem;
+    height: 0.01rem;
+    display: none;
+    opacity: 0;
+  }
+  label{
+    width: 4rem;
+    height: 4rem;
+    padding: 0.3rem;
+    border-radius: 50%;
+    position: relative;
+    margin-left: 1rem;
+    display: inline-block;
+    cursor: pointer;
+  }
+}
+
+  .c-present{
+    background: white;
+    svg{
+      width: 3.4rem;
+      height: 3.4rem;
+      path:nth-of-type(2), path:nth-of-type(3){
+        fill: $light-gray;
+      }
+    }
+    input[type="radio"]:checked ~ svg{
+      path:nth-of-type(2), path:nth-of-type(3){fill: $green;}
+    }
+  }
+  .c-late{
+    background: white;
+    svg{
+      width: 3.4rem;
+      height: 3.4rem;
+      path:nth-of-type(2), path:nth-of-type(3){
+        fill: $light-gray;
+      }
+    }
+    input[type="radio"]:checked ~ svg{
+      path:nth-of-type(2), path:nth-of-type(3){fill: $yellow;}
+    }
+  }
+  .c-absent{
+    background: white;
+    svg{
+      width: 3.4rem;
+      height: 3.4rem;
+      path:nth-of-type(2){
+        fill: $light-gray;
+      }
+    }
+    input[type="radio"]:checked ~ svg{
+      path:nth-of-type(2){fill: $red;}
+    }
+  }
+
+
+.c-popup{
+  max-width: 30rem;
+  width: 100%;
+  background: $white;
+  box-shadow: 0 0 2rem rgba(0,0,0,.5);
+  position: absolute;
+  top: -30rem;
+  left: 50%;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  transition: all 0.4s ease;
+  -webkit-transition: all 0.4s ease;
+  -moz-transition: all 0.4s ease;
+  -ms-transition: all 0.4s ease;
+  z-index: 999;
+
+  &.is-open{
+    top: 10rem;
+  }
+}
+
+.c-popup--export{
+  max-width: 50rem;
+}
+
+  .c-popup__title{
+    @include bold;
+    font-size: 2.4rem;
+    font-weight: normal;
+    text-align: center;
+    margin: 3rem 2rem 1rem;
+    color: $red;
+    text-transform: uppercase;
+  }
+
+  .c-popup__message{
+    @include semi-bold;
+    font-size: 1.6rem;
+    text-align: center;
+    margin: 1rem 2rem 3rem;
+    color: $dark-gray;
+  }
+
+  .c-popup__btn{
+    background: $red;
+    @include bold;
+    display: block;
+    padding: 1.5rem 2rem;
+    text-align: center;
+    font-size: 1.4rem;
+    color: $white;
+    border: none;
+    outline: none;
+    text-transform: uppercase;
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.1s ease;
+    -webkit-transition: all 0.1s ease;
+    -moz-transition: all 0.1s ease;
+    -ms-transition: all 0.1s ease;
+
+    &:hover{
+      background: darken($red, 8%);
+    }
+  }
+
+  .c-btn--export{
+    background-color: #f5f5f5;
+  }
+
+  .c-popup__left{
+    width: 50%;
+    min-height: 1rem;
+    float: left;
+    height: 22rem;
+
+    button{
+      position: relative;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      -webkit-transform: translate(-50%,-50%);
+      -moz-transform: translate(-50%,-50%);
+      -ms-transform: translate(-50%,-50%);
+    }
+  }
+
+  .c-popup__right{
+    width: 50%;
+    float: left;
+    border-left: 0.1rem solid $light-gray;
+    padding: 2rem;
+
+    .c-btn--export{
+      margin-top: 1rem;
+      position: relative;
+      left: 50%;
+      transform: translate(-50%,0);
+      -webkit-transform: translate(-50%,0);
+      -moz-transform: translate(-50%,0);
+      -ms-transform: translate(-50%,0);
+    }
+  }
+
+.c-popup__label{
+    display: block;
+    padding: 0 1rem 1rem;
+
+    & > span{
+      display: block;
+      @include semi-bold;
+      font-size: 1.2rem;
+      color: $gray;
+      margin-bottom: 0.5rem;
+    }
+
+    .c-btn--date{
+      width: 100%;
+      padding-left: 1.5rem;
+      text-align: left;
+
+      & > span{
+
+      }
+    }
+  }

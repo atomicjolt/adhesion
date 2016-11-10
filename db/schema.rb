@@ -16,6 +16,15 @@ ActiveRecord::Schema.define(version: 20161107150841) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "attendances", force: :cascade do |t|
+    t.integer "lms_student_id"
+    t.integer "lms_course_id"
+    t.date    "date"
+    t.string  "status"
+    t.string  "name"
+    t.string  "sortable_name"
+  end
+
   create_table "authentications", force: :cascade do |t|
     t.integer  "user_id"
     t.string   "provider"
@@ -40,23 +49,38 @@ ActiveRecord::Schema.define(version: 20161107150841) do
   add_index "authentications", ["provider", "uid"], name: "index_authentications_on_provider_and_uid", using: :btree
   add_index "authentications", ["user_id"], name: "index_authentications_on_user_id", using: :btree
 
-  create_table "lti_applications", force: :cascade do |t|
+  create_table "courses", force: :cascade do |t|
+    t.string   "lms_course_id"
     t.string   "name"
-    t.string   "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "courses", ["lms_course_id"], name: "index_courses_on_lms_course_id", using: :btree
+
+  create_table "lti_application_instances", force: :cascade do |t|
+    t.integer  "lti_application_id"
     t.string   "lti_key"
     t.string   "lti_secret"
     t.integer  "lti_type",                    default: 0
     t.string   "lti_consumer_uri"
-    t.string   "client_application_name"
     t.string   "encrypted_canvas_token"
     t.string   "encrypted_canvas_token_salt"
     t.string   "encrypted_canvas_token_iv"
     t.datetime "created_at",                              null: false
     t.datetime "updated_at",                              null: false
-    t.text     "canvas_api_permissions"
   end
 
-  add_index "lti_applications", ["lti_key"], name: "index_lti_applications_on_lti_key", unique: true, using: :btree
+  add_index "lti_application_instances", ["lti_application_id"], name: "index_lti_application_instances_on_lti_application_id", using: :btree
+
+  create_table "lti_applications", force: :cascade do |t|
+    t.string   "name"
+    t.string   "description"
+    t.string   "client_application_name"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.text     "canvas_api_permissions"
+  end
 
   create_table "nonces", force: :cascade do |t|
     t.string   "nonce"
@@ -107,6 +131,29 @@ ActiveRecord::Schema.define(version: 20161107150841) do
 
   add_index "scorm_courses", ["lms_assignment_id"], name: "index_scorm_courses_on_lms_assignment_id", using: :btree
   add_index "scorm_courses", ["scorm_cloud_id"], name: "index_scorm_courses_on_scorm_cloud_id", unique: true, using: :btree
+
+  create_table "sections", force: :cascade do |t|
+    t.integer  "course_id"
+    t.string   "lms_section_id"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "sections", ["course_id"], name: "index_sections_on_course_id", using: :btree
+  add_index "sections", ["lms_section_id"], name: "index_sections_on_lms_section_id", using: :btree
+
+  create_table "user_courses", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "course_id"
+    t.integer "role_id",    default: 2
+    t.integer "section_id"
+  end
+
+  add_index "user_courses", ["course_id"], name: "index_user_courses_on_course_id", using: :btree
+  add_index "user_courses", ["role_id"], name: "index_user_courses_on_role_id", using: :btree
+  add_index "user_courses", ["section_id"], name: "index_user_courses_on_section_id", using: :btree
+  add_index "user_courses", ["user_id"], name: "index_user_courses_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",    null: false

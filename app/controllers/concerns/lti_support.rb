@@ -2,10 +2,14 @@ module Concerns
   module LtiSupport
     extend ActiveSupport::Concern
 
+    included do
+      helper_method :lti_provider
+    end
+
     protected
 
       def do_lti
-        if valid_lti_request?(current_lti_application.lti_key, current_lti_application.lti_secret)
+        if valid_lti_request?(current_lti_application_instance.lti_key, current_lti_application_instance.lti_secret)
           if user = user_from_lti
             sign_in(user, event: :authentication)
             return

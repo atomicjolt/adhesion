@@ -45,6 +45,13 @@ Rails.application.routes.draw do
     resources :lti_installs
   end
 
+
+  resources :courses, only:[] do
+    resources :exports, only: [] do
+      get 'attendance', on: :collection
+    end
+  end
+
   namespace :api do
     resources :jwts
     resources :scorm_courses do
@@ -54,6 +61,12 @@ Rails.application.routes.draw do
       resources :students, only: [:index]
       resources :sections, only: [] do
         resources :students, only: [:index]
+      end
+    end
+
+    resources :courses do
+      resources :attendances, only: [:index, :create, :update] do
+        get 'search', on: :collection
       end
     end
   end
