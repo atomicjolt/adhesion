@@ -1,10 +1,10 @@
 class ScormCourseController < ApplicationController
+  include Concerns::LtiSupport
+
   protect_from_forgery with: :null_session
   before_action :setup
   before_action :validate_postback_credentials, only: [:postback]
-
-
-  #TODO figure out authentication
+  before_action :do_lti
 
   def create
     launch = @scorm_cloud.launch_course(

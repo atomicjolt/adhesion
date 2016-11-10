@@ -147,7 +147,7 @@ class ScormCloudService
           last_name,
           registration_params[:lms_user_id],
           {
-            postbackurl: 'http://03988cab.ngrok.io/scorm_course/postback', #postback_url,
+            postbackurl: postback_url,
             authtype: 'form',
             urlpass: registration.scorm_cloud_passback_secret
           }
