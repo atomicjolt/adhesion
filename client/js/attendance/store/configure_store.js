@@ -2,7 +2,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { persistState }                          from 'redux-devtools';
 import rootReducer                               from '../reducers';
 import DevTools                                  from '../../dev/dev_tools.jsx';
-import API                                       from '../middleware/api';
+import API                                       from '../../middleware/api';
 import CanvasApi                                 from '../../libs/canvas/middleware';
 
 let middleware = [ API, CanvasApi ];

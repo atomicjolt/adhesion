@@ -8,8 +8,8 @@ import { Provider }             from 'react-redux';
 import routes                   from './scorm/routes';
 import DevTools                 from './dev/dev_tools';
 import configureStore           from './scorm/store/configure_store';
-import jwt                      from './scorm/loaders/jwt';
-import { getInitialSettings }   from './scorm/reducers/settings';
+import jwt                      from './loaders/jwt';
+import { getInitialSettings }   from './reducers/settings';
 
 // Polyfill es6 promises for IE
 es6Promise.polyfill();

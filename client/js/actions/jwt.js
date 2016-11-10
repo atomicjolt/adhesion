@@ -1,7 +1,7 @@
 "use strict";
 
-import wrapper    from "../../constants/wrapper";
-import Network    from "../../constants/network";
+import wrapper    from "../constants/wrapper";
+import Network    from "../constants/network";
 
 // Local actions
 const actions = [];
@@ -17,6 +17,6 @@ export function refreshJwt(userId){
   return {
     type:   Constants.REFRESH_JWT,
     method: Network.GET,
-    url:    `api/jwts/${userId}`
+    url:    `api/sessions/${userId}`
   };
 }
