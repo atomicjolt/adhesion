@@ -41,8 +41,8 @@ export class StudentList extends React.Component{
   }
 
   componentWillMount(){
-    this.props.canvasRequest(list_users_in_course_users, {course_id: this.props.settings.lms_course_id, enrollment_type: ["student"], include: ["avatar_url"]}, {});
-    this.props.getStudentAttendance(this.props.application.date, this.props.settings.lms_course_id);
+    this.props.canvasRequest(list_users_in_course_users, {course_id: this.props.settings.lmsCourseId, enrollment_type: ["student"], include: ["avatar_url"]}, {});
+    this.props.getStudentAttendance(this.props.application.date, this.props.settings.lmsCourseId);
   }
 
   updateStudentAttendance(student, status){
@@ -51,7 +51,7 @@ export class StudentList extends React.Component{
       lms_student_id: student.lms_student_id,
       sortable_name: student.sortable_name
     }],
-      this.props.settings.lms_course_id,
+      this.props.settings.lmsCourseId,
       this.props.application.date,
       status
     );
@@ -60,7 +60,7 @@ export class StudentList extends React.Component{
   handleDateChange(date){
     this.props.changeDate(date);
     //TODO Find a way to wrap these into one dispatch
-    this.props.getStudentAttendance(date, this.props.settings.lms_course_id);
+    this.props.getStudentAttendance(date, this.props.settings.lmsCourseId);
   }
 
   sortStudents(students){
@@ -93,7 +93,7 @@ export class StudentList extends React.Component{
       students.push(student);
       return students;
     }, []);
-    this.props.markStudents(students, this.props.settings.lms_course_id, this.props.application.date, status);
+    this.props.markStudents(students, this.props.settings.lmsCourseId, this.props.application.date, status);
     return students;
   }
 
@@ -116,7 +116,7 @@ export class StudentList extends React.Component{
     if(this.state.showExportModal){
       return <ExportModal
             apiUrl={this.props.settings.apiUrl}
-            lmsCourseId={this.props.settings.lms_course_id}
+            lmsCourseId={this.props.settings.lmsCourseId}
             downloadFile={this.props.downloadFile}
             onExport={() => this.toggleExportModal()}
             onOutsideClick={() => this.toggleExportModal()}

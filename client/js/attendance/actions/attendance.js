@@ -15,21 +15,22 @@ const requests = [
 
 export const Constants = wrapper(actions, requests);
 
-export const getStudentAttendance = (date, lms_course_id) => ({
+export const getStudentAttendance = (date, lmsCourseId) => ({
   type: Constants.GET_STUDENT_ATTENDANCE,
   method: Network.GET,
-  url: `api/courses/${lms_course_id}/attendances/search?date=${date}`,
+  url: `api/courses/${lmsCourseId}/attendances/search`,
+  params: { date },
   date
 });
 
-export const markStudents = (students, lms_course_id, date, status) => {
+export const markStudents = (students, lmsCourseId, date, status) => {
   return {
     type:   Constants.UPDATE_STATUS,
     method: Network.POST,
-    url:    `api/courses/${lms_course_id}/attendances`,
+    url:    `api/courses/${lmsCourseId}/attendances`,
     body: {
       students,
-      lms_course_id,
+      lms_course_id: lmsCourseId,
       date,
       status
     }
