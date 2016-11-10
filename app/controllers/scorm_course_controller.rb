@@ -40,9 +40,7 @@ class ScormCourseController < ApplicationController
 
     begin
       reg = Registration.find(reg_id)
-      if(reg.scorm_cloud_passback_secret != params[:password])
-        raise ScormCloudError.new
-      end
+      raise ScormCloudError.new if(reg.scorm_cloud_passback_secret != params[:password])
     rescue ScormCloudError, ActiveRecord::RecordNotFound => e
       render json: {error: 'Not Authorized'}, status: 400
     end
