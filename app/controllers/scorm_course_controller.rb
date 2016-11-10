@@ -1,9 +1,10 @@
 class ScormCourseController < ApplicationController
+  include Concerns::LtiSupport
+
   protect_from_forgery with: :null_session
   before_action :setup
-
-
-  #TODO figure out authentication
+  before_action :validate_postback_credentials, only: [:postback]
+  before_action :do_lti, only: [:create]
 
   def create
     launch = @scorm_cloud.launch_course(
@@ -33,6 +34,19 @@ class ScormCourseController < ApplicationController
   end
 
   private
+    def validate_postback_credentials
+      response = Hash.from_xml(params[:data])
+      registration_report = response["registrationreport"]
+      reg_id = registration_report && registration_report["regid"]
+
+      begin
+        reg = Registration.find(reg_id)
+        raise ScormCloudError.new if(reg.scorm_cloud_passback_secret != params[:password])
+      rescue ScormCloudError, ActiveRecord::RecordNotFound => e
+        render json: {error: 'Not Authorized'}, status: 400
+      end
+    end
+
     def setup
       @scorm_cloud = ScormCloudService.new
     end
