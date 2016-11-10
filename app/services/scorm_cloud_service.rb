@@ -147,7 +147,9 @@ class ScormCloudService
           last_name,
           registration_params[:lms_user_id],
           {
-            postbackurl: postback_url
+            postbackurl: postback_url,
+            authtype: 'form',
+            urlpass: registration.scorm_cloud_passback_secret
           }
         )
   		end
@@ -231,4 +233,7 @@ class ScormCloudService
     handle_fail.call if handle_fail.respond_to? :call
     return response
   end
+end
+
+class ScormCloudError < StandardError
 end
