@@ -234,3 +234,6 @@ class ScormCloudService
     return response
   end
 end
+
+class ScormCloudError < StandardError
+end
