@@ -18,7 +18,8 @@ export const Constants = wrapper(actions, requests);
 export const getStudentAttendance = (date, lmsCourseId) => ({
   type: Constants.GET_STUDENT_ATTENDANCE,
   method: Network.GET,
-  url: `api/courses/${lmsCourseId}/attendances/search?date=${date}`,
+  url: `api/courses/${lmsCourseId}/attendances/search`,
+  params: { date },
   date
 });
 
