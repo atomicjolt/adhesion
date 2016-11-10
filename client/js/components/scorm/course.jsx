@@ -5,12 +5,14 @@ import { connect }              from 'react-redux';
 
 const GradedAssign = (props) => {
   return (
-    <button className="c-icon-btn" style={{display: (props.isGradeActive) ? "inline" : "none"}}>
-      <svg className="c-icon" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
-          <path d="M0 0h48v48h-48z" fill="none"/>
-          <path className="c-path" d="M28 4h-16c-2.21 0-3.98 1.79-3.98 4l-.02 32c0 2.21 1.77 4 3.98 4h24.02c2.21 0 4-1.79 4-4v-24l-12-12zm4 32h-16v-4h16v4zm0-8h-16v-4h16v4zm-6-10v-11l11 11h-11z"/>
-      </svg>
-    </button>
+    <a href='#'>
+      <button className="c-icon-btn" style={{display: (props.isGradeActive) ? "inline" : "none"}}>
+        <svg className="c-icon" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+            <path d="M0 0h48v48h-48z" fill="none"/>
+            <path className="c-path" d="M28 4h-16c-2.21 0-3.98 1.79-3.98 4l-.02 32c0 2.21 1.77 4 3.98 4h24.02c2.21 0 4-1.79 4-4v-24l-12-12zm4 32h-16v-4h16v4zm0-8h-16v-4h16v4zm-6-10v-11l11 11h-11z"/>
+        </svg>
+      </button>
+    </a>
   );
 };
 
@@ -39,9 +41,12 @@ const PreviewButton = (props) => {
 export default class Course extends React.Component {
   constructor(props){
     super(props);
-
-    this.state = { isShowDesc: false, isGoBtnActive: "inactive", selectVal: "0", isGradeActive: false};
-    // this.handleDesc = this.handleDesc.bind(this);
+    this.state = {
+      isShowDesc: false,
+      isGoBtnActive: "inactive",
+      selectVal: this.formatGraded(props.course),
+      isGradeActive: props.course.is_graded
+    };
     this.handleImportType = this.handleImportType.bind(this);
     this.handleGoClick = this.handleGoClick.bind(this);
   }
@@ -50,17 +55,12 @@ export default class Course extends React.Component {
     course: React.PropTypes.object.isRequired
   };
 
-  // handleLaunch(){
-  //   this.props.loadLaunchUrl(this.props.course.id, this.props.studentId);
-  // }
-
   handleGraded(){
     const courseId = this.props.course.id;
     // this.props.removePackage(courseId);
   }
 
   handleRemove(){
-    // TODO figure out why canvas api request is failing
     this.props.removePackage(
       this.props.course.lms_assignment_id,
       this.props.course.id
@@ -70,17 +70,6 @@ export default class Course extends React.Component {
   handlePreview(){
     this.props.previewPackage(this.props.course.id);
   }
-
-  // handleDesc(){
-  //   this.setState({isShowDesc: (this.state.isShowDesc) ? false : true});
-  // }
-
-  // handleImport(){
-  //   this.props.importPackage(
-  //     this.props.course.id,
-  //     this.props.course.title
-  //   );
-  // }
 
   handleImportType(event){
     var isGoBtnActive = "inactive";
@@ -93,21 +82,22 @@ export default class Course extends React.Component {
   }
 
   handleGoClick(){
-    // TODO: need to have an action that sets the import type for the course.
     if(this.state.isGoBtnActive == "active"){
       const params = this.props.importPackage(
         this.props.course.id,
         this.props.course.title
       );
-      // this.props.importPackage(
-      //   this.props.course.id,
-      //   {
-      //     course: params,
-      //     lms_course_id: this.props.lmsCourseId
-      //   }
-      // );
       this.setState({isGradeActive: true});
     }
+  }
+
+  formatGraded(course) {
+    if (course.is_graded) {
+      let word = course.is_graded.toLowerCase();
+      let formatted = word.charAt(0).toUpperCase() + word.slice(1);
+      return formatted + ' assignment';
+    }
+    return;
   }
 
   render(){
