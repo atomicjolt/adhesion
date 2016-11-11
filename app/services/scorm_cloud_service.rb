@@ -8,7 +8,7 @@ class ScormCloudService
   }
 
   def initialize
-    @scorm_cloud = ScormCloud::ScormCloud.new(ENV["SCORM_CLOUD_APP_ID"], ENV["SCORM_CLOUD_SECRET_KEY"])
+    @scorm_cloud = ScormCloud::ScormCloud.new(Rails.application.secrets.scorm_cloud_app_id, Rails.application.secrets.scorm_cloud_secret_key)
   end
 
   # def split_name(name)
