@@ -27,7 +27,7 @@ set :deploy_to, '/srv/www/adhesion'
 append :linked_files, 'config/database.yml', 'config/secrets.yml'
 
 # Default value for linked_dirs is []
- append :linked_dirs, 'log', 'vendor/bundle'
+ append :linked_dirs, 'log', 'vendor/bundle', 'tmp'
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
