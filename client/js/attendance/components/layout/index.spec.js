@@ -3,8 +3,6 @@
 import React        from 'react';
 import ReactDOM     from 'react-dom';
 import TestUtils    from 'react/lib/ReactTestUtils';
-import { Provider } from 'react-redux'
-import Helper       from '../../../specs_support/helper';
 import Index        from './index';
 
 describe('index', function() {
@@ -13,7 +11,7 @@ describe('index', function() {
 
   beforeEach(()=>{
     props = {};
-    result = TestUtils.renderIntoDocument(<Provider store={Helper.makeStore()}><Index {...props} /></Provider>);
+    result = TestUtils.renderIntoDocument(<Index {...props} />);
   });
 
   it('renders the index', function() {

@@ -3,20 +3,12 @@
 import React                    from "react";
 import { connect }              from "react-redux";
 
-@connect((state) => (state), null, null, {withRef: true})
-class Index extends React.Component {
-
-  constructor(){
-    super();
-    this.state = {};
-  }
-
+export default class Index extends React.Component {
   render(){
-    return<div>
-      {this.props.children}
-    </div>;
+    return(
+      <div>
+        {this.props.children}
+      </div>
+    );
   }
-
 }
-
-export default Index;
