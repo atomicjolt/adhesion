@@ -14,7 +14,7 @@ class ScormCourseController < ApplicationController
       last_name: params[:lis_person_name_family],
       redirect_url: params[:launch_presentation_return_url],
       postback_url: scorm_course_postback_url,
-      lti_credentials: current_lti_application,
+      lti_credentials: current_lti_application_instance,
       result_params: params
     )
 
