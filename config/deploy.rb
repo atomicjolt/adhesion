@@ -23,7 +23,8 @@ set :deploy_to, '/srv/www/adhesion'
 # Default value for :pty is false
 # set :pty, true
 
-set :logtail_files, %W( /srv/www/#{fetch(:application)}/current/log/#{fetch(:rails_env)}.log )
+set :rails_env, 'production'
+set :logtail_files, -> { %W( /srv/www/#{fetch(:application)}/current/log/#{fetch(:rails_env)}.log ) }
 set :logtail_lines, 50
 
 # Default value for :linked_files is []
