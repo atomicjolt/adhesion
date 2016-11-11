@@ -40,13 +40,6 @@ set :unicorn_pid, "/tmp/unicorn.#{fetch(:application)}.pid"
 set :logtail_files, %W( /srv/www/#{fetch(:application)}/current/log/#{fetch(:rails_env)}.log )
 set :logtail_lines, 50
 
-namespace :deploy do
-  task :restart do
-    invoke "touch /srv/www/#{fetch(:application)}/current/tmp/restart.txt"
-  end
-end
-after 'deploy:published', 'deploy:restart'
-
 # Clear existing task so we can replace it rather than "add" to it.
 Rake::Task["deploy:compile_assets"].clear
 Rake::Task["deploy:rollback_assets"].clear

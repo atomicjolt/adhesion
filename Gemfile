@@ -100,4 +100,5 @@ group :production do
   gem 'capistrano-upload', require: false
   gem 'capistrano-db-tasks', require: false
   gem 'cap-ec2', require: false
+  gem 'capistrano-passenger', require: false
 end

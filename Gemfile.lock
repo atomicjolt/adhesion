@@ -92,6 +92,8 @@ GEM
     capistrano-harrow (0.5.3)
     capistrano-logtail (0.1.1)
       capistrano (>= 3.0.0, < 4.0.0)
+    capistrano-passenger (0.2.0)
+      capistrano (~> 3.0)
     capistrano-rails (1.1.8)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
@@ -399,6 +401,7 @@ DEPENDENCIES
   capistrano-bundler
   capistrano-db-tasks
   capistrano-logtail
+  capistrano-passenger
   capistrano-rails
   capistrano-shell
   capistrano-upload
