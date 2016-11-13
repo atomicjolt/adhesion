@@ -59,32 +59,21 @@ RSpec.describe Api::ScormCoursesController, type: :controller do
     end
   end
 
-  # describe "GET show" do
-  #   mock_scorm_cloud = ScormCloud::ScormCloud.new("", "")
-  #   mock_course_service = ScormCloud::CourseService.new("")
-  #   mock_course = ScormCloud::Course.new
-  #   mock_cloud_exception = ScormCloud::RequestError.new(REXML::Document.new, "")
-  #
-  #   it "should return course data" do
-  #     expect(ScormCloud::ScormCloud).to receive(:new).and_return(mock_scorm_cloud)
-  #     expect(mock_scorm_cloud).to receive(:course).at_least(:once).and_return(mock_course_service)
-  #     expect(mock_course_service).to receive(:get_attributes).at_most(:once).and_return({test:"data"})
-  #
-  #     get :show, id: 1
-  #     expect(response.body).to include("{\"test\":\"data\"}")
-  #   end
-  #
-  #   it "should handle course does not exist" do
-  #     expect(ScormCloud::ScormCloud).to receive(:new).and_return(mock_scorm_cloud)
-  #     expect(mock_scorm_cloud).to receive(:course).at_least(:once).and_return(mock_course_service)
-  #     expect(mock_course_service).to receive(:get_attributes).at_most(:once).and_raise(mock_cloud_exception)
-  #
-  #     get :show, id: 1
-  #     expect(response).to have_http_status(400)
-  #
-  #   end
-  # end
-  #
+  describe "GET show" do
+    it "should return course manifest" do
+      course = ScormCourse.create
+      mock_scorm = object_double(
+        ScormCloudService.new,
+        course_manifest: {status: 200, response: {course: "manifest"}}
+      )
+      expect(controller).to receive(:scorm_cloud_service).and_return(mock_scorm)
+      get :show, id: course.id
+
+      expect(response).to have_http_status 200
+      expect(response.body).to include('{"course":"manifest"}')
+    end
+  end
+  
   # describe "DEL destroy" do
   #   mock_scorm_cloud = ScormCloud::ScormCloud.new("", "")
   #   mock_course_service = ScormCloud::CourseService.new("")

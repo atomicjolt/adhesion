@@ -202,7 +202,8 @@ class ScormCloudService
 
   def course_manifest(course_id)
     scorm_cloud_request do
-      @scorm_cloud.course.get_manifest(course_id)
+      resp = @scorm_cloud.course.get_manifest(course_id)
+      Hash.from_xml(resp)
     end
   end
 

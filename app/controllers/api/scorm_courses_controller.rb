@@ -26,8 +26,7 @@ class Api::ScormCoursesController < ApplicationController
 	end
 
 	def show
-    response = @scorm_cloud.course_manifest(params[:id])
-    response[:response] = Hash.from_xml(response[:response]) #TODO move parsing to service
+    response = scorm_cloud_service.course_manifest(params[:id])
     send_scorm_cloud_response(response)
 	end
 
