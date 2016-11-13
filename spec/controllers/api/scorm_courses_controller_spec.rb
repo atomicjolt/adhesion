@@ -34,54 +34,18 @@ RSpec.describe Api::ScormCoursesController, type: :controller do
 
     it "should return authorized with auth token" do
       expect(controller).to receive(:scorm_cloud_service).at_least(1).times.and_return(
-        object_double(ScormCloudService.new, :list_courses => {status: 200}, :sync_courses => {response: {}}))
+        object_double(
+          ScormCloudService.new,
+          :list_courses => {status: 200},
+          :sync_courses => {test:"data"}
+        )
+      )
       get :index, course_id: 1
       expect(response).to have_http_status 200
+      expect(JSON.parse(response.body)["response"]["test"]).to eq("data")
     end
-  #
-  #   let(:scorm_cloud) {instance_double(ScormCloud::ScormCloud)}
-  #   mock_scorm_cloud = ScormCloud::ScormCloud.new("", "")
-  #   mock_course_service = ScormCloud::CourseService.new("")
-  #   mock_course = ScormCloud::Course.new
-  #   mock_course.title = "Fake Course"
-  #   mock_course.id = "123"
-  #
-  #   it "should return courses" do
-  #     expect(ScormCloud::ScormCloud).to receive(:new).and_return(mock_scorm_cloud)
-  #     expect(mock_scorm_cloud).to receive(:course).at_least(:once).and_return(mock_course_service)
-  #     expect(mock_course_service).to receive(:get_course_list).at_most(:once).and_return([mock_course])
-  #     get :index, course_id: 1
-  #
-  #     response_body = JSON.parse(response.body)
-  #     expect(response_body).to eq([{
-  #       "title" => "Fake Course",
-  #       "id" => "123"
-  #     }])
-  #   end
   end
-  #
-  # describe "GET launch" do
-  #   let(:scorm_cloud) {instance_double(ScormCloud::ScormCloud)}
-  #   mock_scorm_cloud = ScormCloud::ScormCloud.new("", "")
-  #   mock_registration = ScormCloud::RegistrationService.new("")
-  #
-  #   it "should authenticate" do
-  #     request.headers['Authorization'] = nil
-  #     get :launch, course_id: 1
-  #     expect(response).to have_http_status(401)
-  #   end
-  #
-  #   it "should only create a course if it does not already exist" do
-  #     expect(ScormCloud::ScormCloud).to receive(:new).and_return(mock_scorm_cloud)
-  #     expect(mock_scorm_cloud).to receive(:registration).at_least(:once).and_return(mock_registration)
-  #     expect(mock_registration).to receive(:create_registration).at_most(:once).and_return([ScormCloud::Course.new])
-  #     expect(mock_registration).to receive(:launch).at_least(:once).and_return("http://fake.url.com")
-  #
-  #     get :launch, course_id: 1
-  #     get :launch, course_id: 1
-  #   end
-  # end
-  #
+
   # describe "POST create" do
   #   mock_scorm_cloud = ScormCloud::ScormCloud.new("", "")
   #   mock_course_service = ScormCloud::CourseService.new("")
