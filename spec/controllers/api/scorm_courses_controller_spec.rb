@@ -23,6 +23,14 @@ RSpec.describe Api::ScormCoursesController, type: :controller do
 
   before(:example) do
     request.headers['Authorization'] = @user_token
+    @mock_scorm = object_double(
+      ScormCloudService.new,
+      remove_course: {status: 200, response: {course: "manifest"}},
+      course_manifest: {status: 200, response: {course: "manifest"}},
+      upload_course: {status: 200},
+      :list_courses => {status: 200},
+      :sync_courses => {test:"data"}
+    )
   end
 
   describe "GET index" do
@@ -34,11 +42,7 @@ RSpec.describe Api::ScormCoursesController, type: :controller do
 
     it "should return authorized with auth token" do
       expect(controller).to receive(:scorm_cloud_service).at_least(1).times.and_return(
-        object_double(
-          ScormCloudService.new,
-          :list_courses => {status: 200},
-          :sync_courses => {test:"data"}
-        )
+        @mock_scorm
       )
       get :index, course_id: 1
       expect(response).to have_http_status 200
@@ -48,12 +52,8 @@ RSpec.describe Api::ScormCoursesController, type: :controller do
 
   describe "POST create" do
     it "should upload scorm package" do
-      mock_scorm = object_double(
-        ScormCloudService.new,
-        upload_course: {status: 200}
-      )
-      expect(controller).to receive(:scorm_cloud_service).and_return(mock_scorm)
-      expect(mock_scorm).to receive(:upload_course).with("fake_file")
+      expect(controller).to receive(:scorm_cloud_service).and_return(@mock_scorm)
+      expect(@mock_scorm).to receive(:upload_course).with("fake_file")
       post :create, file: "fake_file"
       expect(response).to have_http_status(200)
     end
@@ -62,19 +62,19 @@ RSpec.describe Api::ScormCoursesController, type: :controller do
   describe "GET show" do
     it "should return course manifest" do
       course = ScormCourse.create
-      mock_scorm = object_double(
-        ScormCloudService.new,
-        course_manifest: {status: 200, response: {course: "manifest"}}
-      )
-      expect(controller).to receive(:scorm_cloud_service).and_return(mock_scorm)
+      expect(controller).to receive(:scorm_cloud_service).and_return(@mock_scorm)
       get :show, id: course.id
 
       expect(response).to have_http_status 200
       expect(response.body).to include('{"course":"manifest"}')
     end
   end
-  
-  # describe "DEL destroy" do
+
+  describe "DEL destroy" do
+    # it "removes course" do
+      # course = ScormCourse.create
+    # end
+
   #   mock_scorm_cloud = ScormCloud::ScormCloud.new("", "")
   #   mock_course_service = ScormCloud::CourseService.new("")
   #   mock_course = ScormCloud::Course.new
@@ -101,7 +101,7 @@ RSpec.describe Api::ScormCoursesController, type: :controller do
   #     expect(response).to have_http_status 400
   #
   #   end
-  # end
+  end
   #
   # # TODO figure out how to test scorm_cloud_request
   # describe "scorm_cloud_request" do

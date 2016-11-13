@@ -37,7 +37,7 @@ class Api::ScormCoursesController < ApplicationController
   end
 
 	def destroy
-		send_scorm_cloud_response(@scorm_cloud.remove_course(params[:id]))
+		send_scorm_cloud_response(scorm_cloud_service.remove_course(params[:id]))
 	end
 
 	def preview
