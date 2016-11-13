@@ -22,7 +22,7 @@ class Api::ScormCoursesController < ApplicationController
 	end
 
 	def create
-		send_scorm_cloud_response(@scorm_cloud.upload_course(params[:file]))
+		send_scorm_cloud_response(scorm_cloud_service.upload_course(params[:file]))
 	end
 
 	def show

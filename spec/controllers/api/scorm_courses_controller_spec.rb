@@ -46,51 +46,19 @@ RSpec.describe Api::ScormCoursesController, type: :controller do
     end
   end
 
-  # describe "POST create" do
-  #   mock_scorm_cloud = ScormCloud::ScormCloud.new("", "")
-  #   mock_course_service = ScormCloud::CourseService.new("")
-  #   mock_course = ScormCloud::Course.new
-  #   mock_invalid_exception = ScormCloud::InvalidPackageError.new
-  #   mock_cloud_exception = ScormCloud::RequestError.new(REXML::Document.new, "")
-  #
-  #   it "should upload scorm package" do
-  #     expect(ScormCloud::ScormCloud).to receive(:new).and_return(mock_scorm_cloud)
-  #     expect(mock_scorm_cloud).to receive(:course).at_least(:once).and_return(mock_course_service)
-  #     expect(mock_course_service).to receive(:import_course).at_most(:once).and_return({
-  #       :title=>"Golf Explained - Run-time Advanced Calls - NEW VERSION",
-  #       :warnings=>[]
-  #     })
-  #
-  #     post :create, filename: "fake_file"
-  #     response_body = JSON.parse(response.body)
-  #     expect(response_body).to eq({
-  #       "response"=>{"title"=>"Golf Explained - Run-time Advanced Calls - NEW VERSION", "warnings"=>[]}
-  #     })
-  #     expect(ScormCourse.all.count).to equal(1)
-  #   end
-  #
-  #   it "should handle when no file is uploaded" do
-  #     expect(ScormCloud::ScormCloud).to receive(:new).and_return(mock_scorm_cloud)
-  #     expect(mock_scorm_cloud).to receive(:course).at_least(:once).and_return(mock_course_service)
-  #     expect(mock_course_service).to receive(:import_course).at_most(:once).and_raise(mock_invalid_exception)
-  #
-  #     post :create, filename: "fake_file"
-  #
-  #     expect(response).to have_http_status(400)
-  #   end
-  #
-  #   it "should handle scorm cloud error" do
-  #     expect(ScormCloud::ScormCloud).to receive(:new).and_return(mock_scorm_cloud)
-  #     expect(mock_scorm_cloud).to receive(:course).at_least(:once).and_return(mock_course_service)
-  #     expect(mock_course_service).to receive(:import_course).at_most(:once).and_raise(mock_cloud_exception)
-  #
-  #
-  #     post :create, filename: "fake_file"
-  #
-  #     expect(response).to have_http_status(400)
-  #   end
-  # end
-  #
+  describe "POST create" do
+    it "should upload scorm package" do
+      mock_scorm = object_double(
+        ScormCloudService.new,
+        upload_course: {status: 200}
+      )
+      expect(controller).to receive(:scorm_cloud_service).and_return(mock_scorm)
+      expect(mock_scorm).to receive(:upload_course).with("fake_file")
+      post :create, file: "fake_file"
+      expect(response).to have_http_status(200)
+    end
+  end
+
   # describe "GET show" do
   #   mock_scorm_cloud = ScormCloud::ScormCloud.new("", "")
   #   mock_course_service = ScormCloud::CourseService.new("")
