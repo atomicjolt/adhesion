@@ -16,8 +16,8 @@ class Api::ScormCoursesController < ApplicationController
 	end
 
 	def index
-    courses = @scorm_cloud.list_courses
-    courses[:response] = @scorm_cloud.sync_courses(courses[:response])
+    courses = scorm_cloud_service.list_courses
+    courses[:response] = scorm_cloud_service.sync_courses(courses[:response])
     send_scorm_cloud_response(courses)
 	end
 
@@ -49,5 +49,9 @@ class Api::ScormCoursesController < ApplicationController
   private
     def setup
       @scorm_cloud = ScormCloudService.new
+    end
+
+    def scorm_cloud_service
+      ScormCloudService.new
     end
 end
