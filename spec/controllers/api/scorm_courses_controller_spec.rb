@@ -25,12 +25,13 @@ RSpec.describe Api::ScormCoursesController, type: :controller do
     request.headers['Authorization'] = @user_token
     @mock_scorm = object_double(
       ScormCloudService.new,
-      remove_course: {status: 200, response: {course: "manifest"}},
+      remove_course: {status: 200, response: {removed: true}},
       course_manifest: {status: 200, response: {course: "manifest"}},
       upload_course: {status: 200},
       :list_courses => {status: 200},
       :sync_courses => {test:"data"}
     )
+    expect(controller).to receive(:scorm_cloud_service).and_return(@mock_scorm)
   end
 
   describe "GET index" do
@@ -71,62 +72,15 @@ RSpec.describe Api::ScormCoursesController, type: :controller do
   end
 
   describe "DEL destroy" do
-    # it "removes course" do
-      # course = ScormCourse.create
-    # end
-
-  #   mock_scorm_cloud = ScormCloud::ScormCloud.new("", "")
-  #   mock_course_service = ScormCloud::CourseService.new("")
-  #   mock_course = ScormCloud::Course.new
-  #   mock_cloud_exception = ScormCloud::RequestError.new(REXML::Document.new, "")
-  #
-  #   it "should remove course" do
-  #     expect(ScormCloud::ScormCloud).to receive(:new).and_return(mock_scorm_cloud)
-  #     expect(mock_scorm_cloud).to receive(:course).at_least(:once).and_return(mock_course_service)
-  #     expect(mock_course_service).to receive(:delete_course).at_most(:once).and_return(true)
-  #
-  #     course = ScormCourse.create
-  #     expect(ScormCourse.all.count).to equal(1)
-  #
-  #     delete :destroy, id:course.id
-  #     expect(ScormCourse.all.count).to equal(0)
-  #   end
-  #
-  #   it "should handle when course does not exist" do
-  #     expect(ScormCloud::ScormCloud).to receive(:new).and_return(mock_scorm_cloud)
-  #     expect(mock_scorm_cloud).to receive(:course).at_least(:once).and_return(mock_course_service)
-  #     expect(mock_course_service).to receive(:delete_course).at_most(:once).and_raise(mock_cloud_exception)
-  #
-  #     delete :destroy, id:1
-  #     expect(response).to have_http_status 400
-  #
-  #   end
+    it "removes course" do
+      expect(@mock_scorm).to receive(:remove_course).with("1")
+      delete :destroy, id: 1
+      expect(response).to have_http_status(200)
+      expect(JSON.parse(response.body)["response"]["removed"]).to equal(true)
+    end
   end
-  #
-  # # TODO figure out how to test scorm_cloud_request
-  # describe "scorm_cloud_request" do
-  #   # mock_cloud_exception = ScormCloud::RequestError.new(REXML::Document.new, "")
-  #   # it "should return response" do
-  #   #   result = controller.scorm_cloud_request do
-  #   #     {result:"Fake Response"}
-  #   #   end
-  #   #   expect(result).to eq({result:"Fake Response"})
-  #   # end
-  #
-  #   # it "should catch errors" do
-  #     # expect(controller).to receive(:scorm_cloud_request).at_least(:once).and_raise(mock_cloud_exception)
-  #     # result = controller.scorm_cloud_request do
-  #       # raise ScormCloud::RequestError.new(REXML::Document.new, "")
-  #     # end
-  #     # byebug
-  #     # expect(result).to eq({})
-  #
-  #     # get controller.scorm_cloud_request do
-  #     #   raise "HOWDY"
-  #     # end
-  #   # end
-  # end
-  #
+
+
   # describe "GET preview" do
   #   mock_scorm_cloud = ScormCloud::ScormCloud.new("", "")
   #   mock_course_service = ScormCloud::CourseService.new("")
