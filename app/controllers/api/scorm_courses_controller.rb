@@ -5,7 +5,6 @@ class Api::ScormCoursesController < ApplicationController
   before_action :validate_token
 
   protect_from_forgery with: :null_session
-  before_action :setup
 
   def course_params
     params.require(:scorm_course).permit(:lms_assignment_id, :points_possible)
@@ -42,13 +41,10 @@ class Api::ScormCoursesController < ApplicationController
 
 	def preview
 		send_scorm_cloud_response(
-			@scorm_cloud.preview_course(params[:scorm_course_id], params[:redirect_url]))
+			scorm_cloud_service.preview_course(params[:scorm_course_id], params[:redirect_url]))
 	end
 
   private
-    def setup
-      @scorm_cloud = ScormCloudService.new
-    end
 
     def scorm_cloud_service
       ScormCloudService.new
