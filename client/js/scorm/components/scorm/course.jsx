@@ -17,7 +17,10 @@ export default class Course extends React.Component {
   }
 
   static propTypes = {
-    course: React.PropTypes.object.isRequired
+    course: React.PropTypes.object.isRequired,
+    removePackage: React.PropTypes.func.isRequired,
+    importPackage: React.PropTypes.func.isRequired,
+    previewPackage: React.PropTypes.func.isRequired
   };
 
   handleGraded(){
