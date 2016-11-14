@@ -1,3 +1,5 @@
+/* global describe beforeEach it expect */
+
 import React     from 'react';
 import ReactDOM  from 'react-dom';
 import TestUtils from 'react/lib/ReactTestUtils';
@@ -17,9 +19,7 @@ describe('common svg', () => {
   });
 
   it('renders the svg with the correct class', () => {
-    debugger;
     const elements = TestUtils.scryRenderedDOMComponentsWithClass(result, "IMASPEC");
-    debugger;
     expect(elements.length).toBe(1);
   });
 
