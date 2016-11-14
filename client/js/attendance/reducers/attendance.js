@@ -6,16 +6,16 @@ const initialState =  new Map();
 export default (state = initialState, action) => {
   switch(action.type){
 
-    case AttendanceConstants.GET_STUDENT_ATTENDANCE_DONE:
-      var date = action.original.date;
+    case AttendanceConstants.GET_STUDENT_ATTENDANCE_DONE: {
+      let date = action.original.date;
       const attendances = action.payload;
-      var newMap = attendances.reduce((map, current) => {
+      return attendances.reduce((map, current) => {
         const newDay = {...map.get(date)} || {};
         newDay[current.lms_student_id] = current;
         map.set(date, newDay);
         return map;
       }, new Map(state));
-      return newMap;
+    }
 
     case AttendanceConstants.UPDATE_STATUS:
       const students = action.body.students;

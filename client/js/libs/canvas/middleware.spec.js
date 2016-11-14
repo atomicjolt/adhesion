@@ -36,6 +36,7 @@ describe('Canvas Middleware', () => {
     actionHandler(action);
   });
 
+  //TODO: don't let me merge without fixing
   xit('calls the api library', (done) => {
     const action = canvasRequest(list_accounts);
     const store = Helper.makeStore();
@@ -63,6 +64,7 @@ describe('Canvas Middleware', () => {
     expect(function() { actionHandler(action); } ).toThrow("Missing required parameter(s): user_id");
   });
 
+  //TODO: don't let me merge without fixing
   xit('correctly supplies required parameters', (done) => {
     const action = canvasRequest(list_courses_for_user, {user_id: 1});
     const store = Helper.makeStore();
