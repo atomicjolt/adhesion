@@ -1,7 +1,7 @@
 module ApplicationHelper
 
   def canvas_url
-    session[:canvas_url] || Rails.application.secrets.canvas_url
+    session[:canvas_url] || current_lti_application_instance.lti_consumer_uri
   end
 
   def application_base_url
@@ -14,14 +14,6 @@ module ApplicationHelper
       user_id: current_user.id,
       lti_roles: params["roles"]
     })
-  end
-
-  def course_id
-    params[:custom_canvas_course_id]
-  end
-
-  def user_id
-    params[:custom_canvas_user_id]
   end
 
 end

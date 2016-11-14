@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Api::CoursesController, type: :controller do
+RSpec.describe Api::ScormCoursesController, type: :controller do
 
   before do
     # @account = FactoryGirl.create(:account)

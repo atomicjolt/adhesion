@@ -214,34 +214,17 @@ The LTI Starter app makes working with the Canvas API simple. See [Canvas](Canva
 
 ## Deployment
 
-### Heroku
+### Upload secrets to server:
 
-Make sure you have signed up for a heroku account [Heroku](http://www.heroku.com). Then follow the instructions provided by Heroku to create your application.
+  `cap production deploy:upload FILES=config/secrets.yml`
 
-Push secrets to production:
-```
-$ rake heroku:secrets RAILS_ENV=production
-```
+### Deploy
 
-Deploy to Heroku:
-```
-$ git push heroku master
-```
+  `cap production deploy`
 
-### Other Services
+### Monitor logs
 
-By default `config/unicorn.rb` is setup to deploy to Heroku. Open that file, comment out the Heroku section and uncomment the other configuration to setup unicorn for deployment to another service like AWS.
-
-## Examples
-
-Atomic Jolt has built a number of applications based on this source.
-
-### Demo Arigato
-
-This project was created for the Sales team at Instructure. It makes it simple to populate a sample Canvas course using values from Google Drive Spreadsheets.
-
-Source Code: [https://github.com/atomicjolt/demo_arigato](https://github.com/atomicjolt/demo_arigato)
-
+  `cap production logs:tail`
 
 ## Database
 

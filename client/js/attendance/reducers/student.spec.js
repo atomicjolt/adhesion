@@ -1,7 +1,7 @@
 import { ATTENDANCE_STATES, initialState } from './student';
 import studentReducer                      from './student';
-import { DONE }                            from "../constants/wrapper";
-import { list_users_in_course_users }      from "../libs/canvas/constants/courses";
+import { DONE }                            from "../../constants/wrapper";
+import { list_users_in_course_users }      from "../../libs/canvas/constants/courses";
 
 
 describe('GET_STUDENTS_DONE', () => {

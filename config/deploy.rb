@@ -23,6 +23,10 @@ set :deploy_to, '/srv/www/adhesion'
 # Default value for :pty is false
 # set :pty, true
 
+set :rails_env, 'production'
+set :logtail_files, -> { %W( /srv/www/#{fetch(:application)}/current/log/#{fetch(:rails_env)}.log ) }
+set :logtail_lines, 50
+
 # Default value for :linked_files is []
 append :linked_files, 'config/database.yml', 'config/secrets.yml'
 
@@ -39,13 +43,6 @@ set :unicorn_pid, "/tmp/unicorn.#{fetch(:application)}.pid"
 
 set :logtail_files, %W( /srv/www/#{fetch(:application)}/current/log/#{fetch(:rails_env)}.log )
 set :logtail_lines, 50
-
-namespace :deploy do
-  task :restart do
-    invoke "touch /srv/www/#{fetch(:application)}/current/tmp/restart.txt"
-  end
-end
-after 'deploy:published', 'deploy:restart'
 
 # Clear existing task so we can replace it rather than "add" to it.
 Rake::Task["deploy:compile_assets"].clear
