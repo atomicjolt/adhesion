@@ -11,9 +11,8 @@ export default class Course extends React.Component {
 
     this.state = {
       isGoBtnActive: false,
-      selectVal: "0",
       selectVal: this.formatGraded(props.course),
-      isGradeActive: false
+      isGradeActive: props.course.is_graded
     };
   }
 
