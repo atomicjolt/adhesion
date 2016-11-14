@@ -63,7 +63,7 @@ describe('Canvas Middleware', () => {
     expect(function() { actionHandler(action); } ).toThrow("Missing required parameter(s): user_id");
   });
 
-  fit('correctly supplies required parameters', (done) => {
+  it('correctly supplies required parameters', (done) => {
     const action = canvasRequest(list_courses_for_user, {user_id: 1});
     const store = Helper.makeStore();
     spyOn(store, 'dispatch');
@@ -75,6 +75,7 @@ describe('Canvas Middleware', () => {
       expect(store.dispatch).toHaveBeenCalled();
       done();
     }, 0);
+    // expect(store.dispatch).toHaveBeenCalled();
   });
 
 });

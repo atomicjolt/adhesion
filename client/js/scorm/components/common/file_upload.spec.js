@@ -3,7 +3,7 @@ import ReactDOM   from 'react-dom';
 import TestUtils  from 'react/lib/ReactTestUtils';
 import FileUpload from './file_upload';
 
-fdescribe('common svg', () => {
+describe('common svg', () => {
   let props, result, node;
   beforeEach(()=>{
     props = {
