@@ -5,7 +5,7 @@ import { connect }              from 'react-redux';
 import SvgButton                from '../common/svg_button';
 import ImportTypeSelector       from './import_type_selector';
 
-export default class Course extends React.Component {
+export class Course extends React.Component {
   constructor(props){
     super(props);
 
@@ -20,8 +20,9 @@ export default class Course extends React.Component {
     course: React.PropTypes.object.isRequired
   };
 
-  handleGraded(){
-    const courseId = this.props.course.id;
+  assignmentRedirect(){
+    return 'https://' + this.props.canvasUrl + '/courses/' + this.props.courseId +
+      '/assignments/' + this.props.course.lms_assignment_id;
   }
 
   handleRemove(){
@@ -71,7 +72,7 @@ export default class Course extends React.Component {
         />
       );
     } else {
-      gradedAssignmentButton = <SvgButton type="gradedAssignment" handleClick={() => this.handleGraded()}/>;
+      gradedAssignmentButton = <a href={this.assignmentRedirect()} target="_parent"><SvgButton type="gradedAssignment"/></a>;
       dropdownSection = <div className="c-list-item__type" style={{minWidth: "20rem"}}>{this.state.selectVal}</div>;
     }
 
@@ -92,3 +93,12 @@ export default class Course extends React.Component {
     );
   }
 }
+
+const select = (state) => {
+  return {
+    canvasUrl: state.settings.customCanvasApiDomain,
+    courseId: state.settings.lmsCourseId
+  };
+};
+
+export default connect(select)(Course);
