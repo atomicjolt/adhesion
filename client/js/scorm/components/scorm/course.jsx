@@ -5,7 +5,13 @@ import { connect }              from 'react-redux';
 import SvgButton                from '../common/svg_button';
 import ImportTypeSelector       from './import_type_selector';
 
-export default class Course extends React.Component {
+const AssignmentButton = (props) => {
+  return(
+    <a href={`https://${props.canvasUrl}/courses/${props.courseId}/assignments/${props.lms_assignment_id}`} target="_parent"><SvgButton type="gradedAssignment"/></a>
+  );
+}
+
+export class Course extends React.Component {
   static ImportTypes = {
     GRADED: "GRADED",
     UNGRADED: "UNGRADED",
@@ -18,12 +24,7 @@ export default class Course extends React.Component {
     course: React.PropTypes.object.isRequired
   };
 
-  handleGraded(){
-    const courseId = this.props.course.id;
-  }
-
   handleRemove(){
-    // TODO figure out why canvas api request is failing
     this.props.removePackage(
       this.props.course.lms_assignment_id,
       this.props.course.id
@@ -52,12 +53,28 @@ export default class Course extends React.Component {
     );
   }
 
+  formatGraded(course) {
+    if (course.is_graded) {
+      let word = _.capitalize(course.is_graded);
+      return `${word} assignment`;
+    }
+  }
+
   render(){
     const isAssignment = !(this.props.course.lms_assignment_id == undefined);
     const isGraded = this.props.course.is_graded == Course.ImportTypes.GRADED;
+    const assignmentButtonProps = {
+      canvasUrl: this.props.canvasUrl,
+      courseId: this.props.courseId,
+      lms_assignment_id: this.props.course.lms_assignment_id
+    };
+
+    var assignmentButton;
     if(isAssignment && isGraded){
+      assignmentButton = <AssignmentButton {...assignmentButtonProps} />
       var dropdown = <div className="c-list-item__type" style={{minWidth: "20rem"}}>Graded Assignment</div>;
     } else if(isAssignment && !isGraded) {
+      assignmentButton = <AssignmentButton {...assignmentButtonProps} />
       var dropdown = <div className="c-list-item__type" style={{minWidth: "20rem"}}>Ungraded Assignment</div>;
     } else {
       var isNotUnselected = this.props.course.is_graded == undefined || this.props.course.is_graded == Course.ImportTypes.NOT_SELECTED;
@@ -73,9 +90,10 @@ export default class Course extends React.Component {
         <div className="c-list-item__main">
           <div className="c-list-item__contain">
             <div className="c-list-item__title">{this.props.course.title}</div>
-            { dropdown }
+            {dropdown}
           </div>
           <div className="c-list-item__icons">
+            {assignmentButton}
             <SvgButton type="preview" handleClick={() => this.handlePreview()}/>
             <SvgButton type="delete" handleClick={() => this.handleRemove()}/>
           </div>
@@ -84,3 +102,13 @@ export default class Course extends React.Component {
     );
   }
 }
+
+const select = (state, props) => {
+  return {
+    canvasUrl: state.settings.customCanvasApiDomain,
+    courseId: state.settings.lmsCourseId,
+    course: props.course
+  };
+};
+
+export default connect(select)(Course);
