@@ -80,7 +80,7 @@ export class ScormIndex extends React.Component {
 
 const select = (state) => {
   return {
-    lmsCourseId: state.settings.lms_course_id,
+    lmsCourseId: state.settings.lmsCourseId,
     userId: state.settings.userId,
     apiUrl: state.settings.apiUrl,
     scormList: state.scorm.scormList,
