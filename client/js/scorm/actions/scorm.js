@@ -3,7 +3,8 @@ import Network    from '../../constants/network';
 
 // Local actions
 const actions = [
-  "REMOVE_ERROR"
+  "REMOVE_ERROR",
+  "UPDATE_IMPORT_TYPE"
 ];
 
 // Actions that make an api request
@@ -17,6 +18,12 @@ const requests = [
 ];
 
 export const Constants = wrapper(actions, requests);
+
+export const updateImportType = (index, importType) => ({
+  type: Constants.UPDATE_IMPORT_TYPE,
+  index,
+  importType
+});
 
 export const loadPackages = () => ({
   method: Network.GET,
