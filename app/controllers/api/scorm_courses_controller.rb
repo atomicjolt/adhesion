@@ -5,7 +5,6 @@ class Api::ScormCoursesController < ApplicationController
   before_action :validate_token
 
   protect_from_forgery with: :null_session
-  before_action :setup
 
   def course_params
     params.require(:scorm_course).permit(:lms_assignment_id, :points_possible)
@@ -16,18 +15,17 @@ class Api::ScormCoursesController < ApplicationController
 	end
 
 	def index
-    courses = @scorm_cloud.list_courses
-    courses[:response] = @scorm_cloud.sync_courses(courses[:response])
+    courses = scorm_cloud_service.list_courses
+    courses[:response] = scorm_cloud_service.sync_courses(courses[:response])
     send_scorm_cloud_response(courses)
 	end
 
 	def create
-		send_scorm_cloud_response(@scorm_cloud.upload_course(params[:file]))
+		send_scorm_cloud_response(scorm_cloud_service.upload_course(params[:file]))
 	end
 
 	def show
-    response = @scorm_cloud.course_manifest(params[:id])
-    response[:response] = Hash.from_xml(response[:response]) #TODO move parsing to service
+    response = scorm_cloud_service.course_manifest(params[:id])
     send_scorm_cloud_response(response)
 	end
 
@@ -38,16 +36,17 @@ class Api::ScormCoursesController < ApplicationController
   end
 
 	def destroy
-		send_scorm_cloud_response(@scorm_cloud.remove_course(params[:id]))
+		send_scorm_cloud_response(scorm_cloud_service.remove_course(params[:id]))
 	end
 
 	def preview
 		send_scorm_cloud_response(
-			@scorm_cloud.preview_course(params[:scorm_course_id], params[:redirect_url]))
+			scorm_cloud_service.preview_course(params[:scorm_course_id], params[:redirect_url]))
 	end
 
   private
-    def setup
-      @scorm_cloud = ScormCloudService.new
+
+    def scorm_cloud_service
+      ScormCloudService.new
     end
 end
