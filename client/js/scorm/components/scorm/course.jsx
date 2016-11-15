@@ -11,19 +11,14 @@ export class Course extends React.Component {
 
     this.state = {
       isGoBtnActive: false,
-      selectVal: this.formatGraded(props.course),
-      isGradeActive: props.course.is_graded
+      selectVal: 0,
+      isGradeActive: false
     };
   }
 
   static propTypes = {
     course: React.PropTypes.object.isRequired
   };
-
-  assignmentRedirect(){
-    return 'https://' + this.props.canvasUrl + '/courses/' + this.props.courseId +
-      '/assignments/' + this.props.course.lms_assignment_id;
-  }
 
   handleRemove(){
     this.props.removePackage(
@@ -53,17 +48,15 @@ export class Course extends React.Component {
 
   formatGraded(course) {
     if (course.is_graded) {
-      let word = course.is_graded.toLowerCase();
-      let formatted = word.charAt(0).toUpperCase() + word.slice(1);
-      return formatted + ' assignment';
+      let word = _.capitalize(course.is_graded);
+      return `${word} assignment`;
     }
-    return;
   }
 
   render(){
     let dropdownSection;
     let gradedAssignmentButton;
-    if(!this.state.isGradeActive){
+    if(this.state.isGradeActive || !this.props.course.is_graded){
       dropdownSection = (
         <ImportTypeSelector
           handleSelectChange = {(e) => this.handleImportType(e)}
@@ -72,8 +65,8 @@ export class Course extends React.Component {
         />
       );
     } else {
-      gradedAssignmentButton = <a href={this.assignmentRedirect()} target="_parent"><SvgButton type="gradedAssignment"/></a>;
-      dropdownSection = <div className="c-list-item__type" style={{minWidth: "20rem"}}>{this.state.selectVal}</div>;
+      gradedAssignmentButton = <a href={`https://${this.props.canvasUrl}/courses/${this.props.courseId}/assignments/${this.props.course.lms_assignment_id}`} target="_parent"><SvgButton type="gradedAssignment"/></a>;
+      dropdownSection = <div className="c-list-item__type" style={{minWidth: "20rem"}}>{this.formatGraded(this.props.course)}</div>;
     }
 
     return (
@@ -94,10 +87,11 @@ export class Course extends React.Component {
   }
 }
 
-const select = (state) => {
+const select = (state, props) => {
   return {
     canvasUrl: state.settings.customCanvasApiDomain,
-    courseId: state.settings.lmsCourseId
+    courseId: state.settings.lmsCourseId,
+    course: props.course
   };
 };
 
