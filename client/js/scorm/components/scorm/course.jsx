@@ -60,10 +60,11 @@ export default class Course extends React.Component {
     } else if(isAssignment && !isGraded) {
       var dropdown = <div className="c-list-item__type" style={{minWidth: "20rem"}}>Ungraded Assignment</div>;
     } else {
+      var isNotUnselected = this.props.course.is_graded == undefined || this.props.course.is_graded == Course.ImportTypes.NOT_SELECTED;
       var dropdown = (<ImportTypeSelector
           handleSelectChange = {(e) => this.handleImportType(e)}
           handleGoClick      = {() => this.handleGoClick()}
-          isGoBtnActive      = {!this.props.course.is_graded == Course.ImportTypes.NOT_SELECTED}
+          isGoBtnActive      = {!isNotUnselected}
         />);
     }
 

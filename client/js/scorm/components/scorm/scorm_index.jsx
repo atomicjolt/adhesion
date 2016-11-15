@@ -32,7 +32,8 @@ export class ScormIndex extends React.Component {
           url: `${this.props.apiUrl}scorm_course?course_id=${packageId}`
         },
         points_possible
-      }
+      },
+      index: 2
     };
 
     this.props.canvasRequest(

@@ -8,6 +8,9 @@ const initialState = {
 export default (state = initialState, action) => {
   switch(action.type){
 
+    case "CREATE_ASSIGNMENT":
+      // TODO set temporary assignment ID that would be removed if upload fails. Can set index on action.body
+      return state;
     case PackageConstants.UPDATE_IMPORT_TYPE:
       var updatedScorm = {...state.scormList[action.index]};
       updatedScorm.is_graded = action.importType;
