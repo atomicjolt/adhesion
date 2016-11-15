@@ -5,13 +5,13 @@ import { connect }              from 'react-redux';
 import SvgButton                from '../common/svg_button';
 import ImportTypeSelector       from './import_type_selector';
 
-export default class Course extends React.Component {
+export class Course extends React.Component {
   constructor(props){
     super(props);
 
     this.state = {
       isGoBtnActive: false,
-      selectVal: "0",
+      selectVal: 0,
       isGradeActive: false
     };
   }
@@ -20,12 +20,7 @@ export default class Course extends React.Component {
     course: React.PropTypes.object.isRequired
   };
 
-  handleGraded(){
-    const courseId = this.props.course.id;
-  }
-
   handleRemove(){
-    // TODO figure out why canvas api request is failing
     this.props.removePackage(
       this.props.course.lms_assignment_id,
       this.props.course.id
@@ -51,10 +46,17 @@ export default class Course extends React.Component {
     }
   }
 
+  formatGraded(course) {
+    if (course.is_graded) {
+      let word = _.capitalize(course.is_graded);
+      return `${word} assignment`;
+    }
+  }
+
   render(){
     let dropdownSection;
     let gradedAssignmentButton;
-    if(!this.state.isGradeActive){
+    if(this.state.isGradeActive || !this.props.course.is_graded){
       dropdownSection = (
         <ImportTypeSelector
           handleSelectChange = {(e) => this.handleImportType(e)}
@@ -63,8 +65,8 @@ export default class Course extends React.Component {
         />
       );
     } else {
-      gradedAssignmentButton = <SvgButton type="gradedAssignment" handleClick={() => this.handleGraded()}/>;
-      dropdownSection = <div className="c-list-item__type" style={{minWidth: "20rem"}}>{this.state.selectVal}</div>;
+      gradedAssignmentButton = <a href={`https://${this.props.canvasUrl}/courses/${this.props.courseId}/assignments/${this.props.course.lms_assignment_id}`} target="_parent"><SvgButton type="gradedAssignment"/></a>;
+      dropdownSection = <div className="c-list-item__type" style={{minWidth: "20rem"}}>{this.formatGraded(this.props.course)}</div>;
     }
 
     return (
@@ -84,3 +86,13 @@ export default class Course extends React.Component {
     );
   }
 }
+
+const select = (state, props) => {
+  return {
+    canvasUrl: state.settings.customCanvasApiDomain,
+    courseId: state.settings.lmsCourseId,
+    course: props.course
+  };
+};
+
+export default connect(select)(Course);
