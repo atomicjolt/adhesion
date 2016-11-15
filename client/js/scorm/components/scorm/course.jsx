@@ -6,15 +6,13 @@ import SvgButton                from '../common/svg_button';
 import ImportTypeSelector       from './import_type_selector';
 
 export default class Course extends React.Component {
-  constructor(props){
-    super(props);
+  static ImportTypes = {
+    GRADED: "GRADED",
+    UNGRADED: "UNGRADED",
+    NOT_SELECTED: "NOT_SELECTED"
+  };
 
-    this.state = {
-      isGoBtnActive: false,
-      selectVal: "0",
-      isGradeActive: false
-    };
-  }
+  static DefaultPointValue = 100;
 
   static propTypes = {
     course: React.PropTypes.object.isRequired
@@ -37,34 +35,36 @@ export default class Course extends React.Component {
   }
 
   handleImportType(e){
-    this.setState({ isGoBtnActive: e.target.value != 0, selectVal: e.target.value });
+    this.props.updateImportType(this.props.course.index, e.target.value);
   }
 
   handleGoClick(){
-    // TODO: need to have an action that sets the import type for the course.
-    if(this.state.isGoBtnActive){
-      const params = this.props.importPackage(
-        this.props.course.id,
-        this.props.course.title
-      );
-      this.setState({isGradeActive: true});
+    if(this.props.course.is_graded == Course.ImportTypes.GRADED){
+      var pointsPossible = Course.DefaultPointValue;
+    } else {
+      var pointsPossible = 0;
     }
+
+    const params = this.props.importPackage(
+      this.props.course.id,
+      this.props.course.title,
+      pointsPossible
+    );
   }
 
   render(){
-    let dropdownSection;
-    let gradedAssignmentButton;
-    if(!this.state.isGradeActive){
-      dropdownSection = (
-        <ImportTypeSelector
+    const isAssignment = !(this.props.course.lms_assignment_id == undefined);
+    const isGraded = this.props.course.is_graded == Course.ImportTypes.GRADED;
+    if(isAssignment && isGraded){
+      var dropdown = <div className="c-list-item__type" style={{minWidth: "20rem"}}>Graded Assignment</div>;
+    } else if(isAssignment && !isGraded) {
+      var dropdown = <div className="c-list-item__type" style={{minWidth: "20rem"}}>Ungraded Assignment</div>;
+    } else {
+      var dropdown = (<ImportTypeSelector
           handleSelectChange = {(e) => this.handleImportType(e)}
           handleGoClick      = {() => this.handleGoClick()}
-          isGoBtnActive      = {this.state.isGoBtnActive}
-        />
-      );
-    } else {
-      gradedAssignmentButton = <SvgButton type="gradedAssignment" handleClick={() => this.handleGraded()}/>;
-      dropdownSection = <div className="c-list-item__type" style={{minWidth: "20rem"}}>{this.state.selectVal}</div>;
+          isGoBtnActive      = {!this.props.course.is_graded == Course.ImportTypes.NOT_SELECTED}
+        />);
     }
 
     return (
@@ -72,10 +72,9 @@ export default class Course extends React.Component {
         <div className="c-list-item__main">
           <div className="c-list-item__contain">
             <div className="c-list-item__title">{this.props.course.title}</div>
-            { dropdownSection }
+            { dropdown }
           </div>
           <div className="c-list-item__icons">
-            {gradedAssignmentButton}
             <SvgButton type="preview" handleClick={() => this.handlePreview()}/>
             <SvgButton type="delete" handleClick={() => this.handleRemove()}/>
           </div>
