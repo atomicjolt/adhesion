@@ -46,9 +46,10 @@ export class Course extends React.Component {
       var pointsPossible = 0;
     }
 
-    const params = this.props.importPackage(
+    this.props.importPackage(
       this.props.course.id,
       this.props.course.title,
+      this.props.course.index,
       pointsPossible
     );
   }
@@ -68,6 +69,9 @@ export class Course extends React.Component {
       courseId: this.props.courseId,
       lms_assignment_id: this.props.course.lms_assignment_id
     };
+
+    // TODO put spinner here
+    // course should have property this.props.fetching == true -> should render spinner
 
     var assignmentButton;
     if(isAssignment && isGraded){

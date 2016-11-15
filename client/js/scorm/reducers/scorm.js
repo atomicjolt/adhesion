@@ -9,8 +9,19 @@ export default (state = initialState, action) => {
   switch(action.type){
 
     case "CREATE_ASSIGNMENT":
-      // TODO set temporary assignment ID that would be removed if upload fails. Can set index on action.body
-      return state;
+      var updatedScorm = {...state.scormList[action.localOptions.index]};
+      updatedScorm.fetching = true;
+      var updatedScormList = state.scormList.slice();
+      updatedScormList[action.localOptions.index] = updatedScorm;
+      return {...state, scormList: updatedScormList};
+
+    case "CREATE_ASSIGNMENT_DONE":
+      var updatedScorm = {...state.scormList[action.original.localOptions.index]};
+      updatedScorm.fetching = false;
+      var updatedScormList = state.scormList.slice();
+      updatedScormList[action.original.localOptions.index] = updatedScorm;
+      return {...state, scormList: updatedScormList};
+
     case PackageConstants.UPDATE_IMPORT_TYPE:
       var updatedScorm = {...state.scormList[action.index]};
       updatedScorm.is_graded = action.importType;
