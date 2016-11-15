@@ -39,13 +39,14 @@ export const markStudents = (students, lmsCourseId, date, status) => {
 
 
 export const downloadFile = (lms_course_id, startDate, endDate) => {
-  const baseUrl = `api/courses/${lms_course_id}/exports/attendances.csv`;
-  if(startDate && endDate){
-    var rangeUrl = `${baseUrl}?search[date_range][start]=${startDate}&search[date_range][end]=${endDate}`;
-  }
+  const url = `courses/${lms_course_id}/exports/attendances.csv`;
   return {
     type: Constants.DOWNLOAD_FILE,
     method: Network.GET,
-    url: rangeUrl || baseUrl
+    url,
+    params: {
+      startDate,
+      endDate
+    }
   };
 };

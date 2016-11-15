@@ -1,0 +1,18 @@
+<% att_by_date = @attendances.group_by{|a| a.date} %>
+<% att_by_student = @attendances.group_by{|a| a.sortable_name} %>
+<% days =  att_by_date.keys.sort %>
+<%- header_row = ['Name'].concat days -%>
+<%= CSV.generate_line(header_row, {:row_sep => ''}) %>
+<%- att_by_student.keys.sort.each do |key|
+  student_att = att_by_student[key]
+  row = [att_by_student[key][0][:name]]
+  days.each do |day|
+    att = student_att.find {|att| att.date == day}
+    if !att.nil? && !att.status.empty?
+      row << att.status.downcase
+    else
+      row << "n/a"
+    end
+  end %>
+  <%= CSV.generate_line(row, {:row_sep => ''}) %>
+<%- end %>
