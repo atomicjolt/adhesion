@@ -14,11 +14,7 @@ lti_applications = [{
   canvas_api_permissions: "LIST_USERS_IN_COURSE_USERS" # List Canvas API methods the app is allowed to use. A full list of constants can be found in canvas_urls
 }]
 
-if Rails.env.dev?
-  lti_consumer_uri = "https://atomicjolt.instructure.com"
-else
-  lti_consumer_uri = "https://au.openlmshost.com"
-end
+lti_consumer_uri = Rails.application.secrets.canvas_url
 
 lti_application_instances = [{
   lti_application: "SCORM Player",
