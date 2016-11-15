@@ -29,7 +29,8 @@
     "OAuth"
   ],
   "dependencies": {
-    "del": "^2.2.2"
+    "del": "^2.2.2",
+    "file-saver": "^1.3.3"
   },
   "devDependencies": {}
 }
