@@ -4,17 +4,22 @@ import React                    from 'react';
 import { connect }              from 'react-redux';
 import SvgButton                from '../common/svg_button';
 import ImportTypeSelector       from './import_type_selector';
+import Loader                   from '../../../common_components/loader.jsx';
 
-export default class Course extends React.Component {
-  constructor(props){
-    super(props);
+const AssignmentButton = (props) => {
+  return(
+    <a href={`https://${props.canvasUrl}/courses/${props.courseId}/assignments/${props.lms_assignment_id}`} target="_parent"><SvgButton type="gradedAssignment"/></a>
+  );
+};
 
-    this.state = {
-      isGoBtnActive: false,
-      selectVal: "0",
-      isGradeActive: false
-    };
-  }
+export class Course extends React.Component {
+  static ImportTypes = {
+    GRADED: "GRADED",
+    UNGRADED: "UNGRADED",
+    NOT_SELECTED: "NOT_SELECTED"
+  };
+
+  static DefaultPointValue = 100;
 
   static propTypes = {
     course: React.PropTypes.object.isRequired,
@@ -23,12 +28,7 @@ export default class Course extends React.Component {
     previewPackage: React.PropTypes.func.isRequired
   };
 
-  handleGraded(){
-    const courseId = this.props.course.id;
-  }
-
   handleRemove(){
-    // TODO figure out why canvas api request is failing
     this.props.removePackage(
       this.props.course.lms_assignment_id,
       this.props.course.id
@@ -40,34 +40,58 @@ export default class Course extends React.Component {
   }
 
   handleImportType(e){
-    this.setState({ isGoBtnActive: e.target.value != 0, selectVal: e.target.value });
+    this.props.updateImportType(this.props.course.index, e.target.value);
   }
 
   handleGoClick(){
-    // TODO: need to have an action that sets the import type for the course.
-    if(this.state.isGoBtnActive){
-      const params = this.props.importPackage(
-        this.props.course.id,
-        this.props.course.title
-      );
-      this.setState({isGradeActive: true});
+    let pointsPossible = 0;
+    if(this.props.course.is_graded == Course.ImportTypes.GRADED){
+      pointsPossible = Course.DefaultPointValue;
+    }
+
+    this.props.importPackage(
+      this.props.course.id,
+      this.props.course.title,
+      this.props.course.index,
+      pointsPossible
+    );
+  }
+
+  getStyles(){
+    return {
+      loaderContainer: {
+        position: 'absolute',
+        left: 'calc(50% - 1.25em)',
+        top: '-150%'
+      }
     }
   }
 
   render(){
-    let dropdownSection;
-    let gradedAssignmentButton;
-    if(!this.state.isGradeActive){
-      dropdownSection = (
-        <ImportTypeSelector
+    const isAssignment = !(this.props.course.lms_assignment_id == undefined);
+    const isGraded = this.props.course.is_graded == Course.ImportTypes.GRADED;
+    const assignmentButtonProps = {
+      canvasUrl: this.props.canvasUrl,
+      courseId: this.props.courseId,
+      lms_assignment_id: this.props.course.lms_assignment_id
+    };
+
+    let assignmentButton, dropDown;
+    if(this.props.course.fetching){
+      dropDown = <div style={this.getStyles().loaderContainer}><Loader/></div>;
+    } else if(isAssignment && isGraded){
+      assignmentButton = <AssignmentButton {...assignmentButtonProps} />;
+      dropDown = <div className="c-list-item__type" style={{minWidth: "20rem"}}>Graded Assignment</div>;
+    } else if(isAssignment && !isGraded) {
+      assignmentButton = <AssignmentButton {...assignmentButtonProps} />;
+      dropDown = <div className="c-list-item__type" style={{minWidth: "20rem"}}>Ungraded Assignment</div>;
+    } else {
+      const isUnselected = this.props.course.is_graded != undefined && this.props.course.is_graded != Course.ImportTypes.NOT_SELECTED;
+      dropDown = (<ImportTypeSelector
           handleSelectChange = {(e) => this.handleImportType(e)}
           handleGoClick      = {() => this.handleGoClick()}
-          isGoBtnActive      = {this.state.isGoBtnActive}
-        />
-      );
-    } else {
-      gradedAssignmentButton = <SvgButton type="gradedAssignment" handleClick={() => this.handleGraded()}/>;
-      dropdownSection = <div className="c-list-item__type" style={{minWidth: "20rem"}}>{this.state.selectVal}</div>;
+          isGoBtnActive      = {isUnselected}
+        />);
     }
 
     return (
@@ -75,10 +99,10 @@ export default class Course extends React.Component {
         <div className="c-list-item__main">
           <div className="c-list-item__contain">
             <div className="c-list-item__title">{this.props.course.title}</div>
-            { dropdownSection }
+            {dropDown}
           </div>
           <div className="c-list-item__icons">
-            {gradedAssignmentButton}
+            {assignmentButton}
             <SvgButton type="preview" handleClick={() => this.handlePreview()}/>
             <SvgButton type="delete" handleClick={() => this.handleRemove()}/>
           </div>
@@ -87,3 +111,13 @@ export default class Course extends React.Component {
     );
   }
 }
+
+const select = (state, props) => {
+  return {
+    canvasUrl: state.settings.customCanvasApiDomain,
+    courseId: state.settings.lmsCourseId,
+    course: props.course
+  };
+};
+
+export default connect(select)(Course);

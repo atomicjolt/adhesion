@@ -11,11 +11,6 @@ class ScormCloudService
     @scorm_cloud = ScormCloud::ScormCloud.new(Rails.application.secrets.scorm_cloud_app_id, Rails.application.secrets.scorm_cloud_secret_key)
   end
 
-  # def split_name(name)
-  #     parts = name.split(" ")
-  #     [parts.shift, parts.join(' ')]
-  # end
-
   def reg_params(params)
     resp = {}
     resp[:id] = params[:id] unless params[:id].nil?
@@ -139,7 +134,6 @@ class ScormCloudService
   			registration = Registration.create registration_params
         registration.lti_application_instance = lti_credentials
         registration.save!
-
   			response = @scorm_cloud.registration.create_registration(
           registration_params[:lms_course_id],
           registration.id,
@@ -202,7 +196,8 @@ class ScormCloudService
 
   def course_manifest(course_id)
     scorm_cloud_request do
-      @scorm_cloud.course.get_manifest(course_id)
+      resp = @scorm_cloud.course.get_manifest(course_id)
+      Hash.from_xml(resp)
     end
   end
 

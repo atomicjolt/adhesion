@@ -48,7 +48,7 @@ Rails.application.routes.draw do
 
   resources :courses, only:[] do
     resources :exports, only: [] do
-      get 'attendance', on: :collection
+      get 'attendances', on: :collection
     end
   end
 
