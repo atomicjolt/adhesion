@@ -4,12 +4,13 @@ import React                    from 'react';
 import { connect }              from 'react-redux';
 import SvgButton                from '../common/svg_button';
 import ImportTypeSelector       from './import_type_selector';
+import Loader                   from '../../../common_components/loader.jsx';
 
 const AssignmentButton = (props) => {
   return(
     <a href={`https://${props.canvasUrl}/courses/${props.courseId}/assignments/${props.lms_assignment_id}`} target="_parent"><SvgButton type="gradedAssignment"/></a>
   );
-}
+};
 
 export class Course extends React.Component {
   static ImportTypes = {
@@ -61,6 +62,16 @@ export class Course extends React.Component {
     }
   }
 
+  getStyles(){
+    return {
+      loaderContainer: {
+        position: 'absolute',
+        left: 'calc(50% - 1.25em)',
+        top: '-150%'
+      }
+    }
+  }
+
   render(){
     const isAssignment = !(this.props.course.lms_assignment_id == undefined);
     const isGraded = this.props.course.is_graded == Course.ImportTypes.GRADED;
@@ -70,19 +81,18 @@ export class Course extends React.Component {
       lms_assignment_id: this.props.course.lms_assignment_id
     };
 
-    // TODO put spinner here
-    // course should have property this.props.fetching == true -> should render spinner
-
-    var assignmentButton;
-    if(isAssignment && isGraded){
-      assignmentButton = <AssignmentButton {...assignmentButtonProps} />
-      var dropdown = <div className="c-list-item__type" style={{minWidth: "20rem"}}>Graded Assignment</div>;
+    let assignmentButton, dropDown;
+    if(this.props.course.fetching){
+      dropDown = <div style={this.getStyles().loaderContainer}><Loader/></div>;
+    } else if(isAssignment && isGraded){
+      assignmentButton = <AssignmentButton {...assignmentButtonProps} />;
+      dropDown = <div className="c-list-item__type" style={{minWidth: "20rem"}}>Graded Assignment</div>;
     } else if(isAssignment && !isGraded) {
-      assignmentButton = <AssignmentButton {...assignmentButtonProps} />
-      var dropdown = <div className="c-list-item__type" style={{minWidth: "20rem"}}>Ungraded Assignment</div>;
+      assignmentButton = <AssignmentButton {...assignmentButtonProps} />;
+      dropDown = <div className="c-list-item__type" style={{minWidth: "20rem"}}>Ungraded Assignment</div>;
     } else {
       var isNotUnselected = this.props.course.is_graded == undefined || this.props.course.is_graded == Course.ImportTypes.NOT_SELECTED;
-      var dropdown = (<ImportTypeSelector
+      dropDown = (<ImportTypeSelector
           handleSelectChange = {(e) => this.handleImportType(e)}
           handleGoClick      = {() => this.handleGoClick()}
           isGoBtnActive      = {!isNotUnselected}
@@ -94,7 +104,7 @@ export class Course extends React.Component {
         <div className="c-list-item__main">
           <div className="c-list-item__contain">
             <div className="c-list-item__title">{this.props.course.title}</div>
-            {dropdown}
+            {dropDown}
           </div>
           <div className="c-list-item__icons">
             {assignmentButton}
