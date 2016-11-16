@@ -20,7 +20,7 @@ services:
   - postgresql
 
 before_install:
-  - cp config/secrets.yml.example config/secrets.yml
+  - cp config/secrets.example.yml config/secrets.yml
   - cp config/ci.database.yml config/database.yml
   - cp .env.example .env
   - cp client/ci.karma.conf.js client/karma.conf.js
