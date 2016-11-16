@@ -47,7 +47,7 @@ gem 'rack-cors', :require => 'rack/cors'
 gem 'will_paginate'
 
 # Scorm cloud ruby client
-gem 'scorm_cloud', :git => 'git@github.com:instructure/scorm-cloud.git'
+gem "scorm_cloud", git: "https://github.com/instructure/scorm-cloud.git"
 
 group :development do
   gem 'spring'
