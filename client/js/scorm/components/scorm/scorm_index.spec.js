@@ -1,9 +1,9 @@
 /* global describe beforeEach it expect */
 
-import React      from 'react';
-import TestUtils  from 'react/lib/ReactTestUtils';
+import React          from 'react';
+import TestUtils      from 'react/lib/ReactTestUtils';
 import { ScormIndex } from './scorm_index';
-
+import Wrapper        from '../../../../specs_support/scorm_wrapper.jsx';
 
 describe('scorm index', () => {
   let props, result, create, courseId, queryObject, remove;
@@ -24,7 +24,7 @@ describe('scorm index', () => {
               uploadPackage: () => {}
             };
     remove = false;
-    result = TestUtils.renderIntoDocument(<ScormIndex {...props}/>);
+    result = TestUtils.renderIntoDocument(<Wrapper><ScormIndex {...props}/></Wrapper>);
   });
 
   it('renders no lists when no scormFiles exist', () => {
@@ -35,7 +35,7 @@ describe('scorm index', () => {
 
   it('renders list when assignment exists', () => {
     props.scormList = [{course: {title: 'something'}}];
-    result = TestUtils.renderIntoDocument(<ScormIndex {...props} />);
+    result = TestUtils.renderIntoDocument(<Wrapper><ScormIndex {...props} /></Wrapper>);
     let li = TestUtils.scryRenderedDOMComponentsWithClass(result, 'c-list-item__title');
     expect(li.length).toBe(1);
   });
