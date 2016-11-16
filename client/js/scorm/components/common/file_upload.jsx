@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-export default (props) => {
+export default function fileUpload(props){
 
   const handleChange = (e) => {
     const files = e.target.files;
@@ -32,4 +32,8 @@ export default (props) => {
       </div>
     </label>
   );
+};
+
+fileUpload.propTypes = {
+  uploadPackage: React.PropTypes.func.isRequired
 };
