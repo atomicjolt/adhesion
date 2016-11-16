@@ -9,7 +9,8 @@ describe('scorm reducer', () => {
   beforeEach(() => {
     state = undefined;
     action = {};
-  })
+  });
+
   it('should return the initail state', () => {
     state = reducer(state, action);
     expect(state.scormList).toBeDefined();
@@ -18,9 +19,18 @@ describe('scorm reducer', () => {
 
   it('should handle LOAD_PACKAGES_DONE', () => {
     action.type = Constants.LOAD_PACKAGES_DONE;
-    action.payload = {response: "this is what comes back from the database"};
+    action.payload = {
+      response: [
+        { index: 0, text: "thing1" },
+        { index: 1, text: "thing2" },
+        { index: 2, text: "thing3" }
+      ]
+    };
     state = reducer(state, action);
-    expect(state.scormList).toEqual("this is what comes back from the database");
+    expect(state.scormList.length).toEqual(3);
+    expect(state.scormList[0].text).toEqual("thing1");
+    expect(state.scormList[1].text).toEqual("thing2");
+    expect(state.scormList[2].text).toEqual("thing3");
     expect(state.shouldRefreshList).toBeFalsy();
     expect(state.file).toBe(null);
   });
