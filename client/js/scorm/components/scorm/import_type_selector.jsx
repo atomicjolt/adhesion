@@ -8,9 +8,9 @@ export default (props)=>{
     <div className="c-list-item__type">
       <div className="c-dropdown">
         <select onChange={props.handleSelectChange}>
-          <option value="0">Choose import type...</option>
-          <option value="Graded Assignment">Import as graded assignment</option>
-          <option value="Ungraded Assignment">Import as ungraded assignment</option>
+          <option value="NOT_SELECTED">Choose import type...</option>
+          <option value="GRADED">Import as graded assignment</option>
+          <option value="UNGRADED">Import as ungraded assignment</option>
         </select>
         <CommonSvg className="c-icon-drop" type="drop" />
       </div>

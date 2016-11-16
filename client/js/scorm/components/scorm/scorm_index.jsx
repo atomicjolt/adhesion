@@ -21,7 +21,7 @@ export class ScormIndex extends React.Component {
     }
   }
 
-  createAssignment(packageId, assignmentName){
+  createAssignment(packageId, assignmentName, packageIndex, pointsPossible = 0){
     const query = {
       assignment: {
         name: assignmentName,
@@ -30,14 +30,16 @@ export class ScormIndex extends React.Component {
         integration_data: {provider: "atomic-scorm"},
         external_tool_tag_attributes: {
           url: `${this.props.apiUrl}scorm_course?course_id=${packageId}`
-        }
+        },
+        points_possible: pointsPossible
       }
     };
 
     this.props.canvasRequest(
       create_assignment,
       {course_id: this.props.lmsCourseId},
-      query
+      query,
+      {index: packageIndex}
     );
   };
 
@@ -71,6 +73,7 @@ export class ScormIndex extends React.Component {
           removePackage={(...args) => this.deleteAssignment(...args)}
           previewPackage={this.props.previewPackage}
           importPackage={(...args) => this.createAssignment(...args)}
+          updateImportType={this.props.updateImportType}
         />
 
       </div>

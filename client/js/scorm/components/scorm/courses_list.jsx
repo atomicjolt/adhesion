@@ -11,7 +11,8 @@ export default (props) => {
         course: item,
         removePackage: props.removePackage,
         previewPackage: props.previewPackage,
-        importPackage: props.importPackage
+        importPackage: props.importPackage,
+        updateImportType: props.updateImportType
       };
 
       return <Course key={key+"PackageItem"} {...itemProps} />;
