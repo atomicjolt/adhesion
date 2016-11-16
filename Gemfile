@@ -39,9 +39,6 @@ gem 'yajl-ruby', require: 'yajl'
 gem 'unicorn'
 gem 'unicorn-rails'
 
-# Used for deploying to Heroku. Can be removed if not deploying to Heroku.
-gem 'heroku_secrets', git: 'https://github.com/alexpeattie/heroku_secrets.git'
-
 # API Related
 gem 'httparty'
 gem 'rack-cors', :require => 'rack/cors'
@@ -50,7 +47,7 @@ gem 'rack-cors', :require => 'rack/cors'
 gem 'will_paginate'
 
 # Scorm cloud ruby client
-gem 'scorm_cloud', :git => 'git@github.com:instructure/scorm-cloud.git'
+gem "scorm_cloud", git: "https://github.com/instructure/scorm-cloud.git"
 
 group :development do
   gem 'spring'
@@ -81,10 +78,8 @@ group :development, :test do
 end
 
 group :test do
-  gem 'capybara'
   gem 'database_cleaner'
   gem 'launchy'
-  gem 'selenium-webdriver'
   gem 'shoulda-matchers'
   gem 'webmock'
   gem 'test_after_commit'

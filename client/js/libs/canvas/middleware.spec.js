@@ -1,5 +1,3 @@
-import _                         from "lodash";
-
 import canvasRequest             from "./action";
 import { list_accounts }         from "./constants/accounts";
 import { list_courses_for_user } from "./constants/courses";
