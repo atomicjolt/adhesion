@@ -4,7 +4,7 @@ import React      from 'react';
 import TestUtils  from 'react/lib/ReactTestUtils';
 import { Course } from './course';
 
-fdescribe('course', () => {
+describe('course', () => {
   let props, result, remove, target;
 
   beforeEach(() => {
