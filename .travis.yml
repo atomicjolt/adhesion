@@ -1,0 +1,42 @@
+language: ruby
+sudo: required
+dist: trusty
+
+addons:
+  postgresql: "9.5"
+
+cache:
+  bundler: true
+  directories:
+    - client/node_modules
+
+branches:
+  only:
+  - master
+  - staging
+  - stable
+
+services:
+  - postgresql
+
+before_install:
+  - cp config/secrets.yml.example config/secrets.yml
+  - cp config/ci.database.yml config/database.yml
+  - cp .env.example .env
+  - cp client/ci.karma.conf.js client/karma.conf.js
+  - nvm install 6.9.1
+  - nvm use 6.9.1
+  - npm install -g yarn
+
+install:
+  - bundle install --path vendor/bundle
+  - cd client && yarn
+  - cd ../
+
+before_script:
+  - bundle exec rake db:create
+  - bundle exec rake db:schema:load
+
+script:
+  - ./bin/ci
+  - ./bin/ci_karma
