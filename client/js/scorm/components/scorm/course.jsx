@@ -41,10 +41,9 @@ export class Course extends React.Component {
   }
 
   handleGoClick(){
+    let pointsPossible = 0;
     if(this.props.course.is_graded == Course.ImportTypes.GRADED){
-      var pointsPossible = Course.DefaultPointValue;
-    } else {
-      var pointsPossible = 0;
+      pointsPossible = Course.DefaultPointValue;
     }
 
     this.props.importPackage(
@@ -53,13 +52,6 @@ export class Course extends React.Component {
       this.props.course.index,
       pointsPossible
     );
-  }
-
-  formatGraded(course) {
-    if (course.is_graded) {
-      let word = _.capitalize(course.is_graded);
-      return `${word} assignment`;
-    }
   }
 
   getStyles(){
@@ -91,11 +83,11 @@ export class Course extends React.Component {
       assignmentButton = <AssignmentButton {...assignmentButtonProps} />;
       dropDown = <div className="c-list-item__type" style={{minWidth: "20rem"}}>Ungraded Assignment</div>;
     } else {
-      var isNotUnselected = this.props.course.is_graded == undefined || this.props.course.is_graded == Course.ImportTypes.NOT_SELECTED;
+      const isUnselected = this.props.course.is_graded != undefined && this.props.course.is_graded != Course.ImportTypes.NOT_SELECTED;
       dropDown = (<ImportTypeSelector
           handleSelectChange = {(e) => this.handleImportType(e)}
           handleGoClick      = {() => this.handleGoClick()}
-          isGoBtnActive      = {!isNotUnselected}
+          isGoBtnActive      = {isUnselected}
         />);
     }
 
