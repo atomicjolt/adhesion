@@ -1,7 +1,7 @@
 var karmaConfig = require('./config/karma');
 
 module.exports = function(config){
-  var testConfig = karmaConfig(config);
+  var testConfig = karmaConfig();
   testConfig.singleRun = true;
   testConfig.autoWatch = false;
   testConfig.customLaunchers = {
