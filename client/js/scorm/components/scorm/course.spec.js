@@ -2,61 +2,63 @@
 
 import React      from 'react';
 import TestUtils  from 'react/lib/ReactTestUtils';
-import Course from './course';
+import { Course } from './course';
 
 describe('course', () => {
   let props, result, remove;
 
   beforeEach(() => {
     props = {
-      course: {title: 'IMASPEC', id: 1, lms_assignment_id: 1},
+      course: {
+        title: 'IMASPEC',
+        fetching: false,
+        is_graded: 'GRADED',
+        lms_assignment_id: 1
+      },
+      removePackage: () => {},
       importPackage: () => {},
-      previewPackage: () => {remove = true},
-      removePackage: () => {remove = true}
+      previewPackage: () => {}
     }
-    remove = false;
     result = TestUtils.renderIntoDocument(<Course {...props}/>);
   });
 
-  it('should handle setting the state of isGoBtnActive', () => {
-  	expect(result.state.isGoBtnActive).toBeFalsy();
-    const selection = TestUtils.findRenderedDOMComponentWithTag(result, 'select');
-    TestUtils.Simulate.change(selection, {target: {value: 1}})
-    expect(result.state.isGoBtnActive).toBeTruthy();
+  it('should check the course title', () => {
+    let title = TestUtils.findRenderedDOMComponentWithClass(result, 'c-list-item__title');
+    expect(title.textContent).toContain('IMASPEC');
   });
 
-  it('should handle setting the state isGradeActive', () => {
-    expect(result.state.isGradeActive).toBeFalsy();
-    result.setState({ isGoBtnActive: true});
-    const button = TestUtils.findRenderedDOMComponentWithClass(result, 'c-btn--go');
-    TestUtils.Simulate.click(button);
-    expect(result.state.isGradeActive).toBeTruthy();
+  it('should verify that Loader is rendered when course.fetching is true', () => {
+    let loader = TestUtils.scryRenderedDOMComponentsWithClass(result, 'loader');
+    expect(loader.length).toBe(0);
+    props.course.fetching = true;
+    result = TestUtils.renderIntoDocument(<Course {...props} />);
+    loader = TestUtils.scryRenderedDOMComponentsWithClass(result, 'loader');
+    expect(loader.length).toBe(1);
   });
 
-  it('renders dropdownSection as select Tag when isGradeActive is false', () => {
-    let selection = TestUtils.scryRenderedDOMComponentsWithTag(result, 'select');
-    expect(selection.length).toBe(1);
-    result.setState({ isGradeActive: true });
-    selection = TestUtils.scryRenderedDOMComponentsWithTag(result, 'select');
-    let selectionDiv = TestUtils.scryRenderedDOMComponentsWithClass(result, 'c-list-item__type');
-    const button = TestUtils.scryRenderedDOMComponentsWithTag(result, 'button');
-    expect(selection.length).toBe(0);
-    expect(selectionDiv.length).toBe(1);
-    expect(button.length).toBe(3);
+  it('renders Graded Assigment when assignment exists and is a graded assignment', () => {
+    let itemType = TestUtils.scryRenderedDOMComponentsWithClass(result, 'c-list-item__type');
+    expect(itemType.length).toBe(1);
+    let itemTypeText = TestUtils.findRenderedDOMComponentWithClass(result, 'c-list-item__type');
+    let dropDown = TestUtils.scryRenderedDOMComponentsWithClass(result, 'c-dropdown');
+    expect(dropDown.length).toBe(0);
+    expect(itemTypeText.textContent).toContain('Graded Assignment');
   });
 
-  it('delete button calls its callback', () => {
-    expect(remove).toBeFalsy();
-    const button = TestUtils.scryRenderedDOMComponentsWithTag(result, 'button');
-    TestUtils.Simulate.click(button[button.length - 1]);
-    expect(remove).toBeTruthy();
+  it('renders Ungraded Assignment when assignment exists and is an ungraded assignment', () => {
+    props.course.is_graded = 'UNGRADED';
+    result = TestUtils.renderIntoDocument(<Course {...props} />);
+    let itemTypeText = TestUtils.findRenderedDOMComponentWithClass(result, 'c-list-item__type');
+    let dropDown = TestUtils.scryRenderedDOMComponentsWithClass(result, 'c-dropdown');
+    expect(dropDown.length).toBe(0);
+    expect(itemTypeText.textContent).toContain('Ungraded Assignment');
   });
 
-  it('preview button calls its callback', () => {
-    expect(remove).toBeFalsy();
-    const button = TestUtils.scryRenderedDOMComponentsWithTag(result, 'button');
-    TestUtils.Simulate.click(button[button.length - 2]);
-    expect(remove).toBeTruthy();
+  it('renders ImportTypeSelector component when isAssignment is not true', () => {
+    props.course.lms_assignment_id = undefined;
+    result = TestUtils.renderIntoDocument(<Course {...props} />);
+    let dropDown = TestUtils.scryRenderedDOMComponentsWithClass(result, 'c-dropdown');
+    expect(dropDown.length).toBe(1);
   });
 
 });

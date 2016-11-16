@@ -2,8 +2,7 @@
 
 import React      from 'react';
 import TestUtils  from 'react/lib/ReactTestUtils';
-import CoursesList from './courses_list';
-import Stub      from '../../../../specs_support/stub.jsx';
+import { CoursesList } from './courses_list';
 
 describe('courses list', () => {
   let props, result;
@@ -18,7 +17,7 @@ describe('courses list', () => {
                       removePackage: () => {}}
                      ]
             };
-    result = TestUtils.renderIntoDocument(<Stub><CoursesList {...props}/></Stub>);
+    result = TestUtils.renderIntoDocument(<CoursesList {...props}/>);
   });
 
   it('renders list of items from props', () => {
@@ -30,7 +29,7 @@ describe('courses list', () => {
     let list = TestUtils.scryRenderedDOMComponentsWithTag(result, 'li');
     expect(list.length).toBe(1);
     props.list = [{},{},{}];
-    result = TestUtils.renderIntoDocument(<Stub><CoursesList {...props}/></Stub>);
+    result = TestUtils.renderIntoDocument(<CoursesList {...props}/>);
     list = TestUtils.scryRenderedDOMComponentsWithTag(result, 'li');
     expect(list.length).toBe(3);
   });
