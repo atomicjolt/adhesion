@@ -9,17 +9,17 @@ export default (state = initialState, action) => {
   switch(action.type){
 
     case "CREATE_ASSIGNMENT":
-      var updatedScorm = {...state.scormList[action.localOptions.index]};
+      var updatedScorm = {...state.scormList[action.localData.index]};
       updatedScorm.fetching = true;
       var updatedScormList = state.scormList.slice();
-      updatedScormList[action.localOptions.index] = updatedScorm;
+      updatedScormList[action.localData.index] = updatedScorm;
       return {...state, scormList: updatedScormList};
 
     case "CREATE_ASSIGNMENT_DONE":
-      var updatedScorm = {...state.scormList[action.original.localOptions.index]};
+      var updatedScorm = {...state.scormList[action.original.localData.index]};
       updatedScorm.fetching = false;
       var updatedScormList = state.scormList.slice();
-      updatedScormList[action.original.localOptions.index] = updatedScorm;
+      updatedScormList[action.original.localData.index] = updatedScorm;
       return {...state, scormList: updatedScormList};
 
     case PackageConstants.UPDATE_IMPORT_TYPE:
