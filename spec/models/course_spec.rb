@@ -23,7 +23,7 @@ RSpec.describe Course, type: :model do
     it "should add sections that are not in the database" do
       expect{do_sync}.to change{@course.sections.count}.from(0).to(4)
     end
-    it "should update the names of sections that have been changed in canvas" do
+    it 'should update the names of sections that have been changed in canvas' do
       do_sync
       section = @course.sections.first
       lms_section_id = section.lms_section_id
