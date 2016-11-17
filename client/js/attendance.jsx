@@ -23,7 +23,6 @@ injectTapEventPlugin();
 
 
 class Root extends React.Component {
-
   render(){
     const devTools = __DEV__ ? <DevTools /> : null;
     const { store } = this.props;
