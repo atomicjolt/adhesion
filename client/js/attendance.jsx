@@ -23,6 +23,12 @@ injectTapEventPlugin();
 
 
 class Root extends React.Component {
+
+  bad_funct(){
+    var snake_thing;
+    if(snake_thing == "someJunk") console.log(goop);
+  }
+
   render(){
     const devTools = __DEV__ ? <DevTools /> : null;
     const { store } = this.props;
