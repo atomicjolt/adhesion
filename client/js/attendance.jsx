@@ -23,6 +23,12 @@ injectTapEventPlugin();
 
 
 class Root extends React.Component {
+
+  houndTest(){
+    var snake_case
+    if (snake_case == 'someThing') console.log(snake_case);
+  }
+
   render(){
     const devTools = __DEV__ ? <DevTools /> : null;
     const { store } = this.props;
