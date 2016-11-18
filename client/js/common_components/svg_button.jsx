@@ -5,9 +5,9 @@ import CommonSvg from './common_svg';
 
 export default function svgButton (props){
   return (
-    <button className={props.className || "c-icon-btn"} onClick={props.handleClick}>
+    <button className={props.className || "c-icon-btn"} onClick={props.onClick}>
       {props.children}
-      <CommonSvg type={props.type} />
+      <CommonSvg className={props.noIconClass ? null : "c-icon"} type={props.type}/>
     </button>
   );
 };

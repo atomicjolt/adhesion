@@ -10,7 +10,7 @@ import * as errorActions                        from '../../actions/error';
 import DateSelector                             from './date_selector';
 import Student                                  from './student';
 import {ATTENDANCE_STATES as AttendanceStates } from '../../reducers/student';
-import ExportModal                              from './export_csv';
+import ExportModal                              from './export_modal';
 import _                                        from 'lodash';
 
 const select = (state) => {
@@ -73,7 +73,7 @@ export class StudentList extends React.Component{
     });
   }
 
-  students(){     //get students from store
+  students(){
     const { attendance, students } = this.props;
     return _.map(students, (student) => {
       const id = student.lms_student_id;
@@ -82,7 +82,7 @@ export class StudentList extends React.Component{
         updateStudentAttendance: (student, status) => this.updateStudentAttendance(student, status),
         status: attendance[id] || ""
       };
-      return (<Student key={id} {...props}/>);
+      return <Student key={id} {...props}/>;
     });
   }
 
@@ -100,44 +100,51 @@ export class StudentList extends React.Component{
   }
 
   errorModal(){
-    var style = this.props.error.showError ? "c-popup is-open" : "c-popup"
+    const style = this.props.error.showError ? "c-popup is-open" : "c-popup";
 
-      return (
+    return (
       <div className={`${style}`}>
         <h3 className="c-popup__title">ERROR! {this.props.error.statusCode}</h3>
         <p className="c-popup__message">Something went wrong.</p>
         <button className="c-popup__btn" onClick={()=>this.props.showError(false)}>Dismiss</button>
-      </div>);
+      </div>
+    );
   }
 
   exportModal(){
     if(this.state.showExportModal){
-      return <ExportModal
-            apiUrl={this.props.settings.apiUrl}
-            lmsCourseId={this.props.settings.lmsCourseId}
-            downloadFile={this.props.downloadFile}
-            onExport={() => this.toggleExportModal()}
-            onOutsideClick={() => this.toggleExportModal()}
-             />
+      return (
+        <ExportModal
+          apiUrl={this.props.settings.apiUrl}
+          lmsCourseId={this.props.settings.lmsCourseId}
+          downloadFile={this.props.downloadFile}
+          onExport={() => this.toggleExportModal()}
+          onOutsideClick={() => this.toggleExportModal()}
+        />
+      );
     }
   }
 
 
   render(){
 
-    return(
+    return (
       <div>
         <div className="c-top-bar">
           {this.errorModal()}
           <button className="c-btn c-btn--mark-all" onClick={()=>this.markAll(AttendanceStates.PRESENT)}>Mark All Present</button>
           <button className="c-btn c-btn--unmark-all" onClick={()=>this.markAll("")}>Unmark All</button>
           <button
-              className="c-btn c-btn--unmark-all"
-              onClick={() => this.toggleExportModal()}>Export</button>
+            className="c-btn c-btn--unmark-all"
+            onClick={() => this.toggleExportModal()}
+          >
+            Export
+          </button>
           {this.exportModal()}
           <DateSelector
-              date={this.props.application.date}
-              updateDate={(date) => this.handleDateChange(date)}/>
+            date={this.props.application.date}
+            updateDate={(date) => this.handleDateChange(date)}
+          />
         </div>
         <table className="c-table">
           <thead></thead>
@@ -148,7 +155,6 @@ export class StudentList extends React.Component{
       </div>
     );
   }
-
 }
 
-export default connect(select, {canvasRequest, ...applicationActions, ...attendanceActions, ...errorActions}, null, { withRefs: true })(StudentList);
+export default connect(select, {canvasRequest, ...applicationActions, ...attendanceActions, ...errorActions})(StudentList);

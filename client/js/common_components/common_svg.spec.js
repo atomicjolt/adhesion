@@ -27,11 +27,4 @@ describe('common svg', () => {
     let path = node.getElementsByClassName("c-path")[0];
     expect(path.getAttribute("d")).toBe("M14 20l10 10 10-10z");
   });
-
-  it("uses the default className when no class is provided", ()=>{
-    props.className = null;
-    result = TestUtils.renderIntoDocument(<div><CommonSvg {...props}/></div>);
-    node = ReactDOM.findDOMNode(result);
-    expect(node.getElementsByClassName("c-icon").length).toBe(1);
-  });
 });
