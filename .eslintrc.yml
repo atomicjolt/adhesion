@@ -6,7 +6,7 @@ env:
   browser: true
   es6: true
 extends: airbnb
-#parser: babel-eslint
+parser: babel-eslint
 #plugins:
 #  - babel
 #  - react
