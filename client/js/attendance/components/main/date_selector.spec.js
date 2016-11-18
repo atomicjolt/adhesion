@@ -5,7 +5,7 @@ import TestUtils    from 'react/lib/ReactTestUtils';
 
 import DateSelector from './date_selector';
 
-xdescribe('getDate', () => {
+describe('getDate', () => {
   var result;
   var props;
   const date = "2016-01-01";

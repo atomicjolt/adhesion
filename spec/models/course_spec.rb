@@ -10,8 +10,6 @@ RSpec.describe Course, type: :model do
     @course.users << FactoryGirl.create(:user)
   end
 
-  it { should belong_to(:account) }
-
   describe "sync_sections" do
     def do_sync
       VCR.use_cassette("sync_sections", :match_requests_on => [:path]) do
