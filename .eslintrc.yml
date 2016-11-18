@@ -5,11 +5,9 @@ ecmaFeatures:
 env:
   browser: true
   es6: true
-  node: true
-extends: 'eslint:recommended'
+extends: airbnb
 parser: babel-eslint
 plugins:
-  - babel
   - react
   - jsx-a11y
   - import
@@ -24,51 +22,6 @@ globals:
   jasmine: false
   module: false
 rules:
-  babel/generator-star-spacing: 1
-  babel/new-cap: 1
-  babel/object-shorthand: 1
-  babel/arrow-parens: 1
-  babel/no-await-in-loop: 1
-  react/jsx-uses-vars: 1
-  react/jsx-uses-react: 1
-  react/react-in-jsx-scope: 2
-  camelcase:
-    - error
-    -
-      properties: always
-  comma-dangle:
-    - error
-    - always-multiline
-  global-strict:
-    - 0
-    - never
-  indent:
-    - error
-    - 2
-    -
-      SwitchCase: 1
   linebreak-style:
-    - 2
-    - unix
-  no-multi-spaces:
-    - 2
-    -
-      exceptions:
-        AssignmentPattern: true
-        ImportDeclaration: true
-        JSXAttribute: true
-        VariableDeclarator: true
-        AssignmentExpression: true
-  no-underscore-dangle: 0
-  no-unused-vars: 1
-  quotes:
     - error
-    - single
-  semi:
-    - 2
-    - always
-  strict:
-    - 0
-    - global
-  eol-last: 1 # end of file newline
-  no-trailing-spaces: 1
+    - unix
