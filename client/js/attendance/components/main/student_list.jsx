@@ -15,8 +15,9 @@ import _                                        from 'lodash';
 
 const select = (state) => {
   const currentDate = state.application.date.toDateString();
+
   return {
-    students: state.student.all,
+    students: _.orderBy(state.student.all, 'sortable_name'),
     settings: state.settings,
     application: state.application,
     error: state.error,
@@ -27,10 +28,10 @@ const select = (state) => {
 export class StudentList extends React.Component{
   static propTypes = {
     error: React.PropTypes.object.isRequired,
-    students: React.PropTypes.object.isRequired,
+    students: React.PropTypes.array.isRequired,
     settings: React.PropTypes.object.isRequired,
     application: React.PropTypes.object.isRequired,
-    attendance: React.PropTypes.object.isRequired
+    attendance: React.PropTypes.object
   };
 
   constructor(){
@@ -61,18 +62,6 @@ export class StudentList extends React.Component{
     this.props.getStudentAttendance(date, this.props.settings.lmsCourseId);
   }
 
-  // TODO: put this in the store
-  sortStudents(students){
-    const unorderedStudents = _.reduce(students, (students, student) => {
-      students.push(student);
-      return students;
-    }, []);
-    return unorderedStudents.sort((a, b) => {
-      if(a.sortable_name < b.sortable_name) return -1;
-      return 1;
-    });
-  }
-
   students(){
     const { attendance, students } = this.props;
     return _.map(students, (student) => {
@@ -82,17 +71,13 @@ export class StudentList extends React.Component{
         updateStudentAttendance: (student, status) => this.updateStudentAttendance(student, status),
         status: attendance ? attendance[id] : ""
       };
-      return <Student key={id} {...props}/>;
+      return <Student key={`student${id}`} {...props}/>;
     });
   }
 
   markAll(status){
-    const students = _.reduce(this.props.students, (students, student)=>{
-      students.push(student);
-      return students;
-    }, []);
-    this.props.markStudents(students, this.props.settings.lmsCourseId, this.props.application.date, status);
-    return students;
+    const {students, settings, application} = this.props;
+    this.props.markStudents(students, settings.lmsCourseId, application.date, status);
   }
 
   toggleExportModal(){
