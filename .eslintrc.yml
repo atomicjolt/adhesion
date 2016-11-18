@@ -8,7 +8,6 @@ env:
 extends: airbnb
 parser: babel-eslint
 plugins:
-#  - babel
   - react
   - jsx-a11y
   - import
