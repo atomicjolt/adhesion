@@ -39,26 +39,26 @@ export default (state = initialState, action) => {
 
       return newMap;
 
-  case AttendanceConstants.UPDATE_STATUS_DONE:
-    if(action.error) return state;
+    case AttendanceConstants.UPDATE_STATUS_DONE:
+      if(action.error) return state;
 
-    var date = action.response.body[0].date;
-    var studentsDone = action.response.body;
-    var newMap = studentsDone.reduce((map, student) => {
-      var dailyAttendance = {...map.get(date)} || {};
-      var id = student.lms_student_id;
-      var studentData = {
-        name: student.name,
-        lms_student_id: id,
-        lms_course_id: student.lms_course_id,
-        status: student.status,
-        date
-      };
-      dailyAttendance[id] = studentData;
-      map.set(date, dailyAttendance);
-      return map;
-    }, new Map(state));
-    return newMap;
+      var date = action.response.body[0].date;
+      var studentsDone = action.response.body;
+      var newMap = studentsDone.reduce((map, student) => {
+        var dailyAttendance = {...map.get(date)} || {};
+        var id = student.lms_student_id;
+        var studentData = {
+          name: student.name,
+          lms_student_id: id,
+          lms_course_id: student.lms_course_id,
+          status: student.status,
+          date
+        };
+        dailyAttendance[id] = studentData;
+        map.set(date, dailyAttendance);
+        return map;
+      }, new Map(state));
+      return newMap;
 
     default:
       return state;

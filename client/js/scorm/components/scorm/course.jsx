@@ -2,7 +2,7 @@
 
 import React                    from 'react';
 import { connect }              from 'react-redux';
-import SvgButton                from '../common/svg_button';
+import SvgButton                from '../../../common_components/svg_button';
 import ImportTypeSelector       from './import_type_selector';
 import Loader                   from '../../../common_components/loader.jsx';
 

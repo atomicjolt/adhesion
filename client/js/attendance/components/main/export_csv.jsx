@@ -38,44 +38,59 @@ export default class ExportModal extends React.Component{
     );
   }
 
-  render(){
-    const closeModalStyles = {
-      position:'absolute',
-      height: '100vh',
-      width: '100vw',
-      zIndex: 2,
-      top:0
+  getStyles(){
+    return {
+      closeModal: {
+        position:'absolute',
+        height: '100vh',
+        width: '100vw',
+        zIndex: 2,
+        top:0
+      },
+      container: {
+        position: 'absolute',
+        top:0,
+        width:'100%',
+        height:'100%'
+      }
     };
+  }
+
+  render(){
+    const styles = this.getStyles();
 
     return (
-    <div style={{position: 'absolute', top:0, width:'100%', height:'100%'}}>
-      <div className="c-popup  c-popup--export  is-open">
-    		<div className="c-popup__left">
-          <ExportButton
-            text={"Export All"}
-            onExport={() => this.onExport()}/>
-        </div>
-    		<div className="c-popup__right">
-          <RangePicker
+      <div style={styles.container}>
+        <div className="c-popup  c-popup--export  is-open">
+      		<div className="c-popup__left">
+            <ExportButton
+              text={"Export All"}
+              onExport={() => this.onExport()}
+            />
+          </div>
+      		<div className="c-popup__right">
+            <RangePicker
               onStartChange={(date) => this.setState({startDate:date})}
               onEndChange={(date) => this.setState({endDate:date})}
               startDate={this.state.startDate}
               endDate={this.state.endDate}
-              />
-          <ExportButton
+            />
+            <ExportButton
               downloadOptions={{
                 startDate: this.state.startDate,
                 endDate: this.state.endDate
               }}
               text={"Export Date Range"}
-              onExport={(options) => this.onExport(options)}/>
-    		</div>
-  	  </div>
-      <div
-        className="c-popup--outside"
-        onClick={() => this.props.onOutsideClick()}
-        style={closeModalStyles}></div>
-  </div>
-  );
+              onExport={(options) => this.onExport(options)}
+            />
+      		</div>
+    	  </div>
+        <div
+          className="c-popup--outside"
+          onClick={() => this.props.onOutsideClick()}
+          style={styles.closeModal}
+        />
+      </div>
+    );
   }
 };

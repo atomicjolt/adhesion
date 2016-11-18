@@ -4,8 +4,8 @@ import React                    from 'react';
 import { connect }              from 'react-redux';
 import CoursesList              from './courses_list';
 import * as ScormActions        from '../../actions/scorm';
-import CommonSvg                from '../common/common_svg';
-import SvgButton                from '../common/svg_button';
+import CommonSvg                from '../../../common_components/common_svg';
+import SvgButton                from '../../../common_components/svg_button';
 
 export class Uploader extends React.Component {
 
