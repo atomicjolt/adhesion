@@ -1,20 +1,32 @@
+/* global describe beforeEach it expect */
+
 import React      from 'react';
-import ReactDOM   from 'react-dom';
 import TestUtils  from 'react/lib/ReactTestUtils';
 import FileUpload from './file_upload';
+import Stub       from '../../../../specs_support/stub.jsx';
 
-describe('common svg', () => {
-  let props, result, node;
+describe('File Upload', () => {
+  let props, result, uploading;
+
   beforeEach(()=>{
+    uploading = false;
+
     props = {
-      className: "IMASPEC",
-      type: "drop"
+      uploadPackage: () => uploading = true
     };
-    result = TestUtils.renderIntoDocument(<div><FileUpload {...props}/></div>);
-    node = ReactDOM.findDOMNode(result);
+
+    result = TestUtils.renderIntoDocument(<Stub><FileUpload {...props}/></Stub>);
   });
 
-  it('renders the svg with the correct class', () => {
-    expect(node.getElementsByClassName("IMASPEC").length).toBe(1);
+  it('calls upload file', () => {
+    const fileIn = TestUtils.findRenderedDOMComponentWithTag(result, 'input');
+    TestUtils.Simulate.change(fileIn, {target: {files: ['file']}});
+    expect(uploading).toBeTruthy();
+  });
+
+  it('wont upload if no files are present', () => {
+    const fileIn = TestUtils.findRenderedDOMComponentWithTag(result, 'input');
+    TestUtils.Simulate.change(fileIn, {target: {files: []}});
+    expect(uploading).toBeFalsy();
   });
 });

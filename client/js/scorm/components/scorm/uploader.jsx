@@ -9,24 +9,18 @@ import SvgButton                from '../common/svg_button';
 
 export class Uploader extends React.Component {
 
-  renderError() {
-    if (this.props.error) {
-      return (
-        <div className="c-upload-error">
-          <CommonSvg className="c-icon-error" type="error" />
-          <span>This file is not a valid SCORM package.</span>
-        </div>
-      );
-    } else {
-      return null;
-    }
-  }
-
   renderProgress() {
     if (this.props.error) {
       return (
-        <div className="c-progress-bar red">
-          <span style={{width: "100%"}}></span>
+        <div>
+          <div className="c-upload-error">
+            <CommonSvg className="c-icon-error" type="error" />
+            <span>This file is not a valid SCORM package.</span>
+          </div>
+          <div className="c-progress-bar red">
+            <span style={{width: "100%"}}></span>
+          </div>
+          <SvgButton handleClick={(e)=>this.props.removeError()} type="removeError" />
         </div>
       );
     } else {
@@ -38,25 +32,13 @@ export class Uploader extends React.Component {
     }
   }
 
-  renderButton() {
-    if (this.props.error) {
-      return (
-        <SvgButton handleClick={(e)=>this.props.removeError()} type="removeError" />
-      );
-    } else {
-      return null;
-    }
-  }
-
   render() {
     return (
       <ul className="c-upload">
         <li className="c-list__upload">
           <CommonSvg className="c-icon-upload" type="upload"/>
           <div className="c-list-item__title">{this.props.scormFile.name}</div>
-          {this.renderError()}
           {this.renderProgress()}
-          {this.renderButton()}
         </li>
       </ul>
     );
