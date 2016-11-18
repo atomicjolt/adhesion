@@ -41,7 +41,7 @@ export class Uploader extends React.Component {
   renderButton() {
     if (this.props.error) {
       return (
-        <SvgButton handleClick={(e)=>this.props.removeError()} type="removeError" />
+        <SvgButton onClick={(e)=>this.props.removeError()} type="removeError" />
       );
     } else {
       return null;

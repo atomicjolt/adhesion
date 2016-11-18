@@ -1,7 +1,7 @@
 import React        from 'react';
 import ReactDOM     from 'react-dom';
 import TestUtils    from 'react/lib/ReactTestUtils';
-import ExportCSV    from './export_csv';
+import ExportCSV    from './export_modal';
 
 describe('Export CSV', () => {
   var props = {

@@ -100,8 +100,8 @@ export class Course extends React.Component {
           </div>
           <div className="c-list-item__icons">
             {assignmentButton}
-            <SvgButton type="preview" handleClick={() => this.handlePreview()}/>
-            <SvgButton type="delete" handleClick={() => this.handleRemove()}/>
+            <SvgButton type="preview" onClick={() => this.handlePreview()}/>
+            <SvgButton type="delete" onClick={() => this.handleRemove()}/>
           </div>
         </div>
       </li>

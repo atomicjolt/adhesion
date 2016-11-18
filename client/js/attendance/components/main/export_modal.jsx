@@ -1,11 +1,6 @@
-import React from 'react';
-import RangePicker from './range_picker';
-
-const ExportButton = (props) => (
-  <button className="c-btn  c-btn--export" onClick={() => {
-    props.onExport(props.downloadOptions);
-  }}>{props.text}</button>
-);
+import React        from 'react';
+import RangePicker  from './range_picker';
+import ExportButton from './export_button';
 
 export default class ExportModal extends React.Component{
 
