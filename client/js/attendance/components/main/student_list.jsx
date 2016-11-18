@@ -1,26 +1,26 @@
 "use strict";
 
-import { connect }                    from "react-redux";
-import React                          from 'react';
-import assets                         from '../../../libs/assets';
-import canvasRequest                  from "../../../libs/canvas/action";
-import { list_users_in_course_users } from "../../../libs/canvas/constants/courses";
-import * as applicationActions        from '../../actions/application';
-import * as attendanceActions         from '../../actions/attendance';
-import * as errorActions              from '../../actions/error';
-import DateSelector                   from './date_selector';
-import Student                        from './student';
+import { connect }                              from "react-redux";
+import React                                    from 'react';
+import canvasRequest                            from "../../../libs/canvas/action";
+import { list_users_in_course_users }           from "../../../libs/canvas/constants/courses";
+import * as applicationActions                  from '../../actions/application';
+import * as attendanceActions                   from '../../actions/attendance';
+import * as errorActions                        from '../../actions/error';
+import DateSelector                             from './date_selector';
+import Student                                  from './student';
 import {ATTENDANCE_STATES as AttendanceStates } from '../../reducers/student';
-import ExportModal                    from './export_modal';
+import ExportModal                              from './export_modal';
+import _                                        from 'lodash';
 
-const select = (state, props) => {
-  const currentDate = state.application.date;
+const select = (state) => {
+  const currentDate = state.application.date.toDateString();
   return {
     students: state.student.all,
     settings: state.settings,
     application: state.application,
     error: state.error,
-    attendance: state.attendance.get(currentDate) || {}
+    attendance: state.attendance.attendances[currentDate]
   };
 };
 
@@ -58,11 +58,10 @@ export class StudentList extends React.Component{
   }
 
   handleDateChange(date){
-    this.props.changeDate(date);
-    //TODO Find a way to wrap these into one dispatch
     this.props.getStudentAttendance(date, this.props.settings.lmsCourseId);
   }
 
+  // TODO: put this in the store
   sortStudents(students){
     const unorderedStudents = _.reduce(students, (students, student) => {
       students.push(student);
@@ -75,17 +74,16 @@ export class StudentList extends React.Component{
   }
 
   students(){
-    const attendance = this.props.attendance;
-    const students = _.map(this.sortStudents(this.props.students), (student) => {
+    const { attendance, students } = this.props;
+    return _.map(students, (student) => {
       const id = student.lms_student_id;
       const props = {
         student,
         updateStudentAttendance: (student, status) => this.updateStudentAttendance(student, status),
-        status: attendance[id] ? attendance[id].status : ""
+        status: attendance ? attendance[id] : ""
       };
       return <Student key={id} {...props}/>;
     });
-    return students;
   }
 
   markAll(status){

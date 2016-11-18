@@ -39,7 +39,7 @@ xdescribe('getDate', () => {
   });
 });
 
-describe('Event Listeners', () => {
+xdescribe('Event Listeners', () => {
   var result;
   var props;
 
