@@ -80,7 +80,7 @@ export class StudentList extends React.Component{
       const props = {
         student,
         updateStudentAttendance: (student, status) => this.updateStudentAttendance(student, status),
-        status: attendance[id] || ""
+        status: attendance ? attendance[id] : ""
       };
       return <Student key={id} {...props}/>;
     });
