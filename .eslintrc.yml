@@ -7,11 +7,11 @@ env:
   es6: true
 extends: airbnb
 #parser: babel-eslint
-plugins:
-  - babel
-  - react
-  - jsx-a11y
-  - import
+#plugins:
+#  - babel
+#  - react
+#  - jsx-a11y
+#  - import
 globals:
   describe: false
   beforeEach: false
