@@ -1,6 +1,7 @@
 "use strict";
 
-import {Constants as ApplicationConstants} from '../actions/application';
+import {Constants as ApplicationConstants}  from '../actions/application';
+import {Constants as AttendanceConstants}   from '../actions/attendance';
 
 const initialState = () => {
   const date = new Date();
@@ -10,10 +11,13 @@ const initialState = () => {
 
 export default (state = initialState(), action) => {
   switch(action.type){
-    case ApplicationConstants.CHANGE_DATE:
-      let newState = {date: action.date};
-      state = {...state, ...newState};
-      break;
+
+    case AttendanceConstants.GET_STUDENT_ATTENDANCE:
+    case ApplicationConstants.CHANGE_DATE: {
+      return {...state, ...{date: action.date}};
+    }
+
+    default:
+      return state;
   }
-  return state;
 };

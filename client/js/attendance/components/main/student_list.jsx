@@ -1,19 +1,18 @@
 "use strict";
 
-import { connect }                    from "react-redux";
-import React                          from 'react';
-import assets                         from '../../../libs/assets';
-import canvasRequest                  from "../../../libs/canvas/action";
-import { list_users_in_course_users } from "../../../libs/canvas/constants/courses";
-import * as applicationActions        from '../../actions/application';
-import * as attendanceActions         from '../../actions/attendance';
-import * as errorActions              from '../../actions/error';
-import DateSelector                   from './date_selector';
-import Student                        from './student';
+import { connect }                              from "react-redux";
+import React                                    from 'react';
+import canvasRequest                            from "../../../libs/canvas/action";
+import { list_users_in_course_users }           from "../../../libs/canvas/constants/courses";
+import * as applicationActions                  from '../../actions/application';
+import * as attendanceActions                   from '../../actions/attendance';
+import * as errorActions                        from '../../actions/error';
+import DateSelector                             from './date_selector';
+import Student                                  from './student';
 import {ATTENDANCE_STATES as AttendanceStates } from '../../reducers/student';
-import ExportModal                    from './export_csv';
+import ExportModal                              from './export_csv';
 
-const select = (state, props) => {
+const select = (state) => {
   const currentDate = state.application.date;
   return {
     students: state.student.all,
@@ -58,8 +57,6 @@ export class StudentList extends React.Component{
   }
 
   handleDateChange(date){
-    this.props.changeDate(date);
-    //TODO Find a way to wrap these into one dispatch
     this.props.getStudentAttendance(date, this.props.settings.lmsCourseId);
   }
 
@@ -76,7 +73,7 @@ export class StudentList extends React.Component{
 
   students(){     //get students from store
     const attendance = this.props.attendance;
-    const students = _.map(this.sortStudents(this.props.students), (student) => {
+    const students = _.map(this.props.students, (student) => {
       const id = student.lms_student_id;
       const props = {
         student,
