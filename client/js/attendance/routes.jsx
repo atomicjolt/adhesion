@@ -5,7 +5,7 @@ import { Router, Route, IndexRoute }  from 'react-router';
 
 import appHistory                     from '../history';
 import Index                          from './components/layout/index';
-import Student                           from './components/main/student_list';
+import Student                        from './components/main/student_list';
 import NotFound                       from './components/common/not_found';
 
 export default (
