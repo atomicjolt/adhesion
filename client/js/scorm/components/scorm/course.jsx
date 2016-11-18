@@ -22,7 +22,10 @@ export class Course extends React.Component {
   static DefaultPointValue = 100;
 
   static propTypes = {
-    course: React.PropTypes.object.isRequired
+    course: React.PropTypes.object.isRequired,
+    removePackage: React.PropTypes.func.isRequired,
+    importPackage: React.PropTypes.func.isRequired,
+    previewPackage: React.PropTypes.func.isRequired
   };
 
   handleRemove(){
