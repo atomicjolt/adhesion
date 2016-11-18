@@ -4,7 +4,7 @@ import React     from 'react';
 import ReactDOM  from 'react-dom';
 import TestUtils from 'react/lib/ReactTestUtils';
 import CommonSvg from './common_svg';
-import Stub      from '../../../../specs_support/stub.jsx';
+import Stub      from '../../specs_support/stub.jsx';
 
 describe('common svg', () => {
   let props, result, node;
