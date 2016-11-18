@@ -14,5 +14,5 @@ export default function svgButton (props){
 
 svgButton.propTypes = {
   type: React.PropTypes.string.isRequired,
-  handleClick: React.PropTypes.func.isRequired
+  onClick: React.PropTypes.func.isRequired
 };
