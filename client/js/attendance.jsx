@@ -24,11 +24,6 @@ injectTapEventPlugin();
 
 class Root extends React.Component {
 
-  bad_funct(){
-    var bad_var;
-    if(bad_var == 'someThing') console.log(doop)
-  }
-
   render(){
     const devTools = __DEV__ ? <DevTools /> : null;
     const { store } = this.props;
