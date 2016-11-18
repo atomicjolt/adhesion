@@ -4,13 +4,8 @@ import React                    from 'react';
 import { connect }              from 'react-redux';
 import SvgButton                from '../common/svg_button';
 import ImportTypeSelector       from './import_type_selector';
-import Loader                   from '../../../common_components/loader.jsx';
-
-const AssignmentButton = (props) => {
-  return(
-    <a href={`https://${props.canvasUrl}/courses/${props.courseId}/assignments/${props.lms_assignment_id}`} target="_parent"><SvgButton type="gradedAssignment"/></a>
-  );
-};
+import Loader                   from '../../../common_components/loader';
+import AssignmentButton         from './assignment_button';
 
 export class Course extends React.Component {
   static ImportTypes = {
