@@ -13,7 +13,7 @@ describe('Common SVG Button', () => {
 
     props = {
       type: 'gradedAssignment',
-      handleClick: () => clicked = true
+      onClick: () => clicked = true
     };
 
     result = TestUtils.renderIntoDocument(<Stub><SVGButton {...props}/></Stub>)
