@@ -11,15 +11,16 @@ import DateSelector                             from './date_selector';
 import Student                                  from './student';
 import {ATTENDANCE_STATES as AttendanceStates } from '../../reducers/student';
 import ExportModal                              from './export_csv';
+import _                                        from 'lodash';
 
 const select = (state) => {
-  const currentDate = state.application.date;
+  const currentDate = state.application.date.toDateString();
   return {
     students: state.student.all,
     settings: state.settings,
     application: state.application,
     error: state.error,
-    attendance: state.attendance.get(currentDate) || {}
+    attendance: state.attendance.attendances[currentDate]
   };
 };
 
@@ -60,6 +61,7 @@ export class StudentList extends React.Component{
     this.props.getStudentAttendance(date, this.props.settings.lmsCourseId);
   }
 
+  // TODO: put this in the store
   sortStudents(students){
     const unorderedStudents = _.reduce(students, (students, student) => {
       students.push(student);
@@ -72,17 +74,16 @@ export class StudentList extends React.Component{
   }
 
   students(){     //get students from store
-    const attendance = this.props.attendance;
-    const students = _.map(this.props.students, (student) => {
+    const { attendance, students } = this.props;
+    return _.map(students, (student) => {
       const id = student.lms_student_id;
       const props = {
         student,
         updateStudentAttendance: (student, status) => this.updateStudentAttendance(student, status),
-        status: attendance[id] ? attendance[id].status : ""
+        status: attendance[id] || ""
       };
       return (<Student key={id} {...props}/>);
     });
-    return students;
   }
 
   markAll(status){
