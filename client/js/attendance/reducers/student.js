@@ -1,7 +1,8 @@
 "use strict";
 
-import { DONE }                       from "../../constants/wrapper";
-import { list_users_in_course_users } from "../../libs/canvas/constants/courses";
+import { DONE }                       from '../../constants/wrapper';
+import { list_users_in_course_users } from '../../libs/canvas/constants/courses';
+import _                              from 'lodash';
 
 export const ATTENDANCE_STATES = {
   PRESENT: "PRESENT",
@@ -9,20 +10,8 @@ export const ATTENDANCE_STATES = {
   LATE: "LATE"
 };
 
-function convertUsers(payload){
-  return payload.reduce((students, current) => {
-    var student = {};
-    student.avatar_url = current.avatar_url;
-    student.lms_student_id = current.id;
-    student.name = current.name;
-    student.sortable_name = current.sortable_name;
-    students[current.id] = student;
-    return students;
-  }, {});
-}
-
 export const initialState = () => ({
-  all:{}
+  all: []
 });
 
 export default (state = initialState(), action) => {
@@ -37,3 +26,10 @@ export default (state = initialState(), action) => {
       return state;
   }
 };
+
+function convertUsers(payload){
+  return _.reduce(payload, (students, current) => {
+    students[current.id] = {...current, lms_student_id: current.id};
+    return students;
+  }, {});
+}
