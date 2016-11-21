@@ -56,7 +56,6 @@ export default class DateSelector extends React.Component{
   }
 
   render(){
-
     return (
       <div className="c-date-picker" onClick={(e)=>e.stopPropagation()}>
 

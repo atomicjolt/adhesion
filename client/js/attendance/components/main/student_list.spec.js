@@ -3,7 +3,7 @@ import React        from 'react';
 import TestUtils    from 'react/lib/ReactTestUtils';
 import { StudentList } from './student_list';
 
-fdescribe('Student List', () => {
+describe('Student List', () => {
   let result, props;
   const error = {showError: false, statusCode: 502};
 
@@ -44,9 +44,17 @@ fdescribe('Student List', () => {
     );
   });
 
-  //TODO: this
   it('Unmark all should apply a status to all students', () => {
-    const students = result.markAll("PRESENT");
+    spyOn(props, 'markStudents');
+    const result = TestUtils.renderIntoDocument(<StudentList {...props}/>);
+    let button = TestUtils.scryRenderedDOMComponentsWithClass(result, "c-btn--unmark-all");
+    TestUtils.Simulate.click(button[0]);
+    expect(props.markStudents).toHaveBeenCalledWith(
+      props.students,
+      props.settings.lmsCourseId,
+      props.application.date,
+      ""
+    );
   });
 
   it('students should return an array of student components', () => {

@@ -112,7 +112,6 @@ export class StudentList extends React.Component{
 
 
   render(){
-
     return (
       <div>
         <div className="c-top-bar">
