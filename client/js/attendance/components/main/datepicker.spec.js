@@ -10,6 +10,6 @@ describe('date picker', () => {
   });
 
   it('renders...', () => {
-    expect(TestUtils.findRenderedDOMComponentWithClass(result, 'c-date-calendar')).not.toBeDefined();
+    expect(TestUtils.findRenderedDOMComponentWithClass(result, 'c-date-calendar')).toBeDefined();
   });
 });
