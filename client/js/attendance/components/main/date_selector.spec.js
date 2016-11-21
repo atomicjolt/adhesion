@@ -6,8 +6,7 @@ import TestUtils    from 'react/lib/ReactTestUtils';
 import DateSelector from './date_selector';
 
 describe('getDate', () => {
-  var result;
-  var props;
+  let result, props;
   const date = new Date('2016-01-01');
 
   beforeEach(() => {

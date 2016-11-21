@@ -44,15 +44,14 @@ export default class RangePicker extends React.Component{
           <SvgButton type="date" className="c-btn c-btn--date" onClick={(e)=>this.dateClick(e, [true, false])}>
             <span>{this.visualDate(this.props.startDate)}</span>
           </SvgButton>
-          <Datepicker
+          { this.state.shouldShowCalendar[0] ? <Datepicker
             selected   = {moment(this.props.startDate)}
             onChange   = {(date) => {
               this.props.onStartChange(date.toDate());
               this.closeCalendars();
             }}
-            shouldShow = {this.state.shouldShowCalendar[0]}
             inline
-          />
+          /> : null }
         </div>
         <div className="c-popup__label">
           <span>End Date</span>
