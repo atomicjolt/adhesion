@@ -53,7 +53,7 @@ describe('Student List', () => {
       const result = TestUtils.renderIntoDocument(<StudentList {...props}/>);
       const students = result.markAll("PRESENT");
       expect(props.markStudents).toHaveBeenCalledWith(
-        students,
+        props.students,
         props.settings.lmsCourseId,
         props.application.date,
         "PRESENT"
