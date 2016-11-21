@@ -49,7 +49,7 @@ Style/CharacterLiteral:
 Style/ClassAndModuleChildren:
   Description: 'Checks style of children classes and modules.'
   Enabled: true
-  EnforcedStyle: compact
+  EnforcedStyle: nested
 
 Metrics/ClassLength:
   Description: 'Avoid classes longer than 100 lines of code.'
@@ -146,6 +146,12 @@ Style/ExtraSpacing:
 Style/FileName:
   Description: 'Use snake_case for source file names.'
   StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#snake-case-files'
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Description: >-
+    Add the frozen_string_literal comment to the top of files
+    to help transition from Ruby 2.3.0 to Ruby 3.0.
   Enabled: false
 
 Style/FlipFlop:
