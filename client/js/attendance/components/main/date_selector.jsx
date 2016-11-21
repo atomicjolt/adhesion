@@ -59,13 +59,25 @@ export default class DateSelector extends React.Component{
     return (
       <div className="c-date-picker" onClick={(e)=>e.stopPropagation()}>
 
-        <SvgButton type="previous" className="c-btn c-btn--previous" onClick={() => this.prevClick()} noIconClass/>
+        <SvgButton
+          type="previous"
+          className="c-btn c-btn--previous"
+          onClick={() => this.prevClick()}
+          noIconClass/>
 
-        <SvgButton type="date" className="c-btn c-btn--date" onClick={()=>this.setState({shouldShowCalendar: !this.state.shouldShowCalendar})} noIconClass>
+        <SvgButton
+          type="date"
+          className="c-btn c-btn--date"
+          onClick={()=>this.setState({shouldShowCalendar: !this.state.shouldShowCalendar})}
+          noIconClass>
           <span>{this.visualDate(this.props.date)}</span>
         </SvgButton>
 
-        <SvgButton type="next" className="c-btn c-btn--next" onClick={() => this.nextClick()} noIconClass/>
+        <SvgButton
+          type="next"
+          className="c-btn c-btn--next"
+          onClick={() => this.nextClick()}
+          noIconClass/>
 
         <Datepicker
           selected={moment(this.props.date)}
