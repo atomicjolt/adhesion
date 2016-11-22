@@ -13,7 +13,7 @@ describe('getDate', () => {
   beforeEach(() => {
     props = {
       date,
-      updateDate: () => {}
+      updateDate: (newDate) => props.date = newDate
     };
     result = TestUtils.renderIntoDocument(<DateSelector {...props} />);
   });
@@ -21,6 +21,18 @@ describe('getDate', () => {
   it('Returns correct visual date', () => {
     const visualDate = result.visualDate(date);
     expect(visualDate).toEqual("Thu Dec 31 2015");
+  });
+
+  it('moves one day towards the future', () => {
+    const button = TestUtils.findRenderedDOMComponentWithClass(result, 'c-btn--next');
+    TestUtils.Simulate.click(button);
+    expect(props.date.toDateString()).toContain('Jan 01 2016');
+  });
+
+  it('moves us further towards the past', () => {
+    const button = TestUtils.findRenderedDOMComponentWithClass(result, 'c-btn--previous');
+    TestUtils.Simulate.click(button);
+    expect(props.date.toDateString()).toContain('Dec 30 2015');
   });
 });
 
