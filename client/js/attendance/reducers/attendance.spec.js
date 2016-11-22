@@ -9,7 +9,7 @@ describe('attendance reducer', () => {
     state = undefined;
     action = { original: { body: {} }, body: {} };
     action.original.date = new Date("2016-01-01");
-    date = action.original.date.toDateString();
+    date = action.original.date;
     attendance = [
       {lms_student_id: "1", status: 'ABSENT', date: date},
       {lms_student_id: "2", status: 'ABSENT', date: date},

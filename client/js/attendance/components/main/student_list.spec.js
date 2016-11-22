@@ -75,7 +75,5 @@ function makeStudent (id){
 
 function fakeStudents(n){
   const studentList = _.range(n).map((i) => makeStudent(i));
-  return studentList.reduce((students, student) => {
-    students[student.lms_student_id] = student;
-    return students;}, {});
+  return _.orderBy(studentList, 'name');
 }
