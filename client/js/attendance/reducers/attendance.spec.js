@@ -50,7 +50,7 @@ describe('attendance reducer', () => {
         date: new Date("2016-01-01"), 
         students: [ { lms_student_id: '1' } ], 
         status: 'PRESENT' 
-      }
+      };
     action.type = StudentConstants.UPDATE_STATUS;
     state = attendanceReducer(state, action);
     expect(state.attendances[date]['1']).toEqual("PRESENT");
@@ -79,7 +79,7 @@ describe('attendance reducer', () => {
       body: {
         date: new Date("2016-01-01")
       }
-    }
+    };
     action.payload = [ { lms_student_id: '1', status: 'PRESENT' } ];
     action.type = StudentConstants.UPDATE_STATUS_DONE;
     state = attendanceReducer(state, action);

@@ -1,6 +1,5 @@
 "use strict";
 
-import { DONE }                       from "../../constants/wrapper";
 import { Constants as ErrorConstants }   from "../actions/error";
 import { Constants as AttendanceConstants }   from "../actions/attendance";
 
@@ -16,8 +15,7 @@ export default (state = initialState(), action) => {
     case AttendanceConstants.DOWNLOAD_FILE_DONE:
     case ErrorConstants.ERROR:
       const status = action.response ? action.response.status : "";
-      const newState = {...state, ...{showError: action.error, statusCode: status}};
-      return newState;
+      return {...state, ...{showError: action.error, statusCode: status}};
 
     default:
       return state;
