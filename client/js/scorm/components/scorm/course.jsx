@@ -8,7 +8,7 @@ import Loader                   from '../../../common_components/loader.jsx';
 
 const AssignmentButton = (props) => {
   return(
-    <a href={`https://${props.canvasUrl}/courses/${props.courseId}/assignments/${props.lms_assignment_id}`} target="_parent"><SvgButton type="gradedAssignment"/></a>
+    <a href={`https://${props.canvasUrl}/courses/${props.courseId}/assignments/${props.lms_assignment_id}`} target="_parent"><SvgButton type="gradedAssignment" onClick={() => {}}/></a>
   );
 };
 

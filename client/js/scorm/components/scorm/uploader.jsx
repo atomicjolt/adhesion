@@ -20,7 +20,7 @@ export class Uploader extends React.Component {
           <div className="c-progress-bar red">
             <span style={{width: "100%"}}></span>
           </div>
-          <SvgButton handleClick={(e)=>this.props.removeError()} type="removeError" />
+          <SvgButton onClick={(e)=>this.props.removeError()} type="removeError" />
         </div>
       );
     } else {
