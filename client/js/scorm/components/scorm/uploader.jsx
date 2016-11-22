@@ -1,4 +1,5 @@
 "use strict";
+/*eslint class-methods-use-this: ["error", { "exceptMethods": ["getStyles"] }] */
 
 import React                    from 'react';
 import { connect }              from 'react-redux';
@@ -10,13 +11,13 @@ import Loader                   from '../../../common_components/loader';
 
 export class Uploader extends React.Component {
 
-  getStyles(){
+  getStyles() {
     return {
       loaderContainer: {
         position: 'absolute',
         right: '50px',
-        top: '0px'
-      }
+        top: '0px',
+      },
     }
   }
 
@@ -27,7 +28,7 @@ export class Uploader extends React.Component {
           <CommonSvg className="c-icon-error" type="error" />
           <span>This file is not a valid SCORM package.</span>
         </span>
-        <SvgButton handleClick={(e)=>this.props.removeError()} type="removeError" />
+        <SvgButton handleClick={() => this.props.removeError()} type="removeError" />
       </div>
     );
   }
@@ -38,7 +39,7 @@ export class Uploader extends React.Component {
     if (this.props.error) {
       renderProgress = this.renderError();
     } else {
-      renderProgress = <div style={this.getStyles().loaderContainer}><Loader/></div>;
+      renderProgress = <div style={this.getStyles().loaderContainer}><Loader /></div>;
     }
 
     return (
@@ -56,8 +57,14 @@ export class Uploader extends React.Component {
 const select = (state, props) => {
   return {
     scormFile: state.scorm.file,
-    error: state.scorm.uploadError
+    error: state.scorm.uploadError,
+    errorHandle: 'removeError',
   };
 };
 
 export default connect(select, ScormActions)(Uploader);
+
+Uploader.propTypes = {
+  error: React.PropTypes.bool,
+  errorHandle: React.PropTypes.string.isRequired,
+}

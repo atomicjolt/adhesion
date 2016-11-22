@@ -3,10 +3,12 @@
 import React            from 'react';
 import TestUtils        from 'react/lib/ReactTestUtils';
 import AssignmentButton from './assignment_button';
-import Stub             from '../../../../specs_support/stub'
+import Stub             from '../../../../specs_support/stub';
 
 describe('Assignment Button', () => {
-  let result, props, clicked;
+  let result;
+  let props;
+  let clicked;
 
   beforeEach(() => {
     clicked = false;
@@ -14,10 +16,10 @@ describe('Assignment Button', () => {
     props = {
       canvasUrl: 'canvasorother',
       courseId: '12345',
-      lms_assignment_id: '54321'
+      lms_assignment_id: '54321',
     };
 
-    result = TestUtils.renderIntoDocument(<Stub><AssignmentButton {...props}/></Stub>)
+    result = TestUtils.renderIntoDocument(<Stub><AssignmentButton {...props} /></Stub>);
   });
 
   it('renders the correct reference', () => {
@@ -28,5 +30,4 @@ describe('Assignment Button', () => {
   it('renders an SVG button', () => {
     expect(TestUtils.isElement(<svg />)).toBeTruthy();
   });
-
 });

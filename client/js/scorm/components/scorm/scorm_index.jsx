@@ -2,6 +2,7 @@
 
 import React                                    from 'react';
 import { connect }                              from 'react-redux';
+import _                                        from 'lodash';
 import * as ScormActions                        from '../../actions/scorm';
 import CoursesList                              from './courses_list';
 import Uploader                                 from './uploader';
@@ -82,7 +83,7 @@ export class ScormIndex extends React.Component {
 }
 
 const select = (state) => {
-  let courseList = state.scorm.scormList[0] ? _.orderBy(state.scorm.scormList, 'index', 'desc') : [];
+  const courseList = state.scorm.scormList[0] ? _.orderBy(state.scorm.scormList, 'index', 'desc') : [];
   return {
     lmsCourseId: state.settings.lmsCourseId,
     userId: state.settings.userId,
