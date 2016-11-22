@@ -18,7 +18,8 @@ describe('course', () => {
       removePackage: () => {remove = true},
       importPackage: () => {remove = true},
       previewPackage: () => {remove = true},
-      updateImportType: (e) => {remove = true}
+      updateImportType: (e) => {remove = true},
+      onClick: () => {}
     }
     remove = false;
     result = TestUtils.renderIntoDocument(<Course {...props}/>);
