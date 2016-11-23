@@ -1,9 +1,7 @@
-"use strict";
-/*eslint class-methods-use-this: ["error", { "exceptMethods": ["getStyles"] }] */
+/* eslint class-methods-use-this: ["error", { "exceptMethods": ["getStyles"] }] */
 
 import React                    from 'react';
 import { connect }              from 'react-redux';
-import CoursesList              from './courses_list';
 import * as ScormActions        from '../../actions/scorm';
 import CommonSvg                from '../common/common_svg';
 import SvgButton                from '../common/svg_button';
@@ -18,7 +16,7 @@ export class Uploader extends React.Component {
         right: '50px',
         top: '0px',
       },
-    }
+    };
   }
 
   renderError() {
@@ -28,13 +26,12 @@ export class Uploader extends React.Component {
           <CommonSvg className="c-icon-error" type="error" />
           <span>This file is not a valid SCORM package.</span>
         </span>
-        <SvgButton handleClick={() => this.props.removeError()} type="removeError" />
+        <SvgButton handleClick={() => this.props.removeError()} type={this.props.errorHandle} />
       </div>
     );
   }
 
   render() {
-
     let renderProgress;
     if (this.props.error) {
       renderProgress = this.renderError();
@@ -45,7 +42,7 @@ export class Uploader extends React.Component {
     return (
       <ul className="c-upload">
         <li className="c-list__upload">
-          <CommonSvg className="c-icon-upload" type="upload"/>
+          <CommonSvg className="c-icon-upload" type="upload" />
           <div className="c-list-item__title">{this.props.scormFile.name}</div>
           {renderProgress}
         </li>
@@ -54,7 +51,7 @@ export class Uploader extends React.Component {
   }
 }
 
-const select = (state, props) => {
+const select = (state) => {
   return {
     scormFile: state.scorm.file,
     error: state.scorm.uploadError,
@@ -62,9 +59,11 @@ const select = (state, props) => {
   };
 };
 
-export default connect(select, ScormActions)(Uploader);
-
 Uploader.propTypes = {
   error: React.PropTypes.bool,
   errorHandle: React.PropTypes.string.isRequired,
-}
+  removeError: React.PropTypes.func.isRequired,
+  scormFile: React.PropTypes.object,
+};
+
+export default connect(select, ScormActions)(Uploader);

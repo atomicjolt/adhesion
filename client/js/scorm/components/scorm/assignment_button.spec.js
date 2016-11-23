@@ -8,11 +8,8 @@ import Stub             from '../../../../specs_support/stub';
 describe('Assignment Button', () => {
   let result;
   let props;
-  let clicked;
 
   beforeEach(() => {
-    clicked = false;
-
     props = {
       canvasUrl: 'canvasorother',
       courseId: '12345',
