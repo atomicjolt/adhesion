@@ -25,7 +25,3 @@ rules:
   linebreak-style:
     - error
     - unix
-  no-multi-spaces:
-    - error
-    - exceptions:
-        ImportDeclaration: true
