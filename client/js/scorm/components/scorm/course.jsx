@@ -1,11 +1,11 @@
 "use strict";
 
-import React                    from 'react';
-import { connect }              from 'react-redux';
-import SvgButton                from '../common/svg_button';
-import ImportTypeSelector       from './import_type_selector';
-import Loader                   from '../../../common_components/loader';
-import AssignmentButton         from './assignment_button';
+import React from 'react';
+import { connect } from 'react-redux';
+import SvgButton from '../common/svg_button';
+import ImportTypeSelector from './import_type_selector';
+import Loader from '../../../common_components/loader';
+import AssignmentButton from './assignment_button';
 
 export class Course extends React.Component {
   static ImportTypes = {

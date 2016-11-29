@@ -1,9 +1,9 @@
 /* global describe beforeEach it expect */
 
-import React            from 'react';
-import TestUtils        from 'react/lib/ReactTestUtils';
+import React from 'react';
+import TestUtils from 'react/lib/ReactTestUtils';
 import AssignmentButton from './assignment_button';
-import Stub             from '../../../../specs_support/stub';
+import Stub from '../../../../specs_support/stub';
 
 describe('Assignment Button', () => {
   let result;

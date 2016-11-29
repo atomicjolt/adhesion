@@ -1,5 +1,5 @@
-import React                    from 'react';
-import CommonSvg                from '../common/common_svg';
+import React from 'react';
+import CommonSvg from '../common/common_svg';
 
 export default function assignmentButton(props) {
   return (

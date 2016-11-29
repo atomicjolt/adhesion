@@ -1,11 +1,11 @@
 /* eslint class-methods-use-this: ["error", { "exceptMethods": ["getStyles"] }] */
 
-import React                    from 'react';
-import { connect }              from 'react-redux';
-import * as ScormActions        from '../../actions/scorm';
-import CommonSvg                from '../common/common_svg';
-import SvgButton                from '../common/svg_button';
-import Loader                   from '../../../common_components/loader';
+import React from 'react';
+import { connect } from 'react-redux';
+import * as ScormActions from '../../actions/scorm';
+import CommonSvg from '../common/common_svg';
+import SvgButton from '../common/svg_button';
+import Loader from '../../../common_components/loader';
 
 export class Uploader extends React.Component {
 
