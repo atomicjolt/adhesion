@@ -15,7 +15,7 @@ const requests = [
   "UPDATE_UPLOAD_FILE",
   "PREVIEW_PACKAGE",
   "UPDATE_PACKAGE"
-];
+]
 
 export const Constants = wrapper(actions, requests);
 

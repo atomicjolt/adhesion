@@ -15,7 +15,7 @@ class ScormCourseController < ApplicationController
       redirect_url: params[:launch_presentation_return_url],
       postback_url: scorm_course_postback_url,
       lti_credentials: current_lti_application_instance,
-      result_params: params
+      result_params: params,
     )
 
     @scorm_cloud.sync_registration(params)

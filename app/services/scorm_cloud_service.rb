@@ -131,7 +131,7 @@ class ScormCloudService
       )
       registration_params = reg_params(result_params)
       if registration.nil?
-  			registration = Registration.create registration_params
+  			registration = Registration.create(registration_params)
         registration.lti_application_instance = lti_credentials
         registration.save!
   			response = @scorm_cloud.registration.create_registration(
