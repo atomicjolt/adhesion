@@ -18,28 +18,6 @@ RSpec.configure do |config|
 # The settings below are suggested to provide a good initial experience
 # with RSpec, but feel free to customize to your heart's content.
   begin
-  config.before(:each) do
-    stub_request(:get, /cloud.scorm.com/).
-      to_return(status: 200,
-                body: {
-                  status: 200,
-                  response: [
-                    {
-                      title: 'Golf Explained - CP Single SCO',
-                      id: 10,
-                      lms_assignment_id: 7236,
-                      is_graded: 'GRADED',
-                    },
-                    {
-                      title: 'Golf Explained - Metadata Example',
-                      id: 9,
-                      lms_assignment_id: 7235,
-                      is_graded: 'GRADED',
-                    }
-                  ]
-                }.to_xml,
-                headers: {})
-  end
   # These two settings work together to allow you to limit a spec run
   # to individual examples or groups you care about by tagging them with
   # `:focus` metadata. When nothing is tagged with `:focus`, all examples

@@ -69,7 +69,6 @@ class ScormCloudService
     result = registration_result(
       registration_params[:course_id], registration_params[:custom_canvas_user_id]
     )
-    byebug
     return if result.nil?
     sync_registration_score(result[:response]["rsp"]["registrationreport"])
   end
