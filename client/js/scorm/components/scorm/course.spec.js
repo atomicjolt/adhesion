@@ -67,14 +67,14 @@ describe('course', () => {
   it('preview handleClick calls handlePreview', () => {
     expect(remove).toBeFalsy();
     let btn = TestUtils.scryRenderedDOMComponentsWithTag(result, 'button');
-    TestUtils.Simulate.click(btn[1]);
+    TestUtils.Simulate.click(btn[0]);
     expect(remove).toBeTruthy();
   });
 
   it('delete handleClick calls handleRemove', () => {
     expect(remove).toBeFalsy();
     let btn = TestUtils.scryRenderedDOMComponentsWithTag(result, 'button');
-    TestUtils.Simulate.click(btn[2]);
+    TestUtils.Simulate.click(btn[1]);
     expect(remove).toBeTruthy();
   });
 

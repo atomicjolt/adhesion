@@ -1,13 +1,14 @@
 "use strict";
 
-import React                                    from 'react';
-import { connect }                              from 'react-redux';
-import * as ScormActions                        from '../../actions/scorm';
-import CoursesList                              from './courses_list';
-import Uploader                                 from './uploader';
+import React from 'react';
+import { connect } from 'react-redux';
+import _ from 'lodash';
+import * as ScormActions from '../../actions/scorm';
+import CoursesList from './courses_list';
+import Uploader from './uploader';
 import { create_assignment, delete_assignment } from '../../../libs/canvas/constants/assignments';
-import canvasRequest                            from '../../../libs/canvas/action';
-import FileUpload                               from '../common/file_upload';
+import canvasRequest from '../../../libs/canvas/action';
+import FileUpload from '../common/file_upload';
 
 export class ScormIndex extends React.Component {
 
@@ -82,11 +83,12 @@ export class ScormIndex extends React.Component {
 }
 
 const select = (state) => {
+  const courseList = state.scorm.scormList[0] ? _.orderBy(state.scorm.scormList, 'index', 'desc') : [];
   return {
     lmsCourseId: state.settings.lmsCourseId,
     userId: state.settings.userId,
     apiUrl: state.settings.apiUrl,
-    scormList: state.scorm.scormList,
+    scormList: courseList,
     shouldRefreshList: state.scorm.shouldRefreshList,
     scormFile: state.scorm.file,
     uploadError: state.scorm.uploadError
