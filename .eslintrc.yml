@@ -25,4 +25,4 @@ rules:
   linebreak-style:
     - error
     - unix
-  import/no-unresolved: off
+  import/no-unresolved: 0
