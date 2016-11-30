@@ -4,7 +4,7 @@
 
 // Create a Webpack require context so we can dynamically require our
 // project's modules. Exclude test files in this context.
-var context = require.context("./js", true, /\.spec\.js$/);
+var context = require.context("./js", true, /\.spec\.jsx?$/);
 
 // Extract the module ids that Webpack uses to track modules.
 var projectModuleIds = context.keys().map(module =>
