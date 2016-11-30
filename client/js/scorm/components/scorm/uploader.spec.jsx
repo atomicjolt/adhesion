@@ -12,8 +12,11 @@ describe('Uploader', () => {
     props = {
       error: true,
       scormFile: { name: 'IMASPEC' },
+      errorHandle: 'removeError',
+      removeError: () => {},
+      onClick: () => {},
     };
-    result = TestUtils.renderIntoDocument(<Uploader {...props}/>);
+    result = TestUtils.renderIntoDocument(<Uploader {...props} />);
   });
 
   it('renders error message when error exists', () => {

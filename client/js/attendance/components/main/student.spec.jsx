@@ -4,8 +4,9 @@ import { ATTENDANCE_STATES } from '../../reducers/student';
 import Student from './student';
 
 const student = {
-  lms_student_id: '123',
+  lms_student_id: 123,
   name: 'Test Student',
+  avatar_url: 'http://www.avatarmovie.com/index.html',
 };
 
 describe('Student', () => {

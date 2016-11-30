@@ -28,6 +28,8 @@ describe('Student List', () => {
       getStudentAttendance: () => {},
       changeDate: () => {},
       canvasRequest: () => {},
+      downloadFile: () => {},
+      showError: () => {},
       students: fakeStudents(10),
       error,
       settings: {
