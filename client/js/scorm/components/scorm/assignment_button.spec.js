@@ -13,7 +13,7 @@ describe('Assignment Button', () => {
     props = {
       canvasUrl: 'canvasorother',
       courseId: '12345',
-      lms_assignment_id: '54321',
+      lms_assignment_id: 54321,
     };
 
     result = TestUtils.renderIntoDocument(<Stub><AssignmentButton {...props} /></Stub>);
