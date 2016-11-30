@@ -19,7 +19,7 @@ class ScormCoursesController < ApplicationController
     )
 
     @scorm_cloud.sync_registration(params)
-    
+
     if launch[:status] == 200
       redirect_to launch[:response]
     else

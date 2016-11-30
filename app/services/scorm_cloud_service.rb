@@ -131,10 +131,10 @@ class ScormCloudService
       )
       registration_params = reg_params(result_params)
       if registration.nil?
-  			registration = Registration.create(registration_params)
+        registration = Registration.create(registration_params)
         registration.lti_application_instance = lti_credentials
         registration.save!
-  			response = @scorm_cloud.registration.create_registration(
+        response = @scorm_cloud.registration.create_registration(
           registration_params[:lms_course_id],
           registration.id,
           first_name,
@@ -146,7 +146,7 @@ class ScormCloudService
             urlpass: registration.scorm_cloud_passback_secret
           }
         )
-  		end
+      end
       @scorm_cloud.registration.launch(registration.id, redirect_url)
     end
   end
@@ -167,7 +167,7 @@ class ScormCloudService
 
   def show_course(course_id)
     scorm_cloud_request do
-	    @scorm_cloud.course.get_attributes(course_id)
+      @scorm_cloud.course.get_attributes(course_id)
     end
   end
 
@@ -175,7 +175,7 @@ class ScormCloudService
     scorm_cloud_request do
       response = @scorm_cloud.course.delete_course(course_id)
       if response == true
-    		course = ScormCourse.find_by(scorm_cloud_id: course_id)
+        course = ScormCourse.find_by(scorm_cloud_id: course_id)
         course.destroy unless course.nil?
       end
       response
@@ -183,9 +183,9 @@ class ScormCloudService
   end
 
   def preview_course(course_id, redirect_url)
-		scorm_cloud_request do
-			@scorm_cloud.course.preview(course_id, redirect_url)
-		end
+    scorm_cloud_request do
+      @scorm_cloud.course.preview(course_id, redirect_url)
+    end
   end
 
   def course_metadata(course_id)
