@@ -10,24 +10,24 @@ class Api::ScormCoursesController < ApplicationController
     params.require(:scorm_course).permit(:lms_assignment_id, :points_possible)
   end
 
-	def send_scorm_cloud_response(response)
-		render json: response, status: response[:status]
-	end
+  def send_scorm_cloud_response(response)
+    render json: response, status: response[:status]
+  end
 
-	def index
+  def index
     courses = scorm_cloud_service.list_courses
     courses[:response] = scorm_cloud_service.sync_courses(courses[:response])
     send_scorm_cloud_response(courses)
-	end
+  end
 
-	def create
-		send_scorm_cloud_response(scorm_cloud_service.upload_course(params[:file]))
-	end
+  def create
+    send_scorm_cloud_response(scorm_cloud_service.upload_course(params[:file]))
+  end
 
-	def show
+  def show
     response = scorm_cloud_service.course_manifest(params[:id])
     send_scorm_cloud_response(response)
-	end
+  end
 
   def update
     course = ScormCourse.find_by(scorm_cloud_id: params[:id])
@@ -35,18 +35,21 @@ class Api::ScormCoursesController < ApplicationController
     render json: course
   end
 
-	def destroy
-		send_scorm_cloud_response(scorm_cloud_service.remove_course(params[:id]))
-	end
+  def destroy
+    send_scorm_cloud_response(scorm_cloud_service.remove_course(params[:id]))
+  end
 
-	def preview
-		send_scorm_cloud_response(
-			scorm_cloud_service.preview_course(params[:scorm_course_id], params[:redirect_url]))
-	end
+  def preview
+    send_scorm_cloud_response(
+      scorm_cloud_service.preview_course(
+        params[:scorm_course_id], params[:redirect_url]
+      ),
+    )
+  end
 
   private
 
-    def scorm_cloud_service
-      ScormCloudService.new
-    end
+  def scorm_cloud_service
+    ScormCloudService.new
+  end
 end
