@@ -22,7 +22,7 @@ module Lti
         puts "----------------------------------------------------------------------------------------------------------------"
         puts "Course Navigation LTI Config"
         puts "----------------------------------------------------------------------------------------------------------------"
-        course_navigation_config = Lti::Config.course_navigation(config, "public")
+        course_navigation_config = Lti::Config.course_navigation(config)
         puts Lti::Config.xml(course_navigation_config)
         puts ""
         puts "----------------------------------------------------------------------------------------------------------------"
