@@ -1,11 +1,25 @@
-import _            from 'lodash';
-import React        from 'react';
-import TestUtils    from 'react/lib/ReactTestUtils';
+import _ from 'lodash';
+import React from 'react';
+import TestUtils from 'react/lib/ReactTestUtils';
 import { StudentList } from './student_list';
 
+function makeStudent(id) {
+  return {
+    name: 'Fake Student',
+    lms_student_id: id,
+    avatar_url: 'http://',
+  };
+}
+
+function fakeStudents(n) {
+  const studentList = _.range(n).map(i => makeStudent(i));
+  return _.orderBy(studentList, 'name');
+}
+
 describe('Student List', () => {
-  let result, props;
-  const error = {showError: false, statusCode: 502};
+  let result;
+  let props;
+  const error = { showError: false, statusCode: 502 };
 
   beforeEach(() => {
     props = {
@@ -15,65 +29,53 @@ describe('Student List', () => {
       changeDate: () => {},
       canvasRequest: () => {},
       students: fakeStudents(10),
-      error: error,
+      error,
       settings: {
-        lms_course_id: 1
+        lms_course_id: 1,
       },
-      application: {date: new Date("2016-1-1")},
-      attendance:{}
+      application: { date: new Date('2016-1-1') },
+      attendance: {},
     };
 
-    result = TestUtils.renderIntoDocument(<StudentList {...props}/>);
+    result = TestUtils.renderIntoDocument(<StudentList {...props} />);
   });
 
   it('calls getStudents when onMount', () => {
     spyOn(props, 'canvasRequest');
-    result = TestUtils.renderIntoDocument(<StudentList {...props}/>);
+    result = TestUtils.renderIntoDocument(<StudentList {...props} />);
     expect(props.canvasRequest).toHaveBeenCalled();
   });
 
   it('Mark all should apply a status to all students', () => {
     spyOn(props, 'markStudents');
-    const result = TestUtils.renderIntoDocument(<StudentList {...props}/>);
-    const students = result.markAll("PRESENT");
+    result = TestUtils.renderIntoDocument(<StudentList {...props} />);
+    result.markAll('PRESENT');
     expect(props.markStudents).toHaveBeenCalledWith(
       props.students,
       props.settings.lmsCourseId,
       props.application.date,
-      "PRESENT"
+      'PRESENT',
     );
   });
 
   it('Unmark all should apply a status to all students', () => {
     spyOn(props, 'markStudents');
-    const result = TestUtils.renderIntoDocument(<StudentList {...props}/>);
-    let button = TestUtils.scryRenderedDOMComponentsWithClass(result, "c-btn--unmark-all");
+    result = TestUtils.renderIntoDocument(<StudentList {...props} />);
+    const button = TestUtils.scryRenderedDOMComponentsWithClass(result, 'c-btn--unmark-all');
     TestUtils.Simulate.click(button[0]);
     expect(props.markStudents).toHaveBeenCalledWith(
       props.students,
       props.settings.lmsCourseId,
       props.application.date,
-      ""
+      '',
     );
   });
 
   it('students should return an array of student components', () => {
-    const component = TestUtils.renderIntoDocument(<StudentList {...props}/>);
-    const result = component.students();
+    const component = TestUtils.renderIntoDocument(<StudentList {...props} />);
+    result = component.students();
     expect(result.length).toEqual(Object.keys(props.students).length);
-    result.forEach((e) => expect(TestUtils.isElement(e)).toEqual(true));
+    result.forEach(e => expect(TestUtils.isElement(e)).toEqual(true));
   });
 });
 
-function makeStudent (id){
-  return {
-    name: "Fake Student",
-    lms_student_id: id,
-    avatar_url: "http://"
-  }
-}
-
-function fakeStudents(n){
-  const studentList = _.range(n).map((i) => makeStudent(i));
-  return _.orderBy(studentList, 'name');
-}

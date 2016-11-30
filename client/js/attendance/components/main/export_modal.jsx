@@ -1,85 +1,85 @@
-import React        from 'react';
-import RangePicker  from './range_picker';
+import React from 'react';
+import _ from 'lodash';
+import RangePicker from './range_picker';
 import ExportButton from './export_button';
 
 export default class ExportModal extends React.Component{
 
   static propTypes = {
-    apiUrl: React.PropTypes.string.isRequired,
     lmsCourseId: React.PropTypes.string.isRequired,
     downloadFile: React.PropTypes.func.isRequired,
     onOutsideClick: React.PropTypes.func.isRequired,
-    onExport: React.PropTypes.func
-  }
+    onExport: React.PropTypes.func,
+  };
 
-  constructor(){
-    super();
-    const today = new Date();
-    today.setHours(0,0,0,0);
-    this.state = {
-      startDate: today,
-      endDate: today
+  static getStyles() {
+    return {
+      closeModal: {
+        position: 'absolute',
+        height: '100vh',
+        width: '100vw',
+        zIndex: 2,
+        top: '0px',
+      },
+      container: {
+        position: 'absolute',
+        top: '0px',
+        width: '100%',
+        height: '100%',
+      },
     };
   }
 
-  onExport(downloadOptions = {}){
-    if(_.isFunction(this.props.onExport)){
+  constructor() {
+    super();
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    this.state = {
+      startDate: today,
+      endDate: today,
+    };
+  }
+
+  onExport(downloadOptions = {}) {
+    if (_.isFunction(this.props.onExport)) {
       this.props.onExport();
     }
     this.props.downloadFile(
       this.props.lmsCourseId,
       downloadOptions.startDate,
-      downloadOptions.endDate
+      downloadOptions.endDate,
     );
   }
 
-  getStyles(){
-    return {
-      closeModal: {
-        position:'absolute',
-        height: '100vh',
-        width: '100vw',
-        zIndex: 2,
-        top:0
-      },
-      container: {
-        position: 'absolute',
-        top:0,
-        width:'100%',
-        height:'100%'
-      }
-    };
-  }
-
-  render(){
-    const styles = this.getStyles();
+  render() {
+    const styles = ExportModal.getStyles();
 
     return (
       <div style={styles.container}>
         <div className="c-popup  c-popup--export  is-open">
-      		<div className="c-popup__left">
+          <div className="c-popup__left">
             <ExportButton
-              text={"Export All"}
+              text={'Export All'}
               onExport={() => this.onExport()}
             />
           </div>
-      		<div className="c-popup__right">
+          <div className="c-popup__right">
             <RangePicker
-              onStartChange={(date) => this.setState({startDate:date})}
-              onEndChange={(date) => this.setState({endDate:date})}
+              onStartChange={date => this.setState({ startDate: date })}
+              onEndChange={date => this.setState({ endDate: date })}
               startDate={this.state.startDate}
               endDate={this.state.endDate}
             />
             <ExportButton
               downloadOptions={{
                 startDate: this.state.startDate,
-                endDate: this.state.endDate
+                endDate: this.state.endDate,
               }}
-              text={"Export Date Range"}
-              onExport={(options) => this.onExport(options)}
+              text={'Export Date Range'}
+              onExport={options => this.onExport(options)}
             />
-      		</div>
-    	  </div>
+          </div>
+        </div>
         <div
           className="c-popup--outside"
           onClick={() => this.props.onOutsideClick()}

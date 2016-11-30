@@ -1,24 +1,24 @@
-
-import React        from 'react';
-import TestUtils    from 'react/lib/ReactTestUtils';
+import React from 'react';
+import TestUtils from 'react/lib/ReactTestUtils';
 
 import DateSelector from './date_selector';
 
 describe('getDate', () => {
-  let result, props;
+  let result;
+  let props;
   const date = new Date('2016-01-01');
 
   beforeEach(() => {
     props = {
       date,
-      updateDate: (newDate) => props.date = newDate
+      updateDate: (newDate) => { props.date = newDate; },
     };
     result = TestUtils.renderIntoDocument(<DateSelector {...props} />);
   });
 
   it('Returns correct visual date', () => {
-    const visualDate = result.visualDate(date);
-    expect(visualDate).toEqual("Thu Dec 31 2015");
+    const visualDate = DateSelector.visualDate(date);
+    expect(visualDate).toEqual('Thu Dec 31 2015');
   });
 
   it('moves one day towards the future', () => {
@@ -35,13 +35,13 @@ describe('getDate', () => {
 });
 
 describe('Event Listeners', () => {
-  var result;
-  var props;
+  let result;
+  let props;
 
   beforeEach(() => {
     props = {
-      date: new Date("2016-01-01"),
-      updateDate: () => {}
+      date: new Date('2016-01-01'),
+      updateDate: () => {},
     };
     result = TestUtils.renderIntoDocument(<DateSelector {...props} />);
   });
@@ -54,8 +54,8 @@ describe('Event Listeners', () => {
 
   it('calls updateDate when next is clicked', () => {
     props = {
-      date: new Date("2016-01-01"),
-      updateDate: () => {}
+      date: new Date('2016-01-01'),
+      updateDate: () => {},
     };
 
     spyOn(props, 'updateDate');
@@ -63,7 +63,7 @@ describe('Event Listeners', () => {
     const nextButton = TestUtils.findRenderedDOMComponentWithClass(result, 'c-btn--next');
     TestUtils.Simulate.click(nextButton);
     const newDate = new Date(props.date.getTime());
-    newDate.setHours(0,0,0,0);
+    newDate.setHours(0, 0, 0, 0);
     newDate.setDate(newDate.getDate() + 1);
 
     expect(props.updateDate).toHaveBeenCalledWith(newDate);
@@ -71,8 +71,8 @@ describe('Event Listeners', () => {
 
   it('calls updateDate when prev is clicked', () => {
     props = {
-      date: new Date("2016-01-01"),
-      updateDate: () => {}
+      date: new Date('2016-01-01'),
+      updateDate: () => {},
     };
 
     spyOn(props, 'updateDate');
@@ -80,7 +80,7 @@ describe('Event Listeners', () => {
     const prevButton = TestUtils.findRenderedDOMComponentWithClass(result, 'c-btn--previous');
     TestUtils.Simulate.click(prevButton);
     const newDate = new Date(props.date.getTime());
-    newDate.setHours(0,0,0,0);
+    newDate.setHours(0, 0, 0, 0);
     newDate.setDate(newDate.getDate() - 1);
 
     expect(props.updateDate).toHaveBeenCalledWith(newDate);

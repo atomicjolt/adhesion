@@ -1,6 +1,6 @@
-import React        from 'react';
-import TestUtils    from 'react/lib/ReactTestUtils';
-import DatePicker   from './datepicker.jsx';
+import React from 'react';
+import TestUtils from 'react/lib/ReactTestUtils';
+import DatePicker from './datepicker.jsx';
 
 describe('date picker', () => {
   let result;

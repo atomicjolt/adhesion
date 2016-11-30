@@ -1,19 +1,19 @@
-import React        from 'react';
-import ReactDOM     from 'react-dom';
-import TestUtils    from 'react/lib/ReactTestUtils';
-import ExportCSV    from './export_modal';
+import React from 'react';
+import TestUtils from 'react/lib/ReactTestUtils';
+import ExportCSV from './export_modal';
 
 describe('Export CSV', () => {
-  var props = {
+  const props = {
     apiUrl: '',
-    lmsCourseId:"123",
+    lmsCourseId: '123',
     downloadFile: () => {},
     onExport: () => {},
-    onOutsideClick: () => {}
+    onOutsideClick: () => {},
   };
 
   it('renders', () => {
     const result = TestUtils.renderIntoDocument(<ExportCSV {...props} />);
+    expect(result).toBeDefined();
   });
 
   it('should call onExport when export button is clicked', () => {
@@ -32,7 +32,7 @@ describe('Export CSV', () => {
   it('should call onOut when someone clicks outside', () => {
     spyOn(props, 'onOutsideClick');
     const result = TestUtils.renderIntoDocument(<ExportCSV {...props} />);
-    const outside = TestUtils.findRenderedDOMComponentWithClass(result, "c-popup--outside");
+    const outside = TestUtils.findRenderedDOMComponentWithClass(result, 'c-popup--outside');
     TestUtils.Simulate.click(outside);
     expect(props.onOutsideClick).toHaveBeenCalled();
   });
