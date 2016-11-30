@@ -1,4 +1,4 @@
-class ScormCourseController < ApplicationController
+class ScormCoursesController < ApplicationController
   include Concerns::LtiSupport
 
   protect_from_forgery with: :null_session
@@ -13,7 +13,7 @@ class ScormCourseController < ApplicationController
       first_name: params[:lis_person_name_given],
       last_name: params[:lis_person_name_family],
       redirect_url: params[:launch_presentation_return_url],
-      postback_url: scorm_course_postback_url,
+      postback_url: scorm_courses_postback_url,
       lti_credentials: current_lti_application_instance,
       result_params: params,
     )
