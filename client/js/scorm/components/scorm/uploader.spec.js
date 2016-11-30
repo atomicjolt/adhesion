@@ -14,20 +14,19 @@ describe('Uploader', () =>{
     result = TestUtils.renderIntoDocument(<Uploader {...props}/>);
   });
 
-  it('renders red progress bar when error exists', () => {
+  it('renders error message when error exists', () => {
     let uploadError = TestUtils.scryRenderedDOMComponentsWithClass(result, 'c-upload-error');
-    let upload = TestUtils.scryRenderedDOMComponentsWithClass(result, 'blue');
     expect(uploadError.length).toBe(1);
-    expect(upload.length).toBe(0);
   });
 
-  it('renders blue progress bar when no error exists', () => {
+  it('renders blue loader animation when no error exists', () => {
+    let loader = TestUtils.scryRenderedDOMComponentsWithClass(result, 'loader');
+    expect(loader.length).toBe(0);
     props.error = false;
-    result = TestUtils.renderIntoDocument(<Uploader {...props}/>);
-    let upload = TestUtils.scryRenderedDOMComponentsWithClass(result, 'blue');
-    let uploadError = TestUtils.scryRenderedDOMComponentsWithClass(result, 'c-upload-error');
-    expect(upload.length).toBe(1);
-    expect(uploadError.length).toBe(0);
+    result = TestUtils.renderIntoDocument(<Uploader {...props} />);
+    loader = TestUtils.scryRenderedDOMComponentsWithClass(result, 'loader');
+    expect(loader.length).toBe(1);
+
   });
 
   it('renders the correct scormFile name', () => {
