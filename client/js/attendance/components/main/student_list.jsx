@@ -25,11 +25,24 @@ const select = (state) => {
 
 export class StudentList extends React.Component {
   static propTypes = {
-    error: React.PropTypes.object.isRequired,
-    students: React.PropTypes.array.isRequired,
-    settings: React.PropTypes.object.isRequired,
-    application: React.PropTypes.object.isRequired,
-    attendance: React.PropTypes.object,
+    error: React.PropTypes.shape({
+      showError: React.PropTypes.bool,
+      statusCode: React.PropTypes.number,
+    }).isRequired,
+    students: React.PropTypes.arrayOf(
+      React.PropTypes.shape({
+        lms_student_id: React.PropTypes.number,
+        name: React.PropTypes.string,
+        avatar_url: React.PropTypes.string,
+      })).isRequired,
+    settings: React.PropTypes.shape({
+      lmsCourseId: React.PropTypes.string,
+      apiUrl: React.PropTypes.string,
+    }).isRequired,
+    application: React.PropTypes.shape({
+      date: React.PropTypes.instanceOf(Date),
+    }).isRequired,
+    attendance: React.PropTypes.objectOf(React.PropTypes.number),
     canvasRequest: React.PropTypes.func.isRequired,
     getStudentAttendance: React.PropTypes.func.isRequired,
     markStudents: React.PropTypes.func.isRequired,
@@ -114,7 +127,6 @@ export class StudentList extends React.Component {
     }
     return null;
   }
-
 
   render() {
     return (

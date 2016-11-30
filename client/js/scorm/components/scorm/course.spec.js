@@ -13,13 +13,15 @@ describe('course', () => {
         title: 'IMASPEC',
         fetching: false,
         is_graded: 'GRADED',
-        lms_assignment_id: 1
+        lms_assignment_id: 1,
       },
       removePackage: () => {remove = true},
       importPackage: () => {remove = true},
       previewPackage: () => {remove = true},
       updateImportType: (e) => {remove = true},
-      onClick: () => {}
+      onClick: () => {},
+      canvasUrl: 'www.canvas.com',
+      courseId: '7',
     }
     remove = false;
     result = TestUtils.renderIntoDocument(<Course {...props}/>);

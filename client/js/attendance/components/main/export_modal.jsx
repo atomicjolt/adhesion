@@ -3,7 +3,7 @@ import _ from 'lodash';
 import RangePicker from './range_picker';
 import ExportButton from './export_button';
 
-export default class ExportModal extends React.Component{
+export default class ExportModal extends React.Component {
 
   static propTypes = {
     lmsCourseId: React.PropTypes.string.isRequired,
@@ -88,4 +88,4 @@ export default class ExportModal extends React.Component{
       </div>
     );
   }
-};
+}

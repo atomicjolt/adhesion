@@ -14,5 +14,8 @@ export default function ExportButton(props) {
 ExportButton.propTypes = {
   text: React.PropTypes.string,
   onExport: React.PropTypes.func.isRequired,
-  downloadOptions: React.PropTypes.object,
+  downloadOptions: React.PropTypes.shape({
+    startDate: React.PropTypes.instanceOf(Date),
+    endDate: React.PropTypes.instanceOf(Date),
+  }),
 };

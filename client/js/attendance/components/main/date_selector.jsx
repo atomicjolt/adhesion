@@ -6,7 +6,7 @@ import SvgButton from '../../../common_components/svg_button';
 export default class DateSelector extends React.Component {
 
   static propTypes = {
-    date: React.PropTypes.object.isRequired,
+    date: React.PropTypes.instanceOf(Date).isRequired,
     updateDate: React.PropTypes.func.isRequired,
   };
 

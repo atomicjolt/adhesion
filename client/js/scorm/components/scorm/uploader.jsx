@@ -32,7 +32,7 @@ export class Uploader extends React.Component {
           <CommonSvg className="c-icon-error" type="error" />
           <span>This file is not a valid SCORM package.</span>
         </span>
-        <SvgButton handleClick={() => this.props.removeError()} type={this.props.errorHandle} />
+        <SvgButton onClick={() => this.props.removeError()} type={this.props.errorHandle} />
       </div>
     );
   }

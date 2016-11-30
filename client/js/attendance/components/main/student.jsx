@@ -4,7 +4,11 @@ import { AbsentIcon, PresentIcon, LateIcon } from './attendance_icons';
 
 export default class Student extends React.Component {
   static propTypes = {
-    student: React.PropTypes.object.isRequired,
+    student: React.PropTypes.shape({
+      lms_student_id: React.PropTypes.number.isRequired,
+      name: React.PropTypes.string.isRequired,
+      avatar_url: React.PropTypes.string.isRequired,
+    }).isRequired,
     updateStudentAttendance: React.PropTypes.func.isRequired,
     status: React.PropTypes.string,
   };
