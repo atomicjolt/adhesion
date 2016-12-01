@@ -27,9 +27,7 @@ export class ScormIndex extends React.Component {
     canvasAssignments: React.PropTypes.arrayOf(React.PropTypes.object),
     shouldRefreshList: React.PropTypes.bool,
     apiUrl: React.PropTypes.string,
-    scormFile: React.PropTypes.shape({
-      name: React.PropTypes.string,
-    }),
+    scormFile: React.PropTypes.shape({}),
   };
 
   constructor() {
