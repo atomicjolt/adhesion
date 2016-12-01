@@ -29,12 +29,7 @@ export class StudentList extends React.Component {
       showError: React.PropTypes.bool,
       statusCode: React.PropTypes.number,
     }).isRequired,
-    students: React.PropTypes.arrayOf(
-      React.PropTypes.shape({
-        lms_student_id: React.PropTypes.number,
-        name: React.PropTypes.string,
-        avatar_url: React.PropTypes.string,
-      })).isRequired,
+    students: React.PropTypes.arrayOf(React.PropTypes.shape({})).isRequired,
     settings: React.PropTypes.shape({
       lmsCourseId: React.PropTypes.string,
       apiUrl: React.PropTypes.string,

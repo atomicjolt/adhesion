@@ -5,13 +5,11 @@ import CommonSvg from '../../../common_components/common_svg';
 import SvgButton from '../../../common_components/svg_button';
 import Loader from '../../../common_components/loader';
 
-const select = (state) => {
-  return {
-    scormFile: state.scorm.file,
-    error: state.scorm.uploadError,
-    errorHandle: 'removeError',
-  };
-};
+const select = state => ({
+  scormFile: state.scorm.file,
+  error: state.scorm.uploadError,
+  errorHandle: 'removeError',
+});
 
 export class Uploader extends React.Component {
 
