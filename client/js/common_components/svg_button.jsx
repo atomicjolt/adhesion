@@ -14,6 +14,6 @@ svgButton.propTypes = {
   type: React.PropTypes.string.isRequired,
   onClick: React.PropTypes.func.isRequired,
   className: React.PropTypes.string,
-  noIconClass: React.PropTypes.string,
+  noIconClass: React.PropTypes.bool,
   children: React.PropTypes.node,
 };
