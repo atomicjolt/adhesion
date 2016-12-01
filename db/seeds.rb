@@ -6,7 +6,7 @@ lti_applications = [{
   name: "SCORM Player",
   description: "SCORM Player",
   client_application_name: "scorm",
-  canvas_api_permissions: "CREATE_ASSIGNMENT,DELETE_ASSIGNMENT" # List Canvas API methods the app is allowed to use. A full list of constants can be found in canvas_urls
+  canvas_api_permissions: "CREATE_ASSIGNMENT,DELETE_ASSIGNMENT,LIST_ASSIGNMENTS" # List Canvas API methods the app is allowed to use. A full list of constants can be found in canvas_urls
 },{
   name: "Attendance",
   description: "Attendance Application",
