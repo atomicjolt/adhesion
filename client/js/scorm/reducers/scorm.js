@@ -48,8 +48,9 @@ export default (state = initialState, action) => {
       return { ...state, showUploading: showUpload, file };
     }
     case PackageConstants.REMOVE_PACKAGE: {
-      _.remove(state.scormList, scorm => scorm.id === action.courseId);
-      return _.cloneDeep(state);
+      const newState = _.cloneDeep(state);
+      _.remove(newState.scormList, scorm => scorm.id === action.courseId);
+      return newState;
     }
 
     case PackageConstants.REMOVE_PACKAGE_DONE:

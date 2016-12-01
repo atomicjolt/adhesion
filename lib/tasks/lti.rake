@@ -31,14 +31,4 @@ namespace :lti do
   task :list_all => :environment do |t|
     Lti::Utils.list_all
   end
-
-  desc "Update the authorized endpoints"
-  task scorm_endpoints: :environment do ||
-    puts "SETTING AUTHORIZED CANVAS ENDPOINTS"
-    apps = LtiApplication.where(client_application_name: "scorm")
-    permissions = "CREATE_ASSIGNMENT,DELETE_ASSIGNMENT,LIST_ASSIGNMENTS"
-    apps.each do |app|
-      app.update(canvas_api_permissions: permissions)
-    end
-  end
 end
