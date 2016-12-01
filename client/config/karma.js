@@ -9,7 +9,7 @@ module.exports = function(){
   }
 
   // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage', 'spec'
-  var reporters = ['dots'];
+  const reporters = ['dots'];
 
   if(process.argv.some(isCoverage)){
     reporters.push('coverage');

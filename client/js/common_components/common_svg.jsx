@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default (props) => {
+export default function commonSVG(props) {
   const d = {
     gradedAssignment: 'M28 4h-16c-2.21 0-3.98 1.79-3.98 4l-.02 32c0 2.21 1.77 4 3.98 4h24.02c2.21 0 4-1.79 4-4v-24l-12-12zm4 32h-16v-4h16v4zm0-8h-16v-4h16v4zm-6-10v-11l11 11h-11z',
     delete: 'M12 38c0 2.21 1.79 4 4 4h16c2.21 0 4-1.79 4-4v-24h-24v24zm26-30h-7l-2-2h-10l-2 2h-7v4h28v-4z',
@@ -15,8 +15,13 @@ export default (props) => {
   };
   return (
     <svg className={props.className} xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
-      <path className="c-path" d={d[props.type]}/>
-      <path d="M0 0h48v48h-48z" fill="none"/>
+      <path className="c-path" d={d[props.type]} />
+      <path d="M0 0h48v48h-48z" fill="none" />
     </svg>
   );
+}
+
+commonSVG.propTypes = {
+  className: React.PropTypes.string,
+  type: React.PropTypes.string.isRequired,
 };
