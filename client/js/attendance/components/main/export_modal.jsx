@@ -52,6 +52,7 @@ export default class ExportModal extends React.Component {
     );
   }
 
+  // That overlay is a button, for accessibility
   render() {
     const styles = ExportModal.getStyles();
 
@@ -81,7 +82,7 @@ export default class ExportModal extends React.Component {
             />
           </div>
         </div>
-        <div
+        <button
           className="c-popup--outside"
           onClick={() => this.props.onOutsideClick()}
           style={styles.closeModal}
