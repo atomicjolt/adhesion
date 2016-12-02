@@ -11,13 +11,15 @@ class Api::AttendancesController < ApplicationController
       lms_student_id: student[:lms_student_id],
       lms_course_id: params[:lms_course_id],
       date: params[:date],
-      status: params[:status]
+      status: params[:status],
     }
   end
 
   def students
-    filtered_params = params.permit(:students => [:name, :lms_student_id, :sortable_name])
-    return filtered_params[:students] || []
+    filtered_params = params.permit(
+      students: [:name, :lms_student_id, :sortable_name],
+    )
+    filtered_params[:students] || []
   end
 
   def index
@@ -32,13 +34,13 @@ class Api::AttendancesController < ApplicationController
         att_params = attendance_params(student, params)
 
         attendance = Attendance.find_by(
-          lms_student_id: att_params[:name],
+          lms_student_id: att_params[:lms_student_id],
           lms_course_id: att_params[:lms_course_id],
-          date: att_params[:date]
+          date: att_params[:date],
         )
 
-        if attendance.present? #status = present, late, absent
-          attendance.update_attributes(att_params[:status])
+        if attendance.present? # status = present, late, absent
+          attendance.update(status: att_params[:status])
         else
           attendance = Attendance.create(att_params)
         end
@@ -51,7 +53,7 @@ class Api::AttendancesController < ApplicationController
   def search
     @attendances = Attendance.where(
       date: params[:date],
-      lms_course_id: params[:course_id]
+      lms_course_id: params[:course_id],
     )
 
     render json: @attendances
