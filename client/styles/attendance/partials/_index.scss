@@ -329,26 +329,22 @@
     }
   }
 
-.c-popup__label{
+.c-popup__label {
   display: block;
   padding: 0 1rem 1rem;
 
-  & > span{
-    display: block;
+  > span {
     @include semi-bold;
+    display: block;
     font-size: 1.2rem;
     color: $gray;
     margin-bottom: 0.5rem;
   }
 
-  .c-btn--date{
+  .c-btn--date {
     width: 100%;
     padding-left: 1.5rem;
     text-align: left;
-
-    & > span{
-
-    }
   }
 }
 
