@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import Datepicker from './datepicker';
+import DatePicker from 'react-datepicker';
 import SvgButton from '../../../common_components/svg_button';
 
 export default class DateSelector extends React.Component {
@@ -18,71 +18,52 @@ export default class DateSelector extends React.Component {
     return newDate;
   }
 
-  static visualDate(date) {
-    return date.toDateString();
-  }
-
-  constructor() {
-    super();
-    this.state = {
-      shouldShowCalendar: false,
-    };
-    this.closeDatePicker = this.closeDatePicker.bind(this);
-  }
-
-  componentDidMount() {
-    window.addEventListener('click', this.closeDatePicker);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('click', this.closeDatePicker);
-  }
-
-  prevClick() {
+  prevClick(e) {
+    e.stopPropagation();
     this.props.updateDate(DateSelector.changeDay(this.props.date, -1));
   }
 
-  nextClick() {
+  nextClick(e) {
+    e.stopPropagation();
     this.props.updateDate(DateSelector.changeDay(this.props.date, 1));
-  }
-
-  closeDatePicker() {
-    this.setState({ shouldShowCalendar: false });
   }
 
   handleDateChange(date) {
     this.props.updateDate(date);
-    this.setState({ shouldShowCalendar: false });
+  }
+
+  toggleCalendar() {
+    this.datePicker.setOpen(!this.datePicker.state.open);
   }
 
   render() {
     return (
-      <div className="c-date-picker" onClick={e => e.stopPropagation()}>
+      <div className="c-date-picker" >
         <SvgButton
           type="previous"
           className="c-btn c-btn--previous"
-          onClick={() => this.prevClick()}
+          onClick={e => this.prevClick(e)}
           noIconClass
         />
         <SvgButton
+          noIconClass
           type="date"
           className="c-btn c-btn--date"
-          onClick={() => this.setState({ shouldShowCalendar: !this.state.shouldShowCalendar })}
-          noIconClass
+          onClick={() => this.toggleCalendar()}
         >
-          <span>{DateSelector.visualDate(this.props.date)}</span>
+          <DatePicker
+            readOnly
+            ref={(datePicker) => { this.datePicker = datePicker; }}
+            dateFormat="ddd MMM Do YYYY"
+            selected={moment(this.props.date)}
+            onChange={date => this.handleDateChange(date.toDate())}
+          />
         </SvgButton>
         <SvgButton
           type="next"
           className="c-btn c-btn--next"
-          onClick={() => this.nextClick()}
+          onClick={e => this.nextClick(e)}
           noIconClass
-        />
-        <Datepicker
-          selected={moment(this.props.date)}
-          onChange={date => this.handleDateChange(date.toDate())}
-          shouldShow={this.state.shouldShowCalendar}
-          inline
         />
       </div>
     );

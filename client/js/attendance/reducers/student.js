@@ -13,10 +13,11 @@ export const initialState = () => ({
 });
 
 function convertUsers(payload) {
-  return _.reduce(payload, (students, current) => {
-    students[current.id] = { ...current, lms_student_id: current.id };
-    return students;
-  }, {});
+  const newStudents = {};
+  _.forEach(payload, (currentStudent) => {
+    newStudents[currentStudent.id] = { ...currentStudent, lms_student_id: currentStudent.id };
+  });
+  return newStudents;
 }
 
 export default (state = initialState(), action) => {

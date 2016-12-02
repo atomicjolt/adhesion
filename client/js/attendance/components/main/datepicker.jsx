@@ -3,7 +3,7 @@ import Datepicker from 'react-datepicker';
 
 export default function (props) {
   return (
-    <div className="c-date-calendar" onClick={e => e.stopPropagation()}>
+    <div className="c-date-calendar">
       <Datepicker {...props} />
     </div>
   );

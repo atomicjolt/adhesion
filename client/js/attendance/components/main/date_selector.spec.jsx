@@ -16,11 +16,6 @@ describe('getDate', () => {
     result = TestUtils.renderIntoDocument(<DateSelector {...props} />);
   });
 
-  it('Returns correct visual date', () => {
-    const visualDate = DateSelector.visualDate(date);
-    expect(visualDate).toEqual('Thu Dec 31 2015');
-  });
-
   it('moves one day towards the future', () => {
     const button = TestUtils.findRenderedDOMComponentWithClass(result, 'c-btn--next');
     TestUtils.Simulate.click(button);
@@ -31,25 +26,6 @@ describe('getDate', () => {
     const button = TestUtils.findRenderedDOMComponentWithClass(result, 'c-btn--previous');
     TestUtils.Simulate.click(button);
     expect(props.date.toDateString()).toContain('Dec 30 2015');
-  });
-});
-
-describe('Event Listeners', () => {
-  let result;
-  let props;
-
-  beforeEach(() => {
-    props = {
-      date: new Date('2016-01-01'),
-      updateDate: () => {},
-    };
-    result = TestUtils.renderIntoDocument(<DateSelector {...props} />);
-  });
-
-  it('removes event listeners on unmount', () => {
-    spyOn(window, 'removeEventListener');
-    result.componentWillUnmount();
-    expect(window.removeEventListener).toHaveBeenCalled();
   });
 
   it('calls updateDate when next is clicked', () => {
@@ -84,5 +60,12 @@ describe('Event Listeners', () => {
     newDate.setDate(newDate.getDate() - 1);
 
     expect(props.updateDate).toHaveBeenCalledWith(newDate);
+  });
+
+  it('should show the calendar when clicked', () => {
+    expect(result.datePicker.state.open).toBeFalsy();
+    const dateButton = TestUtils.findRenderedDOMComponentWithClass(result, 'c-btn--date');
+    TestUtils.Simulate.click(dateButton);
+    expect(result.datePicker.state.open).toBeTruthy();
   });
 });

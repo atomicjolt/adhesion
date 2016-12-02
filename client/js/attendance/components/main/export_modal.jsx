@@ -20,6 +20,7 @@ export default class ExportModal extends React.Component {
         width: '100vw',
         zIndex: 2,
         top: '0px',
+        opacity: '0',
       },
       container: {
         position: 'absolute',
