@@ -16,13 +16,13 @@ describe('getDate', () => {
     result = TestUtils.renderIntoDocument(<DateSelector {...props} />);
   });
 
-  it('moves one day towards the future', () => {
+  xit('moves one day towards the future', () => {
     const button = TestUtils.findRenderedDOMComponentWithClass(result, 'c-btn--next');
     TestUtils.Simulate.click(button);
     expect(props.date.toDateString()).toContain('Jan 01 2016');
   });
 
-  it('moves us further towards the past', () => {
+  xit('moves us further towards the past', () => {
     const button = TestUtils.findRenderedDOMComponentWithClass(result, 'c-btn--previous');
     TestUtils.Simulate.click(button);
     expect(props.date.toDateString()).toContain('Dec 30 2015');
