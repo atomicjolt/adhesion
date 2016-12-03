@@ -6,16 +6,14 @@ import SvgButton from '../../../common_components/svg_button';
 export default class DateSelector extends React.Component {
 
   static propTypes = {
-    date: React.PropTypes.instanceOf(Date).isRequired,
+    date: React.PropTypes.string.isRequired,
     updateDate: React.PropTypes.func.isRequired,
   };
 
   static changeDay(currentDate, numDays) {
-    const currentDay = currentDate.getDate();
-    const newDate = new Date(currentDate.getTime());
-    newDate.setHours(0, 0, 0, 0); // Zero time fields
-    newDate.setDate(currentDay + numDays);
-    return newDate;
+    const newDate = moment(currentDate);
+    newDate.add(numDays, 'days');
+    return newDate.toDate().toDateString();
   }
 
   prevClick(e) {
