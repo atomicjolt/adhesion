@@ -16,7 +16,7 @@ describe('GET_STUDENTS_DONE', () => {
       type: list_users_in_course_users.type + DONE,
       payload: students,
     };
-    const result = studentReducer({ all: [] }, action);
+    const result = studentReducer({ all: {} }, action);
 
     expect(Object.keys(result.all).length).toEqual(4);
     expect(Object.keys(result.all)).toEqual(['1', '2', '3', '4']);

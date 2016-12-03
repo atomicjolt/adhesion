@@ -9,7 +9,7 @@ export const ATTENDANCE_STATES = {
 };
 
 export const initialState = () => ({
-  all: [],
+  all: {},
 });
 
 function convertUsers(payload) {
