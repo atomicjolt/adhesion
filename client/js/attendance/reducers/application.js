@@ -3,8 +3,7 @@ import { Constants as AttendanceConstants } from '../actions/attendance';
 
 const initialState = () => {
   const date = new Date();
-  date.setHours(0, 0, 0, 0); // Zero out time field
-  return { date };
+  return { date: date.toDateString() };
 };
 
 export default (state = initialState(), action) => {

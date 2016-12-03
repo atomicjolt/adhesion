@@ -35,7 +35,7 @@ describe('Student List', () => {
       settings: {
         lms_course_id: 1,
       },
-      application: { date: new Date('2016-1-1') },
+      applicationDate: new Date('2016-1-1').toDateString(),
       attendance: {},
     };
 
@@ -55,7 +55,7 @@ describe('Student List', () => {
     expect(props.markStudents).toHaveBeenCalledWith(
       props.students,
       props.settings.lmsCourseId,
-      props.application.date,
+      props.applicationDate,
       'PRESENT',
     );
   });
@@ -68,7 +68,7 @@ describe('Student List', () => {
     expect(props.markStudents).toHaveBeenCalledWith(
       props.students,
       props.settings.lmsCourseId,
-      props.application.date,
+      props.applicationDate,
       '',
     );
   });
