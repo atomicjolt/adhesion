@@ -1,21 +1,21 @@
-"use strict";
-
-import Immutable from 'immutable';
-import {Constants as ApplicationConstants} from '../actions/application';
-
+import { Constants as ApplicationConstants } from '../actions/application';
+import { Constants as AttendanceConstants } from '../actions/attendance';
 
 const initialState = () => {
   const date = new Date();
-  date.setHours(0,0,0,0); // Zero out time field
-  return {date}; 
+  date.setHours(0, 0, 0, 0); // Zero out time field
+  return { date };
 };
 
 export default (state = initialState(), action) => {
-  switch(action.type){
-    case ApplicationConstants.CHANGE_DATE:
-      let newState = {date: action.date};
-      state = {...state, ...newState};
-      break;
+  switch (action.type) {
+
+    case AttendanceConstants.GET_STUDENT_ATTENDANCE:
+    case ApplicationConstants.CHANGE_DATE: {
+      return { ...state, ...{ date: action.date } };
+    }
+
+    default:
+      return state;
   }
-  return state;
 };

@@ -1,11 +1,15 @@
-/* eslint class-methods-use-this: ["error", { "exceptMethods": ["getStyles"] }] */
-
 import React from 'react';
 import { connect } from 'react-redux';
 import * as ScormActions from '../../actions/scorm';
-import CommonSvg from '../common/common_svg';
-import SvgButton from '../common/svg_button';
+import CommonSvg from '../../../common_components/common_svg';
+import SvgButton from '../../../common_components/svg_button';
 import Loader from '../../../common_components/loader';
+
+const select = state => ({
+  scormFile: state.scorm.file,
+  error: state.scorm.uploadError,
+  errorHandle: 'removeError',
+});
 
 export class Uploader extends React.Component {
 
@@ -26,7 +30,7 @@ export class Uploader extends React.Component {
           <CommonSvg className="c-icon-error" type="error" />
           <span>This file is not a valid SCORM package.</span>
         </span>
-        <SvgButton handleClick={() => this.props.removeError()} type={this.props.errorHandle} />
+        <SvgButton onClick={() => this.props.removeError()} type={this.props.errorHandle} />
       </div>
     );
   }
@@ -50,14 +54,6 @@ export class Uploader extends React.Component {
     );
   }
 }
-
-const select = (state) => {
-  return {
-    scormFile: state.scorm.file,
-    error: state.scorm.uploadError,
-    errorHandle: 'removeError',
-  };
-};
 
 Uploader.propTypes = {
   error: React.PropTypes.bool,

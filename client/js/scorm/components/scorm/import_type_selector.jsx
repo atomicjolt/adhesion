@@ -1,7 +1,7 @@
 "use strict";
 
 import React     from 'react';
-import CommonSvg from '../common/common_svg';
+import CommonSvg from '../../../common_components/common_svg';
 
 export default (props)=>{
   return (

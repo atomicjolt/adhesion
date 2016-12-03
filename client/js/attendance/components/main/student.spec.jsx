@@ -1,20 +1,19 @@
-import React        from 'react';
-import ReactDOM     from 'react-dom';
-import TestUtils    from 'react/lib/ReactTestUtils';
-
+import React from 'react';
+import TestUtils from 'react/lib/ReactTestUtils';
 import { ATTENDANCE_STATES } from '../../reducers/student';
-import Student               from './student';
+import Student from './student';
 
 const student = {
-  lms_student_id: "123",
-  name: "Test Student"
+  lms_student_id: 123,
+  name: 'Test Student',
+  avatar_url: 'http://www.avatarmovie.com/index.html',
 };
 
 describe('Student', () => {
   it('renders student', () => {
     const props = {
       student,
-      updateStudentAttendance: () => {}
+      updateStudentAttendance: () => {},
     };
     const result = TestUtils.renderIntoDocument(<Student {...props} />);
     expect(result).toBeDefined();
@@ -23,7 +22,7 @@ describe('Student', () => {
   it('calls update student attendance', () => {
     const props = {
       student,
-      updateStudentAttendance: () => {}
+      updateStudentAttendance: () => {},
     };
 
     spyOn(props, 'updateStudentAttendance');
@@ -40,7 +39,7 @@ describe('Student', () => {
     const props = {
       student,
       updateStudentAttendance: () => {},
-      status: ATTENDANCE_STATES.PRESENT
+      status: ATTENDANCE_STATES.PRESENT,
     };
 
     const result = TestUtils.renderIntoDocument(<Student {...props} />);
@@ -52,17 +51,8 @@ describe('Student', () => {
   });
 
   it('renders unmarks / toggles', () => {
-    const props = {
-      student,
-      updateStudentAttendance: () => {},
-      status: ATTENDANCE_STATES.PRESENT
-    };
-
-    const result = TestUtils.renderIntoDocument(<Student {...props} />);
-    const subjects = TestUtils.scryRenderedDOMComponentsWithTag(result, 'input');
-                            // currentstatus      name       id    what was clicked
-    expect(result.getNewStatus("PRESENT", "PRESENT")).toEqual(""); //"PRESENT", "test Name", "testId", "PRESENT")).toEqual("");
-    expect(result.getNewStatus("", "PRESENT")).toEqual("PRESENT");
-    expect(result.getNewStatus("PRESENT", "LATE")).toEqual("LATE");
+    expect(Student.getNewStatus('PRESENT', 'PRESENT')).toEqual('');
+    expect(Student.getNewStatus('', 'PRESENT')).toEqual('PRESENT');
+    expect(Student.getNewStatus('PRESENT', 'LATE')).toEqual('LATE');
   });
 });

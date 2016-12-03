@@ -2,7 +2,7 @@
 
 import React from 'react';
 import TestUtils from 'react/lib/ReactTestUtils';
-import SVGButton from './svg_button';
+import SVGButton from '../../../common_components/svg_button';
 import Stub from '../../../../specs_support/stub';
 
 describe('Common SVG Button', () => {
@@ -15,7 +15,7 @@ describe('Common SVG Button', () => {
 
     props = {
       type: 'gradedAssignment',
-      handleClick: () => (clicked = true),
+      onClick: () => { clicked = true; },
     };
 
     result = TestUtils.renderIntoDocument(<Stub><SVGButton {...props} /></Stub>);

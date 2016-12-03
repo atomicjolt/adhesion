@@ -72,7 +72,7 @@
   }
 }
 .c-btn--date{
-  padding: 0.8rem 1rem;
+  padding: 0;
   width: 170px;
   border: 0.2rem solid $lightest-gray;
   position: relative;
@@ -329,25 +329,31 @@
     }
   }
 
-.c-popup__label{
+.c-popup__label {
+  display: block;
+  padding: 0 1rem 1rem;
+
+  > span {
+    @include semi-bold;
     display: block;
-    padding: 0 1rem 1rem;
-
-    & > span{
-      display: block;
-      @include semi-bold;
-      font-size: 1.2rem;
-      color: $gray;
-      margin-bottom: 0.5rem;
-    }
-
-    .c-btn--date{
-      width: 100%;
-      padding-left: 1.5rem;
-      text-align: left;
-
-      & > span{
-
-      }
-    }
+    font-size: 1.2rem;
+    color: $gray;
+    margin-bottom: 0.5rem;
   }
+
+  .c-btn--date {
+    width: 100%;
+    padding-left: 1.5rem;
+    text-align: left;
+  }
+}
+
+.react-datepicker__input-container {
+  input {
+    @include semi-bold;
+    font-size: 14px;
+    border-color: transparent;
+    line-height: 22px;
+    padding: 6px 10px 5px;
+  }
+}

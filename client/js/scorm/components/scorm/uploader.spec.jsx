@@ -4,18 +4,23 @@ import React      from 'react';
 import TestUtils  from 'react/lib/ReactTestUtils';
 import { Uploader } from './uploader';
 
-describe('Uploader', () =>{
-  let props, result;
+describe('Uploader', () => {
+  let props;
+  let result;
+
   beforeEach(() => {
     props = {
-    	error: true,
-    	scormFile: {name: 'IMASPEC'}
-    }
-    result = TestUtils.renderIntoDocument(<Uploader {...props}/>);
+      error: true,
+      scormFile: { name: 'IMASPEC' },
+      errorHandle: 'removeError',
+      removeError: () => {},
+      onClick: () => {},
+    };
+    result = TestUtils.renderIntoDocument(<Uploader {...props} />);
   });
 
   it('renders error message when error exists', () => {
-    let uploadError = TestUtils.scryRenderedDOMComponentsWithClass(result, 'c-upload-error');
+    const uploadError = TestUtils.scryRenderedDOMComponentsWithClass(result, 'c-upload-error');
     expect(uploadError.length).toBe(1);
   });
 
@@ -30,7 +35,7 @@ describe('Uploader', () =>{
   });
 
   it('renders the correct scormFile name', () => {
-    let title = TestUtils.findRenderedDOMComponentWithClass(result, 'c-list-item__title');
+    const title = TestUtils.findRenderedDOMComponentWithClass(result, 'c-list-item__title');
     expect(title.textContent).toContain('IMASPEC')
   });
 });
