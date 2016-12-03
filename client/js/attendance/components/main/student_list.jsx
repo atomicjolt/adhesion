@@ -12,12 +12,12 @@ import { ATTENDANCE_STATES as AttendanceStates } from '../../reducers/student';
 import ExportModal from './export_modal';
 
 const select = (state) => {
-  const currentDate = state.application.date.toDateString();
+  const currentDate = state.application.date;
 
   return {
     students: _.orderBy(state.student.all, 'sortable_name'),
     settings: state.settings,
-    application: state.application,
+    applicationDate: currentDate,
     error: state.error,
     attendance: state.attendance.attendances[currentDate],
   };
@@ -34,9 +34,7 @@ export class StudentList extends React.Component {
       lmsCourseId: React.PropTypes.string,
       apiUrl: React.PropTypes.string,
     }).isRequired,
-    application: React.PropTypes.shape({
-      date: React.PropTypes.instanceOf(Date),
-    }).isRequired,
+    applicationDate: React.PropTypes.string.isRequired,
     attendance: React.PropTypes.objectOf(React.PropTypes.number),
     canvasRequest: React.PropTypes.func.isRequired,
     getStudentAttendance: React.PropTypes.func.isRequired,
@@ -54,7 +52,7 @@ export class StudentList extends React.Component {
 
   componentWillMount() {
     this.props.canvasRequest(list_users_in_course_users, { course_id: this.props.settings.lmsCourseId, enrollment_type: ['student'], include: ['avatar_url'] }, {});
-    this.props.getStudentAttendance(this.props.application.date, this.props.settings.lmsCourseId);
+    this.props.getStudentAttendance(this.props.applicationDate, this.props.settings.lmsCourseId);
   }
 
   updateStudentAttendance(student, status) {
@@ -64,7 +62,7 @@ export class StudentList extends React.Component {
       sortable_name: student.sortable_name,
     }],
       this.props.settings.lmsCourseId,
-      this.props.application.date,
+      this.props.applicationDate,
       status,
     );
   }
@@ -88,8 +86,8 @@ export class StudentList extends React.Component {
   }
 
   markAll(status) {
-    const { students, settings, application } = this.props;
-    this.props.markStudents(students, settings.lmsCourseId, application.date, status);
+    const { students, settings, applicationDate } = this.props;
+    this.props.markStudents(students, settings.lmsCourseId, applicationDate, status);
   }
 
   toggleExportModal() {
@@ -138,7 +136,7 @@ export class StudentList extends React.Component {
           </button>
           {this.exportModal()}
           <DateSelector
-            date={this.props.application.date}
+            date={this.props.applicationDate}
             updateDate={date => this.handleDateChange(date)}
           />
         </div>
