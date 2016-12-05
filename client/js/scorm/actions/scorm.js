@@ -25,13 +25,14 @@ export const updateImportType = (index, importType) => ({
   importType,
 });
 
-export const loadPackages = () => ({
+export const loadPackages = lmsCourseId => ({
   method: Network.GET,
   type: Constants.LOAD_PACKAGES,
-  url: '/api/scorm_courses',
+  url: `/api/scorm_courses?lms_course_id=${lmsCourseId}`,
+  params: { lms_course_id: lmsCourseId },
 });
 
-export const uploadPackage = (file) => {
+export const uploadPackage = (file, lmsCourseId) => {
   const form = new FormData();
   form.append('file', file);
   return {
@@ -39,6 +40,7 @@ export const uploadPackage = (file) => {
     type: Constants.UPLOAD_PACKAGE,
     url: '/api/scorm_courses',
     body: form,
+    params: { lms_course_id: lmsCourseId },
     upload: file,
   };
 };

@@ -74,7 +74,7 @@ class ScormCloudService
   end
 
   def sync_courses(courses)
-    course_ids = courses.map{ |c| c.id.to_i } # TODO support string as course id, scorm cloud dashboard assigns GUID type ids :(
+    course_ids = courses.map{ |c| c.id }
     existing_course_ids = ScormCourse.all.map{ |c| c[:scorm_cloud_id] }
     extra = existing_course_ids - course_ids
     needed = course_ids - existing_course_ids
@@ -151,17 +151,20 @@ class ScormCloudService
     end
   end
 
-  def list_courses
+  def list_courses(options = {})
     scorm_cloud_request do
-      @scorm_cloud.course.get_course_list
+      @scorm_cloud.course.get_course_list(options)
     end
   end
 
-  def upload_course(file)
+  def upload_course(file, lms_course_id)
     course = ScormCourse.create
     cleanup = Proc.new { course.destroy }
     scorm_cloud_request(cleanup) do
-      response = @scorm_cloud.course.import_course(course.id, file)
+      @scorm_cloud.course.import_course(
+        "#{course.id}_#{lms_course_id}",
+        file,
+      )
     end
   end
 
