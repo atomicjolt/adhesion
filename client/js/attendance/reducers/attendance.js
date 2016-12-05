@@ -16,8 +16,8 @@ export default (state = initialState, action) => {
       const attendances = {};
       attendances[date] = {};
       _.forEach(attendanceData, (attendance) => {
-        const newDate = new Date(attendance.date);
-        if (moment(date).startOf('day').isSame(moment(newDate).startOf('day'))) {
+        const newDate = moment(attendance.date);
+        if (moment(date, 'ddd MMM Do YYYY').startOf('day').isSame(moment(newDate).startOf('day'))) {
           attendances[date][attendance.lms_student_id] = attendance.status;
         }
       });
