@@ -5,7 +5,15 @@
 <%= CSV.generate_line(header_row, {:row_sep => ''}) %>
 <%- att_by_student.keys.sort.each do |key|
   student_att = att_by_student[key]
-  row = [att_by_student[key][0][:name]]
+  if att_by_student[key][0][:name].include?(',')
+    first_segment = att_by_student[key][0][:name].split(',')[1]
+    last_segment = att_by_student[key][0][:name].split(',')[0]
+    first_segment[0] = ''
+    row = [first_segment << ' ' << last_segment]
+  else
+    row = [att_by_student[key][0][:name]]
+  end
+
   days.each do |day|
     att = student_att.find {|att| att.date == day}
     if !att.nil? && !att.status.empty?
