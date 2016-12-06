@@ -74,7 +74,7 @@ class ScormCloudService
   end
 
   def sync_courses(courses)
-    course_ids = courses.map{ |c| c.id }
+    course_ids = courses.map(&:id)
     existing_course_ids = ScormCourse.all.map{ |c| c[:scorm_cloud_id] }
     extra = existing_course_ids - course_ids
     needed = course_ids - existing_course_ids
