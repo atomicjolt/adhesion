@@ -55,7 +55,6 @@ class Api::AttendancesController < ApplicationController
       date: params[:date],
       lms_course_id: params[:course_id],
     )
-
     render json: @attendances
   end
 end
