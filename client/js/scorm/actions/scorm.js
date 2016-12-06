@@ -63,7 +63,7 @@ export const updatePackage = (courseId, body = {}, lmsCourseId) => ({
   type: Constants.UPDATE_PACKAGE,
   url: `/api/scorm_courses/${courseId}`,
   body,
-  lmsCourseId
+  lmsCourseId,
 });
 
 export const removeError = () => ({
