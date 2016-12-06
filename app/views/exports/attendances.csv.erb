@@ -6,10 +6,9 @@
 <%- att_by_student.keys.sort.each do |key|
   student_att = att_by_student[key]
   if att_by_student[key][0][:name].include?(',')
-    first_segment = att_by_student[key][0][:name].split(',')[1] ?
-      att_by_student[key][0][:name].split(',')[1] : ''
-    last_segment = att_by_student[key][0][:name].split(',')[0]
-    row = [first_segment.strip << ' ' << last_segment.strip]
+    parts = att_by_student[key][0][:name].split(',')
+    last = parts.shift
+    row = [parts.join(' ').strip << ' ' << last]
   else
     row = [att_by_student[key][0][:name]]
   end
