@@ -7,7 +7,7 @@ import DateSelector from './date_selector';
 describe('getDate', () => {
   let result;
   let props;
-  const date = 'Dec 31 2015';
+  const date = 'Mon Dec 5th 2016';
 
   beforeEach(() => {
     props = {
@@ -20,18 +20,18 @@ describe('getDate', () => {
   it('moves one day towards the future', () => {
     const button = TestUtils.findRenderedDOMComponentWithClass(result, 'c-btn--next');
     TestUtils.Simulate.click(button);
-    expect(props.date).toContain('Jan 01 2016');
+    expect(props.date).toContain('Tue Dec 06 2016');
   });
 
   it('moves us further towards the past', () => {
     const button = TestUtils.findRenderedDOMComponentWithClass(result, 'c-btn--previous');
     TestUtils.Simulate.click(button);
-    expect(props.date).toContain('Dec 30 2015');
+    expect(props.date).toContain('Sun Dec 04 2016');
   });
 
   it('calls updateDate when next is clicked', () => {
     props = {
-      date: new Date('2016-01-01'),
+      date: 'Mon Dec 5th 2016',
       updateDate: () => {},
     };
 
@@ -39,14 +39,14 @@ describe('getDate', () => {
     result = TestUtils.renderIntoDocument(<DateSelector {...props} />);
     const nextButton = TestUtils.findRenderedDOMComponentWithClass(result, 'c-btn--next');
     TestUtils.Simulate.click(nextButton);
-    const newDate = moment(props.date).add(1, 'd').toDate().toDateString();
+    const newDate = moment(props.date, 'ddd MMM Do YYYY').add(1, 'd').toDate().toDateString();
 
     expect(props.updateDate).toHaveBeenCalledWith(newDate);
   });
 
   it('calls updateDate when prev is clicked', () => {
     props = {
-      date: new Date('2016-01-01'),
+      date: 'Mon Dec 5th 2016',
       updateDate: () => {},
     };
 
@@ -54,7 +54,7 @@ describe('getDate', () => {
     result = TestUtils.renderIntoDocument(<DateSelector {...props} />);
     const prevButton = TestUtils.findRenderedDOMComponentWithClass(result, 'c-btn--previous');
     TestUtils.Simulate.click(prevButton);
-    const newDate = moment(props.date).add(-1, 'd').toDate().toDateString();
+    const newDate = moment(props.date, 'ddd MMM Do YYYY').add(-1, 'd').toDate().toDateString();
 
     expect(props.updateDate).toHaveBeenCalledWith(newDate);
   });
