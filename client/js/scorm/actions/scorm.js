@@ -28,7 +28,7 @@ export const updateImportType = (index, importType) => ({
 export const loadPackages = lmsCourseId => ({
   method: Network.GET,
   type: Constants.LOAD_PACKAGES,
-  url: `/api/scorm_courses?lms_course_id=${lmsCourseId}`,
+  url: '/api/scorm_courses',
   params: { lms_course_id: lmsCourseId },
 });
 
@@ -58,11 +58,12 @@ export const previewPackage = courseId => ({
   url: `/api/scorm_courses/${courseId}/preview`,
 });
 
-export const updatePackage = (courseId, body = {}) => ({
+export const updatePackage = (courseId, body = {}, lmsCourseId) => ({
   method: Network.PUT,
   type: Constants.UPDATE_PACKAGE,
   url: `/api/scorm_courses/${courseId}`,
   body,
+  lmsCourseId
 });
 
 export const removeError = () => ({
