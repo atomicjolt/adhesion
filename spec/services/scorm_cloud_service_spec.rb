@@ -63,10 +63,12 @@ describe "Scorm Cloud Service" do
       graded_course.save!
 
       subject = ScormCloudService.new
-      result = subject.sync_courses([
-        MockCourse.new("9"),
-        MockCourse.new("3")
-      ])
+      result = subject.sync_courses(
+        [
+          MockCourse.new("9"),
+          MockCourse.new("3"),
+        ],
+      )
 
       expect(ScormCourse.all.map { |c| c[:scorm_cloud_id] }).to eq(["9", "3"])
       expect(result[0][:lms_assignment_id]).to eq(1)
