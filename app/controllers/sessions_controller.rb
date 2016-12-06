@@ -5,7 +5,6 @@ class SessionsController < Devise::SessionsController
   respond_to :json
 
   def create
-    byebug
     # This is the default behavior from devise - view the sessions controller source:
     # https://github.com/plataformatec/devise/blob/master/app/controllers/devise/sessions_controller.rb
     self.resource = warden.authenticate!(auth_options)
