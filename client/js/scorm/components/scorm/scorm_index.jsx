@@ -38,7 +38,7 @@ export class ScormIndex extends React.Component {
   }
 
   componentDidMount() {
-    this.props.loadPackages();
+    this.props.loadPackages(this.props.lmsCourseId);
     this.props.canvasRequest(
       listAssignments,
       { course_id: this.props.lmsCourseId },
@@ -47,7 +47,7 @@ export class ScormIndex extends React.Component {
 
   componentDidUpdate() {
     if (this.props.shouldRefreshList) {
-      this.props.loadPackages();
+      this.props.loadPackages(this.props.lmsCourseId);
     }
     if (!this.state.synced && this.props.scormList && this.props.canvasAssignments) {
       this.synchronize();
@@ -100,7 +100,7 @@ export class ScormIndex extends React.Component {
 
   uploadPackage(file) {
     this.props.removeError();
-    this.props.uploadPackage(file);
+    this.props.uploadPackage(file, this.props.lmsCourseId);
   }
 
   render() {

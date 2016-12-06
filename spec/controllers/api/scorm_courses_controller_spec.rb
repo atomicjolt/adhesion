@@ -38,8 +38,11 @@ RSpec.describe Api::ScormCoursesController, type: :controller do
 
   describe "POST create" do
     it "should upload scorm package" do
-      expect(@mock_scorm).to receive(:upload_course).with("fake_file")
-      post :create, file: "fake_file"
+      expect(@mock_scorm).to receive(:upload_course).with(
+        "fake_file",
+        "course_id",
+      )
+      post :create, file: "fake_file", lms_course_id: "course_id"
       expect(response).to have_http_status(200)
     end
   end
