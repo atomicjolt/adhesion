@@ -13,7 +13,7 @@ const select = state => ({
 
 export class Uploader extends React.Component {
 
-  getStyles() {
+  static getStyles() {
     return {
       loaderContainer: {
         position: 'absolute',
@@ -40,7 +40,7 @@ export class Uploader extends React.Component {
     if (this.props.error) {
       renderProgress = this.renderError();
     } else {
-      renderProgress = <div style={this.getStyles().loaderContainer}><Loader /></div>;
+      renderProgress = <div style={Uploader.getStyles().loaderContainer}><Loader /></div>;
     }
 
     return (
