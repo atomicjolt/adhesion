@@ -144,7 +144,7 @@ class Canvas
       url.split(';')[0].gsub(/[\<\>\s]/, "")
     end
   end
-
+# TODO: should we check to see if payload is JSON, else is 402?
   def proxy(type, params, payload = nil, get_all = false)
 
     additional_headers = {

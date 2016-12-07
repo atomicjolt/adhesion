@@ -1,5 +1,4 @@
 class Api::CanvasProxyController < ApplicationController
-
   include Concerns::CanvasSupport
   include Concerns::JwtToken
 
@@ -9,7 +8,6 @@ class Api::CanvasProxyController < ApplicationController
   respond_to :json
 
   def proxy
-
     result = canvas_api.proxy(params[:type], params, request.body.read)
     response.status = result.code
 
@@ -24,6 +22,5 @@ class Api::CanvasProxyController < ApplicationController
 
     render text: result.body
   end
-
 end
 
