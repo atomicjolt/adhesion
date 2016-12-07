@@ -1,10 +1,9 @@
 require "scorm_cloud"
 
 class ScormCloudService
-
   SCORM_ASSIGNMENT_STATE = {
     GRADED: "GRADED",
-    UNGRADED: "UNGRADED"
+    UNGRADED: "UNGRADED",
   }
 
   def initialize
@@ -40,28 +39,28 @@ class ScormCloudService
     reg = Registration.find(reg_id(reg_result))
     new_score = package_score(reg_result)
     reg.score = new_score
-
-    if(package_complete?(reg_result) && reg.changed?)
+    if package_complete?(reg_result) && reg.changed?
       tp_params = {
-        'lis_outcome_service_url' =>  reg[:lis_outcome_service_url],
-        'lis_result_sourcedid' => reg[:lis_result_sourcedid],
-        'user_id' => reg[:lms_user_id]
+        "lis_outcome_service_url" => reg[:lis_outcome_service_url],
+        "lis_result_sourcedid" => reg[:lis_result_sourcedid],
+        "user_id" => reg[:lms_user_id],
       }
       provider = IMS::LTI::ToolProvider.new(
         reg.lti_application_instance.lti_key,
         reg.lti_application_instance.lti_secret,
-        tp_params
+        tp_params,
       )
-       response = provider.post_replace_result!(reg.score)
-       if response.success?
-         reg.save!
-          # grade write worked
-       elsif response.processing?
-       elsif response.unsupported?
-       else
-         #TODO figure out how to handle postback failure
-         # failed
-       end
+      byebug
+      response = provider.post_replace_result!(reg.score)
+      if response.success?
+        reg.save!
+        # grade write worked
+      elsif response.processing?
+      elsif response.unsupported?
+      else
+        #TODO figure out how to handle postback failure
+        # failed
+      end
     end
   end
 
@@ -75,7 +74,7 @@ class ScormCloudService
 
   def sync_courses(courses)
     course_ids = courses.map{ |c| c.id.to_i } # TODO support string as course id, scorm cloud dashboard assigns GUID type ids :(
-    existing_course_ids = ScormCourse.all.map{ |c| c[:scorm_cloud_id] }
+    existing_course_ids = ScormCourse.all.map { |c| c[:scorm_cloud_id] }
     extra = existing_course_ids - course_ids
     needed = course_ids - existing_course_ids
 
@@ -95,10 +94,10 @@ class ScormCloudService
       local_course = ScormCourse.find_by(scorm_cloud_id: course.id)
       resp = {
         title: course.title,
-        id:local_course.scorm_cloud_id
+        id: local_course.scorm_cloud_id,
       }
 
-      if(local_course.lms_assignment_id.nil? == false)
+      if local_course.lms_assignment_id.nil? == false
         resp[:lms_assignment_id] = local_course.lms_assignment_id
         if !local_course.points_possible.nil? && local_course.points_possible > 0
           resp[:is_graded] = SCORM_ASSIGNMENT_STATE[:GRADED]
@@ -112,7 +111,7 @@ class ScormCloudService
     result
   end
 
-### Scorm Cloud api wrapper methods
+  ### Scorm Cloud api wrapper methods
 
   def launch_course(
     scorm_course_id:,
@@ -123,11 +122,11 @@ class ScormCloudService
     postback_url:,
     lti_credentials: {},
     result_params: {}
-    )
+  )
     scorm_cloud_request do
       registration = Registration.find_by(
         lms_course_id: scorm_course_id,
-        lms_user_id: lms_user_id
+        lms_user_id: lms_user_id,
       )
       registration_params = reg_params(result_params)
       if registration.nil?
@@ -142,8 +141,8 @@ class ScormCloudService
           registration_params[:lms_user_id],
           {
             postbackurl: postback_url,
-            authtype: 'form',
-            urlpass: registration.scorm_cloud_passback_secret
+            authtype: "form",
+            urlpass: registration.scorm_cloud_passback_secret,
           }
         )
       end
@@ -205,7 +204,7 @@ class ScormCloudService
     scorm_cloud_request do
       reg = Registration.find_by(
         lms_course_id: lms_course_id,
-        lms_user_id: lms_user_id
+        lms_user_id: lms_user_id,
       )
       resp = @scorm_cloud.registration.get_registration_result(reg.id) unless reg.nil?
       Hash.from_xml(resp)
@@ -216,14 +215,14 @@ class ScormCloudService
     begin
       return {
         status: 200,
-        response: yield
+        response: yield,
       }
     rescue ScormCloud::InvalidPackageError => e
-      response = {error: e.to_s, status: 400}
+      response = { error: e.to_s, status: 400 }
     rescue ScormCloud::RequestError => e
-      response = {error: e.to_s, status:400}
+      response = { error: e.to_s, status: 400 }
     rescue ScormCloud::Error => e
-      response = {error: e.to_s, status: 400}
+      response = { error: e.to_s, status: 400 }
     end
     handle_fail.call if handle_fail.respond_to? :call
     return response

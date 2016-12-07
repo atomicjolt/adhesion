@@ -48,7 +48,7 @@ RSpec.describe ScormCoursesController, type: :controller do
       reg = Registration.create(lms_user_id: 2)
       stub_request(:get, /cloud.scorm.com/).
         to_return(status: 200,
-                body: "<rsp>
+                  body: "<rsp>
                          <registrationreport
                            format='summary'
                            regid='#{reg.id}'
@@ -59,7 +59,7 @@ RSpec.describe ScormCoursesController, type: :controller do
                            <score>0</score>
                          </registrationreport>
                        </rsp>",
-                headers: {})
+                  headers: {})
       @params = lti_params(@lti_application_instance.lti_key,
                            @lti_application_instance.lti_secret,
                            "custom_canvas_user_id" => 2,
