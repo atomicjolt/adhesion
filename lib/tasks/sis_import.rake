@@ -7,7 +7,7 @@ namespace :canvas do
     course_id = create_course(account_id)["id"]
     students = create_users(account_id)
     enroll_user_in_course(students, course_id)
-    install_lti_tool_to_course(course)
+    install_lti_tool_to_course(course_id)
   end
 
   def get_account_id
@@ -87,7 +87,7 @@ namespace :canvas do
     new_students
   end
 
-  def enroll_user_in_course(students, course)
+  def enroll_user_in_course(students, course_id)
     api = Canvas.new(
       "https://atomicjolt.instructure.com",
       "#{ENV['CANVAS_TOKEN']}"
@@ -102,10 +102,10 @@ namespace :canvas do
       }
       api.proxy(
         "ENROLL_USER_COURSES",
-        { course_id: course["id"] },
+        { course_id: course_id },
         payload.to_json
       )
-      puts "Enrolled #{student['name']} into #{course['name']}"
+      puts "Enrolled #{student['name']} into your course_id #{course_id}"
     end
   end
 
