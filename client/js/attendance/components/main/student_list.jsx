@@ -35,7 +35,7 @@ export class StudentList extends React.Component {
       apiUrl: React.PropTypes.string,
     }).isRequired,
     applicationDate: React.PropTypes.string.isRequired,
-    attendance: React.PropTypes.objectOf(React.PropTypes.number),
+    attendance: React.PropTypes.objectOf(React.PropTypes.string),
     canvasRequest: React.PropTypes.func.isRequired,
     getStudentAttendance: React.PropTypes.func.isRequired,
     markStudents: React.PropTypes.func.isRequired,

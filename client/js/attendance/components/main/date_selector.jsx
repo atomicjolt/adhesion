@@ -11,7 +11,7 @@ export default class DateSelector extends React.Component {
   };
 
   static changeDay(currentDate, numDays) {
-    const newDate = moment(currentDate);
+    const newDate = moment(currentDate, 'ddd MMM Do YYYY');
     newDate.add(numDays, 'days');
     return newDate.toDate().toDateString();
   }
@@ -53,7 +53,7 @@ export default class DateSelector extends React.Component {
             readOnly
             ref={(datePicker) => { this.datePicker = datePicker; }}
             dateFormat="ddd MMM Do YYYY"
-            selected={moment(this.props.date)}
+            selected={moment(this.props.date, 'ddd MMM Do YYYY')}
             onChange={date => this.handleDateChange(date.toDate())}
           />
         </SvgButton>
