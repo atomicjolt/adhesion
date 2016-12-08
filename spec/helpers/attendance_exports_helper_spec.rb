@@ -9,7 +9,7 @@ describe AttendanceExportsHelper do
     @student["name"] = "Batman"
   end
   it "Builds the CSV Correctly" do
-    csv = helper.generate_csv([@student], [@attendance])
+    csv = AttendanceExportsHelper.generate_csv([@student], [@attendance])
     expect(csv).to eq("Name,2016-12-08\nBatman,present\n")
   end
 end
