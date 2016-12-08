@@ -22,12 +22,13 @@ class ExportsController < ApplicationController
   private
 
   def get_attendances
-    attendances = Attendance.where(lms_course_id: params[:course_id])
-    if params[:startDate] && params[:endDate]
-      attendances = attendances.
-        where("date <= ?", Date.parse(params[:endDate])).
-        where("date >= ?", Date.parse(params[:startDate]))
-    end
+    attendances = if params[:startDate].present? && params[:endDate].present?
+                    attendances.
+                      where("date <= ?", Date.parse(params[:endDate])).
+                      where("date >= ?", Date.parse(params[:startDate]))
+                  else
+                    Attendance.where(lms_course_id: params[:course_id])
+                  end
 
     attendances
   end
