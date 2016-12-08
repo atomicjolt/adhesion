@@ -15,13 +15,19 @@ export default class RangePicker extends React.Component {
     return date.toISOString().split('T')[0];
   }
 
+  toggleCalendar(number) {
+    this[`datePicker${number}`].setOpen(!this[`datePicker${number}`].state.open);
+  }
+
   render() {
     return (
       <div>
         <div className="c-popup__label">
           <span>Start Date</span>
-          <SvgButton type="date" className="c-btn c-btn--date">
+          <SvgButton type="date" className="c-btn c-btn--date" onClick={() => this.toggleCalendar(1)}>
             <Datepicker
+              readOnly
+              ref={(datePicker) => { this.datePicker1 = datePicker; }}
               selected={moment(this.props.startDate)}
               onChange={(date) => {
                 this.props.onStartChange(date.toDate());
@@ -31,8 +37,10 @@ export default class RangePicker extends React.Component {
         </div>
         <div className="c-popup__label">
           <span>End Date</span>
-          <SvgButton type="date" className="c-btn c-btn--date">
+          <SvgButton type="date" className="c-btn c-btn--date" onClick={() => this.toggleCalendar(2)}>
             <Datepicker
+              readOnly
+              ref={(datePicker) => { this.datePicker2 = datePicker; }}
               selected={moment(this.props.endDate)}
               onChange={(date) => {
                 this.props.onEndChange(date.toDate());
