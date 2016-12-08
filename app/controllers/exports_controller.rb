@@ -1,6 +1,7 @@
 class ExportsController < ApplicationController
   include Concerns::JwtToken
   include Concerns::CanvasSupport
+  include AttendanceExportsHelper
   before_action :validate_token
 
   def attendances
@@ -14,7 +15,7 @@ class ExportsController < ApplicationController
       request.body.read,
     ).parsed_response
 
-    final_csv = Attendance.generate_csv(students, attendances)
+    final_csv = AttendanceExportsHelper.generate_csv(students, attendances)
     send_data(final_csv, filename: "attendance_export")
   end
 
