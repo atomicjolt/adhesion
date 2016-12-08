@@ -15,7 +15,7 @@ export default class RangePicker extends React.Component {
     return date.toISOString().split('T')[0];
   }
 
-  toggleCalendar(e, number) {
+  toggleCalendar(number) {
     this[`datePicker${number}`].setOpen(!this[`datePicker${number}`].state.open);
   }
 
@@ -24,7 +24,7 @@ export default class RangePicker extends React.Component {
       <div>
         <div className="c-popup__label">
           <span>Start Date</span>
-          <SvgButton type="date" className="c-btn c-btn--date" onClick={e => this.toggleCalendar(e, 1)}>
+          <SvgButton type="date" className="c-btn c-btn--date" onClick={() => this.toggleCalendar(1)}>
             <Datepicker
               readOnly
               ref={(datePicker) => { this.datePicker1 = datePicker; }}
@@ -37,7 +37,7 @@ export default class RangePicker extends React.Component {
         </div>
         <div className="c-popup__label">
           <span>End Date</span>
-          <SvgButton type="date" className="c-btn c-btn--date" onClick={e => this.toggleCalendar(e, 2)}>
+          <SvgButton type="date" className="c-btn c-btn--date" onClick={() => this.toggleCalendar(2)}>
             <Datepicker
               readOnly
               ref={(datePicker) => { this.datePicker2 = datePicker; }}
