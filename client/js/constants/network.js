@@ -5,6 +5,6 @@ export default {
   PUT                       : 'put',
   DEL                       : 'delete',
 
-  TIMEOUT                   : 20000,
+  TIMEOUT                   : 1000000,
 
 };
