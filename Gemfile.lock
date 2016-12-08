@@ -156,6 +156,7 @@ GEM
       rspec (>= 2.99.0, < 4.0)
     hashdiff (0.3.0)
     hashie (3.4.6)
+    highline (1.7.8)
     httparty (0.14.0)
       multi_xml (>= 0.5.2)
     hub (1.12.4)
@@ -391,6 +392,7 @@ DEPENDENCIES
   guard-bundler
   guard-rails
   guard-rspec
+  highline
   httparty
   hub
   ims-lti (~> 1.1.13)

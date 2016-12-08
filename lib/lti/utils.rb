@@ -3,6 +3,7 @@ module Lti
   class Utils
 
     def self.lti_configs
+      lti_tools = []
       LtiApplicationInstance.find_each do |app|
         config = {
           title: app.lti_application.name,
@@ -36,7 +37,9 @@ module Lti
         puts "----------------------------------------------------------------------------------------------------------------"
         puts "Key : #{app.lti_key}"
         puts "Secret : #{app.lti_secret}"
+        lti_tools.push({ app: app, config: Lti::Config.xml(course_navigation_config)})
       end
+      lti_tools
     end
   end
 
