@@ -161,10 +161,13 @@ class ScormCloudService
     course = ScormCourse.create
     cleanup = Proc.new { course.destroy }
     scorm_cloud_request(cleanup) do
-      @scorm_cloud.course.import_course(
-        "#{course.id}_#{lms_course_id}",
+      package_id = "#{course.id}_#{lms_course_id}"
+      resp = @scorm_cloud.course.import_course(
+        package_id,
         file,
       )
+      resp["packageId"] = packageId
+      resp
     end
   end
 
