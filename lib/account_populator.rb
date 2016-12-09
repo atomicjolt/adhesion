@@ -95,7 +95,8 @@ class AccountPopulator
     tools.each_with_index do |tool, index|
       puts "#{index}. #{tool[:app][:lti_key]}"
     end
-    tool_index = cli.ask("Which tool do you want to add to your course?", Integer)
+    tool_index =
+      cli.ask("Which tool do you want to add to your course?", Integer)
     tool = tools[tool_index]
     payload = {
       name: "#{tool[:app][:lti_key]}",
@@ -110,5 +111,13 @@ class AccountPopulator
       { course_id: course_id },
       payload.to_json
     )
+  end
+
+  def set_up_test_course
+    account_id = get_account_id
+    course_id = create_course(account_id)["id"]
+    students = create_users(account_id)
+    enroll_user_in_course(students, course_id)
+    install_lti_tool_to_course(course_id)
   end
 end
