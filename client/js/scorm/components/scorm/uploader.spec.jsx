@@ -1,7 +1,7 @@
 /* global describe beforeEach it expect */
 
-import React      from 'react';
-import TestUtils  from 'react/lib/ReactTestUtils';
+import React from 'react';
+import TestUtils from 'react/lib/ReactTestUtils';
 import { Uploader } from './uploader';
 
 describe('Uploader', () => {
@@ -31,11 +31,10 @@ describe('Uploader', () => {
     result = TestUtils.renderIntoDocument(<Uploader {...props} />);
     loader = TestUtils.scryRenderedDOMComponentsWithClass(result, 'loader');
     expect(loader.length).toBe(1);
-
   });
 
   it('renders the correct scormFile name', () => {
     const title = TestUtils.findRenderedDOMComponentWithClass(result, 'c-list-item__title');
-    expect(title.textContent).toContain('IMASPEC')
+    expect(title.textContent).toContain('IMASPEC');
   });
 });
