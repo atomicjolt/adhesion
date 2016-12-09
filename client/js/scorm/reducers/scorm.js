@@ -37,7 +37,7 @@ export default (state = initialState, action) => {
     case PackageConstants.LOAD_PACKAGES_DONE:
       return {
         ...state,
-        scormList: action.payload.response.map((item, index) => ({ ...item, index })),
+        scormList: _.map(action.payload.response, (item, index) => ({ ...item, index })),
         shouldRefreshList: false,
         file: null,
       };

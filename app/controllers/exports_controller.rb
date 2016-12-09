@@ -1,30 +1,29 @@
 class ExportsController < ApplicationController
   include Concerns::JwtToken
-
+  include Concerns::CanvasSupport
+  include AttendanceExportsHelper
   before_action :validate_token
 
   def attendances
+    attendances = get_attendances
+    students = canvas_api.proxy(
+      "LIST_USERS_IN_COURSE_USERS",
+      {
+        course_id: params[:course_id],
+        enrollment_type: ["student"],
+      },
+      request.body.read,
+    ).parsed_response
 
-
-    respond_to do |format|
-      format.json do
-        render json: get_attendances
-      end
-
-      format.csv do
-        @attendances = get_attendances
-        
-        headers['Content-Type'] = "text/csv"
-        headers['Content-Disposition'] = "attachment; filename=\"attendance.csv\""
-      end
-    end
+    final_csv = AttendanceExportsHelper.generate_csv(students, attendances)
+    send_data(final_csv, filename: "attendance_export")
   end
 
   private
 
   def get_attendances
     attendances = Attendance.where(lms_course_id: params[:course_id])
-    if(params[:startDate] && params[:endDate])
+    if params[:startDate].present? && params[:endDate].present?
       attendances = attendances.
         where("date <= ?", Date.parse(params[:endDate])).
         where("date >= ?", Date.parse(params[:startDate]))

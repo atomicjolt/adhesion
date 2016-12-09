@@ -13,7 +13,6 @@ module Concerns
         decoded_token = AuthToken.valid?(token)
 
         raise InvalidTokenError if Rails.application.secrets.auth0_client_id != decoded_token[0]["aud"]
-
         @user = User.find(decoded_token[0]['user_id'])
         sign_in(@user, :event => :authentication)
       rescue JWT::DecodeError, InvalidTokenError

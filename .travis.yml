@@ -38,8 +38,7 @@ before_install:
 
 install:
   - bundle install --path vendor/bundle
-  - cd client && yarn
-  - cd ../
+  - yarn
 
 before_script:
   - export CHROME_BIN=chromium-browser
