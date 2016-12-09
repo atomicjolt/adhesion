@@ -14,9 +14,9 @@ class ScormCourseController < ApplicationController
       last_name: params[:lis_person_name_family],
       redirect_url: params[:launch_presentation_return_url],
       # postback_url: scorm_course_postback_url,
-      postback_url: "https://c6e6e17a.ngrok.io/scorm_course/postback",
+      postback_url: "https://c421a365.ngrok.io/scorm_course/postback",
       lti_credentials: current_lti_application_instance,
-      result_params: params
+      result_params: params,
     )
 
     @scorm_cloud.sync_registration(params)
@@ -36,6 +36,9 @@ class ScormCourseController < ApplicationController
 
   private
     def validate_postback_credentials
+      puts "*********************************************"
+      puts params
+      puts "*********************************************"
       response = Hash.from_xml(params[:data])
       registration_report = response["registrationreport"]
       reg_id = registration_report && registration_report["regid"]
