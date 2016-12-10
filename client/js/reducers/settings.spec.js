@@ -1,5 +1,4 @@
-import settings                from "./settings";
-import { getInitialSettings }  from "./settings";
+import settings, { getInitialSettings } from "./settings";
 
 describe('settings reducer', () => {
 

@@ -21,8 +21,12 @@ globals:
   spyOn: false
   jasmine: false
   module: false
+  __DEV__: false
 rules:
   linebreak-style:
     - error
     - unix
   import/no-unresolved: 0
+  import/no-extraneous-dependencies:
+    - error
+    - devDependencies: true
