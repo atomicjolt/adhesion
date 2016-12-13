@@ -10,34 +10,44 @@ class MockCourse
   end
 end
 
+class MockTool
+  def success?
+    true
+  end
+
+  def processing?
+    true
+  end
+end
+
 describe "Scorm Cloud Service", type: :controller do
   before(:example) do
   end
 
   it "should sync the registration score" do
     subject = ScormCloudService.new
+    allow_any_instance_of(IMS::LTI::ToolProvider).to receive(
+      :post_replace_result!,
+    ).and_return(MockTool.new)
     @lti_application_instance = FactoryGirl.create(:lti_application_instance)
-    allow(controller).to receive(
-      :current_lti_application_instance,
-    ).and_return(@lti_application_instance)
     reg = Registration.create(
       lms_user_id: 2,
       lti_application_instance: @lti_application_instance,
-      lis_outcome_service_url: "lis_outcome_service_url", 
+      lis_outcome_service_url: "http://cloud.scorm.com/this?isaspec",
     )
     registration = { "format" => "summary",
-                     "regid" => "#{reg.id}",
+                     "regid" => reg.id.to_s,
                      "instanceid" => "0",
                      "complete" => "complete",
                      "success" => "failed",
                      "totaltime" => "19",
-                     "score" => "0",
-                   }
+                     "score" => "0" }
     subject.sync_registration_score(registration)
     expect(reg.score).to eq(registration["score"].to_f)
     registration["score"] = "50"
     subject.sync_registration_score(registration)
-    expect(tp_params["user_id"]).to_not be(nil)
+    reg = Registration.find(reg.id)
+    expect(reg.score).to eq(registration["score"].to_f / 100)
   end
 
   it "should handle scorm cloud exception" do

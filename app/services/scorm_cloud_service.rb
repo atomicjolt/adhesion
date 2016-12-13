@@ -45,28 +45,30 @@ class ScormCloudService
         "lis_result_sourcedid" => reg[:lis_result_sourcedid],
         "user_id" => reg[:lms_user_id],
       }
-      provider = IMS::LTI::ToolProvider.new(
+      @provider = IMS::LTI::ToolProvider.new(
         reg.lti_application_instance.lti_key,
         reg.lti_application_instance.lti_secret,
         tp_params,
       )
-      byebug
-      response = provider.post_replace_result!(reg.score)
-      if response.success?
+      post_replace_result(reg.score)
+      if @response.success?
         reg.save!
-        # grade write worked
-      elsif response.processing?
-      elsif response.unsupported?
+      elsif @response.processing?
+      elsif @response.unsupported?
       else
-        #TODO figure out how to handle postback failure
-        # failed
+        # Failed
       end
     end
   end
 
+  def post_replace_result(reg_score)
+    @response = @provider.post_replace_result!(reg_score)
+  end
+
   def sync_registration(registration_params)
     result = registration_result(
-      registration_params[:course_id], registration_params[:custom_canvas_user_id]
+      registration_params[:course_id],
+      registration_params[:custom_canvas_user_id],
     )
     return if result.nil?
     sync_registration_score(result[:response]["rsp"]["registrationreport"])
