@@ -144,7 +144,7 @@ class ScormCloudService
             postbackurl: postback_url,
             authtype: 'form',
             urlpass: registration.scorm_cloud_passback_secret,
-            urlname: "scorm-player"
+            urlname: "scorm-player",
           }
         )
   		end
