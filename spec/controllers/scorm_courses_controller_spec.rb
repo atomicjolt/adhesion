@@ -4,7 +4,8 @@ RSpec.describe ScormCoursesController, type: :controller do
   describe "POST#postback" do
     it "should reject bad password" do
       reg = Registration.create
-      post :postback, {
+      post(
+        :postback,
         data:
           "<registrationreport
             format='summary'
@@ -16,13 +17,14 @@ RSpec.describe ScormCoursesController, type: :controller do
               <score>0</score>
           </registrationreport>",
         password: "FakePass",
-      }
+      )
       expect(response.status).to equal(400)
     end
 
     it "should accept good password" do
       reg = Registration.create
-      post :postback, {
+      post(
+        :postback,
         data:
           "<registrationreport
             format='summary'
@@ -34,7 +36,7 @@ RSpec.describe ScormCoursesController, type: :controller do
               <score>0</score>
           </registrationreport>",
         password: reg.scorm_cloud_passback_secret,
-      }
+      )
       expect(response.status).to equal(200)
     end
   end

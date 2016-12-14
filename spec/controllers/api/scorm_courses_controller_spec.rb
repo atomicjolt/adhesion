@@ -59,7 +59,7 @@ RSpec.describe Api::ScormCoursesController, type: :controller do
     it "should update scorm package" do
       course = ScormCourse.create
       course_params = { points_possible: "50" }
-      put :update, { id: course.id, scorm_course: course_params }
+      put(:update, id: course.id, scorm_course: course_params)
       expect(course.reload.points_possible).to eq(50.0)
       expect(response.body).to include('"points_possible":50.0')
     end
@@ -80,7 +80,7 @@ RSpec.describe Api::ScormCoursesController, type: :controller do
       expect(response).to have_http_status 200
       expect(JSON.parse(
         response.body,
-      )["response"]).to eq({ "launch_url" => "fake_url" })
+      )["response"]).to eq("launch_url" => "fake_url")
     end
   end
 end
