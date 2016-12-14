@@ -45,24 +45,22 @@ class ScormCloudService
         "lis_result_sourcedid" => reg[:lis_result_sourcedid],
         "user_id" => reg[:lms_user_id],
       }
-      @provider = IMS::LTI::ToolProvider.new(
+      provider = IMS::LTI::ToolProvider.new(
         reg.lti_application_instance.lti_key,
         reg.lti_application_instance.lti_secret,
         tp_params,
       )
-      post_replace_result(reg.score)
-      if @response.success?
+      response = provider.post_replace_result!(reg.score)
+      if response.success?
         reg.save!
-      elsif @response.processing?
-      elsif @response.unsupported?
+      elsif response.processing?
+        raise "A processing error has occurred"
+      elsif response.unsupported?
+        raise "Not supported"
       else
-        # Failed
+        raise "A failure has occurred. Please try again."
       end
     end
-  end
-
-  def post_replace_result(reg_score)
-    @response = @provider.post_replace_result!(reg_score)
   end
 
   def sync_registration(registration_params)
