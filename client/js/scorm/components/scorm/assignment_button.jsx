@@ -1,4 +1,4 @@
-import React     from 'react';
+import React from 'react';
 import SVGButton from '../../../common_components/svg_button';
 
 export default function assignmentButton(props) {
