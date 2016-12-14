@@ -2,7 +2,7 @@ class Api::ScormCoursesController < ApplicationController
   include Concerns::CanvasSupport
   include Concerns::JwtToken
 
-  # before_action :validate_token
+  before_action :validate_token
 
   protect_from_forgery with: :null_session
 
