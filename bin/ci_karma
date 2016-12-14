@@ -3,4 +3,4 @@
 # Exit if any subcommand fails
 set -e
 
-npm run test
+yarn test

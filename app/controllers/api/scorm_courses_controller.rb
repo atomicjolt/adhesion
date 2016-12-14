@@ -15,13 +15,20 @@ class Api::ScormCoursesController < ApplicationController
   end
 
   def index
-    courses = scorm_cloud_service.list_courses
+    courses = scorm_cloud_service.list_courses(
+      filter: ".*_#{params[:lms_course_id]}",
+    )
     courses[:response] = scorm_cloud_service.sync_courses(courses[:response])
     send_scorm_cloud_response(courses)
   end
 
   def create
-    send_scorm_cloud_response(scorm_cloud_service.upload_course(params[:file]))
+    send_scorm_cloud_response(
+      scorm_cloud_service.upload_course(
+        params[:file],
+        params[:lms_course_id],
+      ),
+    )
   end
 
   def show
@@ -42,7 +49,8 @@ class Api::ScormCoursesController < ApplicationController
   def preview
     send_scorm_cloud_response(
       scorm_cloud_service.preview_course(
-        params[:scorm_course_id], params[:redirect_url]
+        params[:scorm_course_id],
+        params[:redirect_url],
       ),
     )
   end

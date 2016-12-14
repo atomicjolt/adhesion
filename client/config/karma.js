@@ -8,8 +8,8 @@ module.exports = function(){
     return argument === '--coverage';
   }
 
-  // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
-  var reporters = ['spec'];
+  // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage', 'spec'
+  const reporters = ['dots'];
 
   if(process.argv.some(isCoverage)){
     reporters.push('coverage');

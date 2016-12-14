@@ -139,20 +139,23 @@ end
 
 describe "sync_courses" do
   it "should sync courses table" do
+
     ScormCourse.create
     graded_course = ScormCourse.create
-    graded_course.scorm_cloud_id = 9
+    graded_course.scorm_cloud_id = "9"
     graded_course.lms_assignment_id = 1
     graded_course.points_possible = 5
     graded_course.save!
+
     subject = ScormCloudService.new
     result = subject.sync_courses(
       [
-        MockCourse.new(9),
-        MockCourse.new(3),
+        MockCourse.new("9"),
+        MockCourse.new("3"),
       ],
     )
-    expect(ScormCourse.all.map { |c| c[:scorm_cloud_id] }).to eq([9, 3])
+
+    expect(ScormCourse.all.map { |c| c[:scorm_cloud_id] }).to eq(["9", "3"])
     expect(result[0][:lms_assignment_id]).to eq(1)
     expect(result[0][:is_graded]).to eq("GRADED")
   end

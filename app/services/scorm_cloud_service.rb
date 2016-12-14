@@ -73,7 +73,7 @@ class ScormCloudService
   end
 
   def sync_courses(courses)
-    course_ids = courses.map{ |c| c.id.to_i } # TODO support string as course id, scorm cloud dashboard assigns GUID type ids :(
+    course_ids = courses.map(&:id)
     existing_course_ids = ScormCourse.all.map { |c| c[:scorm_cloud_id] }
     extra = existing_course_ids - course_ids
     needed = course_ids - existing_course_ids
@@ -139,28 +139,33 @@ class ScormCloudService
           first_name,
           last_name,
           registration_params[:lms_user_id],
-          {
-            postbackurl: postback_url,
-            authtype: "form",
-            urlpass: registration.scorm_cloud_passback_secret,
-          }
+          postbackurl: postback_url,
+          authtype: "form",
+          urlpass: registration.scorm_cloud_passback_secret,
+          urlname: lti_credentials.lti_key,
         )
       end
       @scorm_cloud.registration.launch(registration.id, redirect_url)
     end
   end
 
-  def list_courses
+  def list_courses(options = {})
     scorm_cloud_request do
-      @scorm_cloud.course.get_course_list
+      @scorm_cloud.course.get_course_list(options)
     end
   end
 
-  def upload_course(file)
+  def upload_course(file, lms_course_id)
     course = ScormCourse.create
     cleanup = Proc.new { course.destroy }
     scorm_cloud_request(cleanup) do
-      @scorm_cloud.course.import_course(course.id, file)
+      package_id = "#{course.id}_#{lms_course_id}"
+      resp = @scorm_cloud.course.import_course(
+        package_id,
+        file,
+      )
+      resp["package_id"] = package_id
+      resp
     end
   end
 

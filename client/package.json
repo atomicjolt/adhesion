@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "postinstall": "node node_modules/phantomjs-prebuilt/install.js"
+  },
   "dependencies": {
     "babel": "6.5.2",
     "babel-polyfill": "^6.16.0",
@@ -42,7 +45,7 @@
     "eslint-config-airbnb": "^13.0.0",
     "eslint-plugin-babel": "^3.3.0",
     "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-jsx-a11y": "^2.2.3",
+    "eslint-plugin-jsx-a11y": "2.2.3",
     "eslint-plugin-react": "^6.7.1",
     "event-stream": "3.3.4",
     "eventsource-polyfill": "^0.9.6",

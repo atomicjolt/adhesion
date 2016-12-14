@@ -1,90 +1,97 @@
-import { Constants as StudentConstants }   from "../actions/attendance";
-import attendanceReducer                   from "./attendance";
-import * as AttendanceActions              from "../actions/attendance";
+import { Constants as StudentConstants } from '../actions/attendance';
+import attendanceReducer from './attendance';
 
-describe('UPDATE_STATUS', () => {
-  it('updates student record(s)', () => {
-    const date = new Date();
-    const action = AttendanceActions.markStudents(
-      [{
-        lms_student_id:"student_1",
-        name: "Fake Name"
-      }], "course_1", date, "PRESENT");
+describe('attendance reducer', () => {
+  let state;
+  let action;
+  let date;
+  let attendance;
 
-    const oldDate = new Date("2016-01-01");
-    const initialState = new Map();
-    initialState.set(oldDate, "Should persist");
-    const result = attendanceReducer(initialState, action);
-    expect(result.get(oldDate)).toEqual("Should persist");
-    expect(result.get(date)).toEqual({
-      student_1:{
-        name: "Fake Name",
-        date,
-        lms_course_id: "course_1",
-        lms_student_id: "student_1",
-        status: "PRESENT",
-      }
-    });
-  });
-});
-
-describe('UPDATE_STATUS_DONE', () => {
-  it('updates student record(s), from DB info', () => {
-    const error = true;
-    const date = new Date();
-    const action = AttendanceActions.markStudents(
-      [{
-        lms_student_id:"student_1",
-        name: "Fake Name"
-      }], "course_1", date, "PRESENT");
-
-    const oldDate = new Date("2016-01-01");
-    const initialState = new Map();
-    initialState.set(oldDate, "Should persist");
-    const result = attendanceReducer(initialState, action);
-    if(error){
-      expect(result.get(oldDate)).toEqual("Should persist");
-    }else{
-       expect(result.get(date)).toEqual({
-        student_1:{
-        name: "Fake Name",
-        date,
-        lms_course_id: "course_1",
-        lms_student_id: "student_1",
-        status: "PRESENT",
-      }
-    });
-    }
-  });
-});
-
-
-describe('GET_STUDENT_ATTENDANCE_DONE', () => {
-  it('updates attendance for given date', () => {
-    const date = new Date("2016-01-02");
-    const action = {
-      type: StudentConstants.GET_STUDENT_ATTENDANCE_DONE,
-      original:{body:{search:{date}}}
-    };
-    action.payload = [
-      {lms_student_id:"1", date},
-      {lms_student_id:"2", date},
-      {lms_student_id:"3", date},
-      {lms_student_id:"4", date},
-      {lms_student_id:"5", date},
-      {lms_student_id:"6", date},
-      {lms_student_id:"7", date},
-      {lms_student_id:"8", date}
+  beforeEach(() => {
+    state = undefined;
+    action = { original: { body: {} }, body: {} };
+    action.original.date = new Date('2016-01-01');
+    date = action.original.date;
+    attendance = [
+      { lms_student_id: '1', status: 'ABSENT', date },
+      { lms_student_id: '2', status: 'ABSENT', date },
+      { lms_student_id: '3', status: 'ABSENT', date },
+      { lms_student_id: '4', status: 'ABSENT', date },
+      { lms_student_id: '5', status: 'ABSENT', date },
+      { lms_student_id: '6', status: 'ABSENT', date },
+      { lms_student_id: '7', status: 'ABSENT', date },
+      { lms_student_id: '8', status: 'ABSENT', date },
     ];
+  });
 
-    const oldDate = new Date("2016-01-01");
-    const initialState = new Map();
-    initialState.set(oldDate, "Should persist");
+  it('should return the initial state', () => {
+    state = attendanceReducer(state, action);
+    expect(state.attendances).toBeDefined();
+  });
 
-    const result = attendanceReducer(initialState, action);
-    // TODO: this line is breaking because result.get(date) is not a thin, give this some tlc
-    // expect(Object.keys(result.get(date))).toEqual(['1','2','3','4','5','6','7','8']);
-    expect(result.size).toEqual(initialState.size + 1);
-    expect(result.get(oldDate)).toEqual("Should persist");
+  it('should handle GET_STUDENT_ATTENDANCE_DONE', () => {
+    action.type = StudentConstants.GET_STUDENT_ATTENDANCE_DONE;
+    action.payload = attendance;
+    state = attendanceReducer(state, action);
+    expect(Object.keys(state.attendances[date]).length).toEqual(8);
+    expect(state.attendances[date]['1']).toEqual('ABSENT');
+    expect(state.attendances[date]['2']).toEqual('ABSENT');
+    expect(state.attendances[date]['3']).toEqual('ABSENT');
+    expect(state.attendances[date]['4']).toEqual('ABSENT');
+    expect(state.attendances[date]['5']).toEqual('ABSENT');
+    expect(state.attendances[date]['6']).toEqual('ABSENT');
+    expect(state.attendances[date]['7']).toEqual('ABSENT');
+    expect(state.attendances[date]['8']).toEqual('ABSENT');
+  });
+
+  it('should handle UPDATE_STATUS', () => {
+    action.type = StudentConstants.GET_STUDENT_ATTENDANCE_DONE;
+    action.payload = attendance;
+    state = attendanceReducer(state, action);
+    action.body = {
+      date: new Date('2016-01-01'),
+      students: [{ lms_student_id: '1' }],
+      status: 'PRESENT',
+    };
+    action.type = StudentConstants.UPDATE_STATUS;
+    state = attendanceReducer(state, action);
+    expect(state.attendances[date]['1']).toEqual('PRESENT');
+    expect(state.attendances[date]['2']).toEqual('ABSENT');
+    expect(state.attendances[date]['3']).toEqual('ABSENT');
+    expect(state.attendances[date]['4']).toEqual('ABSENT');
+    expect(state.attendances[date]['5']).toEqual('ABSENT');
+    expect(state.attendances[date]['6']).toEqual('ABSENT');
+    expect(state.attendances[date]['7']).toEqual('ABSENT');
+    expect(state.attendances[date]['8']).toEqual('ABSENT');
+  });
+
+  it('should handle UPDATE_STATUS_DONE with error', () => {
+    action.error = 'IMANERROR';
+    action.type = StudentConstants.UPDATE_STATUS_DONE;
+    state = attendanceReducer(state, action);
+    expect(state.attendances).toBeDefined();
+    expect(action.error).toEqual('IMANERROR');
+  });
+
+  it('should handle UPDATE_STATUS_DONE without error', () => {
+    action.type = StudentConstants.GET_STUDENT_ATTENDANCE_DONE;
+    action.payload = attendance;
+    state = attendanceReducer(state, action);
+    action.original = {
+      body: {
+        date: new Date('2016-01-01'),
+      },
+    };
+    action.payload = [{ lms_student_id: '1', status: 'PRESENT' }];
+    action.type = StudentConstants.UPDATE_STATUS_DONE;
+    state = attendanceReducer(state, action);
+    expect(state.attendances[date]['1']).toEqual('PRESENT');
+    expect(state.attendances[date]['2']).toEqual('ABSENT');
+    expect(state.attendances[date]['3']).toEqual('ABSENT');
+    expect(state.attendances[date]['4']).toEqual('ABSENT');
+    expect(state.attendances[date]['5']).toEqual('ABSENT');
+    expect(state.attendances[date]['6']).toEqual('ABSENT');
+    expect(state.attendances[date]['7']).toEqual('ABSENT');
+    expect(state.attendances[date]['8']).toEqual('ABSENT');
   });
 });

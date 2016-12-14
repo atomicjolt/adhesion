@@ -1,10 +1,10 @@
 export default {
 
-  GET                       : 'get',
-  POST                      : 'post',
-  PUT                       : 'put',
-  DEL                       : 'delete',
+  GET: 'get',
+  POST: 'post',
+  PUT: 'put',
+  DEL: 'delete',
 
-  TIMEOUT                   : 20000,
+  TIMEOUT: 1000000,
 
 };

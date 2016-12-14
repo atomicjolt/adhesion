@@ -1,51 +1,68 @@
-"use strict";
-
-import React                    from 'react';
-import { connect }              from 'react-redux';
-import SvgButton                from '../common/svg_button';
-import ImportTypeSelector       from './import_type_selector';
-import Loader                   from '../../../common_components/loader.jsx';
-
-const AssignmentButton = (props) => {
-  return(
-    <a href={`https://${props.canvasUrl}/courses/${props.courseId}/assignments/${props.lms_assignment_id}`} target="_parent"><SvgButton type="gradedAssignment"/></a>
-  );
-};
+import React from 'react';
+import { connect } from 'react-redux';
+import _ from 'lodash';
+import SvgButton from '../../../common_components/svg_button';
+import ImportTypeSelector from './import_type_selector';
+import Loader from '../../../common_components/loader';
+import AssignmentButton from './assignment_button';
 
 export class Course extends React.Component {
   static ImportTypes = {
-    GRADED: "GRADED",
-    UNGRADED: "UNGRADED",
-    NOT_SELECTED: "NOT_SELECTED"
+    GRADED: 'GRADED',
+    UNGRADED: 'UNGRADED',
+    NOT_SELECTED: 'NOT_SELECTED',
   };
 
   static DefaultPointValue = 100;
 
   static propTypes = {
-    course: React.PropTypes.object.isRequired,
+    course: React.PropTypes.shape({
+      id: React.PropTypes.string.isRequired,
+      lms_assignment_id: React.PropTypes.number,
+      index: React.PropTypes.number,
+      is_graded: React.PropTypes.string,
+      title: React.PropTypes.string,
+      fetching: React.PropTypes.string,
+    }).isRequired,
     removePackage: React.PropTypes.func.isRequired,
     importPackage: React.PropTypes.func.isRequired,
-    previewPackage: React.PropTypes.func.isRequired
+    previewPackage: React.PropTypes.func.isRequired,
+    updateImportType: React.PropTypes.func.isRequired,
+    canvasUrl: React.PropTypes.string.isRequired,
+    courseId: React.PropTypes.string.isRequired,
   };
 
-  handleRemove(){
+  static getStyles() {
+    return {
+      loaderContainer: {
+        position: 'absolute',
+        left: 'calc(50% - 1.25em)',
+        top: '-150%',
+      },
+      dropDown: {
+        minWidth: '20rem',
+      },
+    };
+  }
+
+  handleRemove() {
     this.props.removePackage(
       this.props.course.lms_assignment_id,
-      this.props.course.id
+      this.props.course.id,
     );
   }
 
-  handlePreview(){
+  handlePreview() {
     this.props.previewPackage(this.props.course.id);
   }
 
-  handleImportType(e){
+  handleImportType(e) {
     this.props.updateImportType(this.props.course.index, e.target.value);
   }
 
-  handleGoClick(){
+  handleGoClick() {
     let pointsPossible = 0;
-    if(this.props.course.is_graded == Course.ImportTypes.GRADED){
+    if (this.props.course.is_graded === Course.ImportTypes.GRADED) {
       pointsPossible = Course.DefaultPointValue;
     }
 
@@ -53,45 +70,40 @@ export class Course extends React.Component {
       this.props.course.id,
       this.props.course.title,
       this.props.course.index,
-      pointsPossible
+      pointsPossible,
     );
   }
 
-  getStyles(){
-    return {
-      loaderContainer: {
-        position: 'absolute',
-        left: 'calc(50% - 1.25em)',
-        top: '-150%'
-      }
-    }
-  }
-
-  render(){
-    const isAssignment = !(this.props.course.lms_assignment_id == undefined);
-    const isGraded = this.props.course.is_graded == Course.ImportTypes.GRADED;
+  render() {
+    const isAssignment = !_.isUndefined(this.props.course.lms_assignment_id);
+    const isGraded = this.props.course.is_graded === Course.ImportTypes.GRADED;
     const assignmentButtonProps = {
       canvasUrl: this.props.canvasUrl,
       courseId: this.props.courseId,
-      lms_assignment_id: this.props.course.lms_assignment_id
+      lms_assignment_id: this.props.course.lms_assignment_id,
     };
 
-    let assignmentButton, dropDown;
-    if(this.props.course.fetching){
-      dropDown = <div style={this.getStyles().loaderContainer}><Loader/></div>;
-    } else if(isAssignment && isGraded){
+    let assignmentButton;
+    let dropDown;
+
+    if (this.props.course.fetching) {
+      dropDown = <div style={Course.getStyles().loaderContainer}><Loader /></div>;
+    } else if (isAssignment && isGraded) {
       assignmentButton = <AssignmentButton {...assignmentButtonProps} />;
-      dropDown = <div className="c-list-item__type" style={{minWidth: "20rem"}}>Graded Assignment</div>;
-    } else if(isAssignment && !isGraded) {
+      dropDown = <div className="c-list-item__type" style={{ minWidth: '20rem' }}>Graded Assignment</div>;
+    } else if (isAssignment && !isGraded) {
       assignmentButton = <AssignmentButton {...assignmentButtonProps} />;
-      dropDown = <div className="c-list-item__type" style={{minWidth: "20rem"}}>Ungraded Assignment</div>;
+      dropDown = <div className="c-list-item__type" style={{ minWidth: '20rem' }}>Ungraded Assignment</div>;
     } else {
-      const isUnselected = this.props.course.is_graded != undefined && this.props.course.is_graded != Course.ImportTypes.NOT_SELECTED;
-      dropDown = (<ImportTypeSelector
-          handleSelectChange = {(e) => this.handleImportType(e)}
-          handleGoClick      = {() => this.handleGoClick()}
-          isGoBtnActive      = {isUnselected}
-        />);
+      const isUnselected = !_.isUndefined(this.props.course.is_graded)
+        && this.props.course.is_graded !== Course.ImportTypes.NOT_SELECTED;
+      dropDown = (
+        <ImportTypeSelector
+          isGoBtnActive={isUnselected}
+          handleSelectChange={e => this.handleImportType(e)}
+          handleGoClick={() => this.handleGoClick()}
+        />
+      );
     }
 
     return (
@@ -103,8 +115,8 @@ export class Course extends React.Component {
           </div>
           <div className="c-list-item__icons">
             {assignmentButton}
-            <SvgButton type="preview" handleClick={() => this.handlePreview()}/>
-            <SvgButton type="delete" handleClick={() => this.handleRemove()}/>
+            <SvgButton type="preview" onClick={() => this.handlePreview()} />
+            <SvgButton type="delete" onClick={() => this.handleRemove()} />
           </div>
         </div>
       </li>
@@ -112,12 +124,10 @@ export class Course extends React.Component {
   }
 }
 
-const select = (state, props) => {
-  return {
-    canvasUrl: state.settings.customCanvasApiDomain,
-    courseId: state.settings.lmsCourseId,
-    course: props.course
-  };
-};
+const select = (state, props) => ({
+  canvasUrl: state.settings.customCanvasApiDomain,
+  courseId: state.settings.lmsCourseId,
+  course: props.course,
+});
 
 export default connect(select)(Course);

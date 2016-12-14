@@ -31,5 +31,4 @@ namespace :lti do
   task :list_all => :environment do |t|
     Lti::Utils.list_all
   end
-
 end
