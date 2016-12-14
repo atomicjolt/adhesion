@@ -129,6 +129,7 @@ end
 
 describe "Hash handler" do
   it "should return hash with proper signature" do
+    @subject = ScormCloudService.new
     result = @subject.scorm_cloud_request do
       true
     end
