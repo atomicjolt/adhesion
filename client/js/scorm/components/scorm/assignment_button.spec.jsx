@@ -20,8 +20,8 @@ describe('Assignment Button', () => {
   });
 
   it('renders the correct reference', () => {
-    const button = TestUtils.findRenderedDOMComponentWithClass(result, 'c-icon-btn');
-    expect(button.href).toBe('https://canvasorother/courses/12345/assignments/54321');
+    const anchor = TestUtils.findRenderedDOMComponentWithTag(result, 'a');
+    expect(anchor.href).toBe('https://canvasorother/courses/12345/assignments/54321');
   });
 
   it('renders an SVG button', () => {
