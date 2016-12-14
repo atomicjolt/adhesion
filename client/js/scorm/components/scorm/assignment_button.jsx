@@ -1,10 +1,10 @@
 import React from 'react';
-import CommonSvg from '../../../common_components/common_svg';
+import SVGButton from '../../../common_components/svg_button';
 
 export default function assignmentButton(props) {
   return (
-    <a className="c-icon-btn" href={`https://${props.canvasUrl}/courses/${props.courseId}/assignments/${props.lms_assignment_id}`} target="_parent">
-      <CommonSvg type="gradedAssignment" />
+    <a href={`https://${props.canvasUrl}/courses/${props.courseId}/assignments/${props.lms_assignment_id}`} target="_parent">
+      <SVGButton type="gradedAssignment" />
     </a>
   );
 }

@@ -17,7 +17,7 @@ export class Course extends React.Component {
 
   static propTypes = {
     course: React.PropTypes.shape({
-      id: React.PropTypes.number.isRequired,
+      id: React.PropTypes.string.isRequired,
       lms_assignment_id: React.PropTypes.number,
       index: React.PropTypes.number,
       is_graded: React.PropTypes.string,
