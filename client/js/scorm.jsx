@@ -33,7 +33,7 @@ class Root extends React.Component {
           {devTools}
         </div>
       </Provider>
-    )
+    );
   }
 }
 
