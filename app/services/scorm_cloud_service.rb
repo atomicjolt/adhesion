@@ -166,14 +166,14 @@ class ScormCloudService
         package_id,
         file,
       )
-      resp["packageId"] = packageId
+      resp["package_id"] = package_id
       resp
     end
   end
 
   def show_course(course_id)
     scorm_cloud_request do
-	    @scorm_cloud.course.get_attributes(course_id)
+      @scorm_cloud.course.get_attributes(course_id)
     end
   end
 
