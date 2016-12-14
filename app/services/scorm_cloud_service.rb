@@ -133,7 +133,7 @@ class ScormCloudService
         registration = Registration.create(registration_params)
         registration.lti_application_instance = lti_credentials
         registration.save!
-        response = @scorm_cloud.registration.create_registration(
+        @scorm_cloud.registration.create_registration(
           registration_params[:lms_course_id],
           registration.id,
           first_name,
@@ -160,7 +160,7 @@ class ScormCloudService
     course = ScormCourse.create
     cleanup = Proc.new { course.destroy }
     scorm_cloud_request(cleanup) do
-      response = @scorm_cloud.course.import_course(course.id, file)
+      @scorm_cloud.course.import_course(course.id, file)
     end
   end
 
@@ -225,7 +225,7 @@ class ScormCloudService
       response = { error: e.to_s, status: 400 }
     end
     handle_fail.call if handle_fail.respond_to? :call
-    return response
+    response
   end
 end
 
