@@ -88,21 +88,14 @@ end
 # }
 
 Rails.application.config.middleware.insert_before 'Warden::Manager', 'Apartment::Elevators::Generic', lambda { |request|
-  instance = nil
-  if request.params["oauth_consumer_key"].present?
-    instance = LtiApplicationInstance.find_by(
+  lti_key = request.params["oauth_consumer_key"] || request.params["username"]
+  if lti_key.present?
+    LtiApplicationInstance.find_by(
       lti_key: request.params["oauth_consumer_key"],
-    ).try(:lti_key)
-  # the gradebook writeback hits the server with no context,
-  # so we use the username that scorm gives us to load the tenant
-  elsif request.params["username"].present?
-    instance = LtiApplicationInstance.find_by(
-      lti_key: request.params["username"],
     ).try(:lti_key)
   else
     raise "Please specify a valid oauth_consumer_key for this request"
   end
-  instance
 }
 
 # Rails.application.config.middleware.use 'Apartment::Elevators::Domain'
