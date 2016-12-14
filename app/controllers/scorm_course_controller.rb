@@ -15,11 +15,10 @@ class ScormCourseController < ApplicationController
       redirect_url: params[:launch_presentation_return_url],
       postback_url: scorm_course_postback_url,
       lti_credentials: current_lti_application_instance,
-      result_params: params
+      result_params: params,
     )
 
     @scorm_cloud.sync_registration(params)
-
     if launch[:status] == 200
       redirect_to launch[:response]
     else
@@ -34,21 +33,21 @@ class ScormCourseController < ApplicationController
   end
 
   private
-    def validate_postback_credentials
-      response = Hash.from_xml(params[:data])
-      registration_report = response["registrationreport"]
-      reg_id = registration_report && registration_report["regid"]
 
-      begin
-        reg = Registration.find(reg_id)
-        raise ScormCloudError.new if(reg.scorm_cloud_passback_secret != params[:password])
-      rescue ScormCloudError, ActiveRecord::RecordNotFound => e
-        render json: {error: 'Not Authorized'}, status: 400
-      end
+  def validate_postback_credentials
+    response = Hash.from_xml(params[:data])
+    registration_report = response["registrationreport"]
+    reg_id = registration_report && registration_report["regid"]
+    begin
+      reg = Registration.find(reg_id)
+      raise ScormCloudError.new if reg.scorm_cloud_passback_secret !=
+          params[:password]
+    rescue ScormCloudError, ActiveRecord::RecordNotFound
+      render json: { error: "Not Authorized" }, status: 400
     end
+  end
 
-    def setup
-      @scorm_cloud = ScormCloudService.new
-    end
-
+  def setup
+    @scorm_cloud = ScormCloudService.new
+  end
 end
