@@ -4,11 +4,7 @@ import _ from 'lodash';
 import * as ScormActions from '../../actions/scorm';
 import CoursesList from './courses_list';
 import ConnectedUploader from './uploader';
-import {
-  createAssignment,
-  deleteAssignment,
-  listAssignments,
-} from '../../../libs/canvas/constants/assignments';
+import { createAssignment, deleteAssignment, listAssignments } from '../../../libs/canvas/constants/assignments';
 import canvasRequest from '../../../libs/canvas/action';
 import FileUpload from '../common/file_upload';
 
