@@ -225,6 +225,7 @@ class ScormCloudService
         status: 200,
         response: yield
       }
+
     rescue ScormCloud::InvalidPackageError => e
       response = {error: e.to_s, status: 400}
     rescue ScormCloud::RequestError => e

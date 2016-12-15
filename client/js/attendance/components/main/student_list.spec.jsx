@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
-import TestUtils from 'react/lib/ReactTestUtils';
+import TestUtils from 'react-addons-test-utils';
 import { StudentList } from './student_list';
 
 function makeStudent(id) {
