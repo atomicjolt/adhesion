@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 import _ from 'lodash';
 import canvasRequest from '../../../libs/canvas/action';
-import { list_users_in_course_users } from '../../../libs/canvas/constants/courses'; // eslint-disable-line camelcase
+import { listUsersInCourseUsers } from '../../../libs/canvas/constants/courses';
 import * as applicationActions from '../../actions/application';
 import * as attendanceActions from '../../actions/attendance';
 import * as errorActions from '../../actions/error';
@@ -51,7 +51,7 @@ export class StudentList extends React.Component {
   }
 
   componentWillMount() {
-    this.props.canvasRequest(list_users_in_course_users, { course_id: this.props.settings.lmsCourseId, enrollment_type: ['student'], include: ['avatar_url'] }, {});
+    this.props.canvasRequest(listUsersInCourseUsers, { course_id: this.props.settings.lmsCourseId, enrollment_type: ['student'], include: ['avatar_url'] }, {});
     this.props.getStudentAttendance(this.props.applicationDate, this.props.settings.lmsCourseId);
   }
 
