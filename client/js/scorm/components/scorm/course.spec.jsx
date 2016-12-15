@@ -1,7 +1,7 @@
 /* global describe beforeEach it expect */
 
 import React from 'react';
-import TestUtils from 'react/lib/ReactTestUtils';
+import TestUtils from 'react-addons-test-utils';
 import { Course } from './course';
 
 describe('course', () => {

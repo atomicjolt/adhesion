@@ -1,7 +1,7 @@
 /* global describe beforeEach it expect */
 
 import React from 'react';
-import TestUtils from 'react/lib/ReactTestUtils';
+import TestUtils from 'react-addons-test-utils';
 import CoursesList from './courses_list';
 import Wrapper from '../../../../specs_support/scorm_wrapper';
 
