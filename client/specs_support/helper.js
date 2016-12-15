@@ -1,5 +1,5 @@
 import _                  from 'lodash';
-import configureStore     from '../js/store/configure_store';
+import configureStore     from '../js/scorm/store/configure_store';
 
 export default class Helper {
 
