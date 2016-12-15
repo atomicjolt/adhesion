@@ -1,10 +1,11 @@
-import canvasRequest              from './action';
-import { listAccounts }           from './constants/accounts';
-import { listCoursesForUser }     from './constants/courses';
-import CanvasMiddlware            from './middleware';
-import Helper                     from '../../../specs_support/helper';
+import canvasRequest          from './action';
+import { listAccounts }       from './constants/accounts';
+import { listCoursesForUser } from './constants/courses';
+import CanvasMiddlware        from './middleware';
+import Helper                 from '../../../specs_support/helper';
 
 describe('Canvas Middleware', () => {
+
   Helper.stubAjax();
 
   it('implements Redux middleware interface', () => {
@@ -78,4 +79,5 @@ describe('Canvas Middleware', () => {
       done();
     }, 0);
   });
+
 });
