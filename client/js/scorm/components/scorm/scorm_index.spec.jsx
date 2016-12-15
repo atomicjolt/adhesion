@@ -19,6 +19,8 @@ describe('scorm index', () => {
       lmsCourseId: '1',
       removePackage: () => {},
       previewPackage: () => {},
+      updateImportType: () => {},
+      canvasUrl: 'salad.com',
       scormFile: null,
       scormList: [],
       uploadPackage: () => {},
@@ -35,7 +37,7 @@ describe('scorm index', () => {
   });
 
   it('renders list when assignment exists', () => {
-    props.scormList = [{ course: { title: 'something' } }];
+    props.scormList = [{ title: 'something', id: 'id' }];
     result = TestUtils.renderIntoDocument(<Wrapper><ScormIndex {...props} /></Wrapper>);
     result.setState({ synced: true });
     const li = TestUtils.scryRenderedDOMComponentsWithClass(result, 'c-list-item__title');

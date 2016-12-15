@@ -28,6 +28,7 @@ export class ScormIndex extends React.Component {
     shouldRefreshList: React.PropTypes.bool,
     apiUrl: React.PropTypes.string,
     scormFile: React.PropTypes.shape({}),
+    canvasUrl: React.PropTypes.string.isRequired,
   };
 
   constructor() {
@@ -124,6 +125,8 @@ export class ScormIndex extends React.Component {
 
         <CoursesList
           list={this.props.scormList}
+          courseId={this.props.lmsCourseId}
+          canvasUrl={this.props.canvasUrl}
           removePackage={(...args) => this.deleteAssignment(...args)}
           previewPackage={this.props.previewPackage}
           importPackage={(...args) => this.createAssignment(...args)}
@@ -146,6 +149,7 @@ const select = (state) => {
     scormFile: state.scorm.file,
     uploadError: state.scorm.uploadError,
     canvasAssignments: state.scorm.canvasAssignments,
+    canvasUrl: state.settings.customCanvasApiDomain,
   };
 };
 

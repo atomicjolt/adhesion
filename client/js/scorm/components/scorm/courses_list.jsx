@@ -2,25 +2,23 @@ import React from 'react';
 import Courses from './course';
 
 export default function courseList(props) {
-  let items;
-  if (props.list) {
-    items = props.list.map((item, key) => {
-      const itemProps = {
-        course: item,
-        removePackage: props.removePackage,
-        previewPackage: props.previewPackage,
-        importPackage: props.importPackage,
-        updateImportType: props.updateImportType,
-      };
-
-      return <Courses key={`${key}_PackageItem`} {...itemProps} />;
-    });
-  }
-
   return (
     <div>
       <ul className="c-list">
-        {items}
+        {
+          props.list.map((item, key) => (
+            <Courses
+              key={`${key}_PackageItem`}
+              course={item}
+              canvasUrl={props.canvasUrl}
+              courseId={props.courseId}
+              removePackage={props.removePackage}
+              previewPackage={props.previewPackage}
+              importPackage={props.importPackage}
+              updateImportType={props.updateImportType}
+            />
+          ))
+        }
       </ul>
     </div>
   );

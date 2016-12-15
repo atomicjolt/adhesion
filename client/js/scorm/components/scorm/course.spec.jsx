@@ -2,7 +2,7 @@
 
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
-import { Course } from './course';
+import Course from './course';
 
 describe('course', () => {
   let props;
@@ -16,6 +16,7 @@ describe('course', () => {
         fetching: false,
         is_graded: 'GRADED',
         lms_assignment_id: 1,
+        id: 'id'
       },
       removePackage: () => { remove = true; },
       importPackage: () => { remove = true; },
@@ -70,14 +71,14 @@ describe('course', () => {
 
   it('preview handleClick calls handlePreview', () => {
     expect(remove).toBeFalsy();
-    let btn = TestUtils.scryRenderedDOMComponentsWithTag(result, 'button');
+    const btn = TestUtils.scryRenderedDOMComponentsWithTag(result, 'button');
     TestUtils.Simulate.click(btn[1]);
     expect(remove).toBeTruthy();
   });
 
   it('delete handleClick calls handleRemove', () => {
     expect(remove).toBeFalsy();
-    let btn = TestUtils.scryRenderedDOMComponentsWithTag(result, 'button');
+    const btn = TestUtils.scryRenderedDOMComponentsWithTag(result, 'button');
     TestUtils.Simulate.click(btn[2]);
     expect(remove).toBeTruthy();
   });

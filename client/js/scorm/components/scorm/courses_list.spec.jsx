@@ -2,7 +2,7 @@
 
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
-import CoursesList from './courses_list';
+import CourseList from './courses_list';
 import Wrapper from '../../../../specs_support/scorm_wrapper';
 
 describe('courses list', () => {
@@ -11,15 +11,17 @@ describe('courses list', () => {
 
   beforeEach(() => {
     props = {
-      course: { title: 'IMAPSEC' },
+      courseId: 'id',
       importPackage: () => {},
       previewPackage: () => {},
       removePackage: () => {},
+      updateImportType: () => {},
+      canvasUrl: 'salad.com',
       list: [
-        { course: { title: 'IMAPSEC' } },
+        { title: 'IMAPSEC', id: 'id' },
       ],
     };
-    result = TestUtils.renderIntoDocument(<Wrapper><CoursesList {...props} /></Wrapper>);
+    result = TestUtils.renderIntoDocument(<Wrapper><CourseList {...props} /></Wrapper>);
   });
 
   it('renders list of items from props', () => {
@@ -30,8 +32,8 @@ describe('courses list', () => {
   it('verifies number of items in the list', () => {
     let list = TestUtils.scryRenderedDOMComponentsWithTag(result, 'li');
     expect(list.length).toBe(1);
-    props.list = [{}, {}, {}];
-    result = TestUtils.renderIntoDocument(<Wrapper><CoursesList {...props} /></Wrapper>);
+    props.list = [{ id: 'id' }, { id: 'id' }, { id: 'id' }];
+    result = TestUtils.renderIntoDocument(<Wrapper><CourseList {...props} /></Wrapper>);
     list = TestUtils.scryRenderedDOMComponentsWithTag(result, 'li');
     expect(list.length).toBe(3);
   });
