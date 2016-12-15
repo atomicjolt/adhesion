@@ -28,6 +28,7 @@ gem 'cancancan'
 gem 'rolify'
 gem 'attr_encrypted'
 gem 'jwt', '~> 1.5.0' # json web token
+gem 'lms-api'
 
 # Email
 gem 'sendgrid'
@@ -75,6 +76,7 @@ group :development, :test do
   gem 'faker'
   gem 'rspec-rails'
   gem 'vcr'
+  gem 'coveralls', :require=>false
 end
 
 group :test do

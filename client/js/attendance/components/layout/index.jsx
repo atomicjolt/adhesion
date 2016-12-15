@@ -1,7 +1,6 @@
-"use strict";
+import React from 'react';
 
 import React                    from "react";
-import { connect }              from "react-redux";
 
 export default class Index extends React.Component {
   render(){
