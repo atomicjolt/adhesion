@@ -32,7 +32,7 @@ class ApplicationController < ActionController::Base
   def user_not_authorized
     respond_to do |format|
       format.html { render file: "public/401.html", status: :unauthorized }
-      format.json { render json: { }, status: :unauthorized }
+      format.json { render json: {}, status: :unauthorized }
     end
   end
 

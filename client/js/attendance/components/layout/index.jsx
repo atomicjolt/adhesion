@@ -1,11 +1,13 @@
 import React from 'react';
 
-export default class Index extends React.Component {
-  render() {
-    return (
-      <div>
-        { this.props.children }
-      </div>
-    );
-  }
+export default function index(props) {
+  return (
+    <div>
+      { props.children }
+    </div>
+  );
 }
+
+index.propTypes = {
+  children: React.PropTypes.node,
+};
