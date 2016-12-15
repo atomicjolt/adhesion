@@ -1,4 +1,4 @@
-import api from '../libs/api';
+import api      from '../libs/api';
 import { DONE } from '../constants/wrapper';
 
 const API = store => next => (action) => {

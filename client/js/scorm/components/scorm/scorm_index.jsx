@@ -5,9 +5,9 @@ import * as ScormActions from '../../actions/scorm';
 import CoursesList from './courses_list';
 import ConnectedUploader from './uploader';
 import {
-  create_assignment as createAssignment,
-  delete_assignment as deleteAssignment,
-  list_assignments as listAssignments,
+  createAssignment,
+  deleteAssignment,
+  listAssignments,
 } from '../../../libs/canvas/constants/assignments';
 import canvasRequest from '../../../libs/canvas/action';
 import FileUpload from '../common/file_upload';
