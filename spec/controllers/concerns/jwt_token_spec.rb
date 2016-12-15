@@ -11,6 +11,10 @@ describe ApplicationController, type: :controller do
     def index
       render text: "User: #{@user.display_name}"
     end
+
+    def create
+      render text: "I got created!"
+    end
   end
 
   context "no authorization header" do
@@ -39,4 +43,21 @@ describe ApplicationController, type: :controller do
     end
   end
 
+  context "valid shared token" do
+    it "should be authorized" do
+      SharedAuth.create(secret: "shhhh im a secret")
+      request.headers["SharedAuthorization"] = "shhhh im a secret"
+      post :create, format: :json
+      expect(response).to have_http_status(:success)
+    end
+  end
+
+  context "invalid shared token" do
+    it "should not be authorized" do
+      SharedAuth.create(secret: "shhhh im a secret")
+      request.headers["SharedAuthorization"] = "gar im a secret"
+      post :create, format: :json
+      expect(response).to have_http_status(:unauthorized)
+    end
+  end
 end

@@ -2,7 +2,7 @@ import api from '../libs/api';
 import { DONE } from '../constants/wrapper';
 
 const API = store => next => (action) => {
-  function request(method, url, params, body) {
+  function request(method, url, params, body, headers) {
     const state = store.getState();
     const updatedParams = {
       // Add consumer key to requests to indicate which lti app requests are originating from
@@ -17,6 +17,7 @@ const API = store => next => (action) => {
       state.settings.csrfToken,
       updatedParams,
       body,
+      headers,
     );
 
     if (promise) {
@@ -42,7 +43,7 @@ const API = store => next => (action) => {
   }
 
   if (action.method) {
-    request(action.method, action.url, action.params, action.body);
+    request(action.method, action.url, action.params, action.body, action.headers, action.timeout);
   }
 
   // call the next middleWare
