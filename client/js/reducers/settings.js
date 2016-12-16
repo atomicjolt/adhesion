@@ -8,4 +8,4 @@ export function getInitialSettings(...args) {
   let settings = {};
   _.forEach(args, arg => (settings = { ...settings, ...arg }));
   return settings;
-};
+}
