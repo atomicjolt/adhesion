@@ -1,4 +1,4 @@
-# Adhesion [![Build Status](https://travis-ci.org/atomicjolt/adhesion.svg?branch=master)](https://travis-ci.org/atomicjolt/adhesion)
+# Adhesion [![Build Status](https://travis-ci.org/atomicjolt/adhesion.svg?branch=master)](https://travis-ci.org/atomicjolt/adhesion) [![Coverage Status](https://coveralls.io/repos/github/atomicjolt/adhesion/badge.svg?branch=master)](https://coveralls.io/github/atomicjolt/adhesion?branch=master)
 -----------------------
 
 ## Running Adhesion
