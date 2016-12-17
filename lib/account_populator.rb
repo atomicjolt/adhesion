@@ -34,7 +34,7 @@ class AccountPopulator
     api.proxy(
       "CREATE_NEW_COURSE",
       { account_id: account_id },
-      payload.to_json
+      payload
     )
   end
 
@@ -65,7 +65,7 @@ class AccountPopulator
       api.proxy(
         "CREATE_USER",
         { account_id: account_id },
-        payload.to_json
+        payload
       ).tap { |stud| puts "#{stud['name']} creating." }
     end
   end
@@ -82,7 +82,7 @@ class AccountPopulator
       api.proxy(
         "ENROLL_USER_COURSES",
         { course_id: course_id },
-        payload.to_json
+        payload
       )
       puts "Enrolled #{student['name']} into your course_id #{course_id}"
     end
@@ -109,11 +109,11 @@ class AccountPopulator
     api.proxy(
       "CREATE_EXTERNAL_TOOL_COURSES",
       { course_id: course_id },
-      payload.to_json
+      payload
     )
   end
 
-  def set_up_test_course
+  def setup_test_course
     account_id = get_account_id
     course_id = create_course(account_id)["id"]
     students = create_users(account_id)
