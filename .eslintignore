@@ -4,4 +4,4 @@
 build/*
 !build/index.js
 
-client/js/libs/canvas/*
+client/js/libs/canvas/constants/*
