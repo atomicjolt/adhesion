@@ -13,7 +13,8 @@ class ScormCourseController < ApplicationController
       first_name: params[:lis_person_name_given],
       last_name: params[:lis_person_name_family],
       redirect_url: params[:launch_presentation_return_url],
-      postback_url: scorm_course_postback_url,
+      # postback_url: scorm_course_postback_url,
+      postback_url: "https://1d27a659.ngrok.io/scorm_course/postback",
       lti_credentials: current_lti_application_instance,
       result_params: params,
     )
@@ -38,12 +39,16 @@ class ScormCourseController < ApplicationController
     response = Hash.from_xml(params[:data])
     registration_report = response["registrationreport"]
     reg_id = registration_report && registration_report["regid"]
+    puts "*************************************"
+    puts params
+    puts Apartment::Tenant.current
+    puts "**************************************"
     begin
       reg = Registration.find(reg_id)
       raise ScormCloudError.new if reg.scorm_cloud_passback_secret !=
           params[:password]
     rescue ScormCloudError, ActiveRecord::RecordNotFound
-      render json: { error: "Not Authorized" }, status: 400
+      render json: { error: "Not Authorized" }, status: 200
     end
   end
 
