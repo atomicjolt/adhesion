@@ -1,12 +1,13 @@
-import React from 'react';
-import Courses from './course';
+import _        from 'lodash';
+import React    from 'react';
+import Courses  from './course';
 
 export default function courseList(props) {
   return (
     <div>
       <ul className="c-list">
         {
-          props.list.map((item, key) => (
+          _.map(props.list, (item, key) => (
             <Courses
               key={`${key}_PackageItem`}
               course={item}
