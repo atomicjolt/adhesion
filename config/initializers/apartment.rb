@@ -91,7 +91,7 @@ Rails.application.config.middleware.insert_before 'Warden::Manager', 'Apartment:
   lti_key = request.params["oauth_consumer_key"] || request.params["username"]
   if lti_key.present?
     LtiApplicationInstance.find_by(
-      lti_key: request.params["oauth_consumer_key"],
+      lti_key: lti_key,
     ).try(:lti_key)
   else
     raise "Please specify a valid oauth_consumer_key for this request"
