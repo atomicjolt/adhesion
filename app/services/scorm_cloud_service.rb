@@ -145,7 +145,6 @@ class ScormCloudService
             authtype: 'form',
             urlpass: registration.scorm_cloud_passback_secret,
             urlname: lti_credentials.lti_key,
-            resultformat: "full",
           }
         )
   		end
