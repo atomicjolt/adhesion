@@ -144,7 +144,7 @@ class Canvas
       url.split(';')[0].gsub(/[\<\>\s]/, "")
     end
   end
-
+# TODO: should we check to see if payload is JSON, else is 402?
   def proxy(type, params, payload = nil, get_all = false)
 
     additional_headers = {
@@ -203,15 +203,18 @@ class Canvas
     # Make sure all required parameters are present
     missing = []
     if !self.ignore_required(type)
+      # parsed_payload = !payload.nil? ? eval(payload) : eval("")
+
       parameters.find_all{|p| p["required"]}.map{|p| p["name"]}.each do |p|
         if p.include?("[") && p.include?("]")
           parts = p.split('[')
           parent = parts[0].to_sym
           child = parts[1].gsub("]", "").to_sym
+
           missing << p unless (params[parent].present? && params[parent][child].present?) ||
-                              (payload.present? && !payload.is_a?(String) && payload[parent].present? && payload[parent][child].present?)
+                              (payload.present? && payload[parent].present? && payload[parent][child].present?)
         else
-          missing << p unless params[p.to_sym].present? || (payload.present? && !payload.is_a?(String) && payload[p.to_sym].present?)
+          missing << p unless params[p.to_sym].present? || (payload.present? && !payload.is_a?(String) && parsed_payload[p.to_sym].present?)
         end
       end
     end

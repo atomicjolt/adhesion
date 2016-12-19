@@ -106,7 +106,15 @@ class User < ActiveRecord::Base
   end
 
   def admin?
-    self.role?('administrator')
+    self.role?("administrator")
+  end
+
+  def lms_admin?
+    self.role?("urn:lti:instrole:ims/lis/Administrator")
+  end
+
+  def lms_student?
+    self.role?("Learner")
   end
 
   def can_edit?(user)

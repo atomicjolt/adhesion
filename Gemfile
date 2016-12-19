@@ -12,6 +12,9 @@ gem 'rails', '4.2.7'
 gem "pg"
 gem "apartment"
 
+# Rake Task
+gem 'highline'
+
 # UI
 gem 'sass-rails'
 gem 'uglifier'
