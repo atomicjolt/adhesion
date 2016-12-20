@@ -1,12 +1,11 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import _ from 'lodash';
 import SvgButton from '../../../common_components/svg_button';
 import ImportTypeSelector from './import_type_selector';
 import Loader from '../../../common_components/loader';
 import AssignmentButton from './assignment_button';
 
-export class Course extends React.Component {
+export default class Course extends React.Component {
   static ImportTypes = {
     GRADED: 'GRADED',
     UNGRADED: 'UNGRADED',
@@ -22,7 +21,7 @@ export class Course extends React.Component {
       index: React.PropTypes.number,
       is_graded: React.PropTypes.string,
       title: React.PropTypes.string,
-      fetching: React.PropTypes.string,
+      fetching: React.PropTypes.bool,
     }).isRequired,
     removePackage: React.PropTypes.func.isRequired,
     importPackage: React.PropTypes.func.isRequired,
@@ -123,11 +122,3 @@ export class Course extends React.Component {
     );
   }
 }
-
-const select = (state, props) => ({
-  canvasUrl: state.settings.customCanvasApiDomain,
-  courseId: state.settings.lmsCourseId,
-  course: props.course,
-});
-
-export default connect(select)(Course);

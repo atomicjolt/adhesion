@@ -1,4 +1,4 @@
-# Adhesion [![Build Status](https://travis-ci.org/atomicjolt/adhesion.svg?branch=master)](https://travis-ci.org/atomicjolt/adhesion)
+# Adhesion [![Build Status](https://travis-ci.org/atomicjolt/adhesion.svg?branch=master)](https://travis-ci.org/atomicjolt/adhesion) [![Coverage Status](https://coveralls.io/repos/github/atomicjolt/adhesion/badge.svg?branch=master)](https://coveralls.io/github/atomicjolt/adhesion?branch=master)
 -----------------------
 
 ## Running Adhesion
@@ -248,7 +248,7 @@ $ rake spec
 
 If an admin changes the developer key and secret then existing authentications are invalid.
 This will result in a 500 error. You will see the following in the log:
-Canvas::InvalidRequestException (Status: 400 Error:  ....
+LMS::Canvas::InvalidRequestException (Status: 400 Error:  ....
 
 To fix this remove all entries in the Authentications table. In the future we should detect an
 invalid api token and then remove the db record forcing a new OAuth dance.

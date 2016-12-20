@@ -4,11 +4,7 @@ import _ from 'lodash';
 import * as ScormActions from '../../actions/scorm';
 import CoursesList from './courses_list';
 import ConnectedUploader from './uploader';
-import {
-  create_assignment as createAssignment,
-  delete_assignment as deleteAssignment,
-  list_assignments as listAssignments,
-} from '../../../libs/canvas/constants/assignments';
+import { createAssignment, deleteAssignment, listAssignments } from '../../../libs/canvas/constants/assignments';
 import canvasRequest from '../../../libs/canvas/action';
 import FileUpload from '../common/file_upload';
 
@@ -28,6 +24,7 @@ export class ScormIndex extends React.Component {
     shouldRefreshList: React.PropTypes.bool,
     apiUrl: React.PropTypes.string,
     scormFile: React.PropTypes.shape({}),
+    canvasUrl: React.PropTypes.string.isRequired,
   };
 
   constructor() {
@@ -124,6 +121,8 @@ export class ScormIndex extends React.Component {
 
         <CoursesList
           list={this.props.scormList}
+          courseId={this.props.lmsCourseId}
+          canvasUrl={this.props.canvasUrl}
           removePackage={(...args) => this.deleteAssignment(...args)}
           previewPackage={this.props.previewPackage}
           importPackage={(...args) => this.createAssignment(...args)}
@@ -146,6 +145,7 @@ const select = (state) => {
     scormFile: state.scorm.file,
     uploadError: state.scorm.uploadError,
     canvasAssignments: state.scorm.canvasAssignments,
+    canvasUrl: state.settings.customCanvasApiDomain,
   };
 };
 
