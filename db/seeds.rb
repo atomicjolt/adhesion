@@ -13,6 +13,11 @@ lti_applications = [{
   description: "Attendance Application",
   client_application_name: "attendance",
   canvas_api_permissions: "LIST_USERS_IN_COURSE_USERS",
+}, {
+  name: "Proctor Tool",
+  description: "Proctor Tool",
+  client_application_name: "proctor",
+  canvas_api_permissions: "" # we need to figure this out
 }]
 
 lti_consumer_uri = Rails.application.secrets.canvas_url
@@ -29,6 +34,12 @@ lti_application_instances = [{
   lti_secret: Rails.application.secrets.attendance_lti_secret,
   lti_consumer_uri: lti_consumer_uri,
   canvas_token: Rails.application.secrets.canvas_token,
+}, {
+  lti_application: "Proctor Tool",
+  lti_key: "proctor-tool",
+  lti_secret: Rails.application.secrets.proctor_lti_secret,
+  lti_consumer_uri: lti_consumer_uri,
+  canvas_token: Rails.application.canvas_token,
 }]
 
 lti_applications.each do |attrs|

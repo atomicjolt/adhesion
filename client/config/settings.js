@@ -49,12 +49,14 @@ module.exports = {
 
   entries: {
     scorm: clientAppPath + 'js/scorm.jsx',
-    attendance: clientAppPath + 'js/attendance.jsx'
+    attendance: clientAppPath + 'js/attendance.jsx',
+    proctor: clientAppPath + 'js/proctor.jsx'
   },
 
   cssEntries: {
     scorm_styles: clientAppPath + 'styles/scorm_styles.js',
-    attendance_styles: clientAppPath + 'styles/attendance_styles.js'
+    attendance_styles: clientAppPath + 'styles/attendance_styles.js',
+    proctor_styles: clientAppPath + 'styles/proctor_styles.js',
   }
 
 };
