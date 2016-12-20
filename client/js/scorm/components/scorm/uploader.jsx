@@ -59,7 +59,9 @@ Uploader.propTypes = {
   error: React.PropTypes.bool,
   errorHandle: React.PropTypes.string.isRequired,
   removeError: React.PropTypes.func.isRequired,
-  scormFile: React.PropTypes.object,
+  scormFile: React.PropTypes.shape({
+    name: React.PropTypes.string,
+  }),
 };
 
 export default connect(select, ScormActions)(Uploader);

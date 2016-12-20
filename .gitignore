@@ -63,6 +63,6 @@ rerun.txt
 /coverage/
 /spec/tmp
 
-# Becasue ben is weird
+# Because ben is weird
 /.idea/
 adhesion.iml
