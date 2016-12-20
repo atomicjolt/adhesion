@@ -44,4 +44,18 @@ RSpec.describe Api::AttendancesController, type: :controller do
       expect(Attendance.count).to eq(1)
     end
   end
+
+  describe "GET #search" do
+    it "successfully creates attendance instance variable" do
+      attendance = FactoryGirl.create(:attendance)
+      get :search, course_id: attendance[:lms_course_id], date: attendance.date
+      expect(assigns(:attendances).first).to eq(attendance)
+    end
+
+    it "renders json" do
+      attendance = FactoryGirl.create(:attendance)
+      get :search, course_id: attendance[:lms_course_id], date: attendance.date
+      expect(response.content_type).to eq("application/json")
+    end
+  end
 end
