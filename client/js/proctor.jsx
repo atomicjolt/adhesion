@@ -26,7 +26,7 @@ function Root(props) {
 }
 
 Root.propTypes = {
-  store: React.PropTypes.shapeOf({}),
+  store: React.PropTypes.shape({}),
 };
 
 const settings = getInitialSettings(window.DEFAULT_SETTINGS);

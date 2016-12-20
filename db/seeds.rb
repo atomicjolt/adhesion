@@ -39,7 +39,7 @@ lti_application_instances = [{
   lti_key: "proctor-tool",
   lti_secret: Rails.application.secrets.proctor_lti_secret,
   lti_consumer_uri: lti_consumer_uri,
-  canvas_token: Rails.application.canvas_token,
+  canvas_token: Rails.application.secrets.canvas_token,
 }]
 
 lti_applications.each do |attrs|
