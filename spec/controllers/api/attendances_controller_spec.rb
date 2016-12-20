@@ -15,13 +15,33 @@ RSpec.describe Api::AttendancesController, type: :controller do
       expect(response).to have_http_status(:success)
     end
 
-    it "set attendances variable" do
+    it "returns index json" do
       get :index, course_id: @course.id
-      expect(assigns(:attendances)).to eq([])
+      expect(response.content_type).to eq("application/json")
+    end
+  end
+
+  describe "POST #create" do
+    it "successfully creates an attendance" do
+      @attendance = FactoryGirl.create(:attendance)
+      post :create, course_id: @course.id, attendance_id: @attendance.id
+      expect(Attendance.count).to eq(1)
     end
 
     it "returns index json" do
-      get :index, course_id: @course.id
+      @attendance = FactoryGirl.create(:attendance)
+      post :create, course_id: @course.id, attendance_id: @attendance.id
+      expect(response.content_type).to eq("application/json")
+    end
+
+    it "successfully updates existing attendance record" do
+      attendance = FactoryGirl.create(:attendance)
+      post :create, course_id: @course.id, attendance_id: attendance.id
+      attendance["status"] = "ABSENT"
+      post :create, course_id: @course.id, attendance_id: attendance.id
+      expect(response).to have_http_status(:success)
+      expect(response.content_type).to eq("application/json")
+      expect(Attendance.count).to eq(1)
     end
   end
 end
