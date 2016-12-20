@@ -1,7 +1,7 @@
 /* global describe beforeEach it expect */
 
 import React from 'react';
-import TestUtils from 'react/lib/ReactTestUtils';
+import TestUtils from 'react-addons-test-utils';
 import SVGButton from '../../../common_components/svg_button';
 import Stub from '../../../../specs_support/stub';
 

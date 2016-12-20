@@ -1,12 +1,12 @@
-import { combineReducers }  from 'redux';
-import settings             from '../../reducers/settings';
-import jwt                  from '../../reducers/jwt';
-import scorm                from './scorm';
+import { combineReducers } from 'redux';
+import settings from '../../reducers/settings';
+import jwt from '../../reducers/jwt';
+import scorm from './scorm';
 
 const rootReducer = combineReducers({
   settings,
   jwt,
-  scorm
+  scorm,
 });
 
 export default rootReducer;

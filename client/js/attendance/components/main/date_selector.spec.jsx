@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import TestUtils from 'react/lib/ReactTestUtils';
+import TestUtils from 'react-addons-test-utils';
 
 import DateSelector from './date_selector';
 

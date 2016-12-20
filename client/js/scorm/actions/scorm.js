@@ -42,6 +42,7 @@ export const uploadPackage = (file, lmsCourseId) => {
     body: form,
     params: { lms_course_id: lmsCourseId },
     upload: file,
+    timeout: 10000000
   };
 };
 

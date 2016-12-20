@@ -1,32 +1,34 @@
 /* global describe beforeEach it expect */
 
-import React      from 'react';
-import TestUtils  from 'react/lib/ReactTestUtils';
+import React from 'react';
+import TestUtils from 'react-addons-test-utils';
 import FileUpload from './file_upload';
-import Stub       from '../../../../specs_support/stub.jsx';
+import Stub from '../../../../specs_support/stub';
 
 describe('File Upload', () => {
-  let props, result, uploading;
+  let props;
+  let result;
+  let uploading;
 
-  beforeEach(()=>{
+  beforeEach(() => {
     uploading = false;
 
     props = {
-      uploadPackage: () => uploading = true
+      uploadPackage: () => { uploading = true; },
     };
 
-    result = TestUtils.renderIntoDocument(<Stub><FileUpload {...props}/></Stub>);
+    result = TestUtils.renderIntoDocument(<Stub><FileUpload {...props} /></Stub>);
   });
 
   it('calls upload file', () => {
     const fileIn = TestUtils.findRenderedDOMComponentWithTag(result, 'input');
-    TestUtils.Simulate.change(fileIn, {target: {files: ['file']}});
+    TestUtils.Simulate.change(fileIn, { target: { files: ['file'] } });
     expect(uploading).toBeTruthy();
   });
 
   it('wont upload if no files are present', () => {
     const fileIn = TestUtils.findRenderedDOMComponentWithTag(result, 'input');
-    TestUtils.Simulate.change(fileIn, {target: {files: []}});
+    TestUtils.Simulate.change(fileIn, { target: { files: [] } });
     expect(uploading).toBeFalsy();
   });
 });

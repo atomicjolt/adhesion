@@ -1,20 +1,18 @@
-"use strict";
-
 import React        from 'react';
 import ReactDOM     from 'react-dom';
-import TestUtils    from 'react/lib/ReactTestUtils';
+import TestUtils    from 'react-addons-test-utils';
 import Index        from './index';
 
-describe('index', function() {
-  var result;
-  var props;
+describe('index', () => {
+  let result;
+  let props;
 
-  beforeEach(()=>{
+  beforeEach(() => {
     props = {};
     result = TestUtils.renderIntoDocument(<Index {...props} />);
   });
 
-  it('renders the index', function() {
+  it('renders the index', () => {
     expect(ReactDOM.findDOMNode(result)).toBeDefined();
   });
 });
