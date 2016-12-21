@@ -1,12 +1,12 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import { persistState }                          from 'redux-devtools';
 import rootReducer                               from '../reducers';
-import DevTools                                  from '../../dev/dev_tools.jsx';
+import DevTools                                  from '../../dev/dev_tools';
 import API                                       from '../../middleware/api';
 import CanvasApi                                 from '../../libs/canvas/middleware';
 import Downloader                                from '../../middleware/download';
 
-let middleware = [ API, CanvasApi, Downloader];
+const middleware = [API, CanvasApi, Downloader];
 
 let enhancers = [
   applyMiddleware(...middleware)
@@ -29,7 +29,7 @@ export default function(initialState){
   if (__DEV__ && module.hot) {
     module.hot.accept(
       '../reducers',
-      () => store.replaceReducer(require('../reducers'))
+      () => store.replaceReducer(rootReducer)
     );
   }
 

@@ -1,6 +1,6 @@
 import studentReducer from './student';
 import { DONE } from '../../constants/wrapper';
-import { list_users_in_course_users } from '../../libs/canvas/constants/courses'; // eslint-disable-line camelcase
+import { listUsersInCourseUsers } from '../../libs/canvas/constants/courses';
 
 
 describe('GET_STUDENTS_DONE', () => {
@@ -13,7 +13,7 @@ describe('GET_STUDENTS_DONE', () => {
 
   it('updates all students', () => {
     const action = {
-      type: list_users_in_course_users.type + DONE,
+      type: listUsersInCourseUsers.type + DONE,
       payload: students,
     };
     const result = studentReducer({ all: {} }, action);
@@ -24,7 +24,7 @@ describe('GET_STUDENTS_DONE', () => {
 
   it('adds appends new students to existing students', () => {
     const action = {
-      type: list_users_in_course_users.type + DONE,
+      type: listUsersInCourseUsers.type + DONE,
       payload: students,
     };
     const oldStudents = {
