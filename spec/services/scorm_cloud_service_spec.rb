@@ -10,7 +10,7 @@ require 'scorm_cloud'
     end
   end
 
-Rspec.describe "Scorm Cloud Service" do
+describe "Scorm Cloud Service" do
   before(:example) do
   end
 
