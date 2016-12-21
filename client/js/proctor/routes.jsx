@@ -1,5 +1,3 @@
-'use strict';
-
 import React                          from 'react'; // if you use jsx, you have to have React imported
 import { Router, Route, IndexRoute }  from 'react-router';
 
