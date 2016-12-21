@@ -14,6 +14,7 @@ Rspec.describe "Scorm Cloud Service" do
   before(:example) do
   end
 
+
   it "should handle scorm cloud exception" do
     subject = ScormCloudService.new
     result = subject.scorm_cloud_request do
