@@ -19,8 +19,8 @@ Rails.application.routes.draw do
     end
   end
 
-  match 'scorm_course/postback' => 'scorm_course#postback', :via => :post
-  resources :scorm_course
+  match "scorm_courses/postback" => "scorm_courses#postback", :via => :post
+  resources :scorm_courses
 
   devise_for :users, controllers: {
     sessions: "sessions",
