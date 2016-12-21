@@ -30,7 +30,7 @@ class MockTool
   end
 end
 
-describe "Scorm Cloud Service sync score", type: :controller do
+Rspec.describe "Scorm Cloud Service sync score", type: :controller do
   before(:example) do
     @subject = ScormCloudService.new
     @lti_application_instance = FactoryGirl.create(:lti_application_instance)
