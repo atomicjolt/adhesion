@@ -1,7 +1,4 @@
 const url = location.pathname.includes('quizzes');
-if (url === true) {
-  checkBody();
-}
 
 function addTags() {
   document.getElementsByTagName('body')[0].setAttribute('oncopy', 'return false');
@@ -15,4 +12,8 @@ function checkBody() {
   } else {
     setTimeout(checkBody, 100);
   }
+}
+
+if (url === true) {
+  checkBody();
 }
