@@ -1,29 +1,29 @@
-var info         = require('../../package.json');
-var deployConfig = require('../../.s3-website.json');
-var path         = require('path');
+const info         = require('../../package.json');
+const deployConfig = require('../../.s3-website.json');
+const path         = require('path');
 
-var clientAppPath = path.join(__dirname, '../');
+const clientAppPath = path.join(__dirname, '../');
 
-var devRelativeOutput     = '/';
-var prodRelativeOutput    = '/assets/';
+const devRelativeOutput     = '/';
+const prodRelativeOutput    = '/assets/';
 
-var devOutput     = path.join(__dirname, '../../build/dev', devRelativeOutput);
-var prodOutput    = path.join(__dirname, '../../public', prodRelativeOutput);
+const devOutput     = path.join(__dirname, '../../build/dev', devRelativeOutput);
+const prodOutput    = path.join(__dirname, '../../public', prodRelativeOutput);
 
-//const prodAssetsUrl = ''; // Set this to the url where the assets will be deployed.
+// const prodAssetsUrl = ''; // Set this to the url where the assets will be deployed.
                           // If you want the paths to be relative to the deploy then leave this
                           // value as an empty string. This value could also be a CDN or
                           // it could be the ssl version of your S3 bucket ie:
                           // https://s3.amazonaws.com/' + deployConfig.domain;
 
-const prodAssetsUrl = 'https://s3.amazonaws.com/' + deployConfig.domain;
+const prodAssetsUrl = `https://s3.amazonaws.com/${deployConfig.domain}`;
 
 // There is a warning if the .env file is missing
 // This is fine in a production setting, where settings
 // are loaded from the env and not from a file
-require('dotenv').load({path: path.join(__dirname, '../../.env')});
+require('dotenv').load({ path: path.join(__dirname, '../../.env') });
 
-var hotPort = process.env.ASSETS_PORT || 8080;
+const hotPort = process.env.ASSETS_PORT || 8080;
 
 module.exports = {
   title: info.title,
@@ -31,30 +31,32 @@ module.exports = {
   version: info.versions,
   build: Date.now(),
 
-  devRelativeOutput: devRelativeOutput,
-  prodRelativeOutput: prodRelativeOutput,
+  devRelativeOutput,
+  prodRelativeOutput,
 
-  devOutput: devOutput,
-  prodOutput: prodOutput,
+  devOutput,
+  prodOutput,
 
   // Dev urls
   devAssetsUrl: process.env.ASSETS_URL || '',
-  prodAssetsUrl: prodAssetsUrl,
+  prodAssetsUrl,
 
-  hotPort: hotPort,
+  hotPort,
 
   buildSuffix: '_bundle.js',
 
-  staticDir: clientAppPath + 'static',
+  staticDir: `${clientAppPath}static`,
 
   entries: {
-    scorm: clientAppPath + 'js/scorm.jsx',
-    attendance: clientAppPath + 'js/attendance.jsx'
+    scorm: `${clientAppPath}js/scorm.jsx`,
+    attendance: `${clientAppPath}js/attendance.jsx`,
+    proctor: `${clientAppPath}js/proctor.jsx`
   },
 
   cssEntries: {
-    scorm_styles: clientAppPath + 'styles/scorm_styles.js',
-    attendance_styles: clientAppPath + 'styles/attendance_styles.js'
+    scorm_styles: `${clientAppPath}styles/scorm_styles.js`,
+    attendance_styles: `${clientAppPath}styles/attendance_styles.js`,
+    proctor_styles: `${clientAppPath}styles/proctor_styles.js`,
   }
 
 };
