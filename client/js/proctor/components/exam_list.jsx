@@ -12,7 +12,8 @@ export class ExamList extends React.Component {
 
   static propTypes = {
     canvasRequest: React.PropTypes.func.isRequired,
-    lmsCourseId: React.PropTypes.number.isRequired,
+    lmsCourseId: React.PropTypes.oneOfType([React.PropTypes.string,
+    React.PropTypes.number]).isRequired,
   }
 
   static getStyles() {
