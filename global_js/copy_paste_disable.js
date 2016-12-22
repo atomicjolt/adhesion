@@ -6,7 +6,7 @@ if (url === true) {
 }
 
 function checkBody() {
-  if(document.getElementsByTagName('body').length) {
+  if (document.getElementsByTagName('body').length) {
     addTags();
   } else {
     setTimeout(checkBody, 100);
