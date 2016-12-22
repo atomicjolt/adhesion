@@ -1,4 +1,4 @@
-let url = location.pathname.includes('quizzes');
+const url = location.pathname.includes('quizzes');
 if (url === true) {
   checkBody();
 } else {
