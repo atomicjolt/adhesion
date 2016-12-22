@@ -1,14 +1,12 @@
 
 const defaultState = {
-  exams: [],
+  examList: [],
 };
 
 export default function exams(state = defaultState, action) {
-  console.log(action);
   switch (action.type) {
     case 'LIST_QUIZZES_IN_COURSE_DONE':
-      debugger
-      break;
+      return { ...state, examList: action.payload }
     default:
       return state;
   }
