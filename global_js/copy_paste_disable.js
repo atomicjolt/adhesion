@@ -1,8 +1,6 @@
 const url = location.pathname.includes('quizzes');
 if (url === true) {
   checkBody();
-} else {
-  null;
 }
 
 function addTags() {
