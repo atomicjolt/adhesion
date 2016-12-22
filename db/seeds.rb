@@ -17,7 +17,7 @@ lti_applications = [{
   name: "Proctor Tool",
   description: "Proctor Tool",
   client_application_name: "proctor",
-  canvas_api_permissions: "LIST_QUIZZES_IN_COURSE" # we need to figure this out
+  canvas_api_permissions: "LIST_USERS_IN_COURSE_USERS,LIST_QUIZZES_IN_COURSE" # we need to figure this out
 }]
 
 lti_consumer_uri = Rails.application.secrets.canvas_url
