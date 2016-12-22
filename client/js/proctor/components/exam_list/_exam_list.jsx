@@ -1,6 +1,6 @@
 import React                   from 'react';
 import { connect }             from 'react-redux';
-import { hashHistory }         from 'react-router';
+import appHistory              from '../../../history';
 import _                       from 'lodash';
 import Defines                 from '../../defines';
 import canvasRequest           from '../../../libs/canvas/action';
@@ -20,8 +20,8 @@ export class BaseExamList extends React.Component {
     examList: React.PropTypes.arrayOf(React.PropTypes.shape({})),
   }
 
-  static goToExam() {
-    hashHistory.push('');
+  static goToExam(id) {
+    appHistory.push(`exams/${id}`);
   }
 
   static getStyles() {

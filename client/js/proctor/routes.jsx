@@ -2,12 +2,15 @@ import React                          from 'react'; // if you use jsx, you have 
 import { Router, Route, IndexRoute }  from 'react-router';
 import appHistory                     from '../history';
 import ExamList                       from './components/exam_list/_exam_list';
+import Index                          from './components/index';
 import NotFound                       from './components/common/not_found';
+import ExamDistribution               from './components/exam_distribution/_exam_distribution';
 
 export default (
   <Router history={appHistory}>
-    <Route path="/" component={ExamList}>
+    <Route path="/" component={Index}>
       <IndexRoute component={ExamList} />
+      <Route path="exams/:id" component={ExamDistribution} />
     </Route>
     <Route path="*" component={NotFound} />
   </Router>
