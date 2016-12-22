@@ -8,6 +8,7 @@ import { listQuizzesInCourse } from '../../../libs/canvas/constants/quizzes';
 
 const select = state => ({
   lmsCourseId: state.settings.lmsCourseId,
+  exam: state.exams.examList[1321],
 });
 
 export class BaseExamDistribution extends React.Component {
@@ -42,15 +43,24 @@ export class BaseExamDistribution extends React.Component {
   //   this.props.canvasRequest(listQuizzesInCourse, params);
   // }
 
+  getStudents(){
+    params = {
+      course_id: this.props.lmsCourseId,
+      enrollment_type: ['student']
+    };
+    this.props.canvasRequest(listUsersInCourseUsers, params);
+  }
+
 
   render() {
     const styles = BaseExamDistribution.getStyles();
     return (
       <div>
-        <h1 style={styles.header}>asdfasdfe</h1>
+        <h1 style={styles.header}>This is test page</h1>
       </div>
     );
   }
 }
 
 export default connect(select, { canvasRequest })(BaseExamDistribution);
+ddddddfsdfsss
