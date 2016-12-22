@@ -26,4 +26,3 @@ class Api::CanvasProxyController < ApplicationController
   end
 
 end
-
