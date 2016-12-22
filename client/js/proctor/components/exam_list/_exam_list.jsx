@@ -44,8 +44,9 @@ export class BaseExamList extends React.Component {
 
   componentWillMount() {
     const params = {
-      course_id: this.props.lmsCourseId
+      course_id: this.props.lmsCourseId,
     };
+
     this.props.canvasRequest(listQuizzesInCourse, params);
   }
 

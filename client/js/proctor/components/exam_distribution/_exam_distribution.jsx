@@ -4,12 +4,17 @@ import { hashHistory }         from 'react-router';
 import _                       from 'lodash';
 import Defines                 from '../../defines';
 import canvasRequest           from '../../../libs/canvas/action';
-import { listQuizzesInCourse } from '../../../libs/canvas/constants/quizzes';
+import { listUsersInCourseUsers } from '../../../libs/canvas/constants/courses';
+import StudentAssign           from  './student_assign'
 
-const select = state => ({
-  lmsCourseId: state.settings.lmsCourseId,
-  exam: state.exams.examList[1321],
-});
+const select = (state, props) => {
+  const exam = _.find(state.exams.examList, (exam)=>(props.params.id == exam.id));
+  return {
+    lmsCourseId: state.settings.lmsCourseId,
+    exam,
+    studentList: state.students.studentList,
+  };
+}
 
 export class BaseExamDistribution extends React.Component {
 
@@ -20,47 +25,85 @@ export class BaseExamDistribution extends React.Component {
 
   static getStyles() {
     return {
+      table: {
+        borderCollapse: 'collapse',
+        width: '100%',
+
+      },
       header: {
         color: Defines.darkGrey,
-        padding: '10px 20px',
       },
-      hr: {
-        borderTop: `2px solid ${Defines.lightGrey}`,
-        margin: '0px',
+      tr: {
+        backgroundColor: Defines.lightBackground,
+        color: Defines.lightText,
       },
-      ul: {
-        listStyle: 'none',
-        padding: '0px',
-        margin: '0px',
+      th: {
+        fontWeight: 'normal',
+        textAlign: 'left',
+        padding: '15px 20px',
+      },
+      smaller: {
+        width: '15%',
+      },
+      larger: {
+        width: '35%',
       }
     };
   }
 
-  // componentWillMount() {
-  //   const params = {
-  //     course_id: this.props.lmsCourseId
-  //   };
-  //   this.props.canvasRequest(listQuizzesInCourse, params);
-  // }
+  componentWillMount() {
+    this.getStudents();
+  }
 
   getStudents(){
-    params = {
+    const params = {
       course_id: this.props.lmsCourseId,
       enrollment_type: ['student']
     };
-    this.props.canvasRequest(listUsersInCourseUsers, params);
+    this.props.canvasRequest(listUsersInCourseUsers, params, {});
   }
+
+  tableHeader(styles){
+    return (
+      <tr>
+        <th style={styles.th}>STUDENTS</th>
+        <th style={{...styles.th, ...styles.larger}}>TESTING CENTER</th>
+        <th style={{...styles.th, ...styles.smaller}}>ASSIGNED</th>
+        <th style={{...styles.th, ...styles.smaller}}>USED</th>
+        <th style={{...styles.th, ...styles.smaller}}>STATUS</th>
+      </tr>
+    )
+  }
+
+studentList(){
+  return _.map()
+}
 
 
   render() {
     const styles = BaseExamDistribution.getStyles();
+    console.log(this.props.studentList);
     return (
       <div>
-        <h1 style={styles.header}>This is test page</h1>
+        <h1 style={styles.header}>{this.props.exam.title}</h1>
+        <table style={styles.table}>
+          <thead  style={styles.tr}>
+            {this.tableHeader(styles)}
+          </thead>
+          <tbody>
+            {
+              _.map(this.props.studentList, student => (
+                <StudentAssign
+                  key={`student_${student.id}`}
+                  student={student}
+                />
+              ))
+            }
+          </tbody>
+        </table>
       </div>
     );
   }
 }
 
 export default connect(select, { canvasRequest })(BaseExamDistribution);
-ddddddfsdfsss
