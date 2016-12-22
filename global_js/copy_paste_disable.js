@@ -5,8 +5,7 @@ if (url === true) {
   null;
 }
 
-function checkBody(){
-  console.log('CHECKING BODY');
+function checkBody() {
   if(document.getElementsByTagName('body').length) {
     addTags();
   } else {
@@ -18,5 +17,4 @@ function addTags() {
   document.getElementsByTagName('body')[0].setAttribute('oncopy', 'return false');
   document.getElementsByTagName('body')[0].setAttribute('oncut', 'return false');
   document.getElementsByTagName('body')[0].setAttribute('onpaste', 'return false');
-  console.log('TAGS SET');
 }
