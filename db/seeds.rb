@@ -18,6 +18,11 @@ lti_applications = [{
   description: "Proctor Tool",
   client_application_name: "proctor",
   canvas_api_permissions: "" # we need to figure this out
+}, {
+  name: "Quiz Converter",
+  description: "Converts word docs to quizzes",
+  client_application_name: "quiz_converter",
+  canvas_api_permissions: ""
 }]
 
 lti_consumer_uri = Rails.application.secrets.canvas_url
@@ -38,6 +43,12 @@ lti_application_instances = [{
   lti_application: "Proctor Tool",
   lti_key: "proctor-tool",
   lti_secret: Rails.application.secrets.proctor_lti_secret,
+  lti_consumer_uri: lti_consumer_uri,
+  canvas_token: Rails.application.secrets.canvas_token,
+}, {
+  lti_application: "Quiz Converter",
+  lti_key: "quiz-converter",
+  lti_secret: Rails.application.secrets.quiz_converter_lti_secret,
   lti_consumer_uri: lti_consumer_uri,
   canvas_token: Rails.application.secrets.canvas_token,
 }]
