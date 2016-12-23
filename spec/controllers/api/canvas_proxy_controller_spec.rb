@@ -49,20 +49,36 @@ RSpec.describe Api::CanvasProxyController, type: :controller do
     describe "POST" do
       it "successfully posts to the canvas api" do
         type = "CREATE_NEW_SUB_ACCOUNT"
-        body = { account: { name: "Canvas Demo Courses" }}.to_json
-        params = { account: { name: "Canvas Demo Courses" }, type: type, lti_key: @application_instance.lti_key, account_id: 1}
+        body = { account: { name: "Canvas Demo Courses" } }.to_json
+
+        params = {
+          account: {
+            name: "Canvas Demo Courses"
+          },
+          type: type,
+          lti_key: @application_instance.lti_key,
+          account_id: 1
+        }
+
         post :proxy, body, params, format: :json
-        expect(JSON.parse(response.body)['name']).to eq("Canvas Demo Courses")
+        expect(JSON.parse(response.body)["name"]).to eq("Canvas Demo Courses")
       end
     end
 
     describe "PUT" do
       it "successfully puts to the canvas api" do
         type = "UPDATE_ACCOUNT"
-        params = {type: type, lti_key: @application_instance.lti_key, id: 1, name: "Canvas Demo Courses"}
-        body = {name: "Canvas Demo Course"}.to_json
+        params = {
+          type: type,
+          lti_key: @application_instance.lti_key,
+          id: 1,
+          name: "Canvas Demo Courses"
+        }
+
+        body = { name: "Canvas Demo Course" }.to_json
+
         put :proxy, body, params, format: :json
-        expect(JSON.parse(response.body)['name']).to eq("Canvas Demo Courses")
+        expect(JSON.parse(response.body)["name"]).to eq("Canvas Demo Courses")
       end
     end
   end
