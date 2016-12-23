@@ -7,6 +7,7 @@ import * as ExamActions            from '../../actions/exams';
 import { listUsersInCourseUsers }  from '../../../libs/canvas/constants/courses';
 import { getSubAccountsOfAccount } from '../../../libs/canvas/constants/accounts';
 import StudentAssign               from './student_assign';
+import HoverButton                 from '../common/hover_button';
 
 const select = (state, props) => {
   const exam = _.find(state.exams.examList, ex => props.params.id === ex.id.toString());
@@ -33,9 +34,25 @@ export class BaseExamDistribution extends React.Component {
     testingCenterList: React.PropTypes.shape({}),
     params: React.PropTypes.shape({ id: React.PropTypes.string.isRequired }),
     assignExam: React.PropTypes.func.isRequired,
+    reassignExam: React.PropTypes.func.isRequired,
     loadAssignedExams: React.PropTypes.func.isRequired,
     testingCentersAccountId: React.PropTypes.number.isRequired,
     assignedExams: React.PropTypes.shape({}),
+    instructorName: React.PropTypes.string.isRequired,
+  }
+
+  static tableHeader(styles) {
+    return (
+      <tr>
+        <th style={styles.th}>
+          STUDENTS
+        </th>
+        <th style={{ ...styles.th, ...styles.larger }}>TESTING CENTER</th>
+        <th style={{ ...styles.th, ...styles.smaller }}>ASSIGNED</th>
+        <th style={{ ...styles.th, ...styles.smaller }}>USED</th>
+        <th style={{ ...styles.th, ...styles.smaller }}>STATUS</th>
+      </tr>
+    );
   }
 
   static getStyles() {
@@ -62,20 +79,18 @@ export class BaseExamDistribution extends React.Component {
       },
       larger: {
         width: '35%',
+      },
+      button: {
+        content: '\u25BE'
       }
     };
   }
 
-  static tableHeader(styles) {
-    return (
-      <tr>
-        <th style={styles.th}>STUDENTS</th>
-        <th style={{ ...styles.th, ...styles.larger }}>TESTING CENTER</th>
-        <th style={{ ...styles.th, ...styles.smaller }}>ASSIGNED</th>
-        <th style={{ ...styles.th, ...styles.smaller }}>USED</th>
-        <th style={{ ...styles.th, ...styles.smaller }}>STATUS</th>
-      </tr>
-    );
+  constructor() {
+    super();
+    this.state = {
+      sortBy: 'status',
+    };
   }
 
   componentWillMount() {
@@ -112,6 +127,59 @@ export class BaseExamDistribution extends React.Component {
     this.props.assignExam(body);
   }
 
+  reassignExam(assignedExamId, centerId) {
+    const body = {
+      testing_center_id: centerId
+    };
+    this.props.reassignExam(assignedExamId, body);
+  }
+
+
+
+  studentExamList() {
+    if (this.state.sortBy === 'status') {
+      const list = [];
+      _.each(this.props.studentList, (student) => {
+        if (this.props.assignedExams[student.id]) {
+          list.push(
+            <StudentAssign
+              key={`student_${student.id}`}
+              student={student}
+              testingCenterList={this.props.testingCenterList}
+              assignExam={(studentId, centerId) => this.assignExam(studentId, centerId)}
+              reassignExam={(assignedId, centerId) => this.reassignExam(assignedId, centerId)}
+              assignedExam={this.props.assignedExams[student.id]}
+            />
+          );
+        } else {
+          list.unshift(
+            <StudentAssign
+              key={`student_${student.id}`}
+              student={student}
+              testingCenterList={this.props.testingCenterList}
+              assignExam={(studentId, centerId) => this.assignExam(studentId, centerId)}
+              reassignExam={(assignedId, centerId) => this.reassignExam(assignedId, centerId)}
+              assignedExam={this.props.assignedExams[student.id]}
+            />
+          );
+        }
+      });
+      return list;
+    }
+
+    const students = _.sortBy(this.props.studentList, student => student.name);
+    return _.map(students, student => (
+      <StudentAssign
+        key={`student_${student.id}`}
+        student={student}
+        testingCenterList={this.props.testingCenterList}
+        assignExam={(studentId, centerId) => this.assignExam(studentId, centerId)}
+        reassignExam={(assignedId, centerId) => this.reassignExam(assignedId, centerId)}
+        assignedExam={this.props.assignedExams[student.id]}
+      />
+    ));
+  }
+
   render() {
     const styles = BaseExamDistribution.getStyles();
     return (
@@ -122,17 +190,7 @@ export class BaseExamDistribution extends React.Component {
             {BaseExamDistribution.tableHeader(styles)}
           </thead>
           <tbody>
-            {
-              _.map(this.props.studentList, student => (
-                <StudentAssign
-                  key={`student_${student.id}`}
-                  student={student}
-                  testingCenterList={this.props.testingCenterList}
-                  assignExam={(studentId, centerId) => this.assignExam(studentId, centerId)}
-                  assignedExam={this.props.assignedExams[student.id]}
-                />
-              ))
-            }
+            {this.studentExamList()}
           </tbody>
         </table>
       </div>

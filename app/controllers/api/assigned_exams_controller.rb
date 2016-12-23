@@ -15,6 +15,9 @@ class Api::AssignedExamsController < ApplicationController
   end
 
   def update
+    assigned_exam = AssignedExam.find(params[:id])
+    assigned_exam.update(testing_center_id: params[:testing_center_id])
+    render json: assigned_exam
   end
 
   private

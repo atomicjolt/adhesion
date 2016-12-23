@@ -1,19 +1,14 @@
 import wrapper from '../../constants/wrapper';
 import Network from '../../constants/network';
 
-// Local actions
-const actions = [
-  'REMOVE_ERROR',
-  'UPDATE_IMPORT_TYPE',
-];
-
 // Actions that make an api request
 const requests = [
   'ASSIGN_EXAM',
+  'REASSIGN_EXAM',
   'LOAD_ASSIGNED_EXAMS'
 ];
 
-export const Constants = wrapper(actions, requests);
+export const Constants = wrapper([], requests);
 
 export const loadAssignedExams = examId => ({
   method: Network.GET,
@@ -26,5 +21,12 @@ export const assignExam = body => ({
   method: Network.POST,
   type: Constants.ASSIGN_EXAM,
   url: '/api/assigned_exams',
+  body
+});
+
+export const reassignExam = (assignedExamId, body) => ({
+  method: Network.PUT,
+  type: Constants.REASSIGN_EXAM,
+  url: `/api/assigned_exams/${assignedExamId}`,
   body
 });

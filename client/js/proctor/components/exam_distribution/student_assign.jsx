@@ -13,10 +13,12 @@ export default class StudentAssign extends React.Component {
     }).isRequired,
     testingCenterList: React.PropTypes.shape({}),
     assignExam: React.PropTypes.func.isRequired,
+    reassignExam: React.PropTypes.func.isRequired,
     assignedExam: React.PropTypes.shape({
       status: React.PropTypes.string.isRequired,
       testing_center_id: React.PropTypes.number.isRequired,
       created_at: React.PropTypes.string.isRequired,
+      id: React.PropTypes.number.isRequired,
     }),
   }
 
@@ -45,10 +47,20 @@ export default class StudentAssign extends React.Component {
   constructor(props) {
     super(props);
     const { assignedExam } = props;
-    const selectedCenterId = assignedExam ? assignedExam.testing_center_id : null;
+    const selectedCenterId = assignedExam ? `${assignedExam.testing_center_id}` : null;
+    this.selector = null;
     this.state = {
       selectedCenterId,
     };
+  }
+
+  componentWillUpdate(nextProps) {
+    if (!this.props.assignedExam && nextProps.assignedExam) {
+      this.state = {
+        selectedCenterId: `${nextProps.assignedExam.testing_center_id}`
+      };
+      this.selector.render();
+    }
   }
 
   getOptions() {
@@ -69,14 +81,21 @@ export default class StudentAssign extends React.Component {
     this.props.assignExam(studentId, centerId);
   }
 
+  reassignExam(centerId) {
+    this.props.reassignExam(this.props.assignedExam.id, centerId);
+  }
+
+
   changeOption(option) {
     this.setState({ selectedCenterId: option.value });
   }
 
   render() {
     const styles = StudentAssign.getStyles();
+    const { assignedExam } = this.props;
+
     let assignObject;
-    if (this.state.selectedCenterId != null && !this.props.assignedExam) {
+    if (this.state.selectedCenterId != null && !assignedExam) {
       assignObject = (
         <HoverButton
           style={styles.button}
@@ -88,16 +107,28 @@ export default class StudentAssign extends React.Component {
       );
     }
 
-    if (this.props.assignedExam) {
+    if (assignedExam) {
+      const date = moment(assignedExam.created_at).format('DD MMM YY H:m');
       assignObject = (
         <div>
-          <div>{this.props.assignedExam.created_at}</div>
-          <div>Instructor Name!!!!</div>
+          <div style={{ fontSize: '1.1em' }}>{date.toUpperCase()}</div>
+          <div>{assignedExam.instructor_name}</div>
         </div>
       );
     }
+    if (assignedExam && this.state.selectedCenterId !== `${assignedExam.testing_center_id}`) {
+      assignObject = (
+        <HoverButton
+          style={styles.button}
+          hoveredStyle={styles.hoveredStyle}
+          onClick={() => this.reassignExam(this.state.selectedCenterId)}
+        >
+          Reassign
+        </HoverButton>
+      );
+    }
 
-    let selectSearch = ' - ';
+    let selectSearch;
 
     if (!_.isEmpty(this.props.testingCenterList)) {
       const selectSearchProps = {
@@ -107,11 +138,11 @@ export default class StudentAssign extends React.Component {
       };
 
       if (this.state.selectedCenterId) {
-        selectSearchProps.value = `${this.state.selectedCenterId}`;
+        selectSearchProps.value = this.state.selectedCenterId;
       }
 
       selectSearch = (
-        <SelectSearch {...selectSearchProps} />
+        <SelectSearch ref={(el) => { this.selector = el; }} {...selectSearchProps} />
       );
     }
 
