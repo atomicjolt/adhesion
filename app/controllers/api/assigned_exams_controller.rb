@@ -21,7 +21,7 @@ class Api::AssignedExamsController < ApplicationController
 
   def create_params
     params.require(:assigned_exam).permit(
-      :exam_id, :course_id, :student_id, :instructor_id, :testing_center_id
+      :exam_id, :course_id, :instructor_name, :student_id, :instructor_id, :testing_center_id
     )
   end
 end

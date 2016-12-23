@@ -14,10 +14,11 @@ const select = (state, props) => {
     lmsCourseId: state.settings.lmsCourseId,
     lmsUserId: state.settings.lmsUserId,
     exam,
+    instructorName: state.settings.displayName,
     studentList: state.students.studentList,
     testingCentersAccountId: state.settings.testingCentersAccountId,
     testingCenterList: state.testingCenters.testingCenterList,
-    assignedExams: state.exams.assignedExams
+    assignedExams: state.exams.assignedExams,
   };
 };
 
@@ -106,6 +107,7 @@ export class BaseExamDistribution extends React.Component {
       student_id: studentId,
       instructor_id: this.props.lmsUserId,
       testing_center_id: centerId,
+      instructor_name: this.props.instructorName,
     };
     this.props.assignExam(body);
   }
