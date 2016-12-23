@@ -11,10 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161214195432) do
+ActiveRecord::Schema.define(version: 20161223183508) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "assigned_exams", force: :cascade do |t|
+    t.integer  "course_id"
+    t.integer  "exam_id"
+    t.integer  "instructor_id"
+    t.integer  "student_id"
+    t.integer  "testing_center_id"
+    t.string   "status",            default: "assigned"
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+  end
 
   create_table "attendances", force: :cascade do |t|
     t.integer "lms_student_id"
