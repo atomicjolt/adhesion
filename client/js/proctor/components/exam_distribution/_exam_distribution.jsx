@@ -1,11 +1,12 @@
-import React                      from 'react';
-import { connect }                from 'react-redux';
-import _                          from 'lodash';
-import Defines                    from '../../defines';
-import canvasRequest              from '../../../libs/canvas/action';
-import * as ExamActions           from '../../actions/exams';
-import { listUsersInCourseUsers } from '../../../libs/canvas/constants/courses';
-import StudentAssign              from  './student_assign';
+import React                       from 'react';
+import { connect }                 from 'react-redux';
+import _                           from 'lodash';
+import Defines                     from '../../defines';
+import canvasRequest               from '../../../libs/canvas/action';
+import * as ExamActions            from '../../actions/exams';
+import { listUsersInCourseUsers }  from '../../../libs/canvas/constants/courses';
+import { getSubAccountsOfAccount } from '../../../libs/canvas/constants/accounts';
+import StudentAssign               from './student_assign';
 
 const select = (state, props) => {
   const exam = _.find(state.exams.examList, ex => props.params.id === ex.id.toString());
@@ -14,11 +15,9 @@ const select = (state, props) => {
     lmsUserId: state.settings.lmsUserId,
     exam,
     studentList: state.students.studentList,
-    centers: [
-      { id: 111, name: 'center 1' },
-      { id: 222, name: 'center 2' },
-      { id: 333, name: 'center 3' },
-    ]
+    testingCentersAccountId: state.settings.testingCentersAccountId,
+    testingCenterList: state.testingCenters.testingCenterList,
+    assignedExams: state.exams.assignedExams
   };
 };
 
@@ -30,9 +29,12 @@ export class BaseExamDistribution extends React.Component {
     lmsUserId: React.PropTypes.string.isRequired,
     exam: React.PropTypes.shape({ title: React.PropTypes.string }),
     studentList: React.PropTypes.shape({}),
-    centers: React.PropTypes.arrayOf(React.PropTypes.shape({})),
+    testingCenterList: React.PropTypes.shape({}),
     params: React.PropTypes.shape({ id: React.PropTypes.string.isRequired }),
     assignExam: React.PropTypes.func.isRequired,
+    loadAssignedExams: React.PropTypes.func.isRequired,
+    testingCentersAccountId: React.PropTypes.number.isRequired,
+    assignedExams: React.PropTypes.shape({}),
   }
 
   static getStyles() {
@@ -77,6 +79,16 @@ export class BaseExamDistribution extends React.Component {
 
   componentWillMount() {
     this.getStudents();
+    this.getTestingCenters();
+    this.props.loadAssignedExams(this.props.params.id);
+  }
+
+  getTestingCenters() {
+    const params = {
+      account_id: this.props.testingCentersAccountId,
+    };
+
+    this.props.canvasRequest(getSubAccountsOfAccount, params, {});
   }
 
   getStudents() {
@@ -113,8 +125,9 @@ export class BaseExamDistribution extends React.Component {
                 <StudentAssign
                   key={`student_${student.id}`}
                   student={student}
-                  centers={this.props.centers}
+                  testingCenterList={this.props.testingCenterList}
                   assignExam={(studentId, centerId) => this.assignExam(studentId, centerId)}
+                  assignedExam={this.props.assignedExams[student.id]}
                 />
               ))
             }

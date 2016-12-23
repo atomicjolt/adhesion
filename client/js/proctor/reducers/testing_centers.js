@@ -1,15 +1,15 @@
 import _ from 'lodash';
 
 const defaultState = {
-  studentList: {},
+  testingCenterList: {},
 };
 
 export default function students(state = defaultState, action) {
   switch (action.type) {
-    case 'LIST_USERS_IN_COURSE_USERS_DONE': {
+    case 'GET_SUB_ACCOUNTS_OF_ACCOUNT_DONE': {
       const newState = _.cloneDeep(state);
-      _.each(action.payload, (student) => {
-        newState.studentList[student.id] = student;
+      _.each(action.payload, (center) => {
+        newState.testingCenterList[center.id] = center;
       });
       return newState;
     }
