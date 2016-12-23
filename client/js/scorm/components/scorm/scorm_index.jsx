@@ -72,7 +72,7 @@ export class ScormIndex extends React.Component {
         integration_id: `${packageId}`,
         integration_data: { provider: 'atomic-scorm' },
         external_tool_tag_attributes: {
-          url: `${this.props.apiUrl}scorm_course?course_id=${packageId}`,
+          url: `${this.props.apiUrl}scorm_courses?course_id=${packageId}`,
         },
         points_possible: pointsPossible,
       },
