@@ -3,6 +3,7 @@ import _ from 'lodash';
 const defaultState = {
   examList: [],
   assignedExams: {},
+  ready: false,
 };
 
 export default function exams(state = defaultState, action) {
@@ -15,6 +16,7 @@ export default function exams(state = defaultState, action) {
       _.forEach(action.payload, (assignedExam) => {
         newState.assignedExams[assignedExam.student_id] = assignedExam;
       });
+      newState.ready = true;
       return newState;
     }
     case 'REASSIGN_EXAM_DONE':

@@ -20,6 +20,7 @@ const select = (state, props) => {
     testingCentersAccountId: state.settings.testingCentersAccountId,
     testingCenterList: state.testingCenters.testingCenterList,
     assignedExams: state.exams.assignedExams,
+    ready: state.exams.ready,
   };
 };
 
@@ -39,6 +40,7 @@ export class BaseExamDistribution extends React.Component {
     testingCentersAccountId: React.PropTypes.number.isRequired,
     assignedExams: React.PropTypes.shape({}),
     instructorName: React.PropTypes.string.isRequired,
+    ready: React.PropTypes.bool.isRequired
   }
 
   static tableHeader(styles) {
@@ -134,9 +136,9 @@ export class BaseExamDistribution extends React.Component {
     this.props.reassignExam(assignedExamId, body);
   }
 
-
-
   studentExamList() {
+    if (!this.props.ready) { return []; }
+
     if (this.state.sortBy === 'status') {
       const list = [];
       _.each(this.props.studentList, (student) => {

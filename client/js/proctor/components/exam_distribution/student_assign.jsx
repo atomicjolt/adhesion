@@ -56,10 +56,7 @@ export default class StudentAssign extends React.Component {
 
   componentWillUpdate(nextProps) {
     if (!this.props.assignedExam && nextProps.assignedExam) {
-      this.state = {
-        selectedCenterId: `${nextProps.assignedExam.testing_center_id}`
-      };
-      this.selector.render();
+      this.setState({ electedCenterId: `${nextProps.assignedExam.testing_center_id}` });
     }
   }
 
@@ -108,7 +105,7 @@ export default class StudentAssign extends React.Component {
     }
 
     if (assignedExam) {
-      const date = moment(assignedExam.created_at).format('DD MMM YY H:m');
+      const date = moment(assignedExam.updated_at).format('DD MMM YY H:m');
       assignObject = (
         <div>
           <div style={{ fontSize: '1.1em' }}>{date.toUpperCase()}</div>
