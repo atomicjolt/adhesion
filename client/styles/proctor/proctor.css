@@ -67,25 +67,25 @@
 		}
 
 	.select-search-box input::-webkit-input-placeholder {
-		color: #fff;
+		color: #aaa;
 		font-style: italic;
 		font-weight: normal;
 	}
 
 	.select-search-box input::-moz-placeholder {
-		color: #fff;
+		color: #aaa;
 		font-style: italic;
 		font-weight: normal;
 	}
 
 	.select-search-box input:-moz-placeholder {
-		color: #fff;
+		color: #aaa;
 		font-style: italic;
 		font-weight: normal;
 	}
 
 	.select-search-box input:-ms-input-placeholder {
-		color: #fff;
+		color: #aaa;
 		font-style: italic;
 		font-weight: normal;
 	}

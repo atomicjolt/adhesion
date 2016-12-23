@@ -4,4 +4,5 @@ export default {
   lightGrey: '#ededed',
   lightBackground: '#f5f5f5',
   highlightedText: '#000085',
+  tanishBrown: '#c1a17a',
 };
