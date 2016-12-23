@@ -10,15 +10,13 @@ export default function studentAssign(props) {
       borderBottom: `1px solid ${Defines.lightGrey}`
     },
   };
-
+console.log(props.centers)
   return (
-    <tr>
-      <td style={styles.td}>{props.student.name}</td>
-      <td style={styles.td}><CenterSelector centers={props.centers} /></td>
-      <td style={styles.td}>AssignButton</td>
-      <td style={styles.td}> - </td>
-      <td style={styles.td}> Unchanged </td>
-    </tr>
+    <select>
+    {_.map(props.centers, (center) => {
+       return <option key={center.id} value={center.id}>{center.name}</option>;
+    })}
+    </select>
   );
 }
 

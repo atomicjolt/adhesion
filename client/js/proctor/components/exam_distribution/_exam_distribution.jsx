@@ -13,6 +13,10 @@ const select = (state, props) => {
     lmsCourseId: state.settings.lmsCourseId,
     exam,
     studentList: state.students.studentList,
+    centers: [{id: 111, name: "center 1"},
+              {id: 222, name: "center 2"},
+              {id: 333, name: "center 3"}
+              ]
   };
 }
 
@@ -96,6 +100,7 @@ studentList(){
                 <StudentAssign
                   key={`student_${student.id}`}
                   student={student}
+                  centers={this.props.centers}
                 />
               ))
             }
