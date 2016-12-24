@@ -5,9 +5,9 @@ const API = store => next => (action) => {
   function request(method, url, params, body, headers, timeout) {
     const state = store.getState();
     const updatedParams = {
-      // Add consumer key to requests to indicate which lti app requests are originating from
+      // Add consumer key to requests so we can figure out which lti app requests are originating
       oauth_consumer_key: state.settings.oauthConsumerKey,
-      ...params,
+      ...params
     };
     const promise = api.execRequest(
       method,
@@ -18,8 +18,7 @@ const API = store => next => (action) => {
       updatedParams,
       body,
       headers,
-      timeout
-    );
+      timeout);
 
     if (promise) {
       promise.then(
