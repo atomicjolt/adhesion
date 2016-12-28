@@ -18,6 +18,11 @@ lti_applications = [{
   description: "Proctor Tool",
   client_application_name: "proctor",
   canvas_api_permissions: "" # we need to figure this out
+}, {
+  name: "Test Administration Tool",
+  description: "Test Administration",
+  client_application_name: "test-administration",
+  canvas_api_permissions: "" # we need to figure this out
 }]
 
 lti_consumer_uri = Rails.application.secrets.canvas_url
@@ -40,10 +45,17 @@ lti_application_instances = [{
   lti_secret: Rails.application.secrets.proctor_lti_secret,
   lti_consumer_uri: lti_consumer_uri,
   canvas_token: Rails.application.secrets.canvas_token,
+}, {
+  lti_application: "Test Administration Tool",
+  lti_key: "test-administration",
+  lti_secret: Rails.application.secrets.test_administration_lti_secret,
+  lti_consumer_uri: lti_consumer_uri,
+  canvas_token: Rails.application.secrets.canvas_token,
 }]
 
 lti_applications.each do |attrs|
   if lti_application = LtiApplication.find_by(name: attrs[:name])
+    puts lti_application
     lti_application.update_attributes!(attrs)
   else
     LtiApplication.create!(attrs)
