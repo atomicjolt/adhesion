@@ -104,7 +104,6 @@ export class BaseExamDistribution extends React.Component {
     const params = {
       account_id: this.props.testingCentersAccountId,
     };
-
     this.props.canvasRequest(getSubAccountsOfAccount, params, {});
   }
 
@@ -135,41 +134,8 @@ export class BaseExamDistribution extends React.Component {
     this.props.reassignExam(assignedExamId, body);
   }
 
-  studentExamList() {
-    if (!this.props.ready) { return []; }
-
-    if (this.state.sortBy === 'status') {
-      const list = [];
-      _.each(this.props.studentList, (student) => {
-        if (this.props.assignedExams[student.id]) {
-          list.push(
-            <StudentAssign
-              key={`student_${student.id}`}
-              student={student}
-              testingCenterList={this.props.testingCenterList}
-              assignExam={(studentId, centerId) => this.assignExam(studentId, centerId)}
-              reassignExam={(assignedId, centerId) => this.reassignExam(assignedId, centerId)}
-              assignedExam={this.props.assignedExams[student.id]}
-            />
-          );
-        } else {
-          list.unshift(
-            <StudentAssign
-              key={`student_${student.id}`}
-              student={student}
-              testingCenterList={this.props.testingCenterList}
-              assignExam={(studentId, centerId) => this.assignExam(studentId, centerId)}
-              reassignExam={(assignedId, centerId) => this.reassignExam(assignedId, centerId)}
-              assignedExam={this.props.assignedExams[student.id]}
-            />
-          );
-        }
-      });
-      return list;
-    }
-
-    const students = _.sortBy(this.props.studentList, student => student.name);
-    return _.map(students, student => (
+  buildStudentAssign(student) {
+    return (
       <StudentAssign
         key={`student_${student.id}`}
         student={student}
@@ -178,7 +144,26 @@ export class BaseExamDistribution extends React.Component {
         reassignExam={(assignedId, centerId) => this.reassignExam(assignedId, centerId)}
         assignedExam={this.props.assignedExams[student.id]}
       />
-    ));
+    );
+  }
+
+  studentExamList() {
+    if (!this.props.ready) { return []; }
+
+    if (this.state.sortBy === 'status') {
+      const list = [];
+      _.each(this.props.studentList, (student) => {
+        if (this.props.assignedExams[student.id]) {
+          list.push(this.buildStudentAssign(student));
+        } else {
+          list.unshift(this.buildStudentAssign(student));
+        }
+      });
+      return list;
+    }
+
+    const students = _.sortBy(this.props.studentList, student => student.name);
+    return _.map(students, student => (this.buildStudentAssign(student)));
   }
 
   render() {
