@@ -1,14 +1,16 @@
 import React                          from 'react'; // if you use jsx, you have to have React imported
 import { Router, Route, IndexRoute }  from 'react-router';
-
 import appHistory                     from '../history';
-import Home                           from './components/home';
+import ExamList                       from './components/exam_list/_exam_list';
+import Index                          from './components/index';
 import NotFound                       from './components/common/not_found';
+import ExamDistribution               from './components/exam_distribution/_exam_distribution';
 
 export default (
   <Router history={appHistory}>
-    <Route path="/" component={Home}>
-      <IndexRoute component={Home} />
+    <Route path="/" component={Index}>
+      <IndexRoute component={ExamList} />
+      <Route path="exams/:id" component={ExamDistribution} />
     </Route>
     <Route path="*" component={NotFound} />
   </Router>
