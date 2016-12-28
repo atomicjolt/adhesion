@@ -19,6 +19,11 @@ lti_applications = [{
   description: "Proctor Tool",
   client_application_name: "proctor",
   canvas_api_permissions: proct_permissions
+}, {
+  name: "Test Administration Tool",
+  description: "Test Administration",
+  client_application_name: "test_administration",
+  canvas_api_permissions: "" # we need to figure this out
 }]
 
 lti_consumer_uri = Rails.application.secrets.canvas_url
@@ -39,6 +44,12 @@ lti_application_instances = [{
   lti_application: "Proctor Tool",
   lti_key: "proctor-tool",
   lti_secret: Rails.application.secrets.proctor_lti_secret,
+  lti_consumer_uri: lti_consumer_uri,
+  canvas_token: Rails.application.secrets.canvas_token,
+}, {
+  lti_application: "Test Administration Tool",
+  lti_key: "test-administration",
+  lti_secret: Rails.application.secrets.test_administration_lti_secret,
   lti_consumer_uri: lti_consumer_uri,
   canvas_token: Rails.application.secrets.canvas_token,
 }]
