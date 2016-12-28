@@ -22,7 +22,7 @@ lti_applications = [{
 }, {
   name: "Test Administration Tool",
   description: "Test Administration",
-  client_application_name: "test-administration",
+  client_application_name: "test_administration",
   canvas_api_permissions: "" # we need to figure this out
 }]
 
@@ -56,7 +56,6 @@ lti_application_instances = [{
 
 lti_applications.each do |attrs|
   if lti_application = LtiApplication.find_by(name: attrs[:name])
-    puts lti_application
     lti_application.update_attributes!(attrs)
   else
     LtiApplication.create!(attrs)

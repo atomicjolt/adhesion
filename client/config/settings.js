@@ -58,7 +58,7 @@ module.exports = {
     scorm_styles: `${clientAppPath}styles/scorm_styles.js`,
     attendance_styles: `${clientAppPath}styles/attendance_styles.js`,
     proctor_styles: `${clientAppPath}styles/proctor_styles.js`,
-    test_administration: `${clientAppPath}styles/test_administration_styles.js`
+    test_administration_styles: `${clientAppPath}styles/test_administration_styles.js`
   }
 
 };

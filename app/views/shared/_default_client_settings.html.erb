@@ -2,7 +2,7 @@
   settings = {
     apiUrl: application_base_url,
     csrfToken: form_authenticity_token,
-    testingCentersAccountId: 25, // figure out this, it probably should not be hard coded
+    testingCentersAccountId: 25, # figure out this, it probably should not be hard coded
   }
   if signed_in?
     settings[:userId]                            = current_user.id
