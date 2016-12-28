@@ -5,19 +5,25 @@ import ReactDOM                 from 'react-dom';
 import { Provider }             from 'react-redux';
 import routes                   from './proctor/routes';
 import DevTools                 from './dev/dev_tools';
-import configureStore           from './scorm/store/configure_store';
+import configureStore           from './proctor/store/configure_store';
 import jwt                      from './loaders/jwt';
 import { getInitialSettings }   from './reducers/settings';
 
 // Polyfill es6 promises for IE
 es6Promise.polyfill();
 
+
 function Root(props) {
   const devTools = __DEV__ ? <DevTools /> : null;
   const { store } = props;
+
+  const rootStyles = {
+    fontFamily: "'Roboto', sans-serif"
+  };
+
   return (
     <Provider store={store}>
-      <div>
+      <div style={rootStyles}>
         {routes}
         {devTools}
       </div>

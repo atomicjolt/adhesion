@@ -36,7 +36,6 @@ module Concerns
 
         lti_user_id = params[:user_id]
         user = User.find_by(lti_provider: lti_provider, lti_user_id: lti_user_id)
-
         if user.blank?
           # Generate a name from the LTI params
           name = params[:lis_person_name_full] ? params[:lis_person_name_full] : "#{params[:lis_person_name_given]} #{params[:lis_person_name_family]}"
