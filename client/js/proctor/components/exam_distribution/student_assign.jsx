@@ -96,8 +96,8 @@ export default class StudentAssign extends React.Component {
         </HoverButton>
       );
     }
-
-    if (assignedExam && this.state.selectedCenterId !== _.toString(assignedExam.testing_center_id)) {
+    const stringId = _.toString(assignedExam.testing_center_id);
+    if (assignedExam && this.state.selectedCenterId !== stringId) {
       assignObject = (
         <HoverButton
           style={styles.button}
