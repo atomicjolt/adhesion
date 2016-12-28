@@ -1,6 +1,6 @@
-import React                          from "react";
+import React from 'react';
 
-export default function Index (props) {
+export default function Index(props) {
   return (
     <div>
       {props.children}
@@ -8,4 +8,4 @@ export default function Index (props) {
   );
 }
 
-Index.propTypes = {children: React.PropTypes.node};
+Index.propTypes = { children: React.PropTypes.node };

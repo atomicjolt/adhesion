@@ -1,7 +1,7 @@
 import React                   from 'react';
 import { connect }             from 'react-redux';
-import appHistory              from '../../../history';
 import _                       from 'lodash';
+import appHistory              from '../../../history';
 import Defines                 from '../../defines';
 import canvasRequest           from '../../../libs/canvas/action';
 import { listQuizzesInCourse } from '../../../libs/canvas/constants/quizzes';

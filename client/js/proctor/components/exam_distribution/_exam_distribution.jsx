@@ -7,7 +7,6 @@ import * as ExamActions            from '../../actions/exams';
 import { listUsersInCourseUsers }  from '../../../libs/canvas/constants/courses';
 import { getSubAccountsOfAccount } from '../../../libs/canvas/constants/accounts';
 import StudentAssign               from './student_assign';
-import HoverButton                 from '../common/hover_button';
 
 const select = (state, props) => {
   const exam = _.find(state.exams.examList, ex => props.params.id === ex.id.toString());

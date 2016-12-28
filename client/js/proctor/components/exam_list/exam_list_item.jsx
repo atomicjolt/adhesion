@@ -12,7 +12,7 @@ export default function examListItem(props) {
       border: 'none',
       borderBottom: `1px solid ${Defines.lightGrey}`,
       color: Defines.darkGrey,
-      padding: "0px 20px",
+      padding: '0px 20px',
     },
     hoveredStyle: {
       color: Defines.highlightedText,

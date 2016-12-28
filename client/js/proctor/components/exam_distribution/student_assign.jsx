@@ -16,8 +16,7 @@ export default class StudentAssign extends React.Component {
     reassignExam: React.PropTypes.func.isRequired,
     assignedExam: React.PropTypes.shape({
       status: React.PropTypes.string.isRequired,
-      testing_center_id: React.PropTypes.number.isRequired,
-      created_at: React.PropTypes.string.isRequired,
+      updated_at: React.PropTypes.string.isRequired,
       id: React.PropTypes.number.isRequired,
     }),
   }
