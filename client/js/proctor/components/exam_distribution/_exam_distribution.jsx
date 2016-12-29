@@ -97,6 +97,21 @@ export class BaseExamDistribution extends React.Component {
     this.props.loadAssignedExams(this.props.params.id);
   }
 
+  getTestingCenters() {
+    const params = {
+      account_id: this.props.testingCentersAccountId,
+    };
+    this.props.canvasRequest(getSubAccountsOfAccount, params, {});
+  }
+
+  getStudents() {
+    const params = {
+      course_id: this.props.lmsCourseId,
+      enrollment_type: ['student']
+    };
+    this.props.canvasRequest(listUsersInCourseUsers, params, {});
+  }
+
   tableHeader(styles) {
     return (
       <tr>
@@ -115,21 +130,6 @@ export class BaseExamDistribution extends React.Component {
         </th>
       </tr>
     );
-  }
-
-  getTestingCenters() {
-    const params = {
-      account_id: this.props.testingCentersAccountId,
-    };
-    this.props.canvasRequest(getSubAccountsOfAccount, params, {});
-  }
-
-  getStudents() {
-    const params = {
-      course_id: this.props.lmsCourseId,
-      enrollment_type: ['student']
-    };
-    this.props.canvasRequest(listUsersInCourseUsers, params, {});
   }
 
   assignExam(studentId, centerId) {
