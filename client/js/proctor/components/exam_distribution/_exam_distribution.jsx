@@ -124,7 +124,7 @@ export class BaseExamDistribution extends React.Component {
         <th style={{ ...styles.th, ...styles.smaller }}>ASSIGNED</th>
         <th style={{ ...styles.th, ...styles.smaller }}>USED</th>
         <th style={{ ...styles.th, ...styles.smaller }}>
-          <button className="spec_status" style={styles.ad} onClick={() => this.setState({ sortBy: 'status' })}>
+          <button style={styles.ad} onClick={() => this.setState({ sortBy: 'status' })}>
             STATUS &#8595;
           </button>
         </th>
