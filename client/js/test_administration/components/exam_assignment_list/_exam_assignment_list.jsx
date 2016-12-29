@@ -13,7 +13,7 @@ const select = state => ({
 export class BaseExamAssignmentList extends React.Component {
   static propTypes =  {
     loadProctorCodes: React.PropTypes.func.isRequired,
-    lmsUserId: React.PropTypes.number.isRequired,
+    lmsUserId: React.PropTypes.string.isRequired,
     proctorCodeList: React.PropTypes.shape({}).isRequired,
   }
 
@@ -42,6 +42,7 @@ export class BaseExamAssignmentList extends React.Component {
         fontWeight: 'normal',
         textAlign: 'left',
         padding: '15px 20px',
+        width: '25%',
       }
     };
   }
@@ -53,7 +54,11 @@ export class BaseExamAssignmentList extends React.Component {
   getProctorCodes() {
     // TODO: do sorting by search here probably
     return _.map(this.props.proctorCodeList, proctorCode => (
-      <ProctorCode proctorCode={proctorCode} assignedExam={proctorCode.assigned_exam} />
+      <ProctorCode
+        key={`proctor_${proctorCode.id}`}
+        proctorCode={proctorCode}
+        assignedExam={proctorCode.assigned_exam}
+      />
     ));
   }
   render() {
