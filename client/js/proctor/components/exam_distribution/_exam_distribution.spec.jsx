@@ -1,6 +1,7 @@
 import React                    from 'react';
 import TestUtils                from 'react-addons-test-utils';
 import { BaseExamDistribution } from './_exam_distribution';
+import appHistory               from '../../../history';
 
 describe('Exam list', () => {
   let result;
@@ -59,5 +60,12 @@ describe('Exam list', () => {
     TestUtils.Simulate.click(button);
     const element = TestUtils.findRenderedDOMComponentWithTag(result, 'table');
     expect(element.textContent).toContain('BenGeorgiaAlabama01 DEC 15 0:0 -  Assigned Joseph');
+  });
+
+  it('goes back to exam list page with a click of the back button', () => {
+    spyOn(appHistory, 'push');
+    const button = TestUtils.findRenderedDOMComponentWithClass(result, 'spec_back');
+    TestUtils.Simulate.click(button);
+    expect(appHistory.push).toHaveBeenCalledWith('/');
   });
 });
