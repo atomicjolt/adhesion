@@ -45,18 +45,18 @@ export class BaseExamDistribution extends React.Component {
   tableHeader(styles) {
     return (
       <tr>
-        <th style={{ ...styles.th, ...styles.ad, ...styles.regular }}>
-          <p onClick={() => this.setState({ sortBy: 'name' })}>
+        <th style={{ ...styles.th, ...styles.regular }}>
+          <button style={ styles.ad } onClick={() => this.setState({ sortBy: 'name' })}>
             STUDENTS &#8595;
-          </p>
+          </button>
         </th>
         <th style={{ ...styles.th, ...styles.larger }}>TESTING CENTER</th>
         <th style={{ ...styles.th, ...styles.smaller }}>ASSIGNED</th>
         <th style={{ ...styles.th, ...styles.smaller }}>USED</th>
-        <th style={{ ...styles.th, ...styles.smaller, ...styles.ad }}>
-          <p onClick={() => this.setState({ sortBy: 'status' })}>
+        <th style={{ ...styles.th, ...styles.smaller }}>
+          <button style={ styles.ad } onClick={() => this.setState({ sortBy: 'status' })}>
             STATUS &#8595;
-          </p>
+          </button>
         </th>
       </tr>
     );
@@ -92,6 +92,11 @@ export class BaseExamDistribution extends React.Component {
       },
       ad: {
         cursor: 'pointer',
+        border: 'none',
+        backgroundColor: 'inherit',
+        fontWeight: 'normal',
+        color: Defines.lightText,
+        fontSize: 'inherit',
       },
       regular: {
         width: '20%',
