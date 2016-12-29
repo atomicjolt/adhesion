@@ -199,7 +199,7 @@ export class BaseExamDistribution extends React.Component {
       <div>
         <h1 style={styles.header}>
           {this.props.exam.title}
-          <HoverButton className='spec_back' style={styles.floatRight} onClick={() => appHistory.push('/')}>
+          <HoverButton className="spec_back" style={styles.floatRight} onClick={() => appHistory.push('/')}>
             &#10226;
           </HoverButton>
         </h1>
