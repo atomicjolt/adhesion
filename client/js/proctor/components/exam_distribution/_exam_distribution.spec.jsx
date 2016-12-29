@@ -14,11 +14,11 @@ describe('Exam list', () => {
       studentList: {
         1: {
           id: 1,
-          name: 'Joseph'
+          name: 'Ben'
         },
         2: {
           id: 2,
-          name: 'Ben'
+          name: 'Joseph'
         }
       },
       testingCenterList: {
@@ -41,6 +41,7 @@ describe('Exam list', () => {
         1: {
           id: 1,
           status: 'assigned',
+          updated_at: '1 Dec 15'
         }
       },
       ready: true,
@@ -50,6 +51,13 @@ describe('Exam list', () => {
 
   it('puts the unassigned students at the top of the list', () => {
     const element = TestUtils.findRenderedDOMComponentWithTag(result, 'table');
-    expect(element.textContent).toContain('BenGeorgiaAlabama -  Unassigned Joseph');
+    expect(element.textContent).toContain('JosephGeorgiaAlabama -  Unassigned Ben');
+  });
+
+  it('orders the list by student name', () => {
+    const button = TestUtils.findRenderedDOMComponentWithClass(result, 'spec_name');
+    TestUtils.Simulate.click(button);
+    const element = TestUtils.findRenderedDOMComponentWithTag(result, 'table');
+    expect(element.textContent).toContain('BenGeorgiaAlabama01 DEC 15 0:0 -  Assigned Joseph');
   });
 });

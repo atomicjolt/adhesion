@@ -38,7 +38,7 @@ export default class StudentAssign extends React.Component {
       },
       hoveredStyle: {
         opacity: '0.8',
-      }
+      },
     };
   }
 
