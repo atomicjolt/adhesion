@@ -44,20 +44,6 @@ export class BaseExamDistribution extends React.Component {
     ready: React.PropTypes.bool.isRequired
   }
 
-  static tableHeader(styles) {
-    return (
-      <tr>
-        <th style={styles.th}>
-          STUDENTS
-        </th>
-        <th style={{ ...styles.th, ...styles.larger }}>TESTING CENTER</th>
-        <th style={{ ...styles.th, ...styles.smaller }}>ASSIGNED</th>
-        <th style={{ ...styles.th, ...styles.smaller }}>USED</th>
-        <th style={{ ...styles.th, ...styles.smaller }}>STATUS</th>
-      </tr>
-    );
-  }
-
   static getStyles() {
     return {
       table: {
@@ -84,7 +70,18 @@ export class BaseExamDistribution extends React.Component {
       },
       button: {
         content: '\u25BE'
-      }
+      },
+      ad: {
+        cursor: 'pointer',
+        border: 'none',
+        backgroundColor: 'inherit',
+        fontWeight: 'normal',
+        color: Defines.lightText,
+        fontSize: 'inherit',
+      },
+      regular: {
+        width: '20%',
+      },
     };
   }
 
@@ -114,6 +111,26 @@ export class BaseExamDistribution extends React.Component {
       enrollment_type: ['student']
     };
     this.props.canvasRequest(listUsersInCourseUsers, params, {});
+  }
+
+  tableHeader(styles) {
+    return (
+      <tr>
+        <th style={{ ...styles.th, ...styles.regular }}>
+          <button className="spec_name" style={styles.ad} onClick={() => this.setState({ sortBy: 'name' })}>
+            STUDENTS &#8595;
+          </button>
+        </th>
+        <th style={{ ...styles.th, ...styles.larger }}>TESTING CENTER</th>
+        <th style={{ ...styles.th, ...styles.smaller }}>ASSIGNED</th>
+        <th style={{ ...styles.th, ...styles.smaller }}>USED</th>
+        <th style={{ ...styles.th, ...styles.smaller }}>
+          <button style={styles.ad} onClick={() => this.setState({ sortBy: 'status' })}>
+            STATUS &#8595;
+          </button>
+        </th>
+      </tr>
+    );
   }
 
   assignExam(student, centerId) {
@@ -177,7 +194,7 @@ export class BaseExamDistribution extends React.Component {
         <h1 style={styles.header}>{this.props.exam.title}</h1>
         <table style={styles.table}>
           <thead  style={styles.tr}>
-            {BaseExamDistribution.tableHeader(styles)}
+            {this.tableHeader(styles)}
           </thead>
           <tbody>
             {this.studentExamList()}
