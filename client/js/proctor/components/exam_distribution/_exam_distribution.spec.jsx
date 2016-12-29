@@ -56,7 +56,7 @@ describe('Exam list', () => {
 
   it('orders the list by student name', () => {
     const button = TestUtils.findRenderedDOMComponentWithClass(result, 'name');
-    TestUtils.Simulate.click(button)
+    TestUtils.Simulate.click(button);
     const element = TestUtils.findRenderedDOMComponentWithTag(result, 'table');
     expect(element.textContent).toContain('BenGeorgiaAlabama01 DEC 15 0:0 -  Assigned Joseph');
   });
