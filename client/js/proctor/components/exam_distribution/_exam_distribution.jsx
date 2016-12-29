@@ -7,6 +7,8 @@ import * as ExamActions            from '../../actions/exams';
 import { listUsersInCourseUsers }  from '../../../libs/canvas/constants/courses';
 import { getSubAccountsOfAccount } from '../../../libs/canvas/constants/accounts';
 import StudentAssign               from './student_assign';
+import appHistory                  from '../../../history';
+import HoverButton                 from '../common/hover_button';
 
 const select = (state, props) => {
   const exam = _.find(state.exams.examList, ex => props.params.id === ex.id.toString());
@@ -80,6 +82,14 @@ export class BaseExamDistribution extends React.Component {
       },
       regular: {
         width: '20%',
+      },
+      floatRight: {
+        float: 'right',
+        padding: '8px 20px',
+        borderRadius: '0',
+        backgroundColor: Defines.lightBackground,
+        border: 'none',
+        fontSize: '20px',
       },
     };
   }
@@ -187,7 +197,12 @@ export class BaseExamDistribution extends React.Component {
     const styles = BaseExamDistribution.getStyles();
     return (
       <div>
-        <h1 style={styles.header}>{this.props.exam.title}</h1>
+        <h1 style={styles.header}>
+          {this.props.exam.title}
+          <HoverButton className='spec_back' style={styles.floatRight} onClick={() => appHistory.push('/')}>
+            &#10226;
+          </HoverButton>
+        </h1>
         <table style={styles.table}>
           <thead  style={styles.tr}>
             {this.tableHeader(styles)}
