@@ -100,16 +100,16 @@ export class BaseExamDistribution extends React.Component {
   tableHeader(styles) {
     return (
       <tr>
-        <th style={{...styles.th, ...styles.regular}}>
-          <button className={'name'} style={ styles.ad } onClick={() => this.setState({ sortBy: 'name' })}>
+        <th style={{ ...styles.th, ...styles.regular }}>
+          <button className={'name'} style={styles.ad} onClick={() => this.setState({ sortBy: 'name' })}>
             STUDENTS &#8595;
           </button>
         </th>
-        <th style={{...styles.th, ...styles.larger}}>TESTING CENTER</th>
-        <th style={{...styles.th, ...styles.smaller}}>ASSIGNED</th>
-        <th style={{...styles.th, ...styles.smaller}}>USED</th>
-        <th style={{...styles.th, ...styles.smaller}}>
-          <button className={'status'} style={ styles.ad } onClick={() => this.setState({ sortBy: 'status' })}>
+        <th style={{ ...styles.th, ...styles.larger }}>TESTING CENTER</th>
+        <th style={{ ...styles.th, ...styles.smaller }}>ASSIGNED</th>
+        <th style={{ ...styles.th, ...styles.smaller }}>USED</th>
+        <th style={{ ...styles.th, ...styles.smaller }}>
+          <button className={'status'} style={styles.ad} onClick={() => this.setState({ sortBy: 'status' })}>
             STATUS &#8595;
           </button>
         </th>
