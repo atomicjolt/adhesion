@@ -4,7 +4,7 @@ const defaultState = {
   proctorCodeList: {}
 };
 
-export default function exams(state = defaultState, action) {
+export default function proctorCodes(state = defaultState, action) {
   switch (action.type) {
 
     case 'LOAD_PROCTOR_CODES_DONE': {
