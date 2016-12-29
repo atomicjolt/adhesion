@@ -19,7 +19,7 @@ function Root(props) {
   const rootStyles = {
     fontFamily: "'Roboto', sans-serif"
   };
-  
+
   return (
     <Provider store={store}>
       <div style={rootStyles}>

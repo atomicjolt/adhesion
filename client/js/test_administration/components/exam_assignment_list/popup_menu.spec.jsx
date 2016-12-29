@@ -24,5 +24,4 @@ describe('popup menu', () => {
     expect(element.textContent).toContain('Pause');
     expect(element.textContent).toContain('Terminate');
   });
-
 });

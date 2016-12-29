@@ -7,12 +7,8 @@ import PopupMenu    from './popup_menu';
 
 export default class ProctorCode extends React.Component {
   static propTypes = {
-    assignedExam: React.PropTypes.shape({
-      status: React.PropTypes.string.isRequired,
-    }),
-    proctorCode: React.PropTypes.shape({
-      code: React.PropTypes.string.isRequired
-    })
+    assignedExam: React.PropTypes.shape({}),
+    proctorCode: React.PropTypes.shape({})
   }
 
   constructor() {
@@ -100,7 +96,10 @@ export default class ProctorCode extends React.Component {
           >
             <i className="material-icons">settings</i>
           </HoverButton>
-          {this.state.opened ? <PopupMenu style={styles.popupMenu} status={assignedExam.status}/> : null}
+          {
+            this.state.opened ?
+              <PopupMenu style={styles.popupMenu} status={assignedExam.status} /> : null
+          }
         </td>
       </tr>
     );
