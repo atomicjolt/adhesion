@@ -42,26 +42,6 @@ export class BaseExamDistribution extends React.Component {
     ready: React.PropTypes.bool.isRequired
   }
 
-  tableHeader(styles) {
-    return (
-      <tr>
-        <th style={{ ...styles.th, ...styles.regular }}>
-          <button className={ 'name' } style={ styles.ad } onClick={() => this.setState({ sortBy: 'name' })}>
-            STUDENTS &#8595;
-          </button>
-        </th>
-        <th style={{ ...styles.th, ...styles.larger }}>TESTING CENTER</th>
-        <th style={{ ...styles.th, ...styles.smaller }}>ASSIGNED</th>
-        <th style={{ ...styles.th, ...styles.smaller }}>USED</th>
-        <th style={{ ...styles.th, ...styles.smaller }}>
-          <button className={ 'status' } style={ styles.ad } onClick={() => this.setState({ sortBy: 'status' })}>
-            STATUS &#8595;
-          </button>
-        </th>
-      </tr>
-    );
-  }
-
   static getStyles() {
     return {
       table: {
@@ -115,6 +95,26 @@ export class BaseExamDistribution extends React.Component {
     this.getStudents();
     this.getTestingCenters();
     this.props.loadAssignedExams(this.props.params.id);
+  }
+
+  tableHeader(styles) {
+    return (
+      <tr>
+        <th style={{ ...styles.th, ...styles.regular }}>
+          <button className={'name'} style={ styles.ad } onClick={() => this.setState({ sortBy: 'name' })}>
+            STUDENTS &#8595;
+          </button>
+        </th>
+        <th style={{ ...styles.th, ...styles.larger }}>TESTING CENTER</th>
+        <th style={{ ...styles.th, ...styles.smaller }}>ASSIGNED</th>
+        <th style={{ ...styles.th, ...styles.smaller }}>USED</th>
+        <th style={{ ...styles.th, ...styles.smaller }}>
+          <button className={'status'} style={ styles.ad } onClick={() => this.setState({ sortBy: 'status' })}>
+            STATUS &#8595;
+          </button>
+        </th>
+      </tr>
+    );
   }
 
   getTestingCenters() {
