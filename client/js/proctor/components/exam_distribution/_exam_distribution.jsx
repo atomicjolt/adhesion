@@ -42,16 +42,22 @@ export class BaseExamDistribution extends React.Component {
     ready: React.PropTypes.bool.isRequired
   }
 
-  static tableHeader(styles) {
+  tableHeader(styles) {
     return (
       <tr>
-        <th style={styles.th}>
-          STUDENTS
+        <th style={{ ...styles.th, ...styles.ad, ...styles.regular }}>
+          <p onClick={() => this.setState({ sortBy: 'name' })}>
+            STUDENTS &#8595;
+          </p>
         </th>
         <th style={{ ...styles.th, ...styles.larger }}>TESTING CENTER</th>
         <th style={{ ...styles.th, ...styles.smaller }}>ASSIGNED</th>
         <th style={{ ...styles.th, ...styles.smaller }}>USED</th>
-        <th style={{ ...styles.th, ...styles.smaller }}>STATUS</th>
+        <th style={{ ...styles.th, ...styles.smaller, ...styles.ad }}>
+          <p onClick={() => this.setState({ sortBy: 'status' })}>
+            STATUS &#8595;
+          </p>
+        </th>
       </tr>
     );
   }
@@ -83,7 +89,13 @@ export class BaseExamDistribution extends React.Component {
       },
       button: {
         content: '\u25BE'
-      }
+      },
+      ad: {
+        cursor: 'pointer',
+      },
+      regular: {
+        width: '20%',
+      },
     };
   }
 
@@ -173,7 +185,7 @@ export class BaseExamDistribution extends React.Component {
         <h1 style={styles.header}>{this.props.exam.title}</h1>
         <table style={styles.table}>
           <thead  style={styles.tr}>
-            {BaseExamDistribution.tableHeader(styles)}
+            {this.tableHeader(styles)}
           </thead>
           <tbody>
             {this.studentExamList()}

@@ -39,14 +39,6 @@ export default class StudentAssign extends React.Component {
       hoveredStyle: {
         opacity: '0.8',
       },
-      ad: {
-        width: '0',
-        height: '0',
-        borderLeft: '20px solid transparent',
-        borderRight: '20px solid transparent',
-        borderTop: `20px solid ${Defines.lightGrey}`,
-        color: Defines.darkGrey,
-      },
     };
   }
 
@@ -82,10 +74,6 @@ export default class StudentAssign extends React.Component {
 
   reassignExam(centerId) {
     this.props.reassignExam(this.props.assignedExam.id, centerId);
-  }
-
-  sortByName() {
-    return _.map(this.props.students)
   }
 
   changeOption(option) {
@@ -150,11 +138,7 @@ export default class StudentAssign extends React.Component {
 
     return (
       <tr>
-        <td style={styles.td}>
-          <button style={styles.ad} onClick={() => this.sortByName()}>
-            {this.props.student.name}
-          </button>
-        </td>
+        <td style={styles.td}>{this.props.student.name}</td>
         <td style={styles.td}>
           {selectSearch}
         </td>
