@@ -116,7 +116,7 @@ export class BaseExamDistribution extends React.Component {
     return (
       <tr>
         <th style={{ ...styles.th, ...styles.regular }}>
-          <button className={'name'} style={styles.ad} onClick={() => this.setState({ sortBy: 'name' })}>
+          <button className="spec_name" style={styles.ad} onClick={() => this.setState({ sortBy: 'name' })}>
             STUDENTS &#8595;
           </button>
         </th>
@@ -124,7 +124,7 @@ export class BaseExamDistribution extends React.Component {
         <th style={{ ...styles.th, ...styles.smaller }}>ASSIGNED</th>
         <th style={{ ...styles.th, ...styles.smaller }}>USED</th>
         <th style={{ ...styles.th, ...styles.smaller }}>
-          <button className={'status'} style={styles.ad} onClick={() => this.setState({ sortBy: 'status' })}>
+          <button className="spec_status" style={styles.ad} onClick={() => this.setState({ sortBy: 'status' })}>
             STATUS &#8595;
           </button>
         </th>
