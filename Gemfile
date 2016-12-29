@@ -8,6 +8,9 @@ source "https://rubygems.org"
 # Bundle edge Rails instead: gem "rails", github: "rails/rails"
 gem "rails", "4.2.7"
 
+#serializers
+gem 'active_model_serializers', '~> 0.10.0'
+
 # Database
 gem "pg"
 gem "apartment"
