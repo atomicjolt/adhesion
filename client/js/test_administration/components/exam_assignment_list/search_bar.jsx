@@ -20,13 +20,15 @@ export default class SearchBar extends React.Component {
         flex: 1,
         border: `3px solid ${Defines.tanishBrown}`,
         fontSize: '1.2em',
-        padding: '0px 5px'
+        padding: '0px 5px',
+        outline: 'none'
       },
       button: {
         border: `3px solid ${Defines.tanishBrown}`,
         backgroundColor: Defines.tanishBrown,
         color: 'white',
         padding: '10px 20px',
+        outline: 'none',
       },
       icon: {
         fontSize: '32px',
