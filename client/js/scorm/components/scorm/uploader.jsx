@@ -20,6 +20,11 @@ export class Uploader extends React.Component {
         right: '50px',
         top: '0px',
       },
+      alignLeft: {
+        textAlign: 'left',
+        width: '100%',
+        fontSize: '1.5em'
+      }
     };
   }
 
@@ -37,10 +42,18 @@ export class Uploader extends React.Component {
 
   render() {
     let renderProgress;
+    const styles = Uploader.getStyles();
     if (this.props.error) {
       renderProgress = this.renderError();
     } else {
-      renderProgress = <div style={Uploader.getStyles().loaderContainer}><Loader /></div>;
+      renderProgress = (
+        <div style={styles.alignLeft}>
+          Large packages may take several minutes to upload.
+          <div style={styles.loaderContainer}>
+            <Loader />
+          </div>
+        </div>
+      );
     }
 
     return (
