@@ -48,7 +48,7 @@ export class Uploader extends React.Component {
     } else {
       renderProgress = (
         <div style={styles.alignLeft}>
-          If this is a large package it could take as long as 10 minutes to upload.
+          Large packages may take several minutes to upload.
           <div style={styles.loaderContainer}>
             <Loader />
           </div>
