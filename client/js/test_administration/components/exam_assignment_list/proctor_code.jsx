@@ -2,7 +2,7 @@ import React        from 'react';
 import moment       from 'moment';
 import _            from 'lodash';
 import Defines      from '../../defines';
-import HoverButton  from '../../../proctor/components/common/hover_button';
+import HoverButton  from '../common/hover_button';
 import PopupMenu    from './popup_menu';
 
 export default class ProctorCode extends React.Component {
