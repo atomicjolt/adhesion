@@ -61,6 +61,7 @@ Rails.application.routes.draw do
         resources :students, only: [:index]
       end
     end
+    resources :download_status
     resources :assigned_exams
     resources :proctor_codes
     resources :courses do
