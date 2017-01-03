@@ -1,6 +1,6 @@
 import React        from 'react';
 import _            from 'lodash';
-import HoverButton  from '../../../proctor/components/common/hover_button';
+import HoverButton  from '../common/hover_button';
 import Defines      from '../../defines';
 
 export default function popupMenu(props) {

@@ -9,16 +9,21 @@ describe('Exam Assignment list', () => {
     const props = {
       lmsUserId: '1',
       loadProctorCodes: () => {},
-      proctorCodeList: {
-        1: {
-          proctor_id: 1,
-          code: 'imaCODE',
-          assigned_exam: {
-            student_name: 'Picard',
-            status: 'assigned'
-          },
+      proctorCodeList: [{
+        proctor_id: 1,
+        code: 'imaCODE',
+        assigned_exam: {
+          student_name: 'Picard',
+          status: 'assigned'
         },
-      }
+      }, {
+        proctor_id: 1,
+        code: 'NEWCODE',
+        assigned_exam: {
+          student_name: 'James',
+          status: 'started'
+        },
+      }]
     };
     result = TestUtils.renderIntoDocument(<BaseExamAssignmentList {...props} />);
   });
@@ -26,5 +31,12 @@ describe('Exam Assignment list', () => {
   it('renders the proctor codes', () => {
     const element = TestUtils.findRenderedDOMComponentWithTag(result, 'table');
     expect(element.textContent).toContain('imaCODE');
+  });
+
+  it('filters on search', () => {
+    result.setState({ searchVal: 'started' });
+    const element = TestUtils.findRenderedDOMComponentWithTag(result, 'table');
+    expect(element.textContent).toContain('NEWCODE');
+    expect(element.textContent).not.toContain('imaCODE');
   });
 });
