@@ -2,6 +2,7 @@ import React    from 'react';
 
 import Unhandled        from './question_types/unhandled_type';
 import MultipleChoice   from './question_types/multiple_choice_question';
+import MultipleAnswer   from './question_types/multiple_answers_question';
 
 export default function question(props) {
   const styles = {
@@ -27,7 +28,11 @@ export default function question(props) {
   let Question;
   switch (props.question_type) {
     case 'multiple_choice_question':
+    case 'true_false_question':
       Question = MultipleChoice;
+      break;
+    case 'multiple_answers_question':
+      Question = MultipleAnswer;
       break;
 
     default:
