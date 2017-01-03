@@ -7,7 +7,7 @@ import { listQuestionsInQuizOrSubmission }  from '../../libs/canvas/constants/qu
 
 import Loading    from './loading';
 import QuizInfo   from './quiz_info';
-import Question   from './question';
+import Question   from './question_types/_question';
 
 const select = (state, props) => {
   const { quizId } = props.location.query;

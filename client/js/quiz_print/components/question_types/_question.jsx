@@ -1,8 +1,9 @@
 import React    from 'react';
 
-import Unhandled        from './question_types/unhandled_type';
-import MultipleChoice   from './question_types/multiple_choice_question';
-import MultipleAnswer   from './question_types/multiple_answers_question';
+import Unhandled        from './unhandled_type';
+import MultipleChoice   from './multiple_choice_question';
+import MultipleAnswer   from './multiple_answers_question';
+import ShortAnswer      from './short_answer_question';
 
 export default function question(props) {
   const styles = {
@@ -33,6 +34,9 @@ export default function question(props) {
       break;
     case 'multiple_answers_question':
       Question = MultipleAnswer;
+      break;
+    case 'short_answer_question':
+      Question = ShortAnswer;
       break;
 
     default:

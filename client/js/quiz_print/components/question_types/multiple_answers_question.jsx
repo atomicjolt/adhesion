@@ -1,7 +1,7 @@
 import React    from 'react';
 import _        from 'lodash';
 
-export default function multipleChoiceQuestion(props) {
+export default function multipleAnswerQuestion(props) {
   return (
     <div>
       <div dangerouslySetInnerHTML={{ __html: props.question_text }} />
@@ -17,7 +17,7 @@ export default function multipleChoiceQuestion(props) {
   );
 }
 
-multipleChoiceQuestion.propTypes = {
+multipleAnswerQuestion.propTypes = {
   answers: React.PropTypes.arrayOf({}),
   question_text: React.PropTypes.string,
   id: React.PropTypes.number,
