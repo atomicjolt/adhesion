@@ -173,8 +173,8 @@ export class BaseExamDistribution extends React.Component {
         key={`student_${student.id}`}
         student={student}
         testingCenterList={this.props.testingCenterList}
-        assignExam={(studentId, centerId, centerName) => this.assignExam(studentId, centerId, centerName)}
-        reassignExam={(assignedId, centerId, centerName) => this.reassignExam(assignedId, centerId, centerName)}
+        assignExam={(studentId, centerId, name) => this.assignExam(studentId, centerId, name)}
+        reassignExam={(assignedId, centerId, name) => this.reassignExam(assignedId, centerId, name)}
         assignedExam={this.props.assignedExams[student.id]}
       />
     );
@@ -205,7 +205,7 @@ export class BaseExamDistribution extends React.Component {
       <div>
         <h1 style={styles.header}>
           {this.props.exam.title}
-          <HoverButton className="spec_download" style={styles.floatRight} onClick={() => this.props.downloadExamStatus(this.props.params.id, this.props.lmsCourseId)}>
+          <HoverButton className="spec_download" style={styles.floatRight} onClick={ () => this.props.downloadExamStatus(this.props.params.id, this.props.lmsCourseId) }>
             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
               <path d="M38 18h-8v-12h-12v12h-8l14 14 14-14zm-28 18v4h28v-4h-28z"/>
               <path d="M0 0h48v48h-48z" fill="none"/>
