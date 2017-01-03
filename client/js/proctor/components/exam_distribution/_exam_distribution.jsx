@@ -143,9 +143,11 @@ export class BaseExamDistribution extends React.Component {
     );
   }
 
-  assignExam(student, centerId) {
+  assignExam(student, centerId, centerName) {
+    debugger
     const body = {
       exam_id: this.props.params.id,
+      testing_center_name: centerName,
       course_id: this.props.lmsCourseId,
       student_id: student.id,
       student_name: student.name,
@@ -158,9 +160,10 @@ export class BaseExamDistribution extends React.Component {
     this.props.assignExam(body);
   }
 
-  reassignExam(assignedExamId, centerId) {
+  reassignExam(assignedExamId, centerId, centerName) {
     const body = {
-      testing_center_id: centerId
+      testing_center_id: centerId,
+      testing_center_name: centerName
     };
     this.props.reassignExam(assignedExamId, body);
   }
@@ -171,8 +174,8 @@ export class BaseExamDistribution extends React.Component {
         key={`student_${student.id}`}
         student={student}
         testingCenterList={this.props.testingCenterList}
-        assignExam={(studentId, centerId) => this.assignExam(studentId, centerId)}
-        reassignExam={(assignedId, centerId) => this.reassignExam(assignedId, centerId)}
+        assignExam={(studentId, centerId, centerName) => this.assignExam(studentId, centerId, centerName)}
+        reassignExam={(assignedId, centerId, centerName) => this.reassignExam(assignedId, centerId, centerName)}
         assignedExam={this.props.assignedExams[student.id]}
       />
     );
