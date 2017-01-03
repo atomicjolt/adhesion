@@ -82,17 +82,19 @@ export default class StudentAssign extends React.Component {
 
   render() {
     const styles = StudentAssign.getStyles();
-    const { assignedExam } = this.props;
+    const { assignedExam, testingCenterList, student } = this.props;
     let assignObject;
+    const selectedCenterId = this.state.selectedCenterId;
+
     if (this.state.selectedCenterId != null && !assignedExam) {
       assignObject = (
         <HoverButton
           style={styles.button}
           hoveredStyle={styles.hoveredStyle}
           onClick={() => this.props.assignExam(
-            this.props.student,
-            this.state.selectedCenterId,
-            this.props.testingCenterList[this.state.selectedCenterId].name
+            student,
+            selectedCenterId,
+            testingCenterList[selectedCenterId].name
           )}
         >
           Assign
@@ -106,9 +108,9 @@ export default class StudentAssign extends React.Component {
           style={styles.button}
           hoveredStyle={styles.hoveredStyle}
           onClick={() => this.reassignExam(
-            this.props.assignedExam.id,
-            this.state.selectedCenterId,
-            this.props.testingCenterList[this.state.selectedCenterId].name
+            assignedExam.id,
+            selectedCenterId,
+            testingCenterList[selectedCenterId].name
             )}
         >
           Reassign

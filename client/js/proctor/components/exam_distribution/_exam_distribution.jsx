@@ -9,6 +9,7 @@ import { getSubAccountsOfAccount } from '../../../libs/canvas/constants/accounts
 import StudentAssign               from './student_assign';
 import appHistory                  from '../../../history';
 import HoverButton                 from '../common/hover_button';
+import DownLoadSvg                 from '../common/download_svg';
 
 const select = (state, props) => {
   const exam = _.find(state.exams.examList, ex => props.params.id === ex.id.toString());
@@ -92,6 +93,14 @@ export class BaseExamDistribution extends React.Component {
         backgroundColor: Defines.lightBackground,
         border: 'none',
         fontSize: '20px',
+        cursor: 'pointer'
+      },
+      downloadSvg: {
+        float: 'right',
+        marginLeft: '15px',
+        backgroundColor: Defines.lightBackground,
+        border: 'none',
+        cursor: 'pointer'
       },
     };
   }
@@ -209,13 +218,10 @@ export class BaseExamDistribution extends React.Component {
           {this.props.exam.title}
           <HoverButton
             className="spec_download"
-            style={styles.floatRight}
+            style={styles.downloadSvg}
             onClick={() => this.props.downloadExamStatus(params.id, lmsCourseId)}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
-              <path d="M38 18h-8v-12h-12v12h-8l14 14 14-14zm-28 18v4h28v-4h-28z" />
-              <path d="M0 0h48v48h-48z" fill="none" />
-            </svg>
+            <DownLoadSvg />
           </HoverButton>
           <HoverButton className="spec_back" style={styles.floatRight} onClick={() => appHistory.push('/')}>
             &#10226;
