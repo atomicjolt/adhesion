@@ -155,7 +155,10 @@ describe "sync_courses" do
       ],
     )
 
-    expect(ScormCourse.all.map { |c| c[:scorm_cloud_id] }).to eq(["9", "3"] || ["3", "9"])
+    expect(ScormCourse.find_by(scorm_cloud_id: 9)).to be_present
+    expect(ScormCourse.find_by(scorm_cloud_id: 3)).to be_present
+    expect(ScormCourse.count).to eq 2
+
     expect(result[0][:lms_assignment_id]).to eq(1)
     expect(result[0][:is_graded]).to eq("GRADED")
   end
