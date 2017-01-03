@@ -1,6 +1,5 @@
 import React            from 'react';
 import TestUtils        from 'react-addons-test-utils';
-import _                from 'lodash';
 import ShortAnswer      from './short_answer_question';
 import Stub             from '../../../../specs_support/stub';
 

@@ -18,7 +18,7 @@ export default function multipleChoiceQuestion(props) {
 }
 
 multipleChoiceQuestion.propTypes = {
-  answers: React.PropTypes.arrayOf({}),
+  answers: React.PropTypes.arrayOf(React.PropTypes.shape({})),
   question_text: React.PropTypes.string,
   id: React.PropTypes.number,
 };

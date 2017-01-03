@@ -4,6 +4,7 @@ import Unhandled        from './unhandled_type';
 import MultipleChoice   from './multiple_choice_question';
 import MultipleAnswer   from './multiple_answers_question';
 import ShortAnswer      from './short_answer_question';
+import FillInBlanks     from './fill_in_multiple_blanks_question';
 
 export default function question(props) {
   const styles = {
@@ -37,6 +38,9 @@ export default function question(props) {
       break;
     case 'short_answer_question':
       Question = ShortAnswer;
+      break;
+    case 'fill_in_multiple_blanks_question':
+      Question = FillInBlanks;
       break;
 
     default:
