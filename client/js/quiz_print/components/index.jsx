@@ -1,13 +1,13 @@
 import React                                from 'react';
 import { connect }                          from 'react-redux';
 import _                                    from 'lodash';
-import canvasRequest                        from '../libs/canvas/action';
-import { getSingleQuiz }                    from '../libs/canvas/constants/quizzes';
-import { listQuestionsInQuizOrSubmission }  from '../libs/canvas/constants/quiz_questions';
+import canvasRequest                        from '../../libs/canvas/action';
+import { getSingleQuiz }                    from '../../libs/canvas/constants/quizzes';
+import { listQuestionsInQuizOrSubmission }  from '../../libs/canvas/constants/quiz_questions';
 
-import Loading    from './components/loading';
-import QuizInfo   from './components/quiz_info';
-import Question   from './components/question';
+import Loading    from './loading';
+import QuizInfo   from './quiz_info';
+import Question   from './question';
 
 const select = (state, props) => {
   const { quizId } = props.location.query;

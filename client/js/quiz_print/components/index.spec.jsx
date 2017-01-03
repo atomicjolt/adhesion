@@ -3,7 +3,7 @@ import TestUtils        from 'react-addons-test-utils';
 import { Index }        from './index';
 
 
-fdescribe('index', () => {
+describe('index', () => {
   let result;
 
   beforeEach(() => {
