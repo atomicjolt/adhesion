@@ -6,7 +6,6 @@ class DownloadStatusController < ApplicationController
   respond_to :csv
 
   def show
-
     list = AssignedExam.where(course_id: params[:course_id], exam_id: params[:exam_id])
 
     final_countdown_csv = CSV.generate do |csv|
@@ -15,15 +14,6 @@ class DownloadStatusController < ApplicationController
         csv << [l.student_name, l.testing_center_id, l.instructor_name, l.opened_by_name, l.status]
       end
     end
-    # byebug
-    # t=0
-    # send_data csv, type: Mime[:csv],
-    #    disposition: "attachment; filename=djhg.csv"
-    # send_data(final_countdown_csv, filename: "asdf.csv")
-
-    respond_to do |format|
-      format.csv { render csv: final_countdown_csv, filename: "priorities" }
-    end
-
+    send_data(final_countdown_csv, filename: "asdf.csv")
   end
 end

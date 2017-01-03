@@ -6,7 +6,7 @@ const requests = [
   'ASSIGN_EXAM',
   'REASSIGN_EXAM',
   'LOAD_ASSIGNED_EXAMS',
-  'DOWNLOAD_STATUS'
+  'DOWNLOAD_FILE'
 ];
 
 export const Constants = wrapper([], requests);
@@ -34,7 +34,7 @@ export const reassignExam = (assignedExamId, body) => ({
 
 export const downloadExamStatus = (examId, courseId) => ({
   method: Network.GET,
-  type: Constants.DOWNLOAD_STATUS,
+  type: Constants.DOWNLOAD_FILE,
   url: '/download_status/status.csv',
   params: { exam_id: examId, course_id: courseId }
 });
