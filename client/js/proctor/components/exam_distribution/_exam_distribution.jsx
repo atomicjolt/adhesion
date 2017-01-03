@@ -7,12 +7,15 @@ import * as ExamActions            from '../../actions/exams';
 import { listUsersInCourseUsers }  from '../../../libs/canvas/constants/courses';
 import { getSubAccountsOfAccount } from '../../../libs/canvas/constants/accounts';
 import StudentAssign               from './student_assign';
+import appHistory                  from '../../../history';
+import HoverButton                 from '../common/hover_button';
 
 const select = (state, props) => {
   const exam = _.find(state.exams.examList, ex => props.params.id === ex.id.toString());
   return {
     lmsCourseId: state.settings.lmsCourseId,
     lmsUserId: state.settings.lmsUserId,
+    lmsCourseName: state.settings.lmsCourseName,
     exam,
     instructorName: state.settings.displayName,
     studentList: state.students.studentList,
@@ -29,6 +32,7 @@ export class BaseExamDistribution extends React.Component {
     canvasRequest: React.PropTypes.func.isRequired,
     lmsCourseId: React.PropTypes.string.isRequired,
     lmsUserId: React.PropTypes.string.isRequired,
+    lmsCourseName: React.PropTypes.string.isRequired,
     exam: React.PropTypes.shape({ title: React.PropTypes.string }),
     studentList: React.PropTypes.shape({}),
     testingCenterList: React.PropTypes.shape({}),
@@ -47,7 +51,6 @@ export class BaseExamDistribution extends React.Component {
       table: {
         borderCollapse: 'collapse',
         width: '100%',
-
       },
       header: {
         color: Defines.darkGrey,
@@ -80,6 +83,14 @@ export class BaseExamDistribution extends React.Component {
       },
       regular: {
         width: '20%',
+      },
+      floatRight: {
+        float: 'right',
+        padding: '8px 20px',
+        borderRadius: '0',
+        backgroundColor: Defines.lightBackground,
+        border: 'none',
+        fontSize: '20px',
       },
     };
   }
@@ -132,14 +143,17 @@ export class BaseExamDistribution extends React.Component {
     );
   }
 
-  assignExam(studentId, centerId) {
+  assignExam(student, centerId) {
     const body = {
       exam_id: this.props.params.id,
       course_id: this.props.lmsCourseId,
-      student_id: studentId,
+      student_id: student.id,
+      student_name: student.name,
       instructor_id: this.props.lmsUserId,
       testing_center_id: centerId,
       instructor_name: this.props.instructorName,
+      exam_name: this.props.exam.title,
+      course_name: this.props.lmsCourseName,
     };
     this.props.assignExam(body);
   }
@@ -187,7 +201,12 @@ export class BaseExamDistribution extends React.Component {
     const styles = BaseExamDistribution.getStyles();
     return (
       <div>
-        <h1 style={styles.header}>{this.props.exam.title}</h1>
+        <h1 style={styles.header}>
+          {this.props.exam.title}
+          <HoverButton className="spec_back" style={styles.floatRight} onClick={() => appHistory.push('/')}>
+            &#10226;
+          </HoverButton>
+        </h1>
         <table style={styles.table}>
           <thead  style={styles.tr}>
             {this.tableHeader(styles)}
