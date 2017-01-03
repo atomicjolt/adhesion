@@ -9,7 +9,7 @@ export default class ProctorCode extends React.Component {
   static propTypes = {
     assignedExam: React.PropTypes.shape({}),
     proctorCode: React.PropTypes.shape({})
-  }
+  };
 
   constructor() {
     super();
@@ -98,7 +98,12 @@ export default class ProctorCode extends React.Component {
           </HoverButton>
           {
             this.state.opened ?
-              <PopupMenu style={styles.popupMenu} status={assignedExam.status} /> : null
+              <PopupMenu
+                style={styles.popupMenu}
+                status={assignedExam.status}
+                examId={assignedExam.exam_id}
+                courseId={assignedExam.course_id}
+              /> : null
           }
         </td>
       </tr>
