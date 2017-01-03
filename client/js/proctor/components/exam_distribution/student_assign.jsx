@@ -90,7 +90,7 @@ export default class StudentAssign extends React.Component {
         <HoverButton
           style={styles.button}
           hoveredStyle={styles.hoveredStyle}
-          onClick={() => this.props.assignExam(this.props.student.id, this.state.selectedCenterId)}
+          onClick={() => this.props.assignExam(this.props.student, this.state.selectedCenterId)}
         >
           Assign
         </HoverButton>

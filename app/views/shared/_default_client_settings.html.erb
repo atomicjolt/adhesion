@@ -12,7 +12,7 @@
     settings[:lmsCourseId]                       = params[:custom_canvas_course_id]
     settings[:lmsUserId]                         = current_user.lms_user_id
     settings[:ltiProvider]                       = lti_provider
-
+    settings[:lmsCourseName]                     = params[:context_title]
     # LTI parameters
     settings[:contextID]                         = params["context_id"]
     settings[:contextLabel]                      = params["context_label"]

@@ -15,9 +15,14 @@ es6Promise.polyfill();
 function Root(props) {
   const devTools = __DEV__ ? <DevTools /> : null;
   const { store } = props;
+
+  const rootStyles = {
+    fontFamily: "'Roboto', sans-serif"
+  };
+
   return (
     <Provider store={store}>
-      <div>
+      <div style={rootStyles}>
         {routes}
         {devTools}
       </div>

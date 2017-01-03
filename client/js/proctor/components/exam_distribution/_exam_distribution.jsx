@@ -15,6 +15,7 @@ const select = (state, props) => {
   return {
     lmsCourseId: state.settings.lmsCourseId,
     lmsUserId: state.settings.lmsUserId,
+    lmsCourseName: state.settings.lmsCourseName,
     exam,
     instructorName: state.settings.displayName,
     studentList: state.students.studentList,
@@ -31,6 +32,7 @@ export class BaseExamDistribution extends React.Component {
     canvasRequest: React.PropTypes.func.isRequired,
     lmsCourseId: React.PropTypes.string.isRequired,
     lmsUserId: React.PropTypes.string.isRequired,
+    lmsCourseName: React.PropTypes.string.isRequired,
     exam: React.PropTypes.shape({ title: React.PropTypes.string }),
     studentList: React.PropTypes.shape({}),
     testingCenterList: React.PropTypes.shape({}),
@@ -49,7 +51,6 @@ export class BaseExamDistribution extends React.Component {
       table: {
         borderCollapse: 'collapse',
         width: '100%',
-
       },
       header: {
         color: Defines.darkGrey,
@@ -142,14 +143,17 @@ export class BaseExamDistribution extends React.Component {
     );
   }
 
-  assignExam(studentId, centerId) {
+  assignExam(student, centerId) {
     const body = {
       exam_id: this.props.params.id,
       course_id: this.props.lmsCourseId,
-      student_id: studentId,
+      student_id: student.id,
+      student_name: student.name,
       instructor_id: this.props.lmsUserId,
       testing_center_id: centerId,
       instructor_name: this.props.instructorName,
+      exam_name: this.props.exam.title,
+      course_name: this.props.lmsCourseName,
     };
     this.props.assignExam(body);
   }
