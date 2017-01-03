@@ -1,4 +1,4 @@
-class Api::DownloadStatusController < ApplicationController
+class DownloadStatusController < ApplicationController
   include Concerns::JwtToken
   before_action :validate_token
 
@@ -19,11 +19,11 @@ class Api::DownloadStatusController < ApplicationController
     # t=0
     # send_data csv, type: Mime[:csv],
     #    disposition: "attachment; filename=djhg.csv"
-    send_data(final_countdown_csv, filename: "asdf")
+    # send_data(final_countdown_csv, filename: "asdf.csv")
 
-    # respond_to do |format|
-    #   format.csv { render csv: final_countdown_csv, filename: "priorities" }
-    # end
+    respond_to do |format|
+      format.csv { render csv: final_countdown_csv, filename: "priorities" }
+    end
 
   end
 end

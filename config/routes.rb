@@ -37,6 +37,7 @@ Rails.application.routes.draw do
   end
 
   resources :users
+  resources :download_status
 
   namespace :admin do
     root to: "lti_installs#index"
@@ -61,7 +62,6 @@ Rails.application.routes.draw do
         resources :students, only: [:index]
       end
     end
-    resources :download_status
     resources :assigned_exams
     resources :proctor_codes
     resources :courses do

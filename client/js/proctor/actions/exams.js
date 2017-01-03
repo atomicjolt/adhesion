@@ -35,6 +35,6 @@ export const reassignExam = (assignedExamId, body) => ({
 export const downloadExamStatus = (examId, courseId) => ({
   method: Network.GET,
   type: Constants.DOWNLOAD_STATUS,
-  url: '/api/download_status/status.csv',
+  url: '/download_status/status.csv',
   params: { exam_id: examId, course_id: courseId }
 });
