@@ -40,6 +40,7 @@ export class BaseExamDistribution extends React.Component {
     assignExam: React.PropTypes.func.isRequired,
     reassignExam: React.PropTypes.func.isRequired,
     loadAssignedExams: React.PropTypes.func.isRequired,
+    downloadExamStatus: React.PropTypes.func.isRequired,
     testingCentersAccountId: React.PropTypes.number.isRequired,
     assignedExams: React.PropTypes.shape({}),
     instructorName: React.PropTypes.string.isRequired,
@@ -201,16 +202,19 @@ export class BaseExamDistribution extends React.Component {
 
   render() {
     const styles = BaseExamDistribution.getStyles();
+    const { params, lmsCourseId } = this.props;
     return (
       <div>
         <h1 style={styles.header}>
           {this.props.exam.title}
-          <HoverButton className="spec_download"
+          <HoverButton
+            className="spec_download"
             style={styles.floatRight}
-            onClick={ () => this.props.downloadExamStatus(this.props.params.id, this.props.lmsCourseId)}>
+            onClick={() => this.props.downloadExamStatus(params.id, lmsCourseId)}
+          >
             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
-              <path d="M38 18h-8v-12h-12v12h-8l14 14 14-14zm-28 18v4h28v-4h-28z"/>
-              <path d="M0 0h48v48h-48z" fill="none"/>
+              <path d="M38 18h-8v-12h-12v12h-8l14 14 14-14zm-28 18v4h28v-4h-28z" />
+              <path d="M0 0h48v48h-48z" fill="none" />
             </svg>
           </HoverButton>
           <HoverButton className="spec_back" style={styles.floatRight} onClick={() => appHistory.push('/')}>
