@@ -144,7 +144,6 @@ export class BaseExamDistribution extends React.Component {
   }
 
   assignExam(student, centerId, centerName) {
-    debugger
     const body = {
       exam_id: this.props.params.id,
       testing_center_name: centerName,
