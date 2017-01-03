@@ -11,10 +11,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161214195432) do
+ActiveRecord::Schema.define(version: 20161229161906) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "assigned_exams", force: :cascade do |t|
+    t.integer  "course_id"
+    t.integer  "exam_id"
+    t.integer  "instructor_id"
+    t.integer  "student_id"
+    t.integer  "testing_center_id"
+    t.string   "status",            default: "assigned"
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.string   "instructor_name"
+    t.string   "exam_name"
+    t.integer  "opened_by_id"
+    t.string   "opened_by_name"
+    t.string   "student_name"
+    t.string   "course_name"
+  end
 
   create_table "attendances", force: :cascade do |t|
     t.integer "lms_student_id"
@@ -98,6 +115,14 @@ ActiveRecord::Schema.define(version: 20161214195432) do
   end
 
   add_index "permissions", ["role_id", "user_id"], name: "index_permissions_on_role_id_and_user_id", using: :btree
+
+  create_table "proctor_codes", force: :cascade do |t|
+    t.integer  "assigned_exam_id"
+    t.string   "code"
+    t.integer  "proctor_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
 
   create_table "registrations", force: :cascade do |t|
     t.integer  "lms_course_id"

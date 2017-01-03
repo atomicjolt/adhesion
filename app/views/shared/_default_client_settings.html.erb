@@ -1,7 +1,8 @@
 <%-
   settings = {
     apiUrl: application_base_url,
-    csrfToken: form_authenticity_token
+    csrfToken: form_authenticity_token,
+    testingCentersAccountId: 25, # figure out this, it probably should not be hard coded
   }
   if signed_in?
     settings[:userId]                            = current_user.id
@@ -9,9 +10,9 @@
     settings[:displayName]                       = current_user.display_name
     settings[:oauthConsumerKey]                  = params[:oauth_consumer_key]
     settings[:lmsCourseId]                       = params[:custom_canvas_course_id]
-    settings[:lmsUserId]                         = current_user.lti_user_id
+    settings[:lmsUserId]                         = current_user.lms_user_id
     settings[:ltiProvider]                       = lti_provider
-
+    settings[:lmsCourseName]                     = params[:context_title]
     # LTI parameters
     settings[:contextID]                         = params["context_id"]
     settings[:contextLabel]                      = params["context_label"]
