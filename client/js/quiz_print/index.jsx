@@ -9,12 +9,14 @@ import Loading    from './components/loading';
 import QuizInfo   from './components/quiz_info';
 import Question   from './components/question';
 
-const select = state => ({
-  loadingQuiz: state.print.loadingQuiz,
-  loadingQuestions: state.print.loadingQuestions,
-  quiz: state.print.quiz,
-  questions: state.print.questions,
-});
+const select = (state, props) => {
+  const { quizId } = props.location.query;
+  return {
+    loadingQuiz: state.print.loadingQuiz,
+    quiz: state.print.quizzes[quizId] || {},
+    questions: state.print.questions[quizId] || {},
+  };
+};
 
 export class Index extends React.Component {
   static propTypes = {
@@ -25,10 +27,9 @@ export class Index extends React.Component {
       }),
     }).isRequired,
     canvasRequest: React.PropTypes.func.isRequired,
-    quiz: React.PropTypes.shape({}).isRequired,
+    quiz: React.PropTypes.shape({}),
     loadingQuiz: React.PropTypes.bool.isRequired,
-    loadingQuestions: React.PropTypes.bool.isRequired,
-    questions: React.PropTypes.arrayOf(React.PropTypes.shape({})).isRequired,
+    questions: React.PropTypes.shape({}),
   };
 
   componentWillMount() {
@@ -41,20 +42,19 @@ export class Index extends React.Component {
   }
 
   render() {
-    const { quiz, questions, loadingQuiz, loadingQuestions } = this.props;
+    const { quiz, questions, loadingQuiz } = this.props;
 
     return (
       <div>
         {
-          loadingQuiz || loadingQuestions ?
+          loadingQuiz || _.size(questions) < quiz.question_count ?
             <Loading
               loadingQuiz={loadingQuiz}
-              loadingQuestions={loadingQuestions}
             /> : null
         }
         <QuizInfo {...quiz} />
         {
-          _.map(questions, (question, key) => <Question key={`question_${key}`} {...question} />)
+          _.map(questions, question => <Question key={`question_${question.id}`} {...question} />)
         }
       </div>
     );
