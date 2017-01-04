@@ -3,9 +3,12 @@ import { connect }             from 'react-redux';
 import _                       from 'lodash';
 import Fuse                    from 'fuse.js';
 import * as ProctorCodeActions from '../../actions/proctor_codes';
+import * as ModalActions       from '../../../actions/modal';
 import Defines                 from '../../defines';
 import ProctorCode             from './proctor_code';
 import SearchBar               from './search_bar';
+import canvasRequest           from '../../../libs/canvas/action';
+import { createConversation }  from '../../../libs/canvas/constants/conversations';
 
 const select = state => ({
   lmsUserId: state.settings.lmsUserId,
@@ -62,6 +65,15 @@ export class BaseExamAssignmentList extends React.Component {
     this.props.loadProctorCodes(this.props.lmsUserId);
   }
 
+  sendMessage(id, body, studentName) {
+    const payload = {
+      recipients: [_.toString(180)],
+      subject: studentName,
+      body,
+    };
+    this.props.canvasRequest(createConversation, {}, payload)
+  };
+
   getProctorCodes() {
     const options = {
       shouldSort: false,
@@ -89,6 +101,9 @@ export class BaseExamAssignmentList extends React.Component {
         key={`proctor_${proctorCode.id}`}
         proctorCode={proctorCode}
         assignedExam={proctorCode.assigned_exam}
+        sendMessage={(id, body) => this.sendMessage(id, body)}
+        showModal={this.props.showModal}
+        hideModal={this.props.hideModal}
       />
     ));
   }
@@ -111,4 +126,8 @@ export class BaseExamAssignmentList extends React.Component {
   }
 }
 
-export default connect(select, ProctorCodeActions)(BaseExamAssignmentList);
+export default connect(select, { 
+  ...ProctorCodeActions,
+  ...ModalActions,
+  canvasRequest,
+})(BaseExamAssignmentList);
