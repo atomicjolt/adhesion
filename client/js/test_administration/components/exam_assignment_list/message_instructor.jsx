@@ -67,7 +67,7 @@ export default class MessageInstructor extends React.Component {
   }
 
   render() {
-    const styles = this.getStyles();
+    const styles = MessageInstructor.getStyles();
     return (
       <div style={styles.popupStyle}>
         Message to the Instructor
