@@ -7,6 +7,7 @@ import ShortAnswer      from './short_answer_question';
 import FillInBlanks     from './fill_in_multiple_blanks_question';
 import MultipleDropdown from './multiple_dropdowns_question';
 import Matching         from './matching_question';
+import Essay            from './essay_question';
 
 export default function question(props) {
   const styles = {
@@ -39,6 +40,8 @@ export default function question(props) {
       Question = MultipleAnswer;
       break;
     case 'short_answer_question':
+    case 'numerical_question':
+    case 'calculated_question':
       Question = ShortAnswer;
       break;
     case 'fill_in_multiple_blanks_question':
@@ -49,6 +52,9 @@ export default function question(props) {
       break;
     case 'matching_question':
       Question = Matching;
+      break;
+    case 'essay_question':
+      Question = Essay;
       break;
 
     default:
