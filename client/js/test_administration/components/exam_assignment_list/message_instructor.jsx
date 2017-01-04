@@ -43,9 +43,33 @@ export default class MessageInstructor extends React.Component {
       display: 'flex',
     };
 
+    const buttonStyle = {
+      backgroundColor: Defines.tanishBrown,
+      color: 'white',
+      border: 'none',
+      padding: '10px 20px',
+      cursor: 'pointer',
+    };
+
+    const exitButtonStyle = {
+      ...buttonStyle,
+      backgroundColor: 'white',
+      color: Defines.lightText,
+      position: 'absolute',
+      top: '20px',
+      right: '20px',
+      padding: '0px',
+    };
+
     return(
       <div style={popupStyle}>
         Message to the Instructor
+        <HoverButton 
+          style={exitButtonStyle}
+          onClick={() => this.props.closeMessageModal()} >
+          <i className="material-icons">clear</i>
+        </HoverButton>
+        <div style={{ clear: 'both' }} />
         <div style={flex}>
           <input
             style={subjectBox}
@@ -59,18 +83,16 @@ export default class MessageInstructor extends React.Component {
           <textarea
             rows="25"
             style={textBox}
+            placeholder="Please include the student's name here"
             name="message"
             ref={(el) => { this.textArea = el }}
           />
         </div>
-        <HoverButton onClick={() => this.props.sendMessage(
+        <HoverButton style={buttonStyle} onClick={() => this.props.sendMessage(
           this.textArea.value,
           this.subjectField.value,
         )}>
-          Send
-        </HoverButton>
-        <HoverButton onClick={() => this.props.closeMessageModal()} >
-          Cancel
+          <i className="material-icons">send</i>
         </HoverButton>
       </div>
     )
