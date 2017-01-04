@@ -86,4 +86,6 @@ export default function popupMenu(props) {
 popupMenu.propTypes = {
   style: React.PropTypes.shape({}),
   status: React.PropTypes.string.isRequired,
+  courseId: React.PropTypes.string.isRequired,
+  examId: React.PropTypes.string.isRequired,
 };
