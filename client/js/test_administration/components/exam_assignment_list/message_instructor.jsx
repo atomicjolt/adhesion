@@ -14,7 +14,7 @@ export default class MessageInstructor extends React.Component {
     this.subjectField =  null;
   }
 
-  getStyles() {
+  static getStyles() {
     return {
       popupStyle: {
         boxShadow: `0px 0px 5px ${Defines.darkGrey}`,

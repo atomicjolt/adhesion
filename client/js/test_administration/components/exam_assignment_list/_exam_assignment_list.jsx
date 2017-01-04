@@ -104,7 +104,6 @@ export class BaseExamAssignmentList extends React.Component {
   }
 
   sendMessage(id, body, subject) {
-    debugger
     const payload = {
       recipients: [_.toString(id)],
       subject,

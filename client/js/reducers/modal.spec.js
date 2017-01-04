@@ -4,13 +4,13 @@ import Modal from './Modal';
 describe('modal reducer', () => {
   describe('initial state', () => {
     it('sets the initial state', () => {
-      const initialState = { 
+      const initialState = {
         props: {},
         children: null,
         visible: false,
       };
-      const newState = {visible: true}
-      const state = {initialState, ...newState};
+      const newState = { visible: true };
+      const state = { initialState, ...newState };
       expect(state.visible).toEqual(true);
     });
   });
@@ -26,7 +26,7 @@ describe('modal reducer', () => {
       const newState = Modal(state, {
         type: ModalConstants.HIDE_MODAL,
       });
-      expect(newState.children).toBe(null)
+      expect(newState.children).toBe(null);
     });
   });
 });
