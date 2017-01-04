@@ -20,5 +20,4 @@ describe('text Only', () => {
     expect(element.textContent).toContain('I am a text');
     expect(element.textContent).not.toContain('<p>');
   });
-
 });
