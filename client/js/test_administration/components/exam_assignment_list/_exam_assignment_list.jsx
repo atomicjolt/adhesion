@@ -65,10 +65,10 @@ export class BaseExamAssignmentList extends React.Component {
     this.props.loadProctorCodes(this.props.lmsUserId);
   }
 
-  sendMessage(id, body, studentName) {
+  sendMessage(id, body, subject) {
     const payload = {
-      recipients: [_.toString(180)],
-      subject: studentName,
+      recipients: [_.toString(id)],
+      subject,
       body,
     };
     this.props.canvasRequest(createConversation, {}, payload)

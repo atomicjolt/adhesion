@@ -6,6 +6,7 @@ export default class MessageInstructor extends React.Component {
   constructor(props) {
     super(props);
     this.textArea = null;
+    this.subjectField =  null;
   }
   render() {
     const popupStyle = {
@@ -21,38 +22,51 @@ export default class MessageInstructor extends React.Component {
     };
 
     const subjectBox = {
+      flex: '1',
       marginTop: '20px',
+      fontSize: '1.1em',
+      padding: '5px',
+      borderRadius: '3px',
+      border: 'solid lightgrey 2px',
     };
 
     const textBox = {
-      width: '500px',
+      flex: '1',
       marginTop: '20px',
       marginBottom: '20px',
-      border: 'solid grey 2px',
+      border: 'solid lightgrey 2px',
+      borderRadius: '3px',
       focus: 'top',
-      padding: '5px 5px 400px 5px',
+    };
+
+    const flex = {
+      display: 'flex',
     };
 
     return(
       <div style={popupStyle}>
         Message to the Instructor
-        <br />
-        <input
-          style={subjectBox}
-          type={'textarea'}
-          placeholder="Subject"
-          name={'message'}
-          ref={(el) => { this.textArea = el }}
-        />
-        <br />
-        <input 
-          style={textBox}
-          type={'textarea'}
-          name={'message'}
-          ref={(el) => { this.textArea = el }}
-        />
-        <br />
-        <HoverButton onClick={() => this.props.sendMessage(this.textArea.value)}>
+        <div style={flex}>
+          <input
+            style={subjectBox}
+            type="textarea"
+            placeholder="Subject"
+            name="message"
+            ref={(el) => { this.subjectField = el }}
+          />
+        </div>
+        <div style={flex}>
+          <textarea
+            rows="25"
+            style={textBox}
+            name="message"
+            ref={(el) => { this.textArea = el }}
+          />
+        </div>
+        <HoverButton onClick={() => this.props.sendMessage(
+          this.textArea.value,
+          this.subjectField.value,
+        )}>
           Send
         </HoverButton>
         <HoverButton onClick={() => this.props.closeMessageModal()} >
