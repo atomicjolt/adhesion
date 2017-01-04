@@ -19,11 +19,14 @@ describe('modal reducer', () => {
     it('accepts the state change', () => {
       const initialState = {
         props: {},
-        children: 'asdf',
+        children: null,
         visible: false,
       };
-      const state = initialState;
-      expect(state.children).toBe('asdf')
+      const state = initialState
+      const newState = Modal(state, {
+        type: ModalConstants.HIDE_MODAL,
+      });
+      expect(newState.children).toBe(null)
     });
   });
 });
