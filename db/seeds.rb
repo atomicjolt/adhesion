@@ -4,6 +4,7 @@ puts "CREATED ADMIN USER: " << admin.email
 # Add an LTI Application
 scorm_permissions = "CREATE_ASSIGNMENT,DELETE_ASSIGNMENT,LIST_ASSIGNMENTS"
 proct_permissions = "LIST_USERS_IN_COURSE_USERS,LIST_QUIZZES_IN_COURSE,GET_SUB_ACCOUNTS_OF_ACCOUNT"
+print_permissions = "GET_SINGLE_QUIZ,LIST_QUESTIONS_IN_QUIZ_OR_SUBMISSION"
 lti_applications = [{
   name: "SCORM Player",
   description: "SCORM Player",
@@ -23,7 +24,7 @@ lti_applications = [{
   name: "Test Administration Tool",
   description: "Test Administration",
   client_application_name: "test_administration",
-  canvas_api_permissions: "" # we need to figure this out
+  canvas_api_permissions: print_permissions
 }]
 
 lti_consumer_uri = Rails.application.secrets.canvas_url
