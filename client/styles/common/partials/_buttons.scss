@@ -1,0 +1,19 @@
+// from http://purecss.io/buttons/
+
+.pure-button {
+  vertical-align: middle;
+  text-align: center;
+  cursor: pointer;
+  font-size: 100%;
+  padding: 0.5em 1em;
+  color: $opaque-black;
+  border: transparent;
+  background-color: $off-white;
+  text-decoration: none;
+  border-radius: 2px;
+}
+
+.button-primary {
+  background-color: $primary-blue;
+  color: $white;
+}
