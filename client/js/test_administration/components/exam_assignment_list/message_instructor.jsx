@@ -8,12 +8,6 @@ export default class MessageInstructor extends React.Component {
     closeMessageModal: React.PropTypes.func.isRequired,
   }
 
-  constructor(props) {
-    super(props);
-    this.textArea = null;
-    this.subjectField =  null;
-  }
-
   static getStyles() {
     return {
       popupStyle: {
@@ -64,6 +58,12 @@ export default class MessageInstructor extends React.Component {
         padding: '0px',
       },
     };
+  }
+
+  constructor(props) {
+    super(props);
+    this.textArea = null;
+    this.subjectField =  null;
   }
 
   render() {
