@@ -20,11 +20,33 @@ export default class MessageInstructor extends React.Component {
       borderRadius: '5px',
     };
 
+    const subjectBox = {
+      marginTop: '20px',
+    };
+
+    const textBox = {
+      width: '500px',
+      marginTop: '20px',
+      marginBottom: '20px',
+      border: 'solid grey 2px',
+      focus: 'top',
+      padding: '5px 5px 400px 5px',
+    };
+
     return(
       <div style={popupStyle}>
-        Check me out
+        Message to the Instructor
+        <br />
+        <input
+          style={subjectBox}
+          type={'textarea'}
+          placeholder="Subject"
+          name={'message'}
+          ref={(el) => { this.textArea = el }}
+        />
         <br />
         <input 
+          style={textBox}
           type={'textarea'}
           name={'message'}
           ref={(el) => { this.textArea = el }}
