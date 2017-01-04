@@ -5,6 +5,7 @@ import MultipleChoice   from './multiple_choice_question';
 import MultipleAnswer   from './multiple_answers_question';
 import ShortAnswer      from './short_answer_question';
 import FillInBlanks     from './fill_in_multiple_blanks_question';
+import MultipleDropdown from './multiple_dropdowns_question';
 
 export default function question(props) {
   const styles = {
@@ -41,6 +42,9 @@ export default function question(props) {
       break;
     case 'fill_in_multiple_blanks_question':
       Question = FillInBlanks;
+      break;
+    case 'multiple_dropdowns_question':
+      Question = MultipleDropdown;
       break;
 
     default:
