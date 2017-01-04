@@ -11,6 +11,7 @@ export default class ProctorCode extends React.Component {
     assignedExam: React.PropTypes.shape({}),
     proctorCode: React.PropTypes.shape({}),
     sendMessage: React.PropTypes.func.isRequired,
+    showModal: React.PropTypes.func.isRequired,
   }
 
   constructor() {

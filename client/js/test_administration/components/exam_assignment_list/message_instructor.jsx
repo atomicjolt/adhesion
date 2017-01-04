@@ -3,6 +3,11 @@ import Defines      from '../../defines';
 import HoverButton  from '../common/hover_button';
 
 export default class MessageInstructor extends React.Component {
+  static propTypes = {
+    sendMessage: React.PropTypes.func.isRequired,
+    closeMessageModal: React.PropTypes.func.isRequired,
+  }
+
   constructor(props) {
     super(props);
     this.textArea = null;
@@ -64,7 +69,8 @@ export default class MessageInstructor extends React.Component {
     return(
       <div style={popupStyle}>
         Message to the Instructor
-        <HoverButton 
+        <HoverButton
+          className="spec_clear_button"
           style={exitButtonStyle}
           onClick={() => this.props.closeMessageModal()} >
           <i className="material-icons">clear</i>
@@ -88,10 +94,14 @@ export default class MessageInstructor extends React.Component {
             ref={(el) => { this.textArea = el }}
           />
         </div>
-        <HoverButton style={buttonStyle} onClick={() => this.props.sendMessage(
-          this.textArea.value,
-          this.subjectField.value,
-        )}>
+        <HoverButton
+          style={buttonStyle}
+          onClick={() => this.props.sendMessage(
+            this.textArea.value,
+            this.subjectField.value,
+          )}
+          className="send_btn_spec"
+        >
           <i className="material-icons">send</i>
         </HoverButton>
       </div>
