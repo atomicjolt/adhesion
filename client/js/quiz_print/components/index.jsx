@@ -6,6 +6,7 @@ import { getSingleQuiz }                    from '../../libs/canvas/constants/qu
 import { listQuestionsInQuizOrSubmission }  from '../../libs/canvas/constants/quiz_questions';
 
 import Loading    from './loading';
+import Buttons    from './action_buttons';
 import QuizInfo   from './quiz_info';
 import Question   from './question_types/_question';
 
@@ -46,6 +47,7 @@ export class Index extends React.Component {
 
     return (
       <div>
+        <Buttons />
         {
           loadingQuiz || _.size(questions) < quiz.question_count ?
             <Loading
