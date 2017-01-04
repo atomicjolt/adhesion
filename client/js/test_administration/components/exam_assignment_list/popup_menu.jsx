@@ -85,4 +85,5 @@ export default function popupMenu(props) {
 popupMenu.propTypes = {
   style: React.PropTypes.shape({}),
   status: React.PropTypes.string.isRequired,
+  openMessageModal: React.PropTypes.func.isRequired,
 };

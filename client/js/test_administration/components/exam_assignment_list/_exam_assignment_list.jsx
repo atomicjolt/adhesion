@@ -102,7 +102,7 @@ export class BaseExamAssignmentList extends React.Component {
       />
     ));
   }
-  
+
   sendMessage(id, body, subject) {
     const payload = {
       recipients: [_.toString(id)],
