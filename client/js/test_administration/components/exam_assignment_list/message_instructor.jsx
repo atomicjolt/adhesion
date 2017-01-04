@@ -66,7 +66,7 @@ export default class MessageInstructor extends React.Component {
       padding: '0px',
     };
 
-    return(
+    return (
       <div style={popupStyle}>
         Message to the Instructor
         <HoverButton
@@ -106,6 +106,6 @@ export default class MessageInstructor extends React.Component {
           <i className="material-icons">send</i>
         </HoverButton>
       </div>
-    )
+    );
   }
 }

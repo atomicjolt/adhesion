@@ -11,10 +11,10 @@ describe('message instructor', () => {
     props = {
       sendMessage: () => { sent = true; },
       closeMessageModal: () => { changed = true; },
-    }
+    };
     changed = false;
     sent = false;
-    result = TestUtils.renderIntoDocument(<MessageInstructor {...props}/>);
+    result = TestUtils.renderIntoDocument(<MessageInstructor {...props} />);
   });
 
   it('renders a textarea and two buttons', () => {
@@ -36,6 +36,6 @@ describe('message instructor', () => {
     const button = TestUtils.findRenderedDOMComponentWithClass(result, 'send_btn_spec');
     TestUtils.Simulate.click(button);
     expect(sent).toBeTruthy();
-  })
+  });
 });
 
