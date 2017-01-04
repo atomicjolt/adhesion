@@ -19,10 +19,12 @@ export default function print(state = defaultState, action) {
     case 'LIST_QUESTIONS_IN_QUIZ_OR_SUBMISSION_DONE': {
       const newState = _.cloneDeep(state);
       _.forEach(action.payload, (question) => {
-        if (!newState.questions[question.quiz_id]) {
-          newState.questions[question.quiz_id] = {};
+        const quizId = _.toString(question.quiz_id);
+        const questionId = _.toString(question.id);
+        if (!newState.questions[quizId]) {
+          newState.questions[quizId] = {};
         }
-        newState.questions[question.quiz_id][question.id] = question;
+        newState.questions[quizId][questionId] = question;
       });
       return newState;
     }

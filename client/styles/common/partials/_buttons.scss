@@ -7,23 +7,17 @@
   vertical-align: middle;
   text-align: center;
   cursor: pointer;
-  -webkit-user-drag: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
-  font-family: inherit;
   font-size: 100%;
-  padding: .5em 1em;
-  color: #444;
-  color: rgba(0,0,0,.8);
+  padding: 0.5em 1em;
+  color: $opaque-black;
   border: transparent;
-  background-color: #E6E6E6;
+  background-color: $off-white;
   text-decoration: none;
   border-radius: 2px;
 }
 
 .button-primary {
-  background-color: #0078e7;
-  color: #fff;
+  background-color: $primary-blue;
+  color: $white;
 }

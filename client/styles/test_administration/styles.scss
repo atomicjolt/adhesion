@@ -1,10 +1,11 @@
 // Modules and Variables
+@import "../common/partials/defines";
 // TODO: put this in a quiz print place
 // Partials
-@import "../common/loader";
-@import "../common/input";
-@import "../common/buttons";
-@import "../common/print";
+@import "../common/partials/loader";
+@import "../common/partials/input";
+@import "../common/partials/buttons";
+@import "../common/partials/print";
 // ...
 
 // Third-party
