@@ -1,13 +1,9 @@
 // from http://purecss.io/buttons/
 
 .pure-button {
-  display: inline-block;
-  zoom: 1;
-  white-space: nowrap;
   vertical-align: middle;
   text-align: center;
   cursor: pointer;
-  user-select: none;
   font-size: 100%;
   padding: 0.5em 1em;
   color: $opaque-black;
