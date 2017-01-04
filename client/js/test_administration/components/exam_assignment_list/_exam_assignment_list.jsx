@@ -22,6 +22,9 @@ export class BaseExamAssignmentList extends React.Component {
     proctorCodeList: React.PropTypes.arrayOf(
       React.PropTypes.shape({})
     ).isRequired,
+    hideModal: React.PropTypes.func.isRequired,
+    showModal: React.PropTypes.func.isRequired,
+    canvasRequest: React.PropTypes.func.isRequired,
   }
 
   static tableHeader(styles) {
@@ -65,14 +68,6 @@ export class BaseExamAssignmentList extends React.Component {
     this.props.loadProctorCodes(this.props.lmsUserId);
   }
 
-  sendMessage(id, body, subject) {
-    const payload = {
-      recipients: [_.toString(id)],
-      subject,
-      body,
-    };
-    this.props.canvasRequest(createConversation, {}, payload)
-  };
 
   getProctorCodes() {
     const options = {
@@ -107,6 +102,15 @@ export class BaseExamAssignmentList extends React.Component {
       />
     ));
   }
+  
+  sendMessage(id, body, subject) {
+    const payload = {
+      recipients: [_.toString(id)],
+      subject,
+      body,
+    };
+    this.props.canvasRequest(createConversation, {}, payload);
+  }
 
   render() {
     const styles = BaseExamAssignmentList.getStyles();
@@ -126,7 +130,7 @@ export class BaseExamAssignmentList extends React.Component {
   }
 }
 
-export default connect(select, { 
+export default connect(select, {
   ...ProctorCodeActions,
   ...ModalActions,
   canvasRequest,

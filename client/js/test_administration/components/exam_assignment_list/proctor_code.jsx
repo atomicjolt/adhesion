@@ -12,6 +12,7 @@ export default class ProctorCode extends React.Component {
     proctorCode: React.PropTypes.shape({}),
     sendMessage: React.PropTypes.func.isRequired,
     showModal: React.PropTypes.func.isRequired,
+    hideModal: React.PropTypes.func.isRequired,
   }
 
   constructor() {
@@ -78,10 +79,10 @@ export default class ProctorCode extends React.Component {
   }
 
   openMessageModal() {
-    this.setState({ 
+    this.setState({
       opened: !this.state.opened,
     });
-    this.props.showModal(<MessageInstructor 
+    this.props.showModal(<MessageInstructor
       sendMessage={(body, subject) => this.sendMessage(body, subject)}
       closeMessageModal={() => this.props.hideModal()}
     />);
@@ -121,9 +122,9 @@ export default class ProctorCode extends React.Component {
           </HoverButton>
           {
             this.state.opened ?
-              <PopupMenu 
-                style={styles.popupMenu} 
-                status={assignedExam.status} 
+              <PopupMenu
+                style={styles.popupMenu}
+                status={assignedExam.status}
                 openMessageModal={() => this.openMessageModal()}
               /> : null
           }
