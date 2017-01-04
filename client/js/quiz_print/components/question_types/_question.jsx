@@ -1,6 +1,5 @@
 import React    from 'react';
 
-import Unhandled        from './unhandled_type';
 import MultipleChoice   from './multiple_choice_question';
 import MultipleAnswer   from './multiple_answers_question';
 import ShortAnswer      from './short_answer_question';
@@ -8,6 +7,7 @@ import FillInBlanks     from './fill_in_multiple_blanks_question';
 import MultipleDropdown from './multiple_dropdowns_question';
 import Matching         from './matching_question';
 import Essay            from './essay_question';
+import TextOnly         from './text_only_question';
 
 export default function question(props) {
   const styles = {
@@ -56,9 +56,10 @@ export default function question(props) {
     case 'essay_question':
       Question = Essay;
       break;
-
+    case 'text_only_question':
+    case 'file_upload_question':
     default:
-      Question = Unhandled;
+      Question = TextOnly;
       break;
   }
 
