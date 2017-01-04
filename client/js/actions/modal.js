@@ -1,5 +1,4 @@
 import wrapper from '../constants/wrapper';
-import Network from '../constants/network';
 
 // Local actions
 const actions = [
@@ -18,7 +17,7 @@ export function hideModal() {
   };
 }
 
-export function showModal(children, props) {
+export function showModal(children, props = {}) {
   return {
     type: Constants.SHOW_MODAL,
     children,

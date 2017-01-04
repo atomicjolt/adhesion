@@ -1,10 +1,10 @@
 import React from 'react';
 
 export default class Modal extends React.Component {
-  constructor(props) {
-    super(props);
+  static propTypes = {
+    children: React.PropTypes.node,
+    visible: React.PropTypes.bool
   }
-
   render() {
     const overlayStyle = {
       position: 'fixed',
@@ -17,13 +17,11 @@ export default class Modal extends React.Component {
     };
 
     if (!this.props.visible) { return null; }
-    return(
+    return (
       <div>
-        <div style={overlayStyle}/>
+        <div style={overlayStyle} />
         {this.props.children}
       </div>
-    )
+    );
   }
 }
-
-
