@@ -1,5 +1,6 @@
 import React    from 'react';
 import _        from 'lodash';
+import Text     from './question_text';
 
 export default function matchingQuestion(props) {
   const styles = {
@@ -18,7 +19,7 @@ export default function matchingQuestion(props) {
 
   return (
     <div>
-      <div dangerouslySetInnerHTML={{ __html: props.question_text }} />
+      <Text text={props.question_text} />
       <div style={styles.columns}>
         {
           _.map(props.answers, answer => (

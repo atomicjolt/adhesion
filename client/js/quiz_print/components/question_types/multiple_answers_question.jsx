@@ -1,10 +1,11 @@
 import React    from 'react';
 import _        from 'lodash';
+import Text     from './question_text';
 
 export default function multipleAnswerQuestion(props) {
   return (
     <div>
-      <div dangerouslySetInnerHTML={{ __html: props.question_text }} />
+      <Text text={props.question_text} />
       {
         _.map(props.answers, answer => (
           <div key={`question${props.id}_answer${answer.id}`}>

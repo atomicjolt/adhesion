@@ -1,5 +1,6 @@
 import React    from 'react';
 import _        from 'lodash';
+import Text     from './question_text';
 
 export default function multipleDropdowns(props) {
   // TODO use this or something to make this look nice
@@ -27,7 +28,7 @@ export default function multipleDropdowns(props) {
 
   return (
     <div>
-      <div dangerouslySetInnerHTML={{ __html: props.question_text }} />
+      <Text text={props.question_text} />
       {
         _.map(answers, (bank, key) => (
           <div key={`answer_bank_${key}`} style={styles.bank}>

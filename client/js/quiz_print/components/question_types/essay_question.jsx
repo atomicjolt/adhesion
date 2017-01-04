@@ -1,9 +1,10 @@
 import React    from 'react';
+import Text     from './question_text';
 
 export default function essayQuestion(props) {
   return (
     <div>
-      <div dangerouslySetInnerHTML={{ __html: props.question_text }} />
+      <Text text={props.question_text} />
       <textarea className="textbox" rows="10" style={{ width: '98%' }} />
     </div>
   );

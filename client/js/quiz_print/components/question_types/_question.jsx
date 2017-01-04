@@ -7,7 +7,7 @@ import FillInBlanks     from './fill_in_multiple_blanks_question';
 import MultipleDropdown from './multiple_dropdowns_question';
 import Matching         from './matching_question';
 import Essay            from './essay_question';
-import TextOnly         from './text_only_question';
+import TextOnly         from './question_text';
 
 export default function question(props) {
   const styles = {
