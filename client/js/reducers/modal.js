@@ -17,7 +17,7 @@ export default (state = initialState, action) => {
         props: action.props,
         children: action.children,
         visible: true,
-      }
+      };
 
     default:
       return state;

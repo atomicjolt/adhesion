@@ -86,7 +86,7 @@ export default class ProctorCode extends React.Component {
       sendMessage={(body, subject) => this.sendMessage(body, subject)}
       closeMessageModal={() => this.props.hideModal()}
     />);
-  };
+  }
 
   render() {
     const styles = this.getStyles();

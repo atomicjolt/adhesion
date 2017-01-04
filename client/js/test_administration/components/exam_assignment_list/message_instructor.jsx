@@ -72,7 +72,8 @@ export default class MessageInstructor extends React.Component {
         <HoverButton
           className="spec_clear_button"
           style={exitButtonStyle}
-          onClick={() => this.props.closeMessageModal()} >
+          onClick={() => this.props.closeMessageModal()}
+        >
           <i className="material-icons">clear</i>
         </HoverButton>
         <div style={{ clear: 'both' }} />
@@ -82,7 +83,7 @@ export default class MessageInstructor extends React.Component {
             type="textarea"
             placeholder="Subject"
             name="message"
-            ref={(el) => { this.subjectField = el }}
+            ref={(el) => { this.subjectField = el; }}
           />
         </div>
         <div style={flex}>
@@ -91,7 +92,7 @@ export default class MessageInstructor extends React.Component {
             style={textBox}
             placeholder="Please include the student's name here"
             name="message"
-            ref={(el) => { this.textArea = el }}
+            ref={(el) => { this.textArea = el; }}
           />
         </div>
         <HoverButton

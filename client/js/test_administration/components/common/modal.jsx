@@ -1,5 +1,5 @@
-import Modal        from '../../../common_components/modal';
 import { connect }  from 'react-redux';
+import Modal        from '../../../common_components/modal';
 
 const select = state => ({
   children: state.modal.children,

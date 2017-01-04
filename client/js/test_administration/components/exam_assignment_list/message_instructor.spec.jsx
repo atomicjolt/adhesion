@@ -21,21 +21,21 @@ describe('message instructor', () => {
     const button = TestUtils.scryRenderedDOMComponentsWithTag(result, 'button');
     const element = TestUtils.findRenderedDOMComponentWithTag(result, 'textarea');
     expect(button.length).toBe(2);
-    expect(element).toExist;
+    expect(element).not.toBeNull();
   });
 
   it('goes cancels message upon press of x button', () => {
-    expect(changed).toBeFalsy;
+    expect(changed).toBeFalsy();
     const button = TestUtils.findRenderedDOMComponentWithClass(result, 'spec_clear_button');
     TestUtils.Simulate.click(button);
-    expect(changed).toBeTruthy;
+    expect(changed).toBeTruthy();
   });
 
   it('sends the message upon send button click', () => {
-    expect(sent).toBeFalsy;
+    expect(sent).toBeFalsy();
     const button = TestUtils.findRenderedDOMComponentWithClass(result, 'send_btn_spec');
     TestUtils.Simulate.click(button);
-    expect(sent).toBeTruthy;
+    expect(sent).toBeTruthy();
   })
 });
 
