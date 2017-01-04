@@ -15,7 +15,7 @@ export default class ProctorCode extends React.Component {
     sendMessage: React.PropTypes.func.isRequired,
     showModal: React.PropTypes.func.isRequired,
     hideModal: React.PropTypes.func.isRequired,
-  }
+  };
 
   constructor() {
     super();
@@ -128,6 +128,8 @@ export default class ProctorCode extends React.Component {
                 style={styles.popupMenu}
                 status={assignedExam.status}
                 openMessageModal={() => this.openMessageModal()}
+                examId={assignedExam.exam_id}
+                courseId={assignedExam.course_id}
               /> : null
           }
         </td>

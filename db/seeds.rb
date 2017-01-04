@@ -8,6 +8,7 @@ proct_permissions = %w{
   LIST_QUIZZES_IN_COURSE
   GET_SUB_ACCOUNTS_OF_ACCOUNT
 }.join(",")
+canvas_permissions = "GET_SINGLE_QUIZ,LIST_QUESTIONS_IN_QUIZ_OR_SUBMISSION,CREATE_CONVERSATION"
 lti_applications = [{
   name: "SCORM Player",
   description: "SCORM Player",
@@ -27,7 +28,7 @@ lti_applications = [{
   name: "Test Administration Tool",
   description: "Test Administration",
   client_application_name: "test_administration",
-  canvas_api_permissions: "CREATE_CONVERSATION" # we need to figure this out
+  canvas_api_permissions: canvas_permissions,
 }]
 
 lti_consumer_uri = Rails.application.secrets.canvas_url
