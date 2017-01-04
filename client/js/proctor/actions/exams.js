@@ -5,7 +5,8 @@ import Network from '../../constants/network';
 const requests = [
   'ASSIGN_EXAM',
   'REASSIGN_EXAM',
-  'LOAD_ASSIGNED_EXAMS'
+  'LOAD_ASSIGNED_EXAMS',
+  'DOWNLOAD_FILE'
 ];
 
 export const Constants = wrapper([], requests);
@@ -29,4 +30,11 @@ export const reassignExam = (assignedExamId, body) => ({
   type: Constants.REASSIGN_EXAM,
   url: `/api/assigned_exams/${assignedExamId}`,
   body
+});
+
+export const downloadExamStatus = (examId, courseId) => ({
+  method: Network.GET,
+  type: Constants.DOWNLOAD_FILE,
+  url: '/download_status',
+  params: { exam_id: examId, course_id: courseId }
 });
