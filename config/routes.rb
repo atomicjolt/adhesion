@@ -37,6 +37,7 @@ Rails.application.routes.draw do
   end
 
   resources :users
+  resources :download_status, only: [:index]
 
   namespace :admin do
     root to: "lti_installs#index"
