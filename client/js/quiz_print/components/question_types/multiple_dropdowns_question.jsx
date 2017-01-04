@@ -24,7 +24,7 @@ export default function multipleDropdowns(props) {
     }
     answers[answer.blank_id][answer.id] = answer;
   });
-// debugger
+
   return (
     <div>
       <div dangerouslySetInnerHTML={{ __html: props.question_text }} />
