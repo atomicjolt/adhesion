@@ -9,6 +9,7 @@ import { getSubAccountsOfAccount } from '../../../libs/canvas/constants/accounts
 import StudentAssign               from './student_assign';
 import appHistory                  from '../../../history';
 import HoverButton                 from '../common/hover_button';
+import DownloadSvg                 from '../common/download_svg';
 
 const select = (state, props) => {
   const exam = _.find(state.exams.examList, ex => props.params.id === ex.id.toString());
@@ -40,6 +41,7 @@ export class BaseExamDistribution extends React.Component {
     assignExam: React.PropTypes.func.isRequired,
     reassignExam: React.PropTypes.func.isRequired,
     loadAssignedExams: React.PropTypes.func.isRequired,
+    downloadExamStatus: React.PropTypes.func.isRequired,
     testingCentersAccountId: React.PropTypes.number.isRequired,
     assignedExams: React.PropTypes.shape({}),
     instructorName: React.PropTypes.string.isRequired,
@@ -91,6 +93,14 @@ export class BaseExamDistribution extends React.Component {
         backgroundColor: Defines.lightBackground,
         border: 'none',
         fontSize: '20px',
+        cursor: 'pointer'
+      },
+      downloadSvg: {
+        float: 'right',
+        marginLeft: '15px',
+        backgroundColor: Defines.lightBackground,
+        border: 'none',
+        cursor: 'pointer'
       },
     };
   }
@@ -143,9 +153,10 @@ export class BaseExamDistribution extends React.Component {
     );
   }
 
-  assignExam(student, centerId) {
+  assignExam(student, centerId, centerName) {
     const body = {
       exam_id: this.props.params.id,
+      testing_center_name: centerName,
       course_id: this.props.lmsCourseId,
       student_id: student.id,
       student_name: student.name,
@@ -158,9 +169,10 @@ export class BaseExamDistribution extends React.Component {
     this.props.assignExam(body);
   }
 
-  reassignExam(assignedExamId, centerId) {
+  reassignExam(assignedExamId, centerId, centerName) {
     const body = {
-      testing_center_id: centerId
+      testing_center_id: centerId,
+      testing_center_name: centerName
     };
     this.props.reassignExam(assignedExamId, body);
   }
@@ -171,8 +183,8 @@ export class BaseExamDistribution extends React.Component {
         key={`student_${student.id}`}
         student={student}
         testingCenterList={this.props.testingCenterList}
-        assignExam={(studentId, centerId) => this.assignExam(studentId, centerId)}
-        reassignExam={(assignedId, centerId) => this.reassignExam(assignedId, centerId)}
+        assignExam={(studentId, centerId, name) => this.assignExam(studentId, centerId, name)}
+        reassignExam={(assignedId, centerId, name) => this.reassignExam(assignedId, centerId, name)}
         assignedExam={this.props.assignedExams[student.id]}
       />
     );
@@ -199,11 +211,23 @@ export class BaseExamDistribution extends React.Component {
 
   render() {
     const styles = BaseExamDistribution.getStyles();
+    const { params, lmsCourseId, downloadExamStatus } = this.props;
     return (
       <div>
         <h1 style={styles.header}>
           {this.props.exam.title}
-          <HoverButton className="spec_back" style={styles.floatRight} onClick={() => appHistory.push('/')}>
+          <HoverButton
+            className="spec_download"
+            style={styles.downloadSvg}
+            onClick={() => downloadExamStatus(params.id, lmsCourseId)}
+          >
+            <DownloadSvg />
+          </HoverButton>
+          <HoverButton
+            className="spec_back"
+            style={styles.floatRight}
+            onClick={() => appHistory.push('/')}
+          >
             &#10226;
           </HoverButton>
         </h1>
