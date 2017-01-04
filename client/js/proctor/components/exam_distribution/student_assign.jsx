@@ -83,8 +83,8 @@ export default class StudentAssign extends React.Component {
   render() {
     const styles = StudentAssign.getStyles();
     const { assignedExam, testingCenterList, student } = this.props;
+    const { selectedCenterId } = this.state;
     let assignObject;
-    const selectedCenterId = this.state.selectedCenterId;
 
     if (this.state.selectedCenterId != null && !assignedExam) {
       assignObject = (

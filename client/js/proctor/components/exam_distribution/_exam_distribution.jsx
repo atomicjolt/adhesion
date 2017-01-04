@@ -9,7 +9,7 @@ import { getSubAccountsOfAccount } from '../../../libs/canvas/constants/accounts
 import StudentAssign               from './student_assign';
 import appHistory                  from '../../../history';
 import HoverButton                 from '../common/hover_button';
-import DownLoadSvg                 from '../common/download_svg';
+import DownloadSvg                 from '../common/download_svg';
 
 const select = (state, props) => {
   const exam = _.find(state.exams.examList, ex => props.params.id === ex.id.toString());
@@ -211,7 +211,7 @@ export class BaseExamDistribution extends React.Component {
 
   render() {
     const styles = BaseExamDistribution.getStyles();
-    const { params, lmsCourseId } = this.props;
+    const { params, lmsCourseId, downloadExamStatus } = this.props;
     return (
       <div>
         <h1 style={styles.header}>
@@ -219,11 +219,15 @@ export class BaseExamDistribution extends React.Component {
           <HoverButton
             className="spec_download"
             style={styles.downloadSvg}
-            onClick={() => this.props.downloadExamStatus(params.id, lmsCourseId)}
+            onClick={() => downloadExamStatus(params.id, lmsCourseId)}
           >
-            <DownLoadSvg />
+            <DownloadSvg />
           </HoverButton>
-          <HoverButton className="spec_back" style={styles.floatRight} onClick={() => appHistory.push('/')}>
+          <HoverButton
+            className="spec_back"
+            style={styles.floatRight}
+            onClick={() => appHistory.push('/')}
+          >
             &#10226;
           </HoverButton>
         </h1>
