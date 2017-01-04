@@ -96,7 +96,7 @@ export class BaseExamAssignmentList extends React.Component {
         key={`proctor_${proctorCode.id}`}
         proctorCode={proctorCode}
         assignedExam={proctorCode.assigned_exam}
-        sendMessage={(id, body) => this.sendMessage(id, body)}
+        sendMessage={(id, body, subject) => this.sendMessage(id, body, subject)}
         showModal={this.props.showModal}
         hideModal={this.props.hideModal}
       />
@@ -104,6 +104,7 @@ export class BaseExamAssignmentList extends React.Component {
   }
 
   sendMessage(id, body, subject) {
+    debugger
     const payload = {
       recipients: [_.toString(id)],
       subject,

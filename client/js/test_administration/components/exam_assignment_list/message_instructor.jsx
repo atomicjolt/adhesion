@@ -13,90 +13,92 @@ export default class MessageInstructor extends React.Component {
     this.textArea = null;
     this.subjectField =  null;
   }
+
+  getStyles() {
+    return {
+      popupStyle: {
+        boxShadow: `0px 0px 5px ${Defines.darkGrey}`,
+        backgroundColor: 'white',
+        padding: '20px',
+        position: 'fixed',
+        top: '10vh',
+        bottom: '10vh',
+        left: '10vw',
+        right: '10vw',
+        borderRadius: '5px',
+      },
+      subjectBox: {
+        flex: '1',
+        marginTop: '20px',
+        fontSize: '1.1em',
+        padding: '5px',
+        borderRadius: '3px',
+        border: 'solid lightgrey 2px',
+      },
+      textBox: {
+        flex: '1',
+        marginTop: '20px',
+        marginBottom: '20px',
+        border: 'solid lightgrey 2px',
+        borderRadius: '3px',
+        focus: 'top',
+      },
+      flex: {
+        display: 'flex',
+      },
+      buttonStyle: {
+        backgroundColor: Defines.tanishBrown,
+        color: 'white',
+        border: 'none',
+        padding: '10px 20px',
+        cursor: 'pointer',
+      },
+      exitButtonStyle: {
+        border: 'none',
+        cursor: 'pointer',
+        backgroundColor: 'white',
+        color: Defines.lightText,
+        position: 'absolute',
+        top: '20px',
+        right: '20px',
+        padding: '0px',
+      },
+    };
+  }
+
   render() {
-    const popupStyle = {
-      boxShadow: `0px 0px 5px ${Defines.darkGrey}`,
-      backgroundColor: 'white',
-      padding: '20px',
-      position: 'fixed',
-      top: '10vh',
-      bottom: '10vh',
-      left: '10vw',
-      right: '10vw',
-      borderRadius: '5px',
-    };
-
-    const subjectBox = {
-      flex: '1',
-      marginTop: '20px',
-      fontSize: '1.1em',
-      padding: '5px',
-      borderRadius: '3px',
-      border: 'solid lightgrey 2px',
-    };
-
-    const textBox = {
-      flex: '1',
-      marginTop: '20px',
-      marginBottom: '20px',
-      border: 'solid lightgrey 2px',
-      borderRadius: '3px',
-      focus: 'top',
-    };
-
-    const flex = {
-      display: 'flex',
-    };
-
-    const buttonStyle = {
-      backgroundColor: Defines.tanishBrown,
-      color: 'white',
-      border: 'none',
-      padding: '10px 20px',
-      cursor: 'pointer',
-    };
-
-    const exitButtonStyle = {
-      ...buttonStyle,
-      backgroundColor: 'white',
-      color: Defines.lightText,
-      position: 'absolute',
-      top: '20px',
-      right: '20px',
-      padding: '0px',
-    };
-
+    const styles = this.getStyles();
     return (
-      <div style={popupStyle}>
+      <div style={styles.popupStyle}>
         Message to the Instructor
         <HoverButton
           className="spec_clear_button"
-          style={exitButtonStyle}
+          style={styles.exitButtonStyle}
           onClick={() => this.props.closeMessageModal()}
         >
           <i className="material-icons">clear</i>
         </HoverButton>
         <div style={{ clear: 'both' }} />
-        <div style={flex}>
+        <div style={styles.flex}>
           <input
-            style={subjectBox}
+            style={styles.subjectBox}
             type="textarea"
             placeholder="Subject"
             name="message"
             ref={(el) => { this.subjectField = el; }}
           />
         </div>
-        <div style={flex}>
+        <div style={styles.flex}>
           <textarea
             rows="25"
-            style={textBox}
+            style={styles.textBox}
             placeholder="Please include the student's name here"
             name="message"
             ref={(el) => { this.textArea = el; }}
           />
         </div>
         <HoverButton
-          style={buttonStyle}
+          style={styles.buttonStyle}
           onClick={() => this.props.sendMessage(
             this.textArea.value,
             this.subjectField.value,
