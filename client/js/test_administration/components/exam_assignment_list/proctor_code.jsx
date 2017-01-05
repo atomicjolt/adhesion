@@ -71,21 +71,21 @@ export default class ProctorCode extends React.Component {
     this.setState({ opened: !this.state.opened });
   }
 
-  sendMessage(body, subject) {
+  sendMessage(id, body, subject) {
     this.props.sendMessage(
-      this.props.assignedExam.instructor_id,
+      id,
       body,
       subject,
     );
     this.props.hideModal();
   }
 
-  openMessageModal() {
+  openMessageModal(id) {
     this.setState({
       opened: !this.state.opened,
     });
     this.props.showModal(<MessageInstructor
-      sendMessage={(body, subject) => this.sendMessage(body, subject)}
+      sendMessage={(body, subject) => this.sendMessage(id, body, subject)}
       closeMessageModal={() => this.props.hideModal()}
     />);
   }
@@ -127,7 +127,7 @@ export default class ProctorCode extends React.Component {
               <PopupMenu
                 style={styles.popupMenu}
                 status={assignedExam.status}
-                openMessageModal={() => this.openMessageModal()}
+                openMessageModal={() => this.openMessageModal(assignedExam.instructor_id)}
                 examId={assignedExam.exam_id}
                 courseId={assignedExam.course_id}
               /> : null
