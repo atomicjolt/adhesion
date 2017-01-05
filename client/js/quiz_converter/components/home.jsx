@@ -1,5 +1,5 @@
 import React from 'react';
-
+// TODO: Use actions to send the request instead of the form.
 export default () => (
   <form action="api/quiz_conversions" method="post" encType="multipart/form-data">
     <input type="hidden" name="oauth_consumer_key" value="quiz-converter" />
