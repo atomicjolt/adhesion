@@ -20,5 +20,5 @@ export const testingCentersAccountSetup = (accountId, instanceName) => ({
   method: Network.POST,
   type: Constants.TESTING_CENTERS_ACCOUNT_SETUP,
   url: '/api/testing_centers_accounts',
-  params: { account_id: accountId, instance_name: instanceName }
+  params: { testing_centers_account_id: accountId, canvas_instance_name: instanceName }
 });
