@@ -3,9 +3,12 @@ import { connect }             from 'react-redux';
 import _                       from 'lodash';
 import Fuse                    from 'fuse.js';
 import * as ProctorCodeActions from '../../actions/proctor_codes';
+import * as ModalActions       from '../../../actions/modal';
 import Defines                 from '../../defines';
 import ProctorCode             from './proctor_code';
 import SearchBar               from './search_bar';
+import canvasRequest           from '../../../libs/canvas/action';
+import { createConversation }  from '../../../libs/canvas/constants/conversations';
 
 const select = state => ({
   lmsUserId: state.settings.lmsUserId,
@@ -19,6 +22,9 @@ export class BaseExamAssignmentList extends React.Component {
     proctorCodeList: React.PropTypes.arrayOf(
       React.PropTypes.shape({})
     ).isRequired,
+    hideModal: React.PropTypes.func.isRequired,
+    showModal: React.PropTypes.func.isRequired,
+    canvasRequest: React.PropTypes.func.isRequired,
   }
 
   static tableHeader(styles) {
@@ -62,6 +68,7 @@ export class BaseExamAssignmentList extends React.Component {
     this.props.loadProctorCodes(this.props.lmsUserId);
   }
 
+
   getProctorCodes() {
     const options = {
       shouldSort: false,
@@ -89,8 +96,20 @@ export class BaseExamAssignmentList extends React.Component {
         key={`proctor_${proctorCode.id}`}
         proctorCode={proctorCode}
         assignedExam={proctorCode.assigned_exam}
+        sendMessage={(id, body, subject) => this.sendMessage(id, body, subject)}
+        showModal={this.props.showModal}
+        hideModal={this.props.hideModal}
       />
     ));
+  }
+
+  sendMessage(id, body, subject) {
+    const payload = {
+      recipients: [_.toString(id)],
+      subject,
+      body,
+    };
+    this.props.canvasRequest(createConversation, {}, payload);
   }
 
   render() {
@@ -111,4 +130,8 @@ export class BaseExamAssignmentList extends React.Component {
   }
 }
 
-export default connect(select, ProctorCodeActions)(BaseExamAssignmentList);
+export default connect(select, {
+  ...ProctorCodeActions,
+  ...ModalActions,
+  canvasRequest,
+})(BaseExamAssignmentList);
