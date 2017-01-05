@@ -70,6 +70,8 @@ Rails.application.routes.draw do
         get "search", on: :collection
       end
     end
+
+    resources :quiz_conversions, only: [:create]
   end
 
   mount MailPreview => "mail_view" if Rails.env.development?
