@@ -9,6 +9,7 @@ describe('Exam Assignment list', () => {
     const props = {
       lmsUserId: '1',
       loadProctorCodes: () => {},
+      testingCentersAccountSetup: () => {},
       proctorCodeList: [{
         proctor_id: 1,
         code: 'imaCODE',
