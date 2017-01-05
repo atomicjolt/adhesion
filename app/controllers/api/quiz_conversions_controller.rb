@@ -35,6 +35,9 @@ class Api::QuizConversionsController < ApplicationController
       )
     end
 
+    quiz_doc.close
+    answer_key.close
+    
     render status: 200, json: {}
   end
 end
