@@ -12,13 +12,18 @@ import { createConversation }  from '../../../libs/canvas/constants/conversation
 
 const select = state => ({
   lmsUserId: state.settings.lmsUserId,
+  currentAccountId: state.settings.customCanvasAccountID,
+  toolConsumerInstanceName: state.settings.toolConsumerInstanceName,
   proctorCodeList: state.proctorCodes.proctorCodeList,
 });
 
 export class BaseExamAssignmentList extends React.Component {
   static propTypes =  {
     loadProctorCodes: React.PropTypes.func.isRequired,
+    testingCentersAccountSetup: React.PropTypes.func.isRequired,
+    toolConsumerInstanceName: React.PropTypes.func.isRequired,
     lmsUserId: React.PropTypes.string.isRequired,
+    currentAccountId: React.PropTypes.string.isRequired,
     proctorCodeList: React.PropTypes.arrayOf(
       React.PropTypes.shape({})
     ).isRequired,
@@ -66,6 +71,10 @@ export class BaseExamAssignmentList extends React.Component {
 
   componentWillMount() {
     this.props.loadProctorCodes(this.props.lmsUserId);
+    this.props.testingCentersAccountSetup(
+      this.props.currentAccountId,
+      this.props.toolConsumerInstanceName
+    );
   }
 
 

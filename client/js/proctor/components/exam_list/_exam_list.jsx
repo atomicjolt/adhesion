@@ -1,23 +1,27 @@
-import React                   from 'react';
-import { connect }             from 'react-redux';
-import _                       from 'lodash';
-import appHistory              from '../../../history';
-import Defines                 from '../../defines';
-import canvasRequest           from '../../../libs/canvas/action';
-import { listQuizzesInCourse } from '../../../libs/canvas/constants/quizzes';
-import ExamListItem            from './exam_list_item';
+import React                         from 'react';
+import { connect }                   from 'react-redux';
+import _                             from 'lodash';
+import appHistory                    from '../../../history';
+import Defines                       from '../../defines';
+import canvasRequest                 from '../../../libs/canvas/action';
+import { listQuizzesInCourse }       from '../../../libs/canvas/constants/quizzes';
+import ExamListItem                  from './exam_list_item';
+import { getTestingCentersAccount }  from '../../actions/testing_centers_account';
 
 const select = state => ({
   examList: state.exams.examList,
   lmsCourseId: state.settings.lmsCourseId,
+  toolConsumerInstanceName: state.settings.toolConsumerInstanceName,
 });
 
 export class BaseExamList extends React.Component {
 
   static propTypes = {
     canvasRequest: React.PropTypes.func.isRequired,
+    getTestingCentersAccount: React.PropTypes.func.isRequired,
     lmsCourseId: React.PropTypes.string.isRequired,
     examList: React.PropTypes.arrayOf(React.PropTypes.shape({})),
+    toolConsumerInstanceName: React.PropTypes.string.isRequired,
   }
 
   static goToExam(id) {
@@ -46,7 +50,7 @@ export class BaseExamList extends React.Component {
     const params = {
       course_id: this.props.lmsCourseId,
     };
-
+    this.props.getTestingCentersAccount(this.props.toolConsumerInstanceName);
     this.props.canvasRequest(listQuizzesInCourse, params);
   }
 
@@ -75,4 +79,4 @@ export class BaseExamList extends React.Component {
   }
 }
 
-export default connect(select, { canvasRequest })(BaseExamList);
+export default connect(select, { canvasRequest, getTestingCentersAccount })(BaseExamList);

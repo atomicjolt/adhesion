@@ -20,7 +20,7 @@ const select = (state, props) => {
     exam,
     instructorName: state.settings.displayName,
     studentList: state.students.studentList,
-    testingCentersAccountId: state.settings.testingCentersAccountId,
+    testingCentersAccountId: state.testingCenters.testingCentersAccount.testing_centers_account_id,
     testingCenterList: state.testingCenters.testingCenterList,
     assignedExams: state.exams.assignedExams,
     ready: state.exams.ready,
