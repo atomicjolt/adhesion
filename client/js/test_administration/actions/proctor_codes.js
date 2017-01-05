@@ -17,9 +17,8 @@ export const loadProctorCodes = proctorId => ({
 });
 
 export const testingCentersAccountSetup = (accountId, instanceName) => ({
-  method: Network.GET,
+  method: Network.POST,
   type: Constants.TESTING_CENTERS_ACCOUNT_SETUP,
   url: '/api/testing_centers_accounts',
   params: { account_id: accountId, instance_name: instanceName }
 });
-
