@@ -1,5 +1,5 @@
 import { Constants as ModalConstants } from '../actions/modal';
-import Modal from './Modal';
+import modal from './modal';
 
 describe('modal reducer', () => {
   describe('initial state', () => {
@@ -23,7 +23,7 @@ describe('modal reducer', () => {
         visible: false,
       };
       const state = initialState;
-      const newState = Modal(state, {
+      const newState = modal(state, {
         type: ModalConstants.HIDE_MODAL,
       });
       expect(newState.children).toBe(null);
