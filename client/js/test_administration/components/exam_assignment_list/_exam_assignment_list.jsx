@@ -71,7 +71,10 @@ export class BaseExamAssignmentList extends React.Component {
 
   componentWillMount() {
     this.props.loadProctorCodes(this.props.lmsUserId);
-    this.props.testingCentersAccountSetup(this.props.currentAccountId, this.props.toolConsumerInstanceName);
+    this.props.testingCentersAccountSetup(
+      this.props.currentAccountId,
+      this.props.toolConsumerInstanceName
+    );
   }
 
 
