@@ -14,3 +14,10 @@ export const loadProctorCodes = proctorId => ({
   url: '/api/proctor_codes',
   params: { proctor_id: proctorId }
 });
+
+export const getTestingCenterId = accountId => ({
+  method: Network.GET,
+  url: '/account_ids',
+  params: { account_id: accountId }
+});
+

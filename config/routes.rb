@@ -37,6 +37,7 @@ Rails.application.routes.draw do
   end
 
   resources :users
+  resources :account_ids
   resources :download_status, only: [:index]
 
   namespace :admin do
