@@ -3,7 +3,8 @@ import Network from '../../constants/network';
 
 // Actions that make an api request
 const requests = [
-  'LOAD_PROCTOR_CODES'
+  'LOAD_PROCTOR_CODES',
+  'TESTING_CENTERS_ACCOUNT_SETUP'
 ];
 
 export const Constants = wrapper([], requests);
@@ -15,9 +16,10 @@ export const loadProctorCodes = proctorId => ({
   params: { proctor_id: proctorId }
 });
 
-export const getTestingCenterId = accountId => ({
+export const testingCentersAccountSetup = (accountId, instanceName) => ({
   method: Network.GET,
-  url: '/account_ids',
-  params: { account_id: accountId }
+  type: Constants.TESTING_CENTERS_ACCOUNT_SETUP,
+  url: '/api/testing_centers_accounts',
+  params: { account_id: accountId, instance_name: instanceName }
 });
 

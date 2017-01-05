@@ -37,7 +37,6 @@ Rails.application.routes.draw do
   end
 
   resources :users
-  resources :account_ids
   resources :download_status, only: [:index]
 
   namespace :admin do
@@ -54,6 +53,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :jwts
+    resources :testing_centers_accounts
     resources :scorm_courses do
       get "launch" => "scorm_courses#launch"
       get "preview" => "scorm_courses#preview"

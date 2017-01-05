@@ -177,11 +177,11 @@ ActiveRecord::Schema.define(version: 20170105163714) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "testing_center_ids", force: :cascade do |t|
-    t.integer  "root_account_id"
-    t.integer  "testing_center_id"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+  create_table "testing_centers_accounts", force: :cascade do |t|
+    t.string   "canvas_instance_name"
+    t.integer  "testing_centers_account_id"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
   create_table "user_courses", force: :cascade do |t|
