@@ -8,9 +8,7 @@ import MessageInstructor from './message_instructor';
 
 export default class ProctorCode extends React.Component {
   static propTypes = {
-    assignedExam: React.PropTypes.shape({
-      instructor_id: React.PropTypes.number,
-    }),
+    assignedExam: React.PropTypes.shape({}),
     proctorCode: React.PropTypes.shape({}),
     sendMessage: React.PropTypes.func.isRequired,
     showModal: React.PropTypes.func.isRequired,
