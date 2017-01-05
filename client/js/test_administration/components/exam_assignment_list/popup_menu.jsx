@@ -1,7 +1,8 @@
-import React        from 'react';
-import _            from 'lodash';
-import HoverButton  from '../common/hover_button';
-import Defines      from '../../defines';
+import React             from 'react';
+import _                 from 'lodash';
+import { hashHistory }  from 'react-router';
+import HoverButton       from '../common/hover_button';
+import Defines           from '../../defines';
 
 export default function popupMenu(props) {
   const popupStyle = {
@@ -57,6 +58,7 @@ export default function popupMenu(props) {
         <HoverButton
           style={buttonStyle}
           hoveredStyle={hoveredStyle}
+          onClick={() => hashHistory.push(`/print?courseId=${props.courseId}&quizId=${props.examId}`)}
         >
           Print Test
         </HoverButton>
@@ -73,6 +75,7 @@ export default function popupMenu(props) {
         <HoverButton
           style={buttonStyle}
           hoveredStyle={hoveredStyle}
+          onClick={() => props.openMessageModal()}
         >
           Message Instructor
         </HoverButton>
@@ -84,4 +87,7 @@ export default function popupMenu(props) {
 popupMenu.propTypes = {
   style: React.PropTypes.shape({}),
   status: React.PropTypes.string.isRequired,
+  openMessageModal: React.PropTypes.func.isRequired,
+  courseId: React.PropTypes.string.isRequired,
+  examId: React.PropTypes.string.isRequired,
 };

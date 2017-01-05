@@ -1,20 +1,25 @@
-import React        from 'react';
-import moment       from 'moment';
-import _            from 'lodash';
-import Defines      from '../../defines';
-import HoverButton  from '../common/hover_button';
-import PopupMenu    from './popup_menu';
+import React             from 'react';
+import moment            from 'moment';
+import _                 from 'lodash';
+import Defines           from '../../defines';
+import HoverButton       from '../common/hover_button';
+import PopupMenu         from './popup_menu';
+import MessageInstructor from './message_instructor';
 
 export default class ProctorCode extends React.Component {
   static propTypes = {
     assignedExam: React.PropTypes.shape({}),
-    proctorCode: React.PropTypes.shape({})
-  }
+    proctorCode: React.PropTypes.shape({}),
+    sendMessage: React.PropTypes.func.isRequired,
+    showModal: React.PropTypes.func.isRequired,
+    hideModal: React.PropTypes.func.isRequired,
+  };
 
   constructor() {
     super();
     this.state = {
       opened: false,
+      messageOpened: false,
     };
   }
 
@@ -56,12 +61,31 @@ export default class ProctorCode extends React.Component {
         top: '63px',
         right: '20px',
         zIndex: '1',
-      }
+      },
     };
   }
 
   iconClick() {
     this.setState({ opened: !this.state.opened });
+  }
+
+  sendMessage(id, body, subject) {
+    this.props.sendMessage(
+      id,
+      body,
+      subject,
+    );
+    this.props.hideModal();
+  }
+
+  openMessageModal(id) {
+    this.setState({
+      opened: !this.state.opened,
+    });
+    this.props.showModal(<MessageInstructor
+      sendMessage={(body, subject) => this.sendMessage(id, body, subject)}
+      closeMessageModal={() => this.props.hideModal()}
+    />);
   }
 
   render() {
@@ -98,7 +122,13 @@ export default class ProctorCode extends React.Component {
           </HoverButton>
           {
             this.state.opened ?
-              <PopupMenu style={styles.popupMenu} status={assignedExam.status} /> : null
+              <PopupMenu
+                style={styles.popupMenu}
+                status={assignedExam.status}
+                openMessageModal={() => this.openMessageModal(assignedExam.instructor_id)}
+                examId={assignedExam.exam_id}
+                courseId={assignedExam.course_id}
+              /> : null
           }
         </td>
       </tr>

@@ -8,6 +8,7 @@ describe('Exam list', () => {
   beforeEach(() => {
     const props = {
       canvasRequest: () => {},
+      getTestingCentersAccount: () => {},
       lmsCourseId: '1',
       examList: [{ title: 'america' }],
     };

@@ -1,0 +1,3 @@
+class DownloadStatus < ActiveRecord::Base
+
+end

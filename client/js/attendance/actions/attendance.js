@@ -36,15 +36,12 @@ export const markStudents = (students, lmsCourseId, date, status) => {
 };
 
 
-export const downloadFile = (lms_course_id, startDate, endDate) => {
-  const url = `courses/${lms_course_id}/exports/attendances.csv`;
-  return {
-    type: Constants.DOWNLOAD_FILE,
-    method: Network.GET,
-    url,
-    params: {
-      startDate,
-      endDate
-    }
-  };
-};
+export const downloadFile = (lmsCourseId, startDate, endDate) => ({
+  type: Constants.DOWNLOAD_FILE,
+  method: Network.GET,
+  url: `courses/${lmsCourseId}/exports/attendances.csv`,
+  params: {
+    startDate,
+    endDate,
+  }
+});
