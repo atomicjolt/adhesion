@@ -69,25 +69,25 @@ module Concerns
 
     private
 
-      def valid_timestamp?(timestamp)
-        Time.at(timestamp.to_i) >= (Time.now - 1.hour)
-      end
+    def valid_timestamp?(timestamp)
+      Time.at(timestamp.to_i) >= (Time.now - 1.hour)
+    end
 
-      def generate_email
-        "generated-#{User.maximum(:id).next}@example.com"
-      end
+    def generate_email
+      "generated-#{User.maximum(:id).next}@example.com"
+    end
 
-      def safe_save_email(user)
-        begin
-          user.save!
-        rescue ActiveRecord::RecordInvalid => ex
-          if ex.to_s == "Validation failed: Email has already been taken"
-            false
-          else
-            raise ex
-          end
+    def safe_save_email(user)
+      begin
+        user.save!
+      rescue ActiveRecord::RecordInvalid => ex
+        if ex.to_s == "Validation failed: Email has already been taken"
+          false
+        else
+          raise ex
         end
       end
+    end
 
   end
 end
