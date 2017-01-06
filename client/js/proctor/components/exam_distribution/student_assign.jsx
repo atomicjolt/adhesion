@@ -72,10 +72,6 @@ export default class StudentAssign extends React.Component {
     return 'Unassigned';
   }
 
-  reassignExam(centerId) {
-    this.props.reassignExam(this.props.assignedExam.id, centerId);
-  }
-
   changeOption(option) {
     this.setState({ selectedCenterId: option.value });
   }
@@ -107,11 +103,11 @@ export default class StudentAssign extends React.Component {
         <HoverButton
           style={styles.button}
           hoveredStyle={styles.hoveredStyle}
-          onClick={() => this.reassignExam(
+          onClick={() => this.props.reassignExam(
             assignedExam.id,
             selectedCenterId,
             testingCenterList[selectedCenterId].name
-            )}
+          )}
         >
           Reassign
         </HoverButton>
