@@ -23,7 +23,7 @@ export default function exams(state = defaultState, action) {
     case 'REASSIGN_EXAM_DONE':
     case 'ASSIGN_EXAM_DONE': {
       const newState = _.cloneDeep(state);
-      newState.assignedExams[action.payload.exam_id][action.payload.student_id] = action.payload;
+      newState.assignedExams[action.payload.student_id] = action.payload;
       return newState;
     }
 
