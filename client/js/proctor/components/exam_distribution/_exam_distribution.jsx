@@ -21,7 +21,7 @@ const select = (state, props) => {
     studentList: state.students.studentList,
     testingCentersAccountId: state.testingCenters.testingCentersAccount.testing_centers_account_id,
     testingCenterList: state.testingCenters.testingCenterList,
-    assignedExams: state.exams.assignedExams[props.params.id] || {},
+    assignedExams: state.exams.assignedExams,
     ready: state.exams.ready,
   };
 };
@@ -44,7 +44,8 @@ export class BaseExamDistribution extends React.Component {
     testingCentersAccountId: React.PropTypes.number.isRequired,
     assignedExams: React.PropTypes.shape({}),
     instructorName: React.PropTypes.string.isRequired,
-    ready: React.PropTypes.bool.isRequired
+    ready: React.PropTypes.bool.isRequired,
+    clearState: React.PropTypes.func.isRequired,
   }
 
   static getStyles() {
@@ -202,6 +203,11 @@ export class BaseExamDistribution extends React.Component {
     return _.map(students, student => (this.buildStudentAssign(student)));
   }
 
+  goBack() {
+    this.props.clearState();
+    appHistory.push('/');
+  }
+
   render() {
     const styles = BaseExamDistribution.getStyles();
     const { params, lmsCourseId, downloadExamStatus } = this.props;
@@ -219,7 +225,7 @@ export class BaseExamDistribution extends React.Component {
           <HoverButton
             className="spec_back"
             style={styles.floatRight}
-            onClick={() => appHistory.push('/')}
+            onClick={() => this.goBack()}
           >
             <i className="material-icons">arrow_back</i>
           </HoverButton>

@@ -9,7 +9,11 @@ const requests = [
   'DOWNLOAD_FILE'
 ];
 
-export const Constants = wrapper([], requests);
+const actions = [
+  'CLEAR_STATE',
+];
+
+export const Constants = wrapper(actions, requests);
 
 export const loadAssignedExams = examId => ({
   method: Network.GET,
@@ -37,4 +41,8 @@ export const downloadExamStatus = (examId, courseId) => ({
   type: Constants.DOWNLOAD_FILE,
   url: '/download_status',
   params: { exam_id: examId, course_id: courseId }
+});
+
+export const clearState = () => ({
+  type: Constants.CLEAR_STATE,
 });
