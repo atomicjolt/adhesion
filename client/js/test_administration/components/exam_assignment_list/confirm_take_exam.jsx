@@ -40,10 +40,15 @@ export default function confirmTakeExam(props) {
         Time limits, shuffled questions, and other factors will still apply.
         Only select Begin Quiz if you are prepared to enter answers for this student.
       </div>
-      <button style={styles.button} onClick={() => props.takeExam()}>Cancel</button>
+      <button
+        style={styles.button}
+        onClick={() => props.closeModal()}
+      >
+        Cancel
+      </button>
       <button
         style={{ ...styles.button, ...styles.confirm }}
-        onClick={() => props.closeModal()}
+        onClick={() => props.takeExam()}
       >
         Begin Quiz
       </button>
