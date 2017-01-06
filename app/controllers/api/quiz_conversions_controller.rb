@@ -6,13 +6,9 @@ class Api::QuizConversionsController < ApplicationController
   before_action :validate_token
 
   def create
-    quiz_doc = Tempfile.new
-    quiz_doc.binmode
-    quiz_doc.write(params[:quiz_doc].read)
+    quiz_doc = get_quiz_doc
 
-    answer_key = Tempfile.new
-    answer_key.binmode
-    answer_key.write(params[:answer_key].read)
+    answer_key = get_answer_key
 
     # TODO: Pass in answer key as well, once word2quiz is updated for it.
     quiz = Word2Quiz.parse_quiz(quiz_doc)
@@ -37,7 +33,23 @@ class Api::QuizConversionsController < ApplicationController
 
     quiz_doc.close
     answer_key.close
-    
+
     render status: 200, json: {}
+  end
+
+  private
+
+  def get_quiz_doc
+    quiz_doc = Tempfile.new
+    quiz_doc.binmode
+    quiz_doc.write(params[:quiz_doc].read)
+    quiz_doc
+  end
+
+  def get_answer_key
+    answer_key = Tempfile.new
+    answer_key.binmode
+    answer_key.write(params[:answer_key].read)
+    answer_key
   end
 end
