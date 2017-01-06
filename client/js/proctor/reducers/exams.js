@@ -14,7 +14,11 @@ export default function exams(state = defaultState, action) {
     case 'LOAD_ASSIGNED_EXAMS_DONE': {
       const newState = _.cloneDeep(state);
       _.forEach(action.payload, (assignedExam) => {
-        newState.assignedExams[assignedExam.student_id] = assignedExam;
+        const { exam_id, student_id } = assignedExam;
+        if (!newState.assignedExams[exam_id]) {
+          newState.assignedExams[exam_id] = {};
+        }
+        newState.assignedExams[exam_id][student_id] = assignedExam;
       });
       newState.ready = true;
       return newState;
