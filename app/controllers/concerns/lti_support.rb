@@ -46,7 +46,8 @@ module Concerns
           domain = params["custom_canvas_api_domain"] || Rails.application.secrets.application_url
           email = params[:lis_person_contact_email_primary]
           email = "user-#{params[:user_id]}@#{domain}" if email.blank? && params[:user_id].present?
-          email = generate_email(domain) if email.blank? # If there isn't an email then we have to make one up. We use the user_id and instance guid
+          email = generate_email if email.blank? # If there isn't an email then we have to make
+          # one up. We use the user_id and instance guid
 
           user = User.new(email: email, name: name)
           user.password              = ::SecureRandom::hex(15)
@@ -58,7 +59,7 @@ module Concerns
 
           count = 0 # don't go infinite
           while !safe_save_email(user) && count < 10 do
-            user.email = generate_email(domain)
+            user.email = generate_email
             count = count + 1
           end
 
@@ -69,25 +70,23 @@ module Concerns
 
     private
 
-      def valid_timestamp?(timestamp)
-        Time.at(timestamp.to_i) >= (Time.now - 1.hour)
-      end
+    def valid_timestamp?(timestamp)
+      Time.at(timestamp.to_i) >= (Time.now - 1.hour)
+    end
 
-      def generate_email(domain)
-        "generated-#{User.maximum(:id).next}@#{domain}"
-      end
+    def generate_email
+      "generated-#{User.maximum(:id).next}@example.com"
+    end
 
-      def safe_save_email(user)
-        begin
-          user.save!
-        rescue ActiveRecord::RecordInvalid => ex
-          if ex.to_s == "Validation failed: Email has already been taken"
-            false
-          else
-            raise ex
-          end
-        end
+    def safe_save_email(user)
+      user.save!
+    rescue ActiveRecord::RecordInvalid => ex
+      if ex.to_s == "Validation failed: Email has already been taken"
+        false
+      else
+        raise ex
       end
+    end
 
   end
 end
