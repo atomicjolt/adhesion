@@ -12,10 +12,15 @@ RSpec.describe Api::QuizConversionsController, type: :controller do
 
   describe "POST create" do
     before do
-      request.headers['Authorization'] = @user_token
+      request.headers["Authorization"] = @user_token
 
-      allow_any_instance_of(Api::QuizConversionsController).to receive(:get_quiz_doc).and_return(double(name: "fake doc", close: nil))
-      allow_any_instance_of(Api::QuizConversionsController).to receive(:get_answer_key).and_return(double(name: "fake answer key", close: nil))
+      allow_any_instance_of(Api::QuizConversionsController).
+        to receive(:get_quiz_doc).
+        and_return(double(name: "fake doc", close: nil))
+
+      allow_any_instance_of(Api::QuizConversionsController).
+        to receive(:get_answer_key).
+        and_return(double(name: "fake answer key", close: nil))
 
       @fake_quiz = double(
         to_canvas: {
@@ -29,16 +34,20 @@ RSpec.describe Api::QuizConversionsController, type: :controller do
         ]
       )
 
-      allow(Word2Quiz).to receive(:parse_quiz).with(an_upload("fake doc")).and_return(@fake_quiz)
+      allow(Word2Quiz).to receive(:parse_quiz).
+        with(an_upload("fake doc")).
+        and_return(@fake_quiz)
 
       @double = double(proxy: double(body: '{ "id": "1" }'))
       allow_any_instance_of(Concerns::CanvasSupport).
-          to receive(:canvas_api).
-          and_return(@double)
+        to receive(:canvas_api).
+        and_return(@double)
     end
 
     it "should parse the uploaded quiz" do
-      expect(Word2Quiz).to receive(:parse_quiz).with(an_upload("fake doc")).and_return(@fake_quiz)
+      expect(Word2Quiz).to receive(:parse_quiz).
+        with(an_upload("fake doc")).
+        and_return(@fake_quiz)
 
       post :create, {
         quiz_doc: @file,
