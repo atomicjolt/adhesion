@@ -22,7 +22,7 @@ const select = (state, props) => {
     studentList: state.students.studentList,
     testingCentersAccountId: state.testingCenters.testingCentersAccount.testing_centers_account_id,
     testingCenterList: state.testingCenters.testingCenterList,
-    assignedExams: state.exams.assignedExams,
+    assignedExams: state.exams.assignedExams[props.params.id] || {},
     ready: state.exams.ready,
   };
 };
