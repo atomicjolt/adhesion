@@ -58,7 +58,7 @@ module Concerns
 
           count = 0 # don't go infinite
           while !safe_save_email(user) && count < 10 do
-            user.email = generate_email(domain)
+            user.email = generate_email
             count = count + 1
           end
 
@@ -73,8 +73,8 @@ module Concerns
         Time.at(timestamp.to_i) >= (Time.now - 1.hour)
       end
 
-      def generate_email(domain)
-        "generated-#{User.maximum(:id).next}@#{domain}"
+      def generate_email
+        "generated-#{User.maximum(:id).next}@example.com"
       end
 
       def safe_save_email(user)
