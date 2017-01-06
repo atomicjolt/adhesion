@@ -58,5 +58,4 @@ export default function confirmTakeExam(props) {
 
 confirmTakeExam.propTypes = {
   takeExam: React.PropTypes.func.isRequired,
-  closeModal: React.PropTypes.func.isRequired,
 };
