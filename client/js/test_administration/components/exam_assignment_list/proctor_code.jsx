@@ -5,6 +5,7 @@ import Defines           from '../../defines';
 import HoverButton       from '../common/hover_button';
 import PopupMenu         from './popup_menu';
 import MessageInstructor from './message_instructor';
+import ConfirmTakeExam   from './confirm_take_exam';
 
 export default class ProctorCode extends React.Component {
   static propTypes = {
@@ -78,6 +79,11 @@ export default class ProctorCode extends React.Component {
     this.props.hideModal();
   }
 
+  takeExam() {
+  //  TODO: write this (link to new canvas route)
+    this.props.hideModal();
+  }
+
   openMessageModal(id) {
     this.setState({
       opened: !this.state.opened,
@@ -86,6 +92,18 @@ export default class ProctorCode extends React.Component {
       sendMessage={(body, subject) => this.sendMessage(id, body, subject)}
       closeMessageModal={() => this.props.hideModal()}
     />);
+  }
+
+  openExamModal() {
+    this.setState({
+      opened: !this.state.opened,
+    });
+    this.props.showModal(
+      <ConfirmTakeExam
+        takeExam={() => this.takeExam()}
+        closeModal={() => this.props.hideModal()}
+      />
+    );
   }
 
   render() {
@@ -126,6 +144,7 @@ export default class ProctorCode extends React.Component {
                 style={styles.popupMenu}
                 status={assignedExam.status}
                 openMessageModal={() => this.openMessageModal(assignedExam.instructor_id)}
+                openExamModal={() => this.openExamModal()}
                 examId={assignedExam.exam_id}
                 courseId={assignedExam.course_id}
               /> : null
