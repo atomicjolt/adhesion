@@ -6,7 +6,7 @@ export default class MessageInstructor extends React.Component {
   static propTypes = {
     sendMessage: React.PropTypes.func.isRequired,
     closeMessageModal: React.PropTypes.func.isRequired,
-  }
+  };
 
   static getStyles() {
     return {
