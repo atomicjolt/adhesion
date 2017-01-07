@@ -37,6 +37,7 @@ describe('Exam list', () => {
       assignExam: () => {},
       reassignExam: () => {},
       loadAssignedExams: () => {},
+      clearState: () => {},
       testingCentersAccountId: 1,
       assignedExams: {
         1: {
