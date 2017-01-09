@@ -34,6 +34,11 @@ lti_applications = [{
   description: "Converts word docs to quizzes",
   client_application_name: "quiz_converter",
   canvas_api_permissions: "",
+}, {
+  name: "Test Taking Tool",
+  description: "Where students take proctored exams",
+  client_application_name: "test_taking",
+  canvas_api_permissions: "",
 }]
 
 lti_consumer_uri = Rails.application.secrets.canvas_url
@@ -65,6 +70,12 @@ lti_application_instances = [{
 }, {
   lti_application: "Test Administration Tool",
   lti_key: "test-administration",
+  lti_secret: Rails.application.secrets.test_administration_lti_secret,
+  lti_consumer_uri: lti_consumer_uri,
+  canvas_token: Rails.application.secrets.canvas_token,
+}, {
+  lti_application: "Test Taking Tool",
+  lti_key: "test-taking",
   lti_secret: Rails.application.secrets.test_administration_lti_secret,
   lti_consumer_uri: lti_consumer_uri,
   canvas_token: Rails.application.secrets.canvas_token,
