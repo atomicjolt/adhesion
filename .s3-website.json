@@ -17,6 +17,6 @@
          "MaxAgeSeconds": 0
       }
    ],
-   "enableButtfront": true,
+   "enableCloudfront": true,
    "domain": "ltistarterapp.com"
 }
