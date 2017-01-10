@@ -21,6 +21,7 @@ export class ScormIndex extends React.Component {
     lmsCourseId: React.PropTypes.string,
     scormList: React.PropTypes.arrayOf(React.PropTypes.object),
     canvasAssignments: React.PropTypes.arrayOf(React.PropTypes.object),
+    listAssignmentsDone: React.PropTypes.bool,
     shouldRefreshList: React.PropTypes.bool,
     apiUrl: React.PropTypes.string,
     scormFile: React.PropTypes.shape({}),
@@ -46,7 +47,8 @@ export class ScormIndex extends React.Component {
     if (this.props.shouldRefreshList) {
       this.props.loadPackages(this.props.lmsCourseId);
     }
-    if (!this.state.synced && this.props.scormList && this.props.canvasAssignments) {
+    if (!this.state.synced && this.props.scormList &&
+        this.props.listAssignmentsDone) {
       this.synchronize();
     }
   }
@@ -102,7 +104,11 @@ export class ScormIndex extends React.Component {
 
   render() {
     if (!this.state.synced) {
-      return null;
+      return (
+        <div className="o-main-contain">
+          <h2>Loading...</h2>
+        </div>
+      );
     }
     const uploader = this.props.scormFile ? <ConnectedUploader /> : null;
     return (
@@ -145,6 +151,7 @@ const select = (state) => {
     scormFile: state.scorm.file,
     uploadError: state.scorm.uploadError,
     canvasAssignments: state.scorm.canvasAssignments,
+    listAssignmentsDone: state.scorm.listAssignmentsDone,
     canvasUrl: state.settings.customCanvasApiDomain,
   };
 };

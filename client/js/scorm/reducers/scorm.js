@@ -24,9 +24,13 @@ export default (state = initialState, action) => {
       updatedScormList[action.original.localData.index] = updatedScorm;
       return { ...state, scormList: updatedScormList };
     }
-    case 'LIST_ASSIGNMENTS_DONE':
-      return { ...state, canvasAssignments: action.payload };
-
+    case 'LIST_ASSIGNMENTS_DONE': {
+      const updatedAssignments = _.concat(state.canvasAssignments, action.payload);
+      return { ...state,
+        listAssignmentsDone: action.lastPage,
+        canvasAssignments: _.compact(updatedAssignments)
+      };
+    }
     case PackageConstants.UPDATE_IMPORT_TYPE: {
       const updatedScorm = { ...state.scormList[action.index] };
       updatedScorm.is_graded = action.importType;
