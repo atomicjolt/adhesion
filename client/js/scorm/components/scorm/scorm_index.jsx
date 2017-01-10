@@ -20,7 +20,7 @@ export class ScormIndex extends React.Component {
     removeError: React.PropTypes.func,
     lmsCourseId: React.PropTypes.string,
     scormList: React.PropTypes.arrayOf(React.PropTypes.object),
-    canvasAssignments: React.PropTypes.arrayOf(React.PropTypes.object),
+    canvasAssignments: React.PropTypes.shape({}),
     listAssignmentsDone: React.PropTypes.bool,
     shouldRefreshList: React.PropTypes.bool,
     apiUrl: React.PropTypes.string,
@@ -55,7 +55,7 @@ export class ScormIndex extends React.Component {
 
   synchronize() {
     _.forEach(this.props.scormList, (scorm) => {
-      const canvasAssignment = _.find(
+      const canvasAssignment = _.findKey(
         this.props.canvasAssignments,
         assignment => assignment.id === scorm.lms_assignment_id,
       );
