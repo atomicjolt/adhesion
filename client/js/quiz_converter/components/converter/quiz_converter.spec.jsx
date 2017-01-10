@@ -25,13 +25,13 @@ describe('Quiz Converter', () => {
     expect(element.className).not.toContain('is-active');
     props.conversionInProgress = true;
     result = TestUtils.renderIntoDocument(<QuizConverter {...props} />);
-    result.setState({quizFile: {}, answerFile: {}});
+    result.setState({ quizFile: {}, answerFile: {} });
     element = TestUtils.findRenderedDOMComponentWithTag(result, 'button');
     expect(element.className).not.toContain('is-active');
   });
 
   it('enables the submit button', () => {
-    result.setState({quizFile: {}, answerFile: {}});
+    result.setState({ quizFile: {}, answerFile: {} });
     const element = TestUtils.findRenderedDOMComponentWithTag(result, 'button');
     expect(element.className).toContain('is-active');
   });
