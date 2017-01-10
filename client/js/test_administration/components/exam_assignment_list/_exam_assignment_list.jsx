@@ -9,12 +9,14 @@ import ProctorCode             from './proctor_code';
 import SearchBar               from './search_bar';
 import canvasRequest           from '../../../libs/canvas/action';
 import { createConversation }  from '../../../libs/canvas/constants/conversations';
+import CenterError             from '../common/center_error';
 
 const select = state => ({
   lmsUserId: state.settings.lmsUserId,
   currentAccountId: state.settings.customCanvasAccountID,
   toolConsumerInstanceName: state.settings.toolConsumerInstanceName,
   proctorCodeList: state.proctorCodes.proctorCodeList,
+  centerIdError: state.proctorCodes.centerIdError,
 });
 
 export class BaseExamAssignmentList extends React.Component {
@@ -23,6 +25,7 @@ export class BaseExamAssignmentList extends React.Component {
     testingCentersAccountSetup: React.PropTypes.func.isRequired,
     toolConsumerInstanceName: React.PropTypes.string.isRequired,
     lmsUserId: React.PropTypes.string.isRequired,
+    centerIdError: React.PropTypes.bool,
     currentAccountId: React.PropTypes.string.isRequired,
     proctorCodeList: React.PropTypes.arrayOf(
       React.PropTypes.shape({})
@@ -62,6 +65,7 @@ export class BaseExamAssignmentList extends React.Component {
       }
     };
   }
+
   constructor() {
     super();
     this.state = {
@@ -128,6 +132,7 @@ export class BaseExamAssignmentList extends React.Component {
     const styles = BaseExamAssignmentList.getStyles();
     return (
       <div>
+        { this.props.centerIdError ? <CenterError /> : null }
         <SearchBar searchChange={e => this.setState({ searchVal: e.target.value })} />
         <table style={styles.table}>
           <thead  style={styles.tr}>
