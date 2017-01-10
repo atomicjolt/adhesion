@@ -1,1 +1,1 @@
-require('./quiz_converter/quiz_converter.css');
+require('./quiz_converter/quiz_converter.scss');
