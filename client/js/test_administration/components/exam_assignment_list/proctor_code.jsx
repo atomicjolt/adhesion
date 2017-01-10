@@ -14,6 +14,8 @@ export default class ProctorCode extends React.Component {
     sendMessage: React.PropTypes.func.isRequired,
     showModal: React.PropTypes.func.isRequired,
     hideModal: React.PropTypes.func.isRequired,
+    openSettings: React.PropTypes.func.isRequired,
+    settingsOpen: React.PropTypes.bool,
   };
 
   constructor() {
@@ -25,6 +27,7 @@ export default class ProctorCode extends React.Component {
   }
 
   getStyles() {
+    const { settingsOpen } = this.props;
     return {
       td: {
         textAlign: 'left',
@@ -32,7 +35,7 @@ export default class ProctorCode extends React.Component {
         borderBottom: `1px solid ${Defines.lightGrey}`,
         color: Defines.darkGrey,
         verticalAlign: 'top',
-        backgroundColor: this.state.opened ? Defines.lightGrey : 'white',
+        backgroundColor: settingsOpen ? Defines.lightGrey : 'white',
         position: 'relative'
       },
       bigAndBold: {
@@ -44,7 +47,7 @@ export default class ProctorCode extends React.Component {
       },
       button: {
         float: 'right',
-        color: this.state.opened ? Defines.darkGrey : Defines.lightGrey,
+        color: settingsOpen ? Defines.darkGrey : Defines.lightGrey,
         backgroundColor: 'white',
         border: 'none',
         cursor: 'pointer',
@@ -85,9 +88,7 @@ export default class ProctorCode extends React.Component {
   }
 
   openMessageModal(id) {
-    this.setState({
-      opened: !this.state.opened,
-    });
+    this.props.openSettings(null);
     this.props.showModal(<MessageInstructor
       sendMessage={(body, subject) => this.sendMessage(id, body, subject)}
       closeMessageModal={() => this.props.hideModal()}
@@ -95,9 +96,7 @@ export default class ProctorCode extends React.Component {
   }
 
   openExamModal() {
-    this.setState({
-      opened: !this.state.opened,
-    });
+    this.props.openSettings(null);
     this.props.showModal(
       <ConfirmTakeExam
         takeExam={() => this.takeExam()}
@@ -108,7 +107,7 @@ export default class ProctorCode extends React.Component {
 
   render() {
     const styles = this.getStyles();
-    const { assignedExam, proctorCode } = this.props;
+    const { assignedExam, proctorCode, settingsOpen, openSettings } = this.props;
     return (
       <tr>
         <td style={styles.td}>
@@ -133,13 +132,13 @@ export default class ProctorCode extends React.Component {
           </div>
           <HoverButton
             style={styles.button}
-            onClick={e => this.iconClick(e)}
+            onClick={() => openSettings(settingsOpen ? null : proctorCode.id)}
             hoveredStyle={styles.hoveredStyle}
           >
             <i className="material-icons">settings</i>
           </HoverButton>
           {
-            this.state.opened ?
+            settingsOpen ?
               <PopupMenu
                 style={styles.popupMenu}
                 status={assignedExam.status}

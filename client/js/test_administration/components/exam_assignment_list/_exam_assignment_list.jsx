@@ -30,7 +30,7 @@ export class BaseExamAssignmentList extends React.Component {
     hideModal: React.PropTypes.func.isRequired,
     showModal: React.PropTypes.func.isRequired,
     canvasRequest: React.PropTypes.func.isRequired,
-  }
+  };
 
   static tableHeader(styles) {
     return (
@@ -65,7 +65,8 @@ export class BaseExamAssignmentList extends React.Component {
   constructor() {
     super();
     this.state = {
-      searchVal: null
+      searchVal: null,
+      openSettings: null,
     };
   }
 
@@ -108,6 +109,8 @@ export class BaseExamAssignmentList extends React.Component {
         sendMessage={(id, body, subject) => this.sendMessage(id, body, subject)}
         showModal={this.props.showModal}
         hideModal={this.props.hideModal}
+        openSettings={id => this.setState({ openSettings: id })}
+        settingsOpen={this.state.openSettings === proctorCode.id}
       />
     ));
   }
