@@ -4,9 +4,10 @@ import ProctorCode                from './proctor_code';
 
 describe('Exam list', () => {
   let result;
+  let props;
 
   beforeEach(() => {
-    const props = {
+    props = {
       lmsUserId: '1',
       loadProctorCodes: () => {},
       proctorCode: {
@@ -20,7 +21,9 @@ describe('Exam list', () => {
       assignedExam: {
         student_name: 'Picard',
         status: 'assigned',
-      }
+      },
+      openSettings: () => { props.settingsOpen = true; },
+      settingsOpen: false,
     };
     result = TestUtils.renderIntoDocument(<ProctorCode {...props} />);
   });
@@ -28,6 +31,6 @@ describe('Exam list', () => {
   it('opens the menu when you click', () => {
     const button = TestUtils.findRenderedDOMComponentWithTag(result, 'button');
     TestUtils.Simulate.click(button);
-    expect(result.state.opened).toBe(true);
+    expect(props.settingsOpen).toBe(true);
   });
 });
