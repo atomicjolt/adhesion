@@ -21,9 +21,10 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:account_update, keys: [:name])
   end
 
-    def current_lti_application_instance
-      @current_lti_application_instance ||= LtiApplicationInstance.find_by(lti_key: params[:oauth_consumer_key])
-    end
+  def current_lti_application_instance
+    @current_lti_application_instance ||=
+      LtiApplicationInstance.find_by(lti_key: params[:oauth_consumer_key])
+  end
 
   def current_ability
     @current_ability ||= Ability.new(current_user)
