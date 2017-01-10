@@ -1,10 +1,10 @@
 import { Constants as QuizConverterConstants } from '../actions/quiz_converter';
-import history                                 from '../../history';
+import appHistory                                 from '../../history';
 
 const Conversion = store => next => (action) => { // eslint-disable-line no-unused-vars
   switch (action.type) {
     case QuizConverterConstants.CONVERT_QUIZ_DONE:
-      history.push('/finish');
+      appHistory.push('/finish');
       break;
 
     default:
