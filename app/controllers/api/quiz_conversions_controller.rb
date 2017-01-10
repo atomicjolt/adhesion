@@ -18,7 +18,6 @@ class Api::QuizConversionsController < ApplicationController
     }
 
     response = canvas_api.proxy("CREATE_QUIZ", api_params, quiz: quiz.to_canvas)
-
     canvas_quiz = JSON.parse(response.body)
 
     api_params[:quiz_id] = canvas_quiz["id"]
@@ -34,7 +33,7 @@ class Api::QuizConversionsController < ApplicationController
     quiz_doc.close
     answer_key.close
 
-    render status: 200, json: {}
+    render status: 200, json: canvas_quiz
   end
 
   private
