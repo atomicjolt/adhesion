@@ -5,7 +5,7 @@ export default function shortAnswerQuestion(props) {
   return (
     <div>
       <Text text={props.question_text} />
-      <input type="text" className="textbox" />
+      <input type="text" className="textbox" disabled />
     </div>
   );
 }
