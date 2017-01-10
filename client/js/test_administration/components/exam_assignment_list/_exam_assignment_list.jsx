@@ -25,7 +25,7 @@ export class BaseExamAssignmentList extends React.Component {
     testingCentersAccountSetup: React.PropTypes.func.isRequired,
     toolConsumerInstanceName: React.PropTypes.string.isRequired,
     lmsUserId: React.PropTypes.string.isRequired,
-    centerIdError: React.PropTypes.number,
+    centerIdError: React.PropTypes.bool,
     currentAccountId: React.PropTypes.string.isRequired,
     proctorCodeList: React.PropTypes.arrayOf(
       React.PropTypes.shape({})
