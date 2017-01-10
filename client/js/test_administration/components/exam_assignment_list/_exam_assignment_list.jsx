@@ -16,7 +16,7 @@ const select = state => ({
   currentAccountId: state.settings.customCanvasAccountID,
   toolConsumerInstanceName: state.settings.toolConsumerInstanceName,
   proctorCodeList: state.proctorCodes.proctorCodeList,
-  centerIdStatus: state.proctorCodes.centerIdStatus,
+  centerIdError: state.proctorCodes.centerIdError,
 });
 
 export class BaseExamAssignmentList extends React.Component {
@@ -25,7 +25,7 @@ export class BaseExamAssignmentList extends React.Component {
     testingCentersAccountSetup: React.PropTypes.func.isRequired,
     toolConsumerInstanceName: React.PropTypes.string.isRequired,
     lmsUserId: React.PropTypes.string.isRequired,
-    centerIdStatus: React.PropTypes.number,
+    centerIdError: React.PropTypes.number,
     currentAccountId: React.PropTypes.string.isRequired,
     proctorCodeList: React.PropTypes.arrayOf(
       React.PropTypes.shape({})
@@ -64,15 +64,6 @@ export class BaseExamAssignmentList extends React.Component {
         width: '25%',
       }
     };
-  }
-
-  static errorText(centerIdStatus) {
-    if (centerIdStatus !== 200) {
-      return (
-        <CenterError />
-      );
-    }
-    return null;
   }
 
   constructor() {
@@ -138,7 +129,7 @@ export class BaseExamAssignmentList extends React.Component {
     const styles = BaseExamAssignmentList.getStyles();
     return (
       <div>
-        {BaseExamAssignmentList.errorText(this.props.centerIdStatus)}
+        { this.props.centerIdError ? <CenterError /> : null }
         <SearchBar searchChange={e => this.setState({ searchVal: e.target.value })} />
         <table style={styles.table}>
           <thead  style={styles.tr}>

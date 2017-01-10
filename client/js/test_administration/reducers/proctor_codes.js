@@ -1,6 +1,6 @@
 const defaultState = {
   proctorCodeList: [],
-  centerIdStatus: 200
+  centerIdError: false
 };
 
 export default function proctorCodes(state = defaultState, action) {
@@ -11,7 +11,11 @@ export default function proctorCodes(state = defaultState, action) {
     }
 
     case 'TESTING_CENTERS_ACCOUNT_SETUP_DONE': {
-      return { ...state, centerIdStatus: action.response.status };
+      let error = false;
+      if (action.response.status !== 200) {
+        error = true;
+      }
+      return { ...state, centerIdError: error };
     }
 
     default:

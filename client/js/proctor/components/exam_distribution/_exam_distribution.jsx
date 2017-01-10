@@ -100,19 +100,11 @@ export class BaseExamDistribution extends React.Component {
     };
   }
 
-  static errorText(centerError) {
-    if (centerError) {
-      return (
-        <CenterError />
-      );
-    }
-    return null;
-  }
-
   constructor() {
     super();
     this.state = {
       sortBy: 'status',
+      centerError: false
     };
   }
 
@@ -123,7 +115,7 @@ export class BaseExamDistribution extends React.Component {
   }
 
   getTestingCenters() {
-    const testingId = this.props.testingCentersAccountId ? this.props.testingCentersAccountId : -1;
+    const testingId = this.props.testingCentersAccountId || -1;
     if (testingId !== -1) {
       const params = {
         account_id: testingId
@@ -228,7 +220,7 @@ export class BaseExamDistribution extends React.Component {
     const { params, lmsCourseId, downloadExamStatus } = this.props;
     return (
       <div>
-        {BaseExamDistribution.errorText(this.state.testingCenterError)}
+        { this.state.centerError ? <CenterError /> : null }
         <h1 style={styles.header}>
           {this.props.exam.title}
           <HoverButton
