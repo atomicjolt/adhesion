@@ -89,7 +89,8 @@ end
 
 Rails.application.config.middleware.insert_before "Warden::Manager", "Apartment::Elevators::Generic", lambda { |request|
   if lti_key = request.params["oauth_consumer_key"] ||
-               request.env["oauth.state"]["oauth_consumer_key"] ||
+               (request.env["oauth.state"] &&
+                request.env["oauth.state"]["oauth_consumer_key"]) ||
                request.params["username"]
     if lti_key == "test-administration"
       "proctor-tool"
