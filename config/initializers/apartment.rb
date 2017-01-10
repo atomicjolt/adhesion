@@ -15,7 +15,7 @@ Apartment.configure do |config|
   # Add any models that you do not want to be multi-tenanted, but remain in the global (public) namespace.
   # A typical example would be a Customer or Tenant model that stores each Tenant's information.
   #
-  config.excluded_models = %w{ LtiApplication LtiApplicationInstance }
+  config.excluded_models = %w{LtiApplication LtiApplicationInstance OauthState}
 
   # In order to migrate all of your Tenants you need to provide a list of Tenant names to Apartment.
   # You can make this dynamic by providing a Proc object to be called on migrations.
@@ -87,15 +87,15 @@ end
 #   request.host.split('.').first
 # }
 
-Rails.application.config.middleware.insert_before 'Warden::Manager', 'Apartment::Elevators::Generic', lambda { |request|
-  lti_key = request.params["oauth_consumer_key"] || request.params["username"]
-  if lti_key == "test-administration"
-    return "proctor-tool"
-  end
-  if lti_key.present?
-    LtiApplicationInstance.find_by(
-      lti_key: lti_key,
-    ).try(:lti_key)
+Rails.application.config.middleware.insert_before "Warden::Manager", "Apartment::Elevators::Generic", lambda { |request|
+  if lti_key = request.params["oauth_consumer_key"] ||
+               request.env["oauth.state"]["oauth_consumer_key"] ||
+               request.params["username"]
+    if lti_key == "test-administration"
+      "proctor-tool"
+    else
+      lti_key
+    end
   else
     raise "Please specify a valid oauth_consumer_key for this request"
   end
