@@ -6,13 +6,14 @@ import { importQuiz } from '../../actions/quiz_converter';
 
 const select = state => ({
   lmsCourseId: state.settings.lmsCourseId,
-  quiz: state.quiz,
+  conversionInProgress: state.inProgress,
 });
 
 export class QuizConverter extends React.Component {
   static propTypes = {
     lmsCourseId: React.PropTypes.string.isRequired,
     importQuiz: React.PropTypes.func.isRequired,
+    conversionInProgress: React.PropTypes.bool.isRequired,
   }
 
   constructor() {
@@ -49,7 +50,9 @@ export class QuizConverter extends React.Component {
   }
 
   canSubmit() {
-    return this.state.quizFile && this.state.answerFile;
+    return this.state.quizFile &&
+      this.state.answerFile &&
+      !this.props.conversionInProgress;
   }
 
   render() {
