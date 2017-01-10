@@ -9,8 +9,7 @@ import { getSubAccountsOfAccount } from '../../../libs/canvas/constants/accounts
 import StudentAssign               from './student_assign';
 import appHistory                  from '../../../history';
 import HoverButton                 from '../common/hover_button';
-import DownloadSvg                 from '../common/download_svg';
-import Modal                       from '../../../common_components/modal';
+import CenterError                 from '../common/center_error';
 
 const select = (state, props) => {
   const exam = _.find(state.exams.examList, ex => props.params.id === ex.id.toString());
@@ -101,6 +100,15 @@ export class BaseExamDistribution extends React.Component {
     };
   }
 
+  static errorText(centerError) {
+    if (centerError) {
+      return (
+        <CenterError />
+      );
+    }
+    return null;
+  }
+
   constructor() {
     super();
     this.state = {
@@ -121,8 +129,9 @@ export class BaseExamDistribution extends React.Component {
         account_id: testingId
       };
       this.props.canvasRequest(getSubAccountsOfAccount, params, {});
+    } else {
+      this.setState({ testingCenterError: true });
     }
-    this.setState({ testingCenterError: true });
   }
 
   getStudents() {
@@ -219,7 +228,7 @@ export class BaseExamDistribution extends React.Component {
     const { params, lmsCourseId, downloadExamStatus } = this.props;
     return (
       <div>
-        <Modal />
+        {BaseExamDistribution.errorText(this.state.testingCenterError)}
         <h1 style={styles.header}>
           {this.props.exam.title}
           <HoverButton
