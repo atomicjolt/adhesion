@@ -12,8 +12,7 @@ export default function exams(state = defaultState, action) {
       const newState = _.cloneDeep(state);
       const list = _.filter(action.payload, exam => exam.published);
       _.forEach(list, (exam) => {
-        const { exam_id } = exam;
-        newState.examList[exam_id] = exam;
+        newState.examList[exam.id] = exam;
       });
       return newState;
     }
