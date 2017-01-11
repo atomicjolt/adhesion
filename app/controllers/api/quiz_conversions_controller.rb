@@ -41,7 +41,7 @@ class Api::QuizConversionsController < ApplicationController
   private
 
   def get_quiz_doc
-    quiz_doc = Tempfile.new
+    quiz_doc = Tempfile.new("quiz")
     quiz_doc.binmode
     quiz_doc.write(params[:quiz_doc].read)
     quiz_doc.rewind
@@ -49,7 +49,7 @@ class Api::QuizConversionsController < ApplicationController
   end
 
   def get_answer_key
-    answer_key = Tempfile.new
+    answer_key = Tempfile.new("answer")
     answer_key.binmode
     answer_key.write(params[:answer_key].read)
     answer_key.rewind
