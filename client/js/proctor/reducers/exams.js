@@ -33,6 +33,11 @@ export default function exams(state = defaultState, action) {
       return newState;
     }
 
+    case 'UNASSIGN_EXAM_DONE': {
+      const newState = _.cloneDeep(state);
+      delete newState.assignedExams[action.payload.student_id];
+      return newState;
+    }
     case 'CLEAR_STATE':
       return defaultState;
 

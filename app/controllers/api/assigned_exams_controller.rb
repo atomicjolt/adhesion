@@ -23,6 +23,14 @@ class Api::AssignedExamsController < ApplicationController
     render json: assigned_exam
   end
 
+  def destroy
+    assigned_exam = AssignedExam.find(params[:id])
+    assigned_exam.destroy
+    # return what was destroyed so
+    # we can take it out of reducer
+    render json: assigned_exam
+  end
+
   private
 
   def create_params
