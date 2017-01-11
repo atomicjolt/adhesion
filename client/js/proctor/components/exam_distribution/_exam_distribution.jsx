@@ -47,7 +47,8 @@ export class BaseExamDistribution extends React.Component {
     instructorName: React.PropTypes.string.isRequired,
     ready: React.PropTypes.bool.isRequired,
     clearState: React.PropTypes.func.isRequired,
-  }
+    unassignExam: React.PropTypes.func.isRequired,
+  };
 
   static getStyles() {
     return {
@@ -187,6 +188,7 @@ export class BaseExamDistribution extends React.Component {
         assignExam={(studentId, centerId, name) => this.assignExam(studentId, centerId, name)}
         reassignExam={(assignedId, centerId, name) => this.reassignExam(assignedId, centerId, name)}
         assignedExam={this.props.assignedExams[student.id]}
+        unassignExam={this.props.unassignExam}
       />
     );
   }

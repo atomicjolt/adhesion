@@ -4,7 +4,6 @@ import moment       from 'moment';
 import SelectSearch from 'react-select-search';
 import Defines      from '../../defines';
 import HoverButton  from '../common/hover_button';
-import * as ExamActions      from '../../actions/exams';
 
 export default class StudentAssign extends React.Component {
   static propTypes = {
@@ -81,18 +80,13 @@ export default class StudentAssign extends React.Component {
     return 'Unassigned';
   }
 
-  unassignExam(id) {
-    console.log("Write me");
-    this.props.unassignExam(id);
-  }
-
   changeOption(option) {
     this.setState({ selectedCenterId: option.value });
   }
 
   render() {
     const styles = StudentAssign.getStyles();
-    const { assignedExam, testingCenterList, student } = this.props;
+    const { assignedExam, testingCenterList, student, unassignExam } = this.props;
     const { selectedCenterId } = this.state;
     let assignObject;
 
@@ -170,7 +164,10 @@ export default class StudentAssign extends React.Component {
           {
             assignedExam && assignedExam.status === 'assigned' ?
               <div>
-                <button onClick={() => this.unassignExam(assignedExam.id)} style={styles.unassignButton}>
+                <button
+                  onClick={() => unassignExam(assignedExam.id)}
+                  style={styles.unassignButton}
+                >
                   Unassign
                 </button>
               </div> : null
