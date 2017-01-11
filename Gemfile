@@ -54,7 +54,7 @@ gem "will_paginate"
 gem "scorm_cloud", git: "https://github.com/instructure/scorm-cloud.git"
 
 # Word2Quiz for converting word doc quizzes
-gem "word_2_quiz",  git: "https://github.com/atomicjolt/word2quiz.git"
+gem "word_2_quiz"
 
 group :development do
   gem "spring"
