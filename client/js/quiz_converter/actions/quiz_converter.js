@@ -19,5 +19,6 @@ export const importQuiz = (lmsCourseId, quizFile, answerFile) => {
     url: '/api/quiz_conversions',
     params: { lms_course_id: lmsCourseId },
     body: form,
+    timeout: 100000,
   };
 };

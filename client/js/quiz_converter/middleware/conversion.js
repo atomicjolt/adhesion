@@ -4,7 +4,10 @@ import appHistory                              from '../../history';
 const Conversion = store => next => (action) => { // eslint-disable-line no-unused-vars
   switch (action.type) {
     case QuizConverterConstants.CONVERT_QUIZ_DONE:
-      window.top.location.href = action.payload.html_url;
+      if(action.payload.html_url) {
+        window.top.location.href = action.payload.html_url;
+      }
+
       appHistory.push("finish");
       break;
 
