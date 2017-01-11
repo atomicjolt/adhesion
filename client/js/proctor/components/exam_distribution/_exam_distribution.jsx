@@ -9,6 +9,7 @@ import { getSubAccountsOfAccount } from '../../../libs/canvas/constants/accounts
 import StudentAssign               from './student_assign';
 import appHistory                  from '../../../history';
 import HoverButton                 from '../common/hover_button';
+import CenterError                 from '../common/center_error';
 
 const select = (state, props) => {
   const exam = _.find(state.exams.examList, ex => props.params.id === ex.id.toString());
@@ -103,6 +104,7 @@ export class BaseExamDistribution extends React.Component {
     super();
     this.state = {
       sortBy: 'status',
+      centerError: false
     };
   }
 
@@ -113,10 +115,15 @@ export class BaseExamDistribution extends React.Component {
   }
 
   getTestingCenters() {
-    const params = {
-      account_id: this.props.testingCentersAccountId,
-    };
-    this.props.canvasRequest(getSubAccountsOfAccount, params, {});
+    const testingId = this.props.testingCentersAccountId || -1;
+    if (testingId !== -1) {
+      const params = {
+        account_id: testingId
+      };
+      this.props.canvasRequest(getSubAccountsOfAccount, params, {});
+    } else {
+      this.setState({ testingCenterError: true });
+    }
   }
 
   getStudents() {
@@ -213,6 +220,7 @@ export class BaseExamDistribution extends React.Component {
     const { params, lmsCourseId, downloadExamStatus } = this.props;
     return (
       <div>
+        { this.state.centerError ? <CenterError /> : null }
         <h1 style={styles.header}>
           {this.props.exam.title}
           <HoverButton

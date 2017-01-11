@@ -10,7 +10,7 @@ export default function multipleChoiceQuestion(props) {
         _.map(props.answers, answer => (
           <div key={`question${props.id}_answer${answer.id}`}>
             <hr />
-            <input type="radio" /> {answer.text}
+            <input type="radio" disabled /> {answer.text}
           </div>
         ))
       }

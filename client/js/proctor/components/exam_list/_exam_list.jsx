@@ -20,7 +20,7 @@ export class BaseExamList extends React.Component {
     canvasRequest: React.PropTypes.func.isRequired,
     getTestingCentersAccount: React.PropTypes.func.isRequired,
     lmsCourseId: React.PropTypes.string.isRequired,
-    examList: React.PropTypes.arrayOf(React.PropTypes.shape({})),
+    examList: React.PropTypes.shape({}),
     toolConsumerInstanceName: React.PropTypes.string.isRequired,
   }
 
