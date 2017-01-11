@@ -35,7 +35,7 @@ RSpec.describe Api::QuizConversionsController, type: :controller do
       )
 
       allow(Word2Quiz).to receive(:parse_quiz).
-        with(an_upload("fake doc")).
+        with(an_upload("fake quiz"), an_upload("Fake answer key")).
         and_return(@fake_quiz)
 
       @double = double(proxy: double(body: '{ "id": "1" }'))
@@ -46,7 +46,7 @@ RSpec.describe Api::QuizConversionsController, type: :controller do
 
     it "should parse the uploaded quiz" do
       expect(Word2Quiz).to receive(:parse_quiz).
-        with(an_upload("fake doc")).
+        with(an_upload("fake quiz"), an_upload("Fake answer key")).
         and_return(@fake_quiz)
 
       post :create, {
