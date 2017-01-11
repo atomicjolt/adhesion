@@ -29,6 +29,18 @@ class Api::QuizConversionsController < ApplicationController
         )
       end
 
+      # Canvas doesn't set question count or points correctly when creating a
+      # quiz for some reason, but an empty update makes it calculate them from
+      # the questions.
+      canvas_api.proxy(
+        "EDIT_QUIZ",
+        {
+          course_id: params[:lms_course_id],
+          id: canvas_quiz["id"],
+        },
+        quiz: {},
+      )
+
       quiz_doc.close
       answer_key.close
 
