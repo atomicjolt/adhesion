@@ -92,9 +92,7 @@ end
 lti_application_instances.each do |attrs|
   lti_application = LtiApplication.find_by(name: attrs.delete(:lti_application))
   attrs = attrs.merge(lti_application_id: lti_application.id)
-  if lti_application_instance = LtiApplicationInstance.find_by(
-    lti_key: attrs[:lti_key],
-  )
+  if lti_application_instance = LtiApplicationInstance.find_by(lti_key: attrs[:lti_key])
     lti_application_instance.update_attributes!(attrs)
   else
     LtiApplicationInstance.create!(attrs)
