@@ -4,6 +4,7 @@ import moment       from 'moment';
 import SelectSearch from 'react-select-search';
 import Defines      from '../../defines';
 import HoverButton  from '../common/hover_button';
+import * as ExamActions      from '../../actions/exams';
 
 export default class StudentAssign extends React.Component {
   static propTypes = {
@@ -13,6 +14,7 @@ export default class StudentAssign extends React.Component {
     }).isRequired,
     testingCenterList: React.PropTypes.shape({}),
     assignExam: React.PropTypes.func.isRequired,
+    unassignExam: React.PropTypes.func.isRequired,
     reassignExam: React.PropTypes.func.isRequired,
     assignedExam: React.PropTypes.shape({
       status: React.PropTypes.string.isRequired,
@@ -79,8 +81,9 @@ export default class StudentAssign extends React.Component {
     return 'Unassigned';
   }
 
-  unassignExam() {
+  unassignExam(id) {
     console.log("Write me");
+    this.props.unassignExam(id);
   }
 
   changeOption(option) {
@@ -167,7 +170,7 @@ export default class StudentAssign extends React.Component {
           {
             assignedExam && assignedExam.status === 'assigned' ?
               <div>
-                <button onClick={() => this.unassignExam()} style={styles.unassignButton}>
+                <button onClick={() => this.unassignExam(assignedExam.id)} style={styles.unassignButton}>
                   Unassign
                 </button>
               </div> : null
