@@ -15,14 +15,8 @@ describe('Finish page', () => {
 
   });
 
-  it('renders the upload again button', () => {
-    const button = TestUtils.findRenderedDOMComponentWithTag(result, 'button');
-    expect(button.textContent).toContain('Upload Another Quiz');
-  });
-
-  it('routes back to the root when the button is clicked', () => {
-    const button = TestUtils.findRenderedDOMComponentWithTag(result, 'button');
-    TestUtils.Simulate.click(button);
-    expect(appHistory.push).toHaveBeenCalledWith('/')
+  it('renders redirect text', () => {
+    const h1 = TestUtils.findRenderedDOMComponentWithTag(result, 'h1');
+    expect(h1.textContent).toContain("Redirecting to Quiz...");
   });
 });

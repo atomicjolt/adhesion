@@ -1,8 +1,9 @@
-import React          from 'react';
-import { connect }    from 'react-redux';
+import React              from 'react';
+import { connect }        from 'react-redux';
 
-import UploadButton   from './upload_button';
-import { importQuiz } from '../../actions/quiz_converter';
+import FileUploadButton   from './file_upload_button';
+import UploadButton       from './upload_button';
+import { importQuiz }     from '../../actions/quiz_converter';
 
 const select = state => ({
   lmsCourseId: state.settings.lmsCourseId,
@@ -50,30 +51,31 @@ export class QuizConverter extends React.Component {
   }
 
   canSubmit() {
-    return this.state.quizFile &&
+    return !!(this.state.quizFile &&
       this.state.answerFile &&
-      !this.props.conversionInProgress;
+      !this.props.conversionInProgress);
   }
 
   render() {
-    const submitClass = this.canSubmit() ? 'c-submit is-active' : 'c-submit';
-
     return (
       <div className="c-contain">
         <h1 className="c-title">Quiz Upload</h1>
         <form onSubmit={(e) => { this.doSubmit(e); }}>
-          <UploadButton
+          <FileUploadButton
             htmlId="quiz"
             text={this.state.quizText}
             selectFile={(file) => { this.selectQuiz(file); }}
           />
           <div className="c-and">--- AND ---</div>
-          <UploadButton
+          <FileUploadButton
             htmlId="key"
             text={this.state.answerText}
             selectFile={(file) => { this.selectAnswerKey(file); }}
           />
-          <button className={submitClass}>Upload Files</button>
+          <UploadButton
+            isConverting={this.props.conversionInProgress}
+            canSubmit={this.canSubmit()}
+          />
         </form>
       </div>
     );

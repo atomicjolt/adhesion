@@ -112,5 +112,35 @@
       background: darken($gold, 10%);
       cursor: pointer;
     }
+    &:active{
+
+    }
+  }
+
+  &.is-converting {
+    pointer-events: none;
+    background: darken($gold, 10%);
+  }
+
+  img{
+    width: 3rem;
+    height: 3rem;
+    position: absolute;
+    animation: {
+      name: spin;
+      duration: 800ms;
+      timing-function: linear;
+      fill-mode: forwards;
+      iteration-count: infinite;
+    }
+  }
+}
+
+@keyframes spin {
+  0%{
+    @include transform(translate(-50%,-50%) rotate(0deg));
+  }
+  100%{
+    @include transform(translate(-50%,-50%) rotate(360deg));
   }
 }
