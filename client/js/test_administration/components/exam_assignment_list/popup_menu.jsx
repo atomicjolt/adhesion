@@ -1,6 +1,6 @@
 import React             from 'react';
 import _                 from 'lodash';
-import { hashHistory }  from 'react-router';
+import hashHistory       from '../../../history';
 import HoverButton       from '../common/hover_button';
 import Defines           from '../../defines';
 

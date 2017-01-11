@@ -2,6 +2,7 @@ import React             from 'react';
 import moment            from 'moment';
 import _                 from 'lodash';
 import Defines           from '../../defines';
+import hashHistory       from '../../../history';
 import HoverButton       from '../common/hover_button';
 import PopupMenu         from './popup_menu';
 import MessageInstructor from './message_instructor';
@@ -81,6 +82,8 @@ export default class ProctorCode extends React.Component {
 
   takeExam() {
   //  TODO: write this (link to new canvas route)
+    const { assignedExam } = this.props;
+    hashHistory.push(`/enter_answers/user/${assignedExam.student_id}/course/${assignedExam.course_id}/quiz/${assignedExam.exam_id}`);
     this.props.hideModal();
   }
 
