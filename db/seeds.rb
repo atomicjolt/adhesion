@@ -92,9 +92,10 @@ end
 lti_application_instances.each do |attrs|
   lti_application = LtiApplication.find_by(name: attrs.delete(:lti_application))
   attrs = attrs.merge(lti_application_id: lti_application.id)
-  if lti_application_instance = LtiApplicationInstance.find_by(
-    lti_key: attrs[:lti_key],
-  )
+  if lti_application_instance = LtiApplicationInstance.find_by(lti_key: attrs[:lti_key])
+    # Don't change production lti keys
+    attrs.delete(:lti_secret) if attrs[:lti_secret].blank? || Rails.env.production?
+
     lti_application_instance.update_attributes!(attrs)
   else
     LtiApplicationInstance.create!(attrs)

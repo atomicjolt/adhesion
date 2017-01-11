@@ -24,14 +24,14 @@ gem "non-stupid-digest-assets" # also compile assets without digest (fixes font 
 # authentication, authorization, integrations
 gem "devise"
 gem "omniauth"
-gem "omniauth-canvas"
+gem "omniauth-canvas", "~>1.0.0"
 gem "oauth", "~> 0.5.0"
 gem "ims-lti", "~> 1.1.13" # IMS LTI tool consumers and providers
 gem "cancancan"
 gem "rolify"
 gem "attr_encrypted"
 gem "jwt", "~> 1.5.0" # json web token
-gem 'lms-api', '>=1.2.3'
+gem "lms-api", ">=1.2.3"
 
 # Email
 gem "sendgrid"
@@ -54,7 +54,7 @@ gem "will_paginate"
 gem "scorm_cloud", git: "https://github.com/instructure/scorm-cloud.git"
 
 # Word2Quiz for converting word doc quizzes
-gem "word_2_quiz",  :git => "http://github.com/atomicjolt/word2quiz.git"
+gem "word_2_quiz"
 
 group :development do
   gem "spring"
