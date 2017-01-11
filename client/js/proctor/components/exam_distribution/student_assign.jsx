@@ -18,7 +18,7 @@ export default class StudentAssign extends React.Component {
       status: React.PropTypes.string.isRequired,
       id: React.PropTypes.number.isRequired,
     }),
-  }
+  };
 
   static getStyles() {
     return {
@@ -39,6 +39,13 @@ export default class StudentAssign extends React.Component {
       hoveredStyle: {
         opacity: '0.8',
       },
+      unassignButton: {
+        border: 'none',
+        backgroundColor: 'transparent',
+        color: 'blue',
+        textDecoration: 'underline',
+        cursor: 'pointer',
+      }
     };
   }
 
@@ -70,6 +77,10 @@ export default class StudentAssign extends React.Component {
       return _.capitalize(this.props.assignedExam.status);
     }
     return 'Unassigned';
+  }
+
+  unassignExam() {
+    console.log("Write me");
   }
 
   changeOption(option) {
@@ -151,7 +162,17 @@ export default class StudentAssign extends React.Component {
           {assignObject}
         </td>
         <td style={styles.td}> - </td>
-        <td style={styles.td}> {this.getStatus()} </td>
+        <td style={styles.td}>
+          {this.getStatus()}
+          {
+            assignedExam && assignedExam.status === 'assigned' ?
+              <div>
+                <button onClick={() => this.unassignExam()} style={styles.unassignButton}>
+                  Unassign
+                </button>
+              </div> : null
+          }
+        </td>
       </tr>
     );
   }
