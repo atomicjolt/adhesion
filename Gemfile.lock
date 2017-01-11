@@ -1,6 +1,6 @@
 GIT
-  remote: http://github.com/atomicjolt/word2quiz.git
-  revision: 14f3e4d668d3cb72d280ece8bb2c2e2695d7b2a6
+  remote: https://github.com/atomicjolt/word2quiz
+  revision: b20217d83e663cf5a0f1b1b04c7904f9b6a92c27
   specs:
     word_2_quiz (0.1.0)
       activesupport (~> 4.2)
@@ -482,4 +482,4 @@ DEPENDENCIES
   yajl-ruby
 
 BUNDLED WITH
-   1.13.6
+   1.13.7
