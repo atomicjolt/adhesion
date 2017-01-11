@@ -84,9 +84,14 @@ export default class StudentAssign extends React.Component {
     this.setState({ selectedCenterId: option.value });
   }
 
+  unassign(id) {
+    this.props.unassignExam(id);
+    this.setState({ selectedCenterId: null });
+  }
+
   render() {
     const styles = StudentAssign.getStyles();
-    const { assignedExam, testingCenterList, student, unassignExam } = this.props;
+    const { assignedExam, testingCenterList, student } = this.props;
     const { selectedCenterId } = this.state;
     let assignObject;
 
@@ -165,7 +170,7 @@ export default class StudentAssign extends React.Component {
             assignedExam && assignedExam.status === 'assigned' ?
               <div>
                 <button
-                  onClick={() => unassignExam(assignedExam.id)}
+                  onClick={() => this.unassign(assignedExam.id)}
                   style={styles.unassignButton}
                 >
                   Unassign
