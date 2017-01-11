@@ -10,7 +10,7 @@ export default function multipleAnswerQuestion(props) {
         _.map(props.answers, answer => (
           <div key={`question${props.id}_answer${answer.id}`}>
             <hr />
-            <input type="checkbox" /> {answer.text}
+            <input type="checkbox" disabled /> {answer.text}
           </div>
         ))
       }

@@ -37,7 +37,7 @@ export default function multipleDropdowns(props) {
             {
             _.map(bank, answer => (
               <div key={`dropdown_answer_${answer.id}`}>
-                <input type="radio" /> {answer.text}
+                <input type="radio" disabled /> {answer.text}
               </div>
             ))
             }

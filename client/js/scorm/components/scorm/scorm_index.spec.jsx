@@ -25,6 +25,7 @@ describe('scorm index', () => {
       scormList: [],
       uploadPackage: () => {},
       canvasAssignments: [],
+      listAssignmentsDone: true,
     };
     remove = false;
     result = TestUtils.renderIntoDocument(<Wrapper><ScormIndex {...props} /></Wrapper>);

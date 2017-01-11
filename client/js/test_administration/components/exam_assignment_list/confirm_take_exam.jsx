@@ -9,7 +9,6 @@ export default function confirmTakeExam(props) {
       padding: '20px',
       position: 'fixed',
       top: '10vh',
-      bottom: '65vh',
       left: '20vw',
       right: '20vw',
       borderRadius: '5px',
