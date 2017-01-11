@@ -4,6 +4,7 @@ import Network from '../../constants/network';
 // Actions that make an api request
 const requests = [
   'ASSIGN_EXAM',
+  'UNASSIGN_EXAM',
   'REASSIGN_EXAM',
   'LOAD_ASSIGNED_EXAMS',
   'DOWNLOAD_FILE'
@@ -34,6 +35,12 @@ export const reassignExam = (assignedExamId, body) => ({
   type: Constants.REASSIGN_EXAM,
   url: `/api/assigned_exams/${assignedExamId}`,
   body
+});
+
+export const unassignExam = assignedExamId => ({
+  method: Network.DEL,
+  type: Constants.UNASSIGN_EXAM,
+  url: `/api/assigned_exams/${assignedExamId}`,
 });
 
 export const downloadExamStatus = (examId, courseId) => ({
