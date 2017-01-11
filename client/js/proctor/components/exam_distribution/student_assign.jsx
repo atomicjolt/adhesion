@@ -54,7 +54,6 @@ export default class StudentAssign extends React.Component {
     super(props);
     const { assignedExam } = props;
     const selectedCenterId = assignedExam ? _.toString(assignedExam.testing_center_id) : null;
-    this.selector = null;
     this.state = {
       selectedCenterId,
     };
@@ -143,20 +142,17 @@ export default class StudentAssign extends React.Component {
         options: this.getOptions(),
         onChange: option => this.changeOption(option),
         placeholder: 'Select a testing center',
+        value: this.state.selectedCenterId,
       };
 
-      if (this.state.selectedCenterId) {
-        selectSearchProps.value = this.state.selectedCenterId;
-      }
-
       selectSearch = (
-        <SelectSearch ref={(el) => { this.selector = el; }} {...selectSearchProps} />
+        <SelectSearch {...selectSearchProps} />
       );
     }
 
     return (
       <tr>
-        <td style={styles.td}>{this.props.student.name}</td>
+        <td style={styles.td}>{student.name}</td>
         <td style={styles.td}>
           {selectSearch}
         </td>
