@@ -1,11 +1,12 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import { persistState }                          from 'redux-devtools';
 import rootReducer                               from '../reducers';
-import DevTools                                  from '../../dev/dev_tools.jsx';
+import DevTools                                  from '../../dev/dev_tools';
 import API                                       from '../../middleware/api';
 import CanvasApi                                 from '../../libs/canvas/middleware';
+import Conversion                                from '../middleware/conversion';
 
-const middleware = [API, CanvasApi];
+const middleware = [API, CanvasApi, Conversion];
 
 let enhancers = [
   applyMiddleware(...middleware),

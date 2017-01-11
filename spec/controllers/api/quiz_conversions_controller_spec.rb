@@ -35,7 +35,7 @@ RSpec.describe Api::QuizConversionsController, type: :controller do
       )
 
       allow(Word2Quiz).to receive(:parse_quiz).
-        with(an_upload("fake doc")).
+        with(an_upload("fake doc"), an_upload("fake answer key")).
         and_return(@fake_quiz)
 
       @double = double(proxy: double(body: '{ "id": "1" }'))
@@ -46,11 +46,11 @@ RSpec.describe Api::QuizConversionsController, type: :controller do
 
     it "should parse the uploaded quiz" do
       expect(Word2Quiz).to receive(:parse_quiz).
-        with(an_upload("fake doc")).
+        with(an_upload("fake doc"), an_upload("fake answer key")).
         and_return(@fake_quiz)
 
       post :create, {
-        quiz_doc: @file,
+        quiz_doc: nil,
         answer_key: @fake_doc,
         lms_course_id: 1,
       }
@@ -64,7 +64,7 @@ RSpec.describe Api::QuizConversionsController, type: :controller do
       ).and_return(double(body: '{ "id": "1" }'))
 
       post :create, {
-        quiz_doc: @file,
+        quiz_doc: nil,
         answer_key: @fake_doc,
         lms_course_id: 1,
       }
@@ -78,7 +78,7 @@ RSpec.describe Api::QuizConversionsController, type: :controller do
       ).once
 
       post :create, {
-        quiz_doc: @file,
+        quiz_doc: nil,
         answer_key: @fake_doc,
         lms_course_id: 1,
       }
