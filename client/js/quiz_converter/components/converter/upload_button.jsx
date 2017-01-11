@@ -15,7 +15,7 @@ export default function UploadButton(props) {
     );
   }
 
-  return <button className={submitClass}>{content}</button>;
+  return <button type="submit" className={submitClass}>{content}</button>;
 }
 
 UploadButton.propTypes = {

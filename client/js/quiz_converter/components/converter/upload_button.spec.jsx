@@ -5,33 +5,26 @@ import Stub             from '../../../../specs_support/stub';
 
 describe('Upload Button', () => {
   let result;
-  let called;
+  let props;
 
   beforeEach(() => {
-    const props = {
-      text: 'Button text',
-      htmlId: 'quiz',
-      selectFile: () => { called = true; },
+    props = {
+      isConverting: false,
+      canSubmit: false,
     };
 
     result = TestUtils.renderIntoDocument(<Stub><UploadButton {...props} /></Stub>);
-    called = false;
   });
 
   it('renders the button', () => {
-    const label = TestUtils.findRenderedDOMComponentWithTag(result, 'label');
-    expect(label.textContent).toContain('Button text');
+    const button = TestUtils.findRenderedDOMComponentWithTag(result, 'button');
+    expect(button.textContent).toContain('Upload Files');
   });
 
-  it('calls selectFile when a file is selected', () => {
-    const input = TestUtils.findRenderedDOMComponentWithTag(result, 'input');
-    TestUtils.Simulate.change(input, { target: { files: ['file'] } });
-    expect(called).toBeTruthy();
-  });
-
-  it ('does not call selectFile when there are no files selected', () => {
-    const input = TestUtils.findRenderedDOMComponentWithTag(result, 'input');
-    TestUtils.Simulate.change(input, { target: { files: [] } });
-    expect(called).toBeFalsy();
+  it('shows the spinner when isConverting is true', () => {
+    props.isConverting = true;
+    result = TestUtils.renderIntoDocument(<Stub><UploadButton {...props} /></Stub>);
+    const spinner = TestUtils.findRenderedDOMComponentWithTag(result, 'img');
+    expect(spinner).toBeDefined();
   });
 });
