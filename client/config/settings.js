@@ -53,7 +53,8 @@ module.exports = {
     proctor: `${clientAppPath}js/proctor.jsx`,
     quiz_converter: `${clientAppPath}js/quiz_converter.jsx`,
     test_administration: `${clientAppPath}js/test_administration.jsx`,
-    test_taking: `${clientAppPath}js/test_taking.jsx`
+    test_taking: `${clientAppPath}js/test_taking.jsx`,
+    survey_tool: `${clientAppPath}js/survey_tool.jsx`,
   },
 
   cssEntries: {

@@ -39,6 +39,11 @@ lti_applications = [{
   description: "Where students take proctored exams",
   client_application_name: "test_taking",
   canvas_api_permissions: "",
+}, {
+  name: "Survey Aggregation Tool",
+  description: "Admin tool to view survey results",
+  client_application_name: "survey tool",
+  canvas_api_permissions: "",
 }]
 
 lti_consumer_uri = Rails.application.secrets.canvas_url
