@@ -12,4 +12,4 @@ export function newError(message) {
     type: Constants.NEW_ERROR,
     payload: message,
   };
-};
+}

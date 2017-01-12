@@ -17,6 +17,7 @@ export class QuizConverter extends React.Component {
     lmsCourseId: React.PropTypes.string.isRequired,
     importQuiz: React.PropTypes.func.isRequired,
     conversionInProgress: React.PropTypes.bool.isRequired,
+    error: React.PropTypes.string
   }
 
   constructor() {
