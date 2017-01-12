@@ -63,7 +63,8 @@ module.exports = {
     proctor_styles: `${clientAppPath}styles/proctor_styles.js`,
     quiz_converter_styles: `${clientAppPath}styles/quiz_converter_styles.js`,
     test_administration_styles: `${clientAppPath}styles/test_administration_styles.js`,
-    test_taking_styles: `${clientAppPath}styles/test_taking_styles.js`
+    test_taking_styles: `${clientAppPath}styles/test_taking_styles.js`,
+    survey_tool_styles: `${clientAppPath}styles/survey_tool_styles.js`
   }
 
 };
