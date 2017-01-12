@@ -3,7 +3,6 @@ import { Constants as ErrorActions }          from '../actions/errors';
 
 export default function quiz(state = null, action) {
   switch (action.type) {
-    case ErrorActions.CLEAR_ERROR:
     case QuizConversionActions.CONVERT_QUIZ:
       return null;
 
