@@ -16,7 +16,8 @@ export class SurveyTool extends React.Component {
   }
 
   render() {
-    // const { state } = this.props;
+    const { state } = this.props;
+    if (!state) { console.log('this is just so hound shuts up till we have designs'); }
 
     return (
       <div>
