@@ -2,7 +2,7 @@ import React                          from 'react'; // if you use jsx, you have 
 import { Router, Route, IndexRoute }  from 'react-router';
 import appHistory                     from '../history';
 import Index                          from './components/index';
-import NotFound                       from './components/common/not_found';
+import NotFound                       from '../common_components/not_found';
 import DefaultComponent               from './default_component';
 
 export default (

@@ -3,7 +3,7 @@ import { Router, Route, IndexRoute }  from 'react-router';
 import appHistory                     from '../history';
 import ExamList                       from './components/exam_list/_exam_list';
 import Index                          from './components/index';
-import NotFound                       from './components/common/not_found';
+import NotFound                       from '../common_components/not_found';
 import ExamDistribution               from './components/exam_distribution/_exam_distribution';
 
 export default (
