@@ -1,8 +1,23 @@
-import React    from 'react';
+import React        from 'react';
+import { connect }  from 'react-redux';
 
-export default class SurveyTool extends React.Component {
+const select = state => ({
+  state,
+});
+
+export class SurveyTool extends React.Component {
+  static propTypes = {
+    state: React.propTypes.node,
+  };
+
+  constructor() {
+    super();
+    this.state = {};
+  }
 
   render() {
+    // const { state } = this.props;
+
     return (
       <div>
         <h1>Survey Tool</h1>
@@ -10,3 +25,5 @@ export default class SurveyTool extends React.Component {
     );
   }
 }
+
+export default connect(select, {})(SurveyTool);
