@@ -42,7 +42,7 @@ lti_applications = [{
 }, {
   name: "Survey Aggregation Tool",
   description: "Admin tool to view survey results",
-  client_application_name: "survey tool",
+  client_application_name: "survey_tool",
   canvas_api_permissions: "",
 }]
 
@@ -82,6 +82,12 @@ lti_application_instances = [{
   lti_application: "Test Taking Tool",
   lti_key: "test-taking",
   lti_secret: Rails.application.secrets.test_administration_lti_secret,
+  lti_consumer_uri: lti_consumer_uri,
+  canvas_token: Rails.application.secrets.canvas_token,
+}, {
+  lti_application: "Survey Aggregation Tool",
+  lti_key: "survey-tool",
+  lti_secret: Rails.application.secrets.survey_tool_lti_secret,
   lti_consumer_uri: lti_consumer_uri,
   canvas_token: Rails.application.secrets.canvas_token,
 }]
