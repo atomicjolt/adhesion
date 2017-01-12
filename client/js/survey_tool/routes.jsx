@@ -3,8 +3,8 @@ import { Router, Route, IndexRoute }  from 'react-router';
 
 import appHistory                     from '../history';
 import Index                          from './components/index';
-import SurveyTool                     from './components/survey/survey';
-import NotFound                       from './components/common/not_found';
+import SurveyTool                     from './components/survey/_survey';
+import NotFound                       from '../common_components/not_found';
 
 export default (
   <Router history={appHistory}>
