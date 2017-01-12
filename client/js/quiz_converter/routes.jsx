@@ -5,7 +5,7 @@ import appHistory                     from '../history';
 import Index                          from './components/index';
 import QuizConverter                  from './components/converter/quiz_converter';
 import Finish                         from './components/converter/finish';
-import NotFound                       from './components/common/not_found';
+import NotFound                       from '../common_components/not_found';
 
 export default (
   <Router history={appHistory}>
