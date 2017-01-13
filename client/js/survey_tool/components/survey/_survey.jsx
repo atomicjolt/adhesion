@@ -7,7 +7,7 @@ const select = state => ({
 
 export class SurveyTool extends React.Component {
   static propTypes = {
-    state: React.propTypes.node,
+    state: React.PropTypes.node,
   };
 
   constructor() {
