@@ -7,8 +7,8 @@ class Api::QuizConversionsController < ApplicationController
 
   def create
     quiz_doc = get_quiz_doc
-
     answer_key = get_answer_key
+
     begin
       quiz = Word2Quiz.parse_quiz(quiz_doc, answer_key)
 
@@ -45,8 +45,10 @@ class Api::QuizConversionsController < ApplicationController
       answer_key.close
 
       render status: 200, json: canvas_quiz
+    rescue Word2Quiz::InvalidAnswerKey, Word2Quiz::InvalidQuiz => e
+      render status: 400, json: { message: e.message }
     rescue
-      render status: 400, json: { message: "Something went wrong." }
+      render status: 400, json: { message: "An unknown error has ocurred." }
     end
   end
 
