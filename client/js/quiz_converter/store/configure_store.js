@@ -3,10 +3,11 @@ import { persistState }                          from 'redux-devtools';
 import rootReducer                               from '../reducers';
 import DevTools                                  from '../../dev/dev_tools';
 import API                                       from '../../middleware/api';
-import CanvasApi                                 from '../../libs/canvas/middleware';
 import Conversion                                from '../middleware/conversion';
 
-const middleware = [API, CanvasApi, Conversion];
+// The Conversion middleware responds to an action that is dispatched by the
+// API middleware, so it must come after API.
+const middleware = [API, Conversion];
 
 let enhancers = [
   applyMiddleware(...middleware),
