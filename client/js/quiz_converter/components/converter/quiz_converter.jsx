@@ -3,11 +3,13 @@ import { connect }        from 'react-redux';
 
 import FileUploadButton   from './file_upload_button';
 import UploadButton       from './upload_button';
+import ErrorMessage       from './error_message';
 import { importQuiz }     from '../../actions/quiz_converter';
 
 const select = state => ({
   lmsCourseId: state.settings.lmsCourseId,
   conversionInProgress: state.inProgress,
+  error: state.error,
 });
 
 export class QuizConverter extends React.Component {
@@ -15,6 +17,7 @@ export class QuizConverter extends React.Component {
     lmsCourseId: React.PropTypes.string.isRequired,
     importQuiz: React.PropTypes.func.isRequired,
     conversionInProgress: React.PropTypes.bool.isRequired,
+    error: React.PropTypes.string
   }
 
   constructor() {
@@ -72,6 +75,7 @@ export class QuizConverter extends React.Component {
             text={this.state.answerText}
             selectFile={(file) => { this.selectAnswerKey(file); }}
           />
+          <ErrorMessage error={this.props.error} />
           <UploadButton
             isConverting={this.props.conversionInProgress}
             canSubmit={this.canSubmit()}

@@ -144,3 +144,10 @@
     @include transform(translate(-50%,-50%) rotate(360deg));
   }
 }
+
+.c-error {
+  @include semi-bold;
+  text-align: center;
+  color: $red;
+  font-size: 1.4rem;
+}
