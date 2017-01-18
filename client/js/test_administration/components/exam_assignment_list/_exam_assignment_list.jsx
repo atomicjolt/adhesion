@@ -9,23 +9,31 @@ import ProctorCode             from './proctor_code';
 import SearchBar               from './search_bar';
 import canvasRequest           from '../../../libs/canvas/action';
 import { createConversation }  from '../../../libs/canvas/constants/conversations';
+import CenterError             from '../common/center_error';
 
 const select = state => ({
   lmsUserId: state.settings.lmsUserId,
+  currentAccountId: state.settings.customCanvasAccountID,
+  toolConsumerInstanceName: state.settings.toolConsumerInstanceName,
   proctorCodeList: state.proctorCodes.proctorCodeList,
+  centerIdError: state.proctorCodes.centerIdError,
 });
 
 export class BaseExamAssignmentList extends React.Component {
   static propTypes =  {
     loadProctorCodes: React.PropTypes.func.isRequired,
+    testingCentersAccountSetup: React.PropTypes.func.isRequired,
+    toolConsumerInstanceName: React.PropTypes.string.isRequired,
     lmsUserId: React.PropTypes.string.isRequired,
+    centerIdError: React.PropTypes.bool,
+    currentAccountId: React.PropTypes.string.isRequired,
     proctorCodeList: React.PropTypes.arrayOf(
       React.PropTypes.shape({})
     ).isRequired,
     hideModal: React.PropTypes.func.isRequired,
     showModal: React.PropTypes.func.isRequired,
     canvasRequest: React.PropTypes.func.isRequired,
-  }
+  };
 
   static tableHeader(styles) {
     return (
@@ -57,15 +65,21 @@ export class BaseExamAssignmentList extends React.Component {
       }
     };
   }
+
   constructor() {
     super();
     this.state = {
-      searchVal: null
+      searchVal: null,
+      openSettings: null,
     };
   }
 
   componentWillMount() {
     this.props.loadProctorCodes(this.props.lmsUserId);
+    this.props.testingCentersAccountSetup(
+      this.props.currentAccountId,
+      this.props.toolConsumerInstanceName
+    );
   }
 
 
@@ -99,6 +113,8 @@ export class BaseExamAssignmentList extends React.Component {
         sendMessage={(id, body, subject) => this.sendMessage(id, body, subject)}
         showModal={this.props.showModal}
         hideModal={this.props.hideModal}
+        openSettings={id => this.setState({ openSettings: id })}
+        settingsOpen={this.state.openSettings === proctorCode.id}
       />
     ));
   }
@@ -116,6 +132,7 @@ export class BaseExamAssignmentList extends React.Component {
     const styles = BaseExamAssignmentList.getStyles();
     return (
       <div>
+        { this.props.centerIdError ? <CenterError /> : null }
         <SearchBar searchChange={e => this.setState({ searchVal: e.target.value })} />
         <table style={styles.table}>
           <thead  style={styles.tr}>

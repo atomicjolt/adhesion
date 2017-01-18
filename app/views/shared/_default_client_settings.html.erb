@@ -2,7 +2,6 @@
   settings = {
     apiUrl: application_base_url,
     csrfToken: form_authenticity_token,
-    testingCentersAccountId: 25, # figure out this, it probably should not be hard coded
   }
   if signed_in?
     settings[:userId]                            = current_user.id
@@ -13,12 +12,16 @@
     settings[:lmsUserId]                         = current_user.lms_user_id
     settings[:ltiProvider]                       = lti_provider
     settings[:lmsCourseName]                     = params[:context_title]
+    settings[:canvas_oauth_path]                 = @canvas_oauth_path
+    settings[:canvas_auth_required]              = @canvas_auth_required
+
     # LTI parameters
     settings[:contextID]                         = params["context_id"]
     settings[:contextLabel]                      = params["context_label"]
     settings[:contextTitle]                      = params["context_title"]
     settings[:customCanvasApiDomain]             = params["custom_canvas_api_domain"]
     settings[:customCanvasCourseID]              = params["custom_canvas_course_id"]
+    settings[:customCanvasAccountID]             = params["custom_canvas_account_id"]
     settings[:customCanvasEnrollmentState]       = params["custom_canvas_enrollment_state"]
     settings[:customCanvasUserID]                = params["custom_canvas_user_id"]
     settings[:customCanvasUserLoginID]           = params["custom_canvas_user_login_id"]

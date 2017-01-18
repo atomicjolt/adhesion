@@ -29,6 +29,21 @@ lti_applications = [{
   description: "Test Administration",
   client_application_name: "test_administration",
   canvas_api_permissions: canvas_permissions,
+}, {
+  name: "Quiz Converter",
+  description: "Converts word docs to quizzes",
+  client_application_name: "quiz_converter",
+  canvas_api_permissions: "",
+}, {
+  name: "Test Taking Tool",
+  description: "Where students take proctored exams",
+  client_application_name: "test_taking",
+  canvas_api_permissions: "",
+}, {
+  name: "Survey Aggregation Tool",
+  description: "Admin tool to view survey results",
+  client_application_name: "survey_tool",
+  canvas_api_permissions: "",
 }]
 
 lti_consumer_uri = Rails.application.secrets.canvas_url
@@ -52,9 +67,27 @@ lti_application_instances = [{
   lti_consumer_uri: lti_consumer_uri,
   canvas_token: Rails.application.secrets.canvas_token,
 }, {
+  lti_application: "Quiz Converter",
+  lti_key: "quiz-converter",
+  lti_secret: Rails.application.secrets.quiz_converter_lti_secret,
+  lti_consumer_uri: lti_consumer_uri,
+  canvas_token: Rails.application.secrets.canvas_token,
+}, {
   lti_application: "Test Administration Tool",
   lti_key: "test-administration",
   lti_secret: Rails.application.secrets.test_administration_lti_secret,
+  lti_consumer_uri: lti_consumer_uri,
+  canvas_token: Rails.application.secrets.canvas_token,
+}, {
+  lti_application: "Test Taking Tool",
+  lti_key: "test-taking",
+  lti_secret: Rails.application.secrets.test_administration_lti_secret,
+  lti_consumer_uri: lti_consumer_uri,
+  canvas_token: Rails.application.secrets.canvas_token,
+}, {
+  lti_application: "Survey Aggregation Tool",
+  lti_key: "survey-tool",
+  lti_secret: Rails.application.secrets.survey_tool_lti_secret,
   lti_consumer_uri: lti_consumer_uri,
   canvas_token: Rails.application.secrets.canvas_token,
 }]
@@ -70,9 +103,10 @@ end
 lti_application_instances.each do |attrs|
   lti_application = LtiApplication.find_by(name: attrs.delete(:lti_application))
   attrs = attrs.merge(lti_application_id: lti_application.id)
-  if lti_application_instance = LtiApplicationInstance.find_by(
-    lti_key: attrs[:lti_key],
-  )
+  if lti_application_instance = LtiApplicationInstance.find_by(lti_key: attrs[:lti_key])
+    # Don't change production lti keys
+    attrs.delete(:lti_secret) if attrs[:lti_secret].blank? || Rails.env.production?
+
     lti_application_instance.update_attributes!(attrs)
   else
     LtiApplicationInstance.create!(attrs)

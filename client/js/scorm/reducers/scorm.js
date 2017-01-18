@@ -24,9 +24,15 @@ export default (state = initialState, action) => {
       updatedScormList[action.original.localData.index] = updatedScorm;
       return { ...state, scormList: updatedScormList };
     }
-    case 'LIST_ASSIGNMENTS_DONE':
-      return { ...state, canvasAssignments: action.payload };
-
+    case 'LIST_ASSIGNMENTS_DONE': {
+      const newState = _.cloneDeep(state);
+      const updatedAssignments = newState.canvasAssignments;
+      if (!updatedAssignments) newState.canvasAssignments = {};
+      _.forEach(action.payload, (assignment) => {
+        newState.canvasAssignments[assignment.id] = assignment;
+      });
+      return { ...newState, listAssignmentsDone: action.lastPage };
+    }
     case PackageConstants.UPDATE_IMPORT_TYPE: {
       const updatedScorm = { ...state.scormList[action.index] };
       updatedScorm.is_graded = action.importType;

@@ -37,6 +37,7 @@ describe('Exam list', () => {
       assignExam: () => {},
       reassignExam: () => {},
       loadAssignedExams: () => {},
+      clearState: () => {},
       testingCentersAccountId: 1,
       assignedExams: {
         1: {
@@ -52,14 +53,14 @@ describe('Exam list', () => {
 
   it('puts the unassigned students at the top of the list', () => {
     const element = TestUtils.findRenderedDOMComponentWithTag(result, 'table');
-    expect(element.textContent).toContain('JosephGeorgiaAlabama -  Unassigned Ben');
+    expect(element.textContent).toContain('JosephGeorgiaAlabama - UnassignedBen');
   });
 
   it('orders the list by student name', () => {
     const button = TestUtils.findRenderedDOMComponentWithClass(result, 'spec_name');
     TestUtils.Simulate.click(button);
     const element = TestUtils.findRenderedDOMComponentWithTag(result, 'table');
-    expect(element.textContent).toContain('BenGeorgiaAlabama01 DEC 15 0:0 -  Assigned Joseph');
+    expect(element.textContent).toContain('BenGeorgiaAlabama01 DEC 15 0:0 - AssignedUnassignJoseph');
   });
 
   it('goes back to exam list page with a click of the back button', () => {

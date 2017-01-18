@@ -5,7 +5,7 @@ export default function essayQuestion(props) {
   return (
     <div>
       <Text text={props.question_text} />
-      <textarea className="textbox" rows="10" style={{ width: '98%' }} />
+      <textarea className="textbox" rows="10" style={{ width: '98%' }} disabled />
     </div>
   );
 }

@@ -9,7 +9,7 @@ import { getSubAccountsOfAccount } from '../../../libs/canvas/constants/accounts
 import StudentAssign               from './student_assign';
 import appHistory                  from '../../../history';
 import HoverButton                 from '../common/hover_button';
-import DownloadSvg                 from '../common/download_svg';
+import CenterError                 from '../common/center_error';
 
 const select = (state, props) => {
   const exam = _.find(state.exams.examList, ex => props.params.id === ex.id.toString());
@@ -20,7 +20,7 @@ const select = (state, props) => {
     exam,
     instructorName: state.settings.displayName,
     studentList: state.students.studentList,
-    testingCentersAccountId: state.settings.testingCentersAccountId,
+    testingCentersAccountId: state.testingCenters.testingCentersAccount.testing_centers_account_id,
     testingCenterList: state.testingCenters.testingCenterList,
     assignedExams: state.exams.assignedExams,
     ready: state.exams.ready,
@@ -45,8 +45,10 @@ export class BaseExamDistribution extends React.Component {
     testingCentersAccountId: React.PropTypes.number.isRequired,
     assignedExams: React.PropTypes.shape({}),
     instructorName: React.PropTypes.string.isRequired,
-    ready: React.PropTypes.bool.isRequired
-  }
+    ready: React.PropTypes.bool.isRequired,
+    clearState: React.PropTypes.func.isRequired,
+    unassignExam: React.PropTypes.func.isRequired,
+  };
 
   static getStyles() {
     return {
@@ -88,19 +90,13 @@ export class BaseExamDistribution extends React.Component {
       },
       floatRight: {
         float: 'right',
-        padding: '8px 20px',
+        padding: '10px 15px',
         borderRadius: '0',
         backgroundColor: Defines.lightBackground,
         border: 'none',
         fontSize: '20px',
-        cursor: 'pointer'
-      },
-      downloadSvg: {
-        float: 'right',
-        marginLeft: '15px',
-        backgroundColor: Defines.lightBackground,
-        border: 'none',
-        cursor: 'pointer'
+        cursor: 'pointer',
+        marginLeft: '5px'
       },
     };
   }
@@ -109,6 +105,7 @@ export class BaseExamDistribution extends React.Component {
     super();
     this.state = {
       sortBy: 'status',
+      centerError: false
     };
   }
 
@@ -119,10 +116,15 @@ export class BaseExamDistribution extends React.Component {
   }
 
   getTestingCenters() {
-    const params = {
-      account_id: this.props.testingCentersAccountId,
-    };
-    this.props.canvasRequest(getSubAccountsOfAccount, params, {});
+    const testingId = this.props.testingCentersAccountId || -1;
+    if (testingId !== -1) {
+      const params = {
+        account_id: testingId
+      };
+      this.props.canvasRequest(getSubAccountsOfAccount, params, {});
+    } else {
+      this.setState({ testingCenterError: true });
+    }
   }
 
   getStudents() {
@@ -186,6 +188,7 @@ export class BaseExamDistribution extends React.Component {
         assignExam={(studentId, centerId, name) => this.assignExam(studentId, centerId, name)}
         reassignExam={(assignedId, centerId, name) => this.reassignExam(assignedId, centerId, name)}
         assignedExam={this.props.assignedExams[student.id]}
+        unassignExam={this.props.unassignExam}
       />
     );
   }
@@ -209,26 +212,32 @@ export class BaseExamDistribution extends React.Component {
     return _.map(students, student => (this.buildStudentAssign(student)));
   }
 
+  goBack() {
+    this.props.clearState();
+    appHistory.push('/');
+  }
+
   render() {
     const styles = BaseExamDistribution.getStyles();
     const { params, lmsCourseId, downloadExamStatus } = this.props;
     return (
       <div>
+        { this.state.centerError ? <CenterError /> : null }
         <h1 style={styles.header}>
           {this.props.exam.title}
           <HoverButton
             className="spec_download"
-            style={styles.downloadSvg}
+            style={styles.floatRight}
             onClick={() => downloadExamStatus(params.id, lmsCourseId)}
           >
-            <DownloadSvg />
+            <i className="material-icons">file_download</i>
           </HoverButton>
           <HoverButton
             className="spec_back"
             style={styles.floatRight}
-            onClick={() => appHistory.push('/')}
+            onClick={() => this.goBack()}
           >
-            &#10226;
+            <i className="material-icons">arrow_back</i>
           </HoverButton>
         </h1>
         <table style={styles.table}>

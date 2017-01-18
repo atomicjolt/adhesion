@@ -53,6 +53,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :jwts
+    resources :testing_centers_accounts
     resources :scorm_courses do
       get "launch" => "scorm_courses#launch"
       get "preview" => "scorm_courses#preview"
@@ -69,6 +70,8 @@ Rails.application.routes.draw do
         get "search", on: :collection
       end
     end
+
+    resources :quiz_conversions, only: [:create]
   end
 
   mount MailPreview => "mail_view" if Rails.env.development?

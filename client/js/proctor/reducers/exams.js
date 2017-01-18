@@ -1,20 +1,27 @@
 import _ from 'lodash';
 
 const defaultState = {
-  examList: [],
+  examList: {},
   assignedExams: {},
   ready: false,
 };
 
 export default function exams(state = defaultState, action) {
   switch (action.type) {
-    case 'LIST_QUIZZES_IN_COURSE_DONE':
-      return { ...state, examList: _.filter(action.payload, exam => exam.published) };
+    case 'LIST_QUIZZES_IN_COURSE_DONE': {
+      const newState = _.cloneDeep(state);
+      const list = _.filter(action.payload, exam => exam.published);
+      _.forEach(list, (exam) => {
+        newState.examList[exam.id] = exam;
+      });
+      return newState;
+    }
 
     case 'LOAD_ASSIGNED_EXAMS_DONE': {
       const newState = _.cloneDeep(state);
       _.forEach(action.payload, (assignedExam) => {
-        newState.assignedExams[assignedExam.student_id] = assignedExam;
+        const { student_id } = assignedExam;
+        newState.assignedExams[student_id] = assignedExam;
       });
       newState.ready = true;
       return newState;
@@ -25,6 +32,14 @@ export default function exams(state = defaultState, action) {
       newState.assignedExams[action.payload.student_id] = action.payload;
       return newState;
     }
+
+    case 'UNASSIGN_EXAM_DONE': {
+      const newState = _.cloneDeep(state);
+      delete newState.assignedExams[action.payload.student_id];
+      return newState;
+    }
+    case 'CLEAR_STATE':
+      return defaultState;
 
     default:
       return state;

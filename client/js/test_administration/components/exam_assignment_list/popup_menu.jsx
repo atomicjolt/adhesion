@@ -67,6 +67,7 @@ export default function popupMenu(props) {
         <HoverButton
           style={buttonStyle}
           hoveredStyle={hoveredStyle}
+          onClick={() => props.openExamModal()}
         >
           Enter Answers
         </HoverButton>

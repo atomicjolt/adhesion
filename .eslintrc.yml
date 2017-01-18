@@ -34,3 +34,7 @@ rules:
   import/no-extraneous-dependencies:
     - error
     - devDependencies: true
+  padded-blocks: 0
+  key-spacing:
+    - 2
+    - mode: minimum

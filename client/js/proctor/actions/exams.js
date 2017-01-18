@@ -4,12 +4,17 @@ import Network from '../../constants/network';
 // Actions that make an api request
 const requests = [
   'ASSIGN_EXAM',
+  'UNASSIGN_EXAM',
   'REASSIGN_EXAM',
   'LOAD_ASSIGNED_EXAMS',
   'DOWNLOAD_FILE'
 ];
 
-export const Constants = wrapper([], requests);
+const actions = [
+  'CLEAR_STATE',
+];
+
+export const Constants = wrapper(actions, requests);
 
 export const loadAssignedExams = examId => ({
   method: Network.GET,
@@ -32,9 +37,19 @@ export const reassignExam = (assignedExamId, body) => ({
   body
 });
 
+export const unassignExam = assignedExamId => ({
+  method: Network.DEL,
+  type: Constants.UNASSIGN_EXAM,
+  url: `/api/assigned_exams/${assignedExamId}`,
+});
+
 export const downloadExamStatus = (examId, courseId) => ({
   method: Network.GET,
   type: Constants.DOWNLOAD_FILE,
   url: '/download_status',
   params: { exam_id: examId, course_id: courseId }
+});
+
+export const clearState = () => ({
+  type: Constants.CLEAR_STATE,
 });

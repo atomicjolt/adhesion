@@ -13,12 +13,13 @@ export default class StudentAssign extends React.Component {
     }).isRequired,
     testingCenterList: React.PropTypes.shape({}),
     assignExam: React.PropTypes.func.isRequired,
+    unassignExam: React.PropTypes.func.isRequired,
     reassignExam: React.PropTypes.func.isRequired,
     assignedExam: React.PropTypes.shape({
       status: React.PropTypes.string.isRequired,
       id: React.PropTypes.number.isRequired,
     }),
-  }
+  };
 
   static getStyles() {
     return {
@@ -39,6 +40,13 @@ export default class StudentAssign extends React.Component {
       hoveredStyle: {
         opacity: '0.8',
       },
+      unassignButton: {
+        border: 'none',
+        backgroundColor: 'transparent',
+        color: 'blue',
+        textDecoration: 'underline',
+        cursor: 'pointer',
+      }
     };
   }
 
@@ -46,7 +54,6 @@ export default class StudentAssign extends React.Component {
     super(props);
     const { assignedExam } = props;
     const selectedCenterId = assignedExam ? _.toString(assignedExam.testing_center_id) : null;
-    this.selector = null;
     this.state = {
       selectedCenterId,
     };
@@ -72,12 +79,13 @@ export default class StudentAssign extends React.Component {
     return 'Unassigned';
   }
 
-  reassignExam(centerId) {
-    this.props.reassignExam(this.props.assignedExam.id, centerId);
-  }
-
   changeOption(option) {
     this.setState({ selectedCenterId: option.value });
+  }
+
+  unassign(id) {
+    this.props.unassignExam(id);
+    this.setState({ selectedCenterId: null });
   }
 
   render() {
@@ -107,11 +115,11 @@ export default class StudentAssign extends React.Component {
         <HoverButton
           style={styles.button}
           hoveredStyle={styles.hoveredStyle}
-          onClick={() => this.reassignExam(
+          onClick={() => this.props.reassignExam(
             assignedExam.id,
             selectedCenterId,
             testingCenterList[selectedCenterId].name
-            )}
+          )}
         >
           Reassign
         </HoverButton>
@@ -134,20 +142,17 @@ export default class StudentAssign extends React.Component {
         options: this.getOptions(),
         onChange: option => this.changeOption(option),
         placeholder: 'Select a testing center',
+        value: this.state.selectedCenterId,
       };
 
-      if (this.state.selectedCenterId) {
-        selectSearchProps.value = this.state.selectedCenterId;
-      }
-
       selectSearch = (
-        <SelectSearch ref={(el) => { this.selector = el; }} {...selectSearchProps} />
+        <SelectSearch {...selectSearchProps} />
       );
     }
 
     return (
       <tr>
-        <td style={styles.td}>{this.props.student.name}</td>
+        <td style={styles.td}>{student.name}</td>
         <td style={styles.td}>
           {selectSearch}
         </td>
@@ -155,7 +160,20 @@ export default class StudentAssign extends React.Component {
           {assignObject}
         </td>
         <td style={styles.td}> - </td>
-        <td style={styles.td}> {this.getStatus()} </td>
+        <td style={styles.td}>
+          {this.getStatus()}
+          {
+            assignedExam && assignedExam.status === 'assigned' ?
+              <div>
+                <button
+                  onClick={() => this.unassign(assignedExam.id)}
+                  style={styles.unassignButton}
+                >
+                  Unassign
+                </button>
+              </div> : null
+          }
+        </td>
       </tr>
     );
   }
