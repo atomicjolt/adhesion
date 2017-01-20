@@ -45,8 +45,8 @@ class Api::AttendancesController < ApplicationController
           else
             attendance.update(status: att_params[:status])
           end
-        else
-          attendance = Attendance.create(att_params) if att_params[:status] != ""
+        elsif att_params[:status] != ""
+          attendance = Attendance.create(att_params)
         end
         attendances << attendance
       end
