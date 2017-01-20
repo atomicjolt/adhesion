@@ -38,16 +38,20 @@ class Api::AttendancesController < ApplicationController
           lms_course_id: att_params[:lms_course_id],
           date: att_params[:date],
         )
-
         if attendance.present? # status = present, late, absent
-          attendance.update(status: att_params[:status])
+          if att_params[:status] == ''
+            attendance.destroy
+            attendance = nil
+          else
+            attendance.update(status: att_params[:status])
+          end
         else
-          attendance = Attendance.create(att_params)
+          attendance = Attendance.create(att_params) if att_params[:status] != ''
         end
         attendances << attendance
       end
     end
-    render json: attendances
+    render json: attendances.compact
   end
 
   def search
