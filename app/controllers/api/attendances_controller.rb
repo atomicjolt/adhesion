@@ -39,14 +39,14 @@ class Api::AttendancesController < ApplicationController
           date: att_params[:date],
         )
         if attendance.present? # status = present, late, absent
-          if att_params[:status] == ''
+          if att_params[:status] == ""
             attendance.destroy
             attendance = nil
           else
             attendance.update(status: att_params[:status])
           end
         else
-          attendance = Attendance.create(att_params) if att_params[:status] != ''
+          attendance = Attendance.create(att_params) if att_params[:status] != ""
         end
         attendances << attendance
       end
