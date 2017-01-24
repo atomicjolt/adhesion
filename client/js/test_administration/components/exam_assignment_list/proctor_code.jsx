@@ -7,6 +7,7 @@ import HoverButton       from '../common/hover_button';
 import PopupMenu         from './popup_menu';
 import MessageInstructor from './message_instructor';
 import ConfirmTakeExam   from './confirm_take_exam';
+import ScheduleForm      from './schedule_form';
 
 export default class ProctorCode extends React.Component {
   static propTypes = {
@@ -67,7 +68,38 @@ export default class ProctorCode extends React.Component {
         right: '20px',
         zIndex: '1',
       },
+      scheduleButton: {
+        border: 'none',
+        color: Defines.linkBlue,
+        fontSize: '1em',
+        padding: '0px',
+        backgroundColor: 'white',
+        cursor: 'pointer'
+      },
+      scheduleHoverStyle: {
+        color: Defines.highlightedText,
+      }
     };
+  }
+
+  getScheduleOption() {
+    const { assignedExam } = this.props;
+    const styles = this.getStyles();
+    if (assignedExam.status === 'pending') {
+      return (
+        <div>
+          <HoverButton
+            style={styles.scheduleButton}
+            hoveredStyle={styles.scheduleHoverStyle}
+            onClick={() => this.openScheduleModal()}
+          >
+            Schedule
+          </HoverButton>
+          <div>{assignedExam.message}</div>
+        </div>
+      );
+    }
+    return 'not implemented';
   }
 
   iconClick() {
@@ -88,6 +120,20 @@ export default class ProctorCode extends React.Component {
     const { assignedExam } = this.props;
     hashHistory.push(`/enter_answers/user/${assignedExam.student_id}/course/${assignedExam.course_id}/quiz/${assignedExam.exam_id}`);
     this.props.hideModal();
+  }
+
+  openScheduleModal() {
+    const { assignedExam } = this.props;
+    this.props.openSettings(null);
+    this.props.showModal(<ScheduleForm
+      studentName={assignedExam.student_name}
+      studentId={assignedExam.student_id}
+      courseName={assignedExam.course_name}
+      examName={assignedExam.exam_name}
+      message={assignedExam.message}
+      scheduleExam={() => {}}
+      closeModal={() => this.props.hideModal()}
+    />);
   }
 
   openMessageModal(id) {
@@ -124,9 +170,7 @@ export default class ProctorCode extends React.Component {
           <div>{moment(proctorCode.created_at).format('DD MMM YY H:m')}</div>
         </td>
         <td style={styles.td}>
-          <div style={styles.largeFont}>
-            {proctorCode.code}
-          </div>
+          {this.getScheduleOption()}
         </td>
         <td style={styles.td}>
           <div style={styles.status}>

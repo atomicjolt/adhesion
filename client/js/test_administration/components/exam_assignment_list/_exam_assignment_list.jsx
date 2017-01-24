@@ -10,6 +10,7 @@ import SearchBar               from './search_bar';
 import canvasRequest           from '../../../libs/canvas/action';
 import { createConversation }  from '../../../libs/canvas/constants/conversations';
 import CenterError             from '../common/center_error';
+import FilterTabs              from './filter_tabs';
 
 const select = state => ({
   lmsUserId: state.settings.lmsUserId,
@@ -40,7 +41,7 @@ export class BaseExamAssignmentList extends React.Component {
       <tr>
         <th style={styles.th}>STUDENT</th>
         <th style={styles.th}>EXAM</th>
-        <th style={styles.th}>PROCTOR CODE</th>
+        <th style={styles.th}>SCHEDULING</th>
         <th style={styles.th}>STATUS</th>
       </tr>
     );
@@ -51,6 +52,7 @@ export class BaseExamAssignmentList extends React.Component {
       table: {
         borderCollapse: 'collapse',
         width: '100%',
+        marginTop: '10px',
       },
       tr: {
         backgroundColor: Defines.lightBackground,
@@ -71,6 +73,7 @@ export class BaseExamAssignmentList extends React.Component {
     this.state = {
       searchVal: null,
       openSettings: null,
+      selectedTab: 'date',
     };
   }
 
@@ -82,14 +85,12 @@ export class BaseExamAssignmentList extends React.Component {
     );
   }
 
-
   getProctorCodes() {
     const options = {
       shouldSort: false,
       threshold: 0.5,
       keys: [
         'assigned_exam.student_name',
-        'assigned_exam.instructor_name',
         'assigned_exam.course_name',
         'assigned_exam.exam_name',
         'assigned_exam.status',
@@ -105,6 +106,8 @@ export class BaseExamAssignmentList extends React.Component {
       renderList = fuse.search(this.state.searchVal);
     }
 
+    renderList = this.tabFilter(renderList);
+
     return _.map(renderList, proctorCode => (
       <ProctorCode
         key={`proctor_${proctorCode.id}`}
@@ -119,6 +122,17 @@ export class BaseExamAssignmentList extends React.Component {
     ));
   }
 
+  tabFilter(proctorCodeList) {
+    if (this.state.selectedTab === 'date') {
+      // search by date
+      return _.filter(proctorCodeList, code => (code.status === 'pending'));
+    } else if (this.state.selectedTab === 'unscheduled') {
+      return _.filter(proctorCodeList, code => (code.status !== 'pending'));
+    }
+
+    return proctorCodeList;
+  }
+
   sendMessage(id, body, subject) {
     const payload = {
       recipients: [_.toString(id)],
@@ -129,11 +143,16 @@ export class BaseExamAssignmentList extends React.Component {
   }
 
   render() {
+    // <SearchBar searchChange={e => this.setState({ searchVal: e.target.value })} />
+    console.log(this.state.selectedTab);
     const styles = BaseExamAssignmentList.getStyles();
     return (
       <div>
         { this.props.centerIdError ? <CenterError /> : null }
-        <SearchBar searchChange={e => this.setState({ searchVal: e.target.value })} />
+        <FilterTabs
+          changeTab={selectedTab => this.setState({ selectedTab })}
+          selectedTab={this.state.selectedTab}
+        />
         <table style={styles.table}>
           <thead  style={styles.tr}>
             {BaseExamAssignmentList.tableHeader(styles)}

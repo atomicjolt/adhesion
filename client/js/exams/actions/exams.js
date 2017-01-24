@@ -16,14 +16,14 @@ const actions = [
 
 export const Constants = wrapper(actions, requests);
 
-export const loadAssignedExams = examId => ({
+export const loadAssignedExams = studentId => ({
   method: Network.GET,
   type: Constants.LOAD_ASSIGNED_EXAMS,
   url: '/api/assigned_exams',
-  params: { exam_id: examId }
+  params: { student_id: studentId }
 });
 
-export const assignExam = body => ({
+export const requestExam = body => ({
   method: Network.POST,
   type: Constants.ASSIGN_EXAM,
   url: '/api/assigned_exams',

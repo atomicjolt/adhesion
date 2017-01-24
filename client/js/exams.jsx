@@ -3,9 +3,9 @@ import es6Promise               from 'es6-promise';
 import React                    from 'react';
 import ReactDOM                 from 'react-dom';
 import { Provider }             from 'react-redux';
-import routes                   from './proctor/routes';
+import routes                   from './exams/routes';
 import DevTools                 from './dev/dev_tools';
-import configureStore           from './proctor/store/configure_store';
+import configureStore           from './exams/store/configure_store';
 import jwt                      from './loaders/jwt';
 import { getInitialSettings }   from './reducers/settings';
 

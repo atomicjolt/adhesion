@@ -6,7 +6,7 @@ class Api::AssignedExamsController < ApplicationController
   respond_to :json
 
   def index
-    assigned_exams = AssignedExam.where(exam_id: params[:exam_id])
+    assigned_exams = AssignedExam.where(student_id: params[:student_id])
     render json: assigned_exams
   end
 
@@ -35,10 +35,9 @@ class Api::AssignedExamsController < ApplicationController
 
   def create_params
     params.require(:assigned_exam).permit(
-      :exam_id, :course_id, :instructor_name,
-      :testing_center_name, :student_id,
-      :instructor_id, :testing_center_id,
-      :exam_name, :student_name, :course_name
+      :exam_id, :course_id, :testing_center_name,
+      :student_id, :testing_center_id, :exam_name, 
+      :student_name, :course_name, :message
     )
   end
 
