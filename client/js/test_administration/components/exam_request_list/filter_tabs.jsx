@@ -27,12 +27,11 @@ export default class FilterTabs extends React.Component {
         cursor: 'pointer',
       },
       selected: name => (
-        name === this.props.selectedTab ?
-          {
-            backgroundColor: Defines.tanishBrown,
-            color: 'white',
-            zIndex: '1',
-          } : {}
+        name === this.props.selectedTab ? {
+          backgroundColor: Defines.tanishBrown,
+          color: 'white',
+          zIndex: '1',
+        } : {}
       ),
       shift: {
         marginLeft: '-10px',

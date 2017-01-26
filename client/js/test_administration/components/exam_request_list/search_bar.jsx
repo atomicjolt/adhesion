@@ -1,5 +1,4 @@
 import React       from 'react';
-import HoverButton from '../common/hover_button';
 import Defines     from '../../defines';
 
 export default class SearchBar extends React.Component {

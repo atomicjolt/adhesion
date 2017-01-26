@@ -22,7 +22,7 @@ export class BaseExamList extends React.Component {
   static propTypes = {
     canvasRequest: React.PropTypes.func.isRequired,
     getTestingCentersAccount: React.PropTypes.func.isRequired,
-    loadAssignedExams: React.PropTypes.func.isRequired,
+    loadExamRequests: React.PropTypes.func.isRequired,
     lmsCourseId: React.PropTypes.string.isRequired,
     examList: React.PropTypes.shape({}),
     toolConsumerInstanceName: React.PropTypes.string.isRequired,
@@ -95,7 +95,7 @@ export class BaseExamList extends React.Component {
         key={`exam_${exam.id}`}
         exam={exam}
         goToExam={id => BaseExamList.goToExam(id)}
-        assignedExam={this.props.examRequests[exam.id]}
+        examRequest={this.props.examRequests[exam.id]}
       />
     ));
   }

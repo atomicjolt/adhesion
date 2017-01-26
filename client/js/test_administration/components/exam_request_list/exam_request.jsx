@@ -19,6 +19,7 @@ export default class ProctorCode extends React.Component {
     sendMessage: React.PropTypes.func.isRequired,
     showModal: React.PropTypes.func.isRequired,
     hideModal: React.PropTypes.func.isRequired,
+    scheduleExam: React.PropTypes.func.isRequired,
     openSettings: React.PropTypes.func.isRequired,
     settingsOpen: React.PropTypes.bool,
   };
@@ -114,6 +115,15 @@ export default class ProctorCode extends React.Component {
       );
     }
     return 'not implemented';
+  }
+
+  getStatus() {
+    const { examRequest } = this.props;
+    // const styles = this.getStyles();
+    if (examRequest.status === 'requested') {
+      return _.capitalize(examRequest.status);
+    }
+    return 'something else';
   }
 
   iconClick() {

@@ -9,7 +9,7 @@ import ExamRequest             from './exam_request';
 import SearchBar               from './search_bar';
 import canvasRequest           from '../../../libs/canvas/action';
 import { createConversation }  from '../../../libs/canvas/constants/conversations';
-import CenterError             from '../common/center_error';
+ // import CenterError             from '../common/center_error';
 import FilterTabs              from './filter_tabs';
 
 const select = state => ({
@@ -20,13 +20,12 @@ const select = state => ({
   centerIdError: state.examRequests.centerIdError,
 });
 
-export class BaseExamAssignmentList extends React.Component {
+export class BaseExamRequestList extends React.Component {
   static propTypes =  {
-    loadProctorCodes: React.PropTypes.func.isRequired,
+    loadExamRequests: React.PropTypes.func.isRequired,
+    scheduleExam: React.PropTypes.func.isRequired,
     testingCentersAccountSetup: React.PropTypes.func.isRequired,
     toolConsumerInstanceName: React.PropTypes.string.isRequired,
-    lmsUserId: React.PropTypes.string.isRequired,
-    centerIdError: React.PropTypes.bool,
     currentAccountId: React.PropTypes.string.isRequired,
     examRequestList: React.PropTypes.arrayOf(
       React.PropTypes.shape({})
@@ -168,7 +167,7 @@ export class BaseExamAssignmentList extends React.Component {
   render() {
     // <SearchBar searchChange={e => this.setState({ searchVal: e.target.value })} />
     // { this.props.centerIdError ? <CenterError /> : null }
-    const styles = BaseExamAssignmentList.getStyles();
+    const styles = BaseExamRequestList.getStyles();
     return (
       <div>
         <div style={styles.topMatter}>
@@ -184,7 +183,7 @@ export class BaseExamAssignmentList extends React.Component {
         </div>
         <table style={styles.table}>
           <thead  style={styles.tr}>
-            {BaseExamAssignmentList.tableHeader(styles)}
+            {BaseExamRequestList.tableHeader(styles)}
           </thead>
           <tbody>
             {this.getProctorCodes()}
@@ -199,4 +198,4 @@ export default connect(select, {
   ...ExamRequestActions,
   ...ModalActions,
   canvasRequest,
-})(BaseExamAssignmentList);
+})(BaseExamRequestList);

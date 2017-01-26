@@ -33,11 +33,11 @@ export default function examListItem(props) {
   };
 
   let status;
-  if (!props.assignedExam) {
+  if (!props.examRequest) {
     status = '-';
-  } else if (_.includes(['completed', 'pending'], props.assignedExam.status)) {
-    status = props.assignedExam.status;
-  } else if (props.assignedExam.status === 'assigned') {
+  } else if (_.includes(['scheduled', 'requested'], props.examRequest.status)) {
+    status = props.examRequest.status;
+  } else if (props.examRequest.status === 'assigned') {
     // do some more complex things here.
   }
 
@@ -58,7 +58,7 @@ examListItem.propTypes = {
     title: React.PropTypes.string.isRequired,
     id: React.PropTypes.number.isRequired,
   }),
-  assignedExam: React.PropTypes.shape({
+  examRequest: React.PropTypes.shape({
     status: React.PropTypes.string,
     testing_center_name: React.PropTypes.string,
     // scheduled_for: React.PropTypes.string,

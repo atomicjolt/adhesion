@@ -8,15 +8,21 @@ describe('Exam list', () => {
   beforeEach(() => {
     const props = {
       canvasRequest: () => {},
+      loadExamRequests: () => {},
       getTestingCentersAccount: () => {},
       lmsCourseId: '1',
-      examList: [{ title: 'america' }],
+      examList: [{ title: 'america', id: 1 }],
+      examRequests: {
+        1: {
+          status: 'requested'
+        }
+      }
     };
     result = TestUtils.renderIntoDocument(<BaseExamList {...props} />);
   });
 
   it('renders the exam list', () => {
-    const element = TestUtils.findRenderedDOMComponentWithTag(result, 'ul');
-    expect(element.textContent).toContain('america');
+    const element = TestUtils.findRenderedDOMComponentWithTag(result, 'tbody');
+    expect(element.textContent).toContain('Requested');
   });
 });

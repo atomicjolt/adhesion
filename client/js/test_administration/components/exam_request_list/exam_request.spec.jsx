@@ -1,6 +1,6 @@
 import React                      from 'react';
 import TestUtils                  from 'react-addons-test-utils';
-import ProctorCode                from './proctor_code';
+import ExamRequest                from './exam_request';
 
 describe('Exam list', () => {
   let result;
@@ -9,23 +9,14 @@ describe('Exam list', () => {
   beforeEach(() => {
     props = {
       lmsUserId: '1',
-      loadProctorCodes: () => {},
-      proctorCode: {
-        proctor_id: 1,
-        code: 'imaCODE',
-        assigned_exam: {
-          student_name: 'Picard',
-          status: 'assigned'
-        },
-      },
-      assignedExam: {
+      examRequest: {
         student_name: 'Picard',
-        status: 'assigned',
+        status: 'assigned'
       },
       openSettings: () => { props.settingsOpen = true; },
       settingsOpen: false,
     };
-    result = TestUtils.renderIntoDocument(<ProctorCode {...props} />);
+    result = TestUtils.renderIntoDocument(<ExamRequest {...props} />);
   });
 
   it('opens the menu when you click', () => {

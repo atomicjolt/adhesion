@@ -13,6 +13,7 @@ const select = (state, props) => ({
 export class BaseEnterAnswers extends React.Component {
 
   static propTypes = {
+    createListener: React.PropTypes.func,
     canvasRequest: React.PropTypes.func,
     quiz: React.PropTypes.shape({
       access_code: React.PropTypes.string,

@@ -15,7 +15,7 @@ describe('Exam list item', () => {
   });
 
   it('renders the exam', () => {
-    const element = TestUtils.findRenderedDOMComponentWithTag(result, 'li');
+    const element = TestUtils.findRenderedDOMComponentWithTag(result, 'tr');
     expect(element.textContent).toContain('america');
   });
 });

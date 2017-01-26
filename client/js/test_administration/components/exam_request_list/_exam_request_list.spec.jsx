@@ -1,6 +1,6 @@
 import React                      from 'react';
 import TestUtils                  from 'react-addons-test-utils';
-import { BaseExamAssignmentList } from './_exam_request_list.jsx';
+import { BaseExamRequestList } from './_exam_request_list';
 
 describe('Exam Assignment list', () => {
   let result;
@@ -8,36 +8,23 @@ describe('Exam Assignment list', () => {
   beforeEach(() => {
     const props = {
       lmsUserId: '1',
-      loadProctorCodes: () => {},
+      loadExamRequests: () => {},
       testingCentersAccountSetup: () => {},
-      proctorCodeList: [{
-        proctor_id: 1,
-        code: 'imaCODE',
-        assigned_exam: {
-          student_name: 'Picard',
-          status: 'assigned'
-        },
+      examRequestList: [{
+        student_name: 'Picard',
+        status: 'requested'
       }, {
-        proctor_id: 1,
-        code: 'NEWCODE',
-        assigned_exam: {
-          student_name: 'James',
-          status: 'started'
-        },
+        student_name: 'James',
+        status: 'scheduled'
       }]
     };
-    result = TestUtils.renderIntoDocument(<BaseExamAssignmentList {...props} />);
-  });
-
-  it('renders the proctor codes', () => {
-    const element = TestUtils.findRenderedDOMComponentWithTag(result, 'table');
-    expect(element.textContent).toContain('imaCODE');
+    result = TestUtils.renderIntoDocument(<BaseExamRequestList {...props} />);
   });
 
   it('filters on search', () => {
-    result.setState({ searchVal: 'started' });
+    result.setState({ searchVal: 'scheduled' });
     const element = TestUtils.findRenderedDOMComponentWithTag(result, 'table');
-    expect(element.textContent).toContain('NEWCODE');
-    expect(element.textContent).not.toContain('imaCODE');
+    expect(element.textContent).toContain('James');
+    expect(element.textContent).not.toContain('Picard');
   });
 });

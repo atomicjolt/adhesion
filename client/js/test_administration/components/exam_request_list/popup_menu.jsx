@@ -89,6 +89,4 @@ popupMenu.propTypes = {
   style: React.PropTypes.shape({}),
   status: React.PropTypes.string.isRequired,
   openMessageModal: React.PropTypes.func.isRequired,
-  courseId: React.PropTypes.string.isRequired,
-  examId: React.PropTypes.string.isRequired,
 };

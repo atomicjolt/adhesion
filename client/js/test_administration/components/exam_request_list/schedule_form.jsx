@@ -127,7 +127,11 @@ export default class ScheduleForm extends React.Component {
         <div style={styles.buttonContainer}>
           <HoverButton
             style={styles.buttonStyle}
-            onClick={() => this.props.scheduleExam(this.state.date, this.state.time, this.messageField.value)}
+            onClick={() => this.props.scheduleExam(
+              this.state.date,
+              this.state.time,
+              this.messageField.value
+            )}
           >
             SCHEDULE EXAM
           </HoverButton>
