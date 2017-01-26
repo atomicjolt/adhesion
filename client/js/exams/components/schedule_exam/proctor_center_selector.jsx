@@ -3,19 +3,15 @@ import SelectSearch from 'react-select-search';
 import _            from 'lodash';
 
 export default class ProctorCenterSelector extends React.Component {
+  static propTypes = {
+    testingCenterList: React.PropTypes.arrayOf(React.propTypes.shape({})),
+    onChange: React.PropTypes.func,
+  }
   constructor(props) {
     super(props);
-    const { assignedExam } = props;
-    const selectedCenterId = assignedExam ? _.toString(assignedExam.testing_center_id) : null;
     this.state = {
-      selectedCenterId,
+      selectedCenterId: null,
     };
-  }
-
-  componentWillUpdate(nextProps) {
-    if (!this.props.assignedExam && nextProps.assignedExam) {
-      this.setState({ selectedCenterId: _.toString(nextProps.assignedExam.testing_center_id) });
-    }
   }
 
   getOptions() {

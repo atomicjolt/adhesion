@@ -34,7 +34,6 @@ export class BaseScheduleExam extends React.Component {
     testingCenterList: React.PropTypes.shape({}),
     params: React.PropTypes.shape({ id: React.PropTypes.string.isRequired }),
     requestExam: React.PropTypes.func.isRequired,
-    loadAssignedExams: React.PropTypes.func.isRequired,
     testingCentersAccountId: React.PropTypes.number.isRequired,
     studentName: React.PropTypes.string.isRequired,
     clearState: React.PropTypes.func.isRequired,
