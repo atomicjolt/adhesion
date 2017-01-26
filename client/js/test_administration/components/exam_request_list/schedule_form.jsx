@@ -12,6 +12,7 @@ export default class ScheduleForm extends React.Component {
     courseName: React.PropTypes.string.isRequired,
     message: React.PropTypes.string.isRequired,
     closeModal:  React.PropTypes.func.isRequired,
+    scheduleExam:  React.PropTypes.func.isRequired,
   };
 
   static getStyles() {
@@ -78,7 +79,10 @@ export default class ScheduleForm extends React.Component {
     this.subjectField =  null;
     this.state = {
       date: new Date(),
-      time: '0900',
+      time: {
+        value: '0900',
+        label: '0900',
+      },
     };
   }
 
@@ -121,7 +125,12 @@ export default class ScheduleForm extends React.Component {
           </div>
         </div>
         <div style={styles.buttonContainer}>
-          <HoverButton style={styles.buttonStyle}>SCHEDULE EXAM</HoverButton>
+          <HoverButton
+            style={styles.buttonStyle}
+            onClick={() => this.props.scheduleExam(this.state.date, this.state.time, this.messageField.value)}
+          >
+            SCHEDULE EXAM
+          </HoverButton>
           <HoverButton
             style={{ ...styles.buttonStyle, ...styles.cancelButton }}
             onClick={this.props.closeModal}

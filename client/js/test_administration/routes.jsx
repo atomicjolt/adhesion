@@ -2,10 +2,10 @@ import React                          from 'react'; // if you use jsx, you have 
 import { Router, Route, IndexRoute }  from 'react-router';
 import appHistory                     from '../history';
 import Index                          from './components/index';
-import ExamAssignmentList             from './components/exam_assignment_list/_exam_assignment_list';
+import ExamAssignmentList             from './components/exam_request_list/_exam_request_list';
 import NotFound                       from '../common_components/not_found';
 import PrintTest                      from '../quiz_print/components/index';
-import EnterAnswers                   from './components/exam_assignment_list/enter_answers';
+import EnterAnswers                   from './components/exam_request_list/enter_answers';
 
 export default (
   <Router history={appHistory}>

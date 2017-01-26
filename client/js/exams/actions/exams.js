@@ -3,10 +3,10 @@ import Network from '../../constants/network';
 
 // Actions that make an api request
 const requests = [
-  'ASSIGN_EXAM',
+  'REQUEST_EXAM',
   'UNASSIGN_EXAM',
   'REASSIGN_EXAM',
-  'LOAD_ASSIGNED_EXAMS',
+  'LOAD_EXAM_REQUESTS',
   'DOWNLOAD_FILE'
 ];
 
@@ -16,17 +16,17 @@ const actions = [
 
 export const Constants = wrapper(actions, requests);
 
-export const loadAssignedExams = studentId => ({
+export const loadExamRequests = studentId => ({
   method: Network.GET,
-  type: Constants.LOAD_ASSIGNED_EXAMS,
-  url: '/api/assigned_exams',
+  type: Constants.LOAD_EXAM_REQUESTS,
+  url: '/api/exam_requests',
   params: { student_id: studentId }
 });
 
 export const requestExam = body => ({
   method: Network.POST,
-  type: Constants.ASSIGN_EXAM,
-  url: '/api/assigned_exams',
+  type: Constants.REQUEST_EXAM,
+  url: '/api/exam_requests',
   body
 });
 

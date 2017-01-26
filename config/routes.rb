@@ -63,7 +63,7 @@ Rails.application.routes.draw do
         resources :students, only: [:index]
       end
     end
-    resources :assigned_exams
+    resources :exam_requests
     resources :proctor_codes
     resources :courses do
       resources :attendances, only: [:index, :create, :update] do

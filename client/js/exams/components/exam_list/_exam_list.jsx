@@ -14,7 +14,7 @@ const select = state => ({
   lmsCourseId: state.settings.lmsCourseId,
   toolConsumerInstanceName: state.settings.toolConsumerInstanceName,
   lmsUserId: state.settings.lmsUserId,
-  assignedExams: state.exams.assignedExams,
+  examRequests: state.exams.examRequests,
 });
 
 export class BaseExamList extends React.Component {
@@ -27,7 +27,7 @@ export class BaseExamList extends React.Component {
     examList: React.PropTypes.shape({}),
     toolConsumerInstanceName: React.PropTypes.string.isRequired,
     lmsUserId: React.PropTypes.number.isRequired,
-    assignedExams: React.PropTypes.shape({}),
+    examRequests: React.PropTypes.shape({}),
   }
 
   static goToExam(id) {
@@ -86,7 +86,7 @@ export class BaseExamList extends React.Component {
     };
     this.props.getTestingCentersAccount(this.props.toolConsumerInstanceName);
     this.props.canvasRequest(listQuizzesInCourse, params);
-    this.props.loadAssignedExams(this.props.lmsUserId);
+    this.props.loadExamRequests(this.props.lmsUserId);
   }
 
   examListItems() {
@@ -95,7 +95,7 @@ export class BaseExamList extends React.Component {
         key={`exam_${exam.id}`}
         exam={exam}
         goToExam={id => BaseExamList.goToExam(id)}
-        assignedExam={this.props.assignedExams[exam.id]}
+        assignedExam={this.props.examRequests[exam.id]}
       />
     ));
   }

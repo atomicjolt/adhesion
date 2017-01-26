@@ -1,6 +1,6 @@
 import React                      from 'react';
 import TestUtils                  from 'react-addons-test-utils';
-import { BaseExamAssignmentList } from './_exam_assignment_list';
+import { BaseExamAssignmentList } from './_exam_request_list.jsx';
 
 describe('Exam Assignment list', () => {
   let result;

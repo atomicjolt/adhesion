@@ -2,6 +2,7 @@ import React        from 'react';
 import Defines      from '../../defines';
 import HoverButton  from '../common/hover_button';
 
+// needs to be repurposed as MessageStudent
 export default class MessageInstructor extends React.Component {
   static propTypes = {
     sendMessage: React.PropTypes.func.isRequired,

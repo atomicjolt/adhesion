@@ -11,8 +11,11 @@ import ScheduleForm      from './schedule_form';
 
 export default class ProctorCode extends React.Component {
   static propTypes = {
-    assignedExam: React.PropTypes.shape({}),
-    proctorCode: React.PropTypes.shape({}),
+    examRequest: React.PropTypes.shape({
+      student_id: React.PropTypes.number.isRequired,
+      exam_name: React.PropTypes.string.isRequired,
+      id: React.PropTypes.number.isRequired,
+    }),
     sendMessage: React.PropTypes.func.isRequired,
     showModal: React.PropTypes.func.isRequired,
     hideModal: React.PropTypes.func.isRequired,
@@ -78,14 +81,17 @@ export default class ProctorCode extends React.Component {
       },
       scheduleHoverStyle: {
         color: Defines.highlightedText,
+      },
+      scheduleInfo: {
+        color: Defines.lightText,
       }
     };
   }
 
   getScheduleOption() {
-    const { assignedExam } = this.props;
+    const { examRequest } = this.props;
     const styles = this.getStyles();
-    if (assignedExam.status === 'pending') {
+    if (examRequest.status === 'requested') {
       return (
         <div>
           <HoverButton
@@ -95,7 +101,15 @@ export default class ProctorCode extends React.Component {
           >
             Schedule
           </HoverButton>
-          <div>{assignedExam.message}</div>
+          <div>{examRequest.message}</div>
+        </div>
+      );
+    }
+    if (examRequest.status === 'scheduled') {
+      return (
+        <div style={styles.scheduleInfo}>
+          <div>{moment(examRequest.scheduled_date).format('D MMM YYYY')}</div>
+          <div>{examRequest.scheduled_time}</div>
         </div>
       );
     }
@@ -106,34 +120,44 @@ export default class ProctorCode extends React.Component {
     this.setState({ opened: !this.state.opened });
   }
 
-  sendMessage(id, body, subject) {
+  sendMessage(body) {
     this.props.sendMessage(
-      id,
+      this.props.examRequest.student_id,
       body,
-      subject,
+      `Your exam (${this.props.examRequest.exam_name}) has been scheduled`,
     );
     this.props.hideModal();
   }
 
   takeExam() {
   //  TODO: write this (link to new canvas route)
-    const { assignedExam } = this.props;
-    hashHistory.push(`/enter_answers/user/${assignedExam.student_id}/course/${assignedExam.course_id}/quiz/${assignedExam.exam_id}`);
+    const { examRequest } = this.props;
+    hashHistory.push(`/enter_answers/user/${examRequest.student_id}/course/${examRequest.course_id}/quiz/${examRequest.exam_id}`);
+    this.props.hideModal();
+  }
+
+  scheduleExam(selectedDate, selectedTime, message) {
+    this.props.scheduleExam(this.props.examRequest.id, selectedDate, selectedTime.value);
+    this.sendMessage(message);
     this.props.hideModal();
   }
 
   openScheduleModal() {
-    const { assignedExam } = this.props;
+    const { examRequest } = this.props;
     this.props.openSettings(null);
-    this.props.showModal(<ScheduleForm
-      studentName={assignedExam.student_name}
-      studentId={assignedExam.student_id}
-      courseName={assignedExam.course_name}
-      examName={assignedExam.exam_name}
-      message={assignedExam.message}
-      scheduleExam={() => {}}
-      closeModal={() => this.props.hideModal()}
-    />);
+    this.props.showModal(
+      <ScheduleForm
+        studentName={examRequest.student_name}
+        studentId={examRequest.student_id}
+        courseName={examRequest.course_name}
+        examName={examRequest.exam_name}
+        message={examRequest.message}
+        scheduleExam={(selectedDate, selectedTime, message) => {
+          this.scheduleExam(selectedDate, selectedTime, message);
+        }}
+        closeModal={() => this.props.hideModal()}
+      />
+    );
   }
 
   openMessageModal(id) {
@@ -156,30 +180,30 @@ export default class ProctorCode extends React.Component {
 
   render() {
     const styles = this.getStyles();
-    const { assignedExam, proctorCode, settingsOpen, openSettings } = this.props;
+    const { examRequest, settingsOpen, openSettings } = this.props;
     return (
       <tr>
         <td style={styles.td}>
-          <div style={styles.bigAndBold}>{assignedExam.student_name}</div>
-          <div>{assignedExam.student_id}</div>
+          <div style={styles.bigAndBold}>{examRequest.student_name}</div>
+          <div>{examRequest.student_id}</div>
         </td>
         <td style={styles.td}>
-          <div style={styles.largeFont}>{assignedExam.exam_name}</div>
-          <div>{assignedExam.course_name}</div>
-          <div>{assignedExam.instructor_name}</div>
-          <div>{moment(proctorCode.created_at).format('DD MMM YY H:m')}</div>
+          <div style={styles.largeFont}>{examRequest.exam_name}</div>
+          <div>{examRequest.course_name}</div>
+          <div>{examRequest.instructor_name}</div>
+          <div>{moment(examRequest.created_at).format('DD MMM YY H:m')}</div>
         </td>
         <td style={styles.td}>
           {this.getScheduleOption()}
         </td>
         <td style={styles.td}>
           <div style={styles.status}>
-            <div style={styles.bigAndBold}>{_.capitalize(assignedExam.status)}</div>
+            <div style={styles.bigAndBold}>{_.capitalize(examRequest.status)}</div>
             <div>{/* the date will go here */}</div>
           </div>
           <HoverButton
             style={styles.button}
-            onClick={() => openSettings(settingsOpen ? null : proctorCode.id)}
+            onClick={() => openSettings(settingsOpen ? null : examRequest.id)}
             hoveredStyle={styles.hoveredStyle}
           >
             <i className="material-icons">settings</i>
@@ -188,11 +212,11 @@ export default class ProctorCode extends React.Component {
             settingsOpen ?
               <PopupMenu
                 style={styles.popupMenu}
-                status={assignedExam.status}
-                openMessageModal={() => this.openMessageModal(assignedExam.instructor_id)}
+                status={examRequest.status}
+                openMessageModal={() => this.openMessageModal(examRequest.instructor_id)}
                 openExamModal={() => this.openExamModal()}
-                examId={assignedExam.exam_id}
-                courseId={assignedExam.course_id}
+                examId={examRequest.exam_id}
+                courseId={examRequest.course_id}
               /> : null
           }
         </td>

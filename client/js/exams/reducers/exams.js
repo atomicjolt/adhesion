@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 const defaultState = {
   examList: {},
-  assignedExams: {},
+  examRequests: {},
   ready: false,
 };
 
@@ -17,19 +17,19 @@ export default function exams(state = defaultState, action) {
       return newState;
     }
 
-    case 'LOAD_ASSIGNED_EXAMS_DONE': {
+    case 'LOAD_EXAM_REQUESTS_DONE': {
       const newState = _.cloneDeep(state);
-      _.forEach(action.payload, (assignedExam) => {
-        const { exam_id } = assignedExam;
-        newState.assignedExams[exam_id] = assignedExam;
+      _.forEach(action.payload, (examRequest) => {
+        const { exam_id } = examRequest;
+        newState.examRequests[exam_id] = examRequest;
       });
       newState.ready = true;
       return newState;
     }
     case 'REASSIGN_EXAM_DONE':
-    case 'ASSIGN_EXAM_DONE': {
+    case 'REQUEST_EXAM_DONE': {
       const newState = _.cloneDeep(state);
-      newState.assignedExams[action.payload.student_id] = action.payload;
+      newState.examRequests[action.payload.exam_id] = action.payload;
       return newState;
     }
 

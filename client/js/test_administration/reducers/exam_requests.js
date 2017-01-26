@@ -1,16 +1,27 @@
 import _ from 'lodash';
 
 const defaultState = {
-  proctorCodeList: [],
+  examRequestList: [],
   centerIdError: false,
   quizzes: {},
 };
 
-export default function proctorCodes(state = defaultState, action) {
+export default function examRequests(state = defaultState, action) {
   switch (action.type) {
 
-    case 'LOAD_PROCTOR_CODES_DONE': {
-      return { ...state, proctorCodeList: action.payload };
+    case 'LOAD_EXAM_REQUESTS_DONE': {
+      return { ...state, examRequestList: action.payload };
+    }
+
+    case 'SCHEDULE_EXAM_DONE': {
+      debugger
+      const newState = _.cloneDeep(state);
+      const index = _.findIndex(
+        newState.examRequestList,
+        examRequest => examRequest.id === action.payload.id
+      );
+      newState.examRequestList[index] = action.payload;
+      return newState;
     }
 
     case 'TESTING_CENTERS_ACCOUNT_SETUP_DONE': {

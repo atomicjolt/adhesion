@@ -140,7 +140,6 @@ export class BaseScheduleExam extends React.Component {
 
   componentWillMount() {
     this.getTestingCenters();
-    this.props.loadAssignedExams(this.props.params.id);
   }
 
   getTestingCenters() {

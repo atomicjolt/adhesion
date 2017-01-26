@@ -2,10 +2,10 @@ import React                   from 'react';
 import { connect }             from 'react-redux';
 import _                       from 'lodash';
 import Fuse                    from 'fuse.js';
-import * as ProctorCodeActions from '../../actions/proctor_codes';
+import * as ExamRequestActions from '../../actions/exam_requests';
 import * as ModalActions       from '../../../actions/modal';
 import Defines                 from '../../defines';
-import ProctorCode             from './proctor_code';
+import ExamRequest             from './exam_request';
 import SearchBar               from './search_bar';
 import canvasRequest           from '../../../libs/canvas/action';
 import { createConversation }  from '../../../libs/canvas/constants/conversations';
@@ -16,8 +16,8 @@ const select = state => ({
   lmsUserId: state.settings.lmsUserId,
   currentAccountId: state.settings.customCanvasAccountID,
   toolConsumerInstanceName: state.settings.toolConsumerInstanceName,
-  proctorCodeList: state.proctorCodes.proctorCodeList,
-  centerIdError: state.proctorCodes.centerIdError,
+  examRequestList: state.examRequests.examRequestList,
+  centerIdError: state.examRequests.centerIdError,
 });
 
 export class BaseExamAssignmentList extends React.Component {
@@ -28,7 +28,7 @@ export class BaseExamAssignmentList extends React.Component {
     lmsUserId: React.PropTypes.string.isRequired,
     centerIdError: React.PropTypes.bool,
     currentAccountId: React.PropTypes.string.isRequired,
-    proctorCodeList: React.PropTypes.arrayOf(
+    examRequestList: React.PropTypes.arrayOf(
       React.PropTypes.shape({})
     ).isRequired,
     hideModal: React.PropTypes.func.isRequired,
@@ -64,6 +64,15 @@ export class BaseExamAssignmentList extends React.Component {
         textAlign: 'left',
         padding: '15px 20px',
         width: '25%',
+      },
+      topMatter: {
+        position: 'relative',
+      },
+      searchBar: {
+        position: 'absolute',
+        top: '0px',
+        right: '0px',
+        width: '40%',
       }
     };
   }
@@ -78,7 +87,7 @@ export class BaseExamAssignmentList extends React.Component {
   }
 
   componentWillMount() {
-    this.props.loadProctorCodes(this.props.lmsUserId);
+    this.props.loadExamRequests(this.props.currentAccountId);
     this.props.testingCentersAccountSetup(
       this.props.currentAccountId,
       this.props.toolConsumerInstanceName
@@ -90,48 +99,62 @@ export class BaseExamAssignmentList extends React.Component {
       shouldSort: false,
       threshold: 0.5,
       keys: [
-        'assigned_exam.student_name',
-        'assigned_exam.course_name',
-        'assigned_exam.exam_name',
-        'assigned_exam.status',
+        'student_name',
+        'course_name',
+        'exam_name',
+        'status',
       ]
     };
     // it might be useful also to search the student id but fuse doesnt search numbers
     // so we would need to add a value to the each item in the list when it comes
     // back from the database called like sortable id that is just the string of the
     // student id. If we decide we want that then we can do it.
-    let renderList = this.props.proctorCodeList;
+    let renderList = this.props.examRequestList;
     if (this.state.searchVal && this.state.searchVal !== '') {
-      const fuse = new Fuse(this.props.proctorCodeList, options);
+      const fuse = new Fuse(this.props.examRequestList, options);
       renderList = fuse.search(this.state.searchVal);
     }
 
     renderList = this.tabFilter(renderList);
 
-    return _.map(renderList, proctorCode => (
-      <ProctorCode
-        key={`proctor_${proctorCode.id}`}
-        proctorCode={proctorCode}
-        assignedExam={proctorCode.assigned_exam}
+    return _.map(renderList, examRequest => (
+      <ExamRequest
+        key={`proctor_${examRequest.id}`}
+        examRequest={examRequest}
+        scheduleExam={(id, date, time) => this.scheduleExam(id, date, time)}
         sendMessage={(id, body, subject) => this.sendMessage(id, body, subject)}
         showModal={this.props.showModal}
         hideModal={this.props.hideModal}
         openSettings={id => this.setState({ openSettings: id })}
-        settingsOpen={this.state.openSettings === proctorCode.id}
+        settingsOpen={this.state.openSettings === examRequest.id}
       />
     ));
   }
 
-  tabFilter(proctorCodeList) {
+  getUnscheduledCount() {
+    return _.filter(this.props.examRequestList, examRequest => (examRequest.status === 'requested')).length;
+  }
+
+  scheduleExam(id, scheduledDate, scheduledTime) {
+    const body = {
+      scheduled_date: scheduledDate,
+      scheduled_time: scheduledTime,
+      status: 'scheduled',
+    };
+    this.props.scheduleExam(id, body);
+  }
+
+  tabFilter(examRequestList) {
     if (this.state.selectedTab === 'date') {
       // search by date
-      return _.filter(proctorCodeList, code => (code.status === 'pending'));
+      return _.filter(examRequestList, examRequest => (examRequest.status !== 'requested'));
     } else if (this.state.selectedTab === 'unscheduled') {
-      return _.filter(proctorCodeList, code => (code.status !== 'pending'));
+      return _.filter(examRequestList, examRequest => (examRequest.status === 'requested'));
     }
 
-    return proctorCodeList;
+    return examRequestList;
   }
+
 
   sendMessage(id, body, subject) {
     const payload = {
@@ -144,15 +167,21 @@ export class BaseExamAssignmentList extends React.Component {
 
   render() {
     // <SearchBar searchChange={e => this.setState({ searchVal: e.target.value })} />
-    console.log(this.state.selectedTab);
+    // { this.props.centerIdError ? <CenterError /> : null }
     const styles = BaseExamAssignmentList.getStyles();
     return (
       <div>
-        { this.props.centerIdError ? <CenterError /> : null }
-        <FilterTabs
-          changeTab={selectedTab => this.setState({ selectedTab })}
-          selectedTab={this.state.selectedTab}
-        />
+        <div style={styles.topMatter}>
+          <SearchBar
+            style={styles.searchBar}
+            searchChange={e => this.setState({ searchVal: e.target.value })}
+          />
+          <FilterTabs
+            changeTab={selectedTab => this.setState({ selectedTab })}
+            selectedTab={this.state.selectedTab}
+            unscheduledCount={this.getUnscheduledCount()}
+          />
+        </div>
         <table style={styles.table}>
           <thead  style={styles.tr}>
             {BaseExamAssignmentList.tableHeader(styles)}
@@ -167,7 +196,7 @@ export class BaseExamAssignmentList extends React.Component {
 }
 
 export default connect(select, {
-  ...ProctorCodeActions,
+  ...ExamRequestActions,
   ...ModalActions,
   canvasRequest,
 })(BaseExamAssignmentList);

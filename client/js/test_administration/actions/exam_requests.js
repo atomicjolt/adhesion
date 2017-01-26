@@ -3,17 +3,25 @@ import Network from '../../constants/network';
 
 // Actions that make an api request
 const requests = [
-  'LOAD_PROCTOR_CODES',
+  'LOAD_EXAM_REQUESTS',
+  'SCHEDULE_EXAM',
   'TESTING_CENTERS_ACCOUNT_SETUP'
 ];
 
 export const Constants = wrapper([], requests);
 
-export const loadProctorCodes = proctorId => ({
+export const loadExamRequests = testingCenterId => ({
   method: Network.GET,
-  type: Constants.LOAD_PROCTOR_CODES,
-  url: '/api/proctor_codes',
-  params: { proctor_id: proctorId }
+  type: Constants.LOAD_EXAM_REQUESTS,
+  url: '/api/exam_requests',
+  params: { testing_center_id: testingCenterId }
+});
+
+export const scheduleExam = (id, body) => ({
+  method: Network.PUT,
+  type: Constants.SCHEDULE_EXAM,
+  url: `/api/exam_requests/${id}`,
+  body
 });
 
 export const testingCentersAccountSetup = (accountId, instanceName) => ({
