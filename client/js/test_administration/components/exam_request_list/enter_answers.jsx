@@ -24,7 +24,7 @@ export class BaseEnterAnswers extends React.Component {
       quizId: React.PropTypes.string,
     })
   }
-
+  // this wont work unless you are on my instance of canvas.
   componentDidMount() {
     const { courseId, quizId, userId } = this.props.params;
     window.open(

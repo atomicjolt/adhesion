@@ -14,7 +14,6 @@ export default function examRequests(state = defaultState, action) {
     }
 
     case 'SCHEDULE_EXAM_DONE': {
-      debugger
       const newState = _.cloneDeep(state);
       const index = _.findIndex(
         newState.examRequestList,
@@ -25,11 +24,13 @@ export default function examRequests(state = defaultState, action) {
     }
 
     case 'TESTING_CENTERS_ACCOUNT_SETUP_DONE': {
-      let error = false;
+      // this needs to be reimplemented
+      // let error = false;
       // if (action.response.status !== 200) {
       //   error = true;
       // }
-      return { ...state, centerIdError: error };
+      // return { ...state, centerIdError: error };
+      return state;
     }
 
     case 'GET_SINGLE_QUIZ_DONE': {

@@ -19,7 +19,6 @@ function validateAction(action) {
 
 const Listener = store => next => (action) => { // eslint-disable-line no-unused-vars
   if (action.type === 'CREATE_ATOMIC_LISTENER') {
-    debugger
     validateAction(action);
 
     const existingKey = LISTENER_KEYS[`${action.url}_${action.uniqueParam}`];

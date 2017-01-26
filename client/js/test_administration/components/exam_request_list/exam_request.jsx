@@ -9,7 +9,7 @@ import MessageInstructor from './message_instructor';
 import ConfirmTakeExam   from './confirm_take_exam';
 import ScheduleForm      from './schedule_form';
 
-export default class ProctorCode extends React.Component {
+export default class ExamRequest extends React.Component {
   static propTypes = {
     examRequest: React.PropTypes.shape({
       student_id: React.PropTypes.number.isRequired,

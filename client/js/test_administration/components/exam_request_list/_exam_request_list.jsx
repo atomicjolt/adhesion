@@ -93,7 +93,7 @@ export class BaseExamRequestList extends React.Component {
     );
   }
 
-  getProctorCodes() {
+  getExamRequestRows() {
     const options = {
       shouldSort: false,
       threshold: 0.5,
@@ -186,7 +186,7 @@ export class BaseExamRequestList extends React.Component {
             {BaseExamRequestList.tableHeader(styles)}
           </thead>
           <tbody>
-            {this.getProctorCodes()}
+            {this.getExamRequestRows()}
           </tbody>
         </table>
       </div>

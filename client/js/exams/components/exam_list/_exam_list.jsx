@@ -49,7 +49,6 @@ export class BaseExamList extends React.Component {
 
   static getStyles() {
     return {
-
       header: {
         color: Defines.darkGrey,
         padding: '10px 20px',

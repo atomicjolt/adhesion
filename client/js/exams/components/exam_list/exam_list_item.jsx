@@ -3,6 +3,7 @@ import _                 from 'lodash';
 import ClickableTableRow from '../common/clickable_table_row';
 import Defines           from '../../defines';
 
+const VISIBLE_STATUSES = ['scheduled', 'requested'];
 export default function examListItem(props) {
   const styles = {
     tr: {
@@ -35,7 +36,7 @@ export default function examListItem(props) {
   let status;
   if (!props.examRequest) {
     status = '-';
-  } else if (_.includes(['scheduled', 'requested'], props.examRequest.status)) {
+  } else if (_.includes(VISIBLE_STATUSES, props.examRequest.status)) {
     status = props.examRequest.status;
   } else if (props.examRequest.status === 'assigned') {
     // do some more complex things here.

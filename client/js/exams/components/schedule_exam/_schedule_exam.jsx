@@ -147,7 +147,7 @@ export class BaseScheduleExam extends React.Component {
       const params = {
         account_id: testingId
       };
-      this.props.canvasRequest(getSubAccountsOfAccount, params, {});
+      this.props.canvasRequest(getSubAccountsOfAccount, params);
     } else {
       this.setState({ testingCenterError: true });
     }
@@ -166,8 +166,7 @@ export class BaseScheduleExam extends React.Component {
       message: this.messageField.value,
     };
     this.props.requestExam(body);
-    this.props.clearState();
-    appHistory.push('/');
+    this.goBack();
   }
 
   goBack() {
