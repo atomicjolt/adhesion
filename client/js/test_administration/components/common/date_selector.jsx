@@ -6,9 +6,9 @@ import Defines    from '../../defines';
 export default class DateSelector extends React.Component {
   static propTypes = {
     onChange: React.PropTypes.func,
-    date: React.propTypes.shape({}),
-    style: React.propTypes.shape({}),
-    header: React.propTypes.node,
+    date: React.PropTypes.shape({}),
+    style: React.PropTypes.shape({}),
+    header: React.PropTypes.node,
   }
 
   static getStyles() {

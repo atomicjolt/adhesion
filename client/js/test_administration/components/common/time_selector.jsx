@@ -5,9 +5,9 @@ import _        from 'lodash';
 export default class TimeSelector extends React.Component {
   static propTypes = {
     onChange: React.PropTypes.func,
-    value: React.propTypes.shape({}),
-    style: React.propTypes.shape({}),
-    header: React.propTypes.node,
+    value: React.PropTypes.shape({}),
+    style: React.PropTypes.shape({}),
+    header: React.PropTypes.node,
   }
 
   static getTimes() {
