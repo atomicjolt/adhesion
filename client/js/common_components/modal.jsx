@@ -14,13 +14,14 @@ export default class Modal extends React.Component {
       left: '0px',
       backgroundColor: 'grey',
       opacity: '.6',
+      zIndex: '1',
     };
 
     if (!this.props.visible) { return null; }
     return (
       <div>
-        <div style={overlayStyle} />
         {this.props.children}
+        <div style={overlayStyle} />
       </div>
     );
   }

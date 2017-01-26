@@ -50,7 +50,7 @@ module.exports = {
   entries: {
     scorm: `${clientAppPath}js/scorm.jsx`,
     attendance: `${clientAppPath}js/attendance.jsx`,
-    proctor: `${clientAppPath}js/proctor.jsx`,
+    exams: `${clientAppPath}js/exams.jsx`,
     quiz_converter: `${clientAppPath}js/quiz_converter.jsx`,
     test_administration: `${clientAppPath}js/test_administration.jsx`,
     test_taking: `${clientAppPath}js/test_taking.jsx`,
@@ -60,7 +60,7 @@ module.exports = {
   cssEntries: {
     scorm_styles: `${clientAppPath}styles/scorm_styles.js`,
     attendance_styles: `${clientAppPath}styles/attendance_styles.js`,
-    proctor_styles: `${clientAppPath}styles/proctor_styles.js`,
+    exams_styles: `${clientAppPath}styles/exams_styles.js`,
     quiz_converter_styles: `${clientAppPath}styles/quiz_converter_styles.js`,
     test_administration_styles: `${clientAppPath}styles/test_administration_styles.js`,
     test_taking_styles: `${clientAppPath}styles/test_taking_styles.js`,
