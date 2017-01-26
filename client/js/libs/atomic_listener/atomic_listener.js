@@ -28,7 +28,6 @@ export default class AtomicListener {
   }
 
   recursiveListen() {
-    console.log("listening again");
     const updatedParams = {
       oauth_consumer_key: this.releventState.settings.oauthConsumerKey,
       ...this.params,

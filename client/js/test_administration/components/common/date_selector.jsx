@@ -4,6 +4,13 @@ import moment     from 'moment';
 import Defines    from '../../defines';
 
 export default class DateSelector extends React.Component {
+  static propTypes = {
+    onChange: React.PropTypes.func,
+    date: React.propTypes.shape({}),
+    style: React.propTypes.shape({}),
+    header: React.propTypes.node,
+  }
+
   static getStyles() {
     return {
       icon: {

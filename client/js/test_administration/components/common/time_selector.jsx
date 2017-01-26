@@ -3,6 +3,13 @@ import Dropdown from 'react-accessible-dropdown';
 import _        from 'lodash';
 
 export default class TimeSelector extends React.Component {
+  static propTypes = {
+    onChange: React.PropTypes.func,
+    value: React.propTypes.shape({}),
+    style: React.propTypes.shape({}),
+    header: React.propTypes.node,
+  }
+
   static getTimes() {
     const times = [];
     for (let i = 0; i < 2400; i += 15) {

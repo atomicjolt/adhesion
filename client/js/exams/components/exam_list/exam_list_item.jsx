@@ -60,7 +60,7 @@ examListItem.propTypes = {
   }),
   examRequest: React.PropTypes.shape({
     status: React.PropTypes.string,
-    testing_center_name: React.PropTypes.string,
+    // testing_center_name: React.PropTypes.string,
     // scheduled_for: React.PropTypes.string,
   }),
   goToExam: React.PropTypes.func.isRequired,

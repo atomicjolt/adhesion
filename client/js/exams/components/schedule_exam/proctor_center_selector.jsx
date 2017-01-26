@@ -4,7 +4,7 @@ import _            from 'lodash';
 
 export default class ProctorCenterSelector extends React.Component {
   static propTypes = {
-    testingCenterList: React.PropTypes.arrayOf(React.propTypes.shape({})),
+    testingCenterList: React.PropTypes.arrayOf(React.PropTypes.shape({})),
     onChange: React.PropTypes.func,
   }
   constructor(props) {
