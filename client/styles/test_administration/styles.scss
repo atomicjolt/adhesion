@@ -19,9 +19,13 @@
   input {
     flex: 1;
     font-size: 14px;
-    border: 2px solid #d3d3d3;
+    border: 2px solid #ededed;
     line-height: 22px;
     padding: 6px 10px 5px;
     width: 100%;
   }
+}
+
+.react-datepicker__tether-element {
+  left: -20px !important;
 }
