@@ -41,6 +41,9 @@ export class BaseExamList extends React.Component {
           EXAM
         </th>
         <th style={{ ...styles.th, ...styles.smaller }}>
+          TESTING CENTER
+        </th>
+        <th style={{ ...styles.th, ...styles.smaller }}>
           STATUS
         </th>
       </tr>
@@ -51,7 +54,11 @@ export class BaseExamList extends React.Component {
     return {
       header: {
         color: Defines.darkGrey,
-        padding: '10px 20px',
+        padding: '10px 20px 0px 20px',
+      },
+      message: {
+        padding: '0px 20px',
+        marginBottom: '20px',
       },
       hr: {
         borderTop: `2px solid ${Defines.lightGrey}`,
@@ -74,7 +81,7 @@ export class BaseExamList extends React.Component {
         width: '25%',
       },
       larger: {
-        width: '75%',
+        width: '50%',
       },
     };
   }
@@ -104,6 +111,9 @@ export class BaseExamList extends React.Component {
     return (
       <div>
         <h1 style={styles.header}>Request an Exam</h1>
+        <div style={styles.message}>
+          If you need change where you take an exam, create a new request.
+        </div>
         <hr style={styles.hr} />
         <table style={styles.table}>
           <thead style={styles.thead}>
