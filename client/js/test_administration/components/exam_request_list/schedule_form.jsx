@@ -20,7 +20,7 @@ export default class ScheduleForm extends React.Component {
       popupStyle: {
         boxShadow: `0px 0px 5px ${Defines.darkGrey}`,
         backgroundColor: 'white',
-        padding: '20px',
+        padding: '25px',
         position: 'fixed',
         top: '5vh',
         left: '25vw',
