@@ -1,8 +1,8 @@
 import React              from 'react';
 import TestUtils          from 'react-addons-test-utils';
-import MessageInstructor  from './message_instructor';
+import MessageStudent  from './message_student';
 
-describe('message instructor', () => {
+describe('message student', () => {
   let result;
   let props;
   let changed;
@@ -14,7 +14,7 @@ describe('message instructor', () => {
     };
     changed = false;
     sent = false;
-    result = TestUtils.renderIntoDocument(<MessageInstructor {...props} />);
+    result = TestUtils.renderIntoDocument(<MessageStudent {...props} />);
   });
 
   it('renders a textarea and two buttons', () => {
@@ -38,4 +38,3 @@ describe('message instructor', () => {
     expect(sent).toBeTruthy();
   });
 });
-

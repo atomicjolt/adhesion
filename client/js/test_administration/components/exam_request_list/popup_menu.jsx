@@ -30,7 +30,7 @@ export default function popupMenu(props) {
   };
 
   let actionButtons;
-  if (_.includes(['assigned', 'paused'], props.status)) {
+  if (_.includes(['scheduled', 'paused'], props.status)) {
     actionButtons = (
       <div style={divStyle}>
         <HoverButton
@@ -43,10 +43,10 @@ export default function popupMenu(props) {
     );
   } else {
     actionButtons = [
-      <div style={divStyle}>
+      <div key="popup_pause_button" style={divStyle}>
         <HoverButton style={buttonStyle} hoveredStyle={hoveredStyle}>Pause</HoverButton>
       </div>,
-      <div style={divStyle}>
+      <div key="popup_terminate_Button" style={divStyle}>
         <HoverButton style={buttonStyle} hoveredStyle={hoveredStyle}>Terminate</HoverButton>
       </div>
     ];
@@ -78,7 +78,7 @@ export default function popupMenu(props) {
           hoveredStyle={hoveredStyle}
           onClick={() => props.openMessageModal()}
         >
-          Message Instructor
+          Message Student
         </HoverButton>
       </div>
     </div>
