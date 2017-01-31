@@ -9,6 +9,7 @@ export default class DateSelector extends React.Component {
     date: React.PropTypes.shape({}),
     style: React.PropTypes.shape({}),
     header: React.PropTypes.node,
+    format: React.PropTypes.string,
   }
 
   static getStyles() {
@@ -40,8 +41,8 @@ export default class DateSelector extends React.Component {
           <DatePicker
             ref={(datePicker) => { this.datePicker = datePicker; }}
             readOnly
-            dateFormat="ddd MMM Do YYYY"
-            selected={moment(this.props.date, 'ddd MMM Do YYYY')}
+            dateFormat={this.props.format || 'ddd MMM Do YYYY'}
+            selected={moment(this.props.date, this.props.format ? this.props.format : 'ddd MMM Do YYYY')}
             onChange={this.props.onChange}
           />
           <button style={styles.icon} onMouseDown={e => this.toggleCalendar(e)}>
