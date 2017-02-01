@@ -15,12 +15,6 @@ gem 'active_model_serializers', '~> 0.10.0'
 gem "pg"
 gem "apartment"
 
-# UI
-gem "sass-rails"
-gem "uglifier"
-gem "autoprefixer-rails"
-gem "non-stupid-digest-assets" # also compile assets without digest (fixes font problem)
-
 # authentication, authorization, integrations
 gem "devise"
 gem "omniauth"
@@ -38,10 +32,6 @@ gem "sendgrid"
 
 # JSON parser
 gem "yajl-ruby", require: "yajl"
-
-# deployment
-gem "unicorn"
-gem "unicorn-rails"
 
 # API Related
 gem "httparty"
@@ -73,6 +63,10 @@ group :development do
   gem "rb-fchange", :require => false
   gem "rb-fsevent", :require => false
   gem "rb-inotify", :require => false
+  gem "sass-rails"
+  gem "uglifier"
+  gem "autoprefixer-rails"
+  gem "non-stupid-digest-assets" # also compile assets without digest (fixes font problem)
 end
 
 group :development, :test do
