@@ -2,13 +2,16 @@ import React                   from 'react';
 import { connect }             from 'react-redux';
 import _                       from 'lodash';
 import Fuse                    from 'fuse.js';
+import moment                  from 'moment';
 import * as ExamRequestActions from '../../actions/exam_requests';
 import * as ModalActions       from '../../../actions/modal';
 import Defines                 from '../../defines';
 import ExamRequest             from './exam_request';
 import SearchBar               from './search_bar';
+import DateFilter              from './date_filter';
 import canvasRequest           from '../../../libs/canvas/action';
 import { createConversation }  from '../../../libs/canvas/constants/conversations';
+
  // import CenterError             from '../common/center_error';
 import FilterTabs              from './filter_tabs';
 
@@ -67,11 +70,14 @@ export class BaseExamRequestList extends React.Component {
       topMatter: {
         position: 'relative',
       },
-      searchBar: {
+      filterTool: {
         position: 'absolute',
         top: '0px',
         right: '0px',
         width: '40%',
+      },
+      dateFilter: {
+        width: '25%',
       }
     };
   }
@@ -82,6 +88,7 @@ export class BaseExamRequestList extends React.Component {
       searchVal: null,
       openSettings: null,
       selectedTab: 'date',
+      filterDate: new Date(),
     };
   }
 
@@ -130,6 +137,24 @@ export class BaseExamRequestList extends React.Component {
     ));
   }
 
+  getTopControls(styles) {
+    if (this.state.selectedTab === 'date') {
+      return (
+        <DateFilter
+          style={{ ...styles.filterTool, ...styles.dateFilter }}
+          onChange={filterDate => this.setState({ filterDate })}
+          date={this.state.filterDate}
+        />
+      );
+    }
+    return (
+      <SearchBar
+        style={styles.filterTool}
+        searchChange={e => this.setState({ searchVal: e.target.value })}
+      />
+    );
+  }
+
   getUnscheduledCount() {
     return _.filter(this.props.examRequestList, examRequest => (examRequest.status === 'requested')).length;
   }
@@ -146,7 +171,9 @@ export class BaseExamRequestList extends React.Component {
   tabFilter(examRequestList) {
     if (this.state.selectedTab === 'date') {
       // search by date
-      return _.filter(examRequestList, examRequest => (examRequest.status !== 'requested'));
+      return _.filter(examRequestList, examRequest => (
+        moment(examRequest.scheduled_date).isSame(this.state.filterDate, 'day')
+      ));
     } else if (this.state.selectedTab === 'unscheduled') {
       return _.filter(examRequestList, examRequest => (examRequest.status === 'requested'));
     }
@@ -171,10 +198,7 @@ export class BaseExamRequestList extends React.Component {
     return (
       <div>
         <div style={styles.topMatter}>
-          <SearchBar
-            style={styles.searchBar}
-            searchChange={e => this.setState({ searchVal: e.target.value })}
-          />
+          {this.getTopControls(styles)}
           <FilterTabs
             changeTab={selectedTab => this.setState({ selectedTab })}
             selectedTab={this.state.selectedTab}
