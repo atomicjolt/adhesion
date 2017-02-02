@@ -1,13 +1,13 @@
 import 'babel-polyfill';
-import es6Promise               from 'es6-promise';
-import React                    from 'react';
-import ReactDOM                 from 'react-dom';
-import { Provider }             from 'react-redux';
-import routes                   from './scorm/routes';
-import DevTools                 from './dev/dev_tools';
-import configureStore           from './scorm/store/configure_store';
-import jwt                      from './loaders/jwt';
-import { getInitialSettings }   from './reducers/settings';
+import es6Promise             from 'es6-promise';
+import React                  from 'react';
+import ReactDOM               from 'react-dom';
+import { Provider }           from 'react-redux';
+import routes                 from './scorm/routes';
+import DevTools               from './dev/dev_tools';
+import configureStore         from './store/configure_store';
+import jwt                    from './loaders/jwt';
+import { getInitialSettings } from './reducers/settings';
 
 // Polyfill es6 promises for IE
 es6Promise.polyfill();

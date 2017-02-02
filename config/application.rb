@@ -40,7 +40,7 @@ module Adhesion
       end
     end
 
-    # Middleware that can restore state after an Oauth request
+    # Middleware that can restore state after an OAuth request
     config.middleware.insert_before 0, "OauthStateMiddleware"
 
     config.webpack = {

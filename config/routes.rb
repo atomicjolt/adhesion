@@ -43,6 +43,7 @@ Rails.application.routes.draw do
     root to: "lti_installs#index"
     resources :canvas_authentications
     resources :lti_installs
+    resources :app_instances
   end
 
   resources :courses, only: [] do
@@ -53,6 +54,20 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :jwts
+    resources :oauths
+    resources :courses, only: [] do
+      resources :students, only: [:index]
+      resources :sections, only: [] do
+        resources :students, only: [:index]
+      end
+    end
+
+    resources :lti_applications do
+      resources :instances
+    end
+
+    resources :canvas_accounts, only: [:index]
+
     resources :testing_centers_accounts
     resources :scorm_courses do
       get "launch" => "scorm_courses#launch"

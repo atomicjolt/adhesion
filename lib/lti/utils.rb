@@ -3,33 +3,21 @@ module Lti
   class Utils
 
     def self.lti_configs
-      LtiApplicationInstance.find_each.map do |app|
+      ApplicationInstance.find_each.map do |app|
+        domain = app.domain || Rails.application.secrets.application_url
         config = {
-          title: app.lti_application.name,
-          launch_url: "https://#{Rails.application.secrets.application_url}/lti_launches",
-          domain: Rails.application.secrets.application_url,
-          icon: "https://#{Rails.application.secrets.application_url}/images/oauth_icon.png",
-          description: app.lti_application.description
+          title: app.application.name,
+          launch_url: "https://#{domain}/lti_launches",
+          domain: domain,
+          icon: "https://#{domain}/images/oauth_icon.png",
+          description: app.application.description
         }
         puts "*************************************************************************************"
-        puts "LTI configuration for #{app.lti_application.name}"
+        puts "LTI configuration for #{app.application.name}"
         puts ""
-        puts "-------------------------------------------------------------------------------------"
-        puts "Basic LTI Config"
-        puts "-------------------------------------------------------------------------------------"
-        puts Lti::Config.xml(config)
-        puts ""
-        puts "-------------------------------------------------------------------------------------"
-        puts "Course Navigation LTI Config"
-        puts "-------------------------------------------------------------------------------------"
-        course_navigation_config = Lti::Config.course_navigation(config, "public")
-        puts Lti::Config.xml(course_navigation_config)
-        puts ""
-        puts "-------------------------------------------------------------------------------------"
-        puts "Account Navigation LTI Config"
-        puts "-------------------------------------------------------------------------------------"
-        account_navigation_config = Lti::Config.account_navigation(config)
-        puts Lti::Config.xml(account_navigation_config)
+        basic_out(config)
+        course_navigation_config = course_nav_out(config)
+        account_nav_out(config)
         puts ""
         puts "-------------------------------------------------------------------------------------"
         puts "Account Information"
@@ -39,12 +27,39 @@ module Lti
         { app: app, config: Lti::Config.xml(course_navigation_config) }
       end
     end
+
+    def self.basic_out(config)
+      puts "-------------------------------------------------------------------------------------"
+      puts "Basic LTI Config"
+      puts "-------------------------------------------------------------------------------------"
+      puts Lti::Config.xml(config)
+    end
+
+    def self.course_nav_out(config)
+      course_navigation_config = Lti::Config.course_navigation(config, "public")
+      puts ""
+      puts "-------------------------------------------------------------------------------------"
+      puts "Course Navigation LTI Config"
+      puts "-------------------------------------------------------------------------------------"
+      puts Lti::Config.xml(course_navigation_config)
+      course_navigation_config
+    end
+
+    def self.account_nav_out(config)
+      puts ""
+      puts "-------------------------------------------------------------------------------------"
+      puts "Account Navigation LTI Config"
+      puts "-------------------------------------------------------------------------------------"
+      account_navigation_config = Lti::Config.account_navigation(config)
+      puts Lti::Config.xml(account_navigation_config)
+      account_navigation_config
+    end
   end
 
   def self.list_all
-    LtiApplicationInstance.find_each do |app|
+    ApplicationInstance.find_each do |app|
       api = LMS::Canvas.new(
-        UrlHelper.scheme_host(app.lti_consumer_uri),
+        UrlHelper.scheme_host(app.site.url),
         Rails.Application.secrets.canvas_token || app.canvas_token
       )
 
@@ -61,10 +76,10 @@ module Lti
   end
 
   def self.destroy_all
-    LtiApplicationInstance.find_each do |app|
-      puts "Removing LTI tool: #{app.lti_application.name} Canvas url: #{app.lti_consumer_uri}"
+    ApplicationInstance.find_each do |app|
+      puts "Removing LTI tool: #{app.application.name} Canvas url: #{app.site.url}"
       api = LMS::Canvas.new(
-        UrlHelper.scheme_host(app.lti_consumer_uri),
+        UrlHelper.scheme_host(app.site.url),
         Rails.Application.secrets.canvas_token || app.canvas_token
       )
 

@@ -16,6 +16,33 @@ ActiveRecord::Schema.define(version: 20170125213838) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "application_instances", force: :cascade do |t|
+    t.integer  "application_id"
+    t.string   "lti_key"
+    t.string   "lti_secret"
+    t.integer  "lti_type",                                 default: 0
+    t.string   "encrypted_canvas_token"
+    t.string   "encrypted_canvas_token_salt"
+    t.string   "encrypted_canvas_token_iv"
+    t.datetime "created_at",                                           null: false
+    t.datetime "updated_at",                                           null: false
+    t.string   "domain",                      limit: 2048
+    t.integer  "site_id"
+  end
+
+  add_index "application_instances", ["application_id"], name: "index_application_instances_on_application_id", using: :btree
+  add_index "application_instances", ["site_id"], name: "index_application_instances_on_site_id", using: :btree
+
+  create_table "applications", force: :cascade do |t|
+    t.string   "name"
+    t.string   "description"
+    t.string   "client_application_name"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.text     "canvas_api_permissions"
+    t.integer  "kind",                    default: 0
+  end
+
   create_table "attendances", force: :cascade do |t|
     t.integer "lms_student_id"
     t.integer "lms_course_id"
@@ -75,30 +102,6 @@ ActiveRecord::Schema.define(version: 20170125213838) do
     t.string   "message"
     t.date     "scheduled_date"
     t.string   "scheduled_time"
-  end
-
-  create_table "lti_application_instances", force: :cascade do |t|
-    t.integer  "lti_application_id"
-    t.string   "lti_key"
-    t.string   "lti_secret"
-    t.integer  "lti_type",                    default: 0
-    t.string   "lti_consumer_uri"
-    t.string   "encrypted_canvas_token"
-    t.string   "encrypted_canvas_token_salt"
-    t.string   "encrypted_canvas_token_iv"
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
-  end
-
-  add_index "lti_application_instances", ["lti_application_id"], name: "index_lti_application_instances_on_lti_application_id", using: :btree
-
-  create_table "lti_applications", force: :cascade do |t|
-    t.string   "name"
-    t.string   "description"
-    t.string   "client_application_name"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-    t.text     "canvas_api_permissions"
   end
 
   create_table "nonces", force: :cascade do |t|
@@ -186,6 +189,16 @@ ActiveRecord::Schema.define(version: 20170125213838) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "sites", force: :cascade do |t|
+    t.string   "url",          limit: 2048
+    t.string   "oauth_key"
+    t.string   "oauth_secret"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
+  add_index "sites", ["url"], name: "index_sites_on_url", using: :btree
 
   create_table "testing_centers_accounts", force: :cascade do |t|
     t.string   "canvas_instance_name"

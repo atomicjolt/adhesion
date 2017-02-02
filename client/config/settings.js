@@ -4,11 +4,11 @@ const path         = require('path');
 
 const clientAppPath = path.join(__dirname, '../');
 
-const devRelativeOutput     = '/';
-const prodRelativeOutput    = '/assets/';
+const devRelativeOutput  = '/';
+const prodRelativeOutput = '/assets/';
 
-const devOutput     = path.join(__dirname, '../../build/dev', devRelativeOutput);
-const prodOutput    = path.join(__dirname, '../../public', prodRelativeOutput);
+const devOutput  = path.join(__dirname, '../../build/dev', devRelativeOutput);
+const prodOutput = path.join(__dirname, '../../public', prodRelativeOutput);
 
 // const prodAssetsUrl = ''; // Set this to the url where the assets will be deployed.
                           // If you want the paths to be relative to the deploy then leave this
@@ -26,10 +26,10 @@ require('dotenv').load({ path: path.join(__dirname, '../../.env') });
 const hotPort = process.env.ASSETS_PORT || 8080;
 
 module.exports = {
-  title: info.title,
-  author: info.author,
-  version: info.versions,
-  build: Date.now(),
+  title              : info.title,
+  author             : info.author,
+  version            : info.versions,
+  build              : Date.now(),
 
   devRelativeOutput,
   prodRelativeOutput,
@@ -55,6 +55,7 @@ module.exports = {
     test_administration: `${clientAppPath}js/test_administration.jsx`,
     test_taking: `${clientAppPath}js/test_taking.jsx`,
     survey_tool: `${clientAppPath}js/survey_tool.jsx`,
+    lti_admin_app: `${clientAppPath}js/lti_admin_app.jsx`,
   },
 
   cssEntries: {
@@ -64,7 +65,8 @@ module.exports = {
     quiz_converter_styles: `${clientAppPath}styles/quiz_converter_styles.js`,
     test_administration_styles: `${clientAppPath}styles/test_administration_styles.js`,
     test_taking_styles: `${clientAppPath}styles/test_taking_styles.js`,
-    survey_tool_styles: `${clientAppPath}styles/survey_tool_styles.js`
+    survey_tool_styles: `${clientAppPath}styles/survey_tool_styles.js`,
+    admin_styles: `${clientAppPath}styles/admin_styles.js`,
   }
 
 };

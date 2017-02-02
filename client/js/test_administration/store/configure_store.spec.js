@@ -1,14 +1,14 @@
-import configureStore     from './configure_store';
+import configureStore from './configure_store';
 
 describe('configure store', () => {
   it('setups up initial state', () => {
     const settings = {
-      csrf: 'csrf_token',
-      apiUrl: 'http://www.example.com'
+      csrf   : 'csrf_token',
+      apiUrl : 'http://www.example.com',
     };
     const initialState = {
       jwt: 'jwt_token',
-      settings
+      settings,
     };
     const store = configureStore(initialState);
     expect(store.getState().settings).toBe(settings);
