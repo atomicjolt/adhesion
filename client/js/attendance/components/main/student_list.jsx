@@ -51,8 +51,8 @@ export class StudentList extends React.Component {
   }
 
   componentWillMount() {
-    this.props.canvasRequest(listUsersInCourseUsers, { course_id: this.props.settings.lmsCourseId, enrollment_type: ['student'], include: ['avatar_url'] }, {});
-    this.props.getStudentAttendance(this.props.applicationDate, this.props.settings.lmsCourseId);
+    this.props.canvasRequest(listUsersInCourseUsers, { course_id: this.props.settings.lms_course_id, enrollment_type: ['student'], include: ['avatar_url'] }, {});
+    this.props.getStudentAttendance(this.props.applicationDate, this.props.settings.lms_course_id);
   }
 
   updateStudentAttendance(student, status) {
@@ -61,14 +61,14 @@ export class StudentList extends React.Component {
       lms_student_id: student.lms_student_id,
       sortable_name: student.sortable_name,
     }],
-      this.props.settings.lmsCourseId,
+      this.props.settings.lms_course_id,
       this.props.applicationDate,
       status,
     );
   }
 
   handleDateChange(date) {
-    this.props.getStudentAttendance(date, this.props.settings.lmsCourseId);
+    this.props.getStudentAttendance(date, this.props.settings.lms_course_id);
   }
 
   students() {
@@ -87,7 +87,7 @@ export class StudentList extends React.Component {
 
   markAll(status) {
     const { students, settings, applicationDate } = this.props;
-    this.props.markStudents(students, settings.lmsCourseId, applicationDate, status);
+    this.props.markStudents(students, settings.lms_course_id, applicationDate, status);
   }
 
   toggleExportModal() {
@@ -110,8 +110,8 @@ export class StudentList extends React.Component {
     if (this.state.showExportModal) {
       return (
         <ExportModal
-          apiUrl={this.props.settings.apiUrl}
-          lmsCourseId={this.props.settings.lmsCourseId}
+          apiUrl={this.props.settings.api_url}
+          lmsCourseId={this.props.settings.lms_course_id}
           downloadFile={this.props.downloadFile}
           onExport={() => this.toggleExportModal()}
           onOutsideClick={() => this.toggleExportModal()}

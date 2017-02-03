@@ -16,9 +16,9 @@ import { createConversation }  from '../../../libs/canvas/constants/conversation
 import FilterTabs              from './filter_tabs';
 
 const select = state => ({
-  lmsUserId: state.settings.lmsUserId,
-  currentAccountId: state.settings.customCanvasAccountID,
-  toolConsumerInstanceName: state.settings.toolConsumerInstanceName,
+  lmsUserId: state.settings.lms_user_id,
+  currentAccountId: state.settings.custom_canvas_account_id,
+  toolConsumerInstanceName: state.settings.tool_consumer_instance_name,
   examRequestList: state.examRequests.examRequestList,
   centerIdError: state.examRequests.centerIdError,
 });

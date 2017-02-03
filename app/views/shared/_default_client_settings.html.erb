@@ -15,6 +15,7 @@
         settings[:lms_course_id]                          = params[:custom_canvas_course_id]
         settings[:lms_user_id]                            = current_user.lti_user_id
         settings[:lti_provider]                           = lti_provider
+        settings[:lms_course_name]                        = params[:context_title]
         settings[:canvas_oauth_path]                      = @canvas_oauth_path
         settings[:canvas_auth_required]                   = @canvas_auth_required
 
@@ -24,6 +25,7 @@
         settings[:context_title]                          = params["context_title"]
         settings[:custom_canvas_api_domain]               = params["custom_canvas_api_domain"]
         settings[:custom_canvas_course_id]                = params["custom_canvas_course_id"]
+        settings[:custom_canvas_account_id]               = params["custom_canvas_account_id"]
         settings[:custom_canvas_enrollment_state]         = params["custom_canvas_enrollment_state"]
         settings[:custom_canvas_user_id]                  = params["custom_canvas_user_id"]
         settings[:custom_canvas_user_login_id]            = params["custom_canvas_user_login_id"]

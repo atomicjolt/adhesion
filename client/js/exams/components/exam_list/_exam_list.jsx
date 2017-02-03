@@ -11,9 +11,9 @@ import { getTestingCentersAccount }  from '../../actions/testing_centers_account
 
 const select = state => ({
   examList: state.exams.examList,
-  lmsCourseId: state.settings.lmsCourseId,
-  toolConsumerInstanceName: state.settings.toolConsumerInstanceName,
-  lmsUserId: state.settings.lmsUserId,
+  lmsCourseId: state.settings.lms_course_id,
+  toolConsumerInstanceName: state.settings.tool_consumer_instance_name,
+  lmsUserId: state.settings.lms_user_id,
   examRequests: state.exams.examRequests,
 });
 
