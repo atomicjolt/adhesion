@@ -46,8 +46,8 @@ class ScormCloudService
         "user_id" => reg[:lms_user_id],
       }
       provider = IMS::LTI::ToolProvider.new(
-        reg.lti_application_instance.lti_key,
-        reg.lti_application_instance.lti_secret,
+        reg.application_instance.lti_key,
+        reg.application_instance.lti_secret,
         tp_params,
       )
       response = provider.post_replace_result!(reg.score)
@@ -131,7 +131,7 @@ class ScormCloudService
       registration_params = reg_params(result_params)
       if registration.nil?
         registration = Registration.create(registration_params)
-        registration.lti_application_instance = lti_credentials
+        registration.application_instance = lti_credentials
         registration.save!
         @scorm_cloud.registration.create_registration(
           registration_params[:lms_course_id],
