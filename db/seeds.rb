@@ -1,12 +1,16 @@
 admin = CreateAdminService.create_admin
 puts "CREATED ADMIN USER: " << admin.email
 
+lti_consumer_uri = Rails.application.secrets.canvas_url
+
 # Add sites
-sites = [{
-  url: "https://atomicjolt.instructure.com",
-  oauth_key: Rails.application.secrets.canvas_developer_id,
-  oauth_secret: Rails.application.secrets.canvas_developer_key
-}]
+sites = [
+  {
+    url: lti_consumer_uri,
+    oauth_key: Rails.application.secrets.canvas_developer_id,
+    oauth_secret: Rails.application.secrets.canvas_developer_key
+  },
+]
 
 # Add an LTI Application
 scorm_permissions = "CREATE_ASSIGNMENT,DELETE_ASSIGNMENT,LIST_ASSIGNMENTS"
@@ -17,99 +21,137 @@ exams_permissions = %w{
 }.join(",")
 canvas_permissions = "GET_SINGLE_QUIZ,LIST_QUESTIONS_IN_QUIZ_OR_SUBMISSION,CREATE_CONVERSATION"
 
-applications = [{
-  name: "LTI Admin",
-  description: "LTI tool administration",
-  client_application_name: "lti_admin_app",
-  canvas_api_permissions: "",
-  kind: Application.kinds[:admin],
-}, {
-  name: "SCORM Player",
-  description: "SCORM Player",
-  client_application_name: "scorm",
-  canvas_api_permissions: scorm_permissions,
-}, {
-  name: "Attendance",
-  description: "Attendance Application",
-  client_application_name: "attendance",
-  canvas_api_permissions: "LIST_USERS_IN_COURSE_USERS",
-}, {
-  name: "Exams",
-  description: "Proctor Tool",
-  client_application_name: "exams",
-  canvas_api_permissions: exams_permissions
-}, {
-  name: "Test Administration Tool",
-  description: "Test Administration",
-  client_application_name: "test_administration",
-  canvas_api_permissions: canvas_permissions,
-}, {
-  name: "Quiz Converter",
-  description: "Converts word docs to quizzes",
-  client_application_name: "quiz_converter",
-  canvas_api_permissions: "",
-}, {
-  name: "Test Taking Tool",
-  description: "Where students take proctored exams",
-  client_application_name: "test_taking",
-  canvas_api_permissions: "",
-}, {
-  name: "Survey Aggregation Tool",
-  description: "Admin tool to view survey results",
-  client_application_name: "survey_tool",
-  canvas_api_permissions: "",
-}]
+applications = [
+  {
+    name: "LTI Admin",
+    description: "LTI tool administration",
+    client_application_name: "lti_admin_app",
+    canvas_api_permissions: "",
+    kind: Application.kinds[:admin],
+  },
+  {
+    name: "SCORM Player",
+    description: "SCORM Player",
+    client_application_name: "scorm",
+    canvas_api_permissions: scorm_permissions,
+    kind: Application.kinds[:lti],
+  },
+  {
+    name: "Attendance",
+    description: "Attendance Application",
+    client_application_name: "attendance",
+    canvas_api_permissions: "LIST_USERS_IN_COURSE_USERS",
+    kind: Application.kinds[:lti],
+  },
+  {
+    name: "Exams",
+    description: "Proctor Tool",
+    client_application_name: "exams",
+    canvas_api_permissions: exams_permissions,
+    kind: Application.kinds[:lti],
+  },
+  {
+    name: "Test Administration Tool",
+    description: "Test Administration",
+    client_application_name: "test_administration",
+    canvas_api_permissions: canvas_permissions,
+    kind: Application.kinds[:lti],
+  },
+  {
+    name: "Quiz Converter",
+    description: "Converts word docs to quizzes",
+    client_application_name: "quiz_converter",
+    canvas_api_permissions: "",
+    kind: Application.kinds[:lti],
+  },
+  {
+    name: "Test Taking Tool",
+    description: "Where students take proctored exams",
+    client_application_name: "test_taking",
+    canvas_api_permissions: "",
+    kind: Application.kinds[:lti],
+  },
+  {
+    name: "Survey Aggregation Tool",
+    description: "Admin tool to view survey results",
+    client_application_name: "survey_tool",
+    canvas_api_permissions: "",
+    kind: Application.kinds[:lti],
+  },
+]
 
-lti_consumer_uri = Rails.application.secrets.canvas_url
-
-application_instances = [{
-  application: "LTI Admin",
-  lti_key: "lti-admin",
-  url: "https://atomicjolt.instructure.com",
-  domain: "admin.#{ENV['APP_URL']}"
-}, {
-  application: "SCORM Player",
-  lti_key: "scorm-player",
-  lti_secret: Rails.application.secrets.scorm_lti_secret,
-  lti_consumer_uri: lti_consumer_uri,
-  canvas_token: Rails.application.secrets.canvas_token,
-}, {
-  application: "Attendance",
-  lti_key: "attendance",
-  lti_secret: Rails.application.secrets.attendance_lti_secret,
-  lti_consumer_uri: lti_consumer_uri,
-  canvas_token: Rails.application.secrets.canvas_token,
-}, {
-  application: "Exams",
-  lti_key: "exams",
-  lti_secret: Rails.application.secrets.exams_lti_secret,
-  lti_consumer_uri: lti_consumer_uri,
-  canvas_token: Rails.application.secrets.canvas_token,
-}, {
-  application: "Quiz Converter",
-  lti_key: "quiz-converter",
-  lti_secret: Rails.application.secrets.quiz_converter_lti_secret,
-  lti_consumer_uri: lti_consumer_uri,
-  canvas_token: Rails.application.secrets.canvas_token,
-}, {
-  application: "Test Administration Tool",
-  lti_key: "test-administration",
-  lti_secret: Rails.application.secrets.test_administration_lti_secret,
-  lti_consumer_uri: lti_consumer_uri,
-  canvas_token: Rails.application.secrets.canvas_token,
-}, {
-  application: "Test Taking Tool",
-  lti_key: "test-taking",
-  lti_secret: Rails.application.secrets.test_administration_lti_secret,
-  lti_consumer_uri: lti_consumer_uri,
-  canvas_token: Rails.application.secrets.canvas_token,
-}, {
-  application: "Survey Aggregation Tool",
-  lti_key: "survey-tool",
-  lti_secret: Rails.application.secrets.survey_tool_lti_secret,
-  lti_consumer_uri: lti_consumer_uri,
-  canvas_token: Rails.application.secrets.canvas_token,
-}]
+application_instances = [
+  {
+    application: "LTI Admin",
+    tenant: "lti-admin",
+    lti_key: "lti-admin",
+    url: lti_consumer_uri,
+    domain: "admin.#{ENV['APP_URL']}",
+  },
+  {
+    application: "SCORM Player",
+    tenant: "scorm-player",
+    lti_key: "scorm-player",
+    lti_secret: Rails.application.secrets.scorm_lti_secret,
+    url: lti_consumer_uri,
+    canvas_token: Rails.application.secrets.canvas_token,
+    domain: "scorm.#{ENV['APP_URL']}",
+  },
+  {
+    application: "Attendance",
+    tenant: "attendance",
+    lti_key: "attendance",
+    lti_secret: Rails.application.secrets.attendance_lti_secret,
+    url: lti_consumer_uri,
+    canvas_token: Rails.application.secrets.canvas_token,
+    domain: "attendance.#{ENV['APP_URL']}",
+  },
+  {
+    application: "Exams",
+    tenant: "exams",
+    lti_key: "exams",
+    lti_secret: Rails.application.secrets.exams_lti_secret,
+    url: lti_consumer_uri,
+    canvas_token: Rails.application.secrets.canvas_token,
+    domain: "exams.#{ENV['APP_URL']}",
+  },
+  {
+    application: "Quiz Converter",
+    tenant: "quiz-converter",
+    lti_key: "quiz-converter",
+    lti_secret: Rails.application.secrets.quiz_converter_lti_secret,
+    url: lti_consumer_uri,
+    canvas_token: Rails.application.secrets.canvas_token,
+    domain: "quiz-converter.#{ENV['APP_URL']}",
+  },
+  {
+    application: "Test Administration Tool",
+    tenant: "exams",
+    lti_key: "test-administration",
+    lti_secret: Rails.application.secrets.test_administration_lti_secret,
+    url: lti_consumer_uri,
+    canvas_token: Rails.application.secrets.canvas_token,
+    domain: "test-administration.#{ENV['APP_URL']}",
+  },
+  {
+    application: "Test Taking Tool",
+    tenant: "test-taking",
+    lti_key: "test-taking",
+    lti_secret: Rails.application.secrets.test_administration_lti_secret,
+    url: lti_consumer_uri,
+    canvas_token: Rails.application.secrets.canvas_token,
+    domain: "test-taking.#{ENV['APP_URL']}",
+  },
+  {
+    application: "Survey Aggregation Tool",
+    tenant: "survey-tool",
+    lti_key: "survey-tool",
+    lti_secret: Rails.application.secrets.survey_tool_lti_secret,
+    url: lti_consumer_uri,
+    canvas_token: Rails.application.secrets.canvas_token,
+    domain: "survey-tool.#{ENV['APP_URL']}",
+  },
+]
 
 sites.each do |attrs|
   if site = Site.find_by(url: attrs[:url])
