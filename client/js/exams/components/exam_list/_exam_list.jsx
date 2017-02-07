@@ -112,7 +112,7 @@ export class BaseExamList extends React.Component {
       <div>
         <h1 style={styles.header}>Request an Exam</h1>
         <div style={styles.message}>
-          If you need change where you take an exam, create a new request.
+          If you need to change where you take an exam, create a new request.
         </div>
         <hr style={styles.hr} />
         <table style={styles.table}>
