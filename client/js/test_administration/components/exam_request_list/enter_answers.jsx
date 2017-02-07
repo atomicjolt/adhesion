@@ -33,6 +33,7 @@ export class BaseEnterAnswers extends React.Component {
     const { examRequestId } = this.props.params;
 
     this.props.getSignedUrl(examRequestId);
+    // this will be used later so yeah
     // this.props.canvasRequest(getSingleQuiz, { course_id: courseId, id: quizId });
     // this.props.createListener(
     //   'api/canvas',
