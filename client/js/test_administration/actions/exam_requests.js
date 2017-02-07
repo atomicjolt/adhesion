@@ -5,7 +5,8 @@ import Network from '../../constants/network';
 const requests = [
   'LOAD_EXAM_REQUESTS',
   'SCHEDULE_EXAM',
-  'TESTING_CENTERS_ACCOUNT_SETUP'
+  'TESTING_CENTERS_ACCOUNT_SETUP',
+  'GET_SIGNED_URL'
 ];
 
 export const Constants = wrapper([], requests);
@@ -29,4 +30,11 @@ export const testingCentersAccountSetup = (accountId, instanceName) => ({
   type: Constants.TESTING_CENTERS_ACCOUNT_SETUP,
   url: '/api/testing_centers_accounts',
   params: { testing_centers_account_id: accountId, canvas_instance_name: instanceName }
+});
+
+export const getSignedUrl = id => ({
+  method: Network.GET,
+  type: Constants.GET_SIGNED_URL,
+  url: '/api/proctor_login',
+  params: { id }
 });

@@ -4,6 +4,7 @@ const defaultState = {
   examRequestList: [],
   centerIdError: false,
   quizzes: {},
+  signedUrl: null,
 };
 
 export default function examRequests(state = defaultState, action) {
@@ -38,6 +39,10 @@ export default function examRequests(state = defaultState, action) {
       newState.loadingQuiz = false;
       newState.quizzes[_.toString(action.payload.id)] = action.payload;
       return newState;
+    }
+
+    case 'GET_SIGNED_URL_DONE': {
+      return { ...state, signedUrl: action.payload.signed_url };
     }
 
     default:
