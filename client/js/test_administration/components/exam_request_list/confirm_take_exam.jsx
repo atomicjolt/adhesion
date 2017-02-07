@@ -12,6 +12,7 @@ export default function confirmTakeExam(props) {
       left: '20vw',
       right: '20vw',
       borderRadius: '5px',
+      zIndex: '2',
     },
     button: {
       backgroundColor: Defines.lightGrey,
