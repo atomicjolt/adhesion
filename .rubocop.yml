@@ -223,7 +223,7 @@ Style/LineEndConcatenation:
   Enabled: false
 
 Metrics/LineLength:
-  Description: 'Limit lines to 120 characters.'
+  Description: 'Limit lines to 250 characters.'
   StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#80-character-limits'
   Max: 250
   Enabled: true
