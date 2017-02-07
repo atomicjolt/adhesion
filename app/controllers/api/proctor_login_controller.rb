@@ -11,7 +11,15 @@ class Api::ProctorLoginController < ApplicationController
     signature = verifier.generate(
       "user_id=#{exam_request.student_id}&course_id=#{exam_request.course_id}&quiz_id=#{exam_request.exam_id}&date=#{date}"
     )
-    url = "#{Rails.application.secrets.canvas_proctor_url}/proctor_login?user_id=#{exam_request.student_id}&course_id=#{exam_request.course_id}&quiz_id=#{exam_request.exam_id}&date=#{date}&signature=#{signature}"
-    render json: {signed_url: url}
+    url = [
+            "#{Rails.application.secrets.canvas_proctor_url}",
+            "/proctor_login?user_id=#{exam_request.student_id}",
+            "&course_id=#{exam_request.course_id}",
+            "&quiz_id=#{exam_request.exam_id}",
+            "&date=#{date}",
+            "&signature=#{signature}"
+          ].join("")
+
+    render json: { signed_url: url }
   end
 end
