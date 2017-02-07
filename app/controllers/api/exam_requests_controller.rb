@@ -15,6 +15,8 @@ class Api::ExamRequestsController < ApplicationController
   end
 
   def create
+    # destroy existing requests for this student for this particular exam
+    ExamRequest.where(student_id: params[:student_id], exam_id: params[:exam_id]).destroy_all
     exam_request = ExamRequest.create!(create_params)
     render json: exam_request
   end
@@ -28,8 +30,6 @@ class Api::ExamRequestsController < ApplicationController
   def destroy
     exam_request = ExamRequest.find(params[:id])
     exam_request.destroy
-    # return what was destroyed so
-    # we can take it out of reducer
     render json: exam_request
   end
 

@@ -2,8 +2,7 @@ import React        from 'react';
 import Defines      from '../../defines';
 import HoverButton  from '../common/hover_button';
 
-// needs to be repurposed as MessageStudent
-export default class MessageInstructor extends React.Component {
+export default class MessageStudent extends React.Component {
   static propTypes = {
     sendMessage: React.PropTypes.func.isRequired,
     closeMessageModal: React.PropTypes.func.isRequired,
@@ -21,6 +20,7 @@ export default class MessageInstructor extends React.Component {
         left: '10vw',
         right: '10vw',
         borderRadius: '5px',
+        zIndex: '2',
       },
       subjectBox: {
         flex: '1',
@@ -68,10 +68,10 @@ export default class MessageInstructor extends React.Component {
   }
 
   render() {
-    const styles = MessageInstructor.getStyles();
+    const styles = MessageStudent.getStyles();
     return (
       <div style={styles.popupStyle}>
-        Message to the Instructor
+        Message to the Student
         <HoverButton
           className="spec_clear_button"
           style={styles.exitButtonStyle}
@@ -93,7 +93,6 @@ export default class MessageInstructor extends React.Component {
           <textarea
             rows="25"
             style={styles.textBox}
-            placeholder="Please include the student's name here"
             name="message"
             ref={(el) => { this.textArea = el; }}
           />
