@@ -5,7 +5,7 @@ import Defines           from '../../defines';
 import hashHistory       from '../../../history';
 import HoverButton       from '../common/hover_button';
 import PopupMenu         from './popup_menu';
-import MessageInstructor from './message_instructor';
+import MessageStudent    from './message_student';
 import ConfirmTakeExam   from './confirm_take_exam';
 import ScheduleForm      from './schedule_form';
 
@@ -130,11 +130,11 @@ export default class ExamRequest extends React.Component {
     this.setState({ opened: !this.state.opened });
   }
 
-  sendMessage(body) {
+  sendMessage(body, subject) {
     this.props.sendMessage(
       this.props.examRequest.student_id,
       body,
-      `Your exam (${this.props.examRequest.exam_name}) has been scheduled`,
+      subject,
     );
     this.props.hideModal();
   }
@@ -142,13 +142,13 @@ export default class ExamRequest extends React.Component {
   takeExam() {
   //  TODO: write this (link to new canvas route)
     const { examRequest } = this.props;
-    hashHistory.push(`/enter_answers/user/${examRequest.student_id}/course/${examRequest.course_id}/quiz/${examRequest.exam_id}`);
+    hashHistory.push(`/enter_answers/${examRequest.id}`);
     this.props.hideModal();
   }
 
   scheduleExam(selectedDate, selectedTime, message) {
     this.props.scheduleExam(this.props.examRequest.id, selectedDate, selectedTime.value);
-    this.sendMessage(message);
+    this.sendMessage(message, `Your exam (${this.props.examRequest.exam_name}) has been scheduled`);
     this.props.hideModal();
   }
 
@@ -170,10 +170,10 @@ export default class ExamRequest extends React.Component {
     );
   }
 
-  openMessageModal(id) {
+  openMessageModal() {
     this.props.openSettings(null);
-    this.props.showModal(<MessageInstructor
-      sendMessage={(body, subject) => this.sendMessage(id, body, subject)}
+    this.props.showModal(<MessageStudent
+      sendMessage={(body, subject) => this.sendMessage(body, subject)}
       closeMessageModal={() => this.props.hideModal()}
     />);
   }
@@ -223,7 +223,7 @@ export default class ExamRequest extends React.Component {
               <PopupMenu
                 style={styles.popupMenu}
                 status={examRequest.status}
-                openMessageModal={() => this.openMessageModal(examRequest.instructor_id)}
+                openMessageModal={() => this.openMessageModal()}
                 openExamModal={() => this.openExamModal()}
                 examId={examRequest.exam_id}
                 courseId={examRequest.course_id}

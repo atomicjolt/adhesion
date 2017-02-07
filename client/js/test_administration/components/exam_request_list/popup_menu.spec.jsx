@@ -8,7 +8,7 @@ describe('popup menu', () => {
   let props;
   beforeEach(() => {
     props = {
-      status: 'assigned'
+      status: 'scheduled'
     };
   });
 

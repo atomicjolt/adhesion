@@ -12,7 +12,7 @@ export default (
     <Route path="/" component={Index}>
       <IndexRoute component={ExamAssignmentList} />
       <Route path="/print" component={PrintTest} />
-      <Route path="/enter_answers/user/:userId/course/:courseId/quiz/:quizId" component={EnterAnswers} />
+      <Route path="/enter_answers/:examRequestId" component={EnterAnswers} />
     </Route>
     <Route path="*" component={NotFound} />
   </Router>
