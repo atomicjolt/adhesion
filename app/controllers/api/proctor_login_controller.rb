@@ -9,7 +9,12 @@ class Api::ProctorLoginController < ApplicationController
     verifier = ActiveSupport::MessageVerifier.new(Rails.application.secrets.proctor_login_secret)
     date = Time.now.to_i
     signature = verifier.generate(
-      "user_id=#{exam_request.student_id}&course_id=#{exam_request.course_id}&quiz_id=#{exam_request.exam_id}&date=#{date}"
+      [
+        "user_id=#{exam_request.student_id}",
+        "&course_id=#{exam_request.course_id}",
+        "&quiz_id=#{exam_request.exam_id}",
+        "&date=#{date}"
+      ].join("")
     )
     url = [
             "#{Rails.application.secrets.canvas_proctor_url}",
