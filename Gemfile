@@ -33,6 +33,10 @@ gem "sendgrid"
 # JSON parser
 gem "yajl-ruby", require: "yajl"
 
+# deployment
+gem "unicorn"
+gem "unicorn-rails"
+
 # API Related
 gem "httparty"
 gem "rack-cors", :require => "rack/cors"
