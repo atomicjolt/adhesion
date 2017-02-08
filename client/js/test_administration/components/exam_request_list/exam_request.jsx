@@ -142,7 +142,7 @@ export default class ExamRequest extends React.Component {
   takeExam() {
   //  TODO: write this (link to new canvas route)
     const { examRequest } = this.props;
-    hashHistory.push(`/enter_answers/user/${examRequest.student_id}/course/${examRequest.course_id}/quiz/${examRequest.exam_id}`);
+    hashHistory.push(`/enter_answers/${examRequest.id}`);
     this.props.hideModal();
   }
 

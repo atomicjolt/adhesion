@@ -10,6 +10,7 @@ class LtiLaunchesController < ApplicationController
   def index
     @canvas_api = canvas_api
     @canvas_auth_required = @canvas_api.blank?
+    @canvas_proctor_url = Rails.application.secrets.canvas_proctor_url
     @lti_launch = true
     @canvas_oauth_path = user_canvas_omniauth_authorize_url
     @canvas_url = current_application_instance.site.url

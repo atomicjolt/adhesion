@@ -53,6 +53,7 @@ Rails.application.routes.draw do
   end
 
   namespace :api do
+    get "proctor_login" => "proctor_login#signed_url"
     resources :jwts
     resources :oauths
     resources :courses, only: [] do

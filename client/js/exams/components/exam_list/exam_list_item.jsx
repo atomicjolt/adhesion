@@ -3,7 +3,8 @@ import _                 from 'lodash';
 import ClickableTableRow from '../common/clickable_table_row';
 import Defines           from '../../defines';
 
-const VISIBLE_STATUSES = ['scheduled', 'requested'];
+const VISIBLE_STATUSES = ['requested', 'completed'];
+
 export default function examListItem(props) {
   const styles = {
     tr: {
@@ -34,12 +35,25 @@ export default function examListItem(props) {
   };
 
   let status;
+  let testingCenter;
   if (!props.examRequest) {
-    status = '-';
+    status = '';
+    testingCenter = '';
   } else if (_.includes(VISIBLE_STATUSES, props.examRequest.status)) {
-    status = props.examRequest.status;
-  } else if (props.examRequest.status === 'assigned') {
-    // do some more complex things here.
+    status = _.capitalize(props.examRequest.status);
+    testingCenter = props.examRequest.testing_center_name;
+  } else if (props.examRequest.status === 'scheduled') {
+    testingCenter = props.examRequest.testing_center_name;
+    status = (
+      <div>
+        <div>
+          Scheduled
+        </div>
+        <div>
+          {props.examRequest.scheduled_date} {props.examRequest.scheduled_time}
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -49,7 +63,8 @@ export default function examListItem(props) {
       onClick={() => props.goToExam(props.exam.id)}
     >
       <td style={{ ...styles.td, ...styles.title }}>{props.exam.title}</td>
-      <td style={{ ...styles.td, ...styles.status }}>{_.capitalize(status)}</td>
+      <td style={{ ...styles.td, ...styles.status }}>{testingCenter}</td>
+      <td style={{ ...styles.td, ...styles.status }}>{status}</td>
     </ClickableTableRow>
   );
 }
@@ -61,8 +76,9 @@ examListItem.propTypes = {
   }),
   examRequest: React.PropTypes.shape({
     status: React.PropTypes.string,
-    // testing_center_name: React.PropTypes.string,
-    // scheduled_for: React.PropTypes.string,
+    scheduled_date: React.PropTypes.string,
+    scheduled_time: React.PropTypes.string,
+    testing_center_name: React.PropTypes.string,
   }),
   goToExam: React.PropTypes.func.isRequired,
 };

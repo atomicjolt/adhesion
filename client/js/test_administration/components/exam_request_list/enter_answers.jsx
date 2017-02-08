@@ -1,20 +1,21 @@
 import React                   from 'react';
 import { connect }             from 'react-redux';
-import { getSingleQuiz }       from '../../../libs/canvas/constants/quizzes';
+// import { getSingleQuiz }       from '../../../libs/canvas/constants/quizzes';
 import canvasRequest           from '../../../libs/canvas/action';
 import createListener          from '../../../libs/atomic_listener/listener_action';
+import { getSignedUrl }        from '../../actions/exam_requests';
 import HoverButton             from '../common/hover_button';
 import hashHistory             from '../../../history';
 
-const select = (state, props) => ({
-  quiz: state.proctorCodes.quizzes[props.params.quizId]
+const select = state => ({
+  signedUrl: state.examRequests.signedUrl
 });
 
 export class BaseEnterAnswers extends React.Component {
 
   static propTypes = {
-    createListener: React.PropTypes.func,
-    canvasRequest: React.PropTypes.func,
+    // createListener: React.PropTypes.func,
+    // canvasRequest: React.PropTypes.func,
     quiz: React.PropTypes.shape({
       access_code: React.PropTypes.string,
     }),
@@ -22,23 +23,32 @@ export class BaseEnterAnswers extends React.Component {
       courseId: React.PropTypes.string,
       userId: React.PropTypes.string,
       quizId: React.PropTypes.string,
-    })
+      examRequestId: React.PropTypes.string,
+    }),
+    getSignedUrl: React.PropTypes.func,
+    signedUrl: React.PropTypes.string,
   }
   // this wont work unless you are on my instance of canvas.
   componentDidMount() {
-    const { courseId, quizId, userId } = this.props.params;
-    window.open(
-      `https://09cba0af.ngrok.io/pt_login?user_id=${userId}&course_id=${courseId}&quiz_id=${quizId}`
-    );
-    this.props.canvasRequest(getSingleQuiz, { course_id: courseId, id: quizId });
-    this.props.createListener(
-      'api/canvas',
-      { course_id: courseId, id: quizId },
-      () => (false),
-      () => (false),
-      quizId,
-      getSingleQuiz
-    );
+    const { examRequestId } = this.props.params;
+
+    this.props.getSignedUrl(examRequestId);
+    // this will be used later so yeah
+    // this.props.canvasRequest(getSingleQuiz, { course_id: courseId, id: quizId });
+    // this.props.createListener(
+    //   'api/canvas',
+    //   { course_id: courseId, id: quizId },
+    //   () => (false),
+    //   () => (false),
+    //   quizId,
+    //   getSingleQuiz
+    // );
+  }
+
+  componentDidUpdate(nextProps) {
+    if (nextProps.signedUrl !== this.props.signedUrl) {
+      window.open(this.props.signedUrl);
+    }
   }
 
   render() {
@@ -68,4 +78,4 @@ export class BaseEnterAnswers extends React.Component {
   }
 }
 
-export default connect(select, { canvasRequest, createListener })(BaseEnterAnswers);
+export default connect(select, { canvasRequest, createListener, getSignedUrl })(BaseEnterAnswers);
