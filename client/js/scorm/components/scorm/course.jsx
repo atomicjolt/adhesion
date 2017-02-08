@@ -1,9 +1,10 @@
-import React from 'react';
-import _ from 'lodash';
-import SvgButton from '../../../common_components/svg_button';
+import React              from 'react';
+import _                  from 'lodash';
+import SvgButton          from '../../../common_components/svg_button';
 import ImportTypeSelector from './import_type_selector';
-import Loader from '../../../common_components/loader';
-import AssignmentButton from './assignment_button';
+import Loader             from '../../../common_components/loader';
+import AssignmentButton   from './assignment_button';
+import appHistory         from '../../../history';
 
 export default class Course extends React.Component {
   static ImportTypes = {
@@ -57,6 +58,10 @@ export default class Course extends React.Component {
 
   handleImportType(e) {
     this.props.updateImportType(this.props.course.index, e.target.value);
+  }
+
+  handleAnaltyics() {
+    appHistory.push(`analytics/${this.props.course.id}`);
   }
 
   handleGoClick() {
@@ -116,6 +121,7 @@ export default class Course extends React.Component {
             {assignmentButton}
             <SvgButton type="preview" onClick={() => this.handlePreview()} />
             <SvgButton type="delete" onClick={() => this.handleRemove()} />
+            <button onClick={() => this.handleAnaltyics()}>Analytics</button>
           </div>
         </div>
       </li>

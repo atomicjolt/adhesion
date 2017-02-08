@@ -55,6 +55,11 @@ class Api::ScormCoursesController < ApplicationController
     )
   end
 
+  def course_report
+    scorm_course = ScormCourse.find_by(scorm_cloud_id: params["scorm_course_id"])
+    render json: scorm_course.course_analytics
+  end
+
   private
 
   def scorm_cloud_service

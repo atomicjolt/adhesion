@@ -37,6 +37,7 @@ class ScormCloudService
 
   def sync_registration_score(reg_result)
     reg = Registration.find(reg_id(reg_result))
+    reg.store_activities(reg_result["activity"].deep_symbolize_keys) if reg_result["activity"]
     new_score = package_score(reg_result)
     reg.score = new_score
     if package_complete?(reg_result) && reg.changed?
@@ -68,7 +69,7 @@ class ScormCloudService
       registration_params[:course_id],
       registration_params[:custom_canvas_user_id],
     )
-    return if result.nil?
+    return if result.nil? || (result[:response]["rsp"]["stat"] == "fail")
     sync_registration_score(result[:response]["rsp"]["registrationreport"])
   end
 
@@ -143,6 +144,7 @@ class ScormCloudService
           authtype: "form",
           urlpass: registration.scorm_cloud_passback_secret,
           urlname: lti_credentials.lti_key,
+          resultsformat: "full",
         )
       end
       @scorm_cloud.registration.launch(registration.id, redirect_url)
@@ -233,6 +235,9 @@ class ScormCloudService
     handle_fail.call if handle_fail.respond_to? :call
     response
   end
+
+
+
 end
 
 class ScormCloudError < StandardError
