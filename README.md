@@ -1,7 +1,7 @@
 # Adhesion [![Build Status](https://travis-ci.org/atomicjolt/adhesion.svg?branch=master)](https://travis-ci.org/atomicjolt/adhesion) [![Coverage Status](https://coveralls.io/repos/github/atomicjolt/adhesion/badge.svg?branch=master)](https://coveralls.io/github/atomicjolt/adhesion?branch=master)
 -----------------------
 
-Adhesion is the [Atomic Jolt](http://www.atomicjolt.com/) lit app suite.
+Adhesion is the [Atomic Jolt](http://www.atomicjolt.com/) lti app suite.
 
 **Attendance App**
 
@@ -98,7 +98,7 @@ These files will not be renamed.
 ## Canvas API
 -----------
 The LTI Starter app makes working with the Canvas API simple. See
-[Canvas](Canvas.md) for more information. Not that working with the Canvas API
+[Canvas](Canvas.md) for more information. Note that working with the Canvas API
 will require a server side proxy that is not part of this project.
 
 #Tests
@@ -112,9 +112,9 @@ change each entry to values that are relevant for your application.
 *This file should not be committed to your repository.*
 
 You will need to [obtain a Developer ID and Key from an Account Admin for the
-instance of Canvas the tool will be installed in](#canvas_developer_key). 
+instance of Canvas the tool will be installed in](#canvas_developer_key).
 
-Youwill also need to setup a default lti application and lti application 
+You will also need to setup a default lti application and lti application
 instance. See the [seeds](#seeds) section below for information on setting
 up the default account.
 
@@ -126,7 +126,7 @@ This application requires:
 
 -   Ruby
 -   Rails
--   PostGreSQL
+-   PostgreSQL
 
 Learn more about [Installing Rails](http://railsapps.github.io/installing-rails.html).
 

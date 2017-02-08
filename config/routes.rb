@@ -52,6 +52,7 @@ Rails.application.routes.draw do
   end
 
   namespace :api do
+    get "proctor_login" => "proctor_login#signed_url"
     resources :jwts
     resources :testing_centers_accounts
     resources :scorm_courses do
@@ -64,7 +65,7 @@ Rails.application.routes.draw do
         resources :students, only: [:index]
       end
     end
-    resources :assigned_exams
+    resources :exam_requests
     resources :proctor_codes
     resources :courses do
       resources :attendances, only: [:index, :create, :update] do

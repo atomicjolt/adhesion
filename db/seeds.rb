@@ -3,7 +3,7 @@ puts "CREATED ADMIN USER: " << admin.email
 
 # Add an LTI Application
 scorm_permissions = "CREATE_ASSIGNMENT,DELETE_ASSIGNMENT,LIST_ASSIGNMENTS"
-proct_permissions = %w{
+exams_permissions = %w{
   LIST_USERS_IN_COURSE_USERS
   LIST_QUIZZES_IN_COURSE
   GET_SUB_ACCOUNTS_OF_ACCOUNT
@@ -20,10 +20,10 @@ lti_applications = [{
   client_application_name: "attendance",
   canvas_api_permissions: "LIST_USERS_IN_COURSE_USERS",
 }, {
-  name: "Proctor Tool",
+  name: "Exams",
   description: "Proctor Tool",
-  client_application_name: "proctor",
-  canvas_api_permissions: proct_permissions
+  client_application_name: "exams",
+  canvas_api_permissions: exams_permissions
 }, {
   name: "Test Administration Tool",
   description: "Test Administration",
@@ -61,9 +61,9 @@ lti_application_instances = [{
   lti_consumer_uri: lti_consumer_uri,
   canvas_token: Rails.application.secrets.canvas_token,
 }, {
-  lti_application: "Proctor Tool",
-  lti_key: "proctor-tool",
-  lti_secret: Rails.application.secrets.proctor_lti_secret,
+  lti_application: "Exams",
+  lti_key: "exams",
+  lti_secret: Rails.application.secrets.exams_lti_secret,
   lti_consumer_uri: lti_consumer_uri,
   canvas_token: Rails.application.secrets.canvas_token,
 }, {
