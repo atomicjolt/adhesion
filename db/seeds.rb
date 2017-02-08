@@ -1,5 +1,6 @@
-admin = CreateAdminService.create_admin
+admin = CreateAdminService.new.call
 puts "CREATED ADMIN USER: " << admin.email
+admin.save!
 
 lti_consumer_uri = Rails.application.secrets.canvas_url
 
@@ -8,7 +9,7 @@ sites = [
   {
     url: lti_consumer_uri,
     oauth_key: Rails.application.secrets.canvas_developer_id,
-    oauth_secret: Rails.application.secrets.canvas_developer_key
+    oauth_secret: Rails.application.secrets.canvas_developer_key,
   },
 ]
 
@@ -86,7 +87,7 @@ application_instances = [
     tenant: "lti-admin",
     lti_key: "lti-admin",
     url: lti_consumer_uri,
-    domain: "admin.#{ENV['APP_URL']}",
+    domain: "admin.#{Rails.application.secrets.domain_name}",
   },
   {
     application: "SCORM Player",
@@ -95,7 +96,7 @@ application_instances = [
     lti_secret: Rails.application.secrets.scorm_lti_secret,
     url: lti_consumer_uri,
     canvas_token: Rails.application.secrets.canvas_token,
-    domain: "scorm.#{ENV['APP_URL']}",
+    domain: "scorm.#{Rails.application.secrets.domain_name}",
   },
   {
     application: "Attendance",
@@ -104,7 +105,7 @@ application_instances = [
     lti_secret: Rails.application.secrets.attendance_lti_secret,
     url: lti_consumer_uri,
     canvas_token: Rails.application.secrets.canvas_token,
-    domain: "attendance.#{ENV['APP_URL']}",
+    domain: "attendance.#{Rails.application.secrets.domain_name}",
   },
   {
     application: "Exams",
@@ -113,7 +114,7 @@ application_instances = [
     lti_secret: Rails.application.secrets.exams_lti_secret,
     url: lti_consumer_uri,
     canvas_token: Rails.application.secrets.canvas_token,
-    domain: "exams.#{ENV['APP_URL']}",
+    domain: "exams.#{Rails.application.secrets.domain_name}",
   },
   {
     application: "Quiz Converter",
@@ -122,7 +123,7 @@ application_instances = [
     lti_secret: Rails.application.secrets.quiz_converter_lti_secret,
     url: lti_consumer_uri,
     canvas_token: Rails.application.secrets.canvas_token,
-    domain: "quiz-converter.#{ENV['APP_URL']}",
+    domain: "quiz-converter.#{Rails.application.secrets.domain_name}",
   },
   {
     application: "Test Administration Tool",
@@ -131,7 +132,7 @@ application_instances = [
     lti_secret: Rails.application.secrets.test_administration_lti_secret,
     url: lti_consumer_uri,
     canvas_token: Rails.application.secrets.canvas_token,
-    domain: "test-administration.#{ENV['APP_URL']}",
+    domain: "test-administration.#{Rails.application.secrets.domain_name}",
   },
   {
     application: "Test Taking Tool",
@@ -140,7 +141,7 @@ application_instances = [
     lti_secret: Rails.application.secrets.test_administration_lti_secret,
     url: lti_consumer_uri,
     canvas_token: Rails.application.secrets.canvas_token,
-    domain: "test-taking.#{ENV['APP_URL']}",
+    domain: "test-taking.#{Rails.application.secrets.domain_name}",
   },
   {
     application: "Survey Aggregation Tool",
@@ -149,7 +150,7 @@ application_instances = [
     lti_secret: Rails.application.secrets.survey_tool_lti_secret,
     url: lti_consumer_uri,
     canvas_token: Rails.application.secrets.canvas_token,
-    domain: "survey-tool.#{ENV['APP_URL']}",
+    domain: "survey-tool.#{Rails.application.secrets.domain_name}",
   },
 ]
 
