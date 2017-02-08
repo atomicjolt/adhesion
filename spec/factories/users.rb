@@ -6,6 +6,6 @@ FactoryGirl.define do
     after(:build, &:confirm)
     after(:create) do |user|
       FactoryGirl.create(:authentication, user_id: user.id, provider_url: FactoryGirl.generate(:domain))
-    }
+    end
   end
 end

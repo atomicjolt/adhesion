@@ -99,7 +99,6 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-
   config.assets.initialize_on_precompile = false
 
   config.assets.manifest = "#{Rails.root}/config/assets/rails-asset-manifest.json"

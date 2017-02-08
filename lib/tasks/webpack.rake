@@ -6,8 +6,8 @@ task "assets:precompile" do
   output = `#{cmd}`
   stats  = JSON.parse output
 
-  File.open('./config/assets/webpack-asset-manifest.json', 'w') do |f|
-    f.write stats['assetsByChunkName'].to_json
+  File.open("./config/assets/webpack-asset-manifest.json", "w") do |f|
+    f.write stats["assetsByChunkName"].to_json
   end
 
   pp stats["assetsByChunkName"]

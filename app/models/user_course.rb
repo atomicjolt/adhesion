@@ -10,7 +10,7 @@ class UserCourse < ActiveRecord::Base
   ADMIN             = 5
   TA                = 6
 
-  def as_json(options = nil)
+  def as_json(_options = nil)
     {
       id: id, student_id: user_id, section_id: section_id, left: left,
       top: top, name: user.name, avatar_url: user.avatar_url,

@@ -11,7 +11,7 @@ class DownloadStatusController < ApplicationController
         "Testing Center",
         "Assigned",
         "Opened By",
-        "Status"
+        "Status",
       ]
       exams_list.each do |exam|
         csv << [
@@ -19,7 +19,7 @@ class DownloadStatusController < ApplicationController
           exam.testing_center_name,
           exam.instructor_name,
           exam.opened_by_name,
-          exam.status
+          exam.status,
         ]
       end
     end

@@ -83,15 +83,14 @@ group :test do
   gem "webmock"
 end
 
-
 ### My Gems ###
 
 group :development, :test do
   gem "vcr"
 end
 
-#serializers
-gem 'active_model_serializers', '~> 0.10.0'
+# serializers
+gem "active_model_serializers", "~> 0.10.0"
 
 # Scorm cloud ruby client
 gem "scorm_cloud", git: "https://github.com/instructure/scorm-cloud.git"
@@ -100,14 +99,14 @@ gem "scorm_cloud", git: "https://github.com/instructure/scorm-cloud.git"
 gem "word_2_quiz"
 
 group :production do
-  gem "capistrano", require: false
-  gem "capistrano-rails", require: false
-  gem "capistrano-bundler", require: false
-  gem "capistrano3-unicorn", require: false
-  gem "capistrano-shell", require: false
-  gem "capistrano-logtail", require: false
-  gem "capistrano-upload", require: false
-  gem "capistrano-db-tasks", require: false
   gem "cap-ec2", require: false
+  gem "capistrano", require: false
+  gem "capistrano-bundler", require: false
+  gem "capistrano-db-tasks", require: false
+  gem "capistrano-logtail", require: false
   gem "capistrano-passenger", require: false
+  gem "capistrano-rails", require: false
+  gem "capistrano-shell", require: false
+  gem "capistrano-upload", require: false
+  gem "capistrano3-unicorn", require: false
 end

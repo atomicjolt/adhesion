@@ -13,7 +13,7 @@ class Api::QuizConversionsController < ApplicationController
       quiz = Word2Quiz.parse_quiz(quiz_doc, answer_key)
 
       api_params = {
-        course_id: params[:lms_course_id]
+        course_id: params[:lms_course_id],
       }
 
       response = canvas_api.proxy("CREATE_QUIZ", api_params, quiz: quiz.to_canvas)
