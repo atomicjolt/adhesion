@@ -11,5 +11,5 @@ eslint:
   config_file: .eslintrc.yml
 
 scss:
-  enabled: true
+  enabled: false
   config_file: .scss-lint.yml

@@ -9,3 +9,23 @@
 // ...
 
 // Third-party
+@import "../../node_modules/react-datepicker/dist/react-datepicker";
+@import "./react_dropdown";
+
+.react-datepicker__input-container {
+  width: 100%;
+  display: flex;
+
+  input {
+    flex: 1;
+    font-size: 14px;
+    border: 2px solid #ededed;
+    line-height: 22px;
+    padding: 6px 10px 5px;
+    width: 100%;
+  }
+}
+
+.react-datepicker__tether-element {
+  left: -20px !important;
+}

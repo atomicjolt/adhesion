@@ -1,1 +1,0 @@
-require('./proctor/proctor.css');

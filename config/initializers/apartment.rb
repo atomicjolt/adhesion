@@ -93,7 +93,7 @@ Rails.application.config.middleware.insert_before "Warden::Manager", "Apartment:
                 request.env["oauth.state"]["oauth_consumer_key"]) ||
                request.params["username"]
     if lti_key == "test-administration"
-      "proctor-tool"
+      "exams"
     else
       lti_key
     end

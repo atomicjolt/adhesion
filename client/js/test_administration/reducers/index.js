@@ -2,14 +2,14 @@ import { combineReducers }  from 'redux';
 import settings             from '../../reducers/settings';
 import jwt                  from '../../reducers/jwt';
 import modal                from '../../reducers/modal';
-import proctorCodes         from './proctor_codes';
+import examRequests         from './exam_requests';
 import print                from '../../quiz_print/reducers/print';
 
 const rootReducer = combineReducers({
   settings,
   jwt,
   modal,
-  proctorCodes,
+  examRequests,
   print,
 });
 
