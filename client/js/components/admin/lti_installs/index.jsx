@@ -20,18 +20,6 @@ export class Home extends React.Component {
     userName: React.PropTypes.string,
   };
 
-  componentDidMount() {
-    // this.props.getAccounts(1);
-  }
-
-  // <!-- <ul className="c-dropdown">
-  // <li>
-  // <a href="">
-  // <span className="c-menu-item">Logout</span>
-  // </a>
-  // </li>
-  //  </ul> -->
-
   render() {
     return (
       <div style={{ height: '100%' }}>
