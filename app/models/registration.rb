@@ -14,7 +14,7 @@ class Registration < ActiveRecord::Base
 
   def store_activities(activity, parent_id = nil)
     # store activity
-    sc_activity = ScormActivity.where(registration_id: self.id,
+    sc_activity = ScormActivity.where(registration_id: id,
                                       title: activity[:title]).first_or_create
     def true?(obj)
       obj.to_s == "true"
@@ -24,7 +24,7 @@ class Registration < ActiveRecord::Base
     sc_activity.attempts = activity[:attempts]
     sc_activity.suspended = true?(activity[:suspended])
 
-    #store runtime data
+    # store runtime data
     runtime = activity[:runtime]
     if runtime
       sc_activity.completion_status = runtime[:completion_status]
@@ -54,7 +54,7 @@ class Registration < ActiveRecord::Base
 
   def reg_score
     scores = []
-    self.scorm_activities.each do |act|
+    scorm_activities.each do |act|
       scores << act.score_scaled if act.score_scaled
     end
     scores.sum / scores.count if scores.count > 0
