@@ -1,0 +1,3 @@
+production:
+  log_level: info
+  logger: syslog
