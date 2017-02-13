@@ -43,14 +43,8 @@ Rails.application.configure do
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # config.force_ssl = true
 
-  # Set to :debug to see everything in the log.
-  config.log_level = :info
-
   # Prepend all log lines with the following tags.
   # config.log_tags = [ :subdomain, :uuid ]
-
-  # Use a different logger for distributed setups.
-  # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
@@ -85,7 +79,9 @@ Rails.application.configure do
   # }
 
   # ActionMailer Config
-  config.action_mailer.default_url_options = { host: Rails.application.secrets.domain_name }
+  config.action_mailer.default_url_options = {
+    host: Rails.application.secrets.domain_name,
+  }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = false

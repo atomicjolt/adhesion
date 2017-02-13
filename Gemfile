@@ -12,12 +12,6 @@ gem "rails", "4.2.7"
 gem "apartment"
 gem "pg"
 
-# UI
-gem "autoprefixer-rails"
-gem "non-stupid-digest-assets" # also compile assets without digest (fixes font problem)
-gem "sass-rails"
-gem "uglifier"
-
 # authentication, authorization, integrations
 gem "attr_encrypted"
 gem "cancancan"
@@ -57,10 +51,13 @@ group :development do
   gem "rails_apps_pages"
   gem "rails_apps_testing"
   gem "rails_layout"
-  gem "rb-fchange", require: false
-  gem "rb-fsevent", require: false
-  gem "rb-inotify", require: false
-  gem "spring"
+  gem "rb-fchange", :require => false
+  gem "rb-fsevent", :require => false
+  gem "rb-inotify", :require => false
+  gem "sass-rails"
+  gem "uglifier"
+  gem "autoprefixer-rails"
+  gem "non-stupid-digest-assets" # also compile assets without digest (fixes font problem)
 end
 
 group :development, :test do
