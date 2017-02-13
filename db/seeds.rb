@@ -13,6 +13,17 @@ sites = [
   },
 ]
 
+admin_api_permissions = %w(
+  LIST_ACTIVE_COURSES_IN_ACCOUNT
+  LIST_EXTERNAL_TOOLS_COURSES
+  CREATE_EXTERNAL_TOOL_COURSES
+  DELETE_EXTERNAL_TOOL_COURSES
+  LIST_EXTERNAL_TOOLS_ACCOUNTS
+  CREATE_EXTERNAL_TOOL_ACCOUNTS
+  DELETE_EXTERNAL_TOOL_ACCOUNTS
+  GET_SUB_ACCOUNTS_OF_ACCOUNT
+).join(",")
+
 # Add an LTI Application
 scorm_permissions = "CREATE_ASSIGNMENT,DELETE_ASSIGNMENT,LIST_ASSIGNMENTS"
 exams_permissions = %w{
@@ -27,7 +38,7 @@ applications = [
     name: "LTI Admin",
     description: "LTI tool administration",
     client_application_name: "lti_admin_app",
-    canvas_api_permissions: "",
+    canvas_api_permissions: admin_api_permissions,
     kind: Application.kinds[:admin],
   },
   {
@@ -88,6 +99,7 @@ application_instances = [
     lti_key: "lti-admin",
     url: lti_consumer_uri,
     domain: "admin.#{Rails.application.secrets.domain_name}",
+    lti_type: "account_navigation",
   },
   {
     application: "SCORM Player",

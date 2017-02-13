@@ -29,7 +29,9 @@ class SessionsController < Devise::SessionsController
   end
 
   def destroy
-    # current_user.authentications.where(provider: 'canvas').destroy_all
+    if params[:destroy_authentications]
+      current_user.authentications.where(provider: "canvas").destroy_all
+    end
     super
   end
 end

@@ -38,10 +38,11 @@ ActiveRecord::Schema.define(version: 20170206193209) do
     t.string   "name"
     t.string   "description"
     t.string   "client_application_name"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
     t.text     "canvas_api_permissions"
-    t.integer  "kind",                    default: 0
+    t.integer  "kind",                        default: 0
+    t.integer  "application_instances_count"
   end
 
   create_table "attendances", force: :cascade do |t|

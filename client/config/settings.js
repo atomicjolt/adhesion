@@ -52,7 +52,7 @@ module.exports = {
     test_administration: `${clientAppPath}js/test_administration.jsx`,
     test_taking: `${clientAppPath}js/test_taking.jsx`,
     survey_tool: `${clientAppPath}js/survey_tool.jsx`,
-    lti_admin_app: `${clientAppPath}js/lti_admin_app.jsx`,
+    admin_app: `${clientAppPath}js/_admin/app.jsx`
   },
 
   cssEntries: {
