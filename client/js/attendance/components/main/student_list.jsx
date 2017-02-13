@@ -31,8 +31,8 @@ export class StudentList extends React.Component {
     }).isRequired,
     students: React.PropTypes.arrayOf(React.PropTypes.shape({})).isRequired,
     settings: React.PropTypes.shape({
-      lmsCourseId: React.PropTypes.string,
-      apiUrl: React.PropTypes.string,
+      lms_course_id: React.PropTypes.string,
+      api_url: React.PropTypes.string,
     }).isRequired,
     applicationDate: React.PropTypes.string.isRequired,
     attendance: React.PropTypes.objectOf(React.PropTypes.string),
@@ -51,7 +51,12 @@ export class StudentList extends React.Component {
   }
 
   componentWillMount() {
-    this.props.canvasRequest(listUsersInCourseUsers, { course_id: this.props.settings.lms_course_id, enrollment_type: ['student'], include: ['avatar_url'] }, {});
+    const params = {
+      course_id: this.props.settings.lms_course_id,
+      enrollment_type: ['student'],
+      include: ['avatar_url'],
+    };
+    this.props.canvasRequest(listUsersInCourseUsers, params, {});
     this.props.getStudentAttendance(this.props.applicationDate, this.props.settings.lms_course_id);
   }
 

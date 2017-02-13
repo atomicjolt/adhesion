@@ -24,7 +24,7 @@ const select = state => ({
 });
 
 export class BaseExamRequestList extends React.Component {
-  static propTypes =  {
+  static propTypes = {
     loadExamRequests: React.PropTypes.func.isRequired,
     scheduleExam: React.PropTypes.func.isRequired,
     testingCentersAccountSetup: React.PropTypes.func.isRequired,
@@ -206,7 +206,7 @@ export class BaseExamRequestList extends React.Component {
           />
         </div>
         <table style={styles.table}>
-          <thead  style={styles.tr}>
+          <thead style={styles.tr}>
             {BaseExamRequestList.tableHeader(styles)}
           </thead>
           <tbody>

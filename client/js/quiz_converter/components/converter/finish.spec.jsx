@@ -17,6 +17,6 @@ describe('Finish page', () => {
 
   it('renders redirect text', () => {
     const h1 = TestUtils.findRenderedDOMComponentWithTag(result, 'h1');
-    expect(h1.textContent).toContain("Redirecting to Quiz...");
+    expect(h1.textContent).toContain('Redirecting to Quiz...');
   });
 });

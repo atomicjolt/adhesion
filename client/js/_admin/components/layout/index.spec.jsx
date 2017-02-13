@@ -6,7 +6,7 @@ describe('index', () => {
   let result;
   let props;
 
-  const text = "hello";
+  const text = 'hello';
   const children = <h1>{text}</h1>;
 
   beforeEach(() => {
@@ -21,7 +21,7 @@ describe('index', () => {
   });
 
   it('renders the child component', () => {
-    const child = TestUtils.findRenderedDOMComponentWithTag(result, "h1");
+    const child = TestUtils.findRenderedDOMComponentWithTag(result, 'h1');
     expect(child.textContent).toBe(text);
   });
 

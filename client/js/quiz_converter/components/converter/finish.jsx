@@ -1,5 +1,4 @@
 import React          from 'react';
-import appHistory        from '../../../history';
 
 export default function Finish() {
   return (

@@ -29,7 +29,7 @@ describe('File Upload Button', () => {
     expect(called).toBeTruthy();
   });
 
-  it ('does not call selectFile when there are no files selected', () => {
+  it('does not call selectFile when there are no files selected', () => {
     const input = TestUtils.findRenderedDOMComponentWithTag(result, 'input');
     TestUtils.Simulate.change(input, { target: { files: [] } });
     expect(called).toBeFalsy();
