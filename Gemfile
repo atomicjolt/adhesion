@@ -42,22 +42,23 @@ gem "rack-cors", require: "rack/cors"
 gem "will_paginate"
 
 group :development do
+  gem "autoprefixer-rails"
   gem "better_errors"
   gem "binding_of_caller", platforms: [:mri_21]
   gem "hub", require: nil
   gem "mailcatcher"
   gem "mail_view"
+  gem "non-stupid-digest-assets" # also compile assets without digest (fixes font problem)
   gem "quiet_assets"
   gem "rails_apps_pages"
   gem "rails_apps_testing"
   gem "rails_layout"
-  gem "rb-fchange", :require => false
-  gem "rb-fsevent", :require => false
-  gem "rb-inotify", :require => false
+  gem "rb-fchange", require: false
+  gem "rb-fsevent", require: false
+  gem "rb-inotify", require: false
   gem "sass-rails"
+  gem "spring"
   gem "uglifier"
-  gem "autoprefixer-rails"
-  gem "non-stupid-digest-assets" # also compile assets without digest (fixes font problem)
 end
 
 group :development, :test do

@@ -332,6 +332,8 @@ GEM
     skinny (0.2.4)
       eventmachine (~> 1.0.0)
       thin (>= 1.5, < 1.7)
+    spring (2.0.1)
+      activesupport (>= 4.2)
     sprockets (3.7.1)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
@@ -448,6 +450,7 @@ DEPENDENCIES
   selenium-webdriver
   sendgrid
   shoulda-matchers
+  spring
   test_after_commit
   uglifier
   unicorn
