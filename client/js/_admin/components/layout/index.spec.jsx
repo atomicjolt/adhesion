@@ -1,6 +1,8 @@
 import React        from 'react';
 import TestUtils    from 'react-addons-test-utils';
-import Index        from './index';
+import { Provider } from 'react-redux';
+import Helper       from '../../../../specs_support/helper';
+import { Index }    from './index';
 
 describe('index', () => {
   let result;
@@ -11,9 +13,14 @@ describe('index', () => {
 
   beforeEach(() => {
     props = {
-      children
+      children,
+      getApplications: () => {},
     };
-    result = TestUtils.renderIntoDocument(<Index {...props} />);
+
+    result = TestUtils.renderIntoDocument(
+      <Provider store={Helper.makeStore()}>
+        <Index {...props} />
+      </Provider>);
   });
 
   it('renders the index', () => {
