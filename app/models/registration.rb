@@ -52,11 +52,19 @@ class Registration < ActiveRecord::Base
     end
   end
 
-  def reg_score
+  def registration_score
     scores = []
     scorm_activities.each do |act|
       scores << act.score_scaled if act.score_scaled
     end
     scores.sum / scores.count if scores.count > 0
+  end
+
+  def registration_time
+    scorm_activites.sum(:total_time)
+  end
+
+  def passed?
+    !scorm_activities.pluck(:success_status).include? "Failed"
   end
 end

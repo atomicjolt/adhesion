@@ -100,13 +100,13 @@ RSpec.describe Registration, type: :model do
     end
   end
 
-  describe "#reg_score" do
+  describe "#registration_score" do
     it "returns nil when scores don't exist under a registration" do
-      expect(@registration.reg_score).to eq(nil)
+      expect(@registration.registration_score).to eq(nil)
     end
     it "returns the mean score for all scorm activities under a registration" do
       @registration.store_activities(@report[:registrationreport][:activity])
-      expect(@registration.reg_score).to eq(1.0)
+      expect(@registration.registration_score).to eq(1.0)
     end
   end
 
