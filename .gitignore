@@ -52,6 +52,7 @@ npm-debug.log
 /public/system
 public/assets
 /build
+/config/assets/*.json
 
 # git artifacts
 **.orig
