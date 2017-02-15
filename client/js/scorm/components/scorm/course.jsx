@@ -120,8 +120,8 @@ export default class Course extends React.Component {
           <div className="c-list-item__icons">
             {assignmentButton}
             <SvgButton type="preview" onClick={() => this.handlePreview()} />
+            <SvgButton type="stats" onClick={() => this.handleAnaltyics()} />
             <SvgButton type="delete" onClick={() => this.handleRemove()} />
-            <button onClick={() => this.handleAnaltyics()}>Analytics</button>
           </div>
         </div>
       </li>
