@@ -24,6 +24,7 @@ export class BaseEnterAnswers extends React.Component {
 
   static propTypes = {
     // createListener: React.PropTypes.func,
+    examRequest: React.PropTypes.shape({}),
     canvasRequest: React.PropTypes.func,
     quiz: React.PropTypes.shape({
       access_code: React.PropTypes.string,
@@ -57,7 +58,10 @@ export class BaseEnterAnswers extends React.Component {
 
     this.props.getSignedUrl(examRequestId);
     // this will be used later so yeah
-    this.props.canvasRequest(getSingleQuiz, { course_id: examRequest.course_id, id: examRequest.exam_id });
+    this.props.canvasRequest(
+      getSingleQuiz,
+      { course_id: examRequest.course_id, id: examRequest.exam_id }
+    );
     // this.props.createListener(
     //   'api/canvas',
     //   { course_id: courseId, id: quizId },

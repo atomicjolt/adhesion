@@ -36,6 +36,7 @@ export class BaseExamRequestList extends React.Component {
     hideModal: React.PropTypes.func.isRequired,
     showModal: React.PropTypes.func.isRequired,
     canvasRequest: React.PropTypes.func.isRequired,
+    startExam: React.PropTypes.func.isRequired,
   };
 
   static tableHeader(styles) {
@@ -157,7 +158,10 @@ export class BaseExamRequestList extends React.Component {
   }
 
   getUnscheduledCount() {
-    return _.filter(this.props.examRequestList, examRequest => (!examRequest.scheduled_date)).length;
+    return _.filter(
+      this.props.examRequestList,
+      examRequest => (!examRequest.scheduled_date)
+    ).length;
   }
 
   scheduleExam(id, scheduledDate, scheduledTime) {
