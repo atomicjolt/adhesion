@@ -8,7 +8,7 @@ const defaultOnError = (payload, action) => ({
   payload,
 });
 
-export default function (
+export default function(
   url,
   params,
   predicate,

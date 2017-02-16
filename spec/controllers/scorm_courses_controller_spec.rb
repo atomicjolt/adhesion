@@ -46,14 +46,14 @@ RSpec.describe ScormCoursesController, type: :controller do
       allow_any_instance_of(ScormCloud::ScormCloud).to receive(
         :registration,
       ).and_return(MockScorm.new)
-      @lti_application_instance = FactoryGirl.create(:lti_application_instance)
+      @application_instance = FactoryGirl.create(:application_instance)
       allow(controller).to receive(
-        :current_lti_application_instance,
-      ).and_return(@lti_application_instance)
+        :current_application_instance,
+      ).and_return(@application_instance)
       Registration.create(lms_user_id: 2)
       scu = scorm_courses_url
-      @params = lti_params(@lti_application_instance.lti_key,
-                           @lti_application_instance.lti_secret,
+      @params = lti_params(@application_instance.lti_key,
+                           @application_instance.lti_secret,
                            "custom_canvas_user_id" => 2,
                            "course_id" => 1,
                            "launch_url" => scorm_courses_url,

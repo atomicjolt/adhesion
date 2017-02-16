@@ -13,11 +13,11 @@ import ProctorCenterSelector       from './proctor_center_selector';
 const select = (state, props) => {
   const exam = _.find(state.exams.examList, ex => props.params.id === ex.id.toString());
   return {
-    lmsCourseId: state.settings.lmsCourseId,
-    lmsUserId: state.settings.lmsUserId,
-    lmsCourseName: state.settings.lmsCourseName,
+    lmsCourseId: state.settings.lms_course_id,
+    lmsUserId: state.settings.lms_user_id,
+    lmsCourseName: state.settings.lms_course_name,
     exam,
-    studentName: state.settings.displayName,
+    studentName: state.settings.display_name,
     testingCentersAccountId: state.testingCenters.testingCentersAccount.testing_centers_account_id,
     testingCenterList: state.testingCenters.testingCenterList,
   };

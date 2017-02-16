@@ -16,15 +16,15 @@ import { createConversation }  from '../../../libs/canvas/constants/conversation
 import FilterTabs              from './filter_tabs';
 
 const select = state => ({
-  lmsUserId: state.settings.lmsUserId,
-  currentAccountId: state.settings.customCanvasAccountID,
-  toolConsumerInstanceName: state.settings.toolConsumerInstanceName,
+  lmsUserId: state.settings.lms_user_id,
+  currentAccountId: state.settings.custom_canvas_account_id,
+  toolConsumerInstanceName: state.settings.tool_consumer_instance_name,
   examRequestList: state.examRequests.examRequestList,
   centerIdError: state.examRequests.centerIdError,
 });
 
 export class BaseExamRequestList extends React.Component {
-  static propTypes =  {
+  static propTypes = {
     loadExamRequests: React.PropTypes.func.isRequired,
     scheduleExam: React.PropTypes.func.isRequired,
     testingCentersAccountSetup: React.PropTypes.func.isRequired,
@@ -207,7 +207,7 @@ export class BaseExamRequestList extends React.Component {
           />
         </div>
         <table style={styles.table}>
-          <thead  style={styles.tr}>
+          <thead style={styles.tr}>
             {BaseExamRequestList.tableHeader(styles)}
           </thead>
           <tbody>

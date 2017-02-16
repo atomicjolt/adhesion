@@ -143,16 +143,16 @@ export class ScormIndex extends React.Component {
 const select = (state) => {
   const courseList = state.scorm.scormList ? _.orderBy(state.scorm.scormList, 'index', 'desc') : null;
   return {
-    lmsCourseId: state.settings.lmsCourseId,
-    userId: state.settings.userId,
-    apiUrl: state.settings.apiUrl,
+    lmsCourseId: state.settings.lms_course_id,
+    userId: state.settings.user_id,
+    apiUrl: state.settings.api_url,
     scormList: courseList,
     shouldRefreshList: state.scorm.shouldRefreshList,
     scormFile: state.scorm.file,
     uploadError: state.scorm.uploadError,
     canvasAssignments: state.scorm.canvasAssignments,
     listAssignmentsDone: state.scorm.listAssignmentsDone,
-    canvasUrl: state.settings.customCanvasApiDomain,
+    canvasUrl: state.settings.custom_canvas_api_domain,
   };
 };
 
