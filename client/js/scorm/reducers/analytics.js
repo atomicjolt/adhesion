@@ -1,6 +1,7 @@
 import { Constants } from '../actions/analytics';
 
 const initialState = {
+  data: {},
 };
 
 export default (state = initialState, action) => {

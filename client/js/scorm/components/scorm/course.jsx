@@ -88,15 +88,18 @@ export default class Course extends React.Component {
     };
 
     let assignmentButton;
+    let statsButton;
     let dropDown;
 
     if (this.props.course.fetching) {
       dropDown = <div style={Course.getStyles().loaderContainer}><Loader /></div>;
     } else if (isAssignment && isGraded) {
       assignmentButton = <AssignmentButton {...assignmentButtonProps} />;
+      statsButton = <SvgButton type="stats" onClick={() => this.handleAnaltyics()} />;
       dropDown = <div className="c-list-item__type" style={{ minWidth: '20rem' }}>Graded Assignment</div>;
     } else if (isAssignment && !isGraded) {
       assignmentButton = <AssignmentButton {...assignmentButtonProps} />;
+      statsButton = <SvgButton type="stats" onClick={() => this.handleAnaltyics()} />;
       dropDown = <div className="c-list-item__type" style={{ minWidth: '20rem' }}>Ungraded Assignment</div>;
     } else {
       const isUnselected = !_.isUndefined(this.props.course.is_graded)
@@ -119,8 +122,8 @@ export default class Course extends React.Component {
           </div>
           <div className="c-list-item__icons">
             {assignmentButton}
+            {statsButton}
             <SvgButton type="preview" onClick={() => this.handlePreview()} />
-            <SvgButton type="stats" onClick={() => this.handleAnaltyics()} />
             <SvgButton type="delete" onClick={() => this.handleRemove()} />
           </div>
         </div>

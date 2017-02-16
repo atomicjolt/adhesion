@@ -6,8 +6,8 @@ import * as AnalyticsActions               from '../../actions/analytics';
 export class CourseReport extends React.Component {
 
   static propTypes = {
-    loadCourseData: React.PropTypes.func,
-    scormCourseId: React.PropTypes.string,
+    loadCourseData: React.PropTypes.func.isRequired,
+    scormCourseId: React.PropTypes.string.isRequired,
     data: React.PropTypes.shape({
       title: React.PropTypes.string,
       meanScore: React.PropTypes.number,
@@ -16,7 +16,7 @@ export class CourseReport extends React.Component {
       lowScore: React.PropTypes.number,
       highScore: React.PropTypes.number,
       passed: React.PropTypes.array,
-    }),
+    }).isRequired,
   }
 
   static getStyles() {
@@ -38,8 +38,10 @@ export class CourseReport extends React.Component {
   render() {
     const data = this.props.data || {};
     let pieChart;
+    let scoreData;
+
     if (data.passed) {
-      const COLORS = ['#4393c3', '#b2182b'];
+      const COLORS = ['#67a9cf', '#c9c9c9', '#ef8a62'];
       pieChart = (
         <PieChart width={300} height={300}>
           <Pie data={data.passed} startAngle={90} endAngle={450} label labelLine>
@@ -52,18 +54,26 @@ export class CourseReport extends React.Component {
         </PieChart>
       );
     }
+
+    if (data.meanScore) {
+      scoreData = (<div>
+        <p>Mean Score: {data.meanScore}</p>
+        <p>Median Score: {data.medScore}</p>
+        <p>Lowest Score: {data.lowScore}</p>
+        <p>Highest Score: {data.highScore}</p>
+      </div>);
+    } else {
+      scoreData = <p>Score data not available.</p>;
+    }
     return (
       <div>
         <h1>{data.title}</h1>
         <div style={CourseReport.getStyles().stats}>
-          <h4>Mean Score: {data.meanScore}</h4>
-          <h4>Total Registrations: {data.regCount}</h4>
-          <h4>Median Score: {data.medScore}</h4>
-          <h4>Lowest Score: {data.lowScore}</h4>
-          <h4>Highest Score: {data.highScore}</h4>
+          <h3>Total Registrations: {data.regCount}</h3>
+          {scoreData}
         </div>
         <div style={CourseReport.getStyles().pieChart}>
-          <h4>How many learners are passing this course?</h4>
+          <h3>How many learners are passing this course?</h3>
           {pieChart}
         </div>
       </div>
