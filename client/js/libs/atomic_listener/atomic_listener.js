@@ -29,16 +29,16 @@ export default class AtomicListener {
 
   recursiveListen() {
     const updatedParams = {
-      oauth_consumer_key: this.releventState.settings.oauthConsumerKey,
+      oauth_consumer_key: this.releventState.settings.oauth_consumer_key,
       ...this.params,
     };
 
     const promise = api.execRequest(
       NetworkConstants.GET,
       this.url,
-      this.releventState.settings.apiUrl,
+      this.releventState.settings.api_url,
       this.releventState.jwt,
-      this.releventState.settings.csrfToken,
+      this.releventState.settings.csrf_token,
       updatedParams,
       {},
       null,

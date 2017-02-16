@@ -24,14 +24,14 @@ RSpec.describe Api::QuizConversionsController, type: :controller do
 
       @fake_quiz = double(
         to_canvas: {
-          title: "asdf"
+          title: "asdf",
         },
         questions_as_canvas: [
           {
             text: "",
-            answers: []
-          }
-        ]
+            answers: [],
+          },
+        ],
       )
 
       allow(Word2Quiz).to receive(:parse_quiz).

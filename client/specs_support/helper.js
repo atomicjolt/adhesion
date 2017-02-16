@@ -8,28 +8,27 @@ export default class Helper {
     return {
       subscribe: () => {},
       dispatch: () => {},
-      getState: () => {
-        return {...state};
-      }
+      getState: () => ({ ...state })
     };
   }
 
   // Create a real store that can be used for testing
   static makeStore(settings) {
     const initialState = {
-      jwt      : "fake_jwt_token",
-      settings : _.assign({
-                    csrf     : "csrf_token",
-                    apiUrl   : "http://www.example.com"
-                  }, settings)
+      jwt: 'fake_jwt_token',
+      settings: _.assign({
+        csrf: 'csrf_token',
+        api_url: 'http://www.example.com',
+        sign_out_url: 'http://www.example.com/sign_out'
+      }, settings)
     };
     return configureStore(initialState);
   }
 
   static testPayload() {
     return JSON.stringify([{
-      "id":1,
-      "name":"Starter App"
+      id: 1,
+      name: 'Starter App'
     }]);
   }
 
@@ -41,8 +40,8 @@ export default class Helper {
           RegExp('.*/api/test')
         ).andReturn({
           status: 200,
-          contentType: "application/json",
-          statusText: "OK",
+          contentType: 'application/json',
+          statusText: 'OK',
           responseText: Helper.testPayload()
         });
 
@@ -50,8 +49,8 @@ export default class Helper {
           RegExp('.*/api/test/.+')
         ).andReturn({
           status: 200,
-          contentType: "application/json",
-          statusText: "OK",
+          contentType: 'application/json',
+          statusText: 'OK',
           responseText: Helper.testPayload()
         });
     });

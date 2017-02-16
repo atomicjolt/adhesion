@@ -54,7 +54,7 @@ describe('Student List', () => {
     result.markAll('PRESENT');
     expect(props.markStudents).toHaveBeenCalledWith(
       props.students,
-      props.settings.lmsCourseId,
+      props.settings.lms_course_id,
       props.applicationDate,
       'PRESENT',
     );
@@ -67,7 +67,7 @@ describe('Student List', () => {
     TestUtils.Simulate.click(button[0]);
     expect(props.markStudents).toHaveBeenCalledWith(
       props.students,
-      props.settings.lmsCourseId,
+      props.settings.lms_course_id,
       props.applicationDate,
       '',
     );

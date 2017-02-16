@@ -9,7 +9,7 @@ function checkRequired(action) {
   if (action.canvas.required.length > 0) {
     const missing = _.difference(action.canvas.required, _.keys(action.params));
     if (missing.length > 0) {
-      throw `Missing required parameter(s): ${missing.join(", ")}`;
+      throw new Error(`Missing required parameter(s): ${missing.join(', ')}`);
     }
   }
 }
@@ -22,14 +22,14 @@ function proxyCanvas(store, action, params) {
   api.execRequest(
     action.canvas.method,
     canvasProxyUrl,
-    state.settings.apiUrl,
+    state.settings.api_url,
     state.jwt,
-    state.settings.csrfToken,
+    state.settings.csrf_token,
     {
       ...action.params,
       ...params,
-      type: action.canvas.type,
-      oauth_consumer_key: state.settings.oauthConsumerKey
+      type               : action.canvas.type,
+      oauth_consumer_key : state.settings.oauth_consumer_key
     },
     action.body
   ).then((response, error) => {
@@ -48,9 +48,9 @@ function proxyCanvas(store, action, params) {
     }
 
     store.dispatch({
-      type: action.canvas.type + DONE,
-      payload: response.body,
-      original: action,
+      type     : action.canvas.type + DONE,
+      payload  : response.body,
+      original : action,
       lastPage,
       response,
       error
