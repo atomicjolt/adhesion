@@ -81,9 +81,19 @@ class ScormCloudService
 
     extra.each do |scorm_cloud_id|
       ScormCourse.find_by(scorm_cloud_id: scorm_cloud_id).destroy
+      registrations = Registration.where(lms_course_id: scorm_cloud_id.to_i)
+      registrations.each do |reg|
+        @scorm_cloud.registration.delete_registration(reg.id)
+        reg.destroy
+      end
     end
 
-    needed.each { |scorm_cloud_id| ScormCourse.create(scorm_cloud_id: scorm_cloud_id) }
+    new_courses = []
+    needed.each { |scorm_cloud_id| new_courses << ScormCourse.create(scorm_cloud_id: scorm_cloud_id) }
+    new_courses.each do |course|
+      title = courses.detect { |c| c.id == course.scorm_cloud_id }.title
+      course.update_attribute(:title, title)
+    end
 
     result = courses.select do |course|
       local_course = ScormCourse.find_by(scorm_cloud_id: course.id)
@@ -166,6 +176,7 @@ class ScormCloudService
         package_id,
         file,
       )
+      course.update_attribute(:title, resp[:title])
       resp["package_id"] = package_id
       resp
     end
@@ -182,6 +193,11 @@ class ScormCloudService
       response = @scorm_cloud.course.delete_course(course_id)
       if response == true
         course = ScormCourse.find_by(scorm_cloud_id: course_id)
+        registrations = Registration.where(lms_course_id: course_id.to_i)
+        registrations.each do |reg|
+          @scorm_cloud.registration.delete_registration(reg.id)
+          reg.destroy
+        end
         course.destroy unless course.nil?
       end
       response

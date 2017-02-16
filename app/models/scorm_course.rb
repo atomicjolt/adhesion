@@ -17,6 +17,7 @@ class ScormCourse < ActiveRecord::Base
     low_score = nil
     high_score = nil
     passed = 0
+
     registrations.each do |reg|
       if reg.registration_score
         reg_scores << reg.registration_score
@@ -27,21 +28,17 @@ class ScormCourse < ActiveRecord::Base
         passed += 1 if reg.passed?
       end
     end
+
     # Calculate Mean, Median
     mean_score = reg_scores.sum / reg_scores.count if reg_scores.count > 0
     med_score = median(reg_scores.sort)
 
-    # Title of the course
-    if registrations.first
-      summary[:title] = registrations.first.scorm_activities.find_by(
-        parent_activity_id: nil
-      ).title
-    end
-
     # Assemble pass/fail data
     pass_fail = [{ name: "Passed", value: passed },
-                 { name: "Failed", value: registrations.count - passed }]
+                 { name: "Incompleted", value: registrations.count - reg_scores.count },
+                 { name: "Failed", value: reg_scores.count - passed }]
 
+    summary[:title] = title
     summary[:mean_score] = mean_score
     summary[:med_score] = med_score
     summary[:low_score] = low_score
