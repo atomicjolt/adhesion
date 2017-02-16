@@ -224,7 +224,7 @@ Devise.setup do |config|
   # config.navigational_formats = ['*/*', :html]
 
   # The default HTTP method used to sign out a resource. Default is :delete.
-  config.sign_out_via = :delete
+  config.sign_out_via = :get
 
   # ==> OmniAuth
   # Add a new OmniAuth provider. Check the wiki for more information on setting
@@ -232,18 +232,20 @@ Devise.setup do |config|
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
   CANVAS_SETUP = lambda do |env|
     request = Rack::Request.new(env)
-    site = env["canvas.url"] ||
-           request.params["canvas_url"] ||
-           request.session["canvas_url"] ||
-           "https://canvas.instructure.com"
 
-    env["omniauth.strategy"].options[:client_options].site = site
+    url = env["canvas.url"] ||
+      request.params["canvas_url"] ||
+      request.session["canvas_url"] ||
+      "https://canvas.instructure.com"
+
+    site = Site.find_by(url: url)
+
+    env["omniauth.strategy"].options[:client_id] = site.oauth_key
+    env["omniauth.strategy"].options[:client_secret] = site.oauth_secret
+    env["omniauth.strategy"].options[:client_options].site = url
   end
 
-  config.omniauth :canvas,
-                  Rails.application.secrets.canvas_developer_id,
-                  Rails.application.secrets.canvas_developer_key,
-                  setup: CANVAS_SETUP
+  config.omniauth :canvas, setup: CANVAS_SETUP
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

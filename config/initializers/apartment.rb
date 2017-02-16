@@ -2,7 +2,7 @@
 # Apartment can support many different "Elevators" that can take care of this routing to your data.
 # Require whichever Elevator you're using below or none if you have a custom one.
 #
-require 'apartment/elevators/generic'
+require "apartment/elevators/generic"
 # require 'apartment/elevators/domain'
 # require 'apartment/elevators/subdomain'
 # require 'apartment/elevators/first_subdomain'
@@ -11,17 +11,17 @@ require 'apartment/elevators/generic'
 # Apartment Configuration
 #
 Apartment.configure do |config|
-
   # Add any models that you do not want to be multi-tenanted, but remain in the global (public) namespace.
   # A typical example would be a Customer or Tenant model that stores each Tenant's information.
   #
-  config.excluded_models = %w{LtiApplication LtiApplicationInstance OauthState}
+  config.excluded_models = %w{Application ApplicationInstance OauthState}
 
   # In order to migrate all of your Tenants you need to provide a list of Tenant names to Apartment.
   # You can make this dynamic by providing a Proc object to be called on migrations.
   # This object should yield either:
   # - an array of strings representing each Tenant name.
-  # - a hash which keys are tenant names, and values custom db config (must contain all key/values required in database.yml)
+  # - a hash which keys are tenant names,
+  #   and values custom db config (must contain all key/values required in database.yml)
   #
   # config.tenant_names = lambda{ Customer.pluck(:tenant_name) }
   # config.tenant_names = ['tenant1', 'tenant2']
@@ -47,7 +47,7 @@ Apartment.configure do |config|
   #   end
   # end
   #
-  config.tenant_names = lambda { LtiApplicationInstance.pluck(:lti_key) }
+  config.tenant_names = lambda { ApplicationInstance.pluck(:lti_key) }
 
   #
   # ==> PostgreSQL only options
@@ -88,17 +88,12 @@ end
 # }
 
 Rails.application.config.middleware.insert_before "Warden::Manager", "Apartment::Elevators::Generic", lambda { |request|
-  if lti_key = request.params["oauth_consumer_key"] ||
-               (request.env["oauth.state"] &&
-                request.env["oauth.state"]["oauth_consumer_key"]) ||
-               request.params["username"]
-    if lti_key == "test-administration"
-      "exams"
-    else
-      lti_key
-    end
+  key = request.params["oauth_consumer_key"]
+  host = request.host_with_port
+  if application_instance = ApplicationInstance.find_by(lti_key: key) || ApplicationInstance.find_by(domain: host)
+    application_instance.tenant
   else
-    raise "Please specify a valid oauth_consumer_key for this request"
+    raise "Please specify a valid oauth_consumer_key or valid domain name for this request"
   end
 }
 

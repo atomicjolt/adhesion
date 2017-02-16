@@ -1,4 +1,4 @@
-require File.expand_path('../boot', __FILE__)
+require File.expand_path("../boot", __FILE__)
 
 # Pick the frameworks you want:
 require "active_model/railtie"
@@ -31,23 +31,23 @@ module Adhesion
     config.autoload_paths += Dir["#{config.root}/lib/**/"]
 
     config.action_dispatch.default_headers = {
-      'X-Frame-Options' => 'ALLOWALL'
+      "X-Frame-Options" => "ALLOWALL",
     }
 
     config.middleware.insert_before 0, "Rack::Cors" do
       allow do
-        origins '*'
-        resource '*', :headers => :any, :methods => [:get, :post, :options]
+        origins "*"
+        resource "*", headers: :any, methods: [:get, :post, :options]
       end
     end
 
-    # Middleware that can restore state after an Oauth request
+    # Middleware that can restore state after an OAuth request
     config.middleware.insert_before 0, "OauthStateMiddleware"
 
     config.webpack = {
-     use_manifest: false,
-     asset_manifest: {},
-     common_manifest: {}
+      use_manifest: false,
+      asset_manifest: {},
+      common_manifest: {},
     }
 
     log_defaults = {

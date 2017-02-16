@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :configure_permitted_parameters, if: :devise_controller?
 
-  helper_method :current_lti_application_instance
+  helper_method :current_application_instance
 
   protected
 
@@ -21,9 +21,10 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:account_update, keys: [:name])
   end
 
-  def current_lti_application_instance
-    @current_lti_application_instance ||=
-      LtiApplicationInstance.find_by(lti_key: params[:oauth_consumer_key])
+  def current_application_instance
+    @current_application_instance ||=
+      ApplicationInstance.find_by(lti_key: params[:oauth_consumer_key]) ||
+      ApplicationInstance.find_by(domain: request.host_with_port)
   end
 
   def current_ability

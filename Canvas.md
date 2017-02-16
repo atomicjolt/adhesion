@@ -54,7 +54,7 @@ in an 'unauthorized' being returned from the server. Add API calls to the 'canva
 of the application as a comma separated list. ie
 
 ```ruby
-my_lti_applications.canvas_api_permissions = "LIST_ACCOUNTS,GET_SINGLE_ACCOUNT"
+my_applications.canvas_api_permissions = "LIST_ACCOUNTS,GET_SINGLE_ACCOUNT"
 ```
 
 Definitions for the API endpoints can be found in libs/canvas_urls.rb.

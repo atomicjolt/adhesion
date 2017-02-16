@@ -5,7 +5,7 @@ module Integrations
     def self.courses(canvas_authentication, lti_launch_url)
       api = LMS::Canvas.new(
         UrlHelper.scheme_host(canvas_authentication.provider_url),
-        canvas_authentication.token
+        canvas_authentication.token,
       )
 
       allowed_enrollments = %w(teacher ta designer)
@@ -37,12 +37,12 @@ module Integrations
       # Reset config for each iteration since we might not want the key and secret
       tool_config = {
         "config_type" => "by_xml",
-        "config_xml" => config_xml
+        "config_xml" => config_xml,
       }
       if (id = find_tool_id(existing_tools, lti_options[:launch_url]))
         tool = find_tool(existing_tools, lti_options[:launch_url])
         # Make sure the the LTI key associated with the tool exists in our system.
-        lti_connected_resource = LtiApplicationInstance.find_by(lti_key: tool["consumer_key"])
+        lti_connected_resource = ApplicationInstance.find_by(lti_key: tool["consumer_key"])
         if lti_connected_resource.blank?
           # The user or account that connected to the tool is no longer in the system or has changed
           # their LTI key. We need to update the key and secret.
@@ -54,7 +54,7 @@ module Integrations
         api.proxy(
           "EDIT_EXTERNAL_TOOL_COURSES",
           { course_id: course["id"], external_tool_id: id },
-          tool_config
+          tool_config,
         )
       else
         tool_config["consumer_key"] = consumer_key

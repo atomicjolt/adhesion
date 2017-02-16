@@ -24,7 +24,7 @@ Rails.application.routes.draw do
   devise_for :users, controllers: {
     sessions: "sessions",
     registrations: "registrations",
-    omniauth_callbacks: "omniauth_callbacks"
+    omniauth_callbacks: "omniauth_callbacks",
   }
 
   as :user do
@@ -40,9 +40,7 @@ Rails.application.routes.draw do
   resources :download_status, only: [:index]
 
   namespace :admin do
-    root to: "lti_installs#index"
-    resources :canvas_authentications
-    resources :lti_installs
+    root to: "home#index"
   end
 
   resources :courses, only: [] do
@@ -54,6 +52,21 @@ Rails.application.routes.draw do
   namespace :api do
     get "proctor_login" => "proctor_login#signed_url"
     resources :jwts
+    resources :canvas_accounts
+    resources :oauths
+    resources :courses, only: [] do
+      resources :students, only: [:index]
+      resources :sections, only: [] do
+        resources :students, only: [:index]
+      end
+    end
+
+    resources :applications do
+      resources :application_instances
+    end
+
+    resources :canvas_accounts, only: [:index]
+
     resources :testing_centers_accounts
     resources :scorm_courses do
       get "launch" => "scorm_courses#launch"
@@ -73,6 +86,7 @@ Rails.application.routes.draw do
     end
 
     resources :quiz_conversions, only: [:create]
+    resources :sites
   end
 
   mount MailPreview => "mail_view" if Rails.env.development?
