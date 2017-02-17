@@ -99,7 +99,7 @@ application_instances = [
     lti_key: "lti-admin",
     url: lti_consumer_uri,
     domain: "admin.#{Rails.application.secrets.domain_name}",
-    lti_type: "account_navigation",
+    lti_type: ApplicationInstance.lti_types[:account_navigation],
   },
   {
     application: "SCORM Player",
@@ -109,6 +109,7 @@ application_instances = [
     url: lti_consumer_uri,
     canvas_token: Rails.application.secrets.canvas_token,
     domain: "scorm.#{Rails.application.secrets.domain_name}",
+    lti_type: ApplicationInstance.lti_types[:course_navigation],
   },
   {
     application: "Attendance",
@@ -118,6 +119,7 @@ application_instances = [
     url: lti_consumer_uri,
     canvas_token: Rails.application.secrets.canvas_token,
     domain: "attendance.#{Rails.application.secrets.domain_name}",
+    lti_type: ApplicationInstance.lti_types[:course_navigation],
   },
   {
     application: "Exams",
@@ -127,6 +129,7 @@ application_instances = [
     url: lti_consumer_uri,
     canvas_token: Rails.application.secrets.canvas_token,
     domain: "exams.#{Rails.application.secrets.domain_name}",
+    lti_type: ApplicationInstance.lti_types[:course_navigation],
   },
   {
     application: "Quiz Converter",
@@ -136,6 +139,7 @@ application_instances = [
     url: lti_consumer_uri,
     canvas_token: Rails.application.secrets.canvas_token,
     domain: "quiz-converter.#{Rails.application.secrets.domain_name}",
+    lti_type: ApplicationInstance.lti_types[:course_navigation],
   },
   {
     application: "Test Administration Tool",
@@ -145,6 +149,7 @@ application_instances = [
     url: lti_consumer_uri,
     canvas_token: Rails.application.secrets.canvas_token,
     domain: "test-administration.#{Rails.application.secrets.domain_name}",
+    lti_type: ApplicationInstance.lti_types[:account_navigation],
   },
   {
     application: "Test Taking Tool",
@@ -154,6 +159,7 @@ application_instances = [
     url: lti_consumer_uri,
     canvas_token: Rails.application.secrets.canvas_token,
     domain: "test-taking.#{Rails.application.secrets.domain_name}",
+    lti_type: ApplicationInstance.lti_types[:course_navigation],
   },
   {
     application: "Survey Aggregation Tool",
@@ -163,6 +169,7 @@ application_instances = [
     url: lti_consumer_uri,
     canvas_token: Rails.application.secrets.canvas_token,
     domain: "survey-tool.#{Rails.application.secrets.domain_name}",
+    lti_type: ApplicationInstance.lti_types[:course_navigation],
   },
 ]
 
