@@ -21,6 +21,7 @@ export default class ExamRequest extends React.Component {
     hideModal: React.PropTypes.func.isRequired,
     scheduleExam: React.PropTypes.func.isRequired,
     openSettings: React.PropTypes.func.isRequired,
+    startExam: React.PropTypes.func.isRequired,
     settingsOpen: React.PropTypes.bool,
   };
 
@@ -114,7 +115,7 @@ export default class ExamRequest extends React.Component {
         </div>
       );
     }
-    return 'not implemented';
+    return '';
   }
 
   getStatus() {
@@ -140,9 +141,9 @@ export default class ExamRequest extends React.Component {
   }
 
   takeExam() {
-  //  TODO: write this (link to new canvas route)
     const { examRequest } = this.props;
     hashHistory.push(`/enter_answers/${examRequest.id}`);
+    this.startExam();
     this.props.hideModal();
   }
 
@@ -188,6 +189,10 @@ export default class ExamRequest extends React.Component {
     );
   }
 
+  startExam() {
+    this.props.startExam(this.props.examRequest.id);
+  }
+
   render() {
     const styles = this.getStyles();
     const { examRequest, settingsOpen, openSettings } = this.props;
@@ -225,6 +230,7 @@ export default class ExamRequest extends React.Component {
                 status={examRequest.status}
                 openMessageModal={() => this.openMessageModal()}
                 openExamModal={() => this.openExamModal()}
+                startExam={() => this.startExam()}
                 examId={examRequest.exam_id}
                 courseId={examRequest.course_id}
               /> : null

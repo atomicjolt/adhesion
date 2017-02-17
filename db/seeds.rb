@@ -197,7 +197,6 @@ application_instances.each do |attrs|
   if application_instance = ApplicationInstance.find_by(lti_key: attrs[:lti_key])
     # Don't change production lti keys or set keys to nil
     attrs.delete(:lti_secret) if attrs[:lti_secret].blank? || Rails.env.production?
-
     application_instance.update_attributes!(attrs)
   else
     ApplicationInstance.create!(attrs)

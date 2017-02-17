@@ -36,6 +36,7 @@ export class BaseExamRequestList extends React.Component {
     hideModal: React.PropTypes.func.isRequired,
     showModal: React.PropTypes.func.isRequired,
     canvasRequest: React.PropTypes.func.isRequired,
+    startExam: React.PropTypes.func.isRequired,
   };
 
   static tableHeader(styles) {
@@ -131,6 +132,7 @@ export class BaseExamRequestList extends React.Component {
         sendMessage={(id, body, subject) => this.sendMessage(id, body, subject)}
         showModal={this.props.showModal}
         hideModal={this.props.hideModal}
+        startExam={this.props.startExam}
         openSettings={id => this.setState({ openSettings: id })}
         settingsOpen={this.state.openSettings === examRequest.id}
       />
@@ -156,7 +158,10 @@ export class BaseExamRequestList extends React.Component {
   }
 
   getUnscheduledCount() {
-    return _.filter(this.props.examRequestList, examRequest => (examRequest.status === 'requested')).length;
+    return _.filter(
+      this.props.examRequestList,
+      examRequest => (!examRequest.scheduled_date)
+    ).length;
   }
 
   scheduleExam(id, scheduledDate, scheduledTime) {
@@ -175,7 +180,7 @@ export class BaseExamRequestList extends React.Component {
         moment(examRequest.scheduled_date).isSame(this.state.filterDate, 'day')
       ));
     } else if (this.state.selectedTab === 'unscheduled') {
-      return _.filter(examRequestList, examRequest => (examRequest.status === 'requested'));
+      return _.filter(examRequestList, examRequest => (!examRequest.scheduled_date));
     }
 
     return examRequestList;
