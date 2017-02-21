@@ -7,7 +7,7 @@ import ErrorMessage       from './error_message';
 import { importQuiz }     from '../../actions/quiz_converter';
 
 const select = state => ({
-  lmsCourseId: state.settings.lmsCourseId,
+  lmsCourseId: state.settings.lms_course_id,
   conversionInProgress: state.inProgress,
   error: state.error,
 });

@@ -1,4 +1,4 @@
-require File.expand_path('../boot', __FILE__)
+require File.expand_path("../boot", __FILE__)
 
 # Pick the frameworks you want:
 require "active_model/railtie"
@@ -7,6 +7,7 @@ require "action_controller/railtie"
 require "action_mailer/railtie"
 require "action_view/railtie"
 require "sprockets/railtie"
+require "syslog/logger"
 # require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
@@ -30,24 +31,44 @@ module Adhesion
     config.autoload_paths += Dir["#{config.root}/lib/**/"]
 
     config.action_dispatch.default_headers = {
-      'X-Frame-Options' => 'ALLOWALL'
+      "X-Frame-Options" => "ALLOWALL",
     }
 
     config.middleware.insert_before 0, "Rack::Cors" do
       allow do
-        origins '*'
-        resource '*', :headers => :any, :methods => [:get, :post, :options]
+        origins "*"
+        resource "*", headers: :any, methods: [:get, :post, :options]
       end
     end
 
-    # Middleware that can restore state after an Oauth request
+    # Middleware that can restore state after an OAuth request
     config.middleware.insert_before 0, "OauthStateMiddleware"
 
     config.webpack = {
-     use_manifest: false,
-     asset_manifest: {},
-     common_manifest: {}
+      use_manifest: false,
+      asset_manifest: {},
+      common_manifest: {},
     }
+
+    log_defaults = {
+      "logger" => "rails",
+      "log_level" => "debug",
+    }
+    log_config_path = Rails.root + "config/logging.yml"
+    if File.exist?(log_config_path)
+      log_config = YAML.load_file(log_config_path)[Rails.env]
+    end
+
+    log_config = log_defaults.merge(log_config || {})
+
+    config.log_level = log_config["log_level"]
+
+    # setting this to anything else will give you the default behavior
+    if log_config["logger"] == "syslog"
+      config.logger = ActiveSupport::TaggedLogging.new(
+        Syslog::Logger.new("adhesion"),
+      )
+    end
 
   end
 end

@@ -1,15 +1,17 @@
 require "rails_helper"
+USER_AGENT =
+  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Safari/602.1.50".
+    freeze
 
 describe ApplicationController, type: :controller do
-
   render_views
 
   before do
-    @app = FactoryGirl.create(:lti_application_instance)
+    @app = FactoryGirl.create(:application_instance)
     # url when posting to anonymous controller created below.
     @launch_url = "http://test.host/anonymous"
-    allow(controller).to receive(:current_lti_application_instance).and_return(@app)
-    allow(LtiApplication).to receive(:find_by).with(:lti_key).and_return(@app)
+    allow(controller).to receive(:current_application_instance).and_return(@app)
+    allow(Application).to receive(:find_by).with(:lti_key).and_return(@app)
   end
 
   describe "a user using Safari" do
@@ -23,7 +25,7 @@ describe ApplicationController, type: :controller do
       end
     end
     before do
-      request.env["HTTP_USER_AGENT"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Safari/602.1.50"
+      request.env["HTTP_USER_AGENT"] = USER_AGENT
     end
     it "redirects to allow for cookies in the iframe" do
       post :index
@@ -56,10 +58,8 @@ describe ApplicationController, type: :controller do
       post :index, params
       expect(response).to have_http_status(302)
       expect(response).to redirect_to(
-        user_canvas_omniauth_authorize_path(canvas_url: @app.lti_consumer_uri)
+        user_canvas_omniauth_authorize_path(canvas_url: @app.site.url),
       )
     end
-
   end
-
 end

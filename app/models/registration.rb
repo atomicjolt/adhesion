@@ -3,8 +3,8 @@ class Registration < ActiveRecord::Base
   attr_encrypted :scorm_cloud_passback_secret, key: Rails.application.secrets.encryption_key
   belongs_to :courses
   belongs_to :users
-  belongs_to :lti_application_instance
   belongs_to :scorm_course
+  belongs_to :application_instance
   before_create :set_scorm_cloud_passback_secret
   has_many :scorm_activities
 

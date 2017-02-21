@@ -33,10 +33,10 @@ end
 describe "Scorm Cloud Service sync score", type: :controller do
   before(:example) do
     @subject = ScormCloudService.new
-    @lti_application_instance = FactoryGirl.create(:lti_application_instance)
+    @application_instance = FactoryGirl.create(:application_instance)
     @reg = Registration.create(
       lms_user_id: 2,
-      lti_application_instance: @lti_application_instance,
+      application_instance: @application_instance,
       lis_outcome_service_url: "http://cloud.scorm.com/this?isaspec",
     )
     @registration = { "format" => "summary",

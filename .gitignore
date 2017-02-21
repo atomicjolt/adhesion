@@ -47,11 +47,13 @@ bower.json
 client/node_modules
 node_modules
 npm-debug.log
+yarn-error.log
 
 # avoid adding built files
 /public/system
 public/assets
 /build
+/config/assets/*.json
 
 # git artifacts
 **.orig

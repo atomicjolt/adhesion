@@ -30,12 +30,13 @@ export default function popupMenu(props) {
   };
 
   let actionButtons;
-  if (_.includes(['scheduled', 'paused'], props.status)) {
+  if (_.includes(['scheduled', 'paused', 'requested'], props.status)) {
     actionButtons = (
       <div style={divStyle}>
         <HoverButton
           style={buttonStyle}
           hoveredStyle={hoveredStyle}
+          onClick={props.startExam}
         >
           Start
         </HoverButton>
@@ -89,4 +90,5 @@ popupMenu.propTypes = {
   style: React.PropTypes.shape({}),
   status: React.PropTypes.string.isRequired,
   openMessageModal: React.PropTypes.func.isRequired,
+  startExam: React.PropTypes.func.isRequired
 };

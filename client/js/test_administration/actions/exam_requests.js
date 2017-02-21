@@ -6,7 +6,8 @@ const requests = [
   'LOAD_EXAM_REQUESTS',
   'SCHEDULE_EXAM',
   'TESTING_CENTERS_ACCOUNT_SETUP',
-  'GET_SIGNED_URL'
+  'GET_SIGNED_URL',
+  'START_EXAM',
 ];
 
 export const Constants = wrapper([], requests);
@@ -37,4 +38,13 @@ export const getSignedUrl = id => ({
   type: Constants.GET_SIGNED_URL,
   url: '/api/proctor_login',
   params: { id }
+});
+
+export const startExam = id => ({
+  method: Network.PUT,
+  type: Constants.START_EXAM,
+  url: `/api/exam_requests/${id}`,
+  body: {
+    status: 'started'
+  }
 });

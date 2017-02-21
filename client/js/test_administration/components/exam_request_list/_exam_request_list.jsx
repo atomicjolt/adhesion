@@ -16,15 +16,15 @@ import { createConversation }  from '../../../libs/canvas/constants/conversation
 import FilterTabs              from './filter_tabs';
 
 const select = state => ({
-  lmsUserId: state.settings.lmsUserId,
-  currentAccountId: state.settings.customCanvasAccountID,
-  toolConsumerInstanceName: state.settings.toolConsumerInstanceName,
+  lmsUserId: state.settings.lms_user_id,
+  currentAccountId: state.settings.custom_canvas_account_id,
+  toolConsumerInstanceName: state.settings.tool_consumer_instance_name,
   examRequestList: state.examRequests.examRequestList,
   centerIdError: state.examRequests.centerIdError,
 });
 
 export class BaseExamRequestList extends React.Component {
-  static propTypes =  {
+  static propTypes = {
     loadExamRequests: React.PropTypes.func.isRequired,
     scheduleExam: React.PropTypes.func.isRequired,
     testingCentersAccountSetup: React.PropTypes.func.isRequired,
@@ -36,6 +36,7 @@ export class BaseExamRequestList extends React.Component {
     hideModal: React.PropTypes.func.isRequired,
     showModal: React.PropTypes.func.isRequired,
     canvasRequest: React.PropTypes.func.isRequired,
+    startExam: React.PropTypes.func.isRequired,
   };
 
   static tableHeader(styles) {
@@ -131,6 +132,7 @@ export class BaseExamRequestList extends React.Component {
         sendMessage={(id, body, subject) => this.sendMessage(id, body, subject)}
         showModal={this.props.showModal}
         hideModal={this.props.hideModal}
+        startExam={this.props.startExam}
         openSettings={id => this.setState({ openSettings: id })}
         settingsOpen={this.state.openSettings === examRequest.id}
       />
@@ -156,7 +158,10 @@ export class BaseExamRequestList extends React.Component {
   }
 
   getUnscheduledCount() {
-    return _.filter(this.props.examRequestList, examRequest => (examRequest.status === 'requested')).length;
+    return _.filter(
+      this.props.examRequestList,
+      examRequest => (!examRequest.scheduled_date)
+    ).length;
   }
 
   scheduleExam(id, scheduledDate, scheduledTime) {
@@ -175,7 +180,7 @@ export class BaseExamRequestList extends React.Component {
         moment(examRequest.scheduled_date).isSame(this.state.filterDate, 'day')
       ));
     } else if (this.state.selectedTab === 'unscheduled') {
-      return _.filter(examRequestList, examRequest => (examRequest.status === 'requested'));
+      return _.filter(examRequestList, examRequest => (!examRequest.scheduled_date));
     }
 
     return examRequestList;
@@ -206,7 +211,7 @@ export class BaseExamRequestList extends React.Component {
           />
         </div>
         <table style={styles.table}>
-          <thead  style={styles.tr}>
+          <thead style={styles.tr}>
             {BaseExamRequestList.tableHeader(styles)}
           </thead>
           <tbody>

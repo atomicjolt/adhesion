@@ -1,6 +1,6 @@
 class SessionsController < Devise::SessionsController
   # Require our abstraction for encoding/deconding JWT.
-  require 'auth_token'
+  require "auth_token"
 
   respond_to :json
 
@@ -17,17 +17,21 @@ class SessionsController < Devise::SessionsController
     token = AuthToken.issue_token({ user_id: resource.id })
 
     respond_with resource, location: after_sign_in_path_for(resource) do |format|
-      format.json { render json: {
-        userId: resource.id,
-        email: resource.email,
-        displayName: resource.name,
-        jwt_token: token
-      } }
+      format.json do
+        render json: {
+          user_id: resource.id,
+          email: resource.email,
+          display_name: resource.name,
+          jwt_token: token,
+        }
+      end
     end
   end
 
   def destroy
-    #current_user.authentications.where(provider: 'canvas').destroy_all
+    if params[:destroy_authentications]
+      current_user.authentications.where(provider: "canvas").destroy_all
+    end
     super
   end
 end

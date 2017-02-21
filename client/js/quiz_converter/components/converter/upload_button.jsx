@@ -6,7 +6,7 @@ export default function UploadButton(props) {
   let submitClass = props.canSubmit ? 'c-submit is-active' : 'c-submit';
 
   if (props.isConverting) {
-    submitClass += " is-converting";
+    submitClass += ' is-converting';
     content = (
       <img
         src={assets('./images/spinner.svg')}

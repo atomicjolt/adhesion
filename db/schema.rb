@@ -11,10 +11,39 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170201015419) do
+ActiveRecord::Schema.define(version: 20170215234011) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "application_instances", force: :cascade do |t|
+    t.integer  "application_id"
+    t.string   "lti_key"
+    t.string   "lti_secret"
+    t.integer  "lti_type",                                 default: 0
+    t.string   "encrypted_canvas_token"
+    t.string   "encrypted_canvas_token_salt"
+    t.string   "encrypted_canvas_token_iv"
+    t.datetime "created_at",                                           null: false
+    t.datetime "updated_at",                                           null: false
+    t.string   "domain",                      limit: 2048
+    t.integer  "site_id"
+    t.string   "tenant"
+  end
+
+  add_index "application_instances", ["application_id"], name: "index_application_instances_on_application_id", using: :btree
+  add_index "application_instances", ["site_id"], name: "index_application_instances_on_site_id", using: :btree
+
+  create_table "applications", force: :cascade do |t|
+    t.string   "name"
+    t.string   "description"
+    t.string   "client_application_name"
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.text     "canvas_api_permissions"
+    t.integer  "kind",                        default: 0
+    t.integer  "application_instances_count"
+  end
 
   create_table "attendances", force: :cascade do |t|
     t.integer "lms_student_id"
@@ -77,30 +106,6 @@ ActiveRecord::Schema.define(version: 20170201015419) do
     t.string   "scheduled_time"
   end
 
-  create_table "lti_application_instances", force: :cascade do |t|
-    t.integer  "lti_application_id"
-    t.string   "lti_key"
-    t.string   "lti_secret"
-    t.integer  "lti_type",                    default: 0
-    t.string   "lti_consumer_uri"
-    t.string   "encrypted_canvas_token"
-    t.string   "encrypted_canvas_token_salt"
-    t.string   "encrypted_canvas_token_iv"
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
-  end
-
-  add_index "lti_application_instances", ["lti_application_id"], name: "index_lti_application_instances_on_lti_application_id", using: :btree
-
-  create_table "lti_applications", force: :cascade do |t|
-    t.string   "name"
-    t.string   "description"
-    t.string   "client_application_name"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-    t.text     "canvas_api_permissions"
-  end
-
   create_table "nonces", force: :cascade do |t|
     t.string   "nonce"
     t.datetime "created_at", null: false
@@ -144,14 +149,14 @@ ActiveRecord::Schema.define(version: 20170201015419) do
     t.decimal  "score",                                    default: 0.0
     t.text     "lis_result_sourcedid",                     default: ""
     t.text     "lis_outcome_service_url",                  default: ""
-    t.integer  "lti_application_instance_id"
+    t.integer  "application_instance_id"
     t.text     "encrypted_scorm_cloud_passback_secret_iv"
     t.text     "encrypted_scorm_cloud_passback_secret"
   end
 
+  add_index "registrations", ["application_instance_id"], name: "index_registrations_on_application_instance_id", using: :btree
   add_index "registrations", ["lms_course_id"], name: "index_registrations_on_lms_course_id", using: :btree
   add_index "registrations", ["lms_user_id"], name: "index_registrations_on_lms_user_id", using: :btree
-  add_index "registrations", ["lti_application_instance_id"], name: "index_registrations_on_lti_application_instance_id", using: :btree
 
   create_table "roles", force: :cascade do |t|
     t.string   "name"
@@ -188,6 +193,7 @@ ActiveRecord::Schema.define(version: 20170201015419) do
     t.integer  "lms_assignment_id"
     t.float    "points_possible"
     t.string   "scorm_cloud_id"
+    t.string   "title"
   end
 
   add_index "scorm_courses", ["lms_assignment_id"], name: "index_scorm_courses_on_lms_assignment_id", using: :btree
@@ -220,6 +226,16 @@ ActiveRecord::Schema.define(version: 20170201015419) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "sites", force: :cascade do |t|
+    t.string   "url",          limit: 2048
+    t.string   "oauth_key"
+    t.string   "oauth_secret"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
+  add_index "sites", ["url"], name: "index_sites_on_url", using: :btree
 
   create_table "testing_centers_accounts", force: :cascade do |t|
     t.string   "canvas_instance_name"

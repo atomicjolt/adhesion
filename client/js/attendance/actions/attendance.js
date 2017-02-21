@@ -21,20 +21,17 @@ export const getStudentAttendance = (date, lmsCourseId) => ({
   date,
 });
 
-export const markStudents = (students, lmsCourseId, date, status) => {
-  return {
-    type: Constants.UPDATE_STATUS,
-    method: Network.POST,
-    url: `api/courses/${lmsCourseId}/attendances`,
-    body: {
-      students,
-      lms_course_id: lmsCourseId,
-      date,
-      status,
-    },
-  };
-};
-
+export const markStudents = (students, lmsCourseId, date, status) => ({
+  type: Constants.UPDATE_STATUS,
+  method: Network.POST,
+  url: `api/courses/${lmsCourseId}/attendances`,
+  body: {
+    students,
+    lms_course_id: lmsCourseId,
+    date,
+    status,
+  },
+});
 
 export const downloadFile = (lmsCourseId, startDate, endDate) => ({
   type: Constants.DOWNLOAD_FILE,

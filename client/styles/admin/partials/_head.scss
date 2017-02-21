@@ -1,0 +1,79 @@
+.c-head{
+  height: 6rem;
+  padding: 0 0 0 2rem;
+  background: $dark-gray;
+  @include display-flex;
+  @include align-items(center);
+  @include justify-content(space-between);
+  position: relative;
+  z-index: 800;
+}
+
+.c-back{
+  width: 15rem;
+}
+
+.c-logo{
+  position: absolute;
+  @include center(both);
+  height: 3.5rem;
+  z-index: 10;
+}
+
+.c-user{
+  margin-left: auto;
+  height: 100%;
+}
+
+  .c-username{
+    @include semi-bold;
+    @include display-flex;
+    color: $light-gray;
+    font-size: 1.4rem;
+    position: relative;
+    padding: 0rem 2rem;
+    height: 100%;
+    align-items: center;
+
+    i{
+      font-size: 2.5rem;
+    }
+
+    &:focus {
+      outline: none;
+      background-color: $darker-gray;
+    }
+
+    &:hover {
+      background-color: $darker-gray;
+      cursor: pointer;
+    }
+  }
+
+  .c-dropdown {
+    position: absolute;
+    display: block;
+    top: 100%;
+    right: 0;
+    background: $darker-gray;
+    color: $light-gray;
+
+    .c-menu-item {
+      @include semi-bold;
+      font-size: 1.4rem;
+
+      a {
+        padding: 1rem;
+        display: block;
+      }
+
+      &:hover {
+        background-color: $dark-gray;
+      }
+
+      &:focus {
+        background-color: $dark-gray;
+        outline: none;
+      }
+    }
+  }

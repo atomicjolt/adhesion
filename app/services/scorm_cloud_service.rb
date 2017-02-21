@@ -4,10 +4,13 @@ class ScormCloudService
   SCORM_ASSIGNMENT_STATE = {
     GRADED: "GRADED",
     UNGRADED: "UNGRADED",
-  }
+  }.freeze
 
   def initialize
-    @scorm_cloud = ScormCloud::ScormCloud.new(Rails.application.secrets.scorm_cloud_app_id, Rails.application.secrets.scorm_cloud_secret_key)
+    @scorm_cloud = ScormCloud::ScormCloud.new(
+      Rails.application.secrets.scorm_cloud_app_id,
+      Rails.application.secrets.scorm_cloud_secret_key,
+    )
   end
 
   def reg_params(params)
@@ -47,8 +50,8 @@ class ScormCloudService
         "user_id" => reg[:lms_user_id],
       }
       provider = IMS::LTI::ToolProvider.new(
-        reg.lti_application_instance.lti_key,
-        reg.lti_application_instance.lti_secret,
+        reg.application_instance.lti_key,
+        reg.application_instance.lti_secret,
         tp_params,
       )
       response = provider.post_replace_result!(reg.score)
@@ -110,11 +113,11 @@ class ScormCloudService
 
       if local_course.lms_assignment_id.nil? == false
         resp[:lms_assignment_id] = local_course.lms_assignment_id
-        if !local_course.points_possible.nil? && local_course.points_possible > 0
-          resp[:is_graded] = SCORM_ASSIGNMENT_STATE[:GRADED]
-        else
-          resp[:is_graded] = SCORM_ASSIGNMENT_STATE[:UNGRADED]
-        end
+        resp[:is_graded] = if !local_course.points_possible.nil? && local_course.points_possible > 0
+                             SCORM_ASSIGNMENT_STATE[:GRADED]
+                           else
+                             SCORM_ASSIGNMENT_STATE[:UNGRADED]
+                           end
       end
       resp
     end
@@ -142,7 +145,7 @@ class ScormCloudService
       registration_params = reg_params(result_params)
       if registration.nil?
         registration = Registration.create(registration_params)
-        registration.lti_application_instance = lti_credentials
+        registration.application_instance = lti_credentials
         registration.save!
         @scorm_cloud.registration.create_registration(
           registration_params[:lms_course_id],
@@ -198,7 +201,7 @@ class ScormCloudService
           @scorm_cloud.registration.delete_registration(reg.id)
           reg.destroy
         end
-        course.destroy unless course.nil?
+        course&.destroy
       end
       response
     end

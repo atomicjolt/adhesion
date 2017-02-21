@@ -13,7 +13,7 @@ export default function examRequests(state = defaultState, action) {
     case 'LOAD_EXAM_REQUESTS_DONE': {
       return { ...state, examRequestList: action.payload };
     }
-
+    case 'START_EXAM_DONE':
     case 'SCHEDULE_EXAM_DONE': {
       const newState = _.cloneDeep(state);
       const index = _.findIndex(
