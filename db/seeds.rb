@@ -40,6 +40,13 @@ applications = [
     client_application_name: "admin_app",
     canvas_api_permissions: admin_api_permissions,
     kind: Application.kinds[:admin],
+    application_instances: [{
+      tenant: "lti-admin",
+      lti_key: "lti-admin",
+      site_url: Rails.application.secrets.canvas_url,
+      domain: "admin.#{Rails.application.secrets.domain_name}",
+      lti_type: "account_navigation",
+    }],
   },
   {
     name: "SCORM Player",
@@ -155,6 +162,21 @@ application_instances = [
     lti_type: ApplicationInstance.lti_types[:course_navigation],
   },
 ]
+def setup_application_instances(application, application_instances)
+  application_instances.each do |attrs|
+    site = Site.find_by(url: attrs.delete(:site_url))
+    attrs = attrs.merge(application_id: application.id, site_id: site.id)
+
+    if application_instance = ApplicationInstance.find_by(lti_key: attrs[:lti_key])
+      # Don't change production lti keys or set keys to nil
+      attrs.delete(:lti_secret) if attrs[:lti_secret].blank? || Rails.env.production?
+
+      application_instance.update_attributes!(attrs)
+    else
+      ApplicationInstance.create!(attrs)
+    end
+  end
+end
 
 sites.each do |attrs|
   if site = Site.find_by(url: attrs[:url])
@@ -165,25 +187,13 @@ sites.each do |attrs|
 end
 
 applications.each do |attrs|
+  application_instances = attrs.delete(:application_instances)
   if application = Application.find_by(name: attrs[:name])
     application.update_attributes!(attrs)
   else
-    Application.create!(attrs)
+    application = Application.create!(attrs)
   end
-end
-
-application_instances.each do |attrs|
-  application = Application.find_by(name: attrs.delete(:application))
-  site = Site.find_by(url: attrs.delete(:url))
-  attrs = attrs.merge(application_id: application.id, site_id: site.id)
-
-  if application_instance = ApplicationInstance.find_by(lti_key: attrs[:lti_key])
-    # Don't change production lti keys or set keys to nil
-    attrs.delete(:lti_secret) if attrs[:lti_secret].blank? || Rails.env.production?
-    application_instance.update_attributes!(attrs)
-  else
-    ApplicationInstance.create!(attrs)
-  end
+  setup_application_instances(application, application_instances)
 end
 
 Lti::Utils.lti_configs
