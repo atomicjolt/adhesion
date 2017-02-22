@@ -16,6 +16,9 @@ export default class ExamRequest extends React.Component {
       exam_name: React.PropTypes.string.isRequired,
       id: React.PropTypes.number.isRequired,
     }),
+    examRequestList: React.PropTypes.arrayOf(
+      React.PropTypes.shape({})
+    ).isRequired,
     sendMessage: React.PropTypes.func.isRequired,
     showModal: React.PropTypes.func.isRequired,
     hideModal: React.PropTypes.func.isRequired,
@@ -196,6 +199,13 @@ export default class ExamRequest extends React.Component {
   render() {
     const styles = this.getStyles();
     const { examRequest, settingsOpen, openSettings } = this.props;
+
+    const studentHasExamStarted = !!_.find(this.props.examRequestList, request => (
+      request.student_id === examRequest.student_id &&
+      request.id !== examRequest.id &&
+      _.includes(['started', 'in progress'], request.status)
+    ));
+
     return (
       <tr>
         <td style={styles.td}>
@@ -233,6 +243,7 @@ export default class ExamRequest extends React.Component {
                 startExam={() => this.startExam()}
                 examId={examRequest.exam_id}
                 courseId={examRequest.course_id}
+                studentHasExamStarted={studentHasExamStarted}
               /> : null
           }
         </td>
