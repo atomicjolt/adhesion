@@ -1,8 +1,6 @@
 require "scorm_cloud"
 
 class ScormCloudService
-  include Concerns::CanvasSupport
-
   SCORM_ASSIGNMENT_STATE = {
     GRADED: "GRADED",
     UNGRADED: "UNGRADED",

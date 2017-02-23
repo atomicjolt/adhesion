@@ -70,7 +70,7 @@ class Api::ScormCoursesController < ApplicationController
   end
 
   def upload_canvas_file(file, lms_course_id)
-    unless !file.is_a? ActionDispatch::Http::UploadedFile
+    if file.is_a? ActionDispatch::Http::UploadedFile
       canvas_response = canvas_api.proxy(
         "COURSES_UPLOAD_FILE",
         {
