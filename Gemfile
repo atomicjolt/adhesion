@@ -42,9 +42,6 @@ gem "rack-cors", require: "rack/cors"
 # Paging
 gem "will_paginate"
 
-# Also compile assets without digest (fixes font problem)
-gem "non-stupid-digest-assets"
-
 group :development do
   gem "autoprefixer-rails"
   gem "better_errors"
