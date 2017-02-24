@@ -36,6 +36,7 @@ gem "unicorn-rails"
 
 # API Related
 gem "httparty"
+gem "rest-client"
 gem "rack-cors", require: "rack/cors"
 
 # Paging
