@@ -2,8 +2,9 @@
 
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
-import { ScormIndex } from './scorm_index';
+import { ScormIndex } from './_scorm_index';
 import Wrapper from '../../../../specs_support/scorm_wrapper';
+import Stub from '../../../../specs_support/stub';
 
 describe('scorm index', () => {
   let props;
@@ -28,7 +29,7 @@ describe('scorm index', () => {
       listAssignmentsDone: true,
     };
     remove = false;
-    result = TestUtils.renderIntoDocument(<Wrapper><ScormIndex {...props} /></Wrapper>);
+    result = TestUtils.renderIntoDocument(<Stub><ScormIndex {...props} /></Stub>);
   });
 
   it('renders no lists when no scormFiles exist', () => {

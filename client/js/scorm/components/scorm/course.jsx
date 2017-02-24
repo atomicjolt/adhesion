@@ -1,9 +1,11 @@
-import React from 'react';
-import _ from 'lodash';
-import SvgButton from '../../../common_components/svg_button';
+import React              from 'react';
+import _                  from 'lodash';
+import Settings           from './settings';
 import ImportTypeSelector from './import_type_selector';
-import Loader from '../../../common_components/loader';
-import AssignmentButton from './assignment_button';
+import AssignmentButton   from './assignment_button';
+import HoverButton        from '../common/hover_button';
+import Defines            from '../../../defines';
+import Loader             from '../../../common_components/loader';
 
 export default class Course extends React.Component {
   static ImportTypes = {
@@ -41,6 +43,28 @@ export default class Course extends React.Component {
       dropDown: {
         minWidth: '20rem',
       },
+      button: {
+        float: 'right',
+        color: Defines.darkGrey,
+        backgroundColor: Defines.lightBackground,
+        border: 'none',
+        cursor: 'pointer',
+        fontSize: '1.8em',
+      },
+      settingsContainer: {
+        top: '25%',
+        right: '20px',
+      },
+      hoveredStyle: {
+        color: Defines.tanishBrown,
+      },
+    };
+  }
+
+  constructor() {
+    super();
+    this.state = {
+      opened: false,
     };
   }
 
@@ -73,7 +97,16 @@ export default class Course extends React.Component {
     );
   }
 
+  handleUpdate() {
+  }
+
+  openSettings() {
+    const opened = this.state.opened;
+    this.setState({ opened: !opened });
+  }
+
   render() {
+    const styles = Course.getStyles();
     const isAssignment = !_.isUndefined(this.props.course.lms_assignment_id);
     const isGraded = this.props.course.is_graded === Course.ImportTypes.GRADED;
     const assignmentButtonProps = {
@@ -84,15 +117,16 @@ export default class Course extends React.Component {
 
     let assignmentButton;
     let dropDown;
+    let settings;
 
     if (this.props.course.fetching) {
-      dropDown = <div style={Course.getStyles().loaderContainer}><Loader /></div>;
+      dropDown = <div style={styles.loaderContainer}><Loader /></div>;
     } else if (isAssignment && isGraded) {
       assignmentButton = <AssignmentButton {...assignmentButtonProps} />;
-      dropDown = <div className="c-list-item__type" style={{ minWidth: '20rem' }}>Graded Assignment</div>;
+      dropDown = <div className="c-list-item__type" style={styles.dropDown}>Graded Assignment</div>;
     } else if (isAssignment && !isGraded) {
       assignmentButton = <AssignmentButton {...assignmentButtonProps} />;
-      dropDown = <div className="c-list-item__type" style={{ minWidth: '20rem' }}>Ungraded Assignment</div>;
+      dropDown = <div className="c-list-item__type" style={styles.dropDown}>Ungraded Assignment</div>;
     } else {
       const isUnselected = !_.isUndefined(this.props.course.is_graded)
         && this.props.course.is_graded !== Course.ImportTypes.NOT_SELECTED;
@@ -105,6 +139,15 @@ export default class Course extends React.Component {
       );
     }
 
+    if (this.state.opened) {
+      settings = (<Settings
+        assignmentButton={assignmentButton}
+        handlePreview={() => this.handlePreview()}
+        handleUpdate={() => this.handleUpdate()}
+        handleRemove={() => this.handleRemove()}
+      />);
+    }
+
     return (
       <li className="c-list__item c-list__item--choose">
         <div className="c-list-item__main">
@@ -112,12 +155,15 @@ export default class Course extends React.Component {
             <div className="c-list-item__title">{this.props.course.title}</div>
             {dropDown}
           </div>
-          <div className="c-list-item__icons">
-            {assignmentButton}
-            <SvgButton type="preview" onClick={() => this.handlePreview()} />
-            <SvgButton type="delete" onClick={() => this.handleRemove()} />
+          <div className="c-list-item__icons" style={styles.settingsContainer}>
+            <HoverButton
+              style={styles.button}
+              onClick={() => this.openSettings()}
+              hoveredStyle={styles.hoveredStyle}
+            ><i className="material-icons">settings</i></HoverButton>
           </div>
         </div>
+        {settings}
       </li>
     );
   }
