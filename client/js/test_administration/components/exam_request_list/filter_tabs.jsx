@@ -7,7 +7,7 @@ export default class FilterTabs extends React.Component {
     changeTab: React.PropTypes.func.isRequired,
     selectedTab: React.PropTypes.string,
     unscheduledCount: React.PropTypes.number.isRequired,
-  }
+  };
 
   getStyles() {
     return {
@@ -61,6 +61,13 @@ export default class FilterTabs extends React.Component {
         >
           All
         </button>
+        <button
+          style={{ ...styles.slantButton, ...styles.selected('export'), ...styles.shift }}
+          onClick={() => this.props.changeTab('export')}
+        >
+          Export
+        </button>
+
       </div>
     );
   }

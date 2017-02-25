@@ -11,9 +11,8 @@ import SearchBar               from './search_bar';
 import DateFilter              from './date_filter';
 import canvasRequest           from '../../../libs/canvas/action';
 import { createConversation }  from '../../../libs/canvas/constants/conversations';
-
- // import CenterError             from '../common/center_error';
 import FilterTabs              from './filter_tabs';
+import ExportWindow            from './export_window';
 
 const select = state => ({
   lmsUserId: state.settings.lms_user_id,
@@ -149,6 +148,14 @@ export class BaseExamRequestList extends React.Component {
         />
       );
     }
+
+    if (this.state.selectedTab == 'export') {
+      console.log('clicked export');
+      return (
+        <ExportWindow/>
+      )
+    }
+
     return (
       <SearchBar
         style={styles.filterTool}
