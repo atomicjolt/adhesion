@@ -26,8 +26,8 @@ applications = [
       LIST_EXTERNAL_TOOLS_ACCOUNTS
       CREATE_EXTERNAL_TOOL_ACCOUNTS
       DELETE_EXTERNAL_TOOL_ACCOUNTS
-      GET_SUB_ACCOUNTS_OF_ACCOUNT,
-      HELPER_ALL_ACCOUNTS,
+      GET_SUB_ACCOUNTS_OF_ACCOUNT
+      HELPER_ALL_ACCOUNTS
     ).join(","),
     kind: Application.kinds[:admin],
     application_instances: [{
