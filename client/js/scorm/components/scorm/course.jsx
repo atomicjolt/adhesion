@@ -28,6 +28,7 @@ export default class Course extends React.Component {
     removePackage: React.PropTypes.func.isRequired,
     importPackage: React.PropTypes.func.isRequired,
     previewPackage: React.PropTypes.func.isRequired,
+    replacePackage: React.PropTypes.func.isRequired,
     updateImportType: React.PropTypes.func.isRequired,
     canvasUrl: React.PropTypes.string.isRequired,
     courseId: React.PropTypes.string.isRequired,
@@ -57,6 +58,9 @@ export default class Course extends React.Component {
       },
       hoveredStyle: {
         color: Defines.tanishBrown,
+      },
+      inputStyle: {
+        display: 'none',
       },
     };
   }
@@ -98,6 +102,11 @@ export default class Course extends React.Component {
   }
 
   handleUpdate() {
+    this.inputElement.click();
+  }
+
+  updatePackage(e) {
+    this.props.replacePackage(e.target.files[0], this.props.course.id);
   }
 
   openSettings() {
@@ -114,6 +123,15 @@ export default class Course extends React.Component {
       courseId: this.props.courseId,
       lms_assignment_id: this.props.course.lms_assignment_id,
     };
+    const updateInput = (
+      <input
+        id="upload"
+        type="file"
+        ref={(input) => { this.inputElement = input; }}
+        onChange={e => this.updatePackage(e)}
+        style={styles.inputStyle}
+      />
+    );
 
     let assignmentButton;
     let dropDown;
@@ -145,6 +163,7 @@ export default class Course extends React.Component {
         handlePreview={() => this.handlePreview()}
         handleUpdate={() => this.handleUpdate()}
         handleRemove={() => this.handleRemove()}
+        updateInput={updateInput}
       />);
     }
 

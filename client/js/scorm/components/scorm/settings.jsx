@@ -34,16 +34,6 @@ export default function settings(props) {
     backgroundColor: Defines.lightBackground,
   };
 
-  // {props.assignmentButton}
-  // <button><input
-  //   id="update"
-  //   type="file"
-  //   onChange={e => this.handleUpdatePackage(e)}
-  //   /></button>
-  // <div style={divStyle}>
-  //   {props.assignmentButton}
-  // </div>
-
   return (
     <div style={{ ...settingsStyle }}>
       <div style={divStyle}>
@@ -65,6 +55,7 @@ export default function settings(props) {
           hoveredStyle={hoveredStyle}
           onClick={() => props.handleUpdate()}
         >
+          {props.updateInput}
           <CommonSvg className="c-icon" type="upload" />
           Update Package
         </HoverButton>
@@ -82,11 +73,11 @@ export default function settings(props) {
     </div>
   );
 }
-// ref={(node) => { this.inputRef = node; }}
 
 settings.propTypes = {
   assignmentButton: React.PropTypes.shape({}),
   handlePreview: React.PropTypes.func.isRequired,
   handleUpdate: React.PropTypes.func.isRequired,
   handleRemove: React.PropTypes.func.isRequired,
+  updateInput: React.PropTypes.shape({}),
 };

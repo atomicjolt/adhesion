@@ -67,6 +67,19 @@ export const updatePackage = (courseId, body = {}, lmsCourseId) => ({
   lmsCourseId,
 });
 
+export const replacePackage = (file, courseId) => {
+  const form = new FormData();
+  form.append('file', file);
+  return {
+    method: Network.POST,
+    type: Constants.REPLACE_PACKAGE,
+    url: `/api/scorm_courses/${courseId}/replace`,
+    body: form,
+    upload: file,
+    timeout: 10000000
+  };
+};
+
 export const removeError = () => ({
   type: Constants.REMOVE_ERROR,
 });
