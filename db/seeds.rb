@@ -26,7 +26,8 @@ applications = [
       LIST_EXTERNAL_TOOLS_ACCOUNTS
       CREATE_EXTERNAL_TOOL_ACCOUNTS
       DELETE_EXTERNAL_TOOL_ACCOUNTS
-      GET_SUB_ACCOUNTS_OF_ACCOUNT
+      GET_SUB_ACCOUNTS_OF_ACCOUNT,
+      HELPER_ALL_ACCOUNTS,
     ).join(","),
     kind: Application.kinds[:admin],
     application_instances: [{
@@ -80,12 +81,12 @@ applications = [
     }.join(","),
     kind: Application.kinds[:lti],
     application_instances: [{
-      tenant: "test",
-      lti_key: "test",
+      tenant: "exam",
+      lti_key: "exam",
       lti_secret: Rails.application.secrets.exams_lti_secret,
       site_url: lti_consumer_uri,
       canvas_token: Rails.application.secrets.canvas_token,
-      domain: "test.#{Rails.application.secrets.domain_name}",
+      domain: "exam.#{Rails.application.secrets.domain_name}",
       lti_type: ApplicationInstance.lti_types[:course_navigation],
     }],
   },
@@ -96,7 +97,7 @@ applications = [
     canvas_api_permissions: "GET_SINGLE_QUIZ,LIST_QUESTIONS_IN_QUIZ_OR_SUBMISSION,CREATE_CONVERSATION",
     kind: Application.kinds[:lti],
     application_instances: [{
-      tenant: "test",
+      tenant: "exam",
       lti_key: "proctor",
       lti_secret: Rails.application.secrets.test_administration_lti_secret,
       site_url: lti_consumer_uri,

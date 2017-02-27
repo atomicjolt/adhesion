@@ -18,7 +18,7 @@ gem "cancancan"
 gem "devise"
 gem "ims-lti", "~> 1.1.13" # IMS LTI tool consumers and providers
 gem "jwt", "~> 1.5.0" # json web token
-gem "lms-api", "~> 1.2.4"
+gem "lms-api", "~> 1.2.7"
 gem "oauth", "~> 0.5.0"
 gem "omniauth"
 gem "omniauth-canvas", "~>1.0.1"
@@ -36,13 +36,11 @@ gem "unicorn-rails"
 
 # API Related
 gem "httparty"
+gem "rest-client"
 gem "rack-cors", require: "rack/cors"
 
 # Paging
 gem "will_paginate"
-
-# Also compile assets without digest (fixes font problem)
-gem "non-stupid-digest-assets"
 
 group :development do
   gem "autoprefixer-rails"

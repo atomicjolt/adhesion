@@ -177,8 +177,9 @@ class ScormCloudService
         package_id,
         file,
       )
-      course.update_attribute(:title, resp[:title])
+      course.update_attributes(title: resp[:title], scorm_cloud_id: package_id)
       resp["package_id"] = package_id
+      resp["course_id"] = course.id
       resp
     end
   end
