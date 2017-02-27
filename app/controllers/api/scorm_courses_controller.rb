@@ -55,6 +55,13 @@ class Api::ScormCoursesController < ApplicationController
     )
   end
 
+  def replace
+    scorm_cloud_service.update_course(
+      params[:file],
+      params[:scorm_course_id],
+    )
+  end
+
   private
 
   def scorm_cloud_service
