@@ -24,6 +24,7 @@ class Api::ExamRequestsController < ApplicationController
   def update
     exam_request = ExamRequest.find(params[:id])
     exam_request.update(update_params)
+    exam_request.update_attributes(opened_by_id: current_user.lms_user_id, opened_by_name: current_user.name)
     render json: exam_request
   end
 
