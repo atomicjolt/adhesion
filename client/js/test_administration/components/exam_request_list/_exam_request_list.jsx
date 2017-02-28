@@ -11,8 +11,7 @@ import SearchBar               from './search_bar';
 import DateFilter              from './date_filter';
 import canvasRequest           from '../../../libs/canvas/action';
 import { createConversation }  from '../../../libs/canvas/constants/conversations';
-
- // import CenterError             from '../common/center_error';
+import { loadCustomData }      from '../../../libs/canvas/constants/users';
 import FilterTabs              from './filter_tabs';
 
 const select = state => ({
@@ -37,6 +36,7 @@ export class BaseExamRequestList extends React.Component {
     showModal: React.PropTypes.func.isRequired,
     canvasRequest: React.PropTypes.func.isRequired,
     startExam: React.PropTypes.func.isRequired,
+    lmsUserId: React.PropTypes.number
   };
 
   static tableHeader(styles) {
@@ -94,6 +94,11 @@ export class BaseExamRequestList extends React.Component {
   }
 
   componentWillMount() {
+    this.props.canvasRequest(loadCustomData, {
+      user_id: this.props.lmsUserId,
+      ns: 'edu.au.exam',
+      scope: '/exam/proctor_code'
+    });
     this.props.loadExamRequests(this.props.currentAccountId);
     this.props.testingCentersAccountSetup(
       this.props.currentAccountId,
