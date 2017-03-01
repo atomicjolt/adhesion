@@ -3,10 +3,16 @@ import DateSelector from '../common/date_selector';
 
 export default class ReportWindow extends React.Component {
 
+  static PropTypes = {
+    onCancel: React.PropTypes.func.isRequired,
+    onDownload: React.PropTypes.func.isRequired,
+  };
+
   constructor() {
     super();
     this.state = {
-      filterDate: new Date()
+      startDate: new Date(),
+      endDate: new Date(),
     }
   }
 
@@ -16,45 +22,50 @@ export default class ReportWindow extends React.Component {
         backgroundColor: '#fefefe',
         padding: '20px',
         boxShadow: "0 0 25px #999999",
-        width: '80vh',
-        top: '120px', // or 400%
+        width: '400px',
+        top: '120px',
         left: '25%',
         position: 'absolute',
         zIndex: 2
-      }, cancelButton: {
+      },
+      cancelButton: {
         color: '#777777', // text color
         border: '1px solid #EEEEEE',
         backgroundColor: '#EEEEEE',
         padding: '8px 20px 8px 20px',
         fontSize: '12px',
         fontFamily: 'sans-serif',
-
-      }, leftDateSelector: {
+      },
+      leftDateSelector: {
         float: 'left',
         marginLeft: '10px',
-      }, rightDateSelector: {
+      },
+      rightDateSelector: {
         float: 'right',
-        // float: 'left',
         marginRight: '10px',
-      }, title: {
+      },
+      title: {
         color: '#555555',
         fontFamily: 'verdana',
         fontSize: '10px',
         marginLeft: '10px',
-      }, to: {
+      },
+      to: {
         fontFamily: 'sans-serif',
         textAlign: 'center',
         fontSize: '5px',
-        margin: 'auto',
+        // margin: 'auto',
         color: '#777777',
         height: '35px',
         lineHeight: '35px',
-      }, dateRange: {
+      },
+      dateRange: {
         color: '#777777',
         fontSize: '6px',
         fontFamily: 'sans-serif',
         marginLeft: '10px',
-      }, downloadButton: {
+      },
+      downloadButton: {
         color: '#FFFFFF', // text color
         border: '1px solid rgb(193, 161, 122)',
         backgroundColor: 'rgb(193, 161, 122)',
@@ -62,7 +73,8 @@ export default class ReportWindow extends React.Component {
         fontSize: '12px',
         fontFamily: 'sans-serif',
         marginLeft: '5px',
-      }, buttonsSection: {
+      },
+      buttonsSection: {
         margin: '30px 10px 10px 20px',
         float: 'right',
       }
@@ -83,15 +95,15 @@ export default class ReportWindow extends React.Component {
 
         <div style={styles.leftDateSelector}>
           <DateSelector
-            onChange={() => {}}
-            date={this.state.filterDate}
+            onChange={startDate => this.setState({startDate})}
+            date={this.state.startDate}
             format="MMM Do"
           />
         </div>
         <div style={styles.rightDateSelector}>
           <DateSelector
-            onChange={() => {}}
-            date={this.state.filterDate}
+            onChange={endDate => this.setState({endDate})}
+            date={this.state.endDate}
             format="MMM Do"
           />
         </div>
@@ -99,8 +111,8 @@ export default class ReportWindow extends React.Component {
           <h1>TO</h1>
         </div>
         <div style={styles.buttonsSection}>
-          <button style={styles.cancelButton}>CANCEL</button>
-          <button style={styles.downloadButton}>DOWNLOAD</button>
+          <button style={styles.cancelButton} onClick={() => this.props.onCancel()}>CANCEL</button>
+          <button style={styles.downloadButton} onClick={() => this.props.onDownload()}>DOWNLOAD</button>
         </div>
       </div>
     )

@@ -206,9 +206,18 @@ export class BaseExamRequestList extends React.Component {
     this.setState({toggleReportWindow: !this.state.toggleReportWindow})
   }
 
+  onDownload() {
+    this.onReport();
+
+    // start the download here
+  }
+
   toggleReportWindow() {
     if (this.state.toggleReportWindow) {
-      return <ReportWindow/>
+      return <ReportWindow
+        onCancel={() => this.onReport()}
+        onDownload={() => this.onDownload()}
+      />
     }
     return null;
   }
