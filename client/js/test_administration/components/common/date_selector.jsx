@@ -10,7 +10,7 @@ export default class DateSelector extends React.Component {
     style: React.PropTypes.shape({}),
     header: React.PropTypes.node,
     format: React.PropTypes.string,
-  }
+  };
 
   static getStyles() {
     return {

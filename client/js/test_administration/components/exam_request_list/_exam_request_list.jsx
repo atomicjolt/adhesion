@@ -12,7 +12,8 @@ import DateFilter              from './date_filter';
 import canvasRequest           from '../../../libs/canvas/action';
 import { createConversation }  from '../../../libs/canvas/constants/conversations';
 import FilterTabs              from './filter_tabs';
-import ExportWindow            from './export_window';
+import ReportWindow            from './report_window';
+import ReportButton            from './report_button';
 
 const select = state => ({
   lmsUserId: state.settings.lms_user_id,
@@ -78,6 +79,10 @@ export class BaseExamRequestList extends React.Component {
       },
       dateFilter: {
         width: '25%',
+      }, reportButton: {
+        margin: '10px 0px',
+        left: '90.5%',
+        position: 'relative',
       }
     };
   }
@@ -89,6 +94,7 @@ export class BaseExamRequestList extends React.Component {
       openSettings: null,
       selectedTab: 'date',
       filterDate: new Date(),
+      toggleReportWindow: false,
     };
   }
 
@@ -149,13 +155,6 @@ export class BaseExamRequestList extends React.Component {
       );
     }
 
-    if (this.state.selectedTab == 'export') {
-      console.log('clicked export');
-      return (
-        <ExportWindow/>
-      )
-    }
-
     return (
       <SearchBar
         style={styles.filterTool}
@@ -203,12 +202,28 @@ export class BaseExamRequestList extends React.Component {
     this.props.canvasRequest(createConversation, {}, payload);
   }
 
+  onReport() {
+    this.setState({toggleReportWindow: !this.state.toggleReportWindow})
+  }
+
+  toggleReportWindow() {
+    if (this.state.toggleReportWindow) {
+      return <ReportWindow/>
+    }
+    return null;
+  }
+
   render() {
-    // <SearchBar searchChange={e => this.setState({ searchVal: e.target.value })} />
-    // { this.props.centerIdError ? <CenterError /> : null }
     const styles = BaseExamRequestList.getStyles();
     return (
       <div>
+        <div style={styles.reportButton}>
+          <ReportButton
+            text="Report"
+            onExport={() => this.onReport()}
+          />
+        </div>
+        {this.toggleReportWindow()}
         <div style={styles.topMatter}>
           {this.getTopControls(styles)}
           <FilterTabs
