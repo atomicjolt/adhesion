@@ -27,6 +27,7 @@ describe('scorm index', () => {
       uploadPackage: () => {},
       canvasAssignments: [],
       listAssignmentsDone: true,
+      loadError: false,
     };
     remove = false;
     result = TestUtils.renderIntoDocument(<Stub><ScormIndex {...props} /></Stub>);
@@ -53,5 +54,12 @@ describe('scorm index', () => {
     const button = TestUtils.findRenderedDOMComponentWithClass(result, 'c-header__btns');
     TestUtils.Simulate.click(button);
     expect(remove).toBeTruthy();
+  });
+
+  it('renders error message when SCORM goes down', () => {
+    props.loadError = true;
+    result = TestUtils.renderIntoDocument(<Wrapper><ScormIndex {...props} /></Wrapper>);
+    const error = TestUtils.findRenderedDOMComponentWithClass(result, 'c-error__message');
+    expect(error).toBeTruthy();
   });
 });

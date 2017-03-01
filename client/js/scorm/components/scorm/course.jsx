@@ -106,7 +106,13 @@ export default class Course extends React.Component {
   }
 
   updatePackage(e) {
-    this.props.replacePackage(e.target.files[0], this.props.course.id);
+    this.setState({ opened: false });
+    this.props.replacePackage(
+      e.target.files[0],
+      this.props.course.id,
+      this.props.courseId,
+      this.props.course.index,
+    );
   }
 
   openSettings() {

@@ -184,11 +184,10 @@ class ScormCloudService
     end
   end
 
-  def update_course(file, course_id)
-    course = ScormCourse.find_by(scorm_cloud_id: course_id)
+  def update_course(file, course)
     scorm_cloud_request do
       resp = @scorm_cloud.course.import_course(
-        course_id,
+        course.scorm_cloud_id,
         file,
       )
       course.update_attribute(:title, resp[:title])

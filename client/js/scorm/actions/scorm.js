@@ -15,6 +15,7 @@ const requests = [
   'UPDATE_UPLOAD_FILE',
   'PREVIEW_PACKAGE',
   'UPDATE_PACKAGE',
+  'REPLACE_PACKAGE',
 ];
 
 export const Constants = wrapper(actions, requests);
@@ -67,7 +68,7 @@ export const updatePackage = (courseId, body = {}, lmsCourseId) => ({
   lmsCourseId,
 });
 
-export const replacePackage = (file, courseId) => {
+export const replacePackage = (file, courseId, lmsCourseId, index) => {
   const form = new FormData();
   form.append('file', file);
   return {
@@ -76,6 +77,7 @@ export const replacePackage = (file, courseId) => {
     url: `/api/scorm_courses/${courseId}/replace`,
     body: form,
     upload: file,
+    params: { lms_course_id: lmsCourseId, index },
     timeout: 10000000
   };
 };

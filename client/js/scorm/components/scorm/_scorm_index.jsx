@@ -27,6 +27,7 @@ export class ScormIndex extends React.Component {
     apiUrl: React.PropTypes.string,
     scormFile: React.PropTypes.shape({}),
     canvasUrl: React.PropTypes.string.isRequired,
+    loadError: React.PropTypes.bool,
   };
 
   constructor() {
@@ -104,6 +105,13 @@ export class ScormIndex extends React.Component {
   }
 
   render() {
+    if (this.props.loadError) {
+      return (
+        <div className="c-error__message">
+          Something went wrong. We apologize for the inconvenience.
+        </div>
+      );
+    }
     if (!this.state.synced) {
       return (
         <div className="o-main-contain">
@@ -151,6 +159,7 @@ const select = (state) => {
     scormList: courseList,
     shouldRefreshList: state.scorm.shouldRefreshList,
     scormFile: state.scorm.file,
+    loadError: state.scorm.loadError,
     uploadError: state.scorm.uploadError,
     canvasAssignments: state.scorm.canvasAssignments,
     listAssignmentsDone: state.scorm.listAssignmentsDone,

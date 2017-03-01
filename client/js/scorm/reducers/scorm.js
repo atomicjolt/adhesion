@@ -3,8 +3,12 @@ import { Constants as PackageConstants } from '../actions/scorm';
 
 const initialState = {
   scormList: null,
+  loadError: false,
+  uploadError: false,
   shouldRefreshList: false,
+  listAssignmentsDone: false,
   canvasAssignments: null,
+  file: null,
 };
 
 export default (state = initialState, action) => {
@@ -41,6 +45,9 @@ export default (state = initialState, action) => {
       return { ...state, scormList: updatedScormList };
     }
     case PackageConstants.LOAD_PACKAGES_DONE:
+      if (action.error) {
+        return { ...state, loadError: true };
+      }
       return {
         ...state,
         scormList: _.map(action.payload.response, (item, index) => ({ ...item, index })),
@@ -71,6 +78,17 @@ export default (state = initialState, action) => {
 
     case PackageConstants.REMOVE_ERROR:
       return { ...state, file: null, uploadError: false };
+
+    case PackageConstants.REPLACE_PACKAGE: {
+      const updatedPackage = { ...state.scormList[action.params.index] };
+      updatedPackage.fetching = true;
+      const updatedScormList = state.scormList.slice();
+      updatedScormList[action.params.index] = updatedPackage;
+      return { ...state, scormList: updatedScormList };
+    }
+
+    case PackageConstants.REPLACE_PACKAGE_DONE:
+      return { ...state, shouldRefreshList: true };
 
     default:
       return state;

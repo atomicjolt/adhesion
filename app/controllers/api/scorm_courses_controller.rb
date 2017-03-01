@@ -18,7 +18,9 @@ class Api::ScormCoursesController < ApplicationController
     courses = scorm_cloud_service.list_courses(
       filter: ".*_#{params[:lms_course_id]}",
     )
-    courses[:response] = scorm_cloud_service.sync_courses(courses[:response])
+    if courses[:status] != 400
+      courses[:response] = scorm_cloud_service.sync_courses(courses[:response])
+    end
     send_scorm_cloud_response(courses)
   end
 
@@ -28,7 +30,7 @@ class Api::ScormCoursesController < ApplicationController
       params[:lms_course_id],
     )
     file_id = upload_canvas_file(params[:file], params[:lms_course_id])
-    unless !file_id
+    if file_id
       ScormCourse.find(
         response[:response]["course_id"],
       ).update_attribute(:file_id, file_id)
@@ -51,6 +53,7 @@ class Api::ScormCoursesController < ApplicationController
     course = ScormCourse.find_by(scorm_cloud_id: params[:id])
     response = scorm_cloud_service.remove_course(params[:id])
     delete_canvas_file(course.file_id) if course&.file_id
+    course.update_attribute(:file_id, nil)
     send_scorm_cloud_response(response)
   end
 
@@ -64,10 +67,22 @@ class Api::ScormCoursesController < ApplicationController
   end
 
   def replace
-    scorm_cloud_service.update_course(
+    course = ScormCourse.find_by(scorm_cloud_id: params[:scorm_course_id])
+    response = scorm_cloud_service.update_course(
       params[:file],
-      params[:scorm_course_id],
+      course,
     )
+    delete_canvas_file(course.file_id) if course&.file_id
+    file_id = upload_canvas_file(params[:file], params[:lms_course_id])
+    course.update_attribute(:file_id, file_id) if file_id
+    if course.lms_assignment_id
+      update_canvas_assignment(
+        params[:lms_course_id],
+        course.lms_assignment_id,
+        response[:response][:title],
+      )
+    end
+    send_scorm_cloud_response(response)
   end
 
   private
@@ -95,6 +110,19 @@ class Api::ScormCoursesController < ApplicationController
                                  canvas_response["upload_params"]
       JSON.parse(response)["id"]
     end
+  end
+
+  def update_canvas_assignment(lms_course_id, assignment_id, name)
+    canvas_api.proxy(
+      "EDIT_ASSIGNMENT",
+      {
+        course_id: lms_course_id,
+        id: assignment_id,
+      },
+      {
+        assignment: { name: name },
+      },
+    )
   end
 
   def scorm_cloud_service
