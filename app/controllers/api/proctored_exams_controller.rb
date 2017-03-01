@@ -15,7 +15,7 @@ class Api::ProctoredExamsController < ApplicationController
     render json: { error: "You do not have an exam that is ready to start." } unless @exam_request.present?
 
     account_params = {
-      account_id: @exam_request[:testing_center_id]
+      account_id: @exam_request[:testing_center_id],
     }
     users = canvas_api.proxy("LIST_USERS_IN_ACCOUNT", account_params)
 
@@ -25,7 +25,7 @@ class Api::ProctoredExamsController < ApplicationController
         custom_data_params = {
           ns: "edu.au.exam",
           scope: "/exam/proctor_code",
-          user_id: user["id"]
+          user_id: user["id"],
         }
         proctor_code = canvas_api.proxy("LOAD_CUSTOM_DATA", custom_data_params).parsed_response["data"]
         if proctor_code == params[:proctor_code]
@@ -36,7 +36,7 @@ class Api::ProctoredExamsController < ApplicationController
         # this probably means that the user doesnt have a proctor code... unfortunately canvas doesn't
         # actually tell us why it returned 401 just that it did
       end
-    end;
+    end
 
     if !matched_code
       render(
