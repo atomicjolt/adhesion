@@ -79,7 +79,7 @@ Rails.application.routes.draw do
       end
     end
     resources :exam_requests do
-    get "get_exams_in_range" => "exam_requests#get_exams_in_range", on: :collection
+      get "export_exams_as_csv" => "exam_requests#export_exams_as_csv", on: :collection
     end
     resources :proctor_codes
     resources :courses do

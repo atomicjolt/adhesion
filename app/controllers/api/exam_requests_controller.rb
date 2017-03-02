@@ -33,7 +33,7 @@ class Api::ExamRequestsController < ApplicationController
     render json: exam_request
   end
 
-  def get_exams_in_range
+  def export_exams_as_csv
     byebug
   end
 

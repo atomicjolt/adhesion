@@ -8,7 +8,7 @@ const requests = [
   'TESTING_CENTERS_ACCOUNT_SETUP',
   'GET_SIGNED_URL',
   'START_EXAM',
-  'GET_EXAMS_IN_RANGE'
+  'EXPORT_EXAMS_AS_CSV'
 ];
 
 export const Constants = wrapper([], requests);
@@ -38,7 +38,7 @@ export const testingCentersAccountSetup = (accountId, instanceName) => ({
 export const exportExamsAsCSV = (startDate, endDate) => ({
   method: Network.GET,
   type: Constants.EXPORT_EXAMS_AS_CSV,
-  url: '/api/exam_requests/export_exams_as_CSV',
+  url: '/api/exam_requests/export_exams_as_csv',
   params: { start: startDate, end: endDate }
 });
 
