@@ -7,18 +7,17 @@ class ScormCoursesController < ApplicationController
   before_action :do_lti, only: [:create]
 
   def create
-    launch = @scorm_cloud.launch_course(
-      scorm_course_id: params[:course_id],
-      lms_user_id: params[:custom_canvas_user_id],
-      first_name: params[:lis_person_name_given],
-      last_name: params[:lis_person_name_family],
-      redirect_url: params[:launch_presentation_return_url],
-      postback_url: scorm_courses_postback_url,
-      lti_credentials: current_application_instance,
-      result_params: params,
+    registration = @scorm_connect.get_registration(
+      params,
+      current_application_instance,
+      scorm_courses_postback_url,
+    )
+    launch = @scorm_connect.launch_course(
+      registration,
+      params[:launch_presentation_return_url],
     )
 
-    @scorm_cloud.sync_registration(params)
+    @scorm_connect.sync_registration(params)
     if launch[:status] == 200
       redirect_to launch[:response]
     else
@@ -28,7 +27,7 @@ class ScormCoursesController < ApplicationController
 
   def postback
     response = Hash.from_xml(params[:data])
-    @scorm_cloud.sync_registration_score(response["registrationreport"])
+    @scorm_connect.sync_registration_score(response["registrationreport"])
     render json: {}, status: 200
   end
 
@@ -40,14 +39,14 @@ class ScormCoursesController < ApplicationController
     reg_id = registration_report && registration_report["regid"]
     begin
       reg = Registration.find(reg_id)
-      raise ScormCloudError.new if reg.scorm_cloud_passback_secret !=
+      raise ScormConnectError.new if reg.scorm_cloud_passback_secret !=
           params[:password]
-    rescue ScormCloudError, ActiveRecord::RecordNotFound
+    rescue ScormConnectError, ActiveRecord::RecordNotFound
       render json: { error: "Not Authorized" }, status: 400
     end
   end
 
   def setup
-    @scorm_cloud = ScormCloudService.new
+    @scorm_connect = ScormCloudService.new
   end
 end

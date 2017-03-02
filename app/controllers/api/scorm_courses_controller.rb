@@ -10,20 +10,20 @@ class Api::ScormCoursesController < ApplicationController
     params.require(:scorm_course).permit(:lms_assignment_id, :points_possible)
   end
 
-  def send_scorm_cloud_response(response)
+  def send_scorm_connect_response(response)
     render json: response, status: response[:status]
   end
 
   def index
-    courses = scorm_cloud_service.list_courses(
+    courses = scorm_connect_service.list_courses(
       filter: ".*_#{params[:lms_course_id]}",
     )
-    courses[:response] = scorm_cloud_service.sync_courses(courses[:response])
-    send_scorm_cloud_response(courses)
+    courses[:response] = scorm_connect_service.sync_courses(courses[:response])
+    send_scorm_connect_response(courses)
   end
 
   def create
-    response = scorm_cloud_service.upload_course(
+    response = scorm_connect_service.upload_course(
       params[:file],
       params[:lms_course_id],
     )
@@ -33,12 +33,12 @@ class Api::ScormCoursesController < ApplicationController
         response[:response]["course_id"],
       ).update_attribute(:file_id, file_id)
     end
-    send_scorm_cloud_response(response)
+    send_scorm_connect_response(response)
   end
 
   def show
-    response = scorm_cloud_service.course_manifest(params[:id])
-    send_scorm_cloud_response(response)
+    response = scorm_connect_service.course_manifest(params[:id])
+    send_scorm_connect_response(response)
   end
 
   def update
@@ -49,14 +49,14 @@ class Api::ScormCoursesController < ApplicationController
 
   def destroy
     course = ScormCourse.find_by(scorm_cloud_id: params[:id])
-    response = scorm_cloud_service.remove_course(params[:id])
+    response = scorm_connect_service.remove_course(params[:id])
     delete_canvas_file(course.file_id) if course&.file_id
-    send_scorm_cloud_response(response)
+    send_scorm_connect_response(response)
   end
 
   def preview
-    send_scorm_cloud_response(
-      scorm_cloud_service.preview_course(
+    send_scorm_connect_response(
+      scorm_connect_service.preview_course(
         params[:scorm_course_id],
         params[:redirect_url],
       ),
@@ -90,7 +90,7 @@ class Api::ScormCoursesController < ApplicationController
     end
   end
 
-  def scorm_cloud_service
+  def scorm_connect_service
     ScormCloudService.new
   end
 end
