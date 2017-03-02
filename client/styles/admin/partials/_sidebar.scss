@@ -24,7 +24,6 @@
     font-size: 1.2rem;
     color: $yellow;
     text-transform: uppercase;
-    @include regular;
     letter-spacing: 0.1rem;
     margin: 0 0 0.5rem;
   }
@@ -54,7 +53,6 @@
     font-size: 1.2rem;
     color: $light-gray;
     text-transform: uppercase;
-    @include regular;
     letter-spacing: 0.1rem;
     margin: 0 0 0.5rem;
   }
@@ -94,15 +92,15 @@
           background: $dark-gray;
           border-right-color: $dark-gray;
         }
+
+        i.is-open{
+          @include transform(rotate(0));
+        }
       }
 
       &.is-active > button{
         background: $gray2;
         border-right-color: $yellow;
-
-        i{
-          @include transform(rotate(0));
-        }
       }
     }
 

@@ -29,7 +29,7 @@
   padding: 3rem 4rem;
 }
 
-.c-modal--newsite {
+.c-modal--site {
   width: 80rem;
   padding: 3rem 4rem;
   z-index: 1000
@@ -111,7 +111,6 @@
   }
 
   .c-modal__text{
-    @include regular;
     font-size: 1.8rem;
     color: $gray2;
     text-align: center;
@@ -129,7 +128,6 @@
   }
 
   a.c-modal__link{
-    @include regular;
     font-size: 1.8rem;
     color: $blue;
     margin: 2rem 0 3rem;

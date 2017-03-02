@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170215234011) do
+ActiveRecord::Schema.define(version: 20170222192423) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -194,6 +194,7 @@ ActiveRecord::Schema.define(version: 20170215234011) do
     t.float    "points_possible"
     t.string   "scorm_cloud_id"
     t.string   "title"
+    t.integer  "file_id"
   end
 
   add_index "scorm_courses", ["lms_assignment_id"], name: "index_scorm_courses_on_lms_assignment_id", using: :btree

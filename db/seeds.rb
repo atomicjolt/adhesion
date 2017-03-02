@@ -13,40 +13,46 @@ sites = [
   },
 ]
 
-admin_api_permissions = %w(
-  LIST_ACTIVE_COURSES_IN_ACCOUNT
-  LIST_EXTERNAL_TOOLS_COURSES
-  CREATE_EXTERNAL_TOOL_COURSES
-  DELETE_EXTERNAL_TOOL_COURSES
-  LIST_EXTERNAL_TOOLS_ACCOUNTS
-  CREATE_EXTERNAL_TOOL_ACCOUNTS
-  DELETE_EXTERNAL_TOOL_ACCOUNTS
-  GET_SUB_ACCOUNTS_OF_ACCOUNT
-).join(",")
-
-# Add an LTI Application
-scorm_permissions = "CREATE_ASSIGNMENT,DELETE_ASSIGNMENT,LIST_ASSIGNMENTS"
-exams_permissions = %w{
-  LIST_USERS_IN_COURSE_USERS
-  LIST_QUIZZES_IN_COURSE
-  GET_SUB_ACCOUNTS_OF_ACCOUNT
-}.join(",")
-canvas_permissions = "GET_SINGLE_QUIZ,LIST_QUESTIONS_IN_QUIZ_OR_SUBMISSION,CREATE_CONVERSATION"
-
 applications = [
   {
     name: "LTI Admin",
     description: "LTI tool administration",
     client_application_name: "admin_app",
-    canvas_api_permissions: admin_api_permissions,
+    canvas_api_permissions: %w(
+      LIST_ACTIVE_COURSES_IN_ACCOUNT
+      LIST_EXTERNAL_TOOLS_COURSES
+      CREATE_EXTERNAL_TOOL_COURSES
+      DELETE_EXTERNAL_TOOL_COURSES
+      LIST_EXTERNAL_TOOLS_ACCOUNTS
+      CREATE_EXTERNAL_TOOL_ACCOUNTS
+      DELETE_EXTERNAL_TOOL_ACCOUNTS
+      GET_SUB_ACCOUNTS_OF_ACCOUNT,
+      HELPER_ALL_ACCOUNTS,
+    ).join(","),
     kind: Application.kinds[:admin],
+    application_instances: [{
+      tenant: "lti-admin",
+      lti_key: "lti-admin",
+      site_url: lti_consumer_uri,
+      domain: "admin.#{Rails.application.secrets.domain_name}",
+      lti_type: ApplicationInstance.lti_types[:account_navigation],
+    }],
   },
   {
     name: "SCORM Player",
     description: "SCORM Player",
     client_application_name: "scorm",
-    canvas_api_permissions: scorm_permissions,
+    canvas_api_permissions: "CREATE_ASSIGNMENT,DELETE_ASSIGNMENT,LIST_ASSIGNMENTS",
     kind: Application.kinds[:lti],
+    application_instances: [{
+      tenant: "scorm-player",
+      lti_key: "scorm-player",
+      lti_secret: Rails.application.secrets.scorm_lti_secret,
+      site_url: lti_consumer_uri,
+      canvas_token: Rails.application.secrets.canvas_token,
+      domain: "scorm.#{Rails.application.secrets.domain_name}",
+      lti_type: ApplicationInstance.lti_types[:course_navigation],
+    }],
   },
   {
     name: "Attendance",
@@ -54,20 +60,51 @@ applications = [
     client_application_name: "attendance",
     canvas_api_permissions: "LIST_USERS_IN_COURSE_USERS",
     kind: Application.kinds[:lti],
+    application_instances: [{
+      tenant: "attendance",
+      lti_key: "attendance",
+      lti_secret: Rails.application.secrets.attendance_lti_secret,
+      site_url: lti_consumer_uri,
+      canvas_token: Rails.application.secrets.canvas_token,
+      domain: "attendance.#{Rails.application.secrets.domain_name}",
+      lti_type: ApplicationInstance.lti_types[:course_navigation],
+    }],
   },
   {
     name: "Exams",
     description: "Proctor Tool",
     client_application_name: "exams",
-    canvas_api_permissions: exams_permissions,
+    canvas_api_permissions: %w{
+      LIST_USERS_IN_COURSE_USERS
+      LIST_QUIZZES_IN_COURSE
+      GET_SUB_ACCOUNTS_OF_ACCOUNT
+    }.join(","),
     kind: Application.kinds[:lti],
+    application_instances: [{
+      tenant: "exam",
+      lti_key: "exam",
+      lti_secret: Rails.application.secrets.exams_lti_secret,
+      site_url: lti_consumer_uri,
+      canvas_token: Rails.application.secrets.canvas_token,
+      domain: "exam.#{Rails.application.secrets.domain_name}",
+      lti_type: ApplicationInstance.lti_types[:course_navigation],
+    }],
   },
   {
     name: "Test Administration Tool",
     description: "Test Administration",
     client_application_name: "test_administration",
-    canvas_api_permissions: canvas_permissions,
+    canvas_api_permissions: "GET_SINGLE_QUIZ,LIST_QUESTIONS_IN_QUIZ_OR_SUBMISSION,CREATE_CONVERSATION",
     kind: Application.kinds[:lti],
+    application_instances: [{
+      tenant: "exam",
+      lti_key: "proctor",
+      lti_secret: Rails.application.secrets.test_administration_lti_secret,
+      site_url: lti_consumer_uri,
+      canvas_token: Rails.application.secrets.canvas_token,
+      domain: "proctor.#{Rails.application.secrets.domain_name}",
+      lti_type: ApplicationInstance.lti_types[:account_navigation],
+    }],
   },
   {
     name: "Quiz Converter",
@@ -75,6 +112,15 @@ applications = [
     client_application_name: "quiz_converter",
     canvas_api_permissions: "",
     kind: Application.kinds[:lti],
+    application_instances: [{
+      tenant: "word2quiz",
+      lti_key: "word2quiz",
+      lti_secret: Rails.application.secrets.quiz_converter_lti_secret,
+      site_url: lti_consumer_uri,
+      canvas_token: Rails.application.secrets.canvas_token,
+      domain: "word2quiz.#{Rails.application.secrets.domain_name}",
+      lti_type: ApplicationInstance.lti_types[:course_navigation],
+    }],
   },
   {
     name: "Survey Aggregation Tool",
@@ -82,79 +128,33 @@ applications = [
     client_application_name: "survey_tool",
     canvas_api_permissions: "",
     kind: Application.kinds[:lti],
+    application_instances: [{
+      tenant: "surveys",
+      lti_key: "surveys",
+      lti_secret: Rails.application.secrets.survey_tool_lti_secret,
+      site_url: lti_consumer_uri,
+      canvas_token: Rails.application.secrets.canvas_token,
+      domain: "surveys.#{Rails.application.secrets.domain_name}",
+      lti_type: ApplicationInstance.lti_types[:course_navigation],
+    }],
   },
 ]
 
-application_instances = [
-  {
-    application: "LTI Admin",
-    tenant: "lti-admin",
-    lti_key: "lti-admin",
-    url: lti_consumer_uri,
-    domain: "admin.#{Rails.application.secrets.domain_name}",
-    lti_type: ApplicationInstance.lti_types[:account_navigation],
-  },
-  {
-    application: "SCORM Player",
-    tenant: "scorm-player",
-    lti_key: "scorm-player",
-    lti_secret: Rails.application.secrets.scorm_lti_secret,
-    url: lti_consumer_uri,
-    canvas_token: Rails.application.secrets.canvas_token,
-    domain: "scorm.#{Rails.application.secrets.domain_name}",
-    lti_type: ApplicationInstance.lti_types[:course_navigation],
-  },
-  {
-    application: "Attendance",
-    tenant: "attendance",
-    lti_key: "attendance",
-    lti_secret: Rails.application.secrets.attendance_lti_secret,
-    url: lti_consumer_uri,
-    canvas_token: Rails.application.secrets.canvas_token,
-    domain: "attendance.#{Rails.application.secrets.domain_name}",
-    lti_type: ApplicationInstance.lti_types[:course_navigation],
-  },
-  {
-    application: "Exams",
-    tenant: "exams",
-    lti_key: "exams",
-    lti_secret: Rails.application.secrets.exams_lti_secret,
-    url: lti_consumer_uri,
-    canvas_token: Rails.application.secrets.canvas_token,
-    domain: "exams.#{Rails.application.secrets.domain_name}",
-    lti_type: ApplicationInstance.lti_types[:course_navigation],
-  },
-  {
-    application: "Quiz Converter",
-    tenant: "quiz-converter",
-    lti_key: "quiz-converter",
-    lti_secret: Rails.application.secrets.quiz_converter_lti_secret,
-    url: lti_consumer_uri,
-    canvas_token: Rails.application.secrets.canvas_token,
-    domain: "quiz-converter.#{Rails.application.secrets.domain_name}",
-    lti_type: ApplicationInstance.lti_types[:course_navigation],
-  },
-  {
-    application: "Test Administration Tool",
-    tenant: "exams",
-    lti_key: "test-administration",
-    lti_secret: Rails.application.secrets.test_administration_lti_secret,
-    url: lti_consumer_uri,
-    canvas_token: Rails.application.secrets.canvas_token,
-    domain: "test-administration.#{Rails.application.secrets.domain_name}",
-    lti_type: ApplicationInstance.lti_types[:account_navigation],
-  },
-  {
-    application: "Survey Aggregation Tool",
-    tenant: "survey-tool",
-    lti_key: "survey-tool",
-    lti_secret: Rails.application.secrets.survey_tool_lti_secret,
-    url: lti_consumer_uri,
-    canvas_token: Rails.application.secrets.canvas_token,
-    domain: "survey-tool.#{Rails.application.secrets.domain_name}",
-    lti_type: ApplicationInstance.lti_types[:course_navigation],
-  },
-]
+def setup_application_instances(application, application_instances)
+  application_instances.each do |attrs|
+    site = Site.find_by(url: attrs.delete(:site_url))
+    attrs = attrs.merge(application_id: application.id, site_id: site.id)
+
+    if application_instance = ApplicationInstance.find_by(lti_key: attrs[:lti_key])
+      # Don't change production lti keys or set keys to nil
+      attrs.delete(:lti_secret) if attrs[:lti_secret].blank? || Rails.env.production?
+
+      application_instance.update_attributes!(attrs)
+    else
+      ApplicationInstance.create!(attrs)
+    end
+  end
+end
 
 sites.each do |attrs|
   if site = Site.find_by(url: attrs[:url])
@@ -165,25 +165,13 @@ sites.each do |attrs|
 end
 
 applications.each do |attrs|
+  application_instances = attrs.delete(:application_instances)
   if application = Application.find_by(name: attrs[:name])
     application.update_attributes!(attrs)
   else
-    Application.create!(attrs)
+    application = Application.create!(attrs)
   end
-end
-
-application_instances.each do |attrs|
-  application = Application.find_by(name: attrs.delete(:application))
-  site = Site.find_by(url: attrs.delete(:url))
-  attrs = attrs.merge(application_id: application.id, site_id: site.id)
-
-  if application_instance = ApplicationInstance.find_by(lti_key: attrs[:lti_key])
-    # Don't change production lti keys or set keys to nil
-    attrs.delete(:lti_secret) if attrs[:lti_secret].blank? || Rails.env.production?
-    application_instance.update_attributes!(attrs)
-  else
-    ApplicationInstance.create!(attrs)
-  end
+  setup_application_instances(application, application_instances)
 end
 
 Lti::Utils.lti_configs

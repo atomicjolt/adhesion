@@ -123,11 +123,11 @@ export class BaseExamRequestList extends React.Component {
     }
 
     renderList = this.tabFilter(renderList);
-
     return _.map(renderList, examRequest => (
       <ExamRequest
         key={`proctor_${examRequest.id}`}
         examRequest={examRequest}
+        examRequestList={this.props.examRequestList}
         scheduleExam={(id, date, time) => this.scheduleExam(id, date, time)}
         sendMessage={(id, body, subject) => this.sendMessage(id, body, subject)}
         showModal={this.props.showModal}
