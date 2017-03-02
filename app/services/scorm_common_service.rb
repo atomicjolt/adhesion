@@ -60,15 +60,14 @@ module ScormCommonService
       registration_params[:custom_canvas_user_id],
     )
     return if result.nil?
-    sync_registration_score(result[:response]["rsp"]["registrationreport"])
+    sync_registration_score(Hash.from_xml(result[:response])["rsp"]["registrationreport"])
   end
 
   private
 
   def registration_result(lms_course_id, lms_user_id)
     registration = find_registration(lms_course_id, lms_user_id)
-    resp = registration_engine_result(registration.id)
-    Hash.from_xml(resp)
+    registration_engine_result(registration.id)
   end
 
   def reg_params(params)
