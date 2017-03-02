@@ -52,10 +52,7 @@ export default function popupMenu(props) {
   } else {
     actionButtons = [
       <div key="popup_pause_button" style={divStyle}>
-        <HoverButton style={buttonStyle} hoveredStyle={hoveredStyle}>Pause</HoverButton>
-      </div>,
-      <div key="popup_terminate_Button" style={divStyle}>
-        <HoverButton style={buttonStyle} hoveredStyle={hoveredStyle}>Terminate</HoverButton>
+        <HoverButton style={buttonStyle} hoveredStyle={hoveredStyle}>Finish</HoverButton>
       </div>
     ];
   }
