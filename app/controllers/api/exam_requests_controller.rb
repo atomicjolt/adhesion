@@ -33,6 +33,10 @@ class Api::ExamRequestsController < ApplicationController
     render json: exam_request
   end
 
+  def get_exams_in_range
+    byebug
+  end
+
   private
 
   def create_params

@@ -37,6 +37,7 @@ export class BaseExamRequestList extends React.Component {
     showModal: React.PropTypes.func.isRequired,
     canvasRequest: React.PropTypes.func.isRequired,
     startExam: React.PropTypes.func.isRequired,
+    exportExamsAsCSV: React.PropTypes.func.isRequired,
   };
 
   static tableHeader(styles) {
@@ -79,7 +80,8 @@ export class BaseExamRequestList extends React.Component {
       },
       dateFilter: {
         width: '25%',
-      }, reportButton: {
+      },
+      reportButton: {
         margin: '10px 0px',
         left: '90.5%',
         position: 'relative',
@@ -206,8 +208,9 @@ export class BaseExamRequestList extends React.Component {
     this.setState({toggleReportWindow: !this.state.toggleReportWindow})
   }
 
-  onDownload() {
+  onDownload(startDate, endDate) {
     this.onReport();
+    this.props.exportExamsAsCSV(startDate, endDate);
 
     // start the download here
   }
@@ -216,7 +219,7 @@ export class BaseExamRequestList extends React.Component {
     if (this.state.toggleReportWindow) {
       return <ReportWindow
         onCancel={() => this.onReport()}
-        onDownload={() => this.onDownload()}
+        onDownload={(...args) => this.onDownload(...args)}
       />
     }
     return null;

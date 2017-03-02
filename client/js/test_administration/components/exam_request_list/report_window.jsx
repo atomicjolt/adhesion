@@ -1,5 +1,7 @@
-import React        from 'react';
-import DateSelector from '../common/date_selector';
+import React                    from 'react';
+import * as ExamRequestActions  from '../../actions/exam_requests';
+import DateSelector             from '../common/date_selector';
+import moment                   from 'moment';
 
 export default class ReportWindow extends React.Component {
 
@@ -11,9 +13,9 @@ export default class ReportWindow extends React.Component {
   constructor() {
     super();
     this.state = {
-      startDate: new Date(),
-      endDate: new Date(),
-    }
+      startDate: moment(),
+      endDate: moment(),
+    };
   }
 
   getStyles() {
@@ -111,8 +113,14 @@ export default class ReportWindow extends React.Component {
           <h1>TO</h1>
         </div>
         <div style={styles.buttonsSection}>
-          <button style={styles.cancelButton} onClick={() => this.props.onCancel()}>CANCEL</button>
-          <button style={styles.downloadButton} onClick={() => this.props.onDownload()}>DOWNLOAD</button>
+          <button
+            style={styles.cancelButton} onClick={() => this.props.onCancel()}>CANCEL</button>
+          <button
+            style={styles.downloadButton}
+            onClick={() => this.props.onDownload(this.state.startDate.toDate(), this.state.endDate.toDate())}
+          >
+            DOWNLOAD
+          </button>
         </div>
       </div>
     )

@@ -78,7 +78,9 @@ Rails.application.routes.draw do
         resources :students, only: [:index]
       end
     end
-    resources :exam_requests
+    resources :exam_requests do
+    get "get_exams_in_range" => "exam_requests#get_exams_in_range", on: :collection
+    end
     resources :proctor_codes
     resources :courses do
       resources :attendances, only: [:index, :create, :update] do
