@@ -5,11 +5,11 @@ module ScormCommonService
     UNGRADED: "UNGRADED",
   }.freeze
 
-  def upload_course(file, package_id)
+  def upload_course(file, lms_course_id)
     course = ScormCourse.create
     cleanup = Proc.new { course.destroy }
     package_id = "#{course.id}_#{lms_course_id}"
-    resp = upload_engine_course(file, package_id, course, cleanup)
+    resp = upload_engine_course(file, package_id, cleanup)
     course.update_attributes(title: resp[:title], scorm_cloud_id: package_id)
     resp["package_id"] = package_id
     resp["course_id"] = course.id
