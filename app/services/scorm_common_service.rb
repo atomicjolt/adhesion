@@ -18,7 +18,7 @@ module ScormCommonService
 
   def remove_course(course_id)
     response = remove_engine_course(course_id)
-    if response == true
+    if response[:response] == true
       course = ScormCourse.find_by(scorm_cloud_id: course_id)
       registrations = Registration.where(lms_course_id: course_id.to_i)
       registrations.each do |registration|
@@ -35,7 +35,7 @@ module ScormCommonService
       result_params[:custom_canvas_user_id],
     )
     if registration.nil?
-      registration = create_local_registration(result_params)
+      registration = create_local_registration(result_params, lti_credentials)
       user = {
         first_name: params[:lis_person_name_given],
         last_name: params[:lis_person_name_family],
@@ -60,6 +60,15 @@ module ScormCommonService
     registration
   end
 
+  def sync_registration(registration_params)
+    result = registration_result(
+      registration_params[:course_id],
+      registration_params[:custom_canvas_user_id],
+    )
+    return if result.nil?
+    sync_registration_score(result[:response]["rsp"]["registrationreport"])
+  end
+
   private
 
   def reg_params(params)
@@ -77,15 +86,6 @@ module ScormCommonService
       lms_course_id: lms_course_id,
       lms_user_id: lms_user_id,
     )
-  end
-
-  def sync_registration(registration_params)
-    result = registration_result(
-      registration_params[:course_id],
-      registration_params[:custom_canvas_user_id],
-    )
-    return if result.nil?
-    sync_registration_score(result[:response]["rsp"]["registrationreport"])
   end
 
   ### Sync Utilities

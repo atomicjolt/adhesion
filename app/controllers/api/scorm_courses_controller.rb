@@ -30,7 +30,7 @@ class Api::ScormCoursesController < ApplicationController
     file_id = upload_canvas_file(params[:file], params[:lms_course_id])
     unless !file_id
       ScormCourse.find(
-        response[:response]["course_id"],
+        response["course_id"],
       ).update_attribute(:file_id, file_id)
     end
     send_scorm_connect_response(response)
