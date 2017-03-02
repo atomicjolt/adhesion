@@ -37,9 +37,9 @@ module ScormCommonService
     if registration.nil?
       registration = create_local_registration(result_params, lti_credentials)
       user = {
-        first_name: params[:lis_person_name_given],
-        last_name: params[:lis_person_name_family],
-        lms_user_id: params[:custom_canvas_user_id],
+        first_name: result_params[:lis_person_name_given],
+        last_name: result_params[:lis_person_name_family],
+        lms_user_id: result_params[:custom_canvas_user_id],
       }
       setup_engine_registration(registration, user, postback_url, lti_credentials)
     end

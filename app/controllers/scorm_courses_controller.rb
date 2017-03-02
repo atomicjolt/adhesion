@@ -8,9 +8,9 @@ class ScormCoursesController < ApplicationController
 
   def create
     registration = @scorm_connect.get_registration(
+      scorm_courses_postback_url,
       params,
       current_application_instance,
-      scorm_courses_postback_url,
     )
     launch = @scorm_connect.launch_course(
       registration,
