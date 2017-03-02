@@ -46,12 +46,6 @@ module ScormCommonService
     registration
   end
 
-  def registration_result(lms_course_id, lms_user_id)
-    registration = find_registration(lms_course_id, lms_user_id)
-    resp = registration_engine_result(registration.id)
-    Hash.from_xml(resp)
-  end
-
   def create_local_registration(result_params, lti_credentials)
     registration_params = reg_params(result_params)
     registration = Registration.create(registration_params)
@@ -70,6 +64,12 @@ module ScormCommonService
   end
 
   private
+
+  def registration_result(lms_course_id, lms_user_id)
+    registration = find_registration(lms_course_id, lms_user_id)
+    resp = registration_engine_result(registration.id)
+    Hash.from_xml(resp)
+  end
 
   def reg_params(params)
     resp = {}
