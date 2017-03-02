@@ -73,6 +73,7 @@ export default class Course extends React.Component {
   }
 
   handleRemove() {
+    this.setState({ opened: false });
     this.props.removePackage(
       this.props.course.lms_assignment_id,
       this.props.course.id,
@@ -80,6 +81,7 @@ export default class Course extends React.Component {
   }
 
   handlePreview() {
+    this.setState({ opened: false });
     this.props.previewPackage(this.props.course.id);
   }
 
