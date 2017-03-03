@@ -38,7 +38,7 @@ export const testingCentersAccountSetup = (accountId, instanceName) => ({
 export const exportExamsAsCSV = (startDate, endDate) => ({
   method: Network.GET,
   type: Constants.EXPORT_EXAMS_AS_CSV,
-  url: '/api/exam_requests/export_exams_as_csv',
+  url: '/exports/export_exams_as_csv',
   params: { start: startDate, end: endDate }
 });
 

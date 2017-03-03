@@ -19,6 +19,10 @@ class ExportsController < ApplicationController
     send_data(final_csv, filename: "attendance_export")
   end
 
+  def export_exams_as_csv
+    byebug
+  end
+
   private
 
   def get_attendances

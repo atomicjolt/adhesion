@@ -43,6 +43,10 @@ Rails.application.routes.draw do
     root to: "home#index"
   end
 
+  resources :exports, only: [] do
+    get "export_exams_as_csv" => "exports#export_exams_as_csv", on: :collection
+  end
+
   resources :courses, only: [] do
     resources :exports, only: [] do
       get "attendances", on: :collection
@@ -78,9 +82,7 @@ Rails.application.routes.draw do
         resources :students, only: [:index]
       end
     end
-    resources :exam_requests do
-      get "export_exams_as_csv" => "exam_requests#export_exams_as_csv", on: :collection
-    end
+    resources :exam_requests
     resources :proctor_codes
     resources :courses do
       resources :attendances, only: [:index, :create, :update] do
