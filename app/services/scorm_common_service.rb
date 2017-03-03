@@ -5,13 +5,76 @@ module ScormCommonService
     UNGRADED: "UNGRADED",
   }.freeze
 
+  def sync_courses(courses)
+    if courses
+      course_ids = courses.map { |i| i["id"] }
+      existing_course_ids = ScormCourse.all.map { |c| c[:scorm_cloud_id] }
+
+      extra = existing_course_ids - course_ids
+      remove_extras(extra)
+
+      needed = course_ids - existing_course_ids
+      update_titles(needed)
+
+      get_sync_result(courses)
+    end
+  end
+
+  def remove_extras(extra)
+    extra.each do |scorm_cloud_id|
+      ScormCourse.find_by(scorm_cloud_id: scorm_cloud_id).destroy
+      registrations = Registration.where(lms_course_id: scorm_cloud_id.to_i)
+      registrations.each do |reg|
+        remove_engine_registration(reg.id)
+        reg.destroy
+      end
+    end
+  end
+
+  def update_titles(needed)
+    new_courses = []
+    needed.each { |scorm_cloud_id| new_courses << ScormCourse.create(scorm_cloud_id: scorm_cloud_id) }
+    new_courses.each do |course|
+      title = courses.detect { |c| c["id"] == course["scorm_cloud_id"] }.title
+      course.update_attribute(:title, title)
+    end
+  end
+
+  def get_sync_result(courses)
+    results = get_results(courses)
+    results.map do |course|
+      local_course = ScormCourse.find_by(scorm_cloud_id: course["id"])
+      resp = {
+        title: course["title"],
+        id: local_course.scorm_cloud_id,
+      }
+
+      if local_course.lms_assignment_id.nil? == false
+        resp[:lms_assignment_id] = local_course.lms_assignment_id
+        resp[:is_graded] = if !local_course.points_possible.nil? && local_course.points_possible > 0
+                             SCORM_ASSIGNMENT_STATE[:GRADED]
+                           else
+                             SCORM_ASSIGNMENT_STATE[:UNGRADED]
+                           end
+      end
+      resp
+    end
+  end
+
+  def get_results(courses)
+    courses.select do |course|
+      local_course = ScormCourse.find_by(scorm_cloud_id: course["id"])
+      return false if local_course.nil?
+      true
+    end
+  end
+
   def upload_course(file, lms_course_id)
     course = ScormCourse.create
     cleanup = Proc.new { course.destroy }
     package_id = "#{course.id}_#{lms_course_id}"
     resp = upload_engine_course(file, package_id, cleanup)
     course.update_attributes(title: resp[:title], scorm_cloud_id: package_id)
-    resp["package_id"] = package_id
     resp["course_id"] = course.id
     resp
   end
@@ -41,7 +104,13 @@ module ScormCommonService
         last_name: result_params[:lis_person_name_family],
         lms_user_id: result_params[:custom_canvas_user_id],
       }
-      setup_engine_registration(registration, user, postback_url, lti_credentials)
+      setup_engine_registration(
+        registration,
+        user,
+        postback_url,
+        lti_credentials,
+        result_params[:course_id],
+      )
     end
     registration
   end
@@ -59,7 +128,7 @@ module ScormCommonService
       registration_params[:course_id],
       registration_params[:custom_canvas_user_id],
     )
-    return if result.nil?
+    return if Hash.from_xml(result[:response])["rsp"]["stat"] == "fail"
     sync_registration_score(Hash.from_xml(result[:response])["rsp"]["registrationreport"])
   end
 
@@ -82,7 +151,7 @@ module ScormCommonService
 
   def find_registration(lms_course_id, lms_user_id)
     Registration.find_by(
-      lms_course_id: lms_course_id,
+      lms_course_id: lms_course_id.gsub("_", ""),
       lms_user_id: lms_user_id,
     )
   end
