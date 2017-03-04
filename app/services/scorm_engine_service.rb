@@ -82,7 +82,15 @@ class ScormEngineService
   def preview_course(course_id, redirect_url)
     body = { redirectOnExitUrl: redirect_url } if redirect_url
     url = @scorm_tenant_url + "/courses/#{course_id}/preview"
-    send_get_request(url, body)
+    response = send_get_request(url, body)
+    launch_link = (JSON.parse response.body)["launchLink"]
+    if launch_link
+      url = "https://localhost:8443" + launch_link
+      {
+        response: url,
+        status: 200,
+      }
+    end
   end
 
   def course_metadata(course_id)
