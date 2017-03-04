@@ -2,6 +2,7 @@ class ExportsController < ApplicationController
   include Concerns::JwtToken
   include Concerns::CanvasSupport
   include AttendanceExportsHelper
+  include ExamExportHelper
   before_action :validate_token
 
   def attendances
@@ -20,7 +21,14 @@ class ExportsController < ApplicationController
   end
 
   def export_exams_as_csv
-    byebug
+    exams = get_exams
+    final_csv = ExamExportHelper.generate_csv(exams)
+    send_data(final_csv, filename: "exam_export")
+  end
+
+  def get_exams
+    exams = ExamRequest.where(scheduled_date: params[:start]..params[:end])
+    exams
   end
 
   private
