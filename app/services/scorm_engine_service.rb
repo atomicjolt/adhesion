@@ -1,4 +1,5 @@
-require 'net/http'
+require "net/http"
+require "net/http/post/multipart"
 include ScormCommonService
 
 class ScormEngineService
@@ -10,24 +11,21 @@ class ScormEngineService
     @api_password = Rails.application.secrets.scorm_api_password
   end
 
-  def launch_course(registration, redirect_url)
-    launch_link = get_launch_link(registration.id)["launchLink"]
-    uri = URI(Rails.application.secrets.scorm_domain + launch_link)
-    Net::HTTP.start(uri.host, uri.port) do |http|
-      request = Net::HTTP::Get.new(uri, 'Content-Type' => 'application/json')
-      request.basic_auth @api_username, @api_password
-      request.body = { redirectOnExitUrl: redirect_url }.to_json
-      response = http.request request
-      response[:status] = response.code
-      response
+  def launch_course(registration, _redirect_url)
+    launch_link = get_launch_link(registration.id)
+    if launch_link
+      url = "https://localhost:8443" + launch_link
+      {
+        response: url,
+        status: 200,
+      }
     end
   end
 
-  def setup_engine_registration(registration, user, postback_url, _lti_credentials)
-    options = merge_options(options)
-    options[:query] = {
+  def setup_engine_registration(registration, user, postback_url, lti_credentials, course_id)
+    body = {
       registrationId: registration.id,
-      courseId: registration.lms_course_id,
+      courseId: course_id,
       learner: {
         id: user[:lms_user_id],
         firstName: user[:last_name],
@@ -35,79 +33,117 @@ class ScormEngineService
       },
       postBack: {
         url: postback_url,
+        password: registration.scorm_cloud_passback_secret,
+        userName: lti_credentials.lti_key,
       },
     }
-    Net::HTTP.post(@scorm_tenant_url + "/registrations", options)
+    url = @scorm_tenant_url + "/registrations"
+    response = send_post_request(url, body)
+    response
   end
 
   def list_courses(options = {})
     courses = {}
-    uri = URI(@scorm_tenant_url + "/courses")
-    Net::HTTP.start(uri.host, uri.port) do |http|
-      request = Net::HTTP::Get.new(uri, 'Content-Type' => 'application/json')
-      request.basic_auth @api_username, @api_password
-      response = http.request request
-      courses[:response] = (JSON.parse response.body)["courses"]
-      courses[:status] = response.code
-    end
+    url = @scorm_tenant_url + "/courses"
+    response = send_get_request(url, options)
+    courses[:response] = (JSON.parse response.body)["courses"]
+    courses[:status] = response[:status]
     courses
   end
 
   def upload_engine_course(file, package_id, _cleanup)
-    uri = URI(@scorm_tenant_url + "/courses/importJobs?course=#{package_id}")
-    Net::HTTP.start(uri.host, uri.port) do |http|
-      request = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
-      request.basic_auth @api_username, @api_password
-      request.body = { url: file }
-      request.content_type = "multipart/form-data"
-      response = http.request request
-      response[:status] = response.code
-      response
+    uri = URI(@scorm_tenant_url + "/courses/importJobs")
+    File.open(File.new(file.path)) do |zip|
+      request = Net::HTTP::Post::Multipart.new "#{uri.path}?course=#{package_id}",
+                                               "file": UploadIO.new(zip, "zip/zip", file.original_filename)
+      Net::HTTP.start(uri.host, uri.port) do |http|
+        request.basic_auth @api_username, @api_password
+        response = http.request(request)
+        response
+      end
     end
   end
 
   def show_course(course_id)
-    Net::HTTP.get(@scorm_tenant_url + "/courses/#{course_id}", @options)
+    url = @scorm_tenant_url + "/courses/#{course_id}"
+    send_get_request(url)
   end
 
   def remove_engine_course(course_id)
-    Net::HTTP.delete(@scorm_tenant_url + "/courses/#{course_id}", @options)
+    url = @scorm_tenant_url + "/courses/#{course_id}"
+    send_delete_request(url)
   end
 
   def remove_engine_registration(registration_id)
-    Net::HTTP.delete(@scorm_tenant_url + "/registrations/#{registration_id}", @options)
+    url = @scorm_tenant_url + "/registrations/#{registration_id}"
+    send_delete_request(url)
   end
 
   def preview_course(course_id, redirect_url)
-    uri = URI(@scorm_tenant_url + "/courses/#{course_id}/preview")
-    Net::HTTP.start(uri.host, uri.port) do |http|
-      request = Net::HTTP::Get.new(uri, 'Content-Type' => 'application/json')
-      request.basic_auth @api_username, @api_password
-      request.body = { redirectOnExitUrl: redirect_url } if redirect_url
-      response = http.request request
-      response[:status] = response.code
-      response
-    end
+    body = { redirectOnExitUrl: redirect_url } if redirect_url
+    url = @scorm_tenant_url + "/courses/#{course_id}/preview"
+    send_get_request(url, body)
   end
 
   def course_metadata(course_id)
     # not sure there is a metadata call currently
-    Net::HTTP.get(@scorm_tenant_url + "/courses/#{course_id}", @options)
+    url = @scorm_tenant_url + "/courses/#{course_id}"
+    send_get_request(url)
   end
 
   def course_manifest(course_id)
     # not sure there is a metadata call currently
-    Net::HTTP.get(@scorm_tenant_url + "/courses/#{course_id}", @options)
+    url = @scorm_tenant_url + "/courses/#{course_id}"
+    send_get_request(url)
   end
 
   def registration_engine_result(registration_id)
-    Net::HTTP.get(@scorm_tenant_url + "/registrations/#{registration_id}/progress/detail", @options)
+    url = @scorm_tenant_url + "/registrations/#{registration_id}/progress/detail"
+    send_get_request(url)
   end
 
   private
 
   def get_launch_link(registration_id)
-    Net::HTTP.get(@scorm_tenant_url + "/registrations/#{registration_id}/launchLink")
+    url = @scorm_tenant_url + "/registrations/#{registration_id}/launchLink"
+    response = send_get_request(url)
+    (JSON.parse response.body)["launchLink"]
+  end
+
+  def send_get_request(url, body = {})
+    uri = URI(url)
+    Net::HTTP.start(uri.host, uri.port) do |http|
+      request = Net::HTTP::Get.new(uri, "Content-Type" => "application/json")
+      request.basic_auth @api_username, @api_password
+      request.body = body.to_json
+      response = http.request request
+      response[:status] = response.code
+      response
+    end
+  end
+
+  def send_post_request(url, body = {}, content_type = "application/json")
+    uri = URI(url)
+    Net::HTTP.start(uri.host, uri.port) do |http|
+      request = Net::HTTP::Post.new(uri)
+      request.basic_auth @api_username, @api_password
+      request.body = body.to_json
+      request.content_type = content_type
+      response = http.request request
+      response[:status] = response.code
+      response
+    end
+  end
+
+  def send_delete_request(url)
+    uri = URI(url)
+    Net::HTTP.start(uri.host, uri.port) do |http|
+      request = Net::HTTP::Delete.new(uri)
+      request.basic_auth @api_username, @api_password
+      response = http.request request
+      response[:status] = response.code
+      response
+    end
   end
 
   def merge_options(options)

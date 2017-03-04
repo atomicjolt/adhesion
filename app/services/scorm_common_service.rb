@@ -12,7 +12,6 @@ module ScormCommonService
 
       extra = existing_course_ids - course_ids
       remove_extras(extra)
-
       needed = course_ids - existing_course_ids
       update_titles(needed)
 
@@ -73,10 +72,10 @@ module ScormCommonService
     course = ScormCourse.create
     cleanup = Proc.new { course.destroy }
     package_id = "#{course.id}_#{lms_course_id}"
-    resp = upload_engine_course(file, package_id, cleanup)
-    course.update_attributes(title: resp[:title], scorm_cloud_id: package_id)
-    resp["course_id"] = course.id
-    resp
+    response = upload_engine_course(file, package_id, cleanup)
+    course.update_attributes(title: response[:title], scorm_cloud_id: package_id)
+    response["course_id"] = course.id
+    response
   end
 
   def remove_course(course_id)
@@ -90,6 +89,7 @@ module ScormCommonService
       end
       course&.destroy
     end
+    response
   end
 
   def get_registration(postback_url, result_params = {}, lti_credentials = {})
@@ -128,8 +128,8 @@ module ScormCommonService
       registration_params[:course_id],
       registration_params[:custom_canvas_user_id],
     )
-    return if Hash.from_xml(result[:response])["rsp"]["stat"] == "fail"
-    sync_registration_score(Hash.from_xml(result[:response])["rsp"]["registrationreport"])
+    #return if Hash.from_xml(result[:response])["rsp"]["stat"] == "fail"
+    #sync_registration_score(Hash.from_xml(result[:response])["rsp"]["registrationreport"])
   end
 
   private
