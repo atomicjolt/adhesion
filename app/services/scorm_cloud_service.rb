@@ -33,13 +33,13 @@ class ScormCloudService
         course.update_attribute(:title, title)
       end
 
-      result = courses.select do |course|
+      results = courses.select do |course|
         local_course = ScormCourse.find_by(scorm_cloud_id: course.id)
         return false if local_course.nil?
         true
       end
 
-      result = result.map do |course|
+      result = results.map do |course|
         local_course = ScormCourse.find_by(scorm_cloud_id: course.id)
         resp = {
           title: course.title,
@@ -68,10 +68,10 @@ class ScormCloudService
     end
   end
 
-  def setup_engine_registration(registration, user, postback_url, lti_credentials)
+  def setup_engine_registration(registration, user, postback_url, lti_credentials, course_id)
     scorm_cloud_request do
       @scorm_cloud.registration.create_registration(
-        registration.lms_course_id,
+        course_id,
         registration.id,
         user[:first_name],
         user[:last_name],
@@ -90,10 +90,10 @@ class ScormCloudService
     end
   end
 
-  def upload_engine_course(file, package_id, cleanup)
+  def upload_engine_course(file, course_id, cleanup)
     scorm_cloud_request(cleanup) do
       @scorm_cloud.course.import_course(
-        package_id,
+        course_id,
         file,
       )
     end
