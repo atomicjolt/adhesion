@@ -118,8 +118,9 @@ export default class ReportWindow extends React.Component {
             style={styles.cancelButton} onClick={() => this.props.onCancel()}>CANCEL</button>
           <button
             style={styles.downloadButton}
-            onClick={() => this.props.onDownload(this.props.currentAccountId,
-              this.state.startDate.toDate(), this.state.endDate.toDate())}
+            onClick={() => this.props.onDownload(
+              this.state.startDate.toDate(),
+              this.state.endDate.toDate())}
           >
             DOWNLOAD
           </button>

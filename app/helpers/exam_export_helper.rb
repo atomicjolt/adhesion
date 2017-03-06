@@ -3,7 +3,6 @@ module ExamExportHelper
     CSV.generate do |csv|
       exams.each do |exam|
         row = Array.new
-        row << exam[:updated_at]
         row << exam[:exam_name]
         row << exam[:student_name]
         row << exam[:scheduled_date]

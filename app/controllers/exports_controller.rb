@@ -27,11 +27,9 @@ class ExportsController < ApplicationController
   end
 
   def get_exams
-    puts params
     exams = ExamRequest.
       where(scheduled_date: params[:start]..params[:end]).
-      where(testing_center_id: params[:accountId])
-    puts exams
+      where(testing_center_id: params[:testing_centers_account_id])
   end
 
   private
