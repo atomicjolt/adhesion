@@ -95,20 +95,28 @@ class ScormEngineService
   end
 
   def course_metadata(course_id)
-    # not sure there is a metadata call currently
+    # not sure there is an api metadata call currently
     url = @scorm_tenant_url + "/courses/#{course_id}"
     send_get_request(url)
   end
 
   def course_manifest(course_id)
-    # not sure there is a metadata call currently
+    # not sure there is an api manifest call currently
     url = @scorm_tenant_url + "/courses/#{course_id}"
     send_get_request(url)
   end
 
   def registration_engine_result(registration_id)
-    url = @scorm_tenant_url + "/registrations/#{registration_id}/progress/detail"
-    send_get_request(url)
+    url = @scorm_tenant_url + "/registrations/#{registration_id}/progress"
+    response = send_get_request(url)
+    result = JSON.parse response.body
+    result[:response] = {}
+    result[:response]["rsp"] = {}
+    result[:response]["rsp"]["stat"] = result["registrationSuccess"] == "FAILED" ? "fail" : "ok"
+    result[:response]["rsp"]["registrationreport"] = {}
+    result[:response]["rsp"]["registrationreport"]["regid"] = result["id"]
+    result[:response]["rsp"]["registrationreport"]["score"] = result["score"] ? result["score"]["scaled"] : "unknown"
+    result
   end
 
   private

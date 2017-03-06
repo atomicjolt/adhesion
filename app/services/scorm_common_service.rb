@@ -13,7 +13,7 @@ module ScormCommonService
       extra = existing_course_ids - course_ids
       remove_extras(extra)
       needed = course_ids - existing_course_ids
-      update_titles(needed)
+      update_titles(courses, needed)
 
       get_sync_result(courses)
     end
@@ -30,7 +30,7 @@ module ScormCommonService
     end
   end
 
-  def update_titles(needed)
+  def update_titles(courses, needed)
     new_courses = []
     needed.each { |scorm_cloud_id| new_courses << ScormCourse.create(scorm_cloud_id: scorm_cloud_id) }
     new_courses.each do |course|
@@ -128,8 +128,8 @@ module ScormCommonService
       registration_params[:course_id],
       registration_params[:custom_canvas_user_id],
     )
-    #return if Hash.from_xml(result[:response])["rsp"]["stat"] == "fail"
-    #sync_registration_score(Hash.from_xml(result[:response])["rsp"]["registrationreport"])
+    return if result[:response]["rsp"]["stat"] == "fail"
+    sync_registration_score(result[:response]["rsp"]["registrationreport"])
   end
 
   private

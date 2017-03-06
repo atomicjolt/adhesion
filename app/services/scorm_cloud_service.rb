@@ -138,7 +138,8 @@ class ScormCloudService
 
   def registration_engine_result(registration_id)
     scorm_cloud_request do
-      @scorm_cloud.registration.get_registration_result(registration_id)
+      resp = @scorm_cloud.registration.get_registration_result(registration_id)
+      Hash.from_xml(resp)
     end
   end
 
