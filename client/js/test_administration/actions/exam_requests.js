@@ -35,11 +35,11 @@ export const testingCentersAccountSetup = (accountId, instanceName) => ({
 });
 
 // TODO: Finish this
-export const exportExamsAsCSV = (startDate, endDate) => ({
+export const exportExamsAsCSV = (accountId, startDate, endDate) => ({
   method: Network.GET,
   type: Constants.EXPORT_EXAMS_AS_CSV,
   url: '/exports/export_exams_as_csv',
-  params: { start: startDate, end: endDate }
+  params: { testing_centers_account_id: accountId, start: startDate, end: endDate }
 });
 
 export const getSignedUrl = id => ({

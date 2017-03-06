@@ -208,9 +208,9 @@ export class BaseExamRequestList extends React.Component {
     this.setState({toggleReportWindow: !this.state.toggleReportWindow})
   }
 
-  onDownload(startDate, endDate) {
+  onDownload(AccountId, startDate, endDate) {
     this.onReport();
-    this.props.exportExamsAsCSV(startDate, endDate);
+    this.props.exportExamsAsCSV(AccountId, startDate, endDate);
 
     // start the download here
   }
