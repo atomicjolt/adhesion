@@ -204,24 +204,17 @@ export class BaseExamRequestList extends React.Component {
     this.props.canvasRequest(createConversation, {}, payload);
   }
 
-  onReport() {
-    this.setState({toggleReportWindow: !this.state.toggleReportWindow})
-  }
 
   onDownload(startDate, endDate) {
-    this.onReport();
     this.props.exportExamsAsCSV(this.props.currentAccountId, startDate, endDate);
 
   }
 
   toggleReportWindow() {
-    if (this.state.toggleReportWindow) {
-      return <ReportWindow
-        onCancel={() => this.onReport()}
+      this.props.showModal (<ReportWindow
+        onCancel={() => this.props.hideModal()}
         onDownload={(...args) => this.onDownload(...args)}
-      />
-    }
-    return null;
+      />);
   }
 
   render() {
@@ -231,10 +224,9 @@ export class BaseExamRequestList extends React.Component {
         <div style={styles.reportButton}>
           <ReportButton
             text="Report"
-            onExport={() => this.onReport()}
+            onExport={() => this.toggleReportWindow()}
           />
         </div>
-        {this.toggleReportWindow()}
         <div style={styles.topMatter}>
           {this.getTopControls(styles)}
           <FilterTabs

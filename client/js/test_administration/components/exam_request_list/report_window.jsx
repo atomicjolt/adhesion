@@ -1,4 +1,6 @@
 import React                    from 'react';
+import Defines                  from '../../defines';
+import HoverButton              from '../common/hover_button';
 import * as ExamRequestActions  from '../../actions/exam_requests';
 import DateSelector             from '../common/date_selector';
 import moment                   from 'moment';
@@ -11,39 +13,43 @@ export default class ReportWindow extends React.Component {
     currentAccountId: React.PropTypes.number.isRequired,
   };
 
-  constructor() {
-    super();
-    this.state = {
-      startDate: moment(),
-      endDate: moment(),
-    };
-  }
-
   getStyles() {
     return {
-      container: {
-        backgroundColor: '#fefefe',
-        padding: '20px',
-        boxShadow: "0 0 25px #999999",
+      popupStyle: {
+        boxShadow: `0px 0px 5px ${Defines.darkGrey}`,
+        backgroundColor: 'white',
+        padding: '25px',
+        position: 'fixed',
         width: '400px',
-        top: '120px',
-        left: '25%',
-        position: 'absolute',
-        zIndex: 2
+        top: '5vh',
+        left: '25vw',
+        right: '25vw',
+        zIndex: '2',
+        color: Defines.darkGrey,
+      },
+      buttonStyle: {
+        backgroundColor: Defines.tanishBrown,
+        // fontSize: '.9em',
+        color: 'white',
+        border: 'none',
+        padding: '10px 20px',
+        cursor: 'pointer',
+        float: 'right',
       },
       cancelButton: {
-        color: '#777777', // text color
+        backgroundColor: Defines.lightBackground,
+        color: Defines.darkGrey,
         border: '1px solid #EEEEEE',
-        backgroundColor: '#EEEEEE',
         padding: '8px 20px 8px 20px',
-        fontSize: '12px',
-        fontFamily: 'sans-serif',
+
       },
       leftDateSelector: {
+        display: 'flex',
         float: 'left',
         marginLeft: '10px',
       },
       rightDateSelector: {
+        display: 'flex',
         float: 'right',
         marginRight: '10px',
       },
@@ -84,18 +90,20 @@ export default class ReportWindow extends React.Component {
     }
   }
 
+  constructor() {
+    super();
+    this.state = {
+      startDate: moment(),
+      endDate: moment(),
+    };
+  }
+
   render() {
     const styles = this.getStyles();
-
     return (
-      <div style={styles.container}>
-        <div style={styles.title}>
-          <h1>Exam Report</h1>
-        </div>
-        <div style={styles.dateRange}>
-          <h1>DATE RANGE</h1>
-        </div>
-
+      <div style={styles.popupStyle}>
+        <h2>Exam Report</h2>
+        <div style={styles.dateRange}><h1>DATE RANGE</h1></div>
         <div style={styles.leftDateSelector}>
           <DateSelector
             onChange={startDate => this.setState({startDate})}
