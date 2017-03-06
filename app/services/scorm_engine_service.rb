@@ -6,6 +6,7 @@ class ScormEngineService
 
   def initialize(tenant = "default")
     api_interface = Rails.application.secrets.scorm_api_url
+    @scorm_ssl_domain = Rails.application.secrets.scorm_ssl_domain
     @scorm_tenant_url = Rails.application.secrets.scorm_domain + api_interface + tenant
     @api_username = Rails.application.secrets.scorm_api_username
     @api_password = Rails.application.secrets.scorm_api_password
@@ -14,7 +15,7 @@ class ScormEngineService
   def launch_course(registration, _redirect_url)
     launch_link = get_launch_link(registration.id)
     if launch_link
-      url = "https://localhost:8443" + launch_link
+      url = @scorm_ssl_domain + launch_link
       {
         response: url,
         status: 200,
@@ -85,7 +86,7 @@ class ScormEngineService
     response = send_get_request(url, body)
     launch_link = (JSON.parse response.body)["launchLink"]
     if launch_link
-      url = "https://localhost:8443" + launch_link
+      url = @scorm_ssl_domain + launch_link
       {
         response: url,
         status: 200,
