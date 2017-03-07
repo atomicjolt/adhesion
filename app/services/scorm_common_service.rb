@@ -19,6 +19,85 @@ module ScormCommonService
     end
   end
 
+  def upload_course(file, lms_course_id)
+    course = ScormCourse.create
+    cleanup = Proc.new { course.destroy }
+    package_id = "#{course.id}_#{lms_course_id}"
+    response = upload_engine_course(file, package_id, cleanup)
+    course.update_attributes(title: response[:title], scorm_cloud_id: package_id)
+    response["course_id"] = course.id
+    response
+  end
+
+  def remove_course(course_id)
+    response = remove_engine_course(course_id)
+    if response[:response] == true
+      course = ScormCourse.find_by(scorm_cloud_id: course_id)
+      registrations = Registration.where(lms_course_id: course_id.to_i)
+      registrations.each do |registration|
+        remove_engine_registration(registration.id)
+        registration.destroy
+      end
+      course&.destroy
+    end
+    response
+  end
+
+  def get_registration(postback_url, result_params = {}, lti_credentials = {})
+    registration = find_registration(
+      result_params[:course_id],
+      result_params[:custom_canvas_user_id],
+    )
+    if registration.nil?
+      registration = create_local_registration(result_params, lti_credentials)
+      user = {
+        first_name: result_params[:lis_person_name_given],
+        last_name: result_params[:lis_person_name_family],
+        lms_user_id: result_params[:custom_canvas_user_id],
+      }
+      setup_engine_registration(
+        registration,
+        user,
+        postback_url,
+        lti_credentials,
+        result_params[:course_id],
+      )
+    end
+    registration
+  end
+
+  ### Sync Utilities
+  ## Assist in keeping scorm cloud, canvas, and local tables in sync
+
+  def sync_registration(registration_params)
+    result = registration_result(
+      registration_params[:course_id],
+      registration_params[:custom_canvas_user_id],
+    )
+    if result && result[:response]["rsp"]["stat"] == "fail"
+      sync_registration_score(result[:response]["rsp"]["registrationreport"])
+    end
+  end
+
+  def sync_registration_score(reg_result)
+    reg = Registration.find(reg_result["regid"])
+    reg.score = package_score(reg_result["score"])
+    if package_complete?(reg_result) && reg.changed?
+      response = post_results(reg, reg_result)
+      print_response(reg, response)
+    end
+  end
+
+  private
+
+  def create_local_registration(result_params, lti_credentials)
+    registration_params = reg_params(result_params)
+    registration = Registration.create(registration_params)
+    registration.application_instance = lti_credentials
+    registration.save!
+    registration
+  end
+
   def remove_extras(extra)
     extra.each do |scorm_cloud_id|
       ScormCourse.find_by(scorm_cloud_id: scorm_cloud_id).destroy
@@ -67,86 +146,6 @@ module ScormCommonService
       true
     end
   end
-
-
-  def upload_course(file, lms_course_id)
-    course = ScormCourse.create
-    cleanup = Proc.new { course.destroy }
-    package_id = "#{course.id}_#{lms_course_id}"
-    response = upload_engine_course(file, package_id, cleanup)
-    course.update_attributes(title: response[:title], scorm_cloud_id: package_id)
-    response["course_id"] = course.id
-    response
-  end
-
-  def remove_course(course_id)
-    response = remove_engine_course(course_id)
-    if response[:response] == true
-      course = ScormCourse.find_by(scorm_cloud_id: course_id)
-      registrations = Registration.where(lms_course_id: course_id.to_i)
-      registrations.each do |registration|
-        remove_engine_registration(registration.id)
-        registration.destroy
-      end
-      course&.destroy
-    end
-    response
-  end
-
-  def get_registration(postback_url, result_params = {}, lti_credentials = {})
-    registration = find_registration(
-      result_params[:course_id],
-      result_params[:custom_canvas_user_id],
-    )
-    if registration.nil?
-      registration = create_local_registration(result_params, lti_credentials)
-      user = {
-        first_name: result_params[:lis_person_name_given],
-        last_name: result_params[:lis_person_name_family],
-        lms_user_id: result_params[:custom_canvas_user_id],
-      }
-      setup_engine_registration(
-        registration,
-        user,
-        postback_url,
-        lti_credentials,
-        result_params[:course_id],
-      )
-    end
-    registration
-  end
-
-  def create_local_registration(result_params, lti_credentials)
-    registration_params = reg_params(result_params)
-    registration = Registration.create(registration_params)
-    registration.application_instance = lti_credentials
-    registration.save!
-    registration
-  end
-
-  ### Sync Utilities
-  ## Assist in keeping scorm cloud, canvas, and local tables in sync
-
-  def sync_registration(registration_params)
-    result = registration_result(
-      registration_params[:course_id],
-      registration_params[:custom_canvas_user_id],
-    )
-    if result && result[:response]["rsp"]["stat"] == "fail"
-      sync_registration_score(result[:response]["rsp"]["registrationreport"])
-    end
-  end
-
-  def sync_registration_score(reg_result)
-    reg = Registration.find(reg_result["regid"])
-    reg.score = package_score(reg_result["score"])
-    if package_complete?(reg_result) && reg.changed?
-      response = post_results(reg, reg_result)
-      print_response(reg, response)
-    end
-  end
-
-  private
 
   def registration_result(lms_course_id, lms_user_id)
     registration = find_registration(lms_course_id, lms_user_id)
