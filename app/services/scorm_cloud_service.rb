@@ -10,57 +10,6 @@ class ScormCloudService
     )
   end
 
-  def sync_courses(courses)
-    if courses
-      course_ids = courses.map(&:id)
-      existing_course_ids = ScormCourse.all.map { |c| c[:scorm_cloud_id] }
-      extra = existing_course_ids - course_ids
-      needed = course_ids - existing_course_ids
-
-      extra.each do |scorm_cloud_id|
-        ScormCourse.find_by(scorm_cloud_id: scorm_cloud_id).destroy
-        registrations = Registration.where(lms_course_id: scorm_cloud_id.to_i)
-        registrations.each do |reg|
-          @scorm_cloud.registration.delete_registration(reg.id)
-          reg.destroy
-        end
-      end
-
-      new_courses = []
-      needed.each { |scorm_cloud_id| new_courses << ScormCourse.create(scorm_cloud_id: scorm_cloud_id) }
-      new_courses.each do |course|
-        title = courses.detect { |c| c.id == course.scorm_cloud_id }.title
-        course.update_attribute(:title, title)
-      end
-
-      results = courses.select do |course|
-        local_course = ScormCourse.find_by(scorm_cloud_id: course.id)
-        return false if local_course.nil?
-        true
-      end
-
-      result = results.map do |course|
-        local_course = ScormCourse.find_by(scorm_cloud_id: course.id)
-        resp = {
-          title: course.title,
-          id: local_course.scorm_cloud_id,
-        }
-
-        if local_course.lms_assignment_id.nil? == false
-          resp[:lms_assignment_id] = local_course.lms_assignment_id
-          resp[:is_graded] = if !local_course.points_possible.nil? && local_course.points_possible > 0
-                               SCORM_ASSIGNMENT_STATE[:GRADED]
-                             else
-                               SCORM_ASSIGNMENT_STATE[:UNGRADED]
-                             end
-        end
-        resp
-      end
-
-      result
-    end
-  end
-
   ### Scorm Cloud api wrapper methods
   def launch_course(registration, redirect_url)
     scorm_cloud_request do

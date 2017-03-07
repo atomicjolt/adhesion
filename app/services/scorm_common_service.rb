@@ -68,6 +68,7 @@ module ScormCommonService
     end
   end
 
+
   def upload_course(file, lms_course_id)
     course = ScormCourse.create
     cleanup = Proc.new { course.destroy }
@@ -123,6 +124,9 @@ module ScormCommonService
     registration
   end
 
+  ### Sync Utilities
+  ## Assist in keeping scorm cloud, canvas, and local tables in sync
+
   def sync_registration(registration_params)
     result = registration_result(
       registration_params[:course_id],
@@ -132,9 +136,6 @@ module ScormCommonService
       sync_registration_score(result[:response]["rsp"]["registrationreport"])
     end
   end
-
-  ### Sync Utilities
-  ## Assist in keeping scorm cloud, canvas, and local tables in sync
 
   def sync_registration_score(reg_result)
     reg = Registration.find(reg_result["regid"])
