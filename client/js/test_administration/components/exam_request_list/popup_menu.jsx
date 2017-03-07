@@ -106,5 +106,6 @@ popupMenu.propTypes = {
   status: React.PropTypes.string.isRequired,
   openMessageModal: React.PropTypes.func.isRequired,
   startExam: React.PropTypes.func.isRequired,
+  finishExam: React.PropTypes.func.isRequired,
   studentHasExamStarted: React.PropTypes.bool.isRequired
 };
