@@ -1,5 +1,4 @@
 class Api::ExamRequestsController < ApplicationController
-  include Concerns::CanvasSupport
   include Concerns::JwtToken
   before_action :validate_token
 

@@ -38,6 +38,7 @@ export class BaseExamRequestList extends React.Component {
     showModal: React.PropTypes.func.isRequired,
     canvasRequest: React.PropTypes.func.isRequired,
     startExam: React.PropTypes.func.isRequired,
+    finishExam: React.PropTypes.func.isRequired,
     lmsUserId: React.PropTypes.number,
     needProctorCode: React.PropTypes.bool.isRequired,
   };
@@ -159,6 +160,7 @@ export class BaseExamRequestList extends React.Component {
         showModal={this.props.showModal}
         hideModal={this.props.hideModal}
         startExam={this.props.startExam}
+        finishExam={this.props.finishExam}
         openSettings={id => this.setState({ openSettings: id })}
         settingsOpen={this.state.openSettings === examRequest.id}
       />
@@ -186,7 +188,7 @@ export class BaseExamRequestList extends React.Component {
   getUnscheduledCount() {
     return _.filter(
       this.props.examRequestList,
-      examRequest => (!examRequest.scheduled_date)
+      examRequest => (!examRequest.scheduled_date && examRequest.status !== 'finished')
     ).length;
   }
 
@@ -203,10 +205,13 @@ export class BaseExamRequestList extends React.Component {
     if (this.state.selectedTab === 'date') {
       // search by date
       return _.filter(examRequestList, examRequest => (
-        moment(examRequest.scheduled_date).isSame(this.state.filterDate, 'day')
+        moment(examRequest.scheduled_date).isSame(this.state.filterDate, 'day') &&
+        examRequest.status !== 'finished'
       ));
     } else if (this.state.selectedTab === 'unscheduled') {
-      return _.filter(examRequestList, examRequest => (!examRequest.scheduled_date));
+      return _.filter(examRequestList, examRequest => (
+        !examRequest.scheduled_date && examRequest.status !== 'finished'
+      ));
     }
 
     return examRequestList;

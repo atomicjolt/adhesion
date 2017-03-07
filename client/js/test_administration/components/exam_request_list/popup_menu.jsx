@@ -36,9 +36,20 @@ export default function popupMenu(props) {
     outline: 'none'
   } : {};
 
-  let actionButtons;
+  let enterAnswerButton;
+  let actionButton;
+
   if (_.includes(['scheduled', 'paused', 'requested'], props.status)) {
-    actionButtons = (
+    enterAnswerButton = (
+      <HoverButton
+        style={buttonStyle}
+        hoveredStyle={hoveredStyle}
+        onClick={props.openExamModal}
+      >
+        Enter Answers
+      </HoverButton>
+    );
+    actionButton = (
       <div style={divStyle}>
         <HoverButton
           style={{ ...buttonStyle, ...disabled }}
@@ -49,19 +60,22 @@ export default function popupMenu(props) {
         </HoverButton>
       </div>
     );
-  } else {
-    actionButtons = [
-      <div key="popup_pause_button" style={divStyle}>
-        <HoverButton style={buttonStyle} hoveredStyle={hoveredStyle}>Pause</HoverButton>
-      </div>,
-      <div key="popup_terminate_Button" style={divStyle}>
-        <HoverButton style={buttonStyle} hoveredStyle={hoveredStyle}>Terminate</HoverButton>
+  } else if (props.status !== 'finished') {
+    actionButton = (
+      <div style={divStyle}>
+        <HoverButton
+          style={buttonStyle}
+          hoveredStyle={hoveredStyle}
+          onClick={props.finishExam}
+        >
+            Finish
+          </HoverButton>
       </div>
-    ];
+    );
   }
   return (
     <div style={{ ...popupStyle, ...props.style }}>
-      {actionButtons}
+      {actionButton}
       <div style={divStyle}>
         <HoverButton
           style={buttonStyle}
@@ -72,13 +86,7 @@ export default function popupMenu(props) {
         </HoverButton>
       </div>
       <div style={divStyle}>
-        <HoverButton
-          style={buttonStyle}
-          hoveredStyle={hoveredStyle}
-          onClick={() => props.openExamModal()}
-        >
-          Enter Answers
-        </HoverButton>
+        {enterAnswerButton}
       </div>
       <div style={divStyle}>
         <HoverButton
@@ -98,5 +106,7 @@ popupMenu.propTypes = {
   status: React.PropTypes.string.isRequired,
   openMessageModal: React.PropTypes.func.isRequired,
   startExam: React.PropTypes.func.isRequired,
+  finishExam: React.PropTypes.func.isRequired,
+  openExamModal: React.PropTypes.func.isRequired,
   studentHasExamStarted: React.PropTypes.bool.isRequired
 };

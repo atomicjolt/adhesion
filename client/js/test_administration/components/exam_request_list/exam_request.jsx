@@ -25,6 +25,7 @@ export default class ExamRequest extends React.Component {
     scheduleExam: React.PropTypes.func.isRequired,
     openSettings: React.PropTypes.func.isRequired,
     startExam: React.PropTypes.func.isRequired,
+    finishExam: React.PropTypes.func.isRequired,
     settingsOpen: React.PropTypes.bool,
   };
 
@@ -195,6 +196,9 @@ export default class ExamRequest extends React.Component {
   startExam() {
     this.props.startExam(this.props.examRequest.id);
   }
+  finishExam() {
+    this.props.finishExam(this.props.examRequest.id);
+  }
 
   render() {
     const styles = this.getStyles();
@@ -241,6 +245,7 @@ export default class ExamRequest extends React.Component {
                 openMessageModal={() => this.openMessageModal()}
                 openExamModal={() => this.openExamModal()}
                 startExam={() => this.startExam()}
+                finishExam={() => this.finishExam()}
                 examId={examRequest.exam_id}
                 courseId={examRequest.course_id}
                 studentHasExamStarted={studentHasExamStarted}
