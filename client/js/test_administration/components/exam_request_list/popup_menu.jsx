@@ -36,8 +36,19 @@ export default function popupMenu(props) {
     outline: 'none'
   } : {};
 
+  let enterAnswerButton;
   let actionButton;
+
   if (_.includes(['scheduled', 'paused', 'requested'], props.status)) {
+    enterAnswerButton = (
+      <HoverButton
+        style={buttonStyle}
+        hoveredStyle={hoveredStyle}
+        onClick={props.openExamModal}
+      >
+        Enter Answers
+      </HoverButton>
+    );
     actionButton = (
       <div style={divStyle}>
         <HoverButton
@@ -49,10 +60,16 @@ export default function popupMenu(props) {
         </HoverButton>
       </div>
     );
-  } else {
+  } else if (props.status !== 'finished') {
     actionButton = (
       <div style={divStyle}>
-        <HoverButton style={buttonStyle} hoveredStyle={hoveredStyle}>Finish</HoverButton>
+        <HoverButton
+          style={buttonStyle}
+          hoveredStyle={hoveredStyle}
+          onClick={props.finishExam}
+        >
+            Finish
+          </HoverButton>
       </div>
     );
   }
@@ -69,13 +86,7 @@ export default function popupMenu(props) {
         </HoverButton>
       </div>
       <div style={divStyle}>
-        <HoverButton
-          style={buttonStyle}
-          hoveredStyle={hoveredStyle}
-          onClick={() => props.openExamModal()}
-        >
-          Enter Answers
-        </HoverButton>
+        {enterAnswerButton}
       </div>
       <div style={divStyle}>
         <HoverButton
@@ -95,5 +106,7 @@ popupMenu.propTypes = {
   status: React.PropTypes.string.isRequired,
   openMessageModal: React.PropTypes.func.isRequired,
   startExam: React.PropTypes.func.isRequired,
+  finishExam: React.PropTypes.func.isRequired,
+  openExamModal: React.PropTypes.func.isRequired,
   studentHasExamStarted: React.PropTypes.bool.isRequired
 };
