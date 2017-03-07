@@ -30,6 +30,7 @@ class ExportsController < ApplicationController
     exams = ExamRequest.
       where(scheduled_date: params[:start]..params[:end]).
       where(testing_center_id: params[:testing_centers_account_id])
+    exams
   end
 
   private

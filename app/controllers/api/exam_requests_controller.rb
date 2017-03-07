@@ -33,10 +33,6 @@ class Api::ExamRequestsController < ApplicationController
     render json: exam_request
   end
 
-  def export_exams_as_csv
-    byebug
-  end
-
   private
 
   def create_params
