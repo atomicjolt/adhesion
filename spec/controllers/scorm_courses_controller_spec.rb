@@ -112,5 +112,5 @@ class MockScorm
     response
   end
 
-  def create_registration; end
+  def create_registration(one,two,three,four,five,six); end
 end

@@ -128,15 +128,28 @@ module ScormCommonService
       registration_params[:course_id],
       registration_params[:custom_canvas_user_id],
     )
-    return if result[:response]["rsp"]["stat"] == "fail"
-    sync_registration_score(result[:response]["rsp"]["registrationreport"])
+    if result && result[:response]["rsp"]["stat"] == "fail"
+      sync_registration_score(result[:response]["rsp"]["registrationreport"])
+    end
+  end
+
+  ### Sync Utilities
+  ## Assist in keeping scorm cloud, canvas, and local tables in sync
+
+  def sync_registration_score(reg_result)
+    reg = Registration.find(reg_result["regid"])
+    reg.score = package_score(reg_result["score"])
+    if package_complete?(reg_result) && reg.changed?
+      response = post_results(reg, reg_result)
+      print_response(reg, response)
+    end
   end
 
   private
 
   def registration_result(lms_course_id, lms_user_id)
     registration = find_registration(lms_course_id, lms_user_id)
-    registration_engine_result(registration.id)
+    registration_engine_result(registration.id) if registration
   end
 
   def reg_params(params)
@@ -150,26 +163,15 @@ module ScormCommonService
   end
 
   def find_registration(lms_course_id, lms_user_id)
+    course_id = lms_course_id ? lms_course_id.gsub("_", "") : ""
     Registration.find_by(
-      lms_course_id: lms_course_id.gsub("_", ""),
+      lms_course_id: course_id,
       lms_user_id: lms_user_id,
     )
   end
 
-  ### Sync Utilities
-  ## Assist in keeping scorm cloud, canvas, and local tables in sync
-
-  def sync_registration_score(reg_result)
-    reg = Registration.find(reg_result["regid"])
-    reg.score = package_score(reg_result["score"])
-    if package_complete?(reg_result) && reg.changed?
-      response = post_results(registration)
-      post_results(response)
-    end
-  end
-
-  def post_results(reg)
-    tp_params = setup_provider_params(reg)
+  def post_results(reg, reg_results)
+    tp_params = setup_provider_params(reg_results)
     provider = IMS::LTI::ToolProvider.new(
       reg.application_instance.lti_key,
       reg.application_instance.lti_secret,
@@ -186,7 +188,7 @@ module ScormCommonService
     }
   end
 
-  def print_response(response)
+  def print_response(reg, response)
     if response.success?
       reg.save!
     elsif response.processing?
