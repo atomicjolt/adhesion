@@ -21,7 +21,6 @@ describe('popup menu', () => {
     props.status = 'started';
     result = TestUtils.renderIntoDocument(<Stub><PopupMenu {...props} /></Stub>);
     const element = TestUtils.scryRenderedDOMComponentsWithTag(result, 'div')[0];
-    expect(element.textContent).toContain('Pause');
-    expect(element.textContent).toContain('Terminate');
+    expect(element.textContent).toContain('Finish');
   });
 });
