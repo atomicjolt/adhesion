@@ -36,9 +36,9 @@ export default function popupMenu(props) {
     outline: 'none'
   } : {};
 
-  let actionButtons;
+  let actionButton;
   if (_.includes(['scheduled', 'paused', 'requested'], props.status)) {
-    actionButtons = (
+    actionButton = (
       <div style={divStyle}>
         <HoverButton
           style={{ ...buttonStyle, ...disabled }}
@@ -50,18 +50,15 @@ export default function popupMenu(props) {
       </div>
     );
   } else {
-    actionButtons = [
-      <div key="popup_pause_button" style={divStyle}>
-        <HoverButton style={buttonStyle} hoveredStyle={hoveredStyle}>Pause</HoverButton>
-      </div>,
-      <div key="popup_terminate_Button" style={divStyle}>
-        <HoverButton style={buttonStyle} hoveredStyle={hoveredStyle}>Terminate</HoverButton>
+    actionButton = (
+      <div style={divStyle}>
+        <HoverButton style={buttonStyle} hoveredStyle={hoveredStyle}>Finish</HoverButton>
       </div>
-    ];
+    );
   }
   return (
     <div style={{ ...popupStyle, ...props.style }}>
-      {actionButtons}
+      {actionButton}
       <div style={divStyle}>
         <HoverButton
           style={buttonStyle}
