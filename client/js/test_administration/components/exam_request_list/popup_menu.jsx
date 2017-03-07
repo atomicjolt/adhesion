@@ -44,7 +44,7 @@ export default function popupMenu(props) {
       <HoverButton
         style={buttonStyle}
         hoveredStyle={hoveredStyle}
-        onClick={() => props.openExamModal()}
+        onClick={props.openExamModal}
       >
         Enter Answers
       </HoverButton>
@@ -107,5 +107,6 @@ popupMenu.propTypes = {
   openMessageModal: React.PropTypes.func.isRequired,
   startExam: React.PropTypes.func.isRequired,
   finishExam: React.PropTypes.func.isRequired,
+  openExamModal: React.PropTypes.func.isRequired,
   studentHasExamStarted: React.PropTypes.bool.isRequired
 };
