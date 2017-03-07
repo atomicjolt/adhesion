@@ -108,6 +108,10 @@ export class BaseExamRequestList extends React.Component {
     );
   }
 
+  onDownload(startDate, endDate) {
+    this.props.exportExamsAsCSV(this.props.currentAccountId, startDate, endDate);
+  }
+
   getExamRequestRows() {
     const options = {
       shouldSort: false,
@@ -146,6 +150,13 @@ export class BaseExamRequestList extends React.Component {
     ));
   }
 
+  getUnscheduledCount() {
+    return _.filter(
+      this.props.examRequestList,
+      examRequest => (!examRequest.scheduled_date)
+    ).length;
+  }
+
   getTopControls(styles) {
     if (this.state.selectedTab === 'date') {
       return (
@@ -163,13 +174,6 @@ export class BaseExamRequestList extends React.Component {
         searchChange={e => this.setState({ searchVal: e.target.value })}
       />
     );
-  }
-
-  getUnscheduledCount() {
-    return _.filter(
-      this.props.examRequestList,
-      examRequest => (!examRequest.scheduled_date)
-    ).length;
   }
 
   scheduleExam(id, scheduledDate, scheduledTime) {
@@ -205,16 +209,11 @@ export class BaseExamRequestList extends React.Component {
   }
 
 
-  onDownload(startDate, endDate) {
-    this.props.exportExamsAsCSV(this.props.currentAccountId, startDate, endDate);
-
-  }
-
   toggleReportWindow() {
-      this.props.showModal (<ReportWindow
-        onCancel={() => this.props.hideModal()}
-        onDownload={(...args) => this.onDownload(...args)}
-      />);
+    this.props.showModal(<ReportWindow
+      onCancel={() => this.props.hideModal()}
+      onDownload={(...args) => this.onDownload(...args)}
+    />);
   }
 
   render() {

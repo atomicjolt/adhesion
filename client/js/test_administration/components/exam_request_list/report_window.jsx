@@ -1,9 +1,7 @@
 import React                    from 'react';
-import Defines                  from '../../defines';
-import HoverButton              from '../common/hover_button';
-import * as ExamRequestActions  from '../../actions/exam_requests';
-import DateSelector             from '../common/date_selector';
 import moment                   from 'moment';
+import Defines                  from '../../defines';
+import DateSelector             from '../common/date_selector';
 
 export default class ReportWindow extends React.Component {
 
@@ -12,6 +10,14 @@ export default class ReportWindow extends React.Component {
     onDownload: React.PropTypes.func.isRequired,
     currentAccountId: React.PropTypes.number.isRequired,
   };
+
+  constructor() {
+    super();
+    this.state = {
+      startDate: moment(),
+      endDate: moment(),
+    };
+  }
 
   getStyles() {
     return {
@@ -29,7 +35,6 @@ export default class ReportWindow extends React.Component {
       },
       buttonStyle: {
         backgroundColor: Defines.tanishBrown,
-        // fontSize: '.9em',
         color: 'white',
         border: 'none',
         padding: '10px 20px',
@@ -87,14 +92,6 @@ export default class ReportWindow extends React.Component {
         margin: '30px 10px 10px 20px',
         float: 'right',
       }
-    }
-  }
-
-  constructor() {
-    super();
-    this.state = {
-      startDate: moment(),
-      endDate: moment(),
     };
   }
 
@@ -106,14 +103,14 @@ export default class ReportWindow extends React.Component {
         <div style={styles.dateRange}><h1>DATE RANGE</h1></div>
         <div style={styles.leftDateSelector}>
           <DateSelector
-            onChange={startDate => this.setState({startDate})}
+            onChange={startDate => this.setState({ startDate })}
             date={this.state.startDate}
             format="MMM Do"
           />
         </div>
         <div style={styles.rightDateSelector}>
           <DateSelector
-            onChange={endDate => this.setState({endDate})}
+            onChange={endDate => this.setState({ endDate })}
             date={this.state.endDate}
             format="MMM Do"
           />
@@ -123,7 +120,8 @@ export default class ReportWindow extends React.Component {
         </div>
         <div style={styles.buttonsSection}>
           <button
-            style={styles.cancelButton} onClick={() => this.props.onCancel()}>CANCEL</button>
+            style={styles.cancelButton} onClick={() => this.props.onCancel()}
+          >CANCEL</button>
           <button
             style={styles.downloadButton}
             onClick={() => this.props.onDownload(
@@ -134,6 +132,6 @@ export default class ReportWindow extends React.Component {
           </button>
         </div>
       </div>
-    )
+    );
   }
 }
