@@ -19,13 +19,14 @@ export default class InstallPane extends React.Component {
     account             : React.PropTypes.shape({
       installCount : React.PropTypes.number
     }),
+    onlyShowInstalled: React.PropTypes.bool.isRequired,
   };
 
   constructor() {
     super();
     this.state = {
-      currentPage  : 0,
-      searchPrefix : '',
+      currentPage: 0,
+      searchPrefix: '',
     };
   }
 
@@ -37,15 +38,33 @@ export default class InstallPane extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if ((prevState.currentPage !== this.state.currentPage) ||
-       (_.isEmpty(prevProps.courses) && !_.isEmpty(this.props.courses)) ||
+       (prevProps.courses.length !== this.props.courses.length) ||
        (prevState.searchPrefix !== this.state.searchPrefix)
     ) {
       this.loadExternalTools();
     }
   }
 
+  filteredCourses() {
+    const {
+      applicationInstance,
+      courses,
+      onlyShowInstalled,
+    } = this.props;
+
+    if (onlyShowInstalled) {
+      return _.filter(courses, course => (
+        _.find(
+          course.external_tools,
+          tool => tool.consumer_key === applicationInstance.lti_key
+        )
+      ));
+    }
+    return courses;
+  }
+
   searchedCourses() {
-    return _.filter(this.props.courses, course => (
+    return _.filter(this.filteredCourses(), course => (
       _.includes(
         _.lowerCase(course.name),
         _.lowerCase(this.state.searchPrefix)
@@ -93,7 +112,7 @@ export default class InstallPane extends React.Component {
       );
       if (_.includes(COURSE_TYPES, applicationInstance.lti_type)) {
         courseInstalls = (
-          <span>
+          <div>
             <div className="c-search c-search--small">
               <input
                 type="text"
@@ -122,7 +141,7 @@ export default class InstallPane extends React.Component {
               loadingCourses={this.props.loadingCourses}
               currentPage={this.state.currentPage}
             />
-          </span>
+          </div>
         );
       }
     }
