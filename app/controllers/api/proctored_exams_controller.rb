@@ -12,7 +12,11 @@ class Api::ProctoredExamsController < ApplicationController
 
   def validate_proctor_code
     @exam_request = ExamRequest.find_by(student_id: params[:student_id], status: "started")
-    render json: { error: "You do not have an exam that is ready to start." } unless @exam_request.present?
+
+    if !@exam_request
+      render json: { error: "You do not have an exam that is ready to start." }
+      return
+    end
 
     account_params = {
       account_id: @exam_request[:testing_center_id],
