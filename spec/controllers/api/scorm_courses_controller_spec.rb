@@ -20,7 +20,7 @@ RSpec.describe Api::ScormCoursesController, type: :controller do
     )
     expect(
       controller,
-    ).to receive(:scorm_cloud_service).at_most(3).times.and_return(@mock_scorm)
+    ).to receive(:scorm_connect_service).at_most(3).times.and_return(@mock_scorm)
   end
 
   describe "GET index" do
