@@ -14,7 +14,8 @@ import { createConversation }                   from '../../../libs/canvas/const
 import { loadCustomData, storeCustomData }      from '../../../libs/canvas/constants/users';
 import FilterTabs                               from './filter_tabs';
 import NewProctorCode                           from './new_proctor_code';
-import ReportButton                             from './report_button'
+import ReportButton                             from './report_button';
+import ReportWindow                             from './report_window'
 
 const select = state => ({
   lmsUserId: state.settings.lms_user_id,
