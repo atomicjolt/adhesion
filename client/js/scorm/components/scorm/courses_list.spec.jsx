@@ -3,7 +3,7 @@
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import CourseList from './courses_list';
-import Wrapper from '../../../../specs_support/scorm_wrapper';
+import Stub from '../../../../specs_support/stub';
 
 describe('courses list', () => {
   let props;
@@ -21,7 +21,7 @@ describe('courses list', () => {
         { title: 'IMAPSEC', id: 'id' },
       ],
     };
-    result = TestUtils.renderIntoDocument(<Wrapper><CourseList {...props} /></Wrapper>);
+    result = TestUtils.renderIntoDocument(<Stub><CourseList {...props} /></Stub>);
   });
 
   it('renders list of items from props', () => {
@@ -33,7 +33,7 @@ describe('courses list', () => {
     let list = TestUtils.scryRenderedDOMComponentsWithTag(result, 'li');
     expect(list.length).toBe(1);
     props.list = [{ id: 'id' }, { id: 'id' }, { id: 'id' }];
-    result = TestUtils.renderIntoDocument(<Wrapper><CourseList {...props} /></Wrapper>);
+    result = TestUtils.renderIntoDocument(<Stub><CourseList {...props} /></Stub>);
     list = TestUtils.scryRenderedDOMComponentsWithTag(result, 'li');
     expect(list.length).toBe(3);
   });
