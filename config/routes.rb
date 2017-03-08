@@ -73,6 +73,7 @@ Rails.application.routes.draw do
       get "launch" => "scorm_courses#launch"
       get "preview" => "scorm_courses#preview"
       post "import" => "scorm_courses#import"
+      post "replace" => "scorm_courses#replace"
       resources :students, only: [:index]
       resources :sections, only: [] do
         resources :students, only: [:index]
