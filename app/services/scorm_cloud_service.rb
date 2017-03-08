@@ -10,22 +10,6 @@ class ScormCloudService
     )
   end
 
-  def get_course_ids(courses)
-    courses.map(&:id)
-  end
-
-  def get_title(courses, course)
-    courses.detect { |c| c.id == course.scorm_cloud_id }.title
-  end
-
-  def get_scorm_course(course)
-    ScormCourse.find_by(scorm_cloud_id: course.id)
-  end
-
-  def get_course_title(course)
-    course.title
-  end
-
   ### Scorm Cloud api wrapper methods
   def launch_course(registration, redirect_url)
     scorm_cloud_request do
@@ -124,6 +108,22 @@ class ScormCloudService
     end
     handle_fail.call if handle_fail.respond_to? :call
     response
+  end
+
+  def get_course_ids(courses)
+    courses.map(&:id)
+  end
+
+  def get_title(courses, course)
+    courses.detect { |c| c.id == course.scorm_cloud_id }.title
+  end
+
+  def get_scorm_course(course)
+    ScormCourse.find_by(scorm_cloud_id: course.id)
+  end
+
+  def get_course_title(course)
+    course.title
   end
 end
 

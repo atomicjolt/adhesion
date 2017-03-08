@@ -12,22 +12,6 @@ class ScormEngineService
     @api_password = Rails.application.secrets.scorm_api_password
   end
 
-  def get_course_ids(courses)
-    courses.map { |i| i["id"] }
-  end
-
-  def get_title(courses, course)
-    courses.detect { |c| c["id"] == course["scorm_cloud_id"] }.title
-  end
-
-  def get_scorm_course(course)
-    ScormCourse.find_by(scorm_cloud_id: course["id"])
-  end
-
-  def get_course_title(course)
-    course["title"]
-  end
-
   def launch_course(registration, _redirect_url)
     launch_link = get_launch_link(registration.id)
     if launch_link
@@ -133,6 +117,22 @@ class ScormEngineService
     result[:response]["rsp"]["registrationreport"]["regid"] = result["id"]
     result[:response]["rsp"]["registrationreport"]["score"] = result["score"] ? result["score"]["scaled"] : "unknown"
     result
+  end
+
+  def get_course_ids(courses)
+    courses.map { |i| i["id"] }
+  end
+
+  def get_title(courses, course)
+    courses.detect { |c| c["id"] == course["scorm_cloud_id"] }["title"]
+  end
+
+  def get_scorm_course(course)
+    ScormCourse.find_by(scorm_cloud_id: course["id"])
+  end
+
+  def get_course_title(course)
+    course["title"]
   end
 
   private
