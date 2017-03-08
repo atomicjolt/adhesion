@@ -43,6 +43,10 @@ Rails.application.routes.draw do
     root to: "home#index"
   end
 
+  resources :exports, only: [] do
+    get "export_exams_as_csv" => "exports#export_exams_as_csv", on: :collection
+  end
+
   resources :courses, only: [] do
     resources :exports, only: [] do
       get "attendances", on: :collection
