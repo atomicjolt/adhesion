@@ -107,8 +107,8 @@ describe "sync_courses" do
     subject = ScormEngineService.new
     result = subject.sync_courses(
       [
-        { "id"=>graded_course.scorm_cloud_id, "title"=>"The Title" },
-        { "id"=>"3", "title"=>"The New Title" },
+        { "id" => graded_course.scorm_cloud_id, "title" => "The Title" },
+        { "id" => "3", "title" => "The New Title" },
       ],
     )
     expect(ScormCourse.where(scorm_cloud_id: [graded_course.id, 3]).count).to eq 2
