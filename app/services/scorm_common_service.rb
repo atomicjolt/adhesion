@@ -21,19 +21,19 @@ module ScormCommonService
     course = ScormCourse.create
     cleanup = Proc.new { course.destroy }
     package_id = "#{course.id}_#{lms_course_id}"
-    response = upload_engine_course(file, package_id, cleanup)
+    response = upload_scorm_course(file, package_id, cleanup)
     course.update_attributes(title: response[:title], scorm_cloud_id: package_id)
     response["course_id"] = course.id
     response
   end
 
   def remove_course(course_id)
-    response = remove_engine_course(course_id)
+    response = remove_scorm_course(course_id)
     if response[:response] == true
       course = ScormCourse.find_by(scorm_cloud_id: course_id)
       registrations = Registration.where(lms_course_id: course_id.to_i)
       registrations.each do |registration|
-        remove_engine_registration(registration.id)
+        remove_scorm_registration(registration.id)
         registration.destroy
       end
       course&.destroy
@@ -53,7 +53,7 @@ module ScormCommonService
         last_name: result_params[:lis_person_name_family],
         lms_user_id: result_params[:custom_canvas_user_id],
       }
-      setup_engine_registration(
+      setup_scorm_registration(
         registration,
         user,
         postback_url,
@@ -101,7 +101,7 @@ module ScormCommonService
       ScormCourse.find_by(scorm_cloud_id: scorm_cloud_id).destroy
       registrations = Registration.where(lms_course_id: scorm_cloud_id.to_i)
       registrations.each do |reg|
-        remove_engine_registration(reg.id)
+        remove_scorm_registration(reg.id)
         reg.destroy
       end
     end
@@ -147,7 +147,7 @@ module ScormCommonService
 
   def registration_result(lms_course_id, lms_user_id)
     registration = find_registration(lms_course_id, lms_user_id)
-    registration_engine_result(registration.id) if registration
+    registration_scorm_result(registration.id) if registration
   end
 
   def reg_params(params)

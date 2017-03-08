@@ -17,7 +17,7 @@ class ScormCloudService
     end
   end
 
-  def setup_engine_registration(registration, user, postback_url, lti_key, course_id)
+  def setup_scorm_registration(registration, user, postback_url, lti_key, course_id)
     scorm_cloud_request do
       @scorm_cloud.registration.create_registration(
         course_id,
@@ -39,7 +39,7 @@ class ScormCloudService
     end
   end
 
-  def upload_engine_course(file, course_id, cleanup)
+  def upload_scorm_course(file, course_id, cleanup)
     scorm_cloud_request(cleanup) do
       @scorm_cloud.course.import_course(
         course_id,
@@ -54,13 +54,13 @@ class ScormCloudService
     end
   end
 
-  def remove_engine_course(course_id)
+  def remove_scorm_course(course_id)
     scorm_cloud_request do
       @scorm_cloud.course.delete_course(course_id)
     end
   end
 
-  def remove_engine_registration(registration_id)
+  def remove_scorm_registration(registration_id)
     scorm_cloud_request do
       @scorm_cloud.registration.delete_registration(registration_id)
     end
@@ -85,7 +85,7 @@ class ScormCloudService
     end
   end
 
-  def registration_engine_result(registration_id)
+  def registration_scorm_result(registration_id)
     scorm_cloud_request do
       resp = @scorm_cloud.registration.get_registration_result(registration_id)
       Hash.from_xml(resp)

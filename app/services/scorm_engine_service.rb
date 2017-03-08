@@ -23,7 +23,7 @@ class ScormEngineService
     end
   end
 
-  def setup_engine_registration(registration, user, postback_url, lti_key, course_id)
+  def setup_scorm_registration(registration, user, postback_url, lti_key, course_id)
     body = {
       registrationId: registration[:id],
       courseId: course_id,
@@ -52,7 +52,7 @@ class ScormEngineService
     courses
   end
 
-  def upload_engine_course(file, package_id, _cleanup)
+  def upload_scorm_course(file, package_id, _cleanup)
     uri = URI(@scorm_tenant_url + "/courses/importJobs")
     File.open(File.new(file.path)) do |zip|
       request = Net::HTTP::Post::Multipart.new "#{uri.path}?course=#{package_id}",
@@ -70,12 +70,12 @@ class ScormEngineService
     send_get_request(url)
   end
 
-  def remove_engine_course(course_id)
+  def remove_scorm_course(course_id)
     url = @scorm_tenant_url + "/courses/#{course_id}"
     send_delete_request(url)
   end
 
-  def remove_engine_registration(registration_id)
+  def remove_scorm_registration(registration_id)
     url = @scorm_tenant_url + "/registrations/#{registration_id}"
     send_delete_request(url)
   end
@@ -106,7 +106,7 @@ class ScormEngineService
     send_get_request(url)
   end
 
-  def registration_engine_result(registration_id)
+  def registration_scorm_result(registration_id)
     url = @scorm_tenant_url + "/registrations/#{registration_id}/progress"
     response = send_get_request(url)
     result = JSON.parse response.body
@@ -177,10 +177,6 @@ class ScormEngineService
       response[:status] = response.code
       response
     end
-  end
-
-  def merge_options(options)
-    options.merge(@options)
   end
 
 end
