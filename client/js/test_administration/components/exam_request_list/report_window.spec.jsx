@@ -20,7 +20,6 @@ describe('report window', () => {
         startDate = start;
         endDate = end;
       },
-      currentAccoundId: 123
     };
 
     result = TestUtils.renderIntoDocument(<ReportWindow {...props} />);
