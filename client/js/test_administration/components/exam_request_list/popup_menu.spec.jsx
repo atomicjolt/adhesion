@@ -17,11 +17,11 @@ describe('popup menu', () => {
     const element = TestUtils.scryRenderedDOMComponentsWithTag(result, 'div')[0];
     expect(element.textContent).toContain('Start');
   });
+
   it('renders the renders the pause and terminate buttons when started', () => {
     props.status = 'started';
     result = TestUtils.renderIntoDocument(<Stub><PopupMenu {...props} /></Stub>);
     const element = TestUtils.scryRenderedDOMComponentsWithTag(result, 'div')[0];
-    expect(element.textContent).toContain('Pause');
-    expect(element.textContent).toContain('Terminate');
+    expect(element.textContent).toContain('Finish');
   });
 });

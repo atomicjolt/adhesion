@@ -5,6 +5,7 @@ const defaultState = {
   centerIdError: false,
   quizzes: {},
   signedUrl: null,
+  needProctorCode: false,
 };
 
 export default function examRequests(state = defaultState, action) {
@@ -13,6 +14,7 @@ export default function examRequests(state = defaultState, action) {
     case 'LOAD_EXAM_REQUESTS_DONE': {
       return { ...state, examRequestList: action.payload };
     }
+    case 'FINISH_EXAM_DONE':
     case 'START_EXAM_DONE':
     case 'SCHEDULE_EXAM_DONE': {
       const newState = _.cloneDeep(state);
@@ -43,6 +45,15 @@ export default function examRequests(state = defaultState, action) {
 
     case 'GET_SIGNED_URL_DONE': {
       return { ...state, signedUrl: action.payload.signed_url };
+    }
+
+    case 'LOAD_CUSTOM_DATA_DONE': {
+      // this is bad because it assumes that a server error means
+      // that canvas didnt have the data we are looking for but there is not another way to do it.
+      if (action.error) {
+        return { ...state, needProctorCode: true };
+      }
+      return state;
     }
 
     default:

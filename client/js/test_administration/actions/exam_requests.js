@@ -9,6 +9,7 @@ const requests = [
   'GET_SIGNED_URL',
   'START_EXAM',
   'EXPORT_EXAMS_AS_CSV'
+  'FINISH_EXAM'
 ];
 
 export const Constants = wrapper([], requests);
@@ -55,5 +56,14 @@ export const startExam = id => ({
   url: `/api/exam_requests/${id}`,
   body: {
     status: 'started'
+  }
+});
+
+export const finishExam = id => ({
+  method: Network.PUT,
+  type: Constants.FINISH_EXAM,
+  url: `/api/exam_requests/${id}`,
+  body: {
+    status: 'finished'
   }
 });

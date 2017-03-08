@@ -16,7 +16,8 @@ describe('Exam Assignment list', () => {
       }, {
         student_name: 'James',
         status: 'scheduled'
-      }]
+      }],
+      canvasRequest: () => {}
     };
     result = TestUtils.renderIntoDocument(<BaseExamRequestList {...props} />);
   });
