@@ -14,13 +14,7 @@ class ScormEngineService
 
   def launch_course(registration, _redirect_url)
     launch_link = get_launch_link(registration[:id])
-    if launch_link
-      url = @scorm_ssl_domain + launch_link
-      {
-        response: url,
-        status: 200,
-      }
-    end
+    setup_url_response(launch_link)
   end
 
   def setup_scorm_registration(registration, user, postback_url, lti_key, course_id)
@@ -85,13 +79,7 @@ class ScormEngineService
     url = @scorm_tenant_url + "/courses/#{course_id}/preview"
     response = send_get_request(url, body)
     launch_link = (JSON.parse response.body)["launchLink"]
-    if launch_link
-      url = @scorm_ssl_domain + launch_link
-      {
-        response: url,
-        status: 200,
-      }
-    end
+    setup_url_response(launch_link)
   end
 
   def course_metadata(course_id)
@@ -177,6 +165,19 @@ class ScormEngineService
       response[:status] = response.code
       response
     end
+  end
+
+  def setup_url_response(launch_link)
+    if launch_link
+      response = @scorm_ssl_domain + launch_link
+      status = 200
+    else
+      status = 500
+    end
+    {
+      response,
+      status,
+    }
   end
 
 end
