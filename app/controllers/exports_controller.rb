@@ -21,18 +21,17 @@ class ExportsController < ApplicationController
   end
 
   def export_exams_as_csv
-    exams = get_exams
-    final_csv = ExamExportHelper.generate_csv(exams)
-    send_data(final_csv, filename: "exam_export")
+    export = ExamExportHelper.generate_csv(exams)
+    send_data(export, filename: "scheduled_exams.csv")
   end
 
-  def get_exams
+  private
+
+  def exams
     ExamRequest.
       by_dates(params[:start]..params[:end]).
       by_center_id(params[:testing_centers_account_id])
   end
-
-  private
 
   def get_attendances
     attendances = Attendance.where(lms_course_id: params[:course_id])
