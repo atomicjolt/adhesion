@@ -7,14 +7,12 @@ module ScormCommonService
 
   def sync_courses(courses)
     if courses
-      course_ids = courses.map { |i| i["id"] }
+      course_ids = get_course_ids(courses)
       existing_course_ids = ScormCourse.all.map { |c| c[:scorm_cloud_id] }
-
       extra = existing_course_ids - course_ids
       remove_extras(extra)
       needed = course_ids - existing_course_ids
       update_titles(courses, needed)
-
       get_sync_result(courses)
     end
   end
@@ -113,7 +111,7 @@ module ScormCommonService
     new_courses = []
     needed.each { |scorm_cloud_id| new_courses << ScormCourse.create(scorm_cloud_id: scorm_cloud_id) }
     new_courses.each do |course|
-      title = courses.detect { |c| c["id"] == course["scorm_cloud_id"] }.title
+      title = get_title(courses, course)
       course.update_attribute(:title, title)
     end
   end
@@ -121,9 +119,9 @@ module ScormCommonService
   def get_sync_result(courses)
     results = get_results(courses)
     results.map do |course|
-      local_course = ScormCourse.find_by(scorm_cloud_id: course["id"])
+      local_course = get_scorm_course(course)
       resp = {
-        title: course["title"],
+        title: get_course_title(course),
         id: local_course.scorm_cloud_id,
       }
 
@@ -141,7 +139,7 @@ module ScormCommonService
 
   def get_results(courses)
     courses.select do |course|
-      local_course = ScormCourse.find_by(scorm_cloud_id: course["id"])
+      local_course = get_scorm_course(course)
       return false if local_course.nil?
       true
     end
