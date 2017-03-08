@@ -15,7 +15,7 @@ import { loadCustomData, storeCustomData }      from '../../../libs/canvas/const
 import FilterTabs                               from './filter_tabs';
 import NewProctorCode                           from './new_proctor_code';
 import ReportButton                             from './report_button';
-import ReportWindow                             from './report_window'
+import ReportWindow                             from './report_window';
 
 const select = state => ({
   lmsUserId: state.settings.lms_user_id,
@@ -119,10 +119,6 @@ export class BaseExamRequestList extends React.Component {
     );
   }
 
-  onDownload(startDate, endDate) {
-    this.props.exportExamsAsCSV(this.props.currentAccountId, startDate, endDate);
-  }
-
   componentWillUpdate(nextProps) {
     if (!this.props.needProctorCode && nextProps.needProctorCode) {
       // a random code between 7 and 8 digits, this will go a way once u4 finishes their stuff.
@@ -139,6 +135,10 @@ export class BaseExamRequestList extends React.Component {
         <NewProctorCode code={code} hideModal={this.props.hideModal} />
       );
     }
+  }
+
+  onDownload(startDate, endDate) {
+    this.props.exportExamsAsCSV(this.props.currentAccountId, startDate, endDate);
   }
 
   getExamRequestRows() {
@@ -178,13 +178,6 @@ export class BaseExamRequestList extends React.Component {
         settingsOpen={this.state.openSettings === examRequest.id}
       />
     ));
-  }
-
-  getUnscheduledCount() {
-    return _.filter(
-      this.props.examRequestList,
-      examRequest => (!examRequest.scheduled_date)
-    ).length;
   }
 
   getTopControls(styles) {
@@ -250,8 +243,8 @@ export class BaseExamRequestList extends React.Component {
   toggleReportWindow() {
     this.props.showModal(
       <ReportWindow
-      onCancel={() => this.props.hideModal()}
-      onDownload={(...args) => this.onDownload(...args)}
+        onCancel={() => this.props.hideModal()}
+        onDownload={(...args) => this.onDownload(...args)}
       />
     );
   }

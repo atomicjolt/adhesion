@@ -12,7 +12,7 @@ export default function ReportButton(props) {
 
   return (
     <button
-      className="c-btn  c-btn--export"
+      className="c-btn c-btn--export"
       onClick={() => props.onExport(props.downloadOptions)}
       style={buttonStyle}
     >
@@ -22,7 +22,7 @@ export default function ReportButton(props) {
 }
 
 ReportButton.propTypes = {
-  text            : React.PropTypes.string,
-  onExport        : React.PropTypes.func.isRequired,
-  downloadOptions : React.PropTypes.shape({}),
+  text: React.PropTypes.string,
+  onExport: React.PropTypes.func.isRequired,
+  downloadOptions: React.PropTypes.shape({}),
 };

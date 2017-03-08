@@ -35,7 +35,6 @@ export const testingCentersAccountSetup = (accountId, instanceName) => ({
   params: { testing_centers_account_id: accountId, canvas_instance_name: instanceName }
 });
 
-// TODO: Finish this
 export const exportExamsAsCSV = (accountId, startDate, endDate) => ({
   method: Network.GET,
   type: Constants.EXPORT_EXAMS_AS_CSV,

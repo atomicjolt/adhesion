@@ -6,18 +6,10 @@ import DateSelector             from '../common/date_selector';
 export default class ReportWindow extends React.Component {
 
   static PropTypes = {
-    onCancel         : React.PropTypes.func.isRequired,
-    onDownload       : React.PropTypes.func.isRequired,
-    currentAccountId : React.PropTypes.number.isRequired,
+    onCancel: React.PropTypes.func.isRequired,
+    onDownload: React.PropTypes.func.isRequired,
+    currentAccountId: React.PropTypes.number.isRequired,
   };
-
-  constructor() {
-    super();
-    this.state = {
-      startDate: moment(),
-      endDate: moment(),
-    };
-  }
 
   static getStyles() {
     return {
@@ -68,7 +60,6 @@ export default class ReportWindow extends React.Component {
         fontFamily: 'sans-serif',
         textAlign: 'center',
         fontSize: '5px',
-        // margin: 'auto',
         color: '#777777',
         height: '35px',
         lineHeight: '35px',
@@ -80,7 +71,7 @@ export default class ReportWindow extends React.Component {
         marginLeft: '10px',
       },
       downloadButton: {
-        color: '#FFFFFF', // text color
+        color: '#FFFFFF',
         border: '1px solid rgb(193, 161, 122)',
         backgroundColor: 'rgb(193, 161, 122)',
         padding: '8px 20px 8px 20px',
@@ -92,6 +83,14 @@ export default class ReportWindow extends React.Component {
         margin: '30px 10px 10px 20px',
         float: 'right',
       }
+    };
+  }
+
+  constructor() {
+    super();
+    this.state = {
+      startDate: moment(),
+      endDate: moment(),
     };
   }
 

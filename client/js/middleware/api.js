@@ -18,8 +18,7 @@ const API = store => next => (action) => {
       updatedParams,
       body,
       headers,
-      timeout
-    );
+      timeout);
 
     if (promise) {
       promise.then(
