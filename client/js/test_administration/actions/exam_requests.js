@@ -8,8 +8,8 @@ const requests = [
   'TESTING_CENTERS_ACCOUNT_SETUP',
   'GET_SIGNED_URL',
   'START_EXAM',
-  'EXPORT_EXAMS_AS_CSV'
-  'FINISH_EXAM'
+  'EXPORT_EXAMS_AS_CSV',
+  'FINISH_EXAM',
 ];
 
 export const Constants = wrapper([], requests);
