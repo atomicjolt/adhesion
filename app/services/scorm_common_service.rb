@@ -57,7 +57,7 @@ module ScormCommonService
         registration,
         user,
         postback_url,
-        lti_credentials,
+        lti_credentials.lti_key,
         result_params[:course_id],
       )
     end

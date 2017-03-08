@@ -13,7 +13,7 @@ class ScormEngineService
   end
 
   def launch_course(registration, _redirect_url)
-    launch_link = get_launch_link(registration.id)
+    launch_link = get_launch_link(registration[:id])
     if launch_link
       url = @scorm_ssl_domain + launch_link
       {
@@ -23,9 +23,9 @@ class ScormEngineService
     end
   end
 
-  def setup_engine_registration(registration, user, postback_url, lti_credentials, course_id)
+  def setup_engine_registration(registration, user, postback_url, lti_key, course_id)
     body = {
-      registrationId: registration.id,
+      registrationId: registration[:id],
       courseId: course_id,
       learner: {
         id: user[:lms_user_id],
@@ -34,8 +34,8 @@ class ScormEngineService
       },
       postBack: {
         url: postback_url,
-        password: registration.scorm_cloud_passback_secret,
-        userName: lti_credentials.lti_key,
+        password: registration[:scorm_cloud_passback_secret],
+        userName: lti_key,
       },
     }
     url = @scorm_tenant_url + "/registrations"

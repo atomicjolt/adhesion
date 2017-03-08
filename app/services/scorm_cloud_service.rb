@@ -17,7 +17,7 @@ class ScormCloudService
     end
   end
 
-  def setup_engine_registration(registration, user, postback_url, lti_credentials, course_id)
+  def setup_engine_registration(registration, user, postback_url, lti_key, course_id)
     scorm_cloud_request do
       @scorm_cloud.registration.create_registration(
         course_id,
@@ -28,7 +28,7 @@ class ScormCloudService
         postbackurl: postback_url,
         authtype: "form",
         urlpass: registration.scorm_cloud_passback_secret,
-        urlname: lti_credentials.lti_key,
+        urlname: lti_key,
       )
     end
   end
