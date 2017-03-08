@@ -69,7 +69,12 @@ export default (state = initialState, action) => {
     case PackageConstants.REMOVE_PACKAGE_DONE:
     case PackageConstants.UPLOAD_PACKAGE_DONE: {
       if (action.error) {
-        return { ...state, file: action.original.upload, uploadError: true };
+        return {
+          ...state,
+          file: action.original.upload,
+          uploadError: true,
+          errorText: action.error.rawResponse,
+        };
       }
       return { ...state, file: null, shouldRefreshList: true };
     }

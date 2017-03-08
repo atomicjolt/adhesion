@@ -29,6 +29,10 @@ class Api::ScormCoursesController < ApplicationController
       params[:file],
       params[:lms_course_id],
     )
+    if response[:error].present?
+      render json: response[:error], status: response[:status]
+      return
+    end
     file_id = upload_canvas_file(params[:file], params[:lms_course_id])
     if file_id
       ScormCourse.find(
