@@ -1,12 +1,12 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import _ from 'lodash';
-import * as ScormActions from '../../actions/scorm';
-import CoursesList from './courses_list';
-import ConnectedUploader from './uploader';
+import React                                                   from 'react';
+import { connect }                                             from 'react-redux';
+import _                                                       from 'lodash';
+import * as ScormActions                                       from '../../actions/scorm';
+import CoursesList                                             from './courses_list';
+import ConnectedUploader                                       from './uploader';
 import { createAssignment, deleteAssignment, listAssignments } from '../../../libs/canvas/constants/assignments';
-import canvasRequest from '../../../libs/canvas/action';
-import FileUpload from '../common/file_upload';
+import canvasRequest                                           from '../../../libs/canvas/action';
+import FileUpload                                              from '../common/file_upload';
 
 export class ScormIndex extends React.Component {
 
@@ -16,6 +16,7 @@ export class ScormIndex extends React.Component {
     removePackage: React.PropTypes.func,
     uploadPackage: React.PropTypes.func,
     previewPackage: React.PropTypes.func,
+    replacePackage: React.PropTypes.func,
     updateImportType: React.PropTypes.func,
     removeError: React.PropTypes.func,
     lmsCourseId: React.PropTypes.string,
@@ -26,6 +27,7 @@ export class ScormIndex extends React.Component {
     apiUrl: React.PropTypes.string,
     scormFile: React.PropTypes.shape({}),
     canvasUrl: React.PropTypes.string.isRequired,
+    loadError: React.PropTypes.bool,
   };
 
   constructor() {
@@ -103,6 +105,13 @@ export class ScormIndex extends React.Component {
   }
 
   render() {
+    if (this.props.loadError) {
+      return (
+        <div className="c-error__message">
+          Something went wrong. We apologize for the inconvenience.
+        </div>
+      );
+    }
     if (!this.state.synced) {
       return (
         <div className="o-main-contain">
@@ -131,6 +140,7 @@ export class ScormIndex extends React.Component {
           canvasUrl={this.props.canvasUrl}
           removePackage={(...args) => this.deleteAssignment(...args)}
           previewPackage={this.props.previewPackage}
+          replacePackage={this.props.replacePackage}
           importPackage={(...args) => this.createAssignment(...args)}
           updateImportType={this.props.updateImportType}
         />
@@ -149,6 +159,7 @@ const select = (state) => {
     scormList: courseList,
     shouldRefreshList: state.scorm.shouldRefreshList,
     scormFile: state.scorm.file,
+    loadError: state.scorm.loadError,
     uploadError: state.scorm.uploadError,
     canvasAssignments: state.scorm.canvasAssignments,
     listAssignmentsDone: state.scorm.listAssignmentsDone,
