@@ -122,7 +122,7 @@ class Api::ScormCoursesController < ApplicationController
           # canvas.com/api/v1/files/573347/create_success
           body = response.body
           scanner = StringScanner.new body
-          scanner.scan_until(/api\/v1\/files\//)
+          scanner.scan_until(/api\/.+\/files\//)
           # scanner will now be at
           # 573347/create_success
           id = scanner.scan_until(/\//)
