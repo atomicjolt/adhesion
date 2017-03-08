@@ -43,7 +43,7 @@ export default function settings(props) {
         <HoverButton
           style={buttonStyle}
           hoveredStyle={hoveredStyle}
-          onClick={() => props.handlePreview()}
+          onClick={props.handlePreview}
         >
           <CommonSvg className="c-icon" type="preview" />
           Preview Package
@@ -53,7 +53,7 @@ export default function settings(props) {
         <HoverButton
           style={buttonStyle}
           hoveredStyle={hoveredStyle}
-          onClick={() => props.handleUpdate()}
+          onClick={props.handleUpdate}
         >
           {props.updateInput}
           <CommonSvg className="c-icon" type="upload" />
@@ -64,7 +64,7 @@ export default function settings(props) {
         <HoverButton
           style={buttonStyle}
           hoveredStyle={hoveredStyle}
-          onClick={() => props.handleRemove()}
+          onClick={props.handleRemove}
         >
           <CommonSvg className="c-icon" type="delete" />
           Delete Package
