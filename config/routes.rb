@@ -70,10 +70,11 @@ Rails.application.routes.draw do
 
     resources :testing_centers_accounts
     resources :scorm_courses do
+      get "course_report" => "scorm_courses#course_report"
       get "launch" => "scorm_courses#launch"
       get "preview" => "scorm_courses#preview"
       post "import" => "scorm_courses#import"
-      get "course_report" => "scorm_courses#course_report"
+      post "replace" => "scorm_courses#replace"
       resources :students, only: [:index]
       resources :sections, only: [] do
         resources :students, only: [:index]

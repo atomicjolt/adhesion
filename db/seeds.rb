@@ -26,8 +26,8 @@ applications = [
       LIST_EXTERNAL_TOOLS_ACCOUNTS
       CREATE_EXTERNAL_TOOL_ACCOUNTS
       DELETE_EXTERNAL_TOOL_ACCOUNTS
-      GET_SUB_ACCOUNTS_OF_ACCOUNT,
-      HELPER_ALL_ACCOUNTS,
+      GET_SUB_ACCOUNTS_OF_ACCOUNT
+      HELPER_ALL_ACCOUNTS
     ).join(","),
     kind: Application.kinds[:admin],
     application_instances: [{
@@ -94,7 +94,15 @@ applications = [
     name: "Test Administration Tool",
     description: "Test Administration",
     client_application_name: "test_administration",
-    canvas_api_permissions: "GET_SINGLE_QUIZ,LIST_QUESTIONS_IN_QUIZ_OR_SUBMISSION,CREATE_CONVERSATION",
+    canvas_api_permissions: %w{
+      GET_SINGLE_QUIZ
+      LIST_QUESTIONS_IN_QUIZ_OR_SUBMISSION
+      CREATE_CONVERSATION
+      LIST_USERS_IN_ACCOUNT
+      STORE_CUSTOM_DATA
+      LOAD_CUSTOM_DATA
+      DELETE_CUSTOM_DATA
+    }.join(","),
     kind: Application.kinds[:lti],
     application_instances: [{
       tenant: "exam",

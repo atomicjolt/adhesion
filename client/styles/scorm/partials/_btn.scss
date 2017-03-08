@@ -105,3 +105,19 @@
     }
   }
 }
+
+i-settings{
+  font-size: 2rem;
+  color: $gray;
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  @include transition(all 0.1s ease);
+
+  &:hover{
+    color: $yellow;
+  }
+  &:active{
+    @include transform(scale(0.9));
+  }
+}

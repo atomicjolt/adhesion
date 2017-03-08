@@ -110,3 +110,7 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
+
+.i-settings:before {
+  content: "\e2cb";
+}

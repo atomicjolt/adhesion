@@ -8,6 +8,7 @@ import Loader from '../../../common_components/loader';
 const select = state => ({
   scormFile: state.scorm.file,
   error: state.scorm.uploadError,
+  errorText: state.scorm.errorText,
   errorHandle: 'removeError',
 });
 
@@ -29,11 +30,12 @@ export class Uploader extends React.Component {
   }
 
   renderError() {
+    const errorText = this.props.errorText || 'This file is not a valid SCORM package.';
     return (
       <div>
         <span className="c-upload-error">
           <CommonSvg className="c-icon-error" type="error" />
-          <span>This file is not a valid SCORM package.</span>
+          <span>{errorText}</span>
         </span>
         <SvgButton onClick={() => this.props.removeError()} type={this.props.errorHandle} />
       </div>
@@ -70,6 +72,7 @@ export class Uploader extends React.Component {
 
 Uploader.propTypes = {
   error: React.PropTypes.bool,
+  errorText: React.PropTypes.string,
   errorHandle: React.PropTypes.string.isRequired,
   removeError: React.PropTypes.func.isRequired,
   scormFile: React.PropTypes.shape({

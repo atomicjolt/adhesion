@@ -180,8 +180,20 @@ class ScormCloudService
         file,
       )
       course.update_attributes(title: resp[:title], scorm_cloud_id: package_id)
+      @scorm_cloud.course.update_attributes(package_id, registrationInstancingOption: "incomplete")
       resp["package_id"] = package_id
       resp["course_id"] = course.id
+      resp
+    end
+  end
+
+  def update_course(file, course)
+    scorm_cloud_request do
+      resp = @scorm_cloud.course.import_course(
+        course.scorm_cloud_id,
+        file,
+      )
+      course.update_attribute(:title, resp[:title])
       resp
     end
   end

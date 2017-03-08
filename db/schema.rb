@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170222192423) do
+ActiveRecord::Schema.define(version: 20170301203616) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -104,6 +104,8 @@ ActiveRecord::Schema.define(version: 20170222192423) do
     t.string   "message"
     t.date     "scheduled_date"
     t.string   "scheduled_time"
+    t.integer  "unlocked_by_id"
+    t.string   "unlocked_by_name"
   end
 
   create_table "nonces", force: :cascade do |t|

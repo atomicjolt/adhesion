@@ -15,6 +15,7 @@ export default function courseList(props) {
               courseId={props.courseId}
               removePackage={props.removePackage}
               previewPackage={props.previewPackage}
+              replacePackage={props.replacePackage}
               importPackage={props.importPackage}
               updateImportType={props.updateImportType}
             />

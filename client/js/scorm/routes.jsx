@@ -3,8 +3,8 @@ import { Router, Route, IndexRoute }  from 'react-router';
 
 import appHistory                     from '../history';
 import Index                          from './components/layout/index';
-import Scorm                          from './components/scorm/scorm_index';
 import CourseAnalytics                from './components/analytics/course_report';
+import Scorm                          from './components/scorm/_scorm_index';
 import NotFound                       from '../common_components/not_found';
 
 export default (

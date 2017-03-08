@@ -1,19 +1,19 @@
-import React                   from 'react';
-import { connect }             from 'react-redux';
-import _                       from 'lodash';
-import Fuse                    from 'fuse.js';
-import moment                  from 'moment';
-import * as ExamRequestActions from '../../actions/exam_requests';
-import * as ModalActions       from '../../../actions/modal';
-import Defines                 from '../../defines';
-import ExamRequest             from './exam_request';
-import SearchBar               from './search_bar';
-import DateFilter              from './date_filter';
-import canvasRequest           from '../../../libs/canvas/action';
-import { createConversation }  from '../../../libs/canvas/constants/conversations';
-
- // import CenterError             from '../common/center_error';
-import FilterTabs              from './filter_tabs';
+import React                                    from 'react';
+import { connect }                              from 'react-redux';
+import _                                        from 'lodash';
+import Fuse                                     from 'fuse.js';
+import moment                                   from 'moment';
+import * as ExamRequestActions                  from '../../actions/exam_requests';
+import * as ModalActions                        from '../../../actions/modal';
+import Defines                                  from '../../defines';
+import ExamRequest                              from './exam_request';
+import SearchBar                                from './search_bar';
+import DateFilter                               from './date_filter';
+import canvasRequest                            from '../../../libs/canvas/action';
+import { createConversation }                   from '../../../libs/canvas/constants/conversations';
+import { loadCustomData, storeCustomData }      from '../../../libs/canvas/constants/users';
+import FilterTabs                               from './filter_tabs';
+import NewProctorCode                           from './new_proctor_code';
 
 const select = state => ({
   lmsUserId: state.settings.lms_user_id,
@@ -21,6 +21,7 @@ const select = state => ({
   toolConsumerInstanceName: state.settings.tool_consumer_instance_name,
   examRequestList: state.examRequests.examRequestList,
   centerIdError: state.examRequests.centerIdError,
+  needProctorCode: state.examRequests.needProctorCode
 });
 
 export class BaseExamRequestList extends React.Component {
@@ -37,6 +38,9 @@ export class BaseExamRequestList extends React.Component {
     showModal: React.PropTypes.func.isRequired,
     canvasRequest: React.PropTypes.func.isRequired,
     startExam: React.PropTypes.func.isRequired,
+    finishExam: React.PropTypes.func.isRequired,
+    lmsUserId: React.PropTypes.number,
+    needProctorCode: React.PropTypes.bool.isRequired,
   };
 
   static tableHeader(styles) {
@@ -94,11 +98,34 @@ export class BaseExamRequestList extends React.Component {
   }
 
   componentWillMount() {
+    this.props.canvasRequest(loadCustomData, {
+      user_id: this.props.lmsUserId,
+      ns: 'edu.au.exam',
+      scope: '/exam/proctor_code'
+    });
     this.props.loadExamRequests(this.props.currentAccountId);
     this.props.testingCentersAccountSetup(
       this.props.currentAccountId,
       this.props.toolConsumerInstanceName
     );
+  }
+
+  componentWillUpdate(nextProps) {
+    if (!this.props.needProctorCode && nextProps.needProctorCode) {
+      // a random code between 7 and 8 digits, this will go a way once u4 finishes their stuff.
+      // it will look something like b9f25fc4
+      const code = Math.random().toString(16).substring(7);
+      this.props.canvasRequest(storeCustomData, {
+        user_id: this.props.lmsUserId,
+      }, {
+        ns: 'edu.au.exam',
+        scope: '/exam/proctor_code',
+        data: code
+      });
+      this.props.showModal(
+        <NewProctorCode code={code} hideModal={this.props.hideModal} />
+      );
+    }
   }
 
   getExamRequestRows() {
@@ -133,6 +160,7 @@ export class BaseExamRequestList extends React.Component {
         showModal={this.props.showModal}
         hideModal={this.props.hideModal}
         startExam={this.props.startExam}
+        finishExam={this.props.finishExam}
         openSettings={id => this.setState({ openSettings: id })}
         settingsOpen={this.state.openSettings === examRequest.id}
       />
@@ -160,7 +188,7 @@ export class BaseExamRequestList extends React.Component {
   getUnscheduledCount() {
     return _.filter(
       this.props.examRequestList,
-      examRequest => (!examRequest.scheduled_date)
+      examRequest => (!examRequest.scheduled_date && examRequest.status !== 'finished')
     ).length;
   }
 
@@ -177,10 +205,13 @@ export class BaseExamRequestList extends React.Component {
     if (this.state.selectedTab === 'date') {
       // search by date
       return _.filter(examRequestList, examRequest => (
-        moment(examRequest.scheduled_date).isSame(this.state.filterDate, 'day')
+        moment(examRequest.scheduled_date).isSame(this.state.filterDate, 'day') &&
+        examRequest.status !== 'finished'
       ));
     } else if (this.state.selectedTab === 'unscheduled') {
-      return _.filter(examRequestList, examRequest => (!examRequest.scheduled_date));
+      return _.filter(examRequestList, examRequest => (
+        !examRequest.scheduled_date && examRequest.status !== 'finished'
+      ));
     }
 
     return examRequestList;
