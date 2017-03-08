@@ -7,8 +7,7 @@ export default class ReportWindow extends React.Component {
 
   static propTypes = {
     onCancel: React.PropTypes.func.isRequired,
-    onDownload: React.PropTypes.func.isRequired,
-    currentAccountId: React.PropTypes.number.isRequired,
+    onDownload: React.PropTypes.func.isRequired
   };
 
   static getStyles() {
