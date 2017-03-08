@@ -1,11 +1,8 @@
 import React from 'react';
 import TestUtils        from 'react-addons-test-utils';
-// import Stub             from '../../../../specs_support/stub';
 import ReportWindow from './report_window';
-import { Provider }  from 'react-redux';
 
 describe('report window', () => {
-  
   let result;
   let props;
   let didCancel;
@@ -18,11 +15,11 @@ describe('report window', () => {
     didDownload = false;
     props = {
       onCancel: () => { didCancel = true; },
-      onDownload: (start, end) => { 
-        didDownload = true; 
+      onDownload: (start, end) => {
+        didDownload = true;
         startDate = start;
         endDate = end;
-       },
+      },
       currentAccoundId: 123
     };
 

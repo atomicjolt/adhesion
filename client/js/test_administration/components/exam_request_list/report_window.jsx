@@ -19,7 +19,7 @@ export default class ReportWindow extends React.Component {
     };
   }
 
-  getStyles() {
+  static getStyles() {
     return {
       popupStyle: {
         boxShadow: `0px 0px 5px ${Defines.darkGrey}`,
@@ -96,7 +96,7 @@ export default class ReportWindow extends React.Component {
   }
 
   render() {
-    const styles = this.getStyles();
+    const styles = ReportWindow.getStyles();
     return (
       <div style={styles.popupStyle}>
         <h2>Exam Report</h2>
@@ -120,7 +120,8 @@ export default class ReportWindow extends React.Component {
         </div>
         <div style={styles.buttonsSection}>
           <button
-            style={styles.cancelButton} onClick={() => this.props.onCancel()}
+            style={styles.cancelButton}
+            onClick={this.props.onCancel}
           >CANCEL</button>
           <button
             style={styles.downloadButton}

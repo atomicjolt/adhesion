@@ -247,10 +247,12 @@ export class BaseExamRequestList extends React.Component {
   }
 
   toggleReportWindow() {
-    this.props.showModal(<ReportWindow
+    this.props.showModal(
+      <ReportWindow
       onCancel={() => this.props.hideModal()}
       onDownload={(...args) => this.onDownload(...args)}
-    />);
+      />
+    );
   }
 
   render() {

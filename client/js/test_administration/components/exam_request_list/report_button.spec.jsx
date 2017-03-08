@@ -12,7 +12,7 @@ describe('report button', () => {
   beforeEach(() => {
     didChange = false;
     props = {
-      text: "",
+      text: '',
       onExport: () => { didChange = true; },
       downloadOptions: {}
     };
