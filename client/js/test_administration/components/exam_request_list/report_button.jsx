@@ -22,7 +22,7 @@ export default function ReportButton(props) {
 }
 
 ReportButton.propTypes = {
-  text: React.PropTypes.string,
-  onExport: React.PropTypes.func.isRequired,
-  downloadOptions: React.PropTypes.shape({}),
+  text            : React.PropTypes.string,
+  onExport        : React.PropTypes.func.isRequired,
+  downloadOptions : React.PropTypes.shape({}),
 };

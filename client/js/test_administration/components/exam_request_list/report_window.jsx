@@ -6,9 +6,9 @@ import DateSelector             from '../common/date_selector';
 export default class ReportWindow extends React.Component {
 
   static PropTypes = {
-    onCancel: React.PropTypes.func.isRequired,
-    onDownload: React.PropTypes.func.isRequired,
-    currentAccountId: React.PropTypes.number.isRequired,
+    onCancel         : React.PropTypes.func.isRequired,
+    onDownload       : React.PropTypes.func.isRequired,
+    currentAccountId : React.PropTypes.number.isRequired,
   };
 
   constructor() {
