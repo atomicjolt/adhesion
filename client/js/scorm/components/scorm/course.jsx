@@ -133,7 +133,6 @@ export default class Course extends React.Component {
     };
     const updateInput = (
       <input
-        id="upload"
         type="file"
         ref={(input) => { this.inputElement = input; }}
         onChange={e => this.updatePackage(e)}
@@ -166,13 +165,15 @@ export default class Course extends React.Component {
     }
 
     if (this.state.opened) {
-      settings = (<Settings
-        assignmentButton={assignmentButton}
-        handlePreview={() => this.handlePreview()}
-        handleUpdate={() => this.handleUpdate()}
-        handleRemove={() => this.handleRemove()}
-        updateInput={updateInput}
-      />);
+      settings = (
+        <Settings
+          assignmentButton={assignmentButton}
+          handlePreview={() => this.handlePreview()}
+          handleUpdate={() => this.handleUpdate()}
+          handleRemove={() => this.handleRemove()}
+          updateInput={updateInput}
+        />
+      );
     }
 
     return (
