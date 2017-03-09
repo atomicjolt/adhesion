@@ -25,6 +25,7 @@ export default class ExamRequest extends React.Component {
     scheduleExam: React.PropTypes.func.isRequired,
     openSettings: React.PropTypes.func.isRequired,
     startExam: React.PropTypes.func.isRequired,
+    enterAnswers: React.PropTypes.func.isRequired,
     finishExam: React.PropTypes.func.isRequired,
     settingsOpen: React.PropTypes.bool,
   };
@@ -111,7 +112,7 @@ export default class ExamRequest extends React.Component {
         </div>
       );
     }
-    if (examRequest.status === 'scheduled') {
+    if (_.includes(['scheduled', 'started', 'finished', 'entering answers'], examRequest.status) && examRequest.scheduled_date) {
       return (
         <div style={styles.scheduleInfo}>
           <div>{moment(examRequest.scheduled_date).format('D MMM YYYY')}</div>
@@ -147,7 +148,7 @@ export default class ExamRequest extends React.Component {
   takeExam() {
     const { examRequest } = this.props;
     hashHistory.push(`/enter_answers/${examRequest.id}`);
-    this.startExam();
+    this.enterAnswers();
     this.props.hideModal();
   }
 
@@ -196,6 +197,11 @@ export default class ExamRequest extends React.Component {
   startExam() {
     this.props.startExam(this.props.examRequest.id);
   }
+
+  enterAnswers() {
+    this.props.enterAnswers(this.props.examRequest.id);
+  }
+
   finishExam() {
     this.props.finishExam(this.props.examRequest.id);
   }

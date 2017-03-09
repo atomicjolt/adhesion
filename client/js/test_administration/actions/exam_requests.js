@@ -59,6 +59,15 @@ export const startExam = id => ({
   }
 });
 
+export const enterAnswers = id => ({
+  method: Network.PUT,
+  type: Constants.START_EXAM,
+  url: `/api/exam_requests/${id}`,
+  body: {
+    status: 'entering answers'
+  }
+});
+
 export const finishExam = id => ({
   method: Network.PUT,
   type: Constants.FINISH_EXAM,

@@ -38,8 +38,7 @@ export default function popupMenu(props) {
 
   let enterAnswerButton;
   let actionButton;
-
-  if (_.includes(['scheduled', 'paused', 'requested'], props.status)) {
+  if (_.includes(['scheduled', 'paused', 'requested', 'entering answers'], props.status)) {
     enterAnswerButton = (
       <HoverButton
         style={buttonStyle}
@@ -49,6 +48,8 @@ export default function popupMenu(props) {
         Enter Answers
       </HoverButton>
     );
+  }
+  if (_.includes(['scheduled', 'paused', 'requested'], props.status)) {
     actionButton = (
       <div style={divStyle}>
         <HoverButton
