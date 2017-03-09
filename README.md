@@ -127,6 +127,7 @@ This application requires:
 -   Ruby
 -   Rails
 -   PostgreSQL
+-   Antiword
 
 Learn more about [Installing Rails](http://railsapps.github.io/installing-rails.html).
 

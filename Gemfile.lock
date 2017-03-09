@@ -8,6 +8,7 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
+    CFPropertyList (2.3.5)
     actionmailer (4.2.7)
       actionpack (= 4.2.7)
       actionview (= 4.2.7)
@@ -116,6 +117,7 @@ GEM
     childprocess (0.6.1)
       ffi (~> 1.0, >= 1.0.11)
     coderay (1.1.1)
+    colored (1.2)
     colorize (0.8.1)
     concurrent-ruby (1.0.4)
     coveralls (0.8.19)
@@ -136,6 +138,9 @@ GEM
       responders
       warden (~> 1.2.3)
     diff-lcs (1.3)
+    doc_ripper (0.0.7.2)
+      CFPropertyList (~> 2.3)
+      colored (~> 1.2)
     docile (1.1.5)
     docx (0.2.07)
       nokogiri (~> 1.5)
@@ -391,17 +396,14 @@ GEM
       hashdiff
     websocket (1.2.4)
     will_paginate (3.1.5)
-    word_2_quiz (1.1.2)
+    word_2_quiz (1.1.3)
       activesupport (~> 4.2)
+      doc_ripper (~> 0.0.7.2)
       docx (~> 0.2)
       numbers_in_words (~> 0.4)
-      yomu (~> 0.2)
     xpath (2.0.0)
       nokogiri (~> 1.3)
     yajl-ruby (1.3.0)
-    yomu (0.2.4)
-      json (~> 1.8)
-      mime-types (~> 1.23)
 
 PLATFORMS
   ruby

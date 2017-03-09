@@ -8,7 +8,8 @@ const requests = [
   'TESTING_CENTERS_ACCOUNT_SETUP',
   'GET_SIGNED_URL',
   'START_EXAM',
-  'FINISH_EXAM'
+  'DOWNLOAD_FILE',
+  'FINISH_EXAM',
 ];
 
 export const Constants = wrapper([], requests);
@@ -34,6 +35,14 @@ export const testingCentersAccountSetup = (accountId, instanceName) => ({
   params: { testing_centers_account_id: accountId, canvas_instance_name: instanceName }
 });
 
+export const exportExamsAsCSV = (accountId, startDate, endDate) => ({
+  method: Network.GET,
+  type: Constants.DOWNLOAD_FILE,
+  url: '/exports/export_exams_as_csv',
+  params: { testing_centers_account_id: accountId, start: startDate, end: endDate },
+  filename: 'exams.csv'
+});
+
 export const getSignedUrl = id => ({
   method: Network.GET,
   type: Constants.GET_SIGNED_URL,
@@ -47,6 +56,15 @@ export const startExam = id => ({
   url: `/api/exam_requests/${id}`,
   body: {
     status: 'started'
+  }
+});
+
+export const enterAnswers = id => ({
+  method: Network.PUT,
+  type: Constants.START_EXAM,
+  url: `/api/exam_requests/${id}`,
+  body: {
+    status: 'entering answers'
   }
 });
 

@@ -9,7 +9,7 @@ export default class DateFilter extends React.Component {
     onChange: React.PropTypes.func.isRequired,
     date: React.PropTypes.shape({}),
     style: React.PropTypes.shape({}),
-  }
+  };
 
   static getStyles() {
     return {

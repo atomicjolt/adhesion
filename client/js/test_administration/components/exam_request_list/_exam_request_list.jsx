@@ -14,6 +14,8 @@ import { createConversation }                   from '../../../libs/canvas/const
 import { loadCustomData, storeCustomData }      from '../../../libs/canvas/constants/users';
 import FilterTabs                               from './filter_tabs';
 import NewProctorCode                           from './new_proctor_code';
+import ReportButton                             from './report_button';
+import ReportWindow                             from './report_window';
 
 const select = state => ({
   lmsUserId: state.settings.lms_user_id,
@@ -38,9 +40,11 @@ export class BaseExamRequestList extends React.Component {
     showModal: React.PropTypes.func.isRequired,
     canvasRequest: React.PropTypes.func.isRequired,
     startExam: React.PropTypes.func.isRequired,
+    enterAnswers: React.PropTypes.func.isRequired,
     finishExam: React.PropTypes.func.isRequired,
-    lmsUserId: React.PropTypes.number,
+    lmsUserId: React.PropTypes.string,
     needProctorCode: React.PropTypes.bool.isRequired,
+    exportExamsAsCSV: React.PropTypes.func.isRequired,
   };
 
   static tableHeader(styles) {
@@ -83,6 +87,11 @@ export class BaseExamRequestList extends React.Component {
       },
       dateFilter: {
         width: '25%',
+      },
+      reportButton: {
+        margin: '10px 0px',
+        left: '90.5%',
+        position: 'relative',
       }
     };
   }
@@ -92,8 +101,9 @@ export class BaseExamRequestList extends React.Component {
     this.state = {
       searchVal: null,
       openSettings: null,
-      selectedTab: 'date',
+      selectedTab: 'unscheduled',
       filterDate: new Date(),
+      toggleReportWindow: false,
     };
   }
 
@@ -128,6 +138,10 @@ export class BaseExamRequestList extends React.Component {
     }
   }
 
+  onDownload(startDate, endDate) {
+    this.props.exportExamsAsCSV(this.props.currentAccountId, startDate, endDate);
+  }
+
   getExamRequestRows() {
     const options = {
       shouldSort: false,
@@ -160,6 +174,7 @@ export class BaseExamRequestList extends React.Component {
         showModal={this.props.showModal}
         hideModal={this.props.hideModal}
         startExam={this.props.startExam}
+        enterAnswers={this.props.enterAnswers}
         finishExam={this.props.finishExam}
         openSettings={id => this.setState({ openSettings: id })}
         settingsOpen={this.state.openSettings === examRequest.id}
@@ -177,6 +192,7 @@ export class BaseExamRequestList extends React.Component {
         />
       );
     }
+
     return (
       <SearchBar
         style={styles.filterTool}
@@ -209,14 +225,14 @@ export class BaseExamRequestList extends React.Component {
         examRequest.status !== 'finished'
       ));
     } else if (this.state.selectedTab === 'unscheduled') {
-      return _.filter(examRequestList, examRequest => (
+      const list = _.filter(examRequestList, examRequest => (
         !examRequest.scheduled_date && examRequest.status !== 'finished'
       ));
+      return _.orderBy(list, examRequest => moment(examRequest.created_at).toDate());
     }
 
     return examRequestList;
   }
-
 
   sendMessage(id, body, subject) {
     const payload = {
@@ -227,12 +243,25 @@ export class BaseExamRequestList extends React.Component {
     this.props.canvasRequest(createConversation, {}, payload);
   }
 
+  toggleReportWindow() {
+    this.props.showModal(
+      <ReportWindow
+        onCancel={() => this.props.hideModal()}
+        onDownload={(...args) => this.onDownload(...args)}
+      />
+    );
+  }
+
   render() {
-    // <SearchBar searchChange={e => this.setState({ searchVal: e.target.value })} />
-    // { this.props.centerIdError ? <CenterError /> : null }
     const styles = BaseExamRequestList.getStyles();
     return (
       <div>
+        <div style={styles.reportButton}>
+          <ReportButton
+            text="Report"
+            onExport={() => this.toggleReportWindow()}
+          />
+        </div>
         <div style={styles.topMatter}>
           {this.getTopControls(styles)}
           <FilterTabs

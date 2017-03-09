@@ -11,7 +11,7 @@ describe('Exam list', () => {
       loadExamRequests: () => {},
       getTestingCentersAccount: () => {},
       lmsCourseId: '1',
-      examList: [{ title: 'america', id: 1 }],
+      examList: [{ title: 'america', id: 1, access_code: 'proctored-exam-asdfasdf' }],
       examRequests: {
         1: {
           status: 'requested'

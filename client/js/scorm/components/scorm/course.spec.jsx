@@ -3,6 +3,7 @@
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import Course from './course';
+import Settings from './settings';
 
 describe('course', () => {
   let props;
@@ -69,18 +70,10 @@ describe('course', () => {
     expect(dropDown.length).toBe(1);
   });
 
-  it('preview handleClick calls handlePreview', () => {
-    expect(remove).toBeFalsy();
-    const btn = TestUtils.scryRenderedDOMComponentsWithTag(result, 'button');
-    TestUtils.Simulate.click(btn[1]);
-    expect(remove).toBeTruthy();
-  });
-
-  it('delete handleClick calls handleRemove', () => {
-    expect(remove).toBeFalsy();
-    const btn = TestUtils.scryRenderedDOMComponentsWithTag(result, 'button');
-    TestUtils.Simulate.click(btn[2]);
-    expect(remove).toBeTruthy();
+  it('should render Settings component', () => {
+    result.setState({ opened: true });
+    const settings = TestUtils.scryRenderedComponentsWithType(result, Settings);
+    expect(settings).toBeDefined();
   });
 
   it('verifies that ImportTypeSelector handleGoClick calls handleGoClick function', () => {

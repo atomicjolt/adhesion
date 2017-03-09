@@ -1,6 +1,7 @@
 import React                         from 'react';
 import { connect }                   from 'react-redux';
 import _                             from 'lodash';
+import moment                        from 'moment';
 import appHistory                    from '../../../history';
 import Defines                       from '../../defines';
 import canvasRequest                 from '../../../libs/canvas/action';
@@ -26,7 +27,7 @@ export class BaseExamList extends React.Component {
     lmsCourseId: React.PropTypes.string.isRequired,
     examList: React.PropTypes.shape({}),
     toolConsumerInstanceName: React.PropTypes.string.isRequired,
-    lmsUserId: React.PropTypes.number.isRequired,
+    lmsUserId: React.PropTypes.string.isRequired,
     examRequests: React.PropTypes.shape({}),
   }
 
@@ -95,8 +96,18 @@ export class BaseExamList extends React.Component {
     this.props.loadExamRequests(this.props.lmsUserId);
   }
 
+  filteredExams() {
+    let exams = _.filter(this.props.examList, exam => (
+      !this.props.examRequests[exam.id] ||
+      (this.props.examRequests[exam.id] && this.props.examRequests[exam.id].status !== 'finished')
+    ));
+    exams = _.filter(exams, exam => _.includes(exam.access_code, 'proctored-exam'));
+    exams = _.orderBy(exams, exam => moment(exam.due_at).toDate(), ['asc']);
+    return exams;
+  }
+
   examListItems() {
-    return _.map(this.props.examList, exam => (
+    return _.map(this.filteredExams(), exam => (
       <ExamListItem
         key={`exam_${exam.id}`}
         exam={exam}
@@ -107,6 +118,7 @@ export class BaseExamList extends React.Component {
   }
 
   render() {
+    if (!this.props.examRequests) { return null; }
     const styles = BaseExamList.getStyles();
     return (
       <div>

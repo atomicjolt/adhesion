@@ -2,8 +2,9 @@
 
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
-import { ScormIndex } from './scorm_index';
+import { ScormIndex } from './_scorm_index';
 import Wrapper from '../../../../specs_support/scorm_wrapper';
+import Stub from '../../../../specs_support/stub';
 
 describe('scorm index', () => {
   let props;
@@ -26,9 +27,10 @@ describe('scorm index', () => {
       uploadPackage: () => {},
       canvasAssignments: [],
       listAssignmentsDone: true,
+      loadError: false,
     };
     remove = false;
-    result = TestUtils.renderIntoDocument(<Wrapper><ScormIndex {...props} /></Wrapper>);
+    result = TestUtils.renderIntoDocument(<Stub><ScormIndex {...props} /></Stub>);
   });
 
   it('renders no lists when no scormFiles exist', () => {
@@ -52,5 +54,12 @@ describe('scorm index', () => {
     const button = TestUtils.findRenderedDOMComponentWithClass(result, 'c-header__btns');
     TestUtils.Simulate.click(button);
     expect(remove).toBeTruthy();
+  });
+
+  it('renders error message when SCORM goes down', () => {
+    props.loadError = true;
+    result = TestUtils.renderIntoDocument(<Wrapper><ScormIndex {...props} /></Wrapper>);
+    const error = TestUtils.findRenderedDOMComponentWithClass(result, 'c-error__message');
+    expect(error).toBeTruthy();
   });
 });
