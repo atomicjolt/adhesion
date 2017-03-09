@@ -40,7 +40,7 @@ export class BaseExamRequestList extends React.Component {
     showModal: React.PropTypes.func.isRequired,
     canvasRequest: React.PropTypes.func.isRequired,
     startExam: React.PropTypes.func.isRequired,
-    exportExamsAsCSV: React.PropTypes.func.isRequired,
+    downloadFile: React.PropTypes.func.isRequired,
     finishExam: React.PropTypes.func.isRequired,
     lmsUserId: React.PropTypes.string,
     needProctorCode: React.PropTypes.bool.isRequired,
@@ -138,7 +138,7 @@ export class BaseExamRequestList extends React.Component {
   }
 
   onDownload(startDate, endDate) {
-    this.props.exportExamsAsCSV(this.props.currentAccountId, startDate, endDate);
+    this.props.downloadFile(this.props.currentAccountId, startDate, endDate);
   }
 
   getExamRequestRows() {
