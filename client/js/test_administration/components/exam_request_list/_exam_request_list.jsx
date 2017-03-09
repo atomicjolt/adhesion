@@ -43,7 +43,7 @@ export class BaseExamRequestList extends React.Component {
     finishExam: React.PropTypes.func.isRequired,
     lmsUserId: React.PropTypes.string,
     needProctorCode: React.PropTypes.bool.isRequired,
-    downloadFile: React.PropTypes.func.isRequired,    
+    exportExamsAsCSV: React.PropTypes.func.isRequired,
   };
 
   static tableHeader(styles) {
@@ -138,7 +138,7 @@ export class BaseExamRequestList extends React.Component {
   }
 
   onDownload(startDate, endDate) {
-    this.props.downloadFile(this.props.currentAccountId, startDate, endDate);
+    this.props.exportExamsAsCSV(this.props.currentAccountId, startDate, endDate);
   }
 
   getExamRequestRows() {
