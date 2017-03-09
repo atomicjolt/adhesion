@@ -3,8 +3,6 @@ import _                 from 'lodash';
 import ClickableTableRow from '../common/clickable_table_row';
 import Defines           from '../../defines';
 
-const VISIBLE_STATUSES = ['requested'];
-
 export default function examListItem(props) {
   const styles = {
     tr: {
