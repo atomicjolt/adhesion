@@ -90,7 +90,7 @@ export default class Course extends React.Component {
     this.props.updateImportType(this.props.course.index, e.target.value);
   }
 
-  handleAnaltyics() {
+  handleAnalytics() {
     appHistory.push(`analytics/${this.props.course.id}`);
   }
 
@@ -146,6 +146,7 @@ export default class Course extends React.Component {
     );
 
     let assignmentButton;
+    let analyticsButton = false;
     let dropDown;
     let settings;
 
@@ -153,9 +154,11 @@ export default class Course extends React.Component {
       dropDown = <div style={styles.loaderContainer}><Loader /></div>;
     } else if (isAssignment && isGraded) {
       assignmentButton = <AssignmentButton {...assignmentButtonProps} />;
+      analyticsButton = true;
       dropDown = <div className="c-list-item__type" style={styles.dropDown}>Graded Assignment</div>;
     } else if (isAssignment && !isGraded) {
       assignmentButton = <AssignmentButton {...assignmentButtonProps} />;
+      analyticsButton = true;
       dropDown = <div className="c-list-item__type" style={styles.dropDown}>Ungraded Assignment</div>;
     } else {
       const isUnselected = !_.isUndefined(this.props.course.is_graded)
@@ -173,7 +176,9 @@ export default class Course extends React.Component {
       settings = (
         <Settings
           assignmentButton={assignmentButton}
+          analyticsButton={analyticsButton}
           handlePreview={() => this.handlePreview()}
+          handleAnalytics={() => this.handleAnalytics()}
           handleUpdate={() => this.handleUpdate()}
           handleRemove={() => this.handleRemove()}
           updateInput={updateInput}

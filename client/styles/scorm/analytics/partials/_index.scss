@@ -1,0 +1,288 @@
+.c-aa-contain{
+  max-width: 100rem;
+  padding: 0 2rem;
+}
+
+.c-aa-head{
+  padding: 2rem 0;
+  @include clearfix;
+}
+
+.c-aa-title{
+  @include bold;
+  font-size: 2rem;
+  color: $dark-gray;
+  margin: 0;
+  max-width: 54rem;
+  white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+  display: inline-block;
+}
+
+.c-aa-back-btn{
+  i{
+    font-size: 2.5rem;
+    color: $gray;
+  }
+  width: 4rem;
+  height: 4rem;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+  @include transition(transform 0.1s ease);
+
+  &:hover{
+    i{
+      color: $dark-gray;
+    }
+  }
+  &:active{
+    @include transform(scale(0.95));
+  }
+}
+
+.c-aa-btn{
+  padding: 0 2rem;
+  height: 3rem;
+  background: $gold;
+  @include semi-bold;
+  font-size: 1.2rem;
+  color: $white;
+  border: none;
+  text-transform: uppercase;
+  float: right;
+  @include transition(transform 0.1s ease);
+  cursor: pointer;
+
+  &:hover{
+    background: darken($gold, 10%);
+  }
+  &:active{
+    @include transform(scale(0.98));
+  }
+}
+
+.c-aa-graph-picker{
+  position: relative;
+  padding: 0 0 0 23rem;
+}
+
+  .c-aa-graph-nav{
+    width: 22rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    ul{
+      li{
+        list-style-type: none;
+        display: block;
+      }
+    }
+  }
+
+    .c-aa-graph-nav__item{
+      height: 4rem;
+      margin-right: 1rem;
+      margin-bottom: 0.5rem;
+      border: 0.1rem solid $border-gray;
+      background: $white;
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: 0 1rem;
+      position: relative;
+      cursor: pointer;
+
+      &.is-active{
+        border-color: $gold;
+        box-shadow: 0 0 0.5rem rgba(0,0,0,0.15);
+
+        &:before{
+          content: '';
+          width: 1px;
+          height: 1px;
+          position: absolute;
+          top: -0.1rem;
+          right: -1.2rem;
+          border-left: 1rem solid $gold;
+          border-top: 2rem solid transparent;
+          border-bottom: 2rem solid transparent;
+          border-right: none;
+        }
+      }
+      &:hover{
+        background-color: $lightest-gray;
+      }
+    }
+
+      .c-aa-icon{
+        width: 1.8rem;
+        height: 1.8rem;
+        margin-right: 0.5rem;
+        position: relative;
+        display: inline-block;
+
+        svg{
+          width: 1.8rem;
+          height: 1.8rem;
+          @include transform(rotate(-90deg) scaleY(-1));
+
+          circle{
+            fill: none;
+            stroke: $green;
+            stroke-width: 0.9rem;
+            stroke-location: inside;
+            stroke-dasharray: 28 28;
+          }
+        }
+
+        i{
+          font-size: 1.8rem;
+          color: $gray;
+        }
+      }
+
+      .c-aa-stat{
+        @include bold;
+        color: $dark-gray;
+        font-size: 1.4rem;
+        line-height: 1.4;
+        width: 4rem;
+        display: inline-block;
+      }
+
+      .c-aa-label{
+        @include regular;
+        color: $dark-gray;
+        font-size: 1.4rem;
+        line-height: 1.4;
+      }
+
+
+  .c-aa-graph-container{
+    min-height: 20rem;
+    border: 0.1rem solid $border-gray;
+  }
+
+
+.c-aa-table{
+  margin-top: 5rem;
+  width: 100%;
+  border-collapse: collapse;
+
+  thead{
+    tr{
+      th{
+        height: 3.4rem;
+        background: $lightest-gray;
+        text-align: right;
+        font-size: 1.2rem;
+        @include bold;
+        color: $subtext-color;
+        text-transform: uppercase;
+        vertical-align: middle;
+
+        &:nth-of-type(1){
+          width: 50%;
+          text-align: left;
+          padding-left: 2rem;
+        }
+        &:nth-of-type(2){
+          width: 15%;
+        }
+        &:nth-of-type(3){
+          width: 15%;
+        }
+        &:nth-of-type(4){
+          width: 20%;
+          padding-right: 2rem;
+        }
+      }
+    }
+  }
+
+  .c-aa-accordion{
+
+    i{
+      position: absolute;
+      left: 1.3rem;
+      top: 0.6rem;
+      font-size: 2.5rem;
+      color: $dark-gray;
+      @include transform(rotate(-90deg));
+    }
+
+    td:nth-of-type(1){
+      padding-left: 4rem;
+      position: relative;
+    }
+
+    &.is-open{
+      i{
+        @include transform(rotate(0));
+      }
+    }
+  }
+
+  .c-aa-accordion__child{
+    display: none;
+
+    &.is-visible{
+      display: table-row;
+    }
+
+    i{
+      left: 3.3rem; //gets 2rem larger each level
+    }
+
+    td:nth-of-type(1){
+      padding-left: 6rem; //gets 2rem larger each level
+      position: relative;
+    }
+  }
+
+  tbody{
+    tr{
+      td{
+        height: 3.8rem;
+        border-top: 0.1rem solid $grayer;
+        border-bottom: 0.1rem solid $grayer;
+        @include semi-bold;
+        text-align: right;
+        vertical-align: middle;
+        color: $dark-gray;
+        font-size: 1.4rem;
+
+        a{
+          width: 100%;
+          height: 3.8rem;
+          color: $blue;
+          cursor: pointer;
+
+          &:hover{
+            color: lighten($blue, 15%);
+          }
+        }
+
+        &:nth-of-type(1){
+          padding-left: 2rem;
+          text-align: left;
+        }
+        &:nth-of-type(2){
+
+        }
+        &:nth-of-type(3){
+
+        }
+        &:nth-of-type(4){
+          padding-right: 2rem;
+        }
+      }
+      &:hover td{
+        background: $lightest-gray;
+      }
+    }
+  }
+}

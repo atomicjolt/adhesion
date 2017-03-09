@@ -3,7 +3,7 @@ import { Router, Route, IndexRoute }  from 'react-router';
 
 import appHistory                     from '../history';
 import Index                          from './components/layout/index';
-import CourseAnalytics                from './components/analytics/course_report';
+import CourseAnalytics                from './components/analytics/_course_report';
 import Scorm                          from './components/scorm/_scorm_index';
 import NotFound                       from '../common_components/not_found';
 
