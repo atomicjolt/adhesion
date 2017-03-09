@@ -93,7 +93,7 @@ RSpec.describe ScormCoursesController, type: :controller do
       scorm_tenant_url = Rails.application.secrets.scorm_domain + api_interface + "default"
 
       registration_url = scorm_tenant_url + "/registrations"
-      stub_request(:any, registration_url).to_return(body: "{ \"status\": \"204\" }")
+      stub_request(:any, registration_url).to_return(body: "{ \"response\": \"nil\" }")
       launch_url = scorm_tenant_url + "/registrations/#{registration.id+1}/launchLink"
       stub_request(:any, launch_url).to_return(body: "{ \"launchLink\": \"https://www.example.com/launchLink\" }")
     end

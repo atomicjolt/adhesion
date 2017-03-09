@@ -139,7 +139,7 @@ describe "Hash handler" do
 end
 
 describe "sync_courses" do
-  it "should sync courses table" do
+  it "should sync cloud courses table" do
     ScormCourse.create
     graded_course = ScormCourse.create
     graded_course.lms_assignment_id = 1

@@ -112,7 +112,7 @@ class ScormEngineService
   end
 
   def get_title(courses, course)
-    courses.detect { |c| c["id"] == course["scorm_cloud_id"] }["title"]
+    courses.detect { |c| c["id"] == course["title"] }
   end
 
   def get_scorm_course(course)

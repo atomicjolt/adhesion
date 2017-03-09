@@ -12,7 +12,7 @@ module ScormCommonService
       extra = existing_course_ids - course_ids
       remove_extras(extra)
       needed = course_ids - existing_course_ids
-      update_titles(courses, needed)
+      update_scorm_courses(courses, needed)
       get_sync_result(courses)
     end
   end
@@ -107,7 +107,7 @@ module ScormCommonService
     end
   end
 
-  def update_titles(courses, needed)
+  def update_scorm_courses(courses, needed)
     new_courses = []
     needed.each { |scorm_cloud_id| new_courses << ScormCourse.create(scorm_cloud_id: scorm_cloud_id) }
     new_courses.each do |course|
@@ -117,31 +117,23 @@ module ScormCommonService
   end
 
   def get_sync_result(courses)
-    results = get_results(courses)
-    results.map do |course|
+    courses.map do |course|
       local_course = get_scorm_course(course)
-      resp = {
-        title: get_course_title(course),
-        id: local_course.scorm_cloud_id,
-      }
-
-      if local_course.lms_assignment_id.nil? == false
-        resp[:lms_assignment_id] = local_course.lms_assignment_id
-        resp[:is_graded] = if !local_course.points_possible.nil? && local_course.points_possible > 0
-                             SCORM_ASSIGNMENT_STATE[:GRADED]
-                           else
-                             SCORM_ASSIGNMENT_STATE[:UNGRADED]
-                           end
+      if !local_course.nil?
+        resp = {
+          title: get_course_title(course),
+          id: local_course.scorm_cloud_id,
+        }
+        if local_course.lms_assignment_id.nil? == false
+          resp[:lms_assignment_id] = local_course.lms_assignment_id
+          resp[:is_graded] = if !local_course.points_possible.nil? && local_course.points_possible > 0
+                               SCORM_ASSIGNMENT_STATE[:GRADED]
+                             else
+                               SCORM_ASSIGNMENT_STATE[:UNGRADED]
+                             end
+        end
+        resp
       end
-      resp
-    end
-  end
-
-  def get_results(courses)
-    courses.select do |course|
-      local_course = get_scorm_course(course)
-      return false if local_course.nil?
-      true
     end
   end
 

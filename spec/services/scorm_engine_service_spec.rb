@@ -29,7 +29,7 @@ class MockTool
   end
 end
 
-describe "launch_course" do
+describe "sync_courses" do
   before(:example) do
     @subject = ScormEngineService.new
     @application_instance = FactoryGirl.create(:application_instance)
@@ -53,13 +53,61 @@ describe "launch_course" do
 
     registration_url = scorm_tenant_url + "/registrations"
     stub_request(:any, registration_url).to_return(body: "{ \"status\": \"204\" }")
-    launch_url = scorm_tenant_url + "/registrations/#{@reg.id}/launchLink"
 
+    launch_url = scorm_tenant_url + "/registrations/#{@reg.id}/launchLink"
     launch_route = "/launchLink"
     stub_request(:any, launch_url).to_return(body: "{ \"launchLink\": \"#{launch_route}\" }")
+
     response = @subject.launch_course(@reg, "")
     expect(response[:response]).to eq(Rails.application.secrets.scorm_ssl_domain + launch_route)
     expect(response[:status]).to eq(200)
+  end
+end
+
+describe "registration_scorm_result" do
+  before(:example) do
+    @subject = ScormEngineService.new
+    @application_instance = FactoryGirl.create(:application_instance)
+    @reg = Registration.create(
+      lms_user_id: 2,
+      application_instance: @application_instance,
+      lis_outcome_service_url: Rails.application.secrets.scorm_domain,
+    )
+    @registration = { "format" => "summary",
+                      "regid" => @reg.id.to_s,
+                      "instanceid" => "0",
+                      "complete" => "complete",
+                      "success" => "failed",
+                      "totaltime" => "19",
+                      "score" => "0" }
+  end
+
+  it "should return the correct registration results" do
+    api_interface = Rails.application.secrets.scorm_api_url
+    scorm_tenant_url = Rails.application.secrets.scorm_domain + api_interface + "default"
+
+    registration_url = scorm_tenant_url + "/registrations/#{@reg.id}/progress"
+    stub_request(:any, registration_url).to_return(
+      body: "{ \"registrationSuccess\": \"PASSED\", \"id\": \"12\", \"score\": { \"scaled\": \"99\" } }")
+
+    response = @subject.registration_scorm_result(@reg.id)
+    expect(response[:response]["rsp"]["stat"]).to eq("ok")
+    expect(response[:response]["rsp"]["registrationreport"]["regid"]).to eq("12")
+    expect(response[:response]["rsp"]["registrationreport"]["score"]).to eq("99")
+  end
+
+  it "should return the correct registration results" do
+    api_interface = Rails.application.secrets.scorm_api_url
+    scorm_tenant_url = Rails.application.secrets.scorm_domain + api_interface + "default"
+
+    registration_url = scorm_tenant_url + "/registrations/#{@reg.id}/progress"
+    stub_request(:any, registration_url).to_return(
+      body: "{ \"registrationSuccess\": \"FAILED\", \"id\": \"12\" }")
+
+    response = @subject.registration_scorm_result(@reg.id)
+    expect(response[:response]["rsp"]["stat"]).to eq("fail")
+    expect(response[:response]["rsp"]["registrationreport"]["regid"]).to eq("12")
+    expect(response[:response]["rsp"]["registrationreport"]["score"]).to eq("unknown")
   end
 end
 
