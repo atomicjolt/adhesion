@@ -47,6 +47,6 @@ class ScormCoursesController < ApplicationController
   end
 
   def setup
-    @scorm_connect = ScormCloudService.new
+    @scorm_connect = $scorm_type == "engine" ? ScormEngineService.new : ScormCloudService.new
   end
 end

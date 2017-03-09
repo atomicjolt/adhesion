@@ -91,6 +91,6 @@ class Api::ScormCoursesController < ApplicationController
   end
 
   def scorm_connect_service
-    ScormCloudService.new
+    $scorm_type == "engine" ? ScormEngineService.new : ScormCloudService.new
   end
 end

@@ -175,8 +175,8 @@ class ScormEngineService
       status = 500
     end
     {
-      response,
-      status,
+      response: response,
+      status: status,
     }
   end
 

@@ -41,8 +41,9 @@ RSpec.describe ScormCoursesController, type: :controller do
     end
   end
 
-  describe "Create" do
+  describe "Create ScormCloudService" do
     before(:example) do
+      $scorm_type = "cloud"
       allow_any_instance_of(ScormCloud::ScormCloud).to receive(
         :registration,
       ).and_return(MockScorm.new)
@@ -59,6 +60,43 @@ RSpec.describe ScormCoursesController, type: :controller do
                            "launch_url" => scorm_courses_url,
                            "roles" => "Learner",
                            "launch_presentation_return_url" => scu)
+    end
+    it "should handle the successful launch of a new SCORM course" do
+      request.env["CONTENT_TYPE"] = "application/x-www-form-urlencoded"
+      post :create, @params
+      expect(assigns(:scorm_connect)).to_not eq(nil)
+      expect(response.status).to eq(302)
+    end
+    it "should handle the failed launch of a new SCORM course" do
+      post :create, @params
+      expect(response.status).to eq(401)
+    end
+  end
+
+  describe "Create ScormEngineService" do
+    before(:example) do
+      $scorm_type = "engine"
+      WebMock.allow_net_connect!(net_http_connect_on_start: true)
+      @application_instance = FactoryGirl.create(:application_instance)
+      allow(controller).to receive(
+        :current_application_instance,
+      ).and_return(@application_instance)
+      registration = Registration.create(lms_user_id: 2)
+      scu = scorm_courses_url
+      @params = lti_params(@application_instance.lti_key,
+                           @application_instance.lti_secret,
+                           "custom_canvas_user_id" => 2,
+                           "course_id" => 1,
+                           "launch_url" => scorm_courses_url,
+                           "roles" => "Learner",
+                           "launch_presentation_return_url" => scu)
+      api_interface = Rails.application.secrets.scorm_api_url
+      scorm_tenant_url = Rails.application.secrets.scorm_domain + api_interface + "default"
+
+      registration_url = scorm_tenant_url + "/registrations"
+      stub_request(:any, registration_url).to_return(body: "{ \"status\": \"204\" }")
+      launch_url = scorm_tenant_url + "/registrations/#{registration.id+1}/launchLink"
+      stub_request(:any, launch_url).to_return(body: "{ \"launchLink\": \"https://www.example.com/launchLink\" }")
     end
     it "should handle the successful launch of a new SCORM course" do
       request.env["CONTENT_TYPE"] = "application/x-www-form-urlencoded"
