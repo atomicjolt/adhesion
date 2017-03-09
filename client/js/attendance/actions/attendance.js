@@ -40,5 +40,6 @@ export const downloadFile = (lmsCourseId, startDate, endDate) => ({
   params: {
     startDate,
     endDate,
-  }
+  },
+  filename: 'attendance.csv'
 });

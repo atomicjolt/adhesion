@@ -8,7 +8,7 @@ const requests = [
   'TESTING_CENTERS_ACCOUNT_SETUP',
   'GET_SIGNED_URL',
   'START_EXAM',
-  'EXPORT_EXAMS_AS_CSV',
+  'DOWNLOAD_FILE',
   'FINISH_EXAM',
 ];
 
@@ -37,9 +37,10 @@ export const testingCentersAccountSetup = (accountId, instanceName) => ({
 
 export const exportExamsAsCSV = (accountId, startDate, endDate) => ({
   method: Network.GET,
-  type: Constants.EXPORT_EXAMS_AS_CSV,
+  type: Constants.DOWNLOAD_FILE,
   url: '/exports/export_exams_as_csv',
-  params: { testing_centers_account_id: accountId, start: startDate, end: endDate }
+  params: { testing_centers_account_id: accountId, start: startDate, end: endDate },
+  filename: 'exams.csv'
 });
 
 export const getSignedUrl = id => ({

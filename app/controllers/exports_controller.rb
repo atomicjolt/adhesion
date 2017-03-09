@@ -17,12 +17,12 @@ class ExportsController < ApplicationController
     ).parsed_response
 
     final_csv = AttendanceExportsHelper.generate_csv(students, attendances)
-    send_data(final_csv, filename: "attendance_export")
+    send_data(final_csv)
   end
 
   def export_exams_as_csv
     export = ExamExportHelper.generate_csv(exams)
-    send_data(export, filename: "scheduled_exams.csv")
+    send_data(export)
   end
 
   private
