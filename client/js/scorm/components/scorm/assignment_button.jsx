@@ -1,10 +1,34 @@
-import React from 'react';
-import SVGButton from '../../../common_components/svg_button';
+import React        from 'react';
+import HoverButton  from '../common/hover_button';
+import Defines      from '../../../defines';
+import CommonSvg    from '../../../common_components/common_svg';
 
 export default function assignmentButton(props) {
+
+  const hoveredStyle = {
+    backgroundColor: Defines.lightBackground,
+  };
+
+  const buttonStyle = {
+    padding: '20px',
+    width: '100%',
+    backgroundColor: 'white',
+    border: 'none',
+    fontSize: 'inherit',
+    textAlign: 'left',
+    cursor: 'pointer',
+    verticalAlign: 'middle',
+  };
+
   return (
     <a href={`https://${props.canvasUrl}/courses/${props.courseId}/assignments/${props.lms_assignment_id}`} target="_parent">
-      <SVGButton type="gradedAssignment" />
+      <HoverButton
+        style={buttonStyle}
+        hoveredStyle={hoveredStyle}
+      >
+        <CommonSvg className="c-icon" type="gradedAssignment" />
+        Go to Assignment
+      </HoverButton>
     </a>
   );
 }
