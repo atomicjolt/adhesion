@@ -7,7 +7,7 @@ export default class FilterTabs extends React.Component {
     changeTab: React.PropTypes.func.isRequired,
     selectedTab: React.PropTypes.string,
     unscheduledCount: React.PropTypes.number.isRequired,
-  }
+  };
 
   getStyles() {
     return {

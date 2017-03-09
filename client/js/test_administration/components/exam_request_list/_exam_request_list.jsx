@@ -14,6 +14,8 @@ import { createConversation }                   from '../../../libs/canvas/const
 import { loadCustomData, storeCustomData }      from '../../../libs/canvas/constants/users';
 import FilterTabs                               from './filter_tabs';
 import NewProctorCode                           from './new_proctor_code';
+import ReportButton                             from './report_button';
+import ReportWindow                             from './report_window';
 
 const select = state => ({
   lmsUserId: state.settings.lms_user_id,
@@ -39,8 +41,9 @@ export class BaseExamRequestList extends React.Component {
     canvasRequest: React.PropTypes.func.isRequired,
     startExam: React.PropTypes.func.isRequired,
     enterAnswers: React.PropTypes.func.isRequired,
+    exportExamsAsCSV: React.PropTypes.func.isRequired,
     finishExam: React.PropTypes.func.isRequired,
-    lmsUserId: React.PropTypes.number,
+    lmsUserId: React.PropTypes.string,
     needProctorCode: React.PropTypes.bool.isRequired,
   };
 
@@ -84,6 +87,11 @@ export class BaseExamRequestList extends React.Component {
       },
       dateFilter: {
         width: '25%',
+      },
+      reportButton: {
+        margin: '10px 0px',
+        left: '90.5%',
+        position: 'relative',
       }
     };
   }
@@ -95,6 +103,7 @@ export class BaseExamRequestList extends React.Component {
       openSettings: null,
       selectedTab: 'unscheduled',
       filterDate: new Date(),
+      toggleReportWindow: false,
     };
   }
 
@@ -127,6 +136,10 @@ export class BaseExamRequestList extends React.Component {
         <NewProctorCode code={code} hideModal={this.props.hideModal} />
       );
     }
+  }
+
+  onDownload(startDate, endDate) {
+    this.props.exportExamsAsCSV(this.props.currentAccountId, startDate, endDate);
   }
 
   getExamRequestRows() {
@@ -179,6 +192,7 @@ export class BaseExamRequestList extends React.Component {
         />
       );
     }
+
     return (
       <SearchBar
         style={styles.filterTool}
@@ -220,7 +234,6 @@ export class BaseExamRequestList extends React.Component {
     return examRequestList;
   }
 
-
   sendMessage(id, body, subject) {
     const payload = {
       recipients: [_.toString(id)],
@@ -230,12 +243,25 @@ export class BaseExamRequestList extends React.Component {
     this.props.canvasRequest(createConversation, {}, payload);
   }
 
+  toggleReportWindow() {
+    this.props.showModal(
+      <ReportWindow
+        onCancel={() => this.props.hideModal()}
+        onDownload={(...args) => this.onDownload(...args)}
+      />
+    );
+  }
+
   render() {
-    // <SearchBar searchChange={e => this.setState({ searchVal: e.target.value })} />
-    // { this.props.centerIdError ? <CenterError /> : null }
     const styles = BaseExamRequestList.getStyles();
     return (
       <div>
+        <div style={styles.reportButton}>
+          <ReportButton
+            text="Report"
+            onExport={() => this.toggleReportWindow()}
+          />
+        </div>
         <div style={styles.topMatter}>
           {this.getTopControls(styles)}
           <FilterTabs

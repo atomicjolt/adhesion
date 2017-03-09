@@ -43,6 +43,10 @@ Rails.application.routes.draw do
     root to: "home#index"
   end
 
+  resources :exports, only: [] do
+    get "export_exams_as_csv" => "exports#export_exams_as_csv", on: :collection
+  end
+
   resources :courses, only: [] do
     resources :exports, only: [] do
       get "attendances", on: :collection
@@ -73,6 +77,7 @@ Rails.application.routes.draw do
       get "launch" => "scorm_courses#launch"
       get "preview" => "scorm_courses#preview"
       post "import" => "scorm_courses#import"
+      post "replace" => "scorm_courses#replace"
       resources :students, only: [:index]
       resources :sections, only: [] do
         resources :students, only: [:index]
