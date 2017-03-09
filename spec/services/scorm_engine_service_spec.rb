@@ -88,7 +88,8 @@ describe "registration_scorm_result" do
 
     registration_url = scorm_tenant_url + "/registrations/#{@reg.id}/progress"
     stub_request(:any, registration_url).to_return(
-      body: "{ \"registrationSuccess\": \"PASSED\", \"id\": \"12\", \"score\": { \"scaled\": \"99\" } }")
+      body: "{ \"registrationSuccess\": \"PASSED\", \"id\": \"12\", \"score\": { \"scaled\": \"99\" } }",
+    )
 
     response = @subject.registration_scorm_result(@reg.id)
     expect(response[:response]["rsp"]["stat"]).to eq("ok")
@@ -102,7 +103,8 @@ describe "registration_scorm_result" do
 
     registration_url = scorm_tenant_url + "/registrations/#{@reg.id}/progress"
     stub_request(:any, registration_url).to_return(
-      body: "{ \"registrationSuccess\": \"FAILED\", \"id\": \"12\" }")
+      body: "{ \"registrationSuccess\": \"FAILED\", \"id\": \"12\" }",
+    )
 
     response = @subject.registration_scorm_result(@reg.id)
     expect(response[:response]["rsp"]["stat"]).to eq("fail")
