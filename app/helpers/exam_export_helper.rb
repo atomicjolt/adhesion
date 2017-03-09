@@ -1,7 +1,7 @@
 module ExamExportHelper
   def self.generate_csv(exams)
     CSV.generate do |csv|
-        csv << ['Exam Name', 'Student Name', 'Scheduled Date', 'Scheduled Time']
+      csv << ['Exam Name', 'Student Name', 'Scheduled Date', 'Scheduled Time']
       exams.each do |exam|
         row = Array.new
         row << exam[:exam_name]
