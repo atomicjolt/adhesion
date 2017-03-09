@@ -29,6 +29,40 @@ class MockTool
   end
 end
 
+describe "launch_course" do
+  before(:example) do
+    @subject = ScormEngineService.new
+    @application_instance = FactoryGirl.create(:application_instance)
+    @reg = Registration.create(
+      lms_user_id: 2,
+      application_instance: @application_instance,
+      lis_outcome_service_url: Rails.application.secrets.scorm_domain,
+    )
+    @registration = { "format" => "summary",
+                      "regid" => @reg.id.to_s,
+                      "instanceid" => "0",
+                      "complete" => "complete",
+                      "success" => "failed",
+                      "totaltime" => "19",
+                      "score" => "0" }
+  end
+
+  it "should return correct launch" do
+    api_interface = Rails.application.secrets.scorm_api_url
+    scorm_tenant_url = Rails.application.secrets.scorm_domain + api_interface + "default"
+
+    registration_url = scorm_tenant_url + "/registrations"
+    stub_request(:any, registration_url).to_return(body: "{ \"status\": \"204\" }")
+    launch_url = scorm_tenant_url + "/registrations/#{@reg.id}/launchLink"
+
+    launch_route = "/launchLink"
+    stub_request(:any, launch_url).to_return(body: "{ \"launchLink\": \"#{launch_route}\" }")
+    response = @subject.launch_course(@reg, "")
+    expect(response[:response]).to eq(Rails.application.secrets.scorm_ssl_domain + launch_route)
+    expect(response[:status]).to eq(200)
+  end
+end
+
 describe "Scorm Engine Service sync score", type: :controller do
   before(:example) do
     @subject = ScormEngineService.new

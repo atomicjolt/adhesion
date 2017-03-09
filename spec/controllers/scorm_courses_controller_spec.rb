@@ -76,7 +76,6 @@ RSpec.describe ScormCoursesController, type: :controller do
   describe "Create ScormEngineService" do
     before(:example) do
       $scorm_type = "engine"
-      WebMock.allow_net_connect!(net_http_connect_on_start: true)
       @application_instance = FactoryGirl.create(:application_instance)
       allow(controller).to receive(
         :current_application_instance,
