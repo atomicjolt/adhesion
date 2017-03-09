@@ -40,10 +40,10 @@ export class BaseExamRequestList extends React.Component {
     showModal: React.PropTypes.func.isRequired,
     canvasRequest: React.PropTypes.func.isRequired,
     startExam: React.PropTypes.func.isRequired,
-    downloadFile: React.PropTypes.func.isRequired,
     finishExam: React.PropTypes.func.isRequired,
     lmsUserId: React.PropTypes.string,
     needProctorCode: React.PropTypes.bool.isRequired,
+    downloadFile: React.PropTypes.func.isRequired,    
   };
 
   static tableHeader(styles) {
