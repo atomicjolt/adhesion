@@ -115,7 +115,7 @@ export default class ScheduleForm extends React.Component {
           />
         </div>
         <div style={styles.messageContainer}>
-          <div style={styles.dropdownHeader}>RESPSONSE TO STUDENT</div>
+          <div style={styles.dropdownHeader}>RESPONSE TO STUDENT</div>
           <div style={styles.textContainer}>
             <textarea
               style={styles.textarea}

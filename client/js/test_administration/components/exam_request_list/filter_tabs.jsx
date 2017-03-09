@@ -44,16 +44,16 @@ export default class FilterTabs extends React.Component {
     return (
       <div style={styles.container}>
         <button
-          style={{ ...styles.slantButton, ...styles.selected('date') }}
-          onClick={() => this.props.changeTab('date')}
-        >
-          Date
-        </button>
-        <button
-          style={{ ...styles.slantButton, ...styles.selected('unscheduled'), ...styles.shift }}
+          style={{ ...styles.slantButton, ...styles.selected('unscheduled') }}
           onClick={() => this.props.changeTab('unscheduled')}
         >
           Unscheduled ({this.props.unscheduledCount})
+        </button>
+        <button
+          style={{ ...styles.slantButton, ...styles.selected('date'), ...styles.shift }}
+          onClick={() => this.props.changeTab('date')}
+        >
+          Date
         </button>
         <button
           style={{ ...styles.slantButton, ...styles.selected('all'), ...styles.shift }}

@@ -40,6 +40,7 @@ export class BaseExamRequestList extends React.Component {
     showModal: React.PropTypes.func.isRequired,
     canvasRequest: React.PropTypes.func.isRequired,
     startExam: React.PropTypes.func.isRequired,
+    enterAnswers: React.PropTypes.func.isRequired,
     exportExamsAsCSV: React.PropTypes.func.isRequired,
     finishExam: React.PropTypes.func.isRequired,
     lmsUserId: React.PropTypes.string,
@@ -100,7 +101,7 @@ export class BaseExamRequestList extends React.Component {
     this.state = {
       searchVal: null,
       openSettings: null,
-      selectedTab: 'date',
+      selectedTab: 'unscheduled',
       filterDate: new Date(),
       toggleReportWindow: false,
     };
@@ -173,6 +174,7 @@ export class BaseExamRequestList extends React.Component {
         showModal={this.props.showModal}
         hideModal={this.props.hideModal}
         startExam={this.props.startExam}
+        enterAnswers={this.props.enterAnswers}
         finishExam={this.props.finishExam}
         openSettings={id => this.setState({ openSettings: id })}
         settingsOpen={this.state.openSettings === examRequest.id}
@@ -223,9 +225,10 @@ export class BaseExamRequestList extends React.Component {
         examRequest.status !== 'finished'
       ));
     } else if (this.state.selectedTab === 'unscheduled') {
-      return _.filter(examRequestList, examRequest => (
+      const list = _.filter(examRequestList, examRequest => (
         !examRequest.scheduled_date && examRequest.status !== 'finished'
       ));
+      return _.orderBy(list, examRequest => moment(examRequest.created_at).toDate());
     }
 
     return examRequestList;

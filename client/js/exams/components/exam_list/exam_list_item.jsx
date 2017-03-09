@@ -3,8 +3,6 @@ import _                 from 'lodash';
 import ClickableTableRow from '../common/clickable_table_row';
 import Defines           from '../../defines';
 
-const VISIBLE_STATUSES = ['requested', 'completed'];
-
 export default function examListItem(props) {
   const styles = {
     tr: {
@@ -39,7 +37,7 @@ export default function examListItem(props) {
   if (!props.examRequest) {
     status = '';
     testingCenter = '';
-  } else if (_.includes(VISIBLE_STATUSES, props.examRequest.status)) {
+  } else if (props.examRequest.status === 'requested') {
     status = _.capitalize(props.examRequest.status);
     testingCenter = props.examRequest.testing_center_name;
   } else if (props.examRequest.status === 'scheduled') {
