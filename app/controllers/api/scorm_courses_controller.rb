@@ -1,6 +1,7 @@
 class Api::ScormCoursesController < ApplicationController
   include Concerns::CanvasSupport
   include Concerns::JwtToken
+  include ScormCourseHelper
 
   before_action :validate_token
 
@@ -10,22 +11,22 @@ class Api::ScormCoursesController < ApplicationController
     params.require(:scorm_course).permit(:lms_assignment_id, :points_possible)
   end
 
-  def send_scorm_cloud_response(response)
+  def send_scorm_connect_response(response)
     render json: response, status: response[:status]
   end
 
   def index
-    courses = scorm_cloud_service.list_courses(
+    courses = scorm_connect_service.list_courses(
       filter: ".*_#{params[:lms_course_id]}",
     )
     if courses[:status] != 400
-      courses[:response] = scorm_cloud_service.sync_courses(courses[:response])
+      courses[:response] = scorm_connect_service.sync_courses(courses[:response])
     end
-    send_scorm_cloud_response(courses)
+    send_scorm_connect_response(courses)
   end
 
   def create
-    response = scorm_cloud_service.upload_course(
+    response = scorm_connect_service.upload_course(
       params[:file],
       params[:lms_course_id],
     )
@@ -36,15 +37,15 @@ class Api::ScormCoursesController < ApplicationController
     file_id = upload_canvas_file(params[:file], params[:lms_course_id])
     if file_id
       ScormCourse.find(
-        response[:response]["course_id"],
+        response["course_id"],
       ).update_attribute(:file_id, file_id)
     end
-    send_scorm_cloud_response(response)
+    send_scorm_connect_response(response)
   end
 
   def show
-    response = scorm_cloud_service.course_manifest(params[:id])
-    send_scorm_cloud_response(response)
+    response = scorm_connect_service.course_manifest(params[:id])
+    send_scorm_connect_response(response)
   end
 
   def update
@@ -55,15 +56,15 @@ class Api::ScormCoursesController < ApplicationController
 
   def destroy
     course = ScormCourse.find_by(scorm_cloud_id: params[:id])
-    response = scorm_cloud_service.remove_course(params[:id])
+    response = scorm_connect_service.remove_course(params[:id])
     delete_canvas_file(course.file_id) if course&.file_id
     course.update_attribute(:file_id, nil)
-    send_scorm_cloud_response(response)
+    send_scorm_connect_response(response)
   end
 
   def preview
-    send_scorm_cloud_response(
-      scorm_cloud_service.preview_course(
+    send_scorm_connect_response(
+      scorm_connect_service.preview_course(
         params[:scorm_course_id],
         params[:redirect_url],
       ),
@@ -72,7 +73,7 @@ class Api::ScormCoursesController < ApplicationController
 
   def replace
     course = ScormCourse.find_by(scorm_cloud_id: params[:scorm_course_id])
-    response = scorm_cloud_service.update_course(
+    response = scorm_connect_service.update_course(
       params[:file],
       course,
     )
@@ -86,7 +87,7 @@ class Api::ScormCoursesController < ApplicationController
         response[:response][:title],
       )
     end
-    send_scorm_cloud_response(response)
+    send_scorm_connect_response(response)
   end
 
   private
@@ -145,9 +146,5 @@ class Api::ScormCoursesController < ApplicationController
         assignment: { name: name },
       },
     )
-  end
-
-  def scorm_cloud_service
-    ScormCloudService.new
   end
 end
