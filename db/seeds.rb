@@ -93,9 +93,9 @@ applications = [
     }],
   },
   {
-    name: "Test Administration Tool",
-    description: "Test Administration",
-    client_application_name: "test_administration",
+    name: "Exam Proctoring",
+    description: "Exam Proctoring",
+    client_application_name: "exam_proctoring",
     canvas_api_permissions: %w{
       GET_SINGLE_QUIZ
       LIST_QUESTIONS_IN_QUIZ_OR_SUBMISSION
