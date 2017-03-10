@@ -186,6 +186,8 @@ applications on a single domain. By default this will be set to APP_SUBDOMAIN fr
 and will be used to sign the LTI request. Generate this value using `rake secret`. Alternatively if you leave this field empty an LTI secret will be automatically generated for the account.
 - **canvas_uri:** The URI of the Canvas institution to be associated with a specific account.
 
+#### Scorm Player
+We have both the Scorm Cloud and the Scorm Engine setup to work with Adhesion. You will need to decide which one you will be using then in the seeds file go to the application named SCORM Player and change the default_config scorm_type to "cloud" or "engine". You can change this later in the database if needed.
 
 Once you've setup your seeds file run it to setup database defaults:
 
