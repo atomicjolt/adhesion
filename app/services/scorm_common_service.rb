@@ -22,8 +22,14 @@ module ScormCommonService
     cleanup = Proc.new { course.destroy }
     package_id = "#{course.id}_#{lms_course_id}"
     response = upload_scorm_course(file, package_id, cleanup)
-    course.update_attributes(title: response[:title], scorm_cloud_id: package_id)
+    course.update_attributes(title: response[:response][:title], scorm_cloud_id: package_id)
     response["course_id"] = course.id
+    response
+  end
+
+  def update_course(file, course)
+    response = update_scorm_course(file, course.scorm_cloud_id)
+    course.update_attribute(:title, response[:response][:title])
     response
   end
 

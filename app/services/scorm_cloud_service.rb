@@ -41,27 +41,22 @@ class ScormCloudService
 
   def upload_scorm_course(file, course_id, cleanup)
     scorm_cloud_request(cleanup) do
-      @scorm_cloud.course.import_course(
-        course_id,
-        file,
-      )
-      course.update_attributes(title: resp[:title], scorm_cloud_id: package_id)
       @scorm_cloud.course.update_attributes(package_id, registrationInstancingOption: "incomplete")
-      resp["package_id"] = package_id
-      resp["course_id"] = course.id
-      resp
+      import_course(file, course_id)
     end
   end
 
-  def update_course(file, course)
+  def update_scorm_course(file, course_id)
     scorm_cloud_request do
-      resp = @scorm_cloud.course.import_course(
-        course.scorm_cloud_id,
-        file,
-      )
-      course.update_attribute(:title, resp[:title])
-      resp
+      import_course(file, course_id)
     end
+  end
+
+  def import_course(file, course_id)
+    @scorm_cloud.course.import_course(
+      course_id,
+      file,
+    )
   end
 
   def show_course(course_id)

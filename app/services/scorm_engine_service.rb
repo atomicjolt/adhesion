@@ -41,22 +41,41 @@ class ScormEngineService
     courses = {}
     url = @scorm_tenant_url + "/courses"
     response = send_get_request(url, options)
-    courses[:response] = (JSON.parse response.body)["courses"]
+    body_courses = (JSON.parse response.body)["courses"]
+    courses[:response] = get_merged_list(body_courses)
     courses[:status] = response[:status]
     courses
   end
 
-  def upload_scorm_course(file, package_id, _cleanup)
+  def upload_scorm_course(file, course_id, _cleanup)
+    import_course(file, course_id)
+  end
+
+  def update_scorm_course(file, course_id)
+    import_course(file, course_id)
+  end
+
+  def import_course(file, course_id)
     uri = URI(@scorm_tenant_url + "/courses/importJobs")
     File.open(File.new(file.path)) do |zip|
-      request = Net::HTTP::Post::Multipart.new "#{uri.path}?course=#{package_id}",
+      request = Net::HTTP::Post::Multipart.new "#{uri.path}?course=#{course_id}&mayCreateNewVersion=true",
                                                "file": UploadIO.new(zip, "zip/zip", file.original_filename)
       Net::HTTP.start(uri.host, uri.port) do |http|
         request.basic_auth @api_username, @api_password
         response = http.request(request)
-        response
+        course = {}
+        course[:response] = {}
+        course[:response][:title] = get_scorm_title(course_id)
+        course[:status] = response.code
+        course
       end
     end
+  end
+
+  def get_scorm_title(course_id)
+    url = @scorm_tenant_url + "/courses/#{course_id}/title"
+    response = send_get_request(url)
+    (JSON.parse response.body)["title"]
   end
 
   def show_course(course_id)
@@ -124,6 +143,18 @@ class ScormEngineService
   end
 
   private
+
+  def get_merged_list(courses)
+    courses.
+      group_by { |c| c["id"] }.
+      map do |course_group|
+        groups = course_group.last
+        if groups.count > 1
+          groups.sort_by { |a| a[:version] }
+        end
+        groups.last
+      end
+  end
 
   def get_launch_link(registration_id)
     url = @scorm_tenant_url + "/registrations/#{registration_id}/launchLink"
