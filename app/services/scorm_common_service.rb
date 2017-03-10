@@ -85,6 +85,7 @@ module ScormCommonService
 
   def sync_registration_score(reg_result)
     reg = Registration.find(reg_result["regid"])
+    reg.store_activities(reg_result["activity"].deep_symbolize_keys) if reg_result["activity"]
     reg.score = package_score(reg_result["score"])
     if package_complete?(reg_result) && reg.changed?
       response = post_results(reg, reg_result)

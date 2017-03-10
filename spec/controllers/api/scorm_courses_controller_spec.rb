@@ -87,4 +87,13 @@ RSpec.describe Api::ScormCoursesController, type: :controller do
       )["response"]).to eq("launch_url" => "fake_url")
     end
   end
+
+  describe "GET course_report" do
+    it "should return course analytics data" do
+      course = ScormCourse.create
+      get :course_report, scorm_course_id: course.id
+      expect(response).to have_http_status 200
+      expect(JSON.parse(response.body)).to include("mean_score")
+    end
+  end
 end

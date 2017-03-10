@@ -34,6 +34,24 @@ export default function settings(props) {
     backgroundColor: Defines.lightBackground,
   };
 
+  function analytics(useBtn, handleFunc) {
+    if (useBtn) {
+      return (
+        <div style={divStyle}>
+          <HoverButton
+            style={buttonStyle}
+            hoveredStyle={hoveredStyle}
+            onClick={handleFunc}
+          >
+            <CommonSvg className="c-icon" type="stats" />
+            Go to Analytics
+          </HoverButton>
+        </div>
+      );
+    }
+    return (<div />);
+  }
+
   return (
     <div style={{ ...settingsStyle }}>
       <div style={divStyle}>
@@ -49,6 +67,7 @@ export default function settings(props) {
           Preview Package
         </HoverButton>
       </div>
+      {analytics(props.analyticsButton, props.handleAnalytics)}
       <div style={divStyle}>
         <HoverButton
           style={buttonStyle}
@@ -76,7 +95,9 @@ export default function settings(props) {
 
 settings.propTypes = {
   assignmentButton: React.PropTypes.shape({}),
+  analyticsButton: React.PropTypes.bool.isRequired,
   handlePreview: React.PropTypes.func.isRequired,
+  handleAnalytics: React.PropTypes.func.isRequired,
   handleUpdate: React.PropTypes.func.isRequired,
   handleRemove: React.PropTypes.func.isRequired,
   updateInput: React.PropTypes.shape({}),

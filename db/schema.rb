@@ -168,6 +168,29 @@ ActiveRecord::Schema.define(version: 20170309132554) do
     t.datetime "updated_at"
   end
 
+  create_table "scorm_activities", force: :cascade do |t|
+    t.string  "title"
+    t.integer "registration_id"
+    t.boolean "satisfied"
+    t.boolean "completed"
+    t.integer "attempts"
+    t.boolean "suspended"
+    t.string  "completion_status"
+    t.float   "score_scaled"
+    t.float   "score_raw"
+    t.float   "score_min"
+    t.float   "score_max"
+    t.time    "total_time"
+    t.time    "time_tracked"
+    t.string  "success_status"
+    t.integer "lms_user_id"
+    t.string  "lms_user_name"
+    t.integer "parent_activity_id"
+  end
+
+  add_index "scorm_activities", ["registration_id"], name: "index_scorm_activities_on_registration_id", using: :btree
+  add_index "scorm_activities", ["title"], name: "index_scorm_activities_on_title", using: :btree
+
   create_table "scorm_courses", force: :cascade do |t|
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
@@ -180,6 +203,17 @@ ActiveRecord::Schema.define(version: 20170309132554) do
 
   add_index "scorm_courses", ["lms_assignment_id"], name: "index_scorm_courses_on_lms_assignment_id", using: :btree
   add_index "scorm_courses", ["scorm_cloud_id"], name: "index_scorm_courses_on_scorm_cloud_id", unique: true, using: :btree
+
+  create_table "scorm_objectives", force: :cascade do |t|
+    t.integer "scorm_activity_id"
+    t.boolean "primary"
+    t.boolean "measure_status"
+    t.float   "normalized_measure"
+    t.boolean "progress_status"
+    t.boolean "satisfied_status"
+  end
+
+  add_index "scorm_objectives", ["scorm_activity_id"], name: "index_scorm_objectives_on_scorm_activity_id", using: :btree
 
   create_table "sections", force: :cascade do |t|
     t.integer  "course_id"
