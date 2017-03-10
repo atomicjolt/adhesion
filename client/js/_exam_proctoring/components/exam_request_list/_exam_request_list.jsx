@@ -89,9 +89,11 @@ export class BaseExamRequestList extends React.Component {
         width: '25%',
       },
       reportButton: {
-        margin: '10px 0px',
-        left: '90.5%',
-        position: 'relative',
+        margin: '5px 0px',
+        float: 'right',
+      },
+      clear: {
+        clear: 'both',
       }
     };
   }
@@ -262,6 +264,7 @@ export class BaseExamRequestList extends React.Component {
             onExport={() => this.toggleReportWindow()}
           />
         </div>
+        <div style={styles.clear} />
         <div style={styles.topMatter}>
           {this.getTopControls(styles)}
           <FilterTabs
