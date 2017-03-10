@@ -10,11 +10,12 @@ describe('popup menu', () => {
   let examHasFinished;
   let examModal;
   let message;
+  let x;
   beforeEach(() => {
 
     examHasStarted = false;
     examHasFinished = false;
-    message = "empty";
+    x = 1;
 
     props = {
       status: 'scheduled',
@@ -40,13 +41,12 @@ describe('popup menu', () => {
     expect(element.textContent).toContain('Finish');
   });
 
-  fit('start exam', () => {
+  it('start exam', () => {
     props.studentHasExamStarted = true;
     const buttons = TestUtils.scryRenderedDOMComponentsWithTag(result, 'button');
     const startButton = buttons[0];
     TestUtils.Simulate.click(startButton);
     expect(examHasStarted).toBeTruthy();
-    debugger;
   });
 
   it('finish exam', () => {
@@ -65,11 +65,10 @@ describe('popup menu', () => {
     expect(examModal).toBeDefined();
   });
 
-  fit('open message modal', () => {
+  it('open message modal', () => {
     const buttons = TestUtils.scryRenderedDOMComponentsWithTag(result, 'button');
     const messageStudentButton = buttons[3];
     TestUtils.Simulate.click(messageStudentButton);
-    debugger;
+    expect(message).toContain("If you're reading this, I'm too late");
   });
-
 });
