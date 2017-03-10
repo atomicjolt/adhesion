@@ -2,6 +2,14 @@ require "rails_helper"
 
 RSpec.describe ScormCoursesController, type: :controller do
   describe "POST#postback" do
+    before(:example) do
+      @application_instance = FactoryGirl.create(:application_instance)
+      @application_instance.application.
+        update_attributes(default_config: { scorm_type: "cloud" })
+      allow(controller).to receive(
+        :current_application_instance,
+      ).and_return(@application_instance)
+    end
     it "should reject bad password" do
       reg = Registration.create
       post(
@@ -43,11 +51,12 @@ RSpec.describe ScormCoursesController, type: :controller do
 
   describe "Create ScormCloudService" do
     before(:example) do
-      $scorm_type = "cloud"
       allow_any_instance_of(ScormCloud::ScormCloud).to receive(
         :registration,
       ).and_return(MockScorm.new)
       @application_instance = FactoryGirl.create(:application_instance)
+      @application_instance.application.
+        update_attributes(default_config: { scorm_type: "cloud" })
       allow(controller).to receive(
         :current_application_instance,
       ).and_return(@application_instance)
@@ -75,8 +84,9 @@ RSpec.describe ScormCoursesController, type: :controller do
 
   describe "Create ScormEngineService" do
     before(:example) do
-      $scorm_type = "engine"
       @application_instance = FactoryGirl.create(:application_instance)
+      @application_instance.application.
+        update_attributes(default_config: { scorm_type: "engine" })
       allow(controller).to receive(
         :current_application_instance,
       ).and_return(@application_instance)

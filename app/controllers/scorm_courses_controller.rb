@@ -1,5 +1,6 @@
 class ScormCoursesController < ApplicationController
   include Concerns::LtiSupport
+  include ScormCourseHelper
 
   protect_from_forgery with: :null_session
   before_action :setup
@@ -47,6 +48,6 @@ class ScormCoursesController < ApplicationController
   end
 
   def setup
-    @scorm_connect = $scorm_type == "engine" ? ScormEngineService.new : ScormCloudService.new
+    @scorm_connect = scorm_connect_service
   end
 end

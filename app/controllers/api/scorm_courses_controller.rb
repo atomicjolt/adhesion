@@ -1,6 +1,7 @@
 class Api::ScormCoursesController < ApplicationController
   include Concerns::CanvasSupport
   include Concerns::JwtToken
+  include ScormCourseHelper
 
   before_action :validate_token
 
@@ -145,9 +146,5 @@ class Api::ScormCoursesController < ApplicationController
         assignment: { name: name },
       },
     )
-  end
-
-  def scorm_connect_service
-    $scorm_type == "engine" ? ScormEngineService.new : ScormCloudService.new
   end
 end
