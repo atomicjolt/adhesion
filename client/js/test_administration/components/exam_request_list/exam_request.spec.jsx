@@ -8,16 +8,20 @@ describe('Exam list', () => {
   let messageSent;
   let modalHidden;
   let scheduledExam;
+  let examStatus;
+  let examId;
   beforeEach(() => {
     messageSent = false;
     modalHidden = false;
     scheduledExam = {};
-
     props = {
       lmsUserId: '1',
       examRequest: {
         student_name: 'Picard',
-        status: 'assigned'
+        student_id: 987,
+        status: 'assigned',
+        id: 123,
+        exam_name: 'starcraft exam',
       },
       openSettings: () => { props.settingsOpen = true; },
       settingsOpen: false,
@@ -30,6 +34,18 @@ describe('Exam list', () => {
       sendMessage: (message, name) => { messageSent = true; },
       hideModal: () => { modalHidden = true; },
       examRequestList: [{}],
+      finishExam: (id) => { 
+        examStatus = 'finish'
+        examId = id;
+      },
+      enterAnswers: (id) => { 
+        examId = id;
+        examStatus = 'ongoing';
+      },
+      startExam: (id) => { 
+        examId = id;
+        examStatus = 'start';
+       },
     };
     result = TestUtils.renderIntoDocument(<ExamRequest {...props} />);
   });
@@ -51,5 +67,24 @@ describe('Exam list', () => {
     expect(scheduledExam).toEqual(jasmine.objectContaining({
       message: 'seconds since 1970'
     }))
+  });
+
+  it('finish exam', () => {
+    result.finishExam(props.examRequest.id);
+    // expect(didFinishExam).toBeTruthy();
+    expect(examStatus).toContain('finish');
+    expect(examId).toEqual(props.examRequest.id);
+  });
+
+  it('enter answer', () => {
+    result.enterAnswers();
+    expect(examStatus).toContain('ongoing');
+    expect(examId).toEqual(props.examRequest.id);
+  });
+
+  it('start exam', () => {
+    result.startExam();
+    expect(examStatus).toContain('start');
+    expect(examId).toEqual(props.examRequest.id);
   });
 });

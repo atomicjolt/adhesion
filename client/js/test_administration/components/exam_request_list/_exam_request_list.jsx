@@ -164,6 +164,7 @@ export class BaseExamRequestList extends React.Component {
     }
 
     renderList = this.tabFilter(renderList);
+    debugger;
     return _.map(renderList, examRequest => (
       <ExamRequest
         key={`proctor_${examRequest.id}`}

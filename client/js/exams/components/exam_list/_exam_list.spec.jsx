@@ -16,7 +16,9 @@ describe('Exam list', () => {
         1: {
           status: 'requested'
         }
-      }
+      },
+      lmsUserId: 'lms user id',
+      toolConsumerInstanceName: 'instance name'
     };
     result = TestUtils.renderIntoDocument(<BaseExamList {...props} />);
   });

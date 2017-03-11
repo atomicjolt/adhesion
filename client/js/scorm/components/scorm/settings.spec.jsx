@@ -24,8 +24,14 @@ describe('settings', () => {
     const buttons = TestUtils.scryRenderedComponentsWithType(result, HoverButton);
     expect(buttons.length).toBe(3);
   });
+
   it('renders the assignment button when passed in props', () => {
-    props.assignmentButton = <AssignmentButton />;
+    const assignmentButtonProps = {
+      canvasUrl: 'canvasorother',
+      courseId: '12345',
+      lms_assignment_id: 54321,
+    };
+    props.assignmentButton = <AssignmentButton {...assignmentButtonProps}/>;
     result = TestUtils.renderIntoDocument(<Stub><Settings {...props} /></Stub>);
     const buttons = TestUtils.scryRenderedComponentsWithType(result, HoverButton);
     expect(buttons.length).toBe(4);

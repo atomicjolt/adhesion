@@ -25,11 +25,12 @@ export class BaseExamList extends React.Component {
     getTestingCentersAccount: React.PropTypes.func.isRequired,
     loadExamRequests: React.PropTypes.func.isRequired,
     lmsCourseId: React.PropTypes.string.isRequired,
-    examList: React.PropTypes.shape({}),
+    examList: React.PropTypes.arrayOf(React.PropTypes.shape({})),
     toolConsumerInstanceName: React.PropTypes.string.isRequired,
     lmsUserId: React.PropTypes.string.isRequired,
     examRequests: React.PropTypes.shape({}),
   }
+  // applicationInstances: React.PropTypes.arrayOf(React.PropTypes.shape({})),
 
   static goToExam(id) {
     appHistory.push(`exams/${id}`);

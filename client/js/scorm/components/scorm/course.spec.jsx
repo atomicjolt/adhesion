@@ -23,6 +23,7 @@ describe('course', () => {
       importPackage: () => { remove = true; },
       previewPackage: () => { remove = true; },
       updateImportType: () => { remove = true; },
+      replacePackage: () => {},
       onClick: () => {},
       canvasUrl: 'www.canvas.com',
       courseId: '7',
