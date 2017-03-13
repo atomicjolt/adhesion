@@ -2,7 +2,7 @@ import React                               from 'react';
 import { connect }                         from 'react-redux';
 import { hashHistory }                     from 'react-router';
 import Chart                               from './chart';
-import NavButtons                          from './nav_buttons';
+import NavContainer                        from './nav_container';
 import RegList                             from './registration_list';
 import * as AnalyticsActions               from '../../actions/analytics';
 
@@ -66,7 +66,7 @@ export class CourseReport extends React.Component {
 
         <div className="c-aa-graph-picker">
           <div className="c-aa-graph-nav">
-            <NavButtons
+            <NavContainer
               data={data}
               switchChart={label => this.setState({ selectedChart: label })}
             />
