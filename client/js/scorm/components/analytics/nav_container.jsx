@@ -22,9 +22,11 @@ export default class NavButtons extends React.Component {
 
   render() {
     const data = this.props.data;
-    let passedPercentage;
-    let completedPercentage;
-    passedStat = data.passed ? (data.passed[0].value / data.regCount) * 100 : '';
+    let passedStat;
+    let completedStat;
+    if (data.passed) {
+      passedStat = (data.passed[0].value / data.regCount) * 100
+    }
     if (data.completed) {
       completedStat = (data.completed[0].value / data.regCount) * 100;
     }
