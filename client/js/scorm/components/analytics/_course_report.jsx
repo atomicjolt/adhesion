@@ -1,9 +1,9 @@
 import React                               from 'react';
 import { connect }                         from 'react-redux';
-import { hashHistory }                     from 'react-router';
+import Header                              from './header';
 import ChartContainer                      from './chart_container';
 import NavContainer                        from './nav_container';
-import RegList                             from './registration_list';
+import AnalyticList                        from './analytic_list';
 import * as AnalyticsActions               from '../../actions/analytics';
 
 export class CourseReport extends React.Component {
@@ -54,31 +54,21 @@ export class CourseReport extends React.Component {
 
     return (
       <div className="c-aa-contain">
-        <header className="c-aa-head">
-          <a
-            className="c-aa-back-btn"
-            onClick={() => hashHistory.push('/')}
-          >
-            <i className="material-icons">arrow_back</i>
-          </a>
-          <h1 className="c-aa-title">{data.title} Analytics</h1>
-        </header>
-
+        <Header
+          title = { data.title } />
         <div className="c-aa-graph-picker">
           <div className="c-aa-graph-nav">
             <NavContainer
-              data={data}
-              switchChart={label => this.setState({ selectedChart: label })}
-            />
+              data={ data }
+              switchChart={ label => this.setState({ selectedChart: label })} />
           </div>
           <div className="c-aa-graph-container">
             <ChartContainer
               data={data}
-              selected={this.state.selectedChart}
-            />
+              selected={this.state.selectedChart} />
           </div>
         </div>
-        <RegList
+        <AnalyticList
           regList={data.regDetails}
         />
       </div>
