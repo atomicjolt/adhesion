@@ -15,6 +15,7 @@ export default class ExamRequest extends React.Component {
       student_id: React.PropTypes.number.isRequired,
       exam_name: React.PropTypes.string.isRequired,
       id: React.PropTypes.number.isRequired,
+      status: React.PropTypes.string.isRequired
     }),
     examRequestList: React.PropTypes.arrayOf(
       React.PropTypes.shape({})
@@ -170,7 +171,7 @@ export default class ExamRequest extends React.Component {
 
   getStatus() {
     if (_.includes(['finished', 'requested', 'entering answers'], this.props.examRequest.status)) {
-      return _.capitalize(this.props.examRequest.status)
+      return _.capitalize(this.props.examRequest.status);
     }
     return null;
   }
