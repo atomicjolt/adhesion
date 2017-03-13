@@ -21,8 +21,8 @@ export default class Graph extends React.Component {
         </div>
         <div className="c-aa-graph-container">
           <ChartContainer
-            data={this.props.data}
-            selected={this.state.selectedChart} />
+            data={ this.props.data }
+            selected={ this.state.selectedChart } />
         </div>
       </div>
     );

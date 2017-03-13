@@ -6,10 +6,10 @@ export default function Header(props) {
     <header className="c-aa-head">
       <a
         className="c-aa-back-btn"
-        onClick={() => hashHistory.push('/')}>
+        onClick={ () => hashHistory.push('/') }>
         <i className="material-icons">arrow_back</i>
       </a>
-      <h1 className="c-aa-title">{props.title} Analytics</h1>
+      <h1 className="c-aa-title">{ props.title } Analytics</h1>
     </header>
   );
 }

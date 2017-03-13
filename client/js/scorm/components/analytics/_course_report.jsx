@@ -28,21 +28,6 @@ export class CourseReport extends React.Component {
     }).isRequired,
   }
 
-  static getStyles() {
-    return {
-      stats: {
-        float: 'left',
-      },
-    };
-  }
-
-  constructor() {
-    super();
-    this.state = {
-      activeIndex: null,
-    };
-  }
-
   componentWillMount() {
     this.props.loadCourseData(this.props.scormCourseId);
   }
@@ -52,9 +37,9 @@ export class CourseReport extends React.Component {
 
     return (
       <div className="c-aa-contain">
-        <Header title = { data.title } />
-        <Graph data = { data } />
-        <AnalyticList regList={data.regDetails} />
+        <Header title={ data.title } />
+        <Graph data={ data } />
+        <AnalyticList regList={ data.regDetails } />
       </div>
     );
   }

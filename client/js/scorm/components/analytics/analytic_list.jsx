@@ -18,11 +18,11 @@ export default function registrationList(props) {
         {
           _.map(props.regList, (reg, key) => (
             <AnalyticRow
-              key={key}
-              name={reg.name}
-              passed={reg.passed}
-              score={reg.score}
-              time={reg.time}
+              key={ key }
+              name={ reg.name }
+              passed={ reg.passed }
+              score={ reg.score }
+              time={ reg.time }
             />
           ))
         }

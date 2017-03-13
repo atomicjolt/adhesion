@@ -34,25 +34,25 @@ export default class NavButtons extends React.Component {
     return (
       <div>
         <NavButton
-          label = 'Completed'
-          stat = { completedStat }
-          setActive = { this.setActive.bind(this) }
-          activeBtn = { this.state.activeBtn } />
+          label='Completed'
+          stat={ completedStat }
+          setActive={ this.setActive.bind(this) }
+          activeBtn={ this.state.activeBtn } />
         <NavButton
-          label = 'Passed'
-          stat = { passedStat }
-          setActive = { this.setActive.bind(this) }
-          activeBtn = { this.state.activeBtn } />
+          label='Passed'
+          stat={ passedStat }
+          setActive={ this.setActive.bind(this) }
+          activeBtn={ this.state.activeBtn } />
         <NavButton
-          label = 'Average Score'
-          stat = { data.medScore * 100 }
-          setActive = { this.setActive.bind(this) }
-          activeBtn = { this.state.activeBtn } />
+          label='Average Score'
+          stat={ data.medScore * 100 }
+          setActive={ this.setActive.bind(this) }
+          activeBtn={ this.state.activeBtn } />
         <NavButton
-          label= 'Minutes Per Learner'
-          stat = { 100 }
-          setActive = { this.setActive.bind(this) }
-          activeBtn = { this.state.activeBtn } />
+          label='Minutes Per Learner'
+          stat={ 100 }
+          setActive= { this.setActive.bind(this) }
+          activeBtn= { this.state.activeBtn } />
       </div>
     );
   }

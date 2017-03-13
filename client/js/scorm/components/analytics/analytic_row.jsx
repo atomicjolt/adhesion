@@ -15,10 +15,10 @@ export default function registrationDetail(props) {
 
   return (
     <tr>
-      <td>{props.name}</td>
-      <td>{props.passed}</td>
-      <td>{formatScore(props.score)}</td>
-      <td>{formatTime(props.time)}</td>
+      <td>{ props.name }</td>
+      <td>{ props.passed }</td>
+      <td>{ formatScore(props.score) }</td>
+      <td>{ formatTime(props.time) }</td>
     </tr>
   );
 }
