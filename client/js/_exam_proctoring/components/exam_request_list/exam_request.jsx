@@ -15,6 +15,7 @@ export default class ExamRequest extends React.Component {
       student_id: React.PropTypes.number.isRequired,
       exam_name: React.PropTypes.string.isRequired,
       id: React.PropTypes.number.isRequired,
+      status: React.PropTypes.string.isRequired
     }),
     examRequestList: React.PropTypes.arrayOf(
       React.PropTypes.shape({})
@@ -64,6 +65,19 @@ export default class ExamRequest extends React.Component {
         border: 'none',
         cursor: 'pointer',
         fontSize: '1.8em',
+      },
+      startFinishButton: {
+        backgroundColor: Defines.lightGrey,
+        color: Defines.darkGrey,
+        border: 'none',
+        cursor: 'pointer',
+        fontSize: '1em',
+        padding: '10px 20px',
+        marginTop: '5px'
+      },
+      startFinishedHovered: {
+        backgroundColor: Defines.lightText,
+        color: 'white'
       },
       hoveredStyle: {
         color: Defines.darkGrey,
@@ -123,13 +137,43 @@ export default class ExamRequest extends React.Component {
     return '';
   }
 
-  getStatus() {
-    const { examRequest } = this.props;
-    // const styles = this.getStyles();
-    if (examRequest.status === 'requested') {
-      return _.capitalize(examRequest.status);
+  getStartButton(styles, studentHasExamStarted) {
+    const disabled = studentHasExamStarted ? {
+      cursor: 'not-allowed',
+      color: Defines.lightGrey,
+      backgroundColor: 'white',
+      outline: 'none'
+    } : {};
+
+    if (this.props.examRequest.status === 'scheduled') {
+      return (
+        <HoverButton
+          style={{ ...styles.startFinishButton, ...disabled }}
+          hoveredStyle={{ ...styles.startFinishedHovered, ...disabled }}
+          onClick={studentHasExamStarted ? () => {} : () => this.startExam()}
+        >
+          START
+        </HoverButton>
+      );
+    } else if (_.includes(['started', 'entering answers'], this.props.examRequest.status)) {
+      return (
+        <HoverButton
+          style={styles.startFinishButton}
+          hoveredStyle={styles.startFinishedHovered}
+          onClick={() => this.finishExam()}
+        >
+          Finish
+        </HoverButton>
+      );
     }
-    return 'something else';
+    return null;
+  }
+
+  getStatus() {
+    if (_.includes(['finished', 'requested', 'entering answers'], this.props.examRequest.status)) {
+      return _.capitalize(this.props.examRequest.status);
+    }
+    return null;
   }
 
   iconClick() {
@@ -233,8 +277,8 @@ export default class ExamRequest extends React.Component {
         </td>
         <td style={styles.td}>
           <div style={styles.status}>
-            <div style={styles.bigAndBold}>{_.capitalize(examRequest.status)}</div>
-            <div>{/* the date will go here */}</div>
+            <div style={styles.bigAndBold}>{this.getStatus()}</div>
+            <div>{this.getStartButton(styles, studentHasExamStarted)}</div>
           </div>
           <HoverButton
             style={styles.button}
