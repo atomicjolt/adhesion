@@ -1,7 +1,7 @@
 import React                               from 'react';
 import { connect }                         from 'react-redux';
 import { hashHistory }                     from 'react-router';
-import Chart                               from './chart';
+import ChartContainer                      from './chart_container';
 import NavContainer                        from './nav_container';
 import RegList                             from './registration_list';
 import * as AnalyticsActions               from '../../actions/analytics';
@@ -72,7 +72,7 @@ export class CourseReport extends React.Component {
             />
           </div>
           <div className="c-aa-graph-container">
-            <Chart
+            <ChartContainer
               data={data}
               selected={this.state.selectedChart}
             />
