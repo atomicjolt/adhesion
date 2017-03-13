@@ -1,10 +1,9 @@
-import React                               from 'react';
-import { connect }                         from 'react-redux';
-import Header                              from './header';
-import ChartContainer                      from './chart_container';
-import NavContainer                        from './nav_container';
-import AnalyticList                        from './analytic_list';
-import * as AnalyticsActions               from '../../actions/analytics';
+import React                      from 'react';
+import { connect }                from 'react-redux';
+import Header                     from './header';
+import Graph                      from './graph';
+import AnalyticList               from './analytic_list';
+import * as AnalyticsActions      from '../../actions/analytics';
 
 export class CourseReport extends React.Component {
 
@@ -41,7 +40,6 @@ export class CourseReport extends React.Component {
     super();
     this.state = {
       activeIndex: null,
-      selectedChart: 'Completed',
     };
   }
 
@@ -54,23 +52,9 @@ export class CourseReport extends React.Component {
 
     return (
       <div className="c-aa-contain">
-        <Header
-          title = { data.title } />
-        <div className="c-aa-graph-picker">
-          <div className="c-aa-graph-nav">
-            <NavContainer
-              data={ data }
-              switchChart={ label => this.setState({ selectedChart: label })} />
-          </div>
-          <div className="c-aa-graph-container">
-            <ChartContainer
-              data={data}
-              selected={this.state.selectedChart} />
-          </div>
-        </div>
-        <AnalyticList
-          regList={data.regDetails}
-        />
+        <Header title = { data.title } />
+        <Graph data = { data } />
+        <AnalyticList regList={data.regDetails} />
       </div>
     );
   }

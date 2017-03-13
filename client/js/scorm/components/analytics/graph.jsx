@@ -1,0 +1,30 @@
+import React              from 'react';
+import ChartContainer     from './chart_container';
+import NavContainer       from './nav_container';
+
+export default class Graph extends React.Component {
+
+  constructor() {
+    super();
+    this.state = {
+      selectedChart: 'Completed',
+    };
+  }
+
+  render() {
+    return (
+      <div className="c-aa-graph-picker">
+        <div className="c-aa-graph-nav">
+          <NavContainer
+            data={ this.props.data }
+            switchChart={ label => this.setState({ selectedChart: label })} />
+        </div>
+        <div className="c-aa-graph-container">
+          <ChartContainer
+            data={this.props.data}
+            selected={this.state.selectedChart} />
+        </div>
+      </div>
+    );
+  }
+}
