@@ -19,12 +19,7 @@ export class CourseReport extends React.Component {
       highScore: React.PropTypes.number,
       passed: React.PropTypes.array,
       completed: React.PropTypes.array,
-      regDetails: React.PropTypes.shape({
-        name: React.PropTypes.string,
-        passed: React.PropTypes.string,
-        score: React.PropTypes.number,
-        time: React.PropTypes.string,
-      }),
+      regDetails: React.PropTypes.array,
     }).isRequired,
   }
 

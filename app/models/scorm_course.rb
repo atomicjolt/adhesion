@@ -14,11 +14,13 @@ class ScormCourse < ActiveRecord::Base
   def course_analytics
     summary = {}
     reg_scores = []
+    users = []
     low_score = nil
     high_score = nil
     passed = 0
 
     registrations.each do |reg|
+      users << ScormCourse.setup_user(reg)
       if reg.registration_score
         reg_scores << reg.registration_score
         low_score = reg.registration_score if !low_score ||
@@ -45,7 +47,18 @@ class ScormCourse < ActiveRecord::Base
     summary[:high_score] = high_score
     summary[:registration_count] = registrations.count
     summary[:passed] = pass_fail
+    summary[:reg_details] = users
     summary
+  end
+
+  def self.setup_user(reg)
+    user_object = {}
+    user = User.where(lms_user_id: reg.lms_user_id).first
+    user_object[:name] = user.name if user
+    user_object[:score] = reg.score.to_f
+    user_object[:passed] = reg.passed? ? "Pass" : "Fail"
+    user_object[:time] = "0"
+    user_object
   end
 
   private

@@ -16,6 +16,7 @@ export default (state = initialState, action) => {
         lowScore: action.payload.low_score,
         highScore: action.payload.high_score,
         passed: action.payload.passed,
+        regDetails: action.payload.reg_details,
       };
       return { ...state,
         data: courseData,
