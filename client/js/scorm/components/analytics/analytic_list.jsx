@@ -1,6 +1,6 @@
 import React              from 'react';
 import _                  from 'lodash';
-import RegistrationDetail from './registration_detail';
+import AnalyticRow        from './analytic_row';
 
 export default function registrationList(props) {
 
@@ -17,7 +17,7 @@ export default function registrationList(props) {
       <tbody>
         {
           _.map(props.regList, (reg, key) => (
-            <RegistrationDetail
+            <AnalyticRow
               key={key}
               name={reg.name}
               passed={reg.passed}
