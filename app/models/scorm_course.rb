@@ -15,7 +15,7 @@ class ScormCourse < ActiveRecord::Base
   def course_analytics
     summary = {}
 
-    users = registrations.map { |reg| ScormCourse.setup_user(reg) }
+    users = registrations.map(&:registration_data)
 
     reg_scores, low_score, high_score, passed = calc_scores(registrations)
 
@@ -39,16 +39,6 @@ class ScormCourse < ActiveRecord::Base
     summary[:passed] = pass_fail
     summary[:reg_details] = users
     summary
-  end
-
-  def self.setup_user(reg)
-    user_object = {}
-    user = User.where(lms_user_id: reg.lms_user_id).first
-    user_object[:name] = user.name if user
-    user_object[:score] = reg.score.to_f
-    user_object[:passed] = reg.passed? ? "Pass" : "Fail"
-    user_object[:time] = "0"
-    user_object
   end
 
   private
