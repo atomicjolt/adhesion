@@ -94,7 +94,7 @@ export default class ScheduleForm extends React.Component {
   onMessageChange(e) {
     if (this.state.dontUseAutoMessage) { return; }
     const { value } = e.target;
-    if (!_.includes(this.state.autoMessage, e.target.value)) {
+    if (!_.includes(e.target.value, this.state.autoMessage)) {
       this.setState({ dontUseAutoMessage: true });
     } else if (value.length < this.state.autoMessage.length + this.state.userMessage.length) {
       const newMessage = this.state.userMessage.slice(0, -1);
