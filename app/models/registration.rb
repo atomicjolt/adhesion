@@ -35,7 +35,7 @@ class Registration < ActiveRecord::Base
       name: user&.name,
       score: registration_score,
       passed: passed? ? "Pass" : "Fail",
-      time: "0",
+      time: registration_time,
     }
   end
 
@@ -45,7 +45,7 @@ class Registration < ActiveRecord::Base
   end
 
   def registration_time
-    @registration_time ||= scorm_activites.sum(:total_time)
+    @registration_time ||= scorm_activities.sum(:total_time)
   end
 
   def passed?
