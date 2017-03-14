@@ -25,27 +25,27 @@ describe('Exam list', () => {
       },
       openSettings: () => { props.settingsOpen = true; },
       settingsOpen: false,
-      scheduleExam: (date, time, message) => { 
-        scheduledExam['date'] = date;
-        scheduledExam['time'] = time;
-        scheduledExam['message'] = message;
+      scheduleExam: (date, time, message) => {
+        scheduledExam.date = date;
+        scheduledExam.time = time;
+        scheduledExam.message = message;
       },
       showModal: () => {},
-      sendMessage: (message, name) => { messageSent = true; },
+      sendMessage: () => { messageSent = true; },
       hideModal: () => { modalHidden = true; },
       examRequestList: [{}],
-      finishExam: (id) => { 
-        examStatus = 'finish'
+      finishExam: (id) => {
+        examStatus = 'finish';
         examId = id;
       },
-      enterAnswers: (id) => { 
+      enterAnswers: (id) => {
         examId = id;
         examStatus = 'ongoing';
       },
-      startExam: (id) => { 
+      startExam: (id) => {
         examId = id;
         examStatus = 'start';
-       },
+      },
     };
     result = TestUtils.renderIntoDocument(<ExamRequest {...props} />);
   });
@@ -59,19 +59,18 @@ describe('Exam list', () => {
   it('schedule an exam', () => {
     const selectedTime = {
       value: 'seconds since 1970'
-    }
+    };
     result.scheduleExam('date is 2099', selectedTime, 'my man');
     expect(messageSent).toBeTruthy();
     expect(modalHidden).toBeTruthy();
-    expect(scheduledExam).toBeDefined();  
+    expect(scheduledExam).toBeDefined();
     expect(scheduledExam).toEqual(jasmine.objectContaining({
       message: 'seconds since 1970'
-    }))
+    }));
   });
 
   it('finish exam', () => {
     result.finishExam(props.examRequest.id);
-    // expect(didFinishExam).toBeTruthy();
     expect(examStatus).toContain('finish');
     expect(examId).toEqual(props.examRequest.id);
   });

@@ -31,7 +31,7 @@ describe('settings', () => {
       courseId: '12345',
       lms_assignment_id: 54321,
     };
-    props.assignmentButton = <AssignmentButton {...assignmentButtonProps}/>;
+    props.assignmentButton = <AssignmentButton {...assignmentButtonProps} />;
     result = TestUtils.renderIntoDocument(<Stub><Settings {...props} /></Stub>);
     const buttons = TestUtils.scryRenderedComponentsWithType(result, HoverButton);
     expect(buttons.length).toBe(4);

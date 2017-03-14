@@ -10,12 +10,10 @@ describe('popup menu', () => {
   let examHasFinished;
   let examModal;
   let message;
-  let x;
   beforeEach(() => {
 
     examHasStarted = false;
     examHasFinished = false;
-    x = 1;
 
     props = {
       status: 'scheduled',
@@ -23,7 +21,7 @@ describe('popup menu', () => {
       startExam: () => { examHasStarted = true; },
       finishExam: () => { examHasFinished = true; },
       openExamModal: () => { examModal = 1; },
-      openMessageModal: () => { message = "If you're reading this, I'm too late"},
+      openMessageModal: () => { message = "If you're reading this, I'm too late"; },
     };
 
     result = TestUtils.renderIntoDocument(<Stub><PopupMenu {...props} /></Stub>);
