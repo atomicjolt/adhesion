@@ -1,44 +1,34 @@
 class ScormCourse < ActiveRecord::Base
-  after_create :set_scorm_course_id
+  after_commit :set_scorm_course_id, on: [:create]
 
   def registrations
-    Registration.where(lms_course_id: scorm_cloud_id.to_i)
+    @registrations ||= Registration.
+      includes(:scorm_activities).
+      where(lms_course_id: scorm_cloud_id.to_i)
   end
 
   def set_scorm_course_id
-    course = self
-    course.scorm_cloud_id = course.id if course.scorm_cloud_id.blank?
-    course.save!
+    self.scorm_cloud_id = id if scorm_cloud_id.blank?
+    save if scorm_cloud_id_changed?
   end
 
   def course_analytics
     summary = {}
-    reg_scores = []
-    users = []
-    low_score = nil
-    high_score = nil
-    passed = 0
 
-    registrations.each do |reg|
-      users << ScormCourse.setup_user(reg)
-      if reg.registration_score
-        reg_scores << reg.registration_score
-        low_score = reg.registration_score if !low_score ||
-            (low_score && reg.registration_score < low_score)
-        high_score = reg.registration_score if !high_score ||
-            (high_score && reg.registration_score < high_score)
-        passed += 1 if reg.passed?
-      end
-    end
+    users = registrations.map { |reg| ScormCourse.setup_user(reg) }
+
+    reg_scores, low_score, high_score, passed = calc_scores(registrations)
 
     # Calculate Mean, Median
-    mean_score = reg_scores.sum / reg_scores.count if reg_scores.count > 0
-    med_score = median(reg_scores.sort)
+    mean_score = mean(reg_scores)
+    med_score = median(reg_scores)
 
     # Assemble pass/fail data
-    pass_fail = [{ name: "Passed", value: passed },
-                 { name: "Incompleted", value: registrations.count - reg_scores.count },
-                 { name: "Failed", value: reg_scores.count - passed }]
+    pass_fail = [
+      { name: "Passed", value: passed },
+      { name: "Incompleted", value: registrations.count - reg_scores.count },
+      { name: "Failed", value: reg_scores.count - passed },
+    ]
 
     summary[:title] = title
     summary[:mean_score] = mean_score
@@ -63,10 +53,23 @@ class ScormCourse < ActiveRecord::Base
 
   private
 
-  def median(array)
-    return nil if array.empty?
-    array = array.sort
-    m_pos = array.size / 2
-    array.size % 2 == 1 ? array[m_pos] : mean(array[m_pos - 1..m_pos])
+  def calc_scores(registrations)
+    reg_scores = registrations.map(&:registration_score).compact.sort
+    low_score = reg_scores.first
+    high_score = reg_scores.last
+    passed = registrations.map(&:passed?).compact.count
+
+    [reg_scores, low_score, high_score, passed]
+  end
+
+  def mean(scores)
+    scores.sum / scores.count if scores.count > 0
+  end
+
+  def median(scores)
+    return nil if scores.empty?
+    sorted = scores.sort
+    m_pos = sorted.size / 2
+    sorted.size % 2 == 1 ? sorted[m_pos] : mean(sorted[m_pos - 1..m_pos])
   end
 end
