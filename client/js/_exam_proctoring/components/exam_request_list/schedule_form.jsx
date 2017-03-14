@@ -1,4 +1,5 @@
 import React        from 'react';
+import _            from 'lodash';
 import Defines      from '../../defines';
 import HoverButton  from '../common/hover_button';
 import DateSelector from '../common/date_selector';
@@ -93,7 +94,7 @@ export default class ScheduleForm extends React.Component {
   onMessageChange(e) {
     if (this.state.dontUseAutoMessage) { return; }
     const { value } = e.target;
-    if (value.length < this.state.autoMessage.length) {
+    if (!_.includes(this.state.autoMessage, e.target.value)) {
       this.setState({ dontUseAutoMessage: true });
     } else if (value.length < this.state.autoMessage.length + this.state.userMessage.length) {
       const newMessage = this.state.userMessage.slice(0, -1);
