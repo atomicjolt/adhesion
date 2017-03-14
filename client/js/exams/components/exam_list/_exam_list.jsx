@@ -29,8 +29,7 @@ export class BaseExamList extends React.Component {
     toolConsumerInstanceName: React.PropTypes.string.isRequired,
     lmsUserId: React.PropTypes.string.isRequired,
     examRequests: React.PropTypes.shape({}),
-  }
-  // applicationInstances: React.PropTypes.arrayOf(React.PropTypes.shape({})),
+  };
 
   static goToExam(id) {
     appHistory.push(`exams/${id}`);
