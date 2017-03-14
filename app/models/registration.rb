@@ -16,33 +16,12 @@ class Registration < ActiveRecord::Base
     # store activity
     sc_activity = ScormActivity.where(registration_id: id,
                                       title: activity[:title]).first_or_create
-    def true?(obj)
-      obj.to_s == "true"
-    end
-    sc_activity.satisfied = true?(activity[:satisfied])
-    sc_activity.completed = true?(activity[:completed])
-    sc_activity.attempts = activity[:attempts]
-    sc_activity.suspended = true?(activity[:suspended])
-
-    # store runtime data
-    runtime = activity[:runtime]
-    if runtime
-      sc_activity.completion_status = runtime[:completion_status]
-      sc_activity.score_scaled = runtime[:score_scaled].to_f if runtime[:score_scaled]
-      sc_activity.score_raw = runtime[:score_raw].to_f if runtime[:score_raw]
-      sc_activity.score_min = runtime[:score_min].to_f if runtime[:score_min]
-      sc_activity.score_max = runtime[:score_max].to_f if runtime[:score_max]
-      sc_activity.total_time = Time.zone.parse(runtime[:total_time])
-      sc_activity.time_tracked = Time.zone.parse(runtime[:time_tracked]) if runtime[:time_tracked]
-      sc_activity.success_status = runtime[:success_status]
-      sc_activity.lms_user_id = runtime[:static][:learner_id].to_i
-      sc_activity.lms_user_name = runtime[:static][:learner_name]
-    end
+    sc_activity.update_with(activity)
     sc_activity.parent_activity_id = parent_id if parent_id
     sc_activity.save!
 
     if activity[:children]
-      if activity[:children][:activity].class == Array
+      if activity[:children][:activity].is_a? Array
         activity[:children][:activity].each do |act|
           store_activities(act, sc_activity.id)
         end
@@ -53,10 +32,7 @@ class Registration < ActiveRecord::Base
   end
 
   def registration_score
-    scores = []
-    scorm_activities.each do |act|
-      scores << act.score_scaled if act.score_scaled
-    end
+    scores = scorm_activities.pluck(:score_scaled)
     scores.sum / scores.count if scores.count > 0
   end
 
@@ -65,6 +41,6 @@ class Registration < ActiveRecord::Base
   end
 
   def passed?
-    !scorm_activities.pluck(:success_status).include? "Failed"
+    scorm_activities.pluck(:success_status).exclude? "Failed"
   end
 end
