@@ -14,8 +14,7 @@ class Registration < ActiveRecord::Base
 
   def store_activities(activity, parent_id = nil)
     # store activity
-    sc_activity = ScormActivity.where(registration_id: id,
-                                      title: activity[:title]).first_or_create
+    sc_activity = scorm_activities.where(title: activity[:title]).first_or_create
     sc_activity.update_with(activity)
     sc_activity.parent_activity_id = parent_id if parent_id
     sc_activity.save!
