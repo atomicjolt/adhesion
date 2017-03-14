@@ -2,7 +2,7 @@ class Registration < ActiveRecord::Base
 
   attr_encrypted :scorm_cloud_passback_secret, key: Rails.application.secrets.encryption_key
   belongs_to :courses
-  belongs_to :users
+  belongs_to :user, foreign_key: :lms_user_id, primary_key: :lms_user_id
   belongs_to :scorm_course
   belongs_to :application_instance
   before_create :set_scorm_cloud_passback_secret
@@ -31,16 +31,25 @@ class Registration < ActiveRecord::Base
     end
   end
 
+  def registration_data
+    {
+      name: user&.name,
+      score: registration_score,
+      passed: passed? ? "Pass" : "Fail",
+      time: "0",
+    }
+  end
+
   def registration_score
-    scores = scorm_activities.pluck(:score_scaled)
-    scores.sum / scores.count if scores.count > 0
+    @scores ||= scorm_activities.pluck(:score_scaled)
+    @scores.sum / @scores.count if @scores.count > 0
   end
 
   def registration_time
-    scorm_activites.sum(:total_time)
+    @registration_time ||= scorm_activites.sum(:total_time)
   end
 
   def passed?
-    scorm_activities.pluck(:success_status).exclude? "Failed"
+    @passed ||= scorm_activities.pluck(:success_status).exclude? "Failed"
   end
 end
