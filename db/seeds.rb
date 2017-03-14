@@ -30,7 +30,6 @@ applications = [
       HELPER_ALL_ACCOUNTS
     ).join(","),
     kind: Application.kinds[:admin],
-    default_config: { foo: "bar" },
     application_instances: [{
       tenant: "lti-admin",
       lti_key: "lti-admin",
@@ -45,7 +44,7 @@ applications = [
     client_application_name: "scorm",
     canvas_api_permissions: "CREATE_ASSIGNMENT,DELETE_ASSIGNMENT,LIST_ASSIGNMENTS",
     kind: Application.kinds[:lti],
-    default_config: { foo: "bar" },
+    default_config: { "scorm_type" => "cloud" },
     application_instances: [{
       tenant: "scorm-player",
       lti_key: "scorm-player",
@@ -93,9 +92,9 @@ applications = [
     }],
   },
   {
-    name: "Test Administration Tool",
-    description: "Test Administration",
-    client_application_name: "test_administration",
+    name: "Exam Proctoring",
+    description: "Exam Proctoring",
+    client_application_name: "exam_proctoring",
     canvas_api_permissions: %w{
       GET_SINGLE_QUIZ
       LIST_QUESTIONS_IN_QUIZ_OR_SUBMISSION

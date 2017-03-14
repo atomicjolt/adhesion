@@ -1,10 +1,7 @@
 require "scorm_cloud"
+include ScormCommonService
 
 class ScormCloudService
-  SCORM_ASSIGNMENT_STATE = {
-    GRADED: "GRADED",
-    UNGRADED: "UNGRADED",
-  }.freeze
 
   def initialize
     @scorm_cloud = ScormCloud::ScormCloud.new(
@@ -13,152 +10,26 @@ class ScormCloudService
     )
   end
 
-  def reg_params(params)
-    resp = {}
-    resp[:id] = params[:id] unless params[:id].nil?
-    resp[:lms_course_id] = params[:course_id] unless params[:course_id].nil?
-    resp[:lms_user_id] = params[:custom_canvas_user_id] unless params[:custom_canvas_user_id].nil?
-    resp[:lis_result_sourcedid] = params[:lis_result_sourcedid] unless params[:lis_result_sourcedid].nil?
-    resp[:lis_outcome_service_url] = params[:lis_outcome_service_url] unless params[:lis_outcome_service_url].nil?
-    resp
-  end
-
-  def package_score(reg_result)
-    reg_result["score"].to_i / 100.0
-  end
-
-  def package_complete?(reg_result)
-    reg_result["complete"] == "complete"
-  end
-
-  def reg_id(reg_result)
-    reg_result["regid"]
-  end
-
-  ### Sync Utilities
-  ## Assist in keeping scorm cloud, canvas, and local tables in sync
-
-  def sync_registration_score(reg_result)
-    reg = Registration.find(reg_id(reg_result))
-    new_score = package_score(reg_result)
-    reg.score = new_score
-    if package_complete?(reg_result) && reg.changed?
-      tp_params = {
-        "lis_outcome_service_url" => reg[:lis_outcome_service_url],
-        "lis_result_sourcedid" => reg[:lis_result_sourcedid],
-        "user_id" => reg[:lms_user_id],
-      }
-      provider = IMS::LTI::ToolProvider.new(
-        reg.application_instance.lti_key,
-        reg.application_instance.lti_secret,
-        tp_params,
-      )
-      response = provider.post_replace_result!(reg.score)
-      if response.success?
-        reg.save!
-      elsif response.processing?
-        raise "A processing error has occurred"
-      elsif response.unsupported?
-        raise "Not supported"
-      else
-        raise "A failure has occurred. Please try again."
-      end
-    end
-  end
-
-  def sync_registration(registration_params)
-    result = registration_result(
-      registration_params[:course_id],
-      registration_params[:custom_canvas_user_id],
-    )
-    return if result.nil?
-    sync_registration_score(result[:response]["rsp"]["registrationreport"])
-  end
-
-  def sync_courses(courses)
-    course_ids = courses.map(&:id)
-    existing_course_ids = ScormCourse.all.map { |c| c[:scorm_cloud_id] }
-    extra = existing_course_ids - course_ids
-    needed = course_ids - existing_course_ids
-
-    extra.each do |scorm_cloud_id|
-      ScormCourse.find_by(scorm_cloud_id: scorm_cloud_id).destroy
-      registrations = Registration.where(lms_course_id: scorm_cloud_id.to_i)
-      registrations.each do |reg|
-        @scorm_cloud.registration.delete_registration(reg.id)
-        reg.destroy
-      end
-    end
-
-    new_courses = []
-    needed.each { |scorm_cloud_id| new_courses << ScormCourse.create(scorm_cloud_id: scorm_cloud_id) }
-    new_courses.each do |course|
-      title = courses.detect { |c| c.id == course.scorm_cloud_id }.title
-      course.update_attribute(:title, title)
-    end
-
-    result = courses.select do |course|
-      local_course = ScormCourse.find_by(scorm_cloud_id: course.id)
-      return false if local_course.nil?
-      true
-    end
-
-    result = result.map do |course|
-      local_course = ScormCourse.find_by(scorm_cloud_id: course.id)
-      resp = {
-        title: course.title,
-        id: local_course.scorm_cloud_id,
-      }
-
-      if local_course.lms_assignment_id.nil? == false
-        resp[:lms_assignment_id] = local_course.lms_assignment_id
-        resp[:is_graded] = if !local_course.points_possible.nil? && local_course.points_possible > 0
-                             SCORM_ASSIGNMENT_STATE[:GRADED]
-                           else
-                             SCORM_ASSIGNMENT_STATE[:UNGRADED]
-                           end
-      end
-      resp
-    end
-
-    result
-  end
-
   ### Scorm Cloud api wrapper methods
-
-  def launch_course(
-    scorm_course_id:,
-    lms_user_id:,
-    first_name:,
-    last_name:,
-    redirect_url:,
-    postback_url:,
-    lti_credentials: {},
-    result_params: {}
-  )
+  def launch_course(registration, redirect_url)
     scorm_cloud_request do
-      registration = Registration.find_by(
-        lms_course_id: scorm_course_id,
-        lms_user_id: lms_user_id,
-      )
-      registration_params = reg_params(result_params)
-      if registration.nil?
-        registration = Registration.create(registration_params)
-        registration.application_instance = lti_credentials
-        registration.save!
-        @scorm_cloud.registration.create_registration(
-          registration_params[:lms_course_id],
-          registration.id,
-          first_name,
-          last_name,
-          registration_params[:lms_user_id],
-          postbackurl: postback_url,
-          authtype: "form",
-          urlpass: registration.scorm_cloud_passback_secret,
-          urlname: lti_credentials.lti_key,
-        )
-      end
       @scorm_cloud.registration.launch(registration.id, redirect_url)
+    end
+  end
+
+  def setup_scorm_registration(registration, user, postback_url, lti_key, course_id)
+    scorm_cloud_request do
+      @scorm_cloud.registration.create_registration(
+        course_id,
+        registration.id,
+        user[:first_name],
+        user[:last_name],
+        user[:lms_user_id],
+        postbackurl: postback_url,
+        authtype: "form",
+        urlpass: registration.scorm_cloud_passback_secret,
+        urlname: lti_key,
+      )
     end
   end
 
@@ -168,32 +39,25 @@ class ScormCloudService
     end
   end
 
-  def upload_course(file, lms_course_id)
-    course = ScormCourse.create
-    cleanup = Proc.new { course.destroy }
+  def upload_scorm_course(file, course_id, cleanup)
     scorm_cloud_request(cleanup) do
-      package_id = "#{course.id}_#{lms_course_id}"
-      resp = @scorm_cloud.course.import_course(
-        package_id,
-        file,
-      )
-      course.update_attributes(title: resp[:title], scorm_cloud_id: package_id)
-      @scorm_cloud.course.update_attributes(package_id, registrationInstancingOption: "incomplete")
-      resp["package_id"] = package_id
-      resp["course_id"] = course.id
-      resp
+      response = import_course(file, course_id)
+      @scorm_cloud.course.update_attributes(course_id, registrationInstancingOption: "incomplete")
+      response
     end
   end
 
-  def update_course(file, course)
+  def update_scorm_course(file, course_id)
     scorm_cloud_request do
-      resp = @scorm_cloud.course.import_course(
-        course.scorm_cloud_id,
-        file,
-      )
-      course.update_attribute(:title, resp[:title])
-      resp
+      import_course(file, course_id)
     end
+  end
+
+  def import_course(file, course_id)
+    @scorm_cloud.course.import_course(
+      course_id,
+      file,
+    )
   end
 
   def show_course(course_id)
@@ -202,19 +66,15 @@ class ScormCloudService
     end
   end
 
-  def remove_course(course_id)
+  def remove_scorm_course(course_id)
     scorm_cloud_request do
-      response = @scorm_cloud.course.delete_course(course_id)
-      if response == true
-        course = ScormCourse.find_by(scorm_cloud_id: course_id)
-        registrations = Registration.where(lms_course_id: course_id.to_i)
-        registrations.each do |reg|
-          @scorm_cloud.registration.delete_registration(reg.id)
-          reg.destroy
-        end
-        course&.destroy
-      end
-      response
+      @scorm_cloud.course.delete_course(course_id)
+    end
+  end
+
+  def remove_scorm_registration(registration_id)
+    scorm_cloud_request do
+      @scorm_cloud.registration.delete_registration(registration_id)
     end
   end
 
@@ -237,13 +97,9 @@ class ScormCloudService
     end
   end
 
-  def registration_result(lms_course_id, lms_user_id)
+  def registration_scorm_result(registration_id)
     scorm_cloud_request do
-      reg = Registration.find_by(
-        lms_course_id: lms_course_id,
-        lms_user_id: lms_user_id,
-      )
-      resp = @scorm_cloud.registration.get_registration_result(reg.id) unless reg.nil?
+      resp = @scorm_cloud.registration.get_registration_result(registration_id)
       Hash.from_xml(resp)
     end
   end
@@ -265,7 +121,23 @@ class ScormCloudService
     handle_fail.call if handle_fail.respond_to? :call
     response
   end
+
+  def get_course_ids(courses)
+    courses.map(&:id)
+  end
+
+  def get_title(courses, course)
+    courses.detect { |c| c.id == course.scorm_cloud_id }.title
+  end
+
+  def get_scorm_course(course)
+    ScormCourse.find_by(scorm_cloud_id: course.id)
+  end
+
+  def get_course_title(course)
+    course.title
+  end
 end
 
-class ScormCloudError < StandardError
+class ScormConnectError < StandardError
 end
