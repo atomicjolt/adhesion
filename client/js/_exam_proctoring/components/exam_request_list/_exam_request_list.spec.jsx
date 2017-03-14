@@ -33,7 +33,7 @@ describe('Base Exam Assignment List', () => {
       startExam: () => {},
       hideModal: () => {},
       showModal: () => {},
-      exportExamsAsCSV: (accountId, startDate, endDate) => { willDownload = true; },
+      exportExamsAsCSV: () => { willDownload = true; },
       needProctorCode: false,
       currentAccountId: '123',
       toolConsumerInstanceName: 'Consumer name',
