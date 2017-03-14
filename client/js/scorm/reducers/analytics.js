@@ -2,6 +2,7 @@ import { Constants } from '../actions/analytics';
 
 const initialState = {
   data: {},
+  view: 'student',
 };
 
 export default (state = initialState, action) => {
@@ -21,6 +22,12 @@ export default (state = initialState, action) => {
       return { ...state,
         data: courseData,
       };
+    }
+    case Constants.SWITCH_VIEW: {
+      if(action.view){
+        return { ...state, view: action.view };
+      }
+      return state;
     }
     default:
       return state;

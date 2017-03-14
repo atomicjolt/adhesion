@@ -1,7 +1,7 @@
 import React  from 'react';
 import moment from 'moment';
 
-export default function registrationDetail(props) {
+export default function AnalyticRow(props) {
 
   function formatScore(score) {
     if (score || score == 0) return `${score * 100}%`;
@@ -14,7 +14,9 @@ export default function registrationDetail(props) {
   }
 
   return (
-    <tr>
+    <tr
+      className="c-aa-row"
+      onClick={ () => props.switchTable() }>
       <td>{ props.name || 'Unknown' }</td>
       <td>{ props.passed }</td>
       <td>{ formatScore(props.score) }</td>
@@ -23,8 +25,8 @@ export default function registrationDetail(props) {
   );
 }
 
-registrationDetail.propTypes = {
   name: React.PropTypes.string.isRequired,
+AnalyticRow.propTypes = {
   passed: React.PropTypes.string.isRequired,
   score: React.PropTypes.number,
   time: React.PropTypes.string,
