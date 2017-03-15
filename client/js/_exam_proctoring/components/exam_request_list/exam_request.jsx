@@ -210,6 +210,7 @@ export default class ExamRequest extends React.Component {
         studentName={examRequest.student_name}
         studentId={examRequest.student_id}
         courseName={examRequest.course_name}
+        testingCenterName={examRequest.testing_center_name}
         examName={examRequest.exam_name}
         message={examRequest.message}
         scheduleExam={(selectedDate, selectedTime, message) => {
