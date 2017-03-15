@@ -24,7 +24,7 @@ export default class NavButtons extends React.Component {
     const data = this.props.data;
     let passedStat = 0;
     let completedStat = 0;
-    let averageScore = data.medScore * 100 || 0;
+    const averageScore = data.medScore * 100 || 0;
     if (data.passed) {
       passedStat = ((data.passed[0].value / data.regCount) * 100) || 0;
     }
@@ -35,25 +35,29 @@ export default class NavButtons extends React.Component {
     return (
       <div>
         <NavButton
-          label='Completed'
-          stat={ `${ completedStat }%` }
-          setActive={ this.setActive.bind(this) }
-          activeBtn={ this.state.activeBtn } />
+          label="Completed"
+          stat={`${completedStat}%`}
+          setActive={label => this.setActive(label)}
+          activeBtn={this.state.activeBtn}
+        />
         <NavButton
-          label='Passed'
-          stat={ `${ passedStat }%` }
-          setActive={ this.setActive.bind(this) }
-          activeBtn={ this.state.activeBtn } />
+          label="Passed"
+          stat={`${passedStat}%`}
+          setActive={label => this.setActive(label)}
+          activeBtn={this.state.activeBtn}
+        />
         <NavButton
-          label='Average Score'
-          stat={ `${ averageScore }%` }
-          setActive={ this.setActive.bind(this) }
-          activeBtn={ this.state.activeBtn } />
+          label="Average Score"
+          stat={`${averageScore}%`}
+          setActive={label => this.setActive(label)}
+          activeBtn={this.state.activeBtn}
+        />
         <NavButton
-          label='Minutes Per Learner'
-          stat={ 100 }
-          setActive= { this.setActive.bind(this) }
-          activeBtn= { this.state.activeBtn } />
+          label="Minutes Per Learner"
+          stat={100}
+          setActive={label => this.setActive(label)}
+          activeBtn={this.state.activeBtn}
+        />
       </div>
     );
   }

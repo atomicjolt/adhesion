@@ -4,7 +4,9 @@ import moment from 'moment';
 export default function registrationDetail(props) {
 
   function formatScore(score) {
-    if (score || score == 0) return `${score * 100}%`;
+    if (score || score === 0) {
+      return `${score * 100}%`;
+    }
     return 'N/A';
   }
 
@@ -15,10 +17,10 @@ export default function registrationDetail(props) {
 
   return (
     <tr>
-      <td>{ props.name || 'Unknown' }</td>
-      <td>{ props.passed }</td>
-      <td>{ formatScore(props.score) }</td>
-      <td>{ formatTime(props.time) }</td>
+      <td>{props.name || 'Unknown'}</td>
+      <td>{props.passed}</td>
+      <td>{formatScore(props.score)}</td>
+      <td>{formatTime(props.time)}</td>
     </tr>
   );
 }
