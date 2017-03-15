@@ -18,8 +18,8 @@ class ScormActivity < ActiveRecord::Base
       if runtime[:score_scaled]
         self.score_scaled = runtime[:score_scaled].to_f
       end
-      if runtime[:time_tracked]
-        self.time_tracked = Time.zone.parse(runtime[:time_tracked])
+      if runtime[:timetracked]
+        self.time_tracked = Time.zone.parse(runtime[:timetracked])
       end
 
       self.completion_status = runtime[:completion_status]
