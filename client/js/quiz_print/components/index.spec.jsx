@@ -8,7 +8,7 @@ describe('index', () => {
 
   beforeEach(() => {
     const props = {
-      location: { query: { courseId: 1, quizId: 7 } },
+      location: { query: { courseId: '1', quizId: '7' } },
       canvasRequest: () => {},
       quiz: {},
       loadingQuiz: true,

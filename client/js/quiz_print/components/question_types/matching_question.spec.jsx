@@ -38,7 +38,7 @@ describe('Matching', () => {
         },
       ],
       question_text: '<p>Match each race to its homeland</p>',
-      id: '7',
+      id: 7,
     };
     result = TestUtils.renderIntoDocument(<Stub><Matching {...props} /></Stub>);
   });

@@ -33,7 +33,7 @@ describe('Multiple Choice', () => {
         },
       ],
       question_text: '<p>What things are green</p>',
-      id: '7',
+      id: 7,
     };
     result = TestUtils.renderIntoDocument(<Stub><MultipleChoice {...props} /></Stub>);
   });
