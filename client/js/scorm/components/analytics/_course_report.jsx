@@ -32,9 +32,9 @@ export class CourseReport extends React.Component {
 
     return (
       <div className="c-aa-contain">
-        <Header title={ data.title } />
-        <Graph data={ data } />
-        <AnalyticList regList={ data.regDetails } />
+        <Header title={data.title} />
+        <Graph data={data} />
+        <AnalyticList regList={data.regDetails} />
       </div>
     );
   }

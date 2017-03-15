@@ -32,7 +32,7 @@ export class AnalyticList extends React.Component {
       <table className="c-aa-table">
         <thead>
           <tr>
-            <th>{ this.state.currentView }</th>
+            <th>{this.state.currentView}</th>
             <th>Passed</th>
             <th>AVG Score</th>
             <th>AVG Time(mins)</th>
@@ -42,12 +42,12 @@ export class AnalyticList extends React.Component {
           {
             _.map(this.props.regList, (reg, key) => (
               <AnalyticRow
-                key={ key }
-                name={ reg.name }
-                passed={ reg.passed }
-                score={ reg.score }
-                time={ reg.time }
-                switchTable={ this.switchTable.bind(this) }/>
+                key={key}
+                name={reg.name}
+                passed={reg.passed}
+                score={ reg.score}
+                time={reg.time}
+                switchTable={this.switchTable.bind(this)}/>
             ))
           }
         </tbody>
@@ -60,4 +60,4 @@ const select = (state, props) => ({
   view: state.analytics.view,
 });
 
-export default connect(select, { switchView })(AnalyticList);
+export default connect(select, {switchView})(AnalyticList);

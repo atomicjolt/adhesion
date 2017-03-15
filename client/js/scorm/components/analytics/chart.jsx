@@ -15,3 +15,8 @@ export default function Chart(props) {
     </PieChart>
   );
 }
+
+Chart.propTypes = {
+  data: React.PropTypes.array,
+  colors: React.PropTypes.arrayOf(React.PropTypes.string),
+};
