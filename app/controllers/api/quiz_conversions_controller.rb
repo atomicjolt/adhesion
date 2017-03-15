@@ -47,8 +47,11 @@ class Api::QuizConversionsController < ApplicationController
       render status: 200, json: canvas_quiz
     rescue Word2Quiz::InvalidAnswerKey, Word2Quiz::InvalidQuiz => e
       render status: 400, json: { message: e.message }
-    rescue
-      render status: 400, json: { message: "An unknown error has ocurred." }
+    rescue => e
+      render status: 400, json: {
+        message: "An unknown error has ocurred.",
+        error:  { message: e.message, backtrace: e.backtrace },
+      }
     end
   end
 
