@@ -14,17 +14,17 @@ export class AnalyticList extends React.Component {
   constructor() {
     super();
     this.state = {
-      currentView: 'Student',
+      analyticsName: 'Student',
     };
   }
 
-  switchTable() {
-    if(this.state.currentView == 'Student'){
-      this.setState({ currentView: 'Assignment' });
+  switchTable(viewId) {
+    this.props.switchView(this.state.analyticsName.toLowerCase(), viewId);
+    if(this.state.analyticsName == 'Student'){
+      this.setState({ analyticsName: 'Assignment' });
     } else {
-      this.setState({ currentView: 'Student' });
+      this.setState({ analyticsName: 'Student' });
     }
-    this.props.switchView(this.state.currentView.toLowerCase());
   }
 
   render() {
@@ -32,7 +32,7 @@ export class AnalyticList extends React.Component {
       <table className="c-aa-table">
         <thead>
           <tr>
-            <th>{this.state.currentView}</th>
+            <th>{this.state.analyticsName}</th>
             <th>Passed</th>
             <th>AVG Score</th>
             <th>AVG Time(mins)</th>
@@ -43,6 +43,7 @@ export class AnalyticList extends React.Component {
             _.map(this.props.regList, (reg, key) => (
               <AnalyticRow
                 key={key}
+                id={reg.id}
                 name={reg.name}
                 passed={reg.passed}
                 score={ reg.score}

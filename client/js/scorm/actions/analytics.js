@@ -3,13 +3,13 @@ import Network from '../../constants/network';
 
 // Local actions
 const actions = [
+  'SWITCH_VIEW',
 ];
 
 // Actions that make an api request
 const requests = [
   'LOAD_COURSE_DATA',
   'LOAD_USER_DATA',
-  'SWITCH_USER',
 ];
 
 export const Constants = wrapper(actions, requests);
@@ -21,14 +21,16 @@ export const loadCourseData = courseId => ({
   courseId,
 });
 
-export const getUserData = userId => ({
+export const getUserData = (courseId, userId) => ({
   method: Network.GET,
   type: Constants.LOAD_USER_DATA,
-  url: `/api/scorm_courses/${courseId}/course_report`,
-  courseId,
+  url: `/api/scorm_courses/${courseId}/student_report`,
+  params: { user_id: userId },
+  userId,
 });
 
-export const switchView = view => ({
-  type: Constants.SWITCH_USER,
+export const switchView = (view, viewId) => ({
+  type: Constants.SWITCH_VIEW,
   view,
+  viewId,
 });

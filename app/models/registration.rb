@@ -32,6 +32,7 @@ class Registration < ActiveRecord::Base
 
   def registration_data
     {
+      id: user&.lms_user_id,
       name: user&.name,
       score: registration_score,
       passed: passed? ? "Pass" : "Fail",

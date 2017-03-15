@@ -9,6 +9,7 @@ export class CourseReport extends React.Component {
 
   static propTypes = {
     loadCourseData: React.PropTypes.func.isRequired,
+    getUserData: React.PropTypes.func.isRequired,
     scormCourseId: React.PropTypes.string.isRequired,
     data: React.PropTypes.shape({
       title: React.PropTypes.string,
@@ -21,10 +22,34 @@ export class CourseReport extends React.Component {
       completed: React.PropTypes.array,
       regDetails: React.PropTypes.array,
     }).isRequired,
+    view: React.PropTypes.string.isRequired,
+  }
+
+  constructor() {
+    super();
+    this.state = {
+      currentView: 'assignment',
+    };
   }
 
   componentWillMount() {
-    this.props.loadCourseData(this.props.scormCourseId);
+    if(this.props.view == 'assignment') {
+      this.props.loadCourseData(this.props.scormCourseId);
+    } else if(this.props.view == 'student') {
+      this.props.getUserData(this.props.scormCourseId, this.props.viewId);
+    }
+    this.setState({ currentView: this.props.view });
+  }
+
+  componentWillReceiveProps(nextProps){
+    if(nextProps.view != this.state.currentView){
+      if(nextProps.view == 'assignment') {
+        nextProps.loadCourseData(nextProps.scormCourseId);
+      } else if(nextProps.view == 'student') {
+        nextProps.getUserData(nextProps.scormCourseId, nextProps.viewId);
+      }
+      this.setState({ currentView: nextProps.view });
+    }
   }
 
   render() {
@@ -32,9 +57,15 @@ export class CourseReport extends React.Component {
 
     return (
       <div className="c-aa-contain">
-        <Header title={data.title} />
-        <Graph data={data} />
-        <AnalyticList regList={data.regDetails} />
+        <Header
+          title={data.title}
+          view={this.props.view} />
+        <Graph
+          data={data}
+          view={this.props.view} />
+        <AnalyticList
+          regList={data.regDetails}
+          view={this.props.view} />
       </div>
     );
   }
@@ -43,6 +74,8 @@ export class CourseReport extends React.Component {
 const select = (state, props) => ({
   scormCourseId: props.params.courseId,
   data: state.analytics.data,
+  view: state.analytics.view,
+  viewId: state.analytics.viewId,
 });
 
 export default connect(select, AnalyticsActions)(CourseReport);
