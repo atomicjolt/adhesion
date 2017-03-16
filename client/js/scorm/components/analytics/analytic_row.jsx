@@ -1,5 +1,5 @@
 import React  from 'react';
-import moment from 'moment';
+import _ from 'lodash';
 
 export default function AnalyticRow(props) {
 
@@ -11,8 +11,7 @@ export default function AnalyticRow(props) {
   }
 
   function formatTime(time) {
-    const format = moment(time, 'HH:mm:ss');
-    return (format.hours() * 60) + format.minutes();
+    return _.ceil(time / 60);
   }
 
   return (
@@ -31,5 +30,5 @@ export default function AnalyticRow(props) {
 AnalyticRow.propTypes = {
   passed: React.PropTypes.string.isRequired,
   score: React.PropTypes.number,
-  time: React.PropTypes.string,
+  time: React.PropTypes.number,
 };
