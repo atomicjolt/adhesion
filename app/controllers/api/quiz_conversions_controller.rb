@@ -10,7 +10,7 @@ class Api::QuizConversionsController < ApplicationController
     answer_key = get_answer_key
 
     begin
-      quiz = Word2Quiz.parse_quiz(quiz_doc, answer_key)
+      quiz = Word2Quiz.parse_quiz(quiz_doc.path, answer_key.path)
 
       api_params = {
         course_id: params[:lms_course_id],
@@ -47,7 +47,8 @@ class Api::QuizConversionsController < ApplicationController
       render status: 200, json: canvas_quiz
     rescue Word2Quiz::InvalidAnswerKey, Word2Quiz::InvalidQuiz => e
       render status: 400, json: { message: e.message }
-    rescue
+    rescue => e
+      Rails.logger.error("message: #{e.message} \n backtrace: #{e.backtrace.join("\n")}")
       render status: 400, json: { message: "An unknown error has ocurred." }
     end
   end
@@ -55,7 +56,7 @@ class Api::QuizConversionsController < ApplicationController
   private
 
   def get_quiz_doc
-    quiz_doc = Tempfile.new("quiz")
+    quiz_doc = Tempfile.new(["quiz", ".docx"])
     quiz_doc.binmode
     quiz_doc.write(params[:quiz_doc].read)
     quiz_doc.rewind
@@ -63,7 +64,7 @@ class Api::QuizConversionsController < ApplicationController
   end
 
   def get_answer_key
-    answer_key = Tempfile.new("answer")
+    answer_key = Tempfile.new(["answer", ".doc"])
     answer_key.binmode
     answer_key.write(params[:answer_key].read)
     answer_key.rewind
