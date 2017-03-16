@@ -283,7 +283,7 @@ export default class ExamRequest extends React.Component {
           </div>
           <HoverButton
             style={styles.button}
-            onClick={() => openSettings(settingsOpen ? null : examRequest.id)}
+            onClick={e => openSettings(e, settingsOpen ? null : examRequest.id)}
             hoveredStyle={styles.hoveredStyle}
           >
             <i className="material-icons">settings</i>
