@@ -1,7 +1,4 @@
 require "rails_helper"
-RSpec::Matchers.define :an_upload do |x|
-  match { |actual| actual.name == x }
-end
 
 RSpec.describe Api::QuizConversionsController, type: :controller do
   before do
@@ -16,11 +13,15 @@ RSpec.describe Api::QuizConversionsController, type: :controller do
 
       allow_any_instance_of(Api::QuizConversionsController).
         to receive(:get_quiz_doc).
-        and_return(double(name: "fake doc", close: nil))
+        and_return(
+          double(name: "fake doc", path: "quiz.docx", close: nil),
+        )
 
       allow_any_instance_of(Api::QuizConversionsController).
         to receive(:get_answer_key).
-        and_return(double(name: "fake answer key", close: nil))
+        and_return(
+          double(name: "fake answer key", path: "answerkey.doc", close: nil),
+        )
 
       @fake_quiz = double(
         to_canvas: {
@@ -35,7 +36,7 @@ RSpec.describe Api::QuizConversionsController, type: :controller do
       )
 
       allow(Word2Quiz).to receive(:parse_quiz).
-        with(an_upload("fake doc"), an_upload("fake answer key")).
+        with("quiz.docx", "answerkey.doc").
         and_return(@fake_quiz)
 
       @double = double(proxy: double(body: '{ "id": "1" }'))
@@ -46,7 +47,7 @@ RSpec.describe Api::QuizConversionsController, type: :controller do
 
     it "should parse the uploaded quiz" do
       expect(Word2Quiz).to receive(:parse_quiz).
-        with(an_upload("fake doc"), an_upload("fake answer key")).
+        with("quiz.docx", "answerkey.doc").
         and_return(@fake_quiz)
 
       post :create, {
