@@ -2,7 +2,7 @@ import { Constants } from '../actions/analytics';
 
 const initialState = {
   data: {},
-  view: 'assignment',
+  view: 'activity',
   viewId: 0,
 };
 

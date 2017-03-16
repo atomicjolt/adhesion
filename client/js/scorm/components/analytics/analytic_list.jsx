@@ -21,7 +21,7 @@ export class AnalyticList extends React.Component {
   switchTable(viewId) {
     this.props.switchView(this.state.analyticsName.toLowerCase(), viewId);
     if(this.state.analyticsName == 'Student'){
-      this.setState({ analyticsName: 'Assignment' });
+      this.setState({ analyticsName: 'Activity' });
     } else {
       this.setState({ analyticsName: 'Student' });
     }
@@ -48,7 +48,7 @@ export class AnalyticList extends React.Component {
                 passed={reg.passed}
                 score={ reg.score}
                 time={reg.time}
-                switchTable={this.switchTable.bind(this)}/>
+                switchTable={this.switchTable.bind(this)} />
             ))
           }
         </tbody>

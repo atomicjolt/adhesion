@@ -28,12 +28,12 @@ export class CourseReport extends React.Component {
   constructor() {
     super();
     this.state = {
-      currentView: 'assignment',
+      currentView: 'activity',
     };
   }
 
   componentWillMount() {
-    if(this.props.view == 'assignment') {
+    if(this.props.view == 'activity') {
       this.props.loadCourseData(this.props.scormCourseId);
     } else if(this.props.view == 'student') {
       this.props.getUserData(this.props.scormCourseId, this.props.viewId);
@@ -43,7 +43,7 @@ export class CourseReport extends React.Component {
 
   componentWillReceiveProps(nextProps){
     if(nextProps.view != this.state.currentView){
-      if(nextProps.view == 'assignment') {
+      if(nextProps.view == 'activity') {
         nextProps.loadCourseData(nextProps.scormCourseId);
       } else if(nextProps.view == 'student') {
         nextProps.getUserData(nextProps.scormCourseId, nextProps.viewId);
