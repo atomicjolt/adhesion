@@ -1,4 +1,5 @@
 import React          from 'react';
+import _ from 'lodash';
 import AverageLabel   from './average_label';
 
 export default function AverageScore(props) {
@@ -6,29 +7,27 @@ export default function AverageScore(props) {
     <div>
       <AverageLabel
         label="Mean Score"
-        data={props.data.meanScore}
+        data={_.ceil(props.meanScore, 2)}
       />
       <AverageLabel
         label="Median Score"
-        data={props.data.medScore}
+        data={_.ceil(props.medScore, 2)}
       />
       <AverageLabel
         label="Lowest Score"
-        data={props.data.lowScore}
+        data={_.ceil(props.lowScore, 2)}
       />
       <AverageLabel
         label="Highest Score"
-        data={props.data.highScore}
+        data={_.ceil(props.highScore, 2)}
       />
     </div>
   );
 }
 
 AverageScore.propTypes = {
-  data: React.PropTypes.shape({
-    meanScore: React.PropTypes.number,
-    medScore: React.PropTypes.number,
-    lowScore: React.PropTypes.number,
-    highScore: React.PropTypes.number,
-  })
+  meanScore: React.PropTypes.number,
+  medScore: React.PropTypes.number,
+  lowScore: React.PropTypes.number,
+  highScore: React.PropTypes.number,
 };

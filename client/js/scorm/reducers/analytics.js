@@ -17,7 +17,8 @@ export default (state = initialState, action) => {
         medScore: action.payload.med_score,
         lowScore: action.payload.low_score,
         highScore: action.payload.high_score,
-        passed: action.payload.passed,
+        passFail: action.payload.pass_fail,
+        completed: action.payload.completed,
         regDetails: action.payload.reg_details,
       };
       return { ...state,
@@ -31,7 +32,7 @@ export default (state = initialState, action) => {
       const courseData = {
         meanScore: action.payload.mean_score,
         title: action.payload.title,
-        passed: action.payload.passed,
+        passFail: action.payload.pass_fail,
         regDetails: action.payload.reg_details,
       };
       return { ...state,
