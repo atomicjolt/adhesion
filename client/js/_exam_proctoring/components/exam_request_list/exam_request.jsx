@@ -204,7 +204,7 @@ export default class ExamRequest extends React.Component {
 
   openScheduleModal() {
     const { examRequest } = this.props;
-    this.props.openSettings(null);
+
     this.props.showModal(
       <ScheduleForm
         studentName={examRequest.student_name}
@@ -222,7 +222,6 @@ export default class ExamRequest extends React.Component {
   }
 
   openMessageModal() {
-    this.props.openSettings(null);
     this.props.showModal(<MessageStudent
       sendMessage={(body, subject) => this.sendMessage(body, subject)}
       closeMessageModal={() => this.props.hideModal()}
@@ -230,7 +229,6 @@ export default class ExamRequest extends React.Component {
   }
 
   openExamModal() {
-    this.props.openSettings(null);
     this.props.showModal(
       <ConfirmTakeExam
         takeExam={() => this.takeExam()}
