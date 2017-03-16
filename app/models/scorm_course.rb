@@ -44,7 +44,7 @@ class ScormCourse < ActiveRecord::Base
   private
 
   def calc_scores(registrations)
-    reg_scores = registrations.map(&:registration_score).compact.sort
+    reg_scores = registrations.map(&:mean_registration_score).compact.sort
     low_score = reg_scores.first
     high_score = reg_scores.last
     passed = registrations.map(&:passed?).compact.count

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170309132554) do
+ActiveRecord::Schema.define(version: 20170316152754) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -180,14 +180,16 @@ ActiveRecord::Schema.define(version: 20170309132554) do
     t.float   "score_raw"
     t.float   "score_min"
     t.float   "score_max"
-    t.time    "total_time"
-    t.time    "time_tracked"
     t.string  "success_status"
     t.integer "lms_user_id"
     t.string  "lms_user_name"
     t.integer "parent_activity_id"
+    t.integer "total_time"
+    t.integer "time_tracked"
+    t.string  "activity_id"
   end
 
+  add_index "scorm_activities", ["registration_id", "activity_id", "title"], name: "index_scorm_activities_on_registration_id_activity_id_title", using: :btree
   add_index "scorm_activities", ["registration_id"], name: "index_scorm_activities_on_registration_id", using: :btree
   add_index "scorm_activities", ["title"], name: "index_scorm_activities_on_title", using: :btree
 
