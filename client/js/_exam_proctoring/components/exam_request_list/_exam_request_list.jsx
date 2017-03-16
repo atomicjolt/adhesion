@@ -125,6 +125,7 @@ export class BaseExamRequestList extends React.Component {
     );
   }
 
+
   componentWillUpdate(nextProps) {
     if (!this.props.needProctorCode && nextProps.needProctorCode) {
       // a random code between 7 and 8 digits, this will go a way once u4 finishes their stuff.
@@ -141,6 +142,10 @@ export class BaseExamRequestList extends React.Component {
         <NewProctorCode code={code} hideModal={this.props.hideModal} />
       );
     }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('click', this.closeSettings);
   }
 
   onDownload(startDate, endDate) {
