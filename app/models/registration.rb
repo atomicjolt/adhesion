@@ -14,18 +14,23 @@ class Registration < ActiveRecord::Base
 
   def store_activities(activity, parent_id = nil)
     # store activity
-    sc_activity = scorm_activities.where(title: activity[:title]).first_or_create
+
+    sc_activity = scorm_activities.
+      where(activity_id: activity[:id], title: activity[:title]).
+      first_or_create
+
     sc_activity.update_with(activity)
     sc_activity.parent_activity_id = parent_id if parent_id
     sc_activity.save!
 
-    if activity[:children]
-      if activity[:children][:activity].is_a? Array
-        activity[:children][:activity].each do |act|
+    children = activity[:children]
+    if children.present?
+      if children[:activity].is_a? Array
+        children[:activity].each do |act|
           store_activities(act, sc_activity.id)
         end
       else
-        store_activities(activity[:children][:activity], sc_activity.id)
+        store_activities(children[:activity], sc_activity.id)
       end
     end
   end
@@ -33,19 +38,27 @@ class Registration < ActiveRecord::Base
   def registration_data
     {
       name: user&.name,
-      score: registration_score,
+      score: mean_registration_score,
       passed: passed? ? "Pass" : "Fail",
-      time: registration_time,
+      time: mean_registration_total_time,
     }
   end
 
-  def registration_score
-    @scores ||= scorm_activities.pluck(:score_scaled)
+  def scorm_activities_count
+    @count ||= scorm_activities.count
+  end
+
+  def mean_registration_score
+    @scores ||= scorm_activities.pluck(:score_scaled).compact
     @scores.sum / @scores.count if @scores.count > 0
   end
 
-  def registration_time
-    @registration_time ||= scorm_activities.sum(:total_time)
+  def registration_total_time
+    @registration_total_time ||= scorm_activities.sum(:total_time)
+  end
+
+  def mean_registration_total_time
+    registration_total_time / scorm_activities_count if scorm_activities_count > 0
   end
 
   def passed?

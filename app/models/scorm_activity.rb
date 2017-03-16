@@ -14,19 +14,22 @@ class ScormActivity < ActiveRecord::Base
 
     # store runtime data
     runtime = activity[:runtime]
-    if runtime
-      if runtime[:score_scaled]
+    if runtime.present?
+      if runtime[:score_scaled].present?
         self.score_scaled = runtime[:score_scaled].to_f
       end
-      if runtime[:timetracked]
-        self.time_tracked = Time.zone.parse(runtime[:timetracked])
-      end
+
+      # <timetracked>hours:minutes:seconds.centiseconds</timetracked>
+      self.time_tracked = parse_time(runtime[:timetracked])
+
+      # <total_time>hours:minutes:seconds.centiseconds</total_time>
+      self.total_time = parse_time(runtime[:total_time])
 
       self.completion_status = runtime[:completion_status]
-      self.score_raw = runtime[:score_raw].to_f if runtime[:score_raw]
-      self.score_min = runtime[:score_min].to_f if runtime[:score_min]
-      self.score_max = runtime[:score_max].to_f if runtime[:score_max]
-      self.total_time = Time.zone.parse(runtime[:total_time])
+      self.score_raw = runtime[:score_raw].to_f if runtime[:score_raw].present?
+      self.score_min = runtime[:score_min].to_f if runtime[:score_min].present?
+      self.score_max = runtime[:score_max].to_f if runtime[:score_max].present?
+
       self.success_status = runtime[:success_status]
       self.lms_user_id = runtime[:static][:learner_id].to_i
       self.lms_user_name = runtime[:static][:learner_name]
@@ -34,6 +37,16 @@ class ScormActivity < ActiveRecord::Base
   end
 
   private
+
+  ##
+  # parse_time into seconds
+  # Adapted from http://stackoverflow.com/a/20818752/1477165
+  ##
+  def parse_time(duration)
+    if duration.present?
+      duration.split(":").reverse.map.with_index.sum { |t, i| t.to_f * 60**i }
+    end
+  end
 
   def true?(obj)
     obj.to_s == "true"
