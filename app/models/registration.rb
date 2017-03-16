@@ -12,6 +12,10 @@ class Registration < ActiveRecord::Base
     self.scorm_cloud_passback_secret = ::SecureRandom::hex(64)
   end
 
+  def student_course_analytics
+    # return course activity details for user
+  end
+
   def store_activities(activity, parent_id = nil)
     # store activity
     sc_activity = scorm_activities.where(title: activity[:title]).first_or_create
