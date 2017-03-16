@@ -9,7 +9,7 @@ class Api::ProctoredExamsController < ApplicationController
       id: @exam_request.exam_id,
       course_id: @exam_request.course_id,
     }
-    quiz = canvas_api.proxy("GET_SINGLE_QUIZ", quiz_params);
+    quiz = canvas_api.proxy("GET_SINGLE_QUIZ", quiz_params)
 
     render json: { quiz: @exam_request, proctor_access_code: quiz.parsed_response["access_code"] }
   end
