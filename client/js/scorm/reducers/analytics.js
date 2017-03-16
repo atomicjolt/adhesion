@@ -18,7 +18,7 @@ export default (state = initialState, action) => {
         lowScore: action.payload.low_score,
         highScore: action.payload.high_score,
         passed: action.payload.passed,
-        regDetails: action.payload.reg_details,
+        regDetails: action.payload.analytics_table,
       };
       return { ...state,
         data: courseData,
@@ -32,7 +32,7 @@ export default (state = initialState, action) => {
         meanScore: action.payload.mean_score,
         title: action.payload.title,
         passed: action.payload.passed,
-        regDetails: action.payload.reg_details,
+        regDetails: action.payload.analytics_table,
       };
       return { ...state,
         data: courseData,

@@ -37,7 +37,7 @@ class ScormCourse < ActiveRecord::Base
     summary[:high_score] = high_score
     summary[:registration_count] = registrations.count
     summary[:passed] = pass_fail
-    summary[:reg_details] = users
+    summary[:analytics_table] = users
     summary
   end
 
