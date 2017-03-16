@@ -14,6 +14,18 @@ class Registration < ActiveRecord::Base
 
   def student_course_analytics
     # return course activity details for user
+    summary = {}
+
+    pass_fail = [
+      { name: "Passed", value: passed? },
+      { name: "Incompleted", value: passed? },
+      { name: "Failed", value: passed? },
+    ]
+    summary[:title] = "Scorm Title"
+    summary[:mean_score] = mean_registration_score
+    summary[:passed] = pass_fail
+    summary[:reg_details] = {}
+    summary
   end
 
   def store_activities(activity, parent_id = nil)

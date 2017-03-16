@@ -27,6 +27,17 @@ export default (state = initialState, action) => {
     case Constants.SWITCH_VIEW: {
       return { ...state, view: action.view, viewId: action.viewId };
     }
+    case Constants.LOAD_USER_DATA_DONE: {
+      const courseData = {
+        meanScore: action.payload.mean_score,
+        title: action.payload.title,
+        passed: action.payload.passed,
+        regDetails: action.payload.reg_details,
+      };
+      return { ...state,
+        data: courseData,
+      };
+    }
     default:
       return state;
   }
