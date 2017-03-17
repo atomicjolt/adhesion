@@ -3,7 +3,7 @@ import { Constants } from '../actions/analytics';
 const initialState = {
   data: {},
   view: 'activity',
-  viewId: 0,
+  viewId: '0',
 };
 
 export default (state = initialState, action) => {

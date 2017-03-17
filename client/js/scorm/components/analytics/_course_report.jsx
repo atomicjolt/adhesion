@@ -21,7 +21,7 @@ export class CourseReport extends React.Component {
       analyticsTable: React.PropTypes.array,
     }).isRequired,
     view: React.PropTypes.string.isRequired,
-    viewId: React.PropTypes.number,
+    viewId: React.PropTypes.string,
   }
 
   constructor() {
