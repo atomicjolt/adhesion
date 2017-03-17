@@ -11,14 +11,12 @@ export default (state = initialState, action) => {
 
     case Constants.LOAD_COURSE_DATA_DONE: {
       const courseData = {
-        meanScore: action.payload.mean_score,
         title: action.payload.title,
-        regCount: action.payload.registration_count,
-        medScore: action.payload.med_score,
-        lowScore: action.payload.low_score,
-        highScore: action.payload.high_score,
-        passed: action.payload.passed,
-        regDetails: action.payload.analytics_table,
+        scores: action.payload.scores,
+        completed: action.payload.completed,
+        passFail: action.payload.pass_fail,
+        analyticsTable: action.payload.analytics_table,
+        navButtons: action.payload.nav_buttons,
       };
       return { ...state,
         data: courseData,
@@ -29,10 +27,10 @@ export default (state = initialState, action) => {
     }
     case Constants.LOAD_USER_DATA_DONE: {
       const courseData = {
-        meanScore: action.payload.mean_score,
         title: action.payload.title,
-        passed: action.payload.passed,
-        regDetails: action.payload.analytics_table,
+        passFail: action.payload.pass_fail,
+        analyticsTable: action.payload.analytics_table,
+        navButtons: actions.payload.nav_buttons,
       };
       return { ...state,
         data: courseData,

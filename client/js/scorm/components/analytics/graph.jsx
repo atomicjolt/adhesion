@@ -6,6 +6,7 @@ export default class Graph extends React.Component {
 
   static propTypes = {
     data: React.PropTypes.shape({}),
+    navButtons: React.PropTypes.array,
   }
 
   constructor() {
@@ -16,11 +17,12 @@ export default class Graph extends React.Component {
   }
 
   render() {
+    const navButtons = this.props.navButtons || {};
     return (
       <div className="c-aa-graph-picker">
         <div className="c-aa-graph-nav">
           <NavContainer
-            data={this.props.data}
+            navButtons={navButtons}
             switchChart={label => this.setState({ selectedChart: label })}
           />
         </div>

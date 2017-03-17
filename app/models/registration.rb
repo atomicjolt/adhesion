@@ -24,7 +24,7 @@ class Registration < ActiveRecord::Base
     summary[:title] = "Scorm Title"
     summary[:mean_score] = mean_registration_score
     summary[:passed] = pass_fail
-    summary[:reg_details] = {}
+    summary[:analytics_table] = {}
     summary
   end
 
@@ -80,5 +80,13 @@ class Registration < ActiveRecord::Base
 
   def passed?
     @passed ||= scorm_activities.pluck(:success_status).exclude? "Failed"
+  end
+
+  def completion_statuses
+    @completion_statuses ||= scorm_activities.map(&:completion_status).compact
+  end
+
+  def all_completed?
+    @completed ||= completion_statuses.all? { |status| status == "completed" }
   end
 end

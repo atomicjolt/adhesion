@@ -30,14 +30,22 @@ class ScormCourse < ActiveRecord::Base
       { name: "Failed", value: reg_scores.count - passed },
     ]
 
+    # Assemble complete/incomplete data
+    complete_count, incomplete_count = calc_complete(registrations)
+    completed = [
+      { name: "Completed", value: complete_count },
+      { name: "Incompleted", value: incomplete_count },
+    ]
+
     summary[:title] = title
     summary[:mean_score] = mean_score
     summary[:med_score] = med_score
     summary[:low_score] = low_score
     summary[:high_score] = high_score
     summary[:registration_count] = registrations.count
-    summary[:passed] = pass_fail
-    summary[:analytics_table] = users
+    summary[:pass_fail] = pass_fail
+    summary[:completed] = completed
+    summary[:reg_details] = users
     summary
   end
 
@@ -47,9 +55,17 @@ class ScormCourse < ActiveRecord::Base
     reg_scores = registrations.map(&:mean_registration_score).compact.sort
     low_score = reg_scores.first
     high_score = reg_scores.last
-    passed = registrations.map(&:passed?).compact.count
+    # get array of passing and failing registrations, then reject false values
+    passed = registrations.map(&:passed?).compact.count(true)
 
     [reg_scores, low_score, high_score, passed]
+  end
+
+  def calc_complete(registrations)
+    statuses = registrations.map(&:all_completed?)
+    complete_count = statuses.count(true)
+    incomplete_count = statuses.count(false)
+    [complete_count, incomplete_count]
   end
 
   def mean(scores)

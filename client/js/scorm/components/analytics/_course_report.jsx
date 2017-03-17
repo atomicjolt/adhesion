@@ -13,14 +13,11 @@ export class CourseReport extends React.Component {
     scormCourseId: React.PropTypes.string.isRequired,
     data: React.PropTypes.shape({
       title: React.PropTypes.string,
-      meanScore: React.PropTypes.number,
-      regCount: React.PropTypes.number,
-      medScore: React.PropTypes.number,
-      lowScore: React.PropTypes.number,
-      highScore: React.PropTypes.number,
+      scores: React.PropTypes.array,
       passed: React.PropTypes.array,
       completed: React.PropTypes.array,
-      regDetails: React.PropTypes.array,
+      navButtons: React.PropTypes.array,
+      analyticsTable: React.PropTypes.array,
     }).isRequired,
     view: React.PropTypes.string.isRequired,
   }
@@ -62,9 +59,10 @@ export class CourseReport extends React.Component {
           view={this.props.view} />
         <Graph
           data={data}
-          view={this.props.view} />
+          view={this.props.view}
+          navButtons={data.navButtons} />
         <AnalyticList
-          regList={data.regDetails}
+          regList={data.analyticsTable}
           view={this.props.view} />
       </div>
     );
