@@ -25,7 +25,7 @@ describe('scorm index', () => {
       scormFile: null,
       scormList: [],
       uploadPackage: () => {},
-      canvasAssignments: [],
+      canvasAssignments: {},
       listAssignmentsDone: true,
       loadError: false,
     };

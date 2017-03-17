@@ -107,9 +107,12 @@ export class BaseExamRequestList extends React.Component {
       filterDate: new Date(),
       toggleReportWindow: false,
     };
+
+    this.closeSettings = ::this.closeSettings;
   }
 
   componentWillMount() {
+    window.addEventListener('click', this.closeSettings);
     this.props.canvasRequest(loadCustomData, {
       user_id: this.props.lmsUserId,
       ns: 'edu.au.exam',
@@ -121,6 +124,7 @@ export class BaseExamRequestList extends React.Component {
       this.props.toolConsumerInstanceName
     );
   }
+
 
   componentWillUpdate(nextProps) {
     if (!this.props.needProctorCode && nextProps.needProctorCode) {
@@ -138,6 +142,10 @@ export class BaseExamRequestList extends React.Component {
         <NewProctorCode code={code} hideModal={this.props.hideModal} />
       );
     }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('click', this.closeSettings);
   }
 
   onDownload(startDate, endDate) {
@@ -178,7 +186,7 @@ export class BaseExamRequestList extends React.Component {
         startExam={this.props.startExam}
         enterAnswers={this.props.enterAnswers}
         finishExam={this.props.finishExam}
-        openSettings={id => this.setState({ openSettings: id })}
+        openSettings={(e, id) => this.openSettings(e, id)}
         settingsOpen={this.state.openSettings === examRequest.id}
       />
     ));
@@ -208,6 +216,17 @@ export class BaseExamRequestList extends React.Component {
       this.props.examRequestList,
       examRequest => (!examRequest.scheduled_date && examRequest.status !== 'finished')
     ).length;
+  }
+
+  openSettings(e, id) {
+    e.stopPropagation();
+    this.setState({ openSettings: id });
+  }
+
+  closeSettings() {
+    if (this.state.openSettings != null) {
+      this.setState({ openSettings: null });
+    }
   }
 
   scheduleExam(id, scheduledDate, scheduledTime) {

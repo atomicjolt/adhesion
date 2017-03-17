@@ -25,7 +25,7 @@ describe('Multiple Choice', () => {
         },
       ],
       question_text: '<p>I am the title</p>',
-      id: '7',
+      id: 7,
     };
     result = TestUtils.renderIntoDocument(<Stub><MultipleChoice {...props} /></Stub>);
   });

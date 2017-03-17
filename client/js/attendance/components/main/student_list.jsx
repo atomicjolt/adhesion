@@ -100,10 +100,11 @@ export class StudentList extends React.Component {
   }
 
   errorModal() {
-    const style = this.props.error.showError ? 'c-popup is-open' : 'c-popup';
-
+    if (!this.props.error.showError) {
+      return null;
+    }
     return (
-      <div className={`${style}`}>
+      <div className="c-popup is-open">
         <h3 className="c-popup__title">ERROR! {this.props.error.statusCode}</h3>
         <p className="c-popup__message">Something went wrong.</p>
         <button className="c-popup__btn" onClick={() => this.props.showError(false)}>Dismiss</button>

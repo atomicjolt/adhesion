@@ -1,4 +1,5 @@
 import React        from 'react';
+import _            from 'lodash';
 import Defines      from '../../defines';
 import HoverButton  from '../common/hover_button';
 import DateSelector from '../common/date_selector';
@@ -10,6 +11,7 @@ export default class ScheduleForm extends React.Component {
     studentId: React.PropTypes.number.isRequired,
     examName: React.PropTypes.string.isRequired,
     courseName: React.PropTypes.string.isRequired,
+    testingCenterName: React.PropTypes.string.isRequired,
     message: React.PropTypes.string.isRequired,
     closeModal:  React.PropTypes.func.isRequired,
     scheduleExam:  React.PropTypes.func.isRequired,
@@ -75,7 +77,7 @@ export default class ScheduleForm extends React.Component {
 
   constructor(props) {
     super(props);
-    this.textArea = null;
+    this.messageField = null;
     this.subjectField =  null;
     this.state = {
       date: new Date(),
@@ -83,11 +85,57 @@ export default class ScheduleForm extends React.Component {
         value: '0900',
         label: '0900',
       },
+      userMessage: '',
+      dontUseAutoMessage: false
     };
+    this.state.autoMessage = this.buildDateAndTimeMessage(this.state.date, this.state.time);
+  }
+
+  onMessageChange(e) {
+    if (this.state.dontUseAutoMessage) { return; }
+    const { value } = e.target;
+    if (!_.includes(e.target.value, this.state.autoMessage)) {
+      this.setState({ dontUseAutoMessage: true });
+    } else if (value.length < this.state.autoMessage.length + this.state.userMessage.length) {
+      const newMessage = this.state.userMessage.slice(0, -1);
+      this.setState({ userMessage: newMessage });
+    } else {
+      const newMessage = this.state.userMessage + value[value.length - 1];
+      this.setState({ userMessage: newMessage });
+    }
   }
 
   handleDateChange(date) {
-    this.setState({ date });
+    const autoMessage = this.buildDateAndTimeMessage(date, this.state.time);
+    this.setState({
+      date,
+      autoMessage,
+    });
+    if (!this.state.dontUseAutoMessage) {
+      this.messageField.value = autoMessage + this.state.userMessage;
+    }
+  }
+
+  handleTimeChange(time) {
+    const autoMessage = this.buildDateAndTimeMessage(this.state.date, time);
+    this.setState({
+      time,
+      autoMessage,
+    });
+    if (!this.state.dontUseAutoMessage) {
+      this.messageField.value = autoMessage + this.state.userMessage;
+    }
+  }
+
+  buildDateAndTimeMessage(date, time) {
+    return (
+      'Your exam has been scheduled\n' +
+      `Exam: ${this.props.examName}\n` +
+      `Date: ${date.toDateString()}\n` +
+      `Time: ${time.value}\n` +
+      `Location: ${this.props.testingCenterName}\n` +
+      '-----------------------------------\n'
+    );
   }
 
   render() {
@@ -110,7 +158,7 @@ export default class ScheduleForm extends React.Component {
           <TimeSelector
             value={this.state.time}
             style={{ ...styles.selector, ...styles.timeSelector }}
-            onChange={time => this.setState({ time })}
+            onChange={time => this.handleTimeChange(time)}
             header={<div style={styles.dropdownHeader}>TIME</div>}
           />
         </div>
@@ -118,6 +166,8 @@ export default class ScheduleForm extends React.Component {
           <div style={styles.dropdownHeader}>RESPONSE TO STUDENT</div>
           <div style={styles.textContainer}>
             <textarea
+              defaultValue={this.state.autoMessage}
+              onChange={e => this.onMessageChange(e)}
               style={styles.textarea}
               rows="10"
               ref={(el) => { this.messageField = el; }}

@@ -1,7 +1,8 @@
 .c-top-bar{
   height: 6rem;
   padding: 1rem;
-  max-width: 75rem;
+  min-width: 70rem;
+  width: 100%;
   position: relative;
 }
 
@@ -115,7 +116,8 @@
 .c-table{
   margin-top: 1rem;
   width: 100%;
-  max-width: 75rem;
+  max-width: 175rem;
+  min-width: 70rem;
   border-collapse: collapse;
 
   tr{

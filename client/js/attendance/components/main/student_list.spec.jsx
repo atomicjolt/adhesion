@@ -33,7 +33,7 @@ describe('Student List', () => {
       students: fakeStudents(10),
       error,
       settings: {
-        lms_course_id: 1,
+        lms_course_id: '1',
       },
       applicationDate: new Date('2016-1-1').toDateString(),
       attendance: {},
