@@ -12,6 +12,7 @@ export class CourseReport extends React.Component {
     getUserData: React.PropTypes.func.isRequired,
     scormCourseId: React.PropTypes.string.isRequired,
     data: React.PropTypes.shape({
+      studentName: React.PropTypes.string,
       title: React.PropTypes.string,
       scores: React.PropTypes.array,
       passed: React.PropTypes.array,
@@ -20,6 +21,7 @@ export class CourseReport extends React.Component {
       analyticsTable: React.PropTypes.array,
     }).isRequired,
     view: React.PropTypes.string.isRequired,
+    viewId: React.PropTypes.number,
   }
 
   constructor() {
@@ -30,19 +32,19 @@ export class CourseReport extends React.Component {
   }
 
   componentWillMount() {
-    if(this.props.view == 'activity') {
+    if (this.props.view === 'activity') {
       this.props.loadCourseData(this.props.scormCourseId);
-    } else if(this.props.view == 'student') {
+    } else if (this.props.view === 'student') {
       this.props.getUserData(this.props.scormCourseId, this.props.viewId);
     }
     this.setState({ currentView: this.props.view });
   }
 
-  componentWillReceiveProps(nextProps){
-    if(nextProps.view != this.state.currentView){
-      if(nextProps.view == 'activity') {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.view !== this.state.currentView) {
+      if (nextProps.view === 'activity') {
         nextProps.loadCourseData(nextProps.scormCourseId);
-      } else if(nextProps.view == 'student') {
+      } else if (nextProps.view === 'student') {
         nextProps.getUserData(nextProps.scormCourseId, nextProps.viewId);
       }
       this.setState({ currentView: nextProps.view });
@@ -57,14 +59,18 @@ export class CourseReport extends React.Component {
       <div className="c-aa-contain">
         <Header
           title={data.title}
-          view={this.props.view} />
+          view={this.props.view}
+          studentName={data.studentName}
+        />
         <Graph
           data={data}
           view={this.props.view}
-          navButtons={navButtons} />
+          navButtons={navButtons}
+        />
         <AnalyticList
-          regList={data.analyticsTable}
-          view={this.props.view} />
+          tableData={data.analyticsTable}
+          view={this.props.view}
+        />
       </div>
     );
   }

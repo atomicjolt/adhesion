@@ -17,7 +17,8 @@ export default function AnalyticRow(props) {
   return (
     <tr
       className="c-aa-row"
-      onClick={ () => props.switchTable(props.id) }>
+      onClick={() => props.switchTable(props.id)}
+    >
       <td>{props.name || 'Unknown'}</td>
       <td>{props.passed}</td>
       <td>{formatScore(props.score)}</td>
@@ -32,4 +33,5 @@ AnalyticRow.propTypes = {
   passed: React.PropTypes.string.isRequired,
   score: React.PropTypes.number,
   time: React.PropTypes.number,
+  switchTable: React.PropTypes.func.isRequired,
 };

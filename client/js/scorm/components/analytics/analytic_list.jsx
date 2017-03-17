@@ -8,23 +8,34 @@ export class AnalyticList extends React.Component {
 
   static propTypes = {
     switchView: React.PropTypes.func.isRequired,
-    regList: React.PropTypes.array,
+    tableData: React.PropTypes.array,
+    view: React.PropTypes.view,
   }
 
   constructor() {
     super();
     this.state = {
-      analyticsName: 'Student',
+      analyticsName: '',
     };
   }
+  componentWillMount() {
+    this.setAnalyticsName(this.props.view);
+  }
 
-  switchTable(viewId) {
-    this.props.switchView(this.state.analyticsName.toLowerCase(), viewId);
-    if(this.state.analyticsName == 'Student'){
+  componentWillReceiveProps(nextProps) {
+    this.setAnalyticsName(nextProps.view);
+  }
+
+  setAnalyticsName(view) {
+    if (view === 'student') {
       this.setState({ analyticsName: 'Activity' });
     } else {
       this.setState({ analyticsName: 'Student' });
     }
+  }
+
+  switchTable(viewId) {
+    this.props.switchView(this.state.analyticsName.toLowerCase(), viewId);
   }
 
   render() {
@@ -40,15 +51,16 @@ export class AnalyticList extends React.Component {
         </thead>
         <tbody>
           {
-            _.map(this.props.regList, (reg, key) => (
+            _.map(this.props.tableData, (reg, key) => (
               <AnalyticRow
                 key={key}
                 id={reg.id}
                 name={reg.name}
                 passed={reg.passed}
-                score={ reg.score}
+                score={reg.score}
                 time={reg.time}
-                switchTable={this.switchTable.bind(this)} />
+                switchTable={this.switchTable.bind(this)}
+              />
             ))
           }
         </tbody>
@@ -57,8 +69,8 @@ export class AnalyticList extends React.Component {
   }
 }
 
-const select = (state, props) => ({
+const select = state => ({
   view: state.analytics.view,
 });
 
-export default connect(select, {switchView})(AnalyticList);
+export default connect(select, { switchView })(AnalyticList);

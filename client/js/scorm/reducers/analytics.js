@@ -27,6 +27,7 @@ export default (state = initialState, action) => {
     }
     case Constants.LOAD_USER_DATA_DONE: {
       const courseData = {
+        studentName: action.payload.student_name,
         title: action.payload.title,
         completed: action.payload.completed,
         passFail: action.payload.pass_fail,
