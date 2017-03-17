@@ -16,15 +16,11 @@ class Registration < ActiveRecord::Base
     # return course activity details for user
     summary = {}
 
-    pass_fail = [
-      { name: "Passed", value: passed? },
-      { name: "Incompleted", value: passed? },
-      { name: "Failed", value: passed? },
-    ]
     summary[:title] = "Scorm Title"
     summary[:mean_score] = mean_registration_score
     summary[:pass_fail] = pass_fail
-    summary[:analytics_table] = {}
+    summary[:nav_buttons] = nav_buttons
+    summary[:analytics_table] = []
     summary
   end
 
@@ -88,5 +84,32 @@ class Registration < ActiveRecord::Base
 
   def all_completed?
     @completed ||= completion_statuses.all? { |status| status == "completed" }
+  end
+
+  private
+
+  def pass_fail
+    [
+      { name: "Passed", value: passed? },
+      { name: "Incompleted", value: passed? },
+      { name: "Failed", value: passed? },
+    ]
+  end
+
+  def nav_buttons
+    [
+      {
+        name: "Passed",
+        stat: 100,
+      },
+      {
+        name: "Average Score",
+        stat: 80,
+      },
+      {
+        name: "Total Minutes",
+        stat: 100,
+      },
+    ]
   end
 end
