@@ -15,13 +15,11 @@ class ScormCourse < ActiveRecord::Base
   def course_analytics
     summary = {}
 
-    reg_scores, low_score, high_score = calc_scores
-    mean_score = mean(reg_scores)
-    med_score = median(reg_scores) || 0
+    reg_scores, mean_score, med_score, passed = calc_scores
     passed = registrations.map(&:passed?).compact.count(true)
 
     summary[:title] = title
-    summary[:scores] = scores(mean_score, med_score, low_score, high_score)
+    summary[:scores] = scores(reg_scores, mean_score, med_score)
     summary[:completed] = completed
     summary[:pass_fail] = pass_fail(reg_scores, passed)
     summary[:nav_buttons] = nav_buttons(reg_scores, med_score, passed)
@@ -31,8 +29,9 @@ class ScormCourse < ActiveRecord::Base
 
   private
 
-  def scores(mean_score, med_score, low_score, high_score)
-    # Calculate Mean, Median
+  def scores(reg_scores, mean_score, med_score)
+    low_score = reg_scores.first
+    high_score = reg_scores.last
     [
       { name: "Mean Score", value: mean_score },
       { name: "Median Score", value: med_score },
@@ -81,10 +80,10 @@ class ScormCourse < ActiveRecord::Base
 
   def calc_scores
     reg_scores = registrations.map(&:mean_registration_score).compact.sort
-    low_score = reg_scores.first
-    high_score = reg_scores.last
+    mean_score = mean(reg_scores) || 0
+    med_score = median(reg_scores) || 0
 
-    [reg_scores, low_score, high_score]
+    [reg_scores, mean_score, med_score]
   end
 
   def calc_complete
