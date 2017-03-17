@@ -1,6 +1,6 @@
 import React          from 'react';
 import Chart          from './chart';
-import AverageScore   from './scores';
+import Scores         from './scores';
 
 const PASSED_COLORS = ['#67a9cf', '#c9c9c9', '#ef8a62'];
 const COMPLETED_COLORS = ['#67a9cf', '#ef8a62'];
@@ -35,13 +35,10 @@ export default function ChartContainer(props) {
         data={completed}
       />
     );
-  } else if (props.selected === 'Average Score' && meanScore) {
+  } else if (props.selected === 'Average Score' && data.scores) {
     chart = (
-      <AverageScore
-        meanScore={meanScore}
-        medScore={medScore}
-        lowScore={lowScore}
-        highScore={highScore}
+      <Scores
+        scores={data.scores}
       />
     );
   }

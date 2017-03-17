@@ -21,31 +21,41 @@ class ScormCourse < ActiveRecord::Base
 
     # Calculate Mean, Median
     mean_score = mean(reg_scores)
-    med_score = median(reg_scores)
+    med_score = median(reg_scores) || 0
 
-    # Assemble pass/fail data
-    pass_fail = [
-      { name: "Passed", value: passed },
-      { name: "Incompleted", value: registrations.count - reg_scores.count },
-      { name: "Failed", value: reg_scores.count - passed },
-    ]
-
-    # Assemble complete/incomplete data
-    complete_count, incomplete_count = calc_complete(registrations)
-    completed = [
-      { name: "Completed", value: complete_count },
-      { name: "Incompleted", value: incomplete_count },
-    ]
+    incomplete = registrations.count - reg_scores.count
 
     summary[:title] = title
-    summary[:mean_score] = mean_score
-    summary[:med_score] = med_score
-    summary[:low_score] = low_score
-    summary[:high_score] = high_score
-    summary[:registration_count] = registrations.count
-    summary[:pass_fail] = pass_fail
-    summary[:completed] = completed
-    summary[:reg_details] = users
+    summary[:scores] = [
+      { name: "Mean Score", value: mean_score },
+      { name: "Median Score", value: med_score },
+      { name: "Lowest Score", value: low_score },
+      { name: "Highest Score", value: high_score },
+    ]
+    summary[:pass_fail] = [
+      { name: "Passed", value: passed },
+      { name: "Incompleted", value: incomplete },
+      { name: "Failed", value: reg_scores.count - passed },
+    ]
+    summary[:nav_buttons] = [
+      {
+        name: "Completed",
+        stat: (reg_scores.count / registrations.count) * 100,
+      },
+      {
+        name: "Passed",
+        stat: (passed / registrations.count) * 100,
+      },
+      {
+        name: "Average Score",
+        stat: med_score * 100,
+      },
+      {
+        name: "Minutes Per Learner",
+        stat: 100,
+      },
+    ]
+    summary[:analytics_table] = users
     summary
   end
 

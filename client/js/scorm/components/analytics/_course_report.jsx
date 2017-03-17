@@ -51,6 +51,7 @@ export class CourseReport extends React.Component {
 
   render() {
     const data = this.props.data || {};
+    const navButtons = this.props.data.navButtons || [];
 
     return (
       <div className="c-aa-contain">
@@ -60,7 +61,7 @@ export class CourseReport extends React.Component {
         <Graph
           data={data}
           view={this.props.view}
-          navButtons={data.navButtons} />
+          navButtons={navButtons} />
         <AnalyticList
           regList={data.analyticsTable}
           view={this.props.view} />

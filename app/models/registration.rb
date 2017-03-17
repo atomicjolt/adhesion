@@ -23,7 +23,7 @@ class Registration < ActiveRecord::Base
     ]
     summary[:title] = "Scorm Title"
     summary[:mean_score] = mean_registration_score
-    summary[:passed] = pass_fail
+    summary[:pass_fail] = pass_fail
     summary[:analytics_table] = {}
     summary
   end

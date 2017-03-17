@@ -17,12 +17,11 @@ export default class Graph extends React.Component {
   }
 
   render() {
-    const navButtons = this.props.navButtons || {};
     return (
       <div className="c-aa-graph-picker">
         <div className="c-aa-graph-nav">
           <NavContainer
-            navButtons={navButtons}
+            navButtons={this.props.navButtons}
             switchChart={label => this.setState({ selectedChart: label })}
           />
         </div>

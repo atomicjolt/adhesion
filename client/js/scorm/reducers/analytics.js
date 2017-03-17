@@ -28,9 +28,10 @@ export default (state = initialState, action) => {
     case Constants.LOAD_USER_DATA_DONE: {
       const courseData = {
         title: action.payload.title,
+        completed: action.payload.completed,
         passFail: action.payload.pass_fail,
         analyticsTable: action.payload.analytics_table,
-        navButtons: actions.payload.nav_buttons,
+        navButtons: action.payload.nav_buttons,
       };
       return { ...state,
         data: courseData,
