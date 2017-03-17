@@ -15,29 +15,51 @@ class ScormCourse < ActiveRecord::Base
   def course_analytics
     summary = {}
 
-    users = registrations.map(&:registration_data)
-
-    reg_scores, low_score, high_score, passed = calc_scores(registrations)
-
-    # Calculate Mean, Median
+    reg_scores, low_score, high_score = calc_scores
     mean_score = mean(reg_scores)
     med_score = median(reg_scores) || 0
-
-    incomplete = registrations.count - reg_scores.count
+    passed = registrations.map(&:passed?).compact.count(true)
 
     summary[:title] = title
-    summary[:scores] = [
+    summary[:scores] = scores(mean_score, med_score, low_score, high_score)
+    summary[:completed] = completed
+    summary[:pass_fail] = pass_fail(reg_scores, passed)
+    summary[:nav_buttons] = nav_buttons(reg_scores, med_score, passed)
+    summary[:analytics_table] = registrations.map(&:registration_data)
+    summary
+  end
+
+  private
+
+  def scores(mean_score, med_score, low_score, high_score)
+    # Calculate Mean, Median
+    [
       { name: "Mean Score", value: mean_score },
       { name: "Median Score", value: med_score },
       { name: "Lowest Score", value: low_score },
       { name: "Highest Score", value: high_score },
     ]
-    summary[:pass_fail] = [
+  end
+
+  def pass_fail(reg_scores, passed)
+    incomplete = registrations.count - reg_scores.count
+    [
       { name: "Passed", value: passed },
       { name: "Incompleted", value: incomplete },
       { name: "Failed", value: reg_scores.count - passed },
     ]
-    summary[:nav_buttons] = [
+  end
+
+  def completed
+    complete_count, incomplete_count = calc_complete
+    [
+      { name: "Completed", value: complete_count },
+      { name: "Incompleted", value: incomplete_count },
+    ]
+  end
+
+  def nav_buttons(reg_scores, med_score, passed)
+    [
       {
         name: "Completed",
         stat: (reg_scores.count / registrations.count) * 100,
@@ -55,23 +77,17 @@ class ScormCourse < ActiveRecord::Base
         stat: 100,
       },
     ]
-    summary[:analytics_table] = users
-    summary
   end
 
-  private
-
-  def calc_scores(registrations)
+  def calc_scores
     reg_scores = registrations.map(&:mean_registration_score).compact.sort
     low_score = reg_scores.first
     high_score = reg_scores.last
-    # get array of passing and failing registrations, then reject false values
-    passed = registrations.map(&:passed?).compact.count(true)
 
-    [reg_scores, low_score, high_score, passed]
+    [reg_scores, low_score, high_score]
   end
 
-  def calc_complete(registrations)
+  def calc_complete
     statuses = registrations.map(&:all_completed?)
     complete_count = statuses.count(true)
     incomplete_count = statuses.count(false)
