@@ -99,7 +99,11 @@ class Registration < ActiveRecord::Base
   def nav_buttons
     [
       {
-        name: "Passed",
+        name: "Completed",
+        stat: 100,
+      },
+      {
+        name: passed? ? "Passed" : "Failed",
         stat: 100,
       },
       {
