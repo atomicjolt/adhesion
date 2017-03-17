@@ -15,7 +15,7 @@ class ScormCourse < ActiveRecord::Base
   def course_analytics
     summary = {}
 
-    reg_scores, mean_score, med_score, passed = calc_scores
+    reg_scores, mean_score, med_score = calc_scores
     passed = registrations.map(&:passed?).compact.count(true)
 
     summary[:title] = title

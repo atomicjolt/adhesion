@@ -23,8 +23,8 @@ RSpec.describe Registration, type: :model do
               "measurestatus" => "false",
               "normalizedmeasure" => "0.0",
               "progressstatus" => "false",
-              "satisfiedstatus" => "false"
-            }
+              "satisfiedstatus" => "false",
+            },
           },
           "children" => {
             "activity" => {
@@ -43,8 +43,8 @@ RSpec.describe Registration, type: :model do
                   "measurestatus" => "false",
                   "normalizedmeasure" => "0.0",
                   "progressstatus" => "false",
-                  "satisfiedstatus" => "false"
-                }
+                  "satisfiedstatus" => "false",
+                },
               },
               "runtime" => {
                 "completion_status" => "incomplete",
@@ -55,7 +55,7 @@ RSpec.describe Registration, type: :model do
                   "audio_level" => "50.0",
                   "language" => nil,
                   "delivery_speed" => "1.0",
-                  "audio_captioning" => "0"
+                  "audio_captioning" => "0",
                 },
                 "location" => "3",
                 "mode" => "Normal",
@@ -79,14 +79,14 @@ RSpec.describe Registration, type: :model do
                   "learner_name" => "test@example.com",
                   "max_time_allowed" => nil,
                   "scaled_passing_score" => nil,
-                  "time_limit_action" => "Undefined"
-                }
+                  "time_limit_action" => "Undefined",
+                },
               },
-              "children" => nil
-            }
-          }
-        }
-      }
+              "children" => nil,
+            },
+          },
+        },
+      },
     }
     @report = @report.deep_symbolize_keys
     @registration = Registration.create
@@ -109,5 +109,4 @@ RSpec.describe Registration, type: :model do
       expect(@registration.registration_score).to eq(1.0)
     end
   end
-
 end
