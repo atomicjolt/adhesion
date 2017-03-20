@@ -40,12 +40,14 @@ export default class DateSelector extends React.Component {
         <SvgButton
           type="previous"
           className="c-btn c-btn--previous"
+          ariaLabel="previous day"
           onClick={e => this.prevClick(e)}
           noIconClass
         />
         <SvgButton
           noIconClass
           type="date"
+          ariaLabel="Date picker"
           className="c-btn c-btn--date"
           onClick={() => this.toggleCalendar()}
         >
@@ -60,6 +62,7 @@ export default class DateSelector extends React.Component {
         <SvgButton
           type="next"
           className="c-btn c-btn--next"
+          ariaLabel="next day"
           onClick={e => this.nextClick(e)}
           noIconClass
         />
