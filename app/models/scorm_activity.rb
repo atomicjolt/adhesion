@@ -6,10 +6,15 @@ class ScormActivity < ActiveRecord::Base
                               foreign_key: "parent_activity_id",
                               dependent: :destroy
 
+  scope :by_latest_attempt, -> { where(latest_attempt: true) }
+
+  def set_to_latest
+    self.latest_attempt = true
+  end
+
   def update_with(activity)
     self.satisfied = true?(activity[:satisfied])
     self.completed = true?(activity[:completed])
-    self.attempts = activity[:attempts]
     self.suspended = true?(activity[:suspended])
 
     # store runtime data

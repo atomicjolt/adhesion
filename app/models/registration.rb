@@ -26,10 +26,19 @@ class Registration < ActiveRecord::Base
 
   def store_activities(activity, parent_id = nil)
     # store activity
-
+    is_new = false
     sc_activity = scorm_activities.
-      where(activity_id: activity[:id], title: activity[:title]).
-      first_or_create
+      where(
+        activity_id: activity[:id],
+        title: activity[:title],
+        attempts: activity[:attempts],
+      ).first_or_create { is_new = true }
+
+    if is_new
+      # set previous activity to no longer be latest attempt
+      scorm_activities.by_latest_attempt.update_all(latest_attempt: false)
+      sc_activity.set_to_latest
+    end
 
     sc_activity.update_with(activity)
     sc_activity.parent_activity_id = parent_id if parent_id
@@ -53,7 +62,7 @@ class Registration < ActiveRecord::Base
       name: user&.name,
       score: mean_registration_score,
       passed: passed? ? "Pass" : "Fail",
-      time: mean_registration_total_time,
+      time: mean_registration_time_tracked,
     }
   end
 
@@ -62,24 +71,24 @@ class Registration < ActiveRecord::Base
   end
 
   def mean_registration_score
-    @scores ||= scorm_activities.pluck(:score_scaled).compact
+    @scores ||= scorm_activities.by_latest_attempt.pluck(:score_scaled).compact
     @scores.sum / @scores.count if @scores.count > 0
   end
 
-  def registration_total_time
-    @registration_total_time ||= scorm_activities.sum(:total_time)
+  def registration_time_tracked
+    @registration_time_tracked ||= scorm_activities.sum(:time_tracked)
   end
 
-  def mean_registration_total_time
-    registration_total_time / scorm_activities_count if scorm_activities_count > 0
+  def mean_registration_time_tracked
+    registration_time_tracked / scorm_activities_count if scorm_activities_count > 0
   end
 
   def passed?
-    @passed ||= scorm_activities.pluck(:success_status).exclude? "Failed"
+    @passed ||= scorm_activities.by_latest_attempt.pluck(:success_status).exclude? "Failed"
   end
 
   def completion_statuses
-    @completion_statuses ||= scorm_activities.map(&:completion_status).compact
+    @completion_statuses ||= scorm_activities.by_latest_attempt.map(&:completion_status).compact
   end
 
   def all_completed?
