@@ -192,9 +192,8 @@ export default class ExamRequest extends React.Component {
   takeExam() {
     const { examRequest } = this.props;
     const newWindow = window.open("");
-    this.props.getSignedUrl(this.props.examRequest.id, newWindow);
-    // // hashHistory.push(`/enter_answers/${examRequest.id}`);
-    // this.enterAnswers();
+    this.props.getSignedUrl(examRequest.id, newWindow);
+    this.enterAnswers();
     this.props.hideModal();
   }
 
