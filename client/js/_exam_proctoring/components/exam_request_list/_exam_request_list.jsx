@@ -11,7 +11,6 @@ import SearchBar                                from './search_bar';
 import DateFilter                               from './date_filter';
 import canvasRequest                            from '../../../libs/canvas/action';
 import { createConversation }                   from '../../../libs/canvas/constants/conversations';
-import { getSignedUrl }                         from '../../actions/exam_requests';
 import { loadCustomData, storeCustomData }      from '../../../libs/canvas/constants/users';
 import FilterTabs                               from './filter_tabs';
 import NewProctorCode                           from './new_proctor_code';
@@ -312,5 +311,4 @@ export default connect(select, {
   ...ExamRequestActions,
   ...ModalActions,
   canvasRequest,
-  getSignedUrl
 })(BaseExamRequestList);
