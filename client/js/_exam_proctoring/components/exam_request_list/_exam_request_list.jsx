@@ -11,6 +11,7 @@ import SearchBar                                from './search_bar';
 import DateFilter                               from './date_filter';
 import canvasRequest                            from '../../../libs/canvas/action';
 import { createConversation }                   from '../../../libs/canvas/constants/conversations';
+import { getSignedUrl }                         from '../../actions/exam_requests';
 import { loadCustomData, storeCustomData }      from '../../../libs/canvas/constants/users';
 import FilterTabs                               from './filter_tabs';
 import NewProctorCode                           from './new_proctor_code';
@@ -45,6 +46,7 @@ export class BaseExamRequestList extends React.Component {
     lmsUserId: React.PropTypes.string,
     needProctorCode: React.PropTypes.bool.isRequired,
     exportExamsAsCSV: React.PropTypes.func.isRequired,
+    getSignedUrl: React.PropTypes.func.isRequired,
   };
 
   static tableHeader(styles) {
@@ -188,6 +190,7 @@ export class BaseExamRequestList extends React.Component {
         finishExam={this.props.finishExam}
         openSettings={(e, id) => this.openSettings(e, id)}
         settingsOpen={this.state.openSettings === examRequest.id}
+        getSignedUrl={this.props.getSignedUrl}
       />
     ));
   }
@@ -309,4 +312,5 @@ export default connect(select, {
   ...ExamRequestActions,
   ...ModalActions,
   canvasRequest,
+  getSignedUrl
 })(BaseExamRequestList);
