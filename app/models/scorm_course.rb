@@ -58,14 +58,20 @@ class ScormCourse < ActiveRecord::Base
   end
 
   def nav_buttons(reg_scores, med_score, passed)
+    completed_score = 0
+    passed_score = 0
+    if registrations.count > 0
+      completed_score = reg_scores.count / registrations.count
+      passed_score = reg_scores.count / registrations.count
+    end
     [
       {
         name: "Completed",
-        stat: (reg_scores.count / registrations.count) * 100,
+        stat: completed_score * 100,
       },
       {
         name: "Passed",
-        stat: (passed / registrations.count) * 100,
+        stat: passed_score * 100,
       },
       {
         name: "Average Score",
