@@ -9,7 +9,8 @@ export class CourseReport extends React.Component {
 
   static propTypes = {
     loadCourseData: React.PropTypes.func.isRequired,
-    getUserData: React.PropTypes.func.isRequired,
+    loadUserData: React.PropTypes.func.isRequired,
+    loadActivityData: React.PropTypes.func.isRequired,
     scormCourseId: React.PropTypes.string.isRequired,
     data: React.PropTypes.shape({
       studentName: React.PropTypes.string,
@@ -27,33 +28,42 @@ export class CourseReport extends React.Component {
   constructor() {
     super();
     this.state = {
-      currentView: 'activity',
+      currentView: 'course',
     };
   }
 
   componentWillMount() {
-    if (this.props.view === 'activity') {
-      this.props.loadCourseData(this.props.scormCourseId);
-    } else if (this.props.view === 'student') {
-      this.props.getUserData(this.props.scormCourseId, this.props.viewId);
-    }
-    this.setState({ currentView: this.props.view });
+    this.setView(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.view !== this.state.currentView) {
-      if (nextProps.view === 'activity') {
-        nextProps.loadCourseData(nextProps.scormCourseId);
-      } else if (nextProps.view === 'student') {
-        nextProps.getUserData(nextProps.scormCourseId, nextProps.viewId);
-      }
-      this.setState({ currentView: nextProps.view });
+      this.setView(nextProps);
     }
+  }
+
+  setView(props){
+    if (props.view === 'course') {
+      props.loadCourseData(props.scormCourseId);
+    } else if (props.view === 'student') {
+      props.loadUserData(props.scormCourseId, props.viewId);
+    } else if (props.view === 'activities') {
+      props.loadActivityData(props.scormCourseId, props.viewId);
+    }
+    this.setState({ currentView: props.view });
   }
 
   render() {
     const data = this.props.data || {};
     const navButtons = this.props.data.navButtons || [];
+    var graph;
+    if(this.state.currentView !== 'activities'){
+      graph = <Graph
+                data={data}
+                view={this.props.view}
+                navButtons={navButtons}
+              />
+    }
 
     return (
       <div className="c-aa-contain">
@@ -62,11 +72,7 @@ export class CourseReport extends React.Component {
           view={this.props.view}
           studentName={data.studentName}
         />
-        <Graph
-          data={data}
-          view={this.props.view}
-          navButtons={navButtons}
-        />
+        { graph }
         <AnalyticList
           tableData={data.analyticsTable}
           view={this.props.view}

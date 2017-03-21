@@ -27,6 +27,13 @@ class ScormCourse < ActiveRecord::Base
     summary
   end
 
+  def course_activities
+    summary = {}
+    summary[:title] = title
+    summary[:analytics_table] = []
+    summary
+  end
+
   private
 
   def scores(reg_scores, mean_score, med_score)

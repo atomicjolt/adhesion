@@ -9,14 +9,23 @@ export class Header extends React.Component {
     title: React.PropTypes.string,
   }
 
-  switchTable() {
-    this.props.switchView('activity');
+  switchTable(view) {
+    this.props.switchView(view);
   }
 
   render() {
     var studentName = this.props.studentName;
+    var allAnalyticButton;
     if(studentName) {
       studentName = ` / ${this.props.studentName}`;
+    }
+    if(this.props.view === 'course') {
+      allAnalyticButton = <button
+                            className="c-aa-btn"
+                            onClick={ () => this.switchTable('activities') }
+                          >
+                            View Course Activities
+                          </button>
     }
     return (
       <header className="c-aa-head">
@@ -29,11 +38,13 @@ export class Header extends React.Component {
         <h1 className="c-aa-title">
           <span
             className="c-aa-title-btn"
-            onClick={ () => this.switchTable() } >
+            onClick={ () => this.switchTable('course') }
+          >
             { `${this.props.title} Analytics` }
           </span>
           {studentName}
         </h1>
+        { allAnalyticButton }
       </header>
     );
   }

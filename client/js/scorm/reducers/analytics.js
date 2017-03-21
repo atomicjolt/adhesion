@@ -2,7 +2,7 @@ import { Constants } from '../actions/analytics';
 
 const initialState = {
   data: {},
-  view: 'activity',
+  view: 'course',
   viewId: '0',
 };
 
@@ -33,6 +33,15 @@ export default (state = initialState, action) => {
         passFail: action.payload.pass_fail,
         analyticsTable: action.payload.analytics_table,
         navButtons: action.payload.nav_buttons,
+      };
+      return { ...state,
+        data: courseData,
+      };
+    }
+    case Constants.LOAD_ACTIVITY_DATA_DONE: {
+      const courseData = {
+        title: action.payload.title,
+        analyticsTable: action.payload.analytics_table,
       };
       return { ...state,
         data: courseData,

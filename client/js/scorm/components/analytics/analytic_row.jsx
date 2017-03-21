@@ -14,10 +14,18 @@ export default function AnalyticRow(props) {
     return _.ceil(time / 60);
   }
 
+  var styles = {};
+  if(props.id) {
+    styles = {
+      cursor: 'pointer',
+    };
+  }
+
   return (
     <tr
       className="c-aa-row"
       onClick={() => props.switchTable(props.id)}
+      style={styles}
     >
       <td>{props.name || 'Unknown'}</td>
       <td>{props.passed}</td>

@@ -27,15 +27,17 @@ export class AnalyticList extends React.Component {
   }
 
   setAnalyticsName(view) {
-    if (view === 'student') {
-      this.setState({ analyticsName: 'Activity' });
-    } else {
+    if (view === 'course') {
       this.setState({ analyticsName: 'Student' });
+    } else {
+      this.setState({ analyticsName: 'Activity' });
     }
   }
 
   switchTable(viewId) {
-    this.props.switchView(this.state.analyticsName.toLowerCase(), viewId);
+    if(viewId) {
+      this.props.switchView('student', viewId);
+    }
   }
 
   render() {
