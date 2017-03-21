@@ -43,11 +43,12 @@ export const exportExamsAsCSV = (accountId, startDate, endDate) => ({
   filename: 'exams.csv'
 });
 
-export const getSignedUrl = id => ({
+export const getSignedUrl = (id, newWindow) => ({
   method: Network.GET,
   type: Constants.GET_SIGNED_URL,
   url: '/api/proctor_login',
-  params: { id }
+  params: { id },
+  newWindow
 });
 
 export const startExam = id => ({
