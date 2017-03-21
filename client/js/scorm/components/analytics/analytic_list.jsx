@@ -35,7 +35,7 @@ export class AnalyticList extends React.Component {
   }
 
   switchTable(viewId) {
-    if(viewId) {
+    if (viewId) {
       this.props.switchView('student', viewId);
     }
   }

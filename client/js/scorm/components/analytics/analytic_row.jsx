@@ -14,8 +14,8 @@ export default function AnalyticRow(props) {
     return _.ceil(time / 60);
   }
 
-  var styles = {};
-  if(props.id) {
+  let styles = {};
+  if (props.id) {
     styles = {
       cursor: 'pointer',
     };

@@ -13,10 +13,6 @@ export default function ChartContainer(props) {
   const {
     passFail,
     completed,
-    meanScore,
-    medScore,
-    lowScore,
-    highScore,
   } = data;
 
   let chart;

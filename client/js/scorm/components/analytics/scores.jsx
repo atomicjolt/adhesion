@@ -5,9 +5,9 @@ export default function AverageScore(props) {
   return (
     <div>
       {
-        props.scores.map((score, index) =>
+        props.scores.map(score =>
           <AverageLabel
-            key={index}
+            key={`scores_${score.name}`}
             label={score.name}
             data={score.value}
           />

@@ -8,10 +8,6 @@ import * as AnalyticsActions      from '../../actions/analytics';
 export class CourseReport extends React.Component {
 
   static propTypes = {
-    loadCourseData: React.PropTypes.func.isRequired,
-    loadUserData: React.PropTypes.func.isRequired,
-    loadActivityData: React.PropTypes.func.isRequired,
-    scormCourseId: React.PropTypes.string.isRequired,
     data: React.PropTypes.shape({
       studentName: React.PropTypes.string,
       title: React.PropTypes.string,
@@ -22,7 +18,6 @@ export class CourseReport extends React.Component {
       analyticsTable: React.PropTypes.array,
     }).isRequired,
     view: React.PropTypes.string.isRequired,
-    viewId: React.PropTypes.string,
   }
 
   constructor() {
@@ -42,7 +37,7 @@ export class CourseReport extends React.Component {
     }
   }
 
-  setView(props){
+  setView(props) {
     if (props.view === 'course') {
       props.loadCourseData(props.scormCourseId);
     } else if (props.view === 'student') {
@@ -56,13 +51,13 @@ export class CourseReport extends React.Component {
   render() {
     const data = this.props.data || {};
     const navButtons = this.props.data.navButtons || [];
-    var graph;
-    if(this.state.currentView !== 'activities'){
-      graph = <Graph
-                data={data}
-                view={this.props.view}
-                navButtons={navButtons}
-              />
+    let graph;
+    if (this.state.currentView !== 'activities') {
+      graph = (<Graph
+        data={data}
+        view={this.props.view}
+        navButtons={navButtons}
+      />);
     }
 
     return (

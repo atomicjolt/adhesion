@@ -1,5 +1,4 @@
 import React from 'react';
-import _ from 'lodash';
 import NavButton from './nav_button';
 
 export default class NavButtons extends React.Component {
@@ -29,9 +28,9 @@ export default class NavButtons extends React.Component {
     return (
       <div>
         {
-          this.props.navButtons.map((button, index) =>
+          navButtons.map(button =>
             <NavButton
-              key={index}
+              key={`nav_button_${button.name}`}
               label={button.name}
               stat={button.stat}
               setActive={label => this.setActive(label)}

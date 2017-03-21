@@ -7,6 +7,9 @@ export class Header extends React.Component {
 
   static propTypes = {
     title: React.PropTypes.string,
+    switchView: React.PropTypes.func.isRequired,
+    studentName: React.PropTypes.string,
+    view: React.PropTypes.string,
   }
 
   switchTable(view) {
@@ -14,18 +17,18 @@ export class Header extends React.Component {
   }
 
   render() {
-    var studentName = this.props.studentName;
-    var allAnalyticButton;
-    if(studentName) {
+    let studentName = this.props.studentName;
+    let allAnalyticButton;
+    if (studentName) {
       studentName = ` / ${this.props.studentName}`;
     }
-    if(this.props.view === 'course') {
-      allAnalyticButton = <button
-                            className="c-aa-btn"
-                            onClick={ () => this.switchTable('activities') }
-                          >
-                            View Course Activities
-                          </button>
+    if (this.props.view === 'course') {
+      allAnalyticButton = (<button
+        className="c-aa-btn"
+        onClick={() => this.switchTable('activities')}
+      >
+        View Course Activities
+      </button>);
     }
     return (
       <header className="c-aa-head">
@@ -38,9 +41,9 @@ export class Header extends React.Component {
         <h1 className="c-aa-title">
           <span
             className="c-aa-title-btn"
-            onClick={ () => this.switchTable('course') }
+            onClick={() => this.switchTable('course')}
           >
-            { `${this.props.title} Analytics` }
+            {`${this.props.title} Analytics`}
           </span>
           {studentName}
         </h1>
@@ -50,8 +53,8 @@ export class Header extends React.Component {
   }
 }
 
-const select = (state, props) => ({
+const select = state => ({
   view: state.analytics.view,
 });
 
-export default connect(select, {switchView})(Header);
+export default connect(select, { switchView })(Header);
