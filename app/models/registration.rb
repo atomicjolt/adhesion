@@ -68,7 +68,7 @@ class Registration < ActiveRecord::Base
       name: user&.name,
       score: mean_registration_score,
       passed: passed? ? "Pass" : "Fail",
-      time: mean_registration_time_tracked,
+      time: registration_time_tracked,
     }
   end
 
@@ -94,11 +94,15 @@ class Registration < ActiveRecord::Base
   end
 
   def completion_statuses
-    @completion_statuses ||= scorm_activities.by_latest_attempt.map(&:completion_status).compact
+    @completion_statuses ||= scorm_activities.
+      by_latest_attempt.
+      by_parents_only.
+      map(&:completed).
+      compact
   end
 
   def all_completed?
-    @completed ||= completion_statuses.all? { |status| status == "completed" }
+    @completed ||= completion_statuses.all?
   end
 
   private

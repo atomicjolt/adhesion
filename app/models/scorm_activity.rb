@@ -7,6 +7,7 @@ class ScormActivity < ActiveRecord::Base
                               dependent: :destroy
 
   scope :by_latest_attempt, -> { where(latest_attempt: true) }
+  scope :by_parents_only, -> { where(parent_activity_id: nil) }
 
   def set_to_latest
     self.latest_attempt = true

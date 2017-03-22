@@ -18,12 +18,13 @@ class ScormCourse < ActiveRecord::Base
     reg_scores, mean_score, med_score = calc_scores
 
     passed = registrations.map(&:passed?).compact.count(true)
+    complete_count, incomplete_count = calc_complete
 
     summary[:title] = title
     summary[:scores] = scores(reg_scores, mean_score, med_score)
-    summary[:completed] = completed
+    summary[:completed] = completed(complete_count, incomplete_count)
     summary[:pass_fail] = pass_fail(reg_scores, passed)
-    summary[:nav_buttons] = nav_buttons(reg_scores, med_score, passed)
+    summary[:nav_buttons] = nav_buttons(complete_count, med_score, passed)
     summary[:analytics_table] = registrations.map(&:registration_data)
     summary
   end
@@ -57,20 +58,19 @@ class ScormCourse < ActiveRecord::Base
     ]
   end
 
-  def completed
-    complete_count, incomplete_count = calc_complete
+  def completed(complete_count, incomplete_count)
     [
       { name: "Completed", value: complete_count },
       { name: "Incompleted", value: incomplete_count },
     ]
   end
 
-  def nav_buttons(reg_scores, med_score, passed)
+  def nav_buttons(complete_count, med_score, passed)
     completed_score = 0
     passed_score = 0
     if registrations.count > 0
-      completed_score = reg_scores.count / registrations.count
-      passed_score = passed / registrations.count
+      completed_score = complete_count.to_f / registrations.count
+      passed_score = passed.to_f / registrations.count
     end
     [
       {

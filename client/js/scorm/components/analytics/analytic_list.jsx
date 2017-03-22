@@ -48,7 +48,7 @@ export class AnalyticList extends React.Component {
             <th>{this.state.analyticsName}</th>
             <th>Passed</th>
             <th>AVG Score</th>
-            <th>AVG Time(mins)</th>
+            <th>Total Time(mins)</th>
           </tr>
         </thead>
         <tbody>
