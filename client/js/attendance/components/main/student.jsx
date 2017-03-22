@@ -35,8 +35,8 @@ export default class Student extends React.Component {
         <td>
           <span className="c-name">{name}</span>
         </td>
-        <td className="c-attendance">
-          <label className="c-present" htmlFor={`radio1_${id}`}>
+        <td className="c-attendance" role="radiogroup">
+          <div className="c-present">
             <input
               type="radio"
               name={`radio1_${id}`}
@@ -44,9 +44,9 @@ export default class Student extends React.Component {
               onChange={() => this.updateStatus(student, status, AttendanceStates.PRESENT)}
               checked={status === AttendanceStates.PRESENT}
             />
-            <PresentIcon />
-          </label>
-          <label className="c-late" htmlFor={`radio2_${id}`}>
+            <label htmlFor={`radio1_${id}`} ><PresentIcon /></label>
+          </div>
+          <div className="c-late">
             <input
               type="radio"
               name={`radio1_${id}`}
@@ -54,9 +54,9 @@ export default class Student extends React.Component {
               onChange={() => this.updateStatus(student, status, AttendanceStates.LATE)}
               checked={status === AttendanceStates.LATE}
             />
-            <LateIcon />
-          </label>
-          <label className="c-absent" htmlFor={`radio3_${id}`}>
+            <label htmlFor={`radio2_${id}`}><LateIcon /></label>
+          </div>
+          <div className="c-absent">
             <input
               type="radio"
               name={`radio1_${id}`}
@@ -64,8 +64,8 @@ export default class Student extends React.Component {
               onChange={() => this.updateStatus(student, status, AttendanceStates.ABSENT)}
               checked={status === AttendanceStates.ABSENT}
             />
-            <AbsentIcon />
-          </label>
+            <label htmlFor={`radio3_${id}`}><AbsentIcon /></label>
+          </div>
         </td>
       </tr>
     );
