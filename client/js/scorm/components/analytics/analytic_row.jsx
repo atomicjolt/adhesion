@@ -14,20 +14,39 @@ export default function AnalyticRow(props) {
     return _.ceil(time / 60);
   }
 
-  let styles = {};
-  if (props.id) {
-    styles = {
+  let rowStyles = {};
+  let iconStyles = {};
+  let firstColumnStyle = {};
+  let tableClass = 'c-aa-row';
+  let icon;
+  if (props.depth) {
+    const totalDepth = 2 * props.depth;
+    const iconLeft = totalDepth + 1.3;
+    const rowLeft = totalDepth + 4;
+    iconStyles = {
+      left: `${iconLeft}rem`,
+    };
+    firstColumnStyle = {
+      paddingLeft: `${rowLeft}rem`,
+    };
+  }
+  if (props.isParent || !(props.depth >= 0)) {
+    rowStyles = {
       cursor: 'pointer',
     };
+    if (props.isParent) {
+      tableClass += ' c-aa-accordion is-open';
+      icon = <i style={iconStyles} className="material-icons">arrow_drop_down</i>;
+    }
   }
 
   return (
     <tr
-      className="c-aa-row"
+      className={tableClass}
       onClick={() => props.switchTable(props.id)}
-      style={styles}
+      style={rowStyles}
     >
-      <td>{props.name || 'Unknown'}</td>
+      <td style={firstColumnStyle}>{icon}{props.name || 'Unknown'}</td>
       <td>{props.passed}</td>
       <td>{formatScore(props.score)}</td>
       <td>{formatTime(props.time)}</td>
@@ -36,10 +55,12 @@ export default function AnalyticRow(props) {
 }
 
 AnalyticRow.propTypes = {
-  id: React.PropTypes.string,
+  id: React.PropTypes.number,
   name: React.PropTypes.string,
-  passed: React.PropTypes.string.isRequired,
+  passed: React.PropTypes.string,
   score: React.PropTypes.number,
   time: React.PropTypes.number,
+  isParent: React.PropTypes.bool,
+  depth: React.PropTypes.number,
   switchTable: React.PropTypes.func.isRequired,
 };

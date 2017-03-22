@@ -42,6 +42,18 @@ class ScormActivity < ActiveRecord::Base
     end
   end
 
+  def activity_data
+    {
+      id: id,
+      name: title,
+      score: score_scaled,
+      passed: satisfied? ? "Pass" : "Fail",
+      time: total_time,
+      isParent: ScormActivity.find_by(parent_activity_id: id).present?,
+      depth: get_depth(parent_activity_id),
+    }
+  end
+
   private
 
   ##
@@ -56,5 +68,13 @@ class ScormActivity < ActiveRecord::Base
 
   def true?(obj)
     obj.to_s == "true"
+  end
+
+  def get_depth(parent_id, depth = 0)
+    if parent_id
+      parent = ScormActivity.find_by(id: parent_id)
+      depth = get_depth(parent.parent_activity_id, depth + 1) if parent
+    end
+    depth
   end
 end

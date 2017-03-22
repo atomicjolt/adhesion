@@ -56,11 +56,13 @@ export class AnalyticList extends React.Component {
             _.map(this.props.tableData, (reg, key) => (
               <AnalyticRow
                 key={key}
-                id={reg.id}
+                id={parseInt(reg.id, 10)}
                 name={reg.name}
                 passed={reg.passed}
                 score={reg.score}
                 time={reg.time}
+                isParent={reg.isParent}
+                depth={reg.depth}
                 switchTable={this.switchTable.bind(this)}
               />
             ))

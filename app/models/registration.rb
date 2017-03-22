@@ -20,7 +20,7 @@ class Registration < ActiveRecord::Base
     summary[:mean_score] = mean_registration_score
     summary[:pass_fail] = pass_fail
     summary[:nav_buttons] = nav_buttons
-    summary[:analytics_table] = []
+    summary[:analytics_table] = scorm_activities.map(&:activity_data)
     summary
   end
 
