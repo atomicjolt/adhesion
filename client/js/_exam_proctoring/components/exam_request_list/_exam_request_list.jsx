@@ -45,6 +45,7 @@ export class BaseExamRequestList extends React.Component {
     lmsUserId: React.PropTypes.string,
     needProctorCode: React.PropTypes.bool.isRequired,
     exportExamsAsCSV: React.PropTypes.func.isRequired,
+    getSignedUrl: React.PropTypes.func.isRequired,
   };
 
   static tableHeader(styles) {
@@ -188,6 +189,7 @@ export class BaseExamRequestList extends React.Component {
         finishExam={this.props.finishExam}
         openSettings={(e, id) => this.openSettings(e, id)}
         settingsOpen={this.state.openSettings === examRequest.id}
+        getSignedUrl={this.props.getSignedUrl}
       />
     ));
   }
