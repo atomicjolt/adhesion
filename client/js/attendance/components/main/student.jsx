@@ -39,7 +39,7 @@ export default class Student extends React.Component {
           <div className="c-present">
             <input
               role="radio"
-              aria-checked={AttendanceStates.Present}
+              aria-checked={status === AttendanceStates.PRESENT}
               aria-setsize="3"
               aria-posinset="1"
               aria-label="Present"
@@ -54,7 +54,7 @@ export default class Student extends React.Component {
           <div className="c-late">
             <input
               role="radio"
-              aria-checked={AttendanceStates.Late}
+              aria-checked={status === AttendanceStates.LATE}
               aria-setsize="3"
               aria-posinset="2"
               aria-label="Late"
@@ -69,7 +69,7 @@ export default class Student extends React.Component {
           <div className="c-absent">
             <input
               role="radio"
-              aria-checked={AttendanceStates.Absent}
+              aria-checked={status === AttendanceStates.ABSENT}
               aria-setsize="3"
               aria-posinset="3"
               aria-label="Absent"
