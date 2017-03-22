@@ -33,11 +33,16 @@ export default class Student extends React.Component {
           <img className="c-profile-pic" src={`${this.props.student.avatar_url}`} alt="" />
         </td>
         <td>
-          <span className="c-name">{name}</span>
+          <span tabIndex="0" className="c-name">{name}</span>
         </td>
-        <td className="c-attendance" role="radiogroup">
+        <td className="c-attendance" role="radiogroup" >
           <div className="c-present">
             <input
+              role="radio"
+              aria-checked={AttendanceStates.Present}
+              aria-setsize="3"
+              aria-posinset="1"
+              aria-label="Present"
               type="radio"
               name={`radio1_${id}`}
               id={`radio1_${id}`}
@@ -48,6 +53,11 @@ export default class Student extends React.Component {
           </div>
           <div className="c-late">
             <input
+              role="radio"
+              aria-checked={AttendanceStates.Late}
+              aria-setsize="3"
+              aria-posinset="2"
+              aria-label="Late"
               type="radio"
               name={`radio1_${id}`}
               id={`radio2_${id}`}
@@ -58,6 +68,11 @@ export default class Student extends React.Component {
           </div>
           <div className="c-absent">
             <input
+              role="radio"
+              aria-checked={AttendanceStates.Absent}
+              aria-setsize="3"
+              aria-posinset="3"
+              aria-label="Absent"
               type="radio"
               name={`radio1_${id}`}
               id={`radio3_${id}`}
