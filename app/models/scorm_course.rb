@@ -17,11 +17,13 @@ class ScormCourse < ActiveRecord::Base
 
     reg_scores, mean_score, med_score = calc_scores
 
+    passed = registrations.map(&:passed?).compact.count(true)
+
     summary[:title] = title
     summary[:scores] = scores(reg_scores, mean_score, med_score)
     summary[:completed] = completed
-    summary[:pass_fail] = pass_fail(reg_scores)
-    summary[:nav_buttons] = nav_buttons(reg_scores, med_score)
+    summary[:pass_fail] = pass_fail(reg_scores, passed)
+    summary[:nav_buttons] = nav_buttons(reg_scores, med_score, passed)
     summary[:analytics_table] = registrations.map(&:registration_data)
     summary
   end
@@ -46,8 +48,7 @@ class ScormCourse < ActiveRecord::Base
     ]
   end
 
-  def pass_fail(reg_scores)
-    passed = registrations.map(&:passed?).compact.count(true)
+  def pass_fail(reg_scores, passed)
     incomplete = registrations.count - reg_scores.count
     [
       { name: "Passed", value: passed },
@@ -64,25 +65,25 @@ class ScormCourse < ActiveRecord::Base
     ]
   end
 
-  def nav_buttons(reg_scores, med_score)
+  def nav_buttons(reg_scores, med_score, passed)
     completed_score = 0
     passed_score = 0
     if registrations.count > 0
       completed_score = reg_scores.count / registrations.count
-      passed_score = reg_scores.count / registrations.count
+      passed_score = passed / registrations.count
     end
     [
       {
         name: "Completed",
-        stat: completed_score * 100,
+        stat: "#{(completed_score * 100).to_i}%",
       },
       {
         name: "Passed",
-        stat: passed_score * 100,
+        stat: "#{(passed_score * 100).to_i}%",
       },
       {
         name: "Average Score",
-        stat: med_score * 100,
+        stat: "#{(med_score * 100).to_i}%",
       },
       {
         name: "Minutes Per Learner",

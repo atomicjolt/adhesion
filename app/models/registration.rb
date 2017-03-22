@@ -36,7 +36,13 @@ class Registration < ActiveRecord::Base
 
     if is_new
       # set previous activity to no longer be latest attempt
-      scorm_activities.by_latest_attempt.update_all(latest_attempt: false)
+      scorm_activities.
+        where(
+          activity_id: activity[:id],
+          title: activity[:title],
+        ).
+        by_latest_attempt.
+        update_all(latest_attempt: false)
       sc_activity.set_to_latest
     end
 

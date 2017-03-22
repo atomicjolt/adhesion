@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170320195207) do
+ActiveRecord::Schema.define(version: 20170322164214) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -191,6 +191,7 @@ ActiveRecord::Schema.define(version: 20170320195207) do
   end
 
   add_index "scorm_activities", ["registration_id", "activity_id", "title", "attempts"], name: "index_scorm_activities_on_reg_id_activity_id_title_attempt", using: :btree
+  add_index "scorm_activities", ["registration_id", "activity_id", "title", "latest_attempt"], name: "index_scorm_activities_on_reg_id_act_id_title_latest_attempt", using: :btree
   add_index "scorm_activities", ["registration_id", "latest_attempt"], name: "index_scorm_activities_on_registration_id_and_latest_attempt", using: :btree
   add_index "scorm_activities", ["registration_id"], name: "index_scorm_activities_on_registration_id", using: :btree
   add_index "scorm_activities", ["title"], name: "index_scorm_activities_on_title", using: :btree
