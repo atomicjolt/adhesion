@@ -10,8 +10,10 @@ export class AnalyticRow extends React.Component {
     score: React.PropTypes.number,
     time: React.PropTypes.number,
     isParent: React.PropTypes.bool,
+    show: React.PropTypes.bool,
     depth: React.PropTypes.number,
     switchTable: React.PropTypes.func.isRequired,
+    toggleHideShow: React.PropTypes.func.isRequired,
   };
 
   constructor() {
@@ -37,6 +39,7 @@ export class AnalyticRow extends React.Component {
       this.props.switchTable(viewId);
     } else if (this.props.isParent) {
       this.setState({ isOpen: !this.state.isOpen });
+      this.props.toggleHideShow(viewId);
     }
   }
 
@@ -65,6 +68,11 @@ export class AnalyticRow extends React.Component {
         tableClass += ` c-aa-accordion ${this.state.isOpen ? 'is-open' : ''}`;
         icon = <i style={iconStyles} className="material-icons">arrow_drop_down</i>;
       }
+    }
+    if (!this.props.show) {
+      rowStyles = {
+        display: 'none',
+      };
     }
 
     return (

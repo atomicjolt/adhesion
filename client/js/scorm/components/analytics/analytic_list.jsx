@@ -16,14 +16,17 @@ export class AnalyticList extends React.Component {
     super();
     this.state = {
       analyticsName: '',
+      parents: {},
     };
   }
   componentWillMount() {
     this.setAnalyticsName(this.props.view);
+    this.setParent(this.props.tableData);
   }
 
   componentWillReceiveProps(nextProps) {
     this.setAnalyticsName(nextProps.view);
+    this.setParent(nextProps.tableData);
   }
 
   setAnalyticsName(view) {
@@ -32,6 +35,24 @@ export class AnalyticList extends React.Component {
     } else {
       this.setState({ analyticsName: 'Activity' });
     }
+  }
+
+  setParent(tableData) {
+    let parents = {}
+    parents = _.map(_.filter(tableData, 'isParent'), reg => {
+      let data = {};
+      data['id'] = reg.id;
+      data['show'] = true;
+      return data;
+    });
+    this.setState({ parents });
+  }
+
+  toggleHideShow(id) {
+    let parents = this.state.parents;
+    let data = _.find(parents, {'id': id});
+    data.show = !data.show;
+    this.setState({ parents });
   }
 
   switchTable(viewId) {
@@ -61,9 +82,11 @@ export class AnalyticList extends React.Component {
                 passed={reg.passed}
                 score={reg.score}
                 time={reg.time}
+                show={_.find(this.state.parents, {'id': reg.parentId}) ? (_.find(this.state.parents, {'id': reg.parentId})).show : true}
                 isParent={reg.isParent}
                 depth={reg.depth}
                 switchTable={this.switchTable.bind(this)}
+                toggleHideShow={this.toggleHideShow.bind(this)}
               />
             ))
           }
