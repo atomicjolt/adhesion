@@ -38,21 +38,28 @@ export class AnalyticList extends React.Component {
   }
 
   setParent(tableData) {
-    let parents = {}
-    parents = _.map(_.filter(tableData, 'isParent'), reg => {
-      let data = {};
-      data['id'] = reg.id;
-      data['show'] = true;
-      data['childrenIds'] = reg.childrenIds;
-      return data;
+    let parents = _.map(tableData, reg => {
+      if(_.size(reg.childrenIds) > 0) {
+        let data = {};
+        data['id'] = reg.id;
+        data['show'] = true;
+        data['childrenIds'] = reg.childrenIds;
+        return data;
+      }
     });
+    parents = _.remove(parents, undefined);
     this.setState({ parents });
   }
 
   toggleHideShow(id) {
-    let parents = this.state.parents;
-    parents = this.hideChildren(parents, id);
+    let parents = this.hideChildren(this.state.parents, id);
     this.setState({ parents });
+  }
+
+  switchTable(viewId) {
+    if (viewId) {
+      this.props.switchView('student', viewId);
+    }
   }
 
   hideChildren(parents, id) {
@@ -66,12 +73,6 @@ export class AnalyticList extends React.Component {
       }
     }
     return parents;
-  }
-
-  switchTable(viewId) {
-    if (viewId) {
-      this.props.switchView('student', viewId);
-    }
   }
 
   render() {
