@@ -24,7 +24,12 @@ export default class RangePicker extends React.Component {
       <div>
         <div className="c-popup__label">
           <span>Start Date</span>
-          <SvgButton type="date" className="c-btn c-btn--date" onClick={() => this.toggleCalendar(1)}>
+          <SvgButton
+            type="date"
+            ariaLabel="Start Date"
+            className="c-btn c-btn--date"
+            onClick={() => this.toggleCalendar(1)}
+          >
             <Datepicker
               readOnly
               ref={(datePicker) => { this.datePicker1 = datePicker; }}
@@ -37,7 +42,12 @@ export default class RangePicker extends React.Component {
         </div>
         <div className="c-popup__label">
           <span>End Date</span>
-          <SvgButton type="date" className="c-btn c-btn--date" onClick={() => this.toggleCalendar(2)}>
+          <SvgButton
+            type="date"
+            className="c-btn c-btn--date"
+            onClick={() => this.toggleCalendar(2)}
+            ariaLabel="End Date"
+          >
             <Datepicker
               readOnly
               ref={(datePicker) => { this.datePicker2 = datePicker; }}
