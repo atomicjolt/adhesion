@@ -43,6 +43,7 @@ export class AnalyticList extends React.Component {
       let data = {};
       data['id'] = reg.id;
       data['show'] = true;
+      data['childrenIds'] = reg.childrenIds;
       return data;
     });
     this.setState({ parents });
@@ -50,9 +51,21 @@ export class AnalyticList extends React.Component {
 
   toggleHideShow(id) {
     let parents = this.state.parents;
-    let data = _.find(parents, {'id': id});
-    data.show = !data.show;
+    parents = this.hideChildren(parents, id);
     this.setState({ parents });
+  }
+
+  hideChildren(parents, id) {
+    let data = _.find(parents, {'id': id});
+    if(data) {
+      data.show = !data.show;
+      if (data.childrenIds){
+        _.each(data.childrenIds, id => {
+          this.hideChildren(parents, id);
+        });
+      }
+    }
+    return parents;
   }
 
   switchTable(viewId) {
@@ -83,7 +96,7 @@ export class AnalyticList extends React.Component {
                 score={reg.score}
                 time={reg.time}
                 show={_.find(this.state.parents, {'id': reg.parentId}) ? (_.find(this.state.parents, {'id': reg.parentId})).show : true}
-                isParent={reg.isParent}
+                isParent={_.size(reg.childrenIds) > 0}
                 depth={reg.depth}
                 switchTable={this.switchTable.bind(this)}
                 toggleHideShow={this.toggleHideShow.bind(this)}

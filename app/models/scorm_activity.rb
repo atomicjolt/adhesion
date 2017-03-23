@@ -43,6 +43,7 @@ class ScormActivity < ActiveRecord::Base
   end
 
   def activity_data
+    childrenIds = ScormActivity.where(parent_activity_id: id).map(&:id)
     {
       id: id,
       activity_id: activity_id,
@@ -50,7 +51,8 @@ class ScormActivity < ActiveRecord::Base
       score: score_scaled,
       passed: satisfied? ? "Pass" : "Fail",
       time: total_time,
-      isParent: ScormActivity.find_by(parent_activity_id: id).present?,
+      childrenIds: childrenIds,
+      isParent: childrenIds.length > 0,
       parentId: parent_activity_id,
       depth: get_depth(parent_activity_id),
     }
