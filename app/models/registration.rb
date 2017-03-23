@@ -112,8 +112,9 @@ class Registration < ActiveRecord::Base
   private
 
   def get_scorm_activities
-    activities = scorm_activities.map(&:activity_data)
-    activities.sort_by { |hsh| [hsh[:id], hsh[:parentId]] }
+    @activities ||= scorm_activities.
+      map(&:activity_data).
+      sort_by { |hsh| [hsh[:activity_id], hsh[:parentId]] }
   end
 
   def pass_fail
