@@ -87,9 +87,11 @@ class ScormCourse < ActiveRecord::Base
   def nav_buttons(complete_count, med_score, passed)
     completed_score = 0
     passed_score = 0
+    minutes_per_learner = 0
     if registrations.count > 0
       completed_score = complete_count.to_f / registrations.count
       passed_score = passed.to_f / registrations.count
+      minutes_per_learner = mean(registrations_time_tracked) / 60
     end
     [
       {
@@ -106,9 +108,16 @@ class ScormCourse < ActiveRecord::Base
       },
       {
         name: "Minutes Per Learner",
-        stat: 100,
+        stat: minutes_per_learner,
       },
     ]
+  end
+
+  def registrations_time_tracked
+    @registrations_time_tracked ||= registrations.
+      map(&:registration_time_tracked).
+      compact.
+      sort
   end
 
   def calc_scores
@@ -126,13 +135,13 @@ class ScormCourse < ActiveRecord::Base
     [complete_count, incomplete_count]
   end
 
-  def mean(scores)
-    scores.sum / scores.count if scores.count > 0
+  def mean(array)
+    array.sum / array.count if array.count > 0
   end
 
-  def median(scores)
-    return nil if scores.empty?
-    sorted = scores.sort
+  def median(array)
+    return nil if array.empty?
+    sorted = array.sort
     m_pos = sorted.size / 2
     sorted.size % 2 == 1 ? sorted[m_pos] : mean(sorted[m_pos - 1..m_pos])
   end
