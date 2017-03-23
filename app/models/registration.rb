@@ -72,6 +72,10 @@ class Registration < ActiveRecord::Base
     }
   end
 
+  def activity_data
+    scorm_activities.map(&:activity_data)
+  end
+
   def scorm_activities_count
     @count ||= scorm_activities.count
   end

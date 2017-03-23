@@ -44,7 +44,7 @@ class ScormActivity < ActiveRecord::Base
 
   def activity_data
     {
-      id: id,
+      id: activity_id,
       name: title,
       score: score_scaled,
       passed: satisfied? ? "Pass" : "Fail",

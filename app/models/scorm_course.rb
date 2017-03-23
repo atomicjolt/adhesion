@@ -32,11 +32,27 @@ class ScormCourse < ActiveRecord::Base
   def course_activities
     summary = {}
     summary[:title] = title
-    summary[:analytics_table] = []
+    summary[:analytics_table] = get_course_activities
     summary
   end
 
   private
+
+  def get_course_activities
+    activities = registrations.map(&:activity_data).flatten
+    activities.group_by { |a| a[:id] }.map do |grouped|
+      group = grouped.last
+      activity = group[0]
+      group_length = group.length
+      scores_total = group.map { |h| h[:score] }.sum
+      activity[:score] = scores_total / group_length
+      times_total = group.map { |h| h[:time] }.sum
+      activity[:time] = times_total / group_length
+      passed_total = group.map { |x| x[:passed] }
+      activity[:pass] = passed_total.count("Pass") >= group_length / 2 ? "Pass" : "Fail"
+      activity
+    end
+  end
 
   def scores(reg_scores, mean_score, med_score)
     low_score = reg_scores.first
