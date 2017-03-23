@@ -50,6 +50,7 @@ class ScormActivity < ActiveRecord::Base
       passed: satisfied? ? "Pass" : "Fail",
       time: total_time,
       isParent: ScormActivity.find_by(parent_activity_id: id).present?,
+      parentId: parent_activity_id,
       depth: get_depth(parent_activity_id),
     }
   end

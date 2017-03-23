@@ -20,7 +20,7 @@ class Registration < ActiveRecord::Base
     summary[:mean_score] = mean_registration_score
     summary[:pass_fail] = pass_fail
     summary[:nav_buttons] = nav_buttons
-    summary[:analytics_table] = scorm_activities.map(&:activity_data)
+    summary[:analytics_table] = get_scorm_activities
     summary
   end
 
@@ -73,7 +73,7 @@ class Registration < ActiveRecord::Base
   end
 
   def activity_data
-    scorm_activities.map(&:activity_data)
+    get_scorm_activities
   end
 
   def scorm_activities_count
@@ -110,6 +110,11 @@ class Registration < ActiveRecord::Base
   end
 
   private
+
+  def get_scorm_activities
+    activities = scorm_activities.map(&:activity_data)
+    activities.sort_by { |hsh| [hsh[:id], hsh[:parentId]] }
+  end
 
   def pass_fail
     [
