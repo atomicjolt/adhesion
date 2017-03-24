@@ -39,38 +39,38 @@ export class AnalyticList extends React.Component {
 
   setParent(tableData) {
     let parents = _.map(tableData, reg => {
-      if(_.size(reg.childrenIds) > 0) {
-        let data = {};
-        data['id'] = reg.id;
-        data['show'] = true;
-        data['childrenIds'] = reg.childrenIds;
-        return data;
+      const data = {};
+      if (_.size(reg.childrenIds) > 0) {
+        data.id = reg.id;
+        data.show = true;
+        data.childrenIds = reg.childrenIds;
       }
+      return data;
     });
-    parents = _.remove(parents, undefined);
+    parents = _.remove(parents, {});
     this.setState({ parents });
   }
 
   tableRowClicked(viewId) {
-    if (this.props.view == 'course' && viewId) {
+    if (this.props.view === 'course' && viewId) {
       this.props.switchView('student', viewId);
     } else {
-      let parent = _.find(this.state.parents, {'id': viewId});
+      const parent = _.find(this.state.parents, { id: viewId });
       if (parent) {
-        let show = !parent.show;
-        let parents = this.hideChildren(this.state.parents, viewId, show);
+        const show = !parent.show;
+        const parents = this.hideChildren(this.state.parents, viewId, show);
         this.setState({ parents });
       }
     }
   }
 
   hideChildren(parents, id, show) {
-    let data = _.find(parents, {'id': id});
-    if(data) {
+    const data = _.find(parents, { id });
+    if (data) {
       data.show = show;
-      if (data.childrenIds){
-        _.each(data.childrenIds, id => {
-          this.hideChildren(parents, id, show);
+      if (data.childrenIds) {
+        _.each(data.childrenIds, childId => {
+          this.hideChildren(parents, childId, show);
         });
       }
     }
