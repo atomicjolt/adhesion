@@ -38,7 +38,7 @@ export class AnalyticList extends React.Component {
   }
 
   setParent(tableData) {
-    let parents = _.map(tableData, reg => {
+    let parents = _.map(tableData, (reg) => {
       const data = {};
       if (_.size(reg.childrenIds) > 0) {
         data.id = reg.id;
@@ -69,7 +69,7 @@ export class AnalyticList extends React.Component {
     if (data) {
       data.show = show;
       if (data.childrenIds) {
-        _.each(data.childrenIds, childId => {
+        _.each(data.childrenIds, (childId) => {
           this.hideChildren(parents, childId, show);
         });
       }
@@ -90,20 +90,21 @@ export class AnalyticList extends React.Component {
         </thead>
         <tbody>
           {
-            _.map(this.props.tableData, (reg, key) => (
-              <AnalyticRow
+            _.map(this.props.tableData, (reg, key) => {
+              const parent = _.find(this.state.parents, { id: reg.parentId });
+              return (<AnalyticRow
                 key={key}
                 id={parseInt(reg.id, 10)}
                 name={reg.name}
                 passed={reg.passed}
                 score={reg.score}
                 time={reg.time}
-                show={_.find(this.state.parents, {'id': reg.parentId}) ? (_.find(this.state.parents, {'id': reg.parentId})).show : true}
+                show={parent ? parent.show : true}
                 isParent={_.size(reg.childrenIds) > 0}
                 depth={reg.depth}
                 tableRowClicked={this.tableRowClicked.bind(this)}
-              />
-            ))
+              />);
+            })
           }
         </tbody>
       </table>
