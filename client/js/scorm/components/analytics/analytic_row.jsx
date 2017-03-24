@@ -12,8 +12,7 @@ export class AnalyticRow extends React.Component {
     isParent: React.PropTypes.bool,
     show: React.PropTypes.bool,
     depth: React.PropTypes.number,
-    switchTable: React.PropTypes.func.isRequired,
-    toggleHideShow: React.PropTypes.func.isRequired,
+    tableRowClicked: React.PropTypes.func.isRequired,
   };
 
   constructor() {
@@ -36,10 +35,10 @@ export class AnalyticRow extends React.Component {
 
   rowClicked(viewId) {
     if (!(this.props.depth >= 0) && viewId) {
-      this.props.switchTable(viewId);
+      this.props.tableRowClicked(viewId);
     } else if (this.props.isParent) {
       this.setState({ isOpen: !this.state.isOpen });
-      this.props.toggleHideShow(viewId);
+      this.props.tableRowClicked(viewId);
     }
   }
 
