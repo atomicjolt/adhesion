@@ -93,7 +93,7 @@ RSpec.describe Api::ScormCoursesController, type: :controller do
       course = ScormCourse.create
       get :course_report, scorm_course_id: course.id
       expect(response).to have_http_status 200
-      expect(JSON.parse(response.body)).to include("mean_score")
+      expect(JSON.parse(response.body)).to include("scores")
     end
   end
 end
