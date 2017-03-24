@@ -7,16 +7,16 @@ class ExportsController < ApplicationController
 
   def attendances
     attendances = get_attendances
-    students = canvas_api.proxy(
-      "LIST_USERS_IN_COURSE_USERS",
-      {
-        course_id: params[:course_id],
-        enrollment_type: ["student"],
-      },
-      request.body.read,
-    ).parsed_response
+    # students = canvas_api.proxy(
+    #   "LIST_USERS_IN_COURSE_USERS",
+    #   {
+    #     course_id: params[:course_id],
+    #     enrollment_type: ["student"],
+    #   },
+    #   request.body.read,
+    # ).parsed_response
 
-    final_csv = AttendanceExportsHelper.generate_csv(students, attendances)
+    final_csv = AttendanceExportsHelper.generate_csv(attendances)
     send_data(final_csv)
   end
 
