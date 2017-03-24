@@ -55,10 +55,10 @@ class Registration < ActiveRecord::Base
     if children.present?
       if children[:activity].is_a? Array
         children[:activity].each do |act|
-          store_activities(act, sc_activity.id, depth += 1)
+          store_activities(act, sc_activity.id, depth + 1)
         end
       else
-        store_activities(children[:activity], sc_activity.id, depth += 1)
+        store_activities(children[:activity], sc_activity.id, depth + 1)
       end
     end
   end
