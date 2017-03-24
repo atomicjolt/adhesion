@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170322164214) do
+ActiveRecord::Schema.define(version: 20170324105124) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -188,6 +188,7 @@ ActiveRecord::Schema.define(version: 20170322164214) do
     t.integer "time_tracked"
     t.string  "activity_id"
     t.boolean "latest_attempt"
+    t.integer "depth"
   end
 
   add_index "scorm_activities", ["registration_id", "activity_id", "title", "attempts"], name: "index_scorm_activities_on_reg_id_activity_id_title_attempt", using: :btree

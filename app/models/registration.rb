@@ -24,7 +24,7 @@ class Registration < ActiveRecord::Base
     summary
   end
 
-  def store_activities(activity, parent_id = nil)
+  def store_activities(activity, parent_id = nil, depth = 0)
     # store activity
     is_new = false
     sc_activity = scorm_activities.
@@ -32,6 +32,7 @@ class Registration < ActiveRecord::Base
         activity_id: activity[:id],
         title: activity[:title],
         attempts: activity[:attempts],
+        depth: depth,
       ).first_or_create { is_new = true }
 
     if is_new
@@ -54,10 +55,10 @@ class Registration < ActiveRecord::Base
     if children.present?
       if children[:activity].is_a? Array
         children[:activity].each do |act|
-          store_activities(act, sc_activity.id)
+          store_activities(act, sc_activity.id, depth += 1)
         end
       else
-        store_activities(children[:activity], sc_activity.id)
+        store_activities(children[:activity], sc_activity.id, depth += 1)
       end
     end
   end

@@ -43,7 +43,7 @@ class ScormActivity < ActiveRecord::Base
   end
 
   def activity_data
-    childrenIds = ScormActivity.where(parent_activity_id: id).map(&:id)
+    children_ids = ScormActivity.where(parent_activity_id: id).map(&:id)
     {
       id: id,
       activity_id: activity_id,
@@ -51,10 +51,10 @@ class ScormActivity < ActiveRecord::Base
       score: score_scaled,
       passed: satisfied? ? "Pass" : "Fail",
       time: total_time,
-      childrenIds: childrenIds,
-      isParent: childrenIds.length > 0,
+      childrenIds: children_ids,
+      isParent: !children_ids.empty?,
       parentId: parent_activity_id,
-      depth: get_depth(parent_activity_id),
+      depth: depth,
     }
   end
 
@@ -72,13 +72,5 @@ class ScormActivity < ActiveRecord::Base
 
   def true?(obj)
     obj.to_s == "true"
-  end
-
-  def get_depth(parent_id, depth = 0)
-    if parent_id
-      parent = ScormActivity.find_by(id: parent_id)
-      depth = get_depth(parent.parent_activity_id, depth + 1) if parent
-    end
-    depth
   end
 end
