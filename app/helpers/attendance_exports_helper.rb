@@ -4,10 +4,10 @@ module AttendanceExportsHelper
       days = attendances.group_by(&:date).keys.sort
       header_row = ["Name"].concat days
       csv << header_row
-      
+
       sorted_students = attendances.sort_by { |s| s.sortable_name.downcase }
       sorted_students = sorted_students.map(&:name).uniq
-      
+
       sorted_students.each do |student|
         if student.include?(",")
           parts = student.split(",")
