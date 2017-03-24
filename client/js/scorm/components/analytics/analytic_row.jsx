@@ -22,15 +22,15 @@ export class AnalyticRow extends React.Component {
     };
   }
 
-  formatScore(score) {
-    if (score || score === 0) {
-      return `${score * 100}%`;
+  formatScore() {
+    if (this.props.score || this.props.score === 0) {
+      return `${this.props.score * 100}%`;
     }
     return 'N/A';
   }
 
-  formatTime(time) {
-    return _.ceil(time / 60);
+  formatTime() {
+    return _.ceil(this.props.time / 60);
   }
 
   rowClicked(viewId) {
@@ -59,16 +59,17 @@ export class AnalyticRow extends React.Component {
         paddingLeft: `${rowLeft}rem`,
       };
     }
-    if (this.props.isParent || !(this.props.depth >= 0)) {
-      rowStyles = {
-        cursor: 'pointer',
-      };
-      if (this.props.isParent) {
-        tableClass += ` c-aa-accordion ${this.state.isOpen ? 'is-open' : ''}`;
-        icon = <i style={iconStyles} className="material-icons">arrow_drop_down</i>;
+    if (this.props.show) {
+      if (this.props.isParent || !(this.props.depth >= 0)) {
+        rowStyles = {
+          cursor: 'pointer',
+        };
+        if (this.props.isParent) {
+          tableClass += ` c-aa-accordion ${this.state.isOpen ? 'is-open' : ''}`;
+          icon = <i style={iconStyles} className="material-icons">arrow_drop_down</i>;
+        }
       }
-    }
-    if (!this.props.show) {
+    } else {
       rowStyles = {
         display: 'none',
       };
@@ -82,8 +83,8 @@ export class AnalyticRow extends React.Component {
       >
         <td style={firstColumnStyle}>{icon}{this.props.name || 'Unknown'}</td>
         <td>{this.props.passed}</td>
-        <td>{this.formatScore(this.props.score)}</td>
-        <td>{this.formatTime(this.props.time)}</td>
+        <td>{this.formatScore()}</td>
+        <td>{this.formatTime()}</td>
       </tr>
     );
   }
