@@ -1,6 +1,5 @@
 desc "sets the depth on the courses"
 task set_scorm_activity_depth: [:environment] do
-  debugger
   ScormActivity.all.each do |scorm_activity|
     depth = get_depth(scorm_activity.parent_activity_id)
     scorm_activity.update_attributes(depth: depth)
