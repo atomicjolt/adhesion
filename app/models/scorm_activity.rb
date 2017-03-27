@@ -46,11 +46,12 @@ class ScormActivity < ActiveRecord::Base
   def activity_data(scored_activities, all_activities)
     children_ids = all_activities.select { |act| act.parent_activity_id == id }.map(&:id)
     time = all_attempts_time_tracked_children(scored_activities, all_activities)
+    score = score_with_children(scored_activities)
     {
       id: id,
       activity_id: activity_id,
       name: title,
-      score: score_scaled,
+      score: score,
       passed: satisfied? ? "Pass" : "Fail",
       time: time,
       childrenIds: children_ids,
@@ -58,6 +59,23 @@ class ScormActivity < ActiveRecord::Base
       parentId: parent_activity_id,
       depth: depth,
     }
+  end
+
+  def score_with_children(scored_activities)
+    children = scored_activities.select { |act| act.parent_activity_id == id }
+    if children.present?
+      children_scores = children.map do |act|
+        act.score_with_children(scored_activities)
+      end
+      scores_count = children_scores.compact.count
+      if scores_count > 0
+        children_scores.compact.sum / scores_count
+      else
+        0
+      end
+    else
+      score_scaled
+    end
   end
 
   def all_attempts_time_tracked_children(scored_activities, all_activities)
