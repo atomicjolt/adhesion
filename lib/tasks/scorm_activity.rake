@@ -1,9 +1,15 @@
 desc "sets the depth on the courses"
 task set_scorm_activity_depth: [:environment] do
-  ScormActivity.find_each do |scorm_activity|
-    depth = get_depth(scorm_activity.parent_activity_id)
-    scorm_activity.update_attributes(depth: depth)
+  puts "Setting scorm activity depths"
+  ApplicationInstance.find_each do |instance|
+    Apartment::Tenant.switch(instance.tenant)
+    puts "Setting for #{instance.tenant} tenant"
+    ScormActivity.find_each do |scorm_activity|
+      depth = get_depth(scorm_activity.parent_activity_id)
+      scorm_activity.update_attributes(depth: depth)
+    end
   end
+  puts "     DONE!"
 end
 
 def get_depth(parent_id, depth = 0)

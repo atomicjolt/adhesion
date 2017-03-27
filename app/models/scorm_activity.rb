@@ -8,6 +8,7 @@ class ScormActivity < ActiveRecord::Base
 
   scope :by_latest_attempt, -> { where(latest_attempt: true) }
   scope :by_parents_only, -> { where(parent_activity_id: nil) }
+  scope :children_of, ->(id) { where(parent_activity_id: id) }
 
   def set_to_latest
     self.latest_attempt = true
@@ -43,7 +44,7 @@ class ScormActivity < ActiveRecord::Base
   end
 
   def activity_data
-    children_ids = ScormActivity.where(parent_activity_id: id).map(&:id)
+    children_ids = ScormActivity.children_of(id).pluck(:id)
     {
       id: id,
       activity_id: activity_id,
