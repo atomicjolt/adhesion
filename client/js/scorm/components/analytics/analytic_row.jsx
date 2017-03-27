@@ -30,7 +30,11 @@ export class AnalyticRow extends React.Component {
   }
 
   formatTime() {
-    return _.ceil(this.props.time / 60);
+    if (this.props.time < 60) {
+      return `${this.props.time}s`;
+    } else {
+      return `${_.ceil(this.props.time / 60)}m`;
+    }
   }
 
   rowClicked(viewId) {

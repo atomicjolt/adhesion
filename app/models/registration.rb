@@ -74,7 +74,7 @@ class Registration < ActiveRecord::Base
   end
 
   def activity_data
-    get_scorm_activities
+    @activities ||= get_scorm_activities
   end
 
   def scorm_activities_count
@@ -113,9 +113,11 @@ class Registration < ActiveRecord::Base
   private
 
   def get_scorm_activities
-    @activities ||= scorm_activities.
-      map(&:activity_data).
-      sort_by { |hsh| [hsh[:activity_id], hsh[:parentId]] }
+    all_activities = scorm_activities.load
+    scored_activities = all_activities.select(&:latest_attempt)
+    scored_activities.
+      map { |act| act.activity_data(scored_activities, all_activities) }.
+      sort_by { |hsh| [hsh[:activity_id] || 0, hsh[:parentId] || 0] }
   end
 
   def pass_fail
