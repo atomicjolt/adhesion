@@ -115,9 +115,32 @@ class Registration < ActiveRecord::Base
   def get_scorm_activities
     all_activities = scorm_activities.load
     scored_activities = all_activities.select(&:latest_attempt)
-    scored_activities.
-      map { |act| act.activity_data(scored_activities, all_activities) }.
-      sort_by { |hsh| [hsh[:activity_id] || 0, hsh[:parentId] || 0] }
+    activities_data = scored_activities.
+      map { |act| act.activity_data(scored_activities, all_activities) }
+    sort_root_activities(activities_data)
+  end
+
+  def sort_root_activities(all_activities)
+    new_activites = []
+    root_activities = all_activities.select { |act| act[:depth] == 0 }
+    root_activities.each do |act|
+      new_activites << act
+      new_activites << sort_activities(all_activities, act)
+    end
+    new_activites.flatten
+  end
+
+  def sort_activities(all_activities, parent_activity)
+    new_activites = []
+    children = all_activities.select do |act|
+      parent_activity[:childrenIds].include? act[:id]
+    end
+    children.sort_by! { |act| act[:activity_id] }
+    children.each do |act|
+      new_activites << act
+      new_activites << sort_activities(all_activities, act)
+    end
+    new_activites.flatten
   end
 
   def pass_fail

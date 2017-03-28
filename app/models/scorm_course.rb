@@ -45,10 +45,10 @@ class ScormCourse < ActiveRecord::Base
       activity = group[0]
       group_length = group.length
       # calculate average score
-      scores_total = group.map { |h| h[:score] }.sum
+      scores_total = group.map { |h| h[:score] }.compact.sum
       activity[:score] = scores_total / group_length
       # calculate average time
-      times_total = group.map { |h| h[:time] }.sum
+      times_total = group.map { |h| h[:time] }.compact.sum
       activity[:time] = times_total / group_length
       # calculate pass or fail
       passed_total = group.map { |x| x[:passed] }
