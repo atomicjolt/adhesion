@@ -16,7 +16,7 @@ class Api::ProctorConversationsController < ApplicationController
       }
       @proctor_code = canvas_api.proxy("LOAD_CUSTOM_DATA", custom_data_params).parsed_response["data"]
     rescue LMS::Canvas::InvalidAPIRequestFailedException
-      render json:  {error: "Unauthorized"}
+      render json: { error: "Unauthorized" }
     end
 
     headers = {
@@ -28,7 +28,7 @@ class Api::ProctorConversationsController < ApplicationController
       proctor_id: params[:proctor_id],
       body: params[:body],
       subject: params[:subject],
-      proctor_code: @proctor_code
+      proctor_code: @proctor_code,
     }
 
     response = HTTParty.post(

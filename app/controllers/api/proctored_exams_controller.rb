@@ -18,7 +18,7 @@ class Api::ProctoredExamsController < ApplicationController
 
   def validate_proctor_code
     find_params = {
-      student_id: params[:student_id]
+      student_id: params[:student_id],
     }
     find_params["status"] = "started" unless params[:unstarted]
     @exam_request = ExamRequest.find_by(find_params)
