@@ -13,13 +13,13 @@ class ScormEngineService
   end
 
   def launch_course(registration, _redirect_url)
-    launch_link = get_launch_link(registration[:id])
+    launch_link = get_launch_link(registration.scorm_registration_id)
     setup_url_response(launch_link)
   end
 
   def setup_scorm_registration(registration, user, postback_url, lti_key, course_id)
     body = {
-      registrationId: registration[:id],
+      registrationId: registration.scorm_registration_id,
       courseId: course_id,
       learner: {
         id: user[:lms_user_id],

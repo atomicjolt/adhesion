@@ -40,7 +40,7 @@ describe "Scorm Cloud Service sync score", type: :controller do
       lis_outcome_service_url: "http://cloud.scorm.com/this?isaspec",
     )
     @registration = { "format" => "summary",
-                      "regid" => @reg.id.to_s,
+                      "regid" => @reg.scorm_registration_id,
                       "instanceid" => "0",
                       "complete" => "complete",
                       "success" => "failed",
@@ -56,7 +56,7 @@ describe "Scorm Cloud Service sync score", type: :controller do
     expect(@reg.score).to eq(@registration["score"].to_f)
     @registration["score"] = "50"
     @subject.sync_registration_score(@registration)
-    reg = Registration.find(@reg.id)
+    reg = Registration.find_by(scorm_registration_id: @reg.scorm_registration_id)
     expect(reg.score).to eq(@registration["score"].to_f / 100)
   end
 

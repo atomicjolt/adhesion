@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170324105124) do
+ActiveRecord::Schema.define(version: 20170328193346) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -156,11 +156,13 @@ ActiveRecord::Schema.define(version: 20170324105124) do
     t.integer  "application_instance_id"
     t.text     "encrypted_scorm_cloud_passback_secret_iv"
     t.text     "encrypted_scorm_cloud_passback_secret"
+    t.string   "scorm_registration_id"
   end
 
   add_index "registrations", ["application_instance_id"], name: "index_registrations_on_application_instance_id", using: :btree
   add_index "registrations", ["lms_course_id"], name: "index_registrations_on_lms_course_id", using: :btree
   add_index "registrations", ["lms_user_id"], name: "index_registrations_on_lms_user_id", using: :btree
+  add_index "registrations", ["scorm_registration_id"], name: "index_registrations_on_scorm_registration_id", using: :btree
 
   create_table "roles", force: :cascade do |t|
     t.string   "name"

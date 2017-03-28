@@ -139,7 +139,7 @@
 #     expect(@reg.score).to eq(@registration["score"].to_f)
 #     @registration["score"] = "50"
 #     @subject.sync_registration_score(@registration)
-#     reg = Registration.find(@reg.id)
+#     reg = Registration.find_by(scorm_registration_id: @reg.scorm_registration_id)
 #     expect(reg.score).to eq(@registration["score"].to_f / 100)
 #   end
 

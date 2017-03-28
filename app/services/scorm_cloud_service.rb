@@ -13,7 +13,7 @@ class ScormCloudService
   ### Scorm Cloud api wrapper methods
   def launch_course(registration, redirect_url)
     scorm_cloud_request do
-      @scorm_cloud.registration.launch(registration.id, redirect_url)
+      @scorm_cloud.registration.launch(registration.scorm_registration_id, redirect_url)
     end
   end
 
@@ -21,7 +21,7 @@ class ScormCloudService
     scorm_cloud_request do
       @scorm_cloud.registration.create_registration(
         course_id,
-        registration.id,
+        registration.scorm_registration_id,
         user[:first_name],
         user[:last_name],
         user[:lms_user_id],

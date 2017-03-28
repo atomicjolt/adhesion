@@ -39,7 +39,7 @@ module ScormCommonService
       course = ScormCourse.find_by(scorm_cloud_id: course_id)
       registrations = Registration.where(lms_course_id: course_id.to_i)
       registrations.each do |registration|
-        remove_scorm_registration(registration.id)
+        remove_scorm_registration(registration.scorm_registration_id)
         registration.destroy
       end
       course&.destroy
@@ -84,7 +84,7 @@ module ScormCommonService
   end
 
   def sync_registration_score(reg_result)
-    reg = Registration.find(reg_result["regid"])
+    reg = Registration.find_by(scorm_registration_id: reg_result["regid"])
     reg.store_activities(reg_result["activity"].deep_symbolize_keys) if reg_result["activity"]
     reg.score = package_score(reg_result["score"])
     if package_complete?(reg_result) && reg.changed?
@@ -97,7 +97,7 @@ module ScormCommonService
 
   def create_local_registration(result_params, lti_credentials)
     registration_params = reg_params(result_params)
-    registration = Registration.create(registration_params)
+    registration = Registration.new(registration_params)
     registration.application_instance = lti_credentials
     registration.save!
     registration
@@ -146,7 +146,7 @@ module ScormCommonService
 
   def registration_result(lms_course_id, lms_user_id)
     registration = find_registration(lms_course_id, lms_user_id)
-    registration_scorm_result(registration.id) if registration
+    registration_scorm_result(registration.scorm_registration_id) if registration
   end
 
   def reg_params(params)

@@ -6,10 +6,15 @@ class Registration < ActiveRecord::Base
   belongs_to :scorm_course
   belongs_to :application_instance
   before_create :set_scorm_cloud_passback_secret
+  before_create :set_scorm_registration_id
   has_many :scorm_activities
 
   def set_scorm_cloud_passback_secret
     self.scorm_cloud_passback_secret = ::SecureRandom::hex(64)
+  end
+
+  def set_scorm_registration_id
+    self.scorm_registration_id ||= ::SecureRandom::uuid
   end
 
   def student_course_analytics
