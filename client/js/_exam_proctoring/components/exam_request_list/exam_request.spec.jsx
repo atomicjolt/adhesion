@@ -58,14 +58,15 @@ describe('Exam list', () => {
 
   it('schedule an exam', () => {
     const selectedTime = {
-      value: 'seconds since 1970'
+      value: 'seconds since 1970',
+      timeZone: 'PST',
     };
     result.scheduleExam('date is 2099', selectedTime, 'my man');
     expect(messageSent).toBeTruthy();
     expect(modalHidden).toBeTruthy();
     expect(scheduledExam).toBeDefined();
     expect(scheduledExam).toEqual(jasmine.objectContaining({
-      message: 'seconds since 1970'
+      message: 'seconds since 1970 PST'
     }));
   });
 
