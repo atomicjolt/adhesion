@@ -20,7 +20,7 @@ class Registration < ActiveRecord::Base
     summary[:mean_score] = mean_registration_score
     summary[:pass_fail] = pass_fail
     summary[:nav_buttons] = nav_buttons
-    summary[:analytics_table] = get_scorm_activities
+    summary[:analytics_table] = activity_data
     summary
   end
 
@@ -121,26 +121,26 @@ class Registration < ActiveRecord::Base
   end
 
   def sort_root_activities(all_activities)
-    new_activites = []
+    new_activities = []
     root_activities = all_activities.select { |act| act[:depth] == 0 }
     root_activities.each do |act|
-      new_activites << act
-      new_activites << sort_activities(all_activities, act)
+      new_activities << act
+      new_activities << sort_activities(all_activities, act)
     end
-    new_activites.flatten
+    new_activities.flatten
   end
 
   def sort_activities(all_activities, parent_activity)
-    new_activites = []
+    new_activities = []
     children = all_activities.select do |act|
       parent_activity[:childrenIds].include? act[:id]
     end
     children.sort_by! { |act| act[:activity_id] }
     children.each do |act|
-      new_activites << act
-      new_activites << sort_activities(all_activities, act)
+      new_activities << act
+      new_activities << sort_activities(all_activities, act)
     end
-    new_activites.flatten
+    new_activities.flatten
   end
 
   def pass_fail
