@@ -40,7 +40,7 @@ class ScormCourse < ActiveRecord::Base
 
   def get_course_activities
     activities = registrations.map(&:activity_data).flatten
-    activities.group_by { |a| a[:id] }.map do |grouped|
+    activities.group_by { |a| [a[:activity_id], a[:name]] }.map do |grouped|
       group = grouped.last
       activity = group[0]
       group_length = group.length
