@@ -70,8 +70,6 @@ class ScormActivity < ActiveRecord::Base
       scores_count = children_scores.compact.count
       if scores_count > 0
         children_scores.compact.sum / scores_count
-      else
-        0
       end
     else
       score_scaled
