@@ -40,9 +40,10 @@ class ScormCourse < ActiveRecord::Base
 
   def get_course_activities
     activities = registrations.map(&:activity_data).flatten
-    activities.group_by { |a| [a[:activity_id], a[:name]] }.map do |grouped|
-      group = grouped.last
-      activity = group[0]
+    activities.group_by { |a| [a[:activity_id], a[:name]] }.map do |_key, group|
+      # group is an array of all the results, grab the first and modify its data
+      # based on all the data in the group
+      activity = group.first
       group_length = group.length
       # calculate average score
       scores_total = group.map { |h| h[:score] }.compact.sum
