@@ -12,7 +12,7 @@ export default class Graph extends React.Component {
   constructor() {
     super();
     this.state = {
-      selectedChart: 'Completed',
+      selectedChart: 'Complete',
     };
   }
 

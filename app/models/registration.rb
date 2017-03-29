@@ -18,12 +18,15 @@ class Registration < ActiveRecord::Base
   end
 
   def student_course_analytics
+    course_analytics = scorm_course.course_analytics
+
     # return course activity details for user
     summary = {}
     summary[:student_name] = user.name
     summary[:title] = "Scorm Title"
     summary[:mean_score] = mean_registration_score
-    summary[:pass_fail] = pass_fail
+    summary[:pass_fail] = course_analytics[:pass_fail]
+    summary[:completed] = course_analytics[:completed]
     summary[:nav_buttons] = nav_buttons
     summary[:analytics_table] = activity_data
     summary
@@ -148,23 +151,15 @@ class Registration < ActiveRecord::Base
     new_activities.flatten
   end
 
-  def pass_fail
-    [
-      { name: "Passed", value: passed? },
-      { name: "Incompleted", value: passed? },
-      { name: "Failed", value: passed? },
-    ]
-  end
-
   def nav_buttons
     [
       {
-        name: "Completed",
-        stat: 100,
+        name: all_completed? ? "Complete" : "Incomplete",
+        stat: "",
       },
       {
         name: passed? ? "Passed" : "Failed",
-        stat: 100,
+        stat: "",
       },
       {
         name: "Average Score",

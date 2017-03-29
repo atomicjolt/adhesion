@@ -114,7 +114,7 @@ class ScormCourse < ActiveRecord::Base
     end
     [
       {
-        name: "Completed",
+        name: "Complete",
         stat: "#{(completed_score * 100).to_i}%",
       },
       {

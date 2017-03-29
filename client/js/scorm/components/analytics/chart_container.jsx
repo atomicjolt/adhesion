@@ -27,7 +27,7 @@ export default function ChartContainer(props) {
         data={passFail}
       />
     );
-  } else if (props.selected === 'Completed' && completed) {
+  } else if (props.selected === 'Complete' && completed) {
     chart = (
       <Chart
         colors={COMPLETED_COLORS}
