@@ -8,17 +8,17 @@ const Chart = (props) => {
 
   return (
     <BarChart
-      width={400}
+      width={600}
       height={300}
       data={data}
       margin={{top: 5, right: 30, left: 20, bottom: 5}}
     >
-      <XAxis dataKey="name" />
+      <XAxis dataKey="name" label="Hours"/>
       <YAxis />
       <CartesianGrid strokeDasharray="3 3" />
       <Tooltip />
       <Legend />
-      <Bar dataKey="value" fill="#8884d8" />
+      <Bar dataKey="students" fill="#8884d8" />
     </BarChart>
   );
 };

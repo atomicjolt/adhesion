@@ -82,7 +82,7 @@ class ScormCourse < ActiveRecord::Base
 
     times = []
     time_spent.each do |key, value|
-      times << { name: key.to_s, value: value }
+      times << { name: key.to_s, students: value }
     end
     times
   end
