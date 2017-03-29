@@ -163,11 +163,11 @@ class Registration < ActiveRecord::Base
       },
       {
         name: "Average Score",
-        stat: 80,
+        stat: "#{(mean_registration_score.to_f * 100).to_i}%",
       },
       {
         name: "Total Minutes",
-        stat: 100,
+        stat: (registration_time_tracked / 60.0).round(0),
       },
     ]
   end
