@@ -27,6 +27,7 @@ class Registration < ActiveRecord::Base
     summary[:mean_score] = mean_registration_score
     summary[:pass_fail] = course_analytics[:pass_fail]
     summary[:completed] = course_analytics[:completed]
+    summary[:scores] = scores_statistics(course_analytics[:scores])
     summary[:nav_buttons] = nav_buttons
     summary[:analytics_table] = activity_data
     summary
@@ -118,6 +119,10 @@ class Registration < ActiveRecord::Base
     @completed ||= completion_statuses.all?
   end
 
+  def scores_statistics(course_scores)
+    course_scores << { name: "Selected", value: mean_registration_score }
+  end
+
   private
 
   def get_scorm_activities
@@ -151,6 +156,11 @@ class Registration < ActiveRecord::Base
     new_activities.flatten
   end
 
+  def mean_registration_score_percentage
+    @mean_registration_score_percentage ||=
+      "#{(mean_registration_score.to_f * 100).to_i}%"
+  end
+
   def nav_buttons
     [
       {
@@ -166,7 +176,7 @@ class Registration < ActiveRecord::Base
       {
         type: "average_score",
         name: "Average Score",
-        stat: "#{(mean_registration_score.to_f * 100).to_i}%",
+        stat: mean_registration_score_percentage,
       },
       {
         type: "total_minutes",
