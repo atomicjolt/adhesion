@@ -5,5 +5,6 @@ FactoryGirl.define do
     date { Date.parse("2016-12-08") }
     status { "PRESENT" }
     sortable_name { FactoryGirl.generate(:name) }
+    name { FactoryGirl.generate(:name) }
   end
 end

@@ -18,6 +18,9 @@
   @include transition(all 0.1s ease);
   cursor: pointer;
   height: 4rem;
+  &:focus{
+    outline: thin dotted;
+  }
 }
 
 .c-btn--mark-all{
@@ -160,10 +163,14 @@
 
 .c-attendance{
 
+  div{
+    display: inline;
+  }
   input[type="radio"]{
     width: 0.01rem;
     height: 0.01rem;
-    display: none;
+    position: absolute;
+    pointer-events: none;
     opacity: 0;
   }
   label{
@@ -176,44 +183,53 @@
     display: inline-block;
     cursor: pointer;
   }
+  input[type="radio"]:focus ~ label{
+    outline: thin dotted;
+  }
 }
 
-  .c-present{
-    background: white;
-    svg{
-      width: 3.4rem;
-      height: 3.4rem;
-      path:nth-of-type(2), path:nth-of-type(3){
-        fill: $light-gray;
+  .c-present {
+    label{
+      background: white;
+      svg{
+        width: 3.4rem;
+        height: 3.4rem;
+        path:nth-of-type(2), path:nth-of-type(3){
+          fill: $light-gray;
+        }
       }
     }
-    input[type="radio"]:checked ~ svg{
+    input[type="radio"]:checked ~ label svg{
       path:nth-of-type(2), path:nth-of-type(3){fill: $green;}
     }
   }
   .c-late{
-    background: white;
-    svg{
-      width: 3.4rem;
-      height: 3.4rem;
-      path:nth-of-type(2), path:nth-of-type(3){
-        fill: $light-gray;
+    label{
+      background: white;
+      svg{
+        width: 3.4rem;
+        height: 3.4rem;
+        path:nth-of-type(2), path:nth-of-type(3){
+          fill: $light-gray;
+        }
       }
     }
-    input[type="radio"]:checked ~ svg{
+    input[type="radio"]:checked ~ label svg{
       path:nth-of-type(2), path:nth-of-type(3){fill: $yellow;}
     }
   }
   .c-absent{
-    background: white;
-    svg{
-      width: 3.4rem;
-      height: 3.4rem;
-      path:nth-of-type(2){
-        fill: $light-gray;
+    label{
+      background: white;
+      svg{
+        width: 3.4rem;
+        height: 3.4rem;
+        path:nth-of-type(2){
+          fill: $light-gray;
+        }
       }
     }
-    input[type="radio"]:checked ~ svg{
+    input[type="radio"]:checked ~ label svg{
       path:nth-of-type(2){fill: $red;}
     }
   }
@@ -350,6 +366,5 @@
     font-size: 14px;
     border-color: transparent;
     line-height: 22px;
-    padding: 6px 10px 5px;
   }
 }
