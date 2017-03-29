@@ -33,39 +33,54 @@ export default class Student extends React.Component {
           <img className="c-profile-pic" src={`${this.props.student.avatar_url}`} alt="" />
         </td>
         <td>
-          <span className="c-name">{name}</span>
+          <span tabIndex="0" className="c-name">{name}</span>
         </td>
-        <td className="c-attendance">
-          <label className="c-present" htmlFor={`radio1_${id}`}>
+        <td className="c-attendance" role="radiogroup" >
+          <div className="c-present">
             <input
+              role="radio"
+              aria-checked={status === AttendanceStates.PRESENT}
+              aria-setsize="3"
+              aria-posinset="1"
+              aria-label="Present"
               type="radio"
               name={`radio1_${id}`}
               id={`radio1_${id}`}
               onChange={() => this.updateStatus(student, status, AttendanceStates.PRESENT)}
               checked={status === AttendanceStates.PRESENT}
             />
-            <PresentIcon />
-          </label>
-          <label className="c-late" htmlFor={`radio2_${id}`}>
+            <label htmlFor={`radio1_${id}`} ><PresentIcon /></label>
+          </div>
+          <div className="c-late">
             <input
+              role="radio"
+              aria-checked={status === AttendanceStates.LATE}
+              aria-setsize="3"
+              aria-posinset="2"
+              aria-label="Late"
               type="radio"
               name={`radio1_${id}`}
               id={`radio2_${id}`}
               onChange={() => this.updateStatus(student, status, AttendanceStates.LATE)}
               checked={status === AttendanceStates.LATE}
             />
-            <LateIcon />
-          </label>
-          <label className="c-absent" htmlFor={`radio3_${id}`}>
+            <label htmlFor={`radio2_${id}`}><LateIcon /></label>
+          </div>
+          <div className="c-absent">
             <input
+              role="radio"
+              aria-checked={status === AttendanceStates.ABSENT}
+              aria-setsize="3"
+              aria-posinset="3"
+              aria-label="Absent"
               type="radio"
               name={`radio1_${id}`}
               id={`radio3_${id}`}
               onChange={() => this.updateStatus(student, status, AttendanceStates.ABSENT)}
               checked={status === AttendanceStates.ABSENT}
             />
-            <AbsentIcon />
-          </label>
+            <label htmlFor={`radio3_${id}`}><AbsentIcon /></label>
+          </div>
         </td>
       </tr>
     );

@@ -2,7 +2,6 @@ import React             from 'react';
 import moment            from 'moment';
 import _                 from 'lodash';
 import Defines           from '../../defines';
-import hashHistory       from '../../../history';
 import HoverButton       from '../common/hover_button';
 import PopupMenu         from './popup_menu';
 import MessageStudent    from './message_student';
@@ -28,6 +27,7 @@ export default class ExamRequest extends React.Component {
     startExam: React.PropTypes.func.isRequired,
     enterAnswers: React.PropTypes.func.isRequired,
     finishExam: React.PropTypes.func.isRequired,
+    getSignedUrl: React.PropTypes.func.isRequired,
     settingsOpen: React.PropTypes.bool,
   };
 
@@ -191,13 +191,14 @@ export default class ExamRequest extends React.Component {
 
   takeExam() {
     const { examRequest } = this.props;
-    hashHistory.push(`/enter_answers/${examRequest.id}`);
+    const newWindow = window.open('');
+    this.props.getSignedUrl(examRequest.id, newWindow);
     this.enterAnswers();
     this.props.hideModal();
   }
 
   scheduleExam(selectedDate, selectedTime, message) {
-    this.props.scheduleExam(this.props.examRequest.id, selectedDate, selectedTime.value);
+    this.props.scheduleExam(this.props.examRequest.id, selectedDate, `${selectedTime.value} ${selectedTime.timeZone}`);
     this.sendMessage(message, `Your exam (${this.props.examRequest.exam_name}) has been scheduled`);
     this.props.hideModal();
   }

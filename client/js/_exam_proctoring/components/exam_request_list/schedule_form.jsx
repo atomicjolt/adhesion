@@ -1,5 +1,6 @@
 import React        from 'react';
 import _            from 'lodash';
+import moment       from 'moment-timezone';
 import Defines      from '../../defines';
 import HoverButton  from '../common/hover_button';
 import DateSelector from '../common/date_selector';
@@ -86,7 +87,8 @@ export default class ScheduleForm extends React.Component {
         label: '0900',
       },
       userMessage: '',
-      dontUseAutoMessage: false
+      dontUseAutoMessage: false,
+      timeZone:  moment().tz(moment.tz.guess()).format('z')
     };
     this.state.autoMessage = this.buildDateAndTimeMessage(this.state.date, this.state.time);
   }
@@ -132,7 +134,7 @@ export default class ScheduleForm extends React.Component {
       'Your exam has been scheduled\n' +
       `Exam: ${this.props.examName}\n` +
       `Date: ${date.toDateString()}\n` +
-      `Time: ${time.value}\n` +
+      `Time: ${time.value} ${this.state.timeZone}\n` +
       `Location: ${this.props.testingCenterName}\n` +
       '-----------------------------------\n'
     );
@@ -179,7 +181,7 @@ export default class ScheduleForm extends React.Component {
             style={styles.buttonStyle}
             onClick={() => this.props.scheduleExam(
               this.state.date,
-              this.state.time,
+              { ...this.state.time, timeZone: this.state.timeZone },
               this.messageField.value
             )}
           >

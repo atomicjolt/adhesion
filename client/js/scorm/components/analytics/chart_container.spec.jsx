@@ -11,7 +11,7 @@ describe('Scorm Analytics ChartContainer', () => {
   describe('passed charts', () => {
     beforeEach(() => {
       props = {
-        selected: 'Passed',
+        selected: 'passed',
         data: {
           passFail: [],
         },
@@ -33,7 +33,7 @@ describe('Scorm Analytics ChartContainer', () => {
   describe('completed charts', () => {
     beforeEach(() => {
       props = {
-        selected: 'Completed',
+        selected: 'complete',
         data: {
           completed: [],
         },
@@ -55,7 +55,7 @@ describe('Scorm Analytics ChartContainer', () => {
   describe('completed charts', () => {
     beforeEach(() => {
       props = {
-        selected: 'Average Score',
+        selected: 'average_score',
         data: {
           scores: [
             {

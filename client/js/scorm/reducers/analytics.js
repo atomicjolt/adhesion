@@ -17,6 +17,7 @@ export default (state = initialState, action) => {
         passFail: action.payload.pass_fail,
         analyticsTable: action.payload.analytics_table,
         navButtons: action.payload.nav_buttons,
+        courseTimeSpent: action.payload.course_time_spent,
       };
       return { ...state,
         data: courseData,
@@ -29,6 +30,7 @@ export default (state = initialState, action) => {
       const courseData = {
         studentName: action.payload.student_name,
         title: action.payload.title,
+        scores: action.payload.scores,
         completed: action.payload.completed,
         passFail: action.payload.pass_fail,
         analyticsTable: action.payload.analytics_table,

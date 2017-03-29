@@ -17,7 +17,11 @@ class Api::ProctoredExamsController < ApplicationController
   private
 
   def validate_proctor_code
-    @exam_request = ExamRequest.find_by(student_id: params[:student_id], status: "started")
+    find_params = {
+      student_id: params[:student_id],
+    }
+    find_params["status"] = "started" unless params[:unstarted]
+    @exam_request = ExamRequest.find_by(find_params)
 
     if !@exam_request
       render json: { error: "You do not have an exam that is ready to start." }
@@ -39,8 +43,10 @@ class Api::ProctoredExamsController < ApplicationController
         }
         proctor_code = canvas_api.proxy("LOAD_CUSTOM_DATA", custom_data_params).parsed_response["data"]
         if proctor_code == params[:proctor_code]
-          @exam_request.update_attributes(unlocked_by_id: user["id"], unlocked_by_name: user["name"])
           matched_code = true
+          if !params[:unstarted]
+            @exam_request.update_attributes(unlocked_by_id: user["id"], unlocked_by_name: user["name"])
+          end
         end
       rescue LMS::Canvas::InvalidAPIRequestFailedException
         # this probably means that the user doesnt have a proctor code... unfortunately canvas doesn't

@@ -10,6 +10,7 @@ const requests = [
   'START_EXAM',
   'DOWNLOAD_FILE',
   'FINISH_EXAM',
+  'CREATE_PROCTOR_CONVERSATION'
 ];
 
 export const Constants = wrapper([], requests);
@@ -43,11 +44,12 @@ export const exportExamsAsCSV = (accountId, startDate, endDate) => ({
   filename: 'exams.csv'
 });
 
-export const getSignedUrl = id => ({
+export const getSignedUrl = (id, newWindow) => ({
   method: Network.GET,
   type: Constants.GET_SIGNED_URL,
   url: '/api/proctor_login',
-  params: { id }
+  params: { id },
+  newWindow
 });
 
 export const startExam = id => ({
@@ -75,4 +77,11 @@ export const finishExam = id => ({
   body: {
     status: 'finished'
   }
+});
+
+export const createProctorConversation = body => ({
+  method: Network.POST,
+  type: Constants.CREATE_PROCTOR_CONVERSATION,
+  url: '/api/proctor_conversations',
+  body
 });

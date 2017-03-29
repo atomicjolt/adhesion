@@ -5,7 +5,7 @@ export default function NavButton(props) {
   return (
     <button
       className={`c-aa-graph-nav__item ${active}`}
-      onClick={() => props.setActive(props.label)}
+      onClick={() => props.setActive(props.type)}
     >
       <span className="c-aa-stat">{props.stat}</span>
       <span className="c-aa-label">{props.label}</span>
@@ -16,6 +16,7 @@ export default function NavButton(props) {
 NavButton.propTypes = {
   activeBtn: React.PropTypes.string,
   label: React.PropTypes.string,
+  type: React.PropTypes.string,
   setActive: React.PropTypes.func.isRequired,
   stat: React.PropTypes.oneOfType([
     React.PropTypes.number,

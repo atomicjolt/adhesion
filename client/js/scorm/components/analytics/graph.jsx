@@ -12,7 +12,7 @@ export default class Graph extends React.Component {
   constructor() {
     super();
     this.state = {
-      selectedChart: 'Completed',
+      selectedChart: 'complete',
     };
   }
 
@@ -22,7 +22,7 @@ export default class Graph extends React.Component {
         <div className="c-aa-graph-nav">
           <NavContainer
             navButtons={this.props.navButtons}
-            switchChart={label => this.setState({ selectedChart: label })}
+            switchChart={type => this.setState({ selectedChart: type })}
           />
         </div>
         <div className="c-aa-graph-container">

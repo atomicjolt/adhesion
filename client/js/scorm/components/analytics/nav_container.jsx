@@ -11,7 +11,7 @@ export default class NavButtons extends React.Component {
   constructor() {
     super();
     this.state = {
-      activeBtn: 'Completed',
+      activeBtn: 'complete',
     };
   }
 
@@ -32,6 +32,7 @@ export default class NavButtons extends React.Component {
             <NavButton
               key={`nav_button_${button.name}`}
               label={button.name}
+              type={button.type}
               stat={button.stat}
               setActive={label => this.setActive(label)}
               activeBtn={this.state.activeBtn}

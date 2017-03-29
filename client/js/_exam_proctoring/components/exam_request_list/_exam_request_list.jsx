@@ -10,7 +10,6 @@ import ExamRequest                              from './exam_request';
 import SearchBar                                from './search_bar';
 import DateFilter                               from './date_filter';
 import canvasRequest                            from '../../../libs/canvas/action';
-import { createConversation }                   from '../../../libs/canvas/constants/conversations';
 import { loadCustomData, storeCustomData }      from '../../../libs/canvas/constants/users';
 import FilterTabs                               from './filter_tabs';
 import NewProctorCode                           from './new_proctor_code';
@@ -45,6 +44,8 @@ export class BaseExamRequestList extends React.Component {
     lmsUserId: React.PropTypes.string,
     needProctorCode: React.PropTypes.bool.isRequired,
     exportExamsAsCSV: React.PropTypes.func.isRequired,
+    getSignedUrl: React.PropTypes.func.isRequired,
+    createProctorConversation: React.PropTypes.func.isRequired,
   };
 
   static tableHeader(styles) {
@@ -188,6 +189,7 @@ export class BaseExamRequestList extends React.Component {
         finishExam={this.props.finishExam}
         openSettings={(e, id) => this.openSettings(e, id)}
         settingsOpen={this.state.openSettings === examRequest.id}
+        getSignedUrl={this.props.getSignedUrl}
       />
     ));
   }
@@ -257,11 +259,12 @@ export class BaseExamRequestList extends React.Component {
 
   sendMessage(id, body, subject) {
     const payload = {
-      recipients: [_.toString(id)],
+      student_id: _.toString(id),
+      proctor_id: this.props.lmsUserId,
       subject,
       body,
     };
-    this.props.canvasRequest(createConversation, {}, payload);
+    this.props.createProctorConversation(payload);
   }
 
   toggleReportWindow() {
