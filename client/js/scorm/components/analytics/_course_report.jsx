@@ -11,9 +11,6 @@ export class CourseReport extends React.Component {
     data: React.PropTypes.shape({
       studentName: React.PropTypes.string,
       title: React.PropTypes.string,
-      scores: React.PropTypes.array,
-      passed: React.PropTypes.array,
-      completed: React.PropTypes.array,
       navButtons: React.PropTypes.array,
       analyticsTable: React.PropTypes.array,
     }).isRequired,
@@ -49,8 +46,11 @@ export class CourseReport extends React.Component {
   }
 
   render() {
-    const data = this.props.data || {};
-    const navButtons = this.props.data.navButtons || [];
+    const {
+      data
+    } = this.props;
+
+    const navButtons = data.navButtons || [];
     let graph;
     if (this.state.currentView !== 'activities') {
       graph = (<Graph
