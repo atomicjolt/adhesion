@@ -1,25 +1,25 @@
-import React          from 'react';
-import _ from 'lodash';
-import AverageLabel   from './average_label';
+import React        from 'react';
+import _            from 'lodash';
+import ScoreLabel   from './score_label';
 
 export default function AverageScore(props) {
   return (
     <div>
-      <AverageLabel
-        label="Mean Score"
-        data={_.ceil(props.meanScore, 2)}
+      <ScoreLabel
+        name="Mean Score"
+        value={_.ceil(props.meanScore, 2)}
       />
-      <AverageLabel
-        label="Median Score"
-        data={_.ceil(props.medScore, 2)}
+      <ScoreLabel
+        name="Median Score"
+        value={_.ceil(props.medScore, 2)}
       />
-      <AverageLabel
-        label="Lowest Score"
-        data={_.ceil(props.lowScore, 2)}
+      <ScoreLabel
+        name="Lowest Score"
+        value={_.ceil(props.lowScore, 2)}
       />
-      <AverageLabel
-        label="Highest Score"
-        data={_.ceil(props.highScore, 2)}
+      <ScoreLabel
+        name="Highest Score"
+        value={_.ceil(props.highScore, 2)}
       />
     </div>
   );

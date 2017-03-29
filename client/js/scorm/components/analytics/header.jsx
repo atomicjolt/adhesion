@@ -7,9 +7,9 @@ export class Header extends React.Component {
 
   static propTypes = {
     title: React.PropTypes.string,
-    switchView: React.PropTypes.func.isRequired,
     studentName: React.PropTypes.string,
     view: React.PropTypes.string,
+    switchView: React.PropTypes.func.isRequired,
   }
 
   switchTable(view) {

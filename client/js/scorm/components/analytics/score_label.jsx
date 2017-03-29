@@ -1,16 +1,16 @@
 import React  from 'react';
 
-export default function AverageLabel(props) {
+export default function ScoreLabel(props) {
   return (
     <div className="c-aa-label">
-      {props.label}: {props.data}
+      {props.name}: {props.value}
     </div>
   );
 }
 
-AverageLabel.propTypes = {
-  label: React.PropTypes.string,
-  data: React.PropTypes.oneOfType([
+ScoreLabel.propTypes = {
+  name: React.PropTypes.string,
+  value: React.PropTypes.oneOfType([
     React.PropTypes.number,
     React.PropTypes.string,
   ]),

@@ -1,15 +1,15 @@
 import React          from 'react';
-import AverageLabel   from './score_label';
+import ScoreLabel   from './score_label';
 
 export default function AverageScore(props) {
   return (
     <div>
       {
         props.scores.map(score =>
-          <AverageLabel
+          <ScoreLabel
             key={`scores_${score.name}`}
-            label={score.name}
-            data={score.value}
+            name={score.name}
+            value={score.value}
           />
         )
       }

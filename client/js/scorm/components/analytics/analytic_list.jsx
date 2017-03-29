@@ -9,7 +9,7 @@ export class AnalyticList extends React.Component {
   static propTypes = {
     switchView: React.PropTypes.func.isRequired,
     tableData: React.PropTypes.array,
-    view: React.PropTypes.string,
+    view: React.PropTypes.string.isRequired,
   }
 
   constructor() {

@@ -13,6 +13,7 @@ export default function ChartContainer(props) {
   const {
     passFail,
     completed,
+    scores,
   } = data;
 
   let chart;
@@ -31,10 +32,10 @@ export default function ChartContainer(props) {
         data={completed}
       />
     );
-  } else if (props.selected === 'Average Score' && data.scores) {
+  } else if (props.selected === 'Average Score' && scores) {
     chart = (
       <Scores
-        scores={data.scores}
+        scores={scores}
       />
     );
   }
