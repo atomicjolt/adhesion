@@ -1,7 +1,7 @@
-import React           from 'react';
-import TestUtils       from 'react-addons-test-utils';
-import Stub            from '../../../../specs_support/stub';
-import NavButton       from './nav_button';
+import React from 'react';
+import TestUtils from 'react-addons-test-utils';
+import Stub from '../../../../specs_support/stub';
+import NavButton from './nav_button';
 
 describe('Scorm Analytics NavButton', () => {
 

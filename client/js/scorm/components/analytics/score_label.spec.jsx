@@ -1,7 +1,7 @@
-import React           from 'react';
-import TestUtils       from 'react-addons-test-utils';
-import Stub            from '../../../../specs_support/stub';
-import ScoreLabel      from './score_label';
+import React from 'react';
+import TestUtils from 'react-addons-test-utils';
+import Stub from '../../../../specs_support/stub';
+import ScoreLabel from './score_label';
 
 describe('Scorm Analytics ScoreLabel', () => {
 

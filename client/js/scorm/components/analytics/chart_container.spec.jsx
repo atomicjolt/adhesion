@@ -1,8 +1,8 @@
-import React           from 'react';
-import TestUtils       from 'react-addons-test-utils';
-import _               from 'lodash';
-import Stub            from '../../../../specs_support/stub';
-import ChartContainer  from './chart_container';
+import React from 'react';
+import TestUtils from 'react-addons-test-utils';
+import _ from 'lodash';
+import Stub from '../../../../specs_support/stub';
+import ChartContainer from './chart_container';
 
 describe('Scorm Analytics ChartContainer', () => {
 

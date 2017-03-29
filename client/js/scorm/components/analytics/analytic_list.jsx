@@ -1,8 +1,8 @@
-import React              from 'react';
-import { connect }        from 'react-redux';
-import _                  from 'lodash';
-import AnalyticRow        from './analytic_row';
-import { switchView }     from '../../actions/analytics';
+import React from 'react';
+import { connect } from 'react-redux';
+import _ from 'lodash';
+import AnalyticRow from './analytic_row';
+import { switchView } from '../../actions/analytics';
 
 export class AnalyticList extends React.Component {
 

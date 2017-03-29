@@ -1,5 +1,5 @@
-import React          from 'react';
-import ScoreLabel   from './score_label';
+import React from 'react';
+import ScoreLabel from './score_label';
 
 export default function AverageScore(props) {
   return (

@@ -1,8 +1,8 @@
-import React           from 'react';
-import TestUtils       from 'react-addons-test-utils';
-import _               from 'lodash';
-import Stub            from '../../../../specs_support/stub';
-import Graph           from './graph';
+import React from 'react';
+import TestUtils from 'react-addons-test-utils';
+import _ from 'lodash';
+import Stub from '../../../../specs_support/stub';
+import Graph from './graph';
 
 describe('Scorm Analytics Graph', () => {
 

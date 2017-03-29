@@ -1,6 +1,6 @@
-import React              from 'react';
-import ChartContainer     from './chart_container';
-import NavContainer       from './nav_container';
+import React from 'react';
+import ChartContainer from './chart_container';
+import NavContainer from './nav_container';
 
 export default class Graph extends React.Component {
 

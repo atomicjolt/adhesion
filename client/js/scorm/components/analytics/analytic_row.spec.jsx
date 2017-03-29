@@ -1,8 +1,8 @@
-import React           from 'react';
-import TestUtils       from 'react-addons-test-utils';
-import _               from 'lodash';
-import Stub            from '../../../../specs_support/stub';
-import AnalyticRow     from './analytic_row';
+import React from 'react';
+import TestUtils from 'react-addons-test-utils';
+import _ from 'lodash';
+import Stub from '../../../../specs_support/stub';
+import AnalyticRow from './analytic_row';
 
 describe('Scorm Analytics AnalyticRow', () => {
 

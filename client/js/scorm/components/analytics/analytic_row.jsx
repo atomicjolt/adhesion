@@ -1,4 +1,4 @@
-import React  from 'react';
+import React from 'react';
 import _ from 'lodash';
 
 export class AnalyticRow extends React.Component {

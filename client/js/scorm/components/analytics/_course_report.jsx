@@ -1,9 +1,9 @@
-import React                      from 'react';
-import { connect }                from 'react-redux';
-import Header                     from './header';
-import Graph                      from './graph';
-import AnalyticList               from './analytic_list';
-import * as AnalyticsActions      from '../../actions/analytics';
+import React from 'react';
+import { connect } from 'react-redux';
+import Header from './header';
+import Graph from './graph';
+import AnalyticList from './analytic_list';
+import * as AnalyticsActions from '../../actions/analytics';
 
 export class CourseReport extends React.Component {
 

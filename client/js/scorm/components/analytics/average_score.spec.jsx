@@ -1,8 +1,8 @@
-import React           from 'react';
-import TestUtils       from 'react-addons-test-utils';
-import _               from 'lodash';
-import Stub            from '../../../../specs_support/stub';
-import AverageScore    from './average_score';
+import React from 'react';
+import TestUtils from 'react-addons-test-utils';
+import _ from 'lodash';
+import Stub from '../../../../specs_support/stub';
+import AverageScore from './average_score';
 
 describe('Scorm Analytics Average Score', () => {
 

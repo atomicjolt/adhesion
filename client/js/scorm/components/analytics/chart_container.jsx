@@ -1,6 +1,6 @@
-import React          from 'react';
-import Chart          from './chart';
-import Scores         from './scores';
+import React from 'react';
+import Chart from './chart';
+import Scores from './scores';
 import BarChart from './bar_chart';
 
 const PASSED_COLORS = ['#67a9cf', '#c9c9c9', '#ef8a62'];

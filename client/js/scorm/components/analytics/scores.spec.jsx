@@ -1,7 +1,7 @@
-import React           from 'react';
-import TestUtils       from 'react-addons-test-utils';
-import Stub            from '../../../../specs_support/stub';
-import Scores          from './scores';
+import React from 'react';
+import TestUtils from 'react-addons-test-utils';
+import Stub from '../../../../specs_support/stub';
+import Scores from './scores';
 
 describe('Scorm Analytics Scores', () => {
 

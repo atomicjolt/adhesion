@@ -1,7 +1,7 @@
-import React                from 'react';
-import { connect }        from 'react-redux';
-import { hashHistory }      from 'react-router';
-import { switchView }     from '../../actions/analytics';
+import React from 'react';
+import { connect } from 'react-redux';
+import { hashHistory } from 'react-router';
+import { switchView } from '../../actions/analytics';
 
 export class Header extends React.Component {
 

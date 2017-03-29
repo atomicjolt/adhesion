@@ -1,5 +1,5 @@
-import React  from 'react';
-import { PieChart, Pie, Cell, Tooltip, Legend }    from 'recharts';
+import React from 'react';
+import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
 
 const Chart = (props) => {
   const pieFilling = props.data.map((key, index) => (

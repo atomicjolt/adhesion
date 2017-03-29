@@ -1,8 +1,8 @@
-import React           from 'react';
-import TestUtils       from 'react-addons-test-utils';
-import Stub            from '../../../../specs_support/stub';
-import Helper          from '../../../../specs_support/helper';
-import Header          from './header';
+import React from 'react';
+import TestUtils from 'react-addons-test-utils';
+import Stub from '../../../../specs_support/stub';
+import Helper from '../../../../specs_support/helper';
+import Header from './header';
 
 describe('Scorm Analytics Header', () => {
 

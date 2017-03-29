@@ -1,8 +1,8 @@
-import React           from 'react';
-import TestUtils       from 'react-addons-test-utils';
-import Stub            from '../../../../specs_support/stub';
-import Helper          from '../../../../specs_support/helper';
-import AnalyticList    from './analytic_list';
+import React from 'react';
+import TestUtils from 'react-addons-test-utils';
+import Stub from '../../../../specs_support/stub';
+import Helper from '../../../../specs_support/helper';
+import AnalyticList from './analytic_list';
 
 describe('Scorm Analytics AnalyticList', () => {
 
