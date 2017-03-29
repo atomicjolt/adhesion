@@ -154,18 +154,22 @@ class Registration < ActiveRecord::Base
   def nav_buttons
     [
       {
+        type: "complete",
         name: all_completed? ? "Complete" : "Incomplete",
         stat: "",
       },
       {
+        type: "passed",
         name: passed? ? "Passed" : "Failed",
         stat: "",
       },
       {
+        type: "average_score",
         name: "Average Score",
         stat: "#{(mean_registration_score.to_f * 100).to_i}%",
       },
       {
+        type: "total_minutes",
         name: "Total Minutes",
         stat: (registration_time_tracked / 60.0).round(0),
       },

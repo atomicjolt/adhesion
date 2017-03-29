@@ -20,27 +20,27 @@ export default function ChartContainer(props) {
 
   let chart;
 
-  if (props.selected === 'Passed' && passFail) {
+  if (props.selected === 'passed' && passFail) {
     chart = (
       <Chart
         colors={PASSED_COLORS}
         data={passFail}
       />
     );
-  } else if (props.selected === 'Complete' && completed) {
+  } else if (props.selected === 'complete' && completed) {
     chart = (
       <Chart
         colors={COMPLETED_COLORS}
         data={completed}
       />
     );
-  } else if (props.selected === 'Average Score' && scores) {
+  } else if (props.selected === 'average_score' && scores) {
     chart = (
       <Scores
         scores={scores}
       />
     );
-  } else if (props.selected === 'Minutes Per Learner' && courseTimeSpent) {
+  } else if (props.selected === 'minutes_per_learner' && courseTimeSpent) {
     chart = (
       <BarChart
         data={courseTimeSpent}

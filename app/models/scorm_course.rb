@@ -114,18 +114,22 @@ class ScormCourse < ActiveRecord::Base
     end
     [
       {
+        type: "complete",
         name: "Complete",
         stat: "#{(completed_score * 100).to_i}%",
       },
       {
+        type: "passed",
         name: "Passed",
         stat: "#{(passed_score * 100).to_i}%",
       },
       {
+        type: "average_score",
         name: "Average Score",
         stat: "#{(med_score * 100).to_i}%",
       },
       {
+        type: "minutes_per_learner",
         name: "Minutes Per Learner",
         stat: minutes_per_learner,
       },
