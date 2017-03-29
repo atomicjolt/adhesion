@@ -6,14 +6,21 @@ const Chart = (props) => {
     data,
   } = props;
 
+  const margin = {
+    top: 5,
+    right: 35,
+    left: 20,
+    bottom: 5,
+  };
+
   return (
     <BarChart
       width={600}
       height={300}
       data={data}
-      margin={{top: 5, right: 35, left: 20, bottom: 5}}
+      margin={margin}
     >
-      <XAxis dataKey="name" label="Hours"/>
+      <XAxis dataKey="name" label="Hours" />
       <YAxis />
       <CartesianGrid strokeDasharray="3 3" />
       <Tooltip />
