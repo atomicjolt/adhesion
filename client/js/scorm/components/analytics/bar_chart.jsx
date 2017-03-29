@@ -11,7 +11,7 @@ const Chart = (props) => {
       width={600}
       height={300}
       data={data}
-      margin={{top: 5, right: 30, left: 20, bottom: 5}}
+      margin={{top: 5, right: 35, left: 20, bottom: 5}}
     >
       <XAxis dataKey="name" label="Hours"/>
       <YAxis />
