@@ -102,7 +102,7 @@ export class AnalyticList extends React.Component {
                 show={parent ? parent.show : true}
                 isParent={_.size(reg.childrenIds) > 0}
                 depth={reg.depth}
-                tableRowClicked={this.tableRowClicked.bind(this)}
+                tableRowClicked={viewId => this.tableRowClicked(viewId)}
               />);
             })
           }
