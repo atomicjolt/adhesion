@@ -26,6 +26,7 @@ class ScormCourse < ActiveRecord::Base
     summary[:pass_fail] = pass_fail(reg_scores, passed)
     summary[:nav_buttons] = nav_buttons(complete_count, med_score, passed)
     summary[:analytics_table] = registrations.map(&:registration_data)
+    summary[:course_time_spent] = course_time_spent
     summary
   end
 
@@ -69,6 +70,21 @@ class ScormCourse < ActiveRecord::Base
       { name: "Lowest Score", value: low_score },
       { name: "Highest Score", value: high_score },
     ]
+  end
+
+  def course_time_spent
+    time_spent = {}
+    registrations_time_tracked.each do |time|
+      hour = time / 3600
+      time_spent[hour] ||= 0
+      time_spent[hour] += 1
+    end
+
+    times = []
+    time_spent.each do |key, value|
+      times << { name: key.to_s, value: value }
+    end
+    times
   end
 
   def pass_fail(reg_scores, passed)

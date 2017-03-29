@@ -17,6 +17,7 @@ export default (state = initialState, action) => {
         passFail: action.payload.pass_fail,
         analyticsTable: action.payload.analytics_table,
         navButtons: action.payload.nav_buttons,
+        courseTimeSpent: action.payload.course_time_spent,
       };
       return { ...state,
         data: courseData,
