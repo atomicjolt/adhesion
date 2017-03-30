@@ -39,9 +39,10 @@ class ScormCoursesController < ApplicationController
     registration_report = response["registrationreport"]
     reg_id = registration_report && registration_report["regid"]
     begin
-      reg = Registration.find(reg_id)
-      raise ScormConnectError.new if reg.scorm_cloud_passback_secret !=
-          params[:password]
+      reg = Registration.find_by(scorm_registration_id: reg_id)
+      if reg.scorm_cloud_passback_secret != params[:password]
+        raise ScormConnectError.new
+      end
     rescue ScormConnectError, ActiveRecord::RecordNotFound
       render json: { error: "Not Authorized" }, status: 400
     end

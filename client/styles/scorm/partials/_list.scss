@@ -17,7 +17,7 @@
       position: absolute;
       right: 0.5rem;
       top: 0.5rem;
-      width: 9.4rem;
+      width: 12rem;
     }
     .c-list-item__type{
       min-width: 30rem;
@@ -50,7 +50,7 @@
     }
 
     .c-list-item__contain{
-      width: 100%;
+      width: 96%;
       height: 100%;
       @include display-flex;
       @include align-items(center);

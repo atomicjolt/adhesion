@@ -71,6 +71,24 @@ class Api::ScormCoursesController < ApplicationController
     )
   end
 
+  def course_report
+    scorm_course = ScormCourse.find_by(scorm_cloud_id: params[:scorm_course_id])
+    render json: scorm_course.course_analytics
+  end
+
+  def student_report
+    registration = Registration.find_by(
+      lms_user_id: params[:user_id],
+      lms_course_id: params[:scorm_course_id],
+    )
+    render json: registration.student_course_analytics
+  end
+
+  def activity_report
+    scorm_course = ScormCourse.find_by(scorm_cloud_id: params[:scorm_course_id])
+    render json: scorm_course.course_activities
+  end
+
   def replace
     course = ScormCourse.find_by(scorm_cloud_id: params[:scorm_course_id])
     response = scorm_connect_service.update_course(
