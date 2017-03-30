@@ -1,10 +1,12 @@
 class ScormCourse < ActiveRecord::Base
+  has_many :registrations,
+           foreign_key: :lms_course_id,
+           primary_key: :scorm_cloud_id
+
   after_commit :set_scorm_course_id, on: [:create]
 
-  def registrations
-    @registrations ||= Registration.
-      includes(:scorm_activities).
-      where(lms_course_id: scorm_cloud_id.to_i)
+  def regs
+    @regs ||= registrations.includes(:scorm_activities)
   end
 
   def set_scorm_course_id
@@ -17,7 +19,7 @@ class ScormCourse < ActiveRecord::Base
 
     reg_scores, mean_score, med_score = calc_scores
 
-    passed = registrations.map(&:passed?).compact.count(true)
+    passed = regs.map(&:passed?).compact.count(true)
     complete_count, incomplete_count = calc_complete
 
     summary[:title] = title
@@ -25,7 +27,7 @@ class ScormCourse < ActiveRecord::Base
     summary[:completed] = completed(complete_count, incomplete_count)
     summary[:pass_fail] = pass_fail(reg_scores, passed)
     summary[:nav_buttons] = nav_buttons(complete_count, med_score, passed)
-    summary[:analytics_table] = registrations.map(&:registration_data)
+    summary[:analytics_table] = regs.map(&:registration_data)
     summary[:course_time_spent] = course_time_spent
     summary
   end
@@ -40,7 +42,7 @@ class ScormCourse < ActiveRecord::Base
   private
 
   def get_course_activities
-    activities = registrations.map(&:activity_data).flatten
+    activities = regs.map(&:activity_data).flatten
     activities.group_by { |a| [a[:activity_id], a[:name]] }.map do |_key, group|
       # group is an array of all the results, grab the first and modify its data
       # based on all the data in the group
@@ -88,7 +90,7 @@ class ScormCourse < ActiveRecord::Base
   end
 
   def pass_fail(reg_scores, passed)
-    incomplete = registrations.count - reg_scores.count
+    incomplete = regs.count - reg_scores.count
     [
       { name: "Passed", value: passed },
       { name: "Incompleted", value: incomplete },
@@ -107,9 +109,9 @@ class ScormCourse < ActiveRecord::Base
     completed_score = 0
     passed_score = 0
     minutes_per_learner = 0
-    if registrations.count > 0
-      completed_score = complete_count.to_f / registrations.count
-      passed_score = passed.to_f / registrations.count
+    if regs.count > 0
+      completed_score = complete_count.to_f / regs.count
+      passed_score = passed.to_f / regs.count
       minutes_per_learner = mean(registrations_time_tracked) / 60
     end
     [
@@ -137,14 +139,14 @@ class ScormCourse < ActiveRecord::Base
   end
 
   def registrations_time_tracked
-    @registrations_time_tracked ||= registrations.
+    @registrations_time_tracked ||= regs.
       map(&:registration_time_tracked).
       compact.
       sort
   end
 
   def calc_scores
-    reg_scores = registrations.map(&:mean_registration_score).compact.sort
+    reg_scores = regs.map(&:mean_registration_score).compact.sort
     mean_score = mean(reg_scores) || 0
     med_score = median(reg_scores) || 0
 
@@ -152,7 +154,7 @@ class ScormCourse < ActiveRecord::Base
   end
 
   def calc_complete
-    statuses = registrations.map(&:all_completed?)
+    statuses = regs.map(&:all_completed?)
     complete_count = statuses.count(true)
     incomplete_count = statuses.count(false)
     [complete_count, incomplete_count]

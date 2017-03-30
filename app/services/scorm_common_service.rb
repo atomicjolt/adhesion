@@ -165,9 +165,8 @@ module ScormCommonService
   end
 
   def find_registration(lms_course_id, lms_user_id)
-    course_id = lms_course_id ? lms_course_id.gsub("_", "") : ""
     Registration.find_by(
-      lms_course_id: course_id,
+      lms_course_id: lms_course_id,
       lms_user_id: lms_user_id,
     )
   end
