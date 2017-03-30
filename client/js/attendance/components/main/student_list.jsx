@@ -51,7 +51,7 @@ export class StudentList extends React.Component {
       showExportModal: false,
     };
   }
-  
+
   componentWillMount() {
     const params = {
       course_id: this.props.settings.lms_course_id,
