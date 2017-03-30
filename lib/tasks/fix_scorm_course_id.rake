@@ -7,7 +7,7 @@ task fix_scorm_course_ids: [:environment] do
     Registration.find_each do |reg|
       if reg.scorm_course.blank?
         printf "\r  Updating id #{reg.id}"
-        reg.lms_course_id = reg.temp_scorm_course.scorm_cloud_id
+        reg.lms_course_id = reg.temp_scorm_course&.scorm_cloud_id
         reg.save
       end
     end
