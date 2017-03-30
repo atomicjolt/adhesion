@@ -78,8 +78,8 @@ class Api::ScormCoursesController < ApplicationController
 
   def student_report
     registration = Registration.find_by(
-      lms_user_id: params[:user_id],
       lms_course_id: params[:scorm_course_id],
+      lms_user_id: params[:user_id],
     )
     render json: registration.student_course_analytics
   end

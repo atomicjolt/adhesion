@@ -22,6 +22,13 @@ class ApplicationInstance < ActiveRecord::Base
   after_commit :create_schema, on: :create
   before_create :create_config
 
+  def self.loop_each
+    find_each do |instance|
+      Apartment::Tenant.switch(instance.tenant)
+      yield instance if block_given?
+    end
+  end
+
   def lti_config_xml
     Lti::Utils.lti_config_xml(self)
   end
