@@ -51,10 +51,7 @@ export class StudentList extends React.Component {
       showExportModal: false,
     };
   }
-  componentDidMount() {
-    document.addEventListener('keyup', this.handleKeyPress);
-  }
-
+  
   componentWillMount() {
     const params = {
       course_id: this.props.settings.lms_course_id,
@@ -65,13 +62,17 @@ export class StudentList extends React.Component {
     this.props.getStudentAttendance(this.props.applicationDate, this.props.settings.lms_course_id);
   }
 
+  componentDidMount() {
+    document.addEventListener('keyup', this.handleKeyPress);
+  }
+
   componentWillUnmount() {
     document.removeEventListener('keyup', this.handleKeyPress);
   }
 
   handleKeyPress(event) {
     if (event.keyCode === 27) {
-      this.setState({showExportModal: false});
+      this.setState({ showExportModal: false });
     }
   }
 
