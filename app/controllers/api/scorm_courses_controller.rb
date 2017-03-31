@@ -140,7 +140,7 @@ class Api::ScormCoursesController < ApplicationController
         case response.code
         when 200
           JSON.parse(response.body)["id"]
-        when 302
+        when 302, 303
           file_confirm = RestClient.get(response.headers[:location])
           JSON.parse(file_confirm.body)["id"]
         end
