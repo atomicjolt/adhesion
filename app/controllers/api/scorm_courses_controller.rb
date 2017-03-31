@@ -49,13 +49,13 @@ class Api::ScormCoursesController < ApplicationController
   end
 
   def update
-    course = ScormCourse.find_by(scorm_cloud_id: params[:id])
+    course = ScormCourse.find_by(scorm_service_id: params[:id])
     course.update_attributes(course_params)
     render json: course
   end
 
   def destroy
-    course = ScormCourse.find_by(scorm_cloud_id: params[:id])
+    course = ScormCourse.find_by(scorm_service_id: params[:id])
     response = scorm_connect_service.remove_course(params[:id])
     delete_canvas_file(course.file_id) if course&.file_id
     course.update_attribute(:file_id, nil)
@@ -72,7 +72,9 @@ class Api::ScormCoursesController < ApplicationController
   end
 
   def course_report
-    scorm_course = ScormCourse.find_by(scorm_cloud_id: params[:scorm_course_id])
+    scorm_course = ScormCourse.find_by(
+      scorm_service_id: params[:scorm_course_id],
+    )
     render json: scorm_course.course_analytics
   end
 
@@ -85,12 +87,14 @@ class Api::ScormCoursesController < ApplicationController
   end
 
   def activity_report
-    scorm_course = ScormCourse.find_by(scorm_cloud_id: params[:scorm_course_id])
+    scorm_course = ScormCourse.find_by(
+      scorm_service_id: params[:scorm_course_id],
+    )
     render json: scorm_course.course_activities
   end
 
   def replace
-    course = ScormCourse.find_by(scorm_cloud_id: params[:scorm_course_id])
+    course = ScormCourse.find_by(scorm_service_id: params[:scorm_course_id])
     response = scorm_connect_service.update_course(
       params[:file],
       course,
