@@ -70,7 +70,7 @@ RSpec.describe Api::ScormCoursesController, type: :controller do
 
   describe "DEL destroy" do
     it "removes course" do
-      ScormCourse.create scorm_cloud_id: 1
+      ScormCourse.create scorm_service_id: 1
       expect(@mock_scorm).to receive(:remove_course).with("1")
       delete :destroy, id: 1
       expect(response).to have_http_status(200)

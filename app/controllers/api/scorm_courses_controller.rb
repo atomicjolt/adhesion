@@ -49,13 +49,13 @@ class Api::ScormCoursesController < ApplicationController
   end
 
   def update
-    course = ScormCourse.find_by(scorm_cloud_id: params[:id])
+    course = ScormCourse.find_by(scorm_service_id: params[:id])
     course.update_attributes(course_params)
     render json: course
   end
 
   def destroy
-    course = ScormCourse.find_by(scorm_cloud_id: params[:id])
+    course = ScormCourse.find_by(scorm_service_id: params[:id])
     response = scorm_connect_service.remove_course(params[:id])
     delete_canvas_file(course.file_id) if course&.file_id
     course.update_attribute(:file_id, nil)
@@ -72,7 +72,9 @@ class Api::ScormCoursesController < ApplicationController
   end
 
   def course_report
-    scorm_course = ScormCourse.find_by(scorm_cloud_id: params[:scorm_course_id])
+    scorm_course = ScormCourse.find_by(
+      scorm_service_id: params[:scorm_course_id],
+    )
     render json: scorm_course.course_analytics
   end
 
@@ -85,12 +87,14 @@ class Api::ScormCoursesController < ApplicationController
   end
 
   def activity_report
-    scorm_course = ScormCourse.find_by(scorm_cloud_id: params[:scorm_course_id])
+    scorm_course = ScormCourse.find_by(
+      scorm_service_id: params[:scorm_course_id],
+    )
     render json: scorm_course.course_activities
   end
 
   def replace
-    course = ScormCourse.find_by(scorm_cloud_id: params[:scorm_course_id])
+    course = ScormCourse.find_by(scorm_service_id: params[:scorm_course_id])
     response = scorm_connect_service.update_course(
       params[:file],
       course,
@@ -136,18 +140,9 @@ class Api::ScormCoursesController < ApplicationController
         case response.code
         when 200
           JSON.parse(response.body)["id"]
-        when 302
-          # When redirected, the body has a link to the file similar to:
-          # canvas.com/api/v1/files/573347/create_success
-          body = response.body
-          scanner = StringScanner.new body
-          scanner.scan_until(/api\/.+\/files\//)
-          # scanner will now be at
-          # 573347/create_success
-          id = scanner.scan_until(/\//)
-          # id will be 573347/
-          # now remove the / and return 573347
-          id[0...-1]
+        when 302, 303
+          file_confirm = RestClient.get(response.headers[:location])
+          JSON.parse(file_confirm.body)["id"]
         end
       end
     end

@@ -4,7 +4,7 @@ class Registration < ActiveRecord::Base
   belongs_to :user, foreign_key: :lms_user_id, primary_key: :lms_user_id
   belongs_to :scorm_course,
              foreign_key: :lms_course_id,
-             primary_key: :scorm_cloud_id
+             primary_key: :scorm_service_id
   belongs_to :temp_scorm_course,
              class_name: "ScormCourse",
              foreign_key: :lms_course_id,

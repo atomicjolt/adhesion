@@ -135,7 +135,7 @@ class ScormEngineService
   end
 
   def get_scorm_course(course)
-    ScormCourse.find_by(scorm_cloud_id: course["id"])
+    ScormCourse.find_by(scorm_service_id: course["id"])
   end
 
   def get_course_title(course)

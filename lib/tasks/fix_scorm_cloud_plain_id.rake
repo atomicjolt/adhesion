@@ -6,7 +6,7 @@ task fix_scorm_cloud_plain_ids: [:environment] do
     puts "Fixing for #{instance.tenant} tenant"
     ScormCourse.find_each do |sc|
       if sc.scorm_cloud_plain_id.blank?
-        sc.scorm_cloud_plain_id = sc.scorm_cloud_id.to_i
+        sc.scorm_cloud_plain_id = sc.scorm_service_id.to_i
         sc.save
       end
     end

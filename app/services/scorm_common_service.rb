@@ -8,7 +8,7 @@ module ScormCommonService
   def sync_courses(courses)
     if courses
       course_ids = get_course_ids(courses)
-      existing_course_ids = ScormCourse.all.map { |c| c[:scorm_cloud_id] }
+      existing_course_ids = ScormCourse.all.map { |c| c[:scorm_service_id] }
       extra = existing_course_ids - course_ids
       remove_extras(extra)
       needed = course_ids - existing_course_ids
@@ -25,7 +25,7 @@ module ScormCommonService
     response = upload_scorm_course(file, package_id, cleanup)
     course.update_attributes(
       title: response[:response][:title],
-      scorm_cloud_id: package_id,
+      scorm_service_id: package_id,
       scorm_cloud_plain_id: plain_package_id,
     )
     response["course_id"] = course.id
@@ -33,7 +33,7 @@ module ScormCommonService
   end
 
   def update_course(file, course)
-    response = update_scorm_course(file, course.scorm_cloud_id)
+    response = update_scorm_course(file, course.scorm_service_id)
     course.update_attribute(:title, response[:response][:title])
     response
   end
@@ -41,8 +41,8 @@ module ScormCommonService
   def remove_course(course_id)
     response = remove_scorm_course(course_id)
     if response[:response] == true
-      course = ScormCourse.find_by(scorm_cloud_id: course_id)
-      registrations = Registration.where(lms_course_id: course_id.to_i)
+      course = ScormCourse.find_by(scorm_service_id: course_id)
+      registrations = Registration.where(lms_course_id: course_id)
       registrations.each do |registration|
         remove_scorm_registration(registration.scorm_registration_id)
         registration.destroy
@@ -109,9 +109,9 @@ module ScormCommonService
   end
 
   def remove_extras(extra)
-    extra.each do |scorm_cloud_id|
-      ScormCourse.find_by(scorm_cloud_id: scorm_cloud_id).destroy
-      registrations = Registration.where(lms_course_id: scorm_cloud_id.to_i)
+    extra.each do |scorm_service_id|
+      ScormCourse.find_by(scorm_service_id: scorm_service_id).destroy
+      registrations = Registration.where(lms_course_id: scorm_service_id)
       registrations.each do |reg|
         remove_scorm_registration(reg.id)
         reg.destroy
@@ -121,7 +121,7 @@ module ScormCommonService
 
   def update_scorm_courses(courses, needed)
     new_courses = []
-    needed.each { |scorm_cloud_id| new_courses << ScormCourse.create(scorm_cloud_id: scorm_cloud_id) }
+    needed.each { |scorm_service_id| new_courses << ScormCourse.create(scorm_service_id: scorm_service_id) }
     new_courses.each do |course|
       title = get_title(courses, course)
       course.update_attribute(:title, title)
@@ -134,7 +134,7 @@ module ScormCommonService
       if !local_course.nil?
         resp = {
           title: get_course_title(course),
-          id: local_course.scorm_cloud_id,
+          id: local_course.scorm_service_id,
         }
         if local_course.lms_assignment_id.nil? == false
           resp[:lms_assignment_id] = local_course.lms_assignment_id

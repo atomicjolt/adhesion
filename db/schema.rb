@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170330174948) do
+ActiveRecord::Schema.define(version: 20170331150221) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -205,15 +205,15 @@ ActiveRecord::Schema.define(version: 20170330174948) do
     t.datetime "updated_at",           null: false
     t.integer  "lms_assignment_id"
     t.float    "points_possible"
-    t.string   "scorm_cloud_id"
+    t.string   "scorm_service_id"
     t.string   "title"
     t.integer  "file_id"
     t.integer  "scorm_cloud_plain_id"
   end
 
   add_index "scorm_courses", ["lms_assignment_id"], name: "index_scorm_courses_on_lms_assignment_id", using: :btree
-  add_index "scorm_courses", ["scorm_cloud_id"], name: "index_scorm_courses_on_scorm_cloud_id", unique: true, using: :btree
   add_index "scorm_courses", ["scorm_cloud_plain_id"], name: "index_scorm_courses_on_scorm_cloud_plain_id", using: :btree
+  add_index "scorm_courses", ["scorm_service_id"], name: "index_scorm_courses_on_scorm_service_id", unique: true, using: :btree
 
   create_table "scorm_objectives", force: :cascade do |t|
     t.integer "scorm_activity_id"
