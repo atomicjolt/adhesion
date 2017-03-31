@@ -46,7 +46,7 @@ export class StudentList extends React.Component {
   constructor() {
     super();
 
-    this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.handleKeyPress = ::this.handleKeyPress;
     this.state = {
       showExportModal: false,
     };
