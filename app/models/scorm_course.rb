@@ -1,17 +1,17 @@
 class ScormCourse < ActiveRecord::Base
   has_many :registrations,
            foreign_key: :lms_course_id,
-           primary_key: :scorm_cloud_id
+           primary_key: :scorm_service_id
 
-  after_commit :set_scorm_course_id, on: [:create]
+  after_commit :set_scorm_service_id, on: [:create]
 
   def regs
     @regs ||= registrations.includes(:scorm_activities)
   end
 
-  def set_scorm_course_id
-    self.scorm_cloud_id = id if scorm_cloud_id.blank?
-    save if scorm_cloud_id_changed?
+  def set_scorm_service_id
+    self.scorm_service_id = id if scorm_service_id.blank?
+    save if scorm_service_id_changed?
   end
 
   def course_analytics

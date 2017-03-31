@@ -149,12 +149,13 @@ describe "sync_courses" do
     subject = ScormCloudService.new
     result = subject.sync_courses(
       [
-        MockCourse.new(graded_course.scorm_cloud_id),
+        MockCourse.new(graded_course.scorm_service_id),
         MockCourse.new("3"),
       ],
     )
 
-    expect(ScormCourse.where(scorm_cloud_id: [graded_course.id, 3]).count).to eq 2
+    courses = ScormCourse.where(scorm_service_id: [graded_course.id, 3])
+    expect(courses.count).to eq 2
 
     expect(result[0][:lms_assignment_id]).to eq(1)
     expect(result[0][:is_graded]).to eq("GRADED")
