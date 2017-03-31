@@ -141,17 +141,8 @@ class Api::ScormCoursesController < ApplicationController
         when 200
           JSON.parse(response.body)["id"]
         when 302
-          # When redirected, the body has a link to the file similar to:
-          # canvas.com/api/v1/files/573347/create_success
-          body = response.body
-          scanner = StringScanner.new body
-          scanner.scan_until(/api\/.+\/files\//)
-          # scanner will now be at
-          # 573347/create_success
-          id = scanner.scan_until(/\//)
-          # id will be 573347/
-          # now remove the / and return 573347
-          id[0...-1]
+          file_confirm = RestClient.get(response.headers[:location])
+          JSON.parse(file_confirm.body)["id"]
         end
       end
     end
