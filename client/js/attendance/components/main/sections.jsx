@@ -9,9 +9,9 @@ export default function sections(props) {
     const node = { value: section.id, label: section.name };
     sectionList = _.concat(sectionList, node);
   });
-  const options = _.remove(sectionList, (section) => {
-    return section.value !== props.currentSection;
-  });
+  const options = _.remove(sectionList, section =>
+    section.value !== props.currentSection
+  );
 
   return (
     <button className="c-btn c-btn--sections">

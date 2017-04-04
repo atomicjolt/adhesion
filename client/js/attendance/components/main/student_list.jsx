@@ -109,9 +109,9 @@ export class StudentList extends React.Component {
     let { students } = this.props;
 
     if (this.state.currentSection !== -1) {
-      students = _.filter(students, (student) => {
-        return this.studentInSection(student);
-      });
+      students = _.filter(students, student =>
+        this.studentInSection(student)
+      );
     }
 
     return _.map(students, (student) => {
