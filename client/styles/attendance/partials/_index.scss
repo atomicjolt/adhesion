@@ -23,6 +23,28 @@
   }
 }
 
+.c-btn--sections{
+    padding: 0rem;
+    background: $lightest-gray;
+    &:hover{
+      background: $gray;
+      color: $white;
+    }
+    .Dropdown-root{
+      background: $lightest-gray;
+      &:hover{
+        background: $gray;
+        color: $white;
+      }
+    }
+    .Dropdown-placeholder{
+      padding: 1.2rem;
+    }
+    .Dropdown-option{
+      padding: 1rem;
+    }
+}
+
 .c-btn--mark-all{
     background: $lightest-gray;
     margin-right: 1rem;
