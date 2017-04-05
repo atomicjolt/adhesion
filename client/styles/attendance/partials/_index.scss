@@ -387,6 +387,11 @@
     @include semi-bold;
     font-size: 14px;
     border-color: transparent;
-    line-height: 22px;
+    line-height: 30px;
+    width: 17rem;
+    padding-left: 1.2rem;
+    &:hover{
+      cursor: pointer;
+    }
   }
 }
