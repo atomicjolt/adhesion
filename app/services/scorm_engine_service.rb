@@ -1,9 +1,6 @@
-require "net/http"
-require "net/http/post/multipart"
 include ScormCommonService
 
 class ScormEngineService
-
   def initialize(tenant = "default")
     api_interface = Rails.application.secrets.scorm_api_url
     @scorm_ssl_domain = Rails.application.secrets.scorm_ssl_domain
@@ -30,20 +27,20 @@ class ScormEngineService
         url: postback_url,
         password: registration[:scorm_cloud_passback_secret],
         userName: lti_key,
+        resultsFormat: "FULL",
       },
     }
-    url = @scorm_tenant_url + "/registrations"
-    response = send_post_request(url, body)
-    response
+    url = "#{@scorm_tenant_url}/registrations"
+    send_post_request(url, body)
   end
 
   def list_courses(options = {})
     courses = {}
-    url = @scorm_tenant_url + "/courses"
+    url = "#{@scorm_tenant_url}/courses"
     response = send_get_request(url, options)
-    body_courses = (JSON.parse response.body)["courses"]
+    body_courses = JSON.parse(response.body)["courses"]
     courses[:response] = get_merged_list(body_courses)
-    courses[:status] = response[:status]
+    courses[:status] = response.code
     courses
   end
 
@@ -56,13 +53,22 @@ class ScormEngineService
   end
 
   def import_course(file, course_id)
-    uri = URI(@scorm_tenant_url + "/courses/importJobs")
+    params = {
+      course: course_id,
+      mayCreateNewVersion: true,
+    }.to_query
+    url = "#{@scorm_tenant_url}/courses/importJobs?#{params}"
+
     File.open(File.new(file.path)) do |zip|
-      request = Net::HTTP::Post::Multipart.new "#{uri.path}?course=#{course_id}&mayCreateNewVersion=true",
-                                               "file": UploadIO.new(zip, "zip/zip", file.original_filename)
-      Net::HTTP.start(uri.host, uri.port) do |http|
-        request.basic_auth @api_username, @api_password
-        response = http.request(request)
+      RestClient::Request.execute(
+        method: :post,
+        url: url,
+        user: @api_username,
+        password: @api_password,
+        payload: {
+          file: UploadIO.new(zip, "zip/zip", file.original_filename),
+        },
+      ) do |response|
         course = {}
         course[:response] = {}
         course[:response][:title] = get_scorm_title(course_id)
@@ -73,48 +79,48 @@ class ScormEngineService
   end
 
   def get_scorm_title(course_id)
-    url = @scorm_tenant_url + "/courses/#{course_id}/title"
+    url = "#{@scorm_tenant_url}/courses/#{course_id}/title"
     response = send_get_request(url)
-    (JSON.parse response.body)["title"]
+    JSON.parse(response.body)["title"]
   end
 
   def show_course(course_id)
-    url = @scorm_tenant_url + "/courses/#{course_id}"
+    url = "#{@scorm_tenant_url}/courses/#{course_id}"
     send_get_request(url)
   end
 
   def remove_scorm_course(course_id)
-    url = @scorm_tenant_url + "/courses/#{course_id}"
+    url = "#{@scorm_tenant_url}/courses/#{course_id}"
     send_delete_request(url)
   end
 
   def remove_scorm_registration(registration_id)
-    url = @scorm_tenant_url + "/registrations/#{registration_id}"
+    url = "#{@scorm_tenant_url}/registrations/#{registration_id}"
     send_delete_request(url)
   end
 
   def preview_course(course_id, redirect_url)
     body = { redirectOnExitUrl: redirect_url } if redirect_url
-    url = @scorm_tenant_url + "/courses/#{course_id}/preview"
+    url = "#{@scorm_tenant_url}/courses/#{course_id}/preview"
     response = send_get_request(url, body)
-    launch_link = (JSON.parse response.body)["launchLink"]
+    launch_link = JSON.parse(response.body)["launchLink"]
     setup_url_response(launch_link)
   end
 
   def course_metadata(course_id)
     # not sure there is an api metadata call currently
-    url = @scorm_tenant_url + "/courses/#{course_id}"
+    url = "#{@scorm_tenant_url}/courses/#{course_id}"
     send_get_request(url)
   end
 
   def course_manifest(course_id)
     # not sure there is an api manifest call currently
-    url = @scorm_tenant_url + "/courses/#{course_id}"
+    url = "#{@scorm_tenant_url}/courses/#{course_id}"
     send_get_request(url)
   end
 
   def registration_scorm_result(registration_id)
-    url = @scorm_tenant_url + "/registrations/#{registration_id}/progress"
+    url = "#{@scorm_tenant_url}/registrations/#{registration_id}/progress"
     response = send_get_request(url)
     result = JSON.parse response.body
     result[:response] = {}
@@ -157,44 +163,54 @@ class ScormEngineService
   end
 
   def get_launch_link(registration_id)
-    url = @scorm_tenant_url + "/registrations/#{registration_id}/launchLink"
+    url = "#{@scorm_tenant_url}/registrations/#{registration_id}/launchLink"
     response = send_get_request(url)
-    (JSON.parse response.body)["launchLink"]
+    JSON.parse(response.body)["launchLink"]
   end
 
   def send_get_request(url, body = {})
-    uri = URI(url)
-    Net::HTTP.start(uri.host, uri.port) do |http|
-      request = Net::HTTP::Get.new(uri, "Content-Type" => "application/json")
-      request.basic_auth @api_username, @api_password
-      request.body = body.to_json
-      response = http.request request
-      response[:status] = response.code
+    RestClient::Request.execute(
+      method: :get,
+      url: url,
+      user: @api_username,
+      password: @api_password,
+      headers: {
+        accept: :json,
+        content_type: :json,
+      },
+      body: body.to_json,
+    ) do |response|
       response
     end
   end
 
-  def send_post_request(url, body = {}, content_type = "application/json")
-    uri = URI(url)
-    Net::HTTP.start(uri.host, uri.port) do |http|
-      request = Net::HTTP::Post.new(uri)
-      request.basic_auth @api_username, @api_password
-      request.body = body.to_json
-      request.content_type = content_type
-      response = http.request request
-      response[:status] = response.code
+  def send_post_request(url, body = {}, content_type = :json)
+    RestClient::Request.execute(
+      method: :post,
+      url: url,
+      user: @api_username,
+      password: @api_password,
+      headers: {
+        accept: content_type,
+        content_type: content_type,
+      },
+      payload: body.to_json,
+    ) do |response|
       response
     end
   end
 
   def send_delete_request(url)
-    uri = URI(url)
-    Net::HTTP.start(uri.host, uri.port) do |http|
-      request = Net::HTTP::Delete.new(uri)
-      request.basic_auth @api_username, @api_password
-      response = http.request request
-      response[:status] = response.code
-      response
+    RestClient::Request.execute(
+      method: :delete,
+      url: url,
+      user: @api_username,
+      password: @api_password,
+    ) do |response|
+      {
+        status: response.code,
+        response: [200, 204].include?(response.code),
+      }
     end
   end
 
@@ -210,5 +226,4 @@ class ScormEngineService
       status: status,
     }
   end
-
 end

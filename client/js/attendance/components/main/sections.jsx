@@ -1,13 +1,13 @@
-import React    from 'react';
-import _        from 'lodash';
+import React from 'react';
+import _ from 'lodash';
 import Dropdown from 'react-accessible-dropdown';
 
 export default function sections(props) {
 
-  let sectionList = [{ value: -1, label: 'All Sections' }];
+  const sectionList = [{ value: -1, label: 'All Sections' }];
   _.forEach(props.sections, (section) => {
     const node = { value: section.id, label: section.name };
-    sectionList = _.concat(sectionList, node);
+    sectionList.push(node);
   });
   const options = _.remove(sectionList, section =>
     section.value !== props.currentSection

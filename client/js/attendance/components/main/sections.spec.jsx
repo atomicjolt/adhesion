@@ -1,7 +1,7 @@
-import React     from 'react';
+import React from 'react';
 import TestUtils from 'react-addons-test-utils';
-import Sections  from './sections';
-import Stub      from '../../../../specs_support/stub';
+import Sections from './sections';
+import Stub from '../../../../specs_support/stub';
 
 describe('Sections', () => {
   let result;
