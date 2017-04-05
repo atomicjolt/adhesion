@@ -18,8 +18,6 @@ export default class DateSelector extends React.Component {
 
   constructor() {
     super();
-    // Local state for date picker. Since the datepicker auto-opens on the first
-    // click, we want to anticipate that by having datepickerClosed set to true first.
     this.state = {
       datePickerClosed: true,
     };
