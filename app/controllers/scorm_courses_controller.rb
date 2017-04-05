@@ -49,6 +49,6 @@ class ScormCoursesController < ApplicationController
   end
 
   def setup
-    @scorm_connect = scorm_connect_service
+    @scorm_connect = scorm_connect_service(params[:custom_canvas_course_id])
   end
 end
