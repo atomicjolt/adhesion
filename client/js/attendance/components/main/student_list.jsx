@@ -1,18 +1,16 @@
-import React                                     from 'react';
-import { connect }                               from 'react-redux';
-import _                                         from 'lodash';
-import Sections                                  from './sections';
-import Student                                   from './student';
-import ExportModal                               from './export_modal';
-import DateSelector                              from './date_selector';
-import * as errorActions                         from '../../actions/error';
-import * as attendanceActions                    from '../../actions/attendance';
-import * as applicationActions                   from '../../actions/application';
-import canvasRequest                             from '../../../libs/canvas/action';
-import { listUsersInCourseUsers }
-                               from '../../../libs/canvas/constants/courses';
-import { listCourseSections }
-                               from '../../../libs/canvas/constants/sections';
+import React from 'react';
+import { connect } from 'react-redux';
+import _ from 'lodash';
+import Sections from './sections';
+import Student from './student';
+import ExportModal from './export_modal';
+import DateSelector from './date_selector';
+import * as errorActions from '../../actions/error';
+import * as attendanceActions from '../../actions/attendance';
+import * as applicationActions from '../../actions/application';
+import canvasRequest from '../../../libs/canvas/action';
+import { listUsersInCourseUsers } from '../../../libs/canvas/constants/courses';
+import { listCourseSections } from '../../../libs/canvas/constants/sections';
 import { ATTENDANCE_STATES as AttendanceStates } from '../../reducers/student';
 
 const select = (state) => {
@@ -94,12 +92,9 @@ export class StudentList extends React.Component {
   }
 
   studentInSection(student) {
-    const enrollments = _.filter(student.enrollments, (enrollment) => {
-      if (enrollment.course_section_id === this.state.currentSection) {
-        return enrollment;
-      }
-      return null;
-    });
+    const enrollments = _.filter(student.enrollments, enrollment => (
+      enrollment.course_section_id === this.state.currentSection
+    ));
     if (enrollments.length > 0) return student;
     return null;
   }
