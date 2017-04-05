@@ -15,8 +15,20 @@ export default class RangePicker extends React.Component {
     return date.toISOString().split('T')[0];
   }
 
-  toggleCalendar(number) {
-    this[`datePicker${number}`].setOpen(!this[`datePicker${number}`].state.open);
+  constructor() {
+    super();
+    this.state = {
+      startPickerClosed: true,
+      endPickerClosed: true,
+    };
+  }
+
+  toggleCalendar(pickerId) {
+    this.setState({
+      [`${pickerId}PickerClosed`]: !this.state[`${pickerId}PickerClosed`]
+    },
+      this[`${pickerId}DatePicker`].setOpen(this.state[`${pickerId}PickerClosed`])
+    );
   }
 
   render() {
@@ -28,11 +40,14 @@ export default class RangePicker extends React.Component {
             type="date"
             ariaLabel="Start Date"
             className="c-btn c-btn--date"
-            onClick={() => this.toggleCalendar(1)}
+            onClick={() => this.toggleCalendar('start')}
+            onBlur={() => this.setState({
+              startPickerClosed: true
+            })}
           >
             <Datepicker
               readOnly
-              ref={(datePicker) => { this.datePicker1 = datePicker; }}
+              ref={(datePicker) => { this.startDatePicker = datePicker; }}
               selected={moment(this.props.startDate)}
               onChange={(date) => {
                 this.props.onStartChange(date.toDate());
@@ -44,13 +59,16 @@ export default class RangePicker extends React.Component {
           <span>End Date</span>
           <SvgButton
             type="date"
-            className="c-btn c-btn--date"
-            onClick={() => this.toggleCalendar(2)}
             ariaLabel="End Date"
+            className="c-btn c-btn--date"
+            onClick={() => this.toggleCalendar('end')}
+            onBlur={() => this.setState({
+              endPickerClosed: true
+            })}
           >
             <Datepicker
               readOnly
-              ref={(datePicker) => { this.datePicker2 = datePicker; }}
+              ref={(datePicker) => { this.endDatePicker = datePicker; }}
               selected={moment(this.props.endDate)}
               onChange={(date) => {
                 this.props.onEndChange(date.toDate());

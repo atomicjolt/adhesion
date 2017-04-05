@@ -21,7 +21,7 @@ export default class DateSelector extends React.Component {
     // Local state for date picker. Since the datepicker auto-opens on the first
     // click, we want to anticipate that by having datepickerClosed set to true first.
     this.state = {
-      datepickerClosed: true,
+      datePickerClosed: true,
     };
   }
 
@@ -40,7 +40,7 @@ export default class DateSelector extends React.Component {
   }
 
   toggleCalendar() {
-    this.setState({ datepickerClosed: !this.state.datepickerClosed },
+    this.setState({ datePickerClosed: !this.state.datepickerClosed },
       this.datePicker.setOpen(this.state.datepickerClosed)
     );
   }
@@ -62,7 +62,7 @@ export default class DateSelector extends React.Component {
           className="c-btn c-btn--date"
           onClick={() => this.toggleCalendar()}
           onBlur={() => this.setState(
-            { datepickerClosed: true }
+            { datePickerClosed: true }
           )}
         >
           <DatePicker
