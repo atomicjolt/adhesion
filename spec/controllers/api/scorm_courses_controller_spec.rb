@@ -96,4 +96,30 @@ RSpec.describe Api::ScormCoursesController, type: :controller do
       expect(JSON.parse(response.body)).to include("scores")
     end
   end
+
+  describe "GET student_report" do
+    before do
+      @course = ScormCourse.create
+      Registration.create(
+        lms_user_id: @user.id,
+        lms_course_id: @course.id,
+        application_instance: @application_instance,
+        lis_outcome_service_url: "http://cloud.scorm.com/this?isaspec",
+      )
+    end
+    it "should return student course analytics data" do
+      get :student_report, scorm_course_id: @course.id, user_id: @user.id
+      expect(response).to have_http_status 200
+      expect(JSON.parse(response.body)).to include("scores")
+    end
+  end
+
+  describe "GET activity_report" do
+    it "should return student course analytics data" do
+      course = ScormCourse.create
+      get :activity_report, scorm_course_id: course.id
+      expect(response).to have_http_status 200
+      expect(JSON.parse(response.body)).to include("analytics_table")
+    end
+  end
 end

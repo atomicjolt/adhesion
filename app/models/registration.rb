@@ -27,7 +27,7 @@ class Registration < ActiveRecord::Base
 
     # return course activity details for user
     summary = {}
-    summary[:student_name] = user.name
+    summary[:student_name] = user.try(:name)
     summary[:title] = "Scorm Title"
     summary[:mean_score] = mean_registration_score
     summary[:pass_fail] = course_analytics[:pass_fail]
@@ -105,7 +105,7 @@ class Registration < ActiveRecord::Base
   end
 
   def mean_registration_time_tracked
-    registration_time_tracked / scorm_activities_count if scorm_activities_count > 0
+    registration_time_tracked.to_f / scorm_activities_count.to_f if scorm_activities_count > 0
   end
 
   def passed?
