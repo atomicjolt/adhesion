@@ -8,6 +8,7 @@ function makeStudent(id) {
     name: 'Fake Student',
     lms_student_id: id,
     avatar_url: 'http://',
+    enrollments: [{ course_section_id: id + 1 }],
   };
 }
 
@@ -37,6 +38,7 @@ describe('Student List', () => {
       },
       applicationDate: new Date('2016-1-1').toDateString(),
       attendance: {},
+      sections: [{ id: 5, name: 'IMASECTION' }, { id: 999, name: 'ANOTHER' }],
     };
 
     result = TestUtils.renderIntoDocument(<StudentList {...props} />);
@@ -79,5 +81,13 @@ describe('Student List', () => {
     expect(result.length).toEqual(Object.keys(props.students).length);
     result.forEach(e => expect(TestUtils.isElement(e)).toEqual(true));
   });
-});
 
+  it('should filter students by section', () => {
+    result.setState({ currentSection: 5 });
+    let students = result.students();
+    expect(students.length).toBe(1);
+    result.setState({ currentSection: 999 });
+    students = result.students();
+    expect(students.length).toBe(0);
+  });
+});

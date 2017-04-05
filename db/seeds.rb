@@ -59,7 +59,10 @@ applications = [
     name: "Attendance",
     description: "Attendance Application",
     client_application_name: "attendance",
-    canvas_api_permissions: "LIST_USERS_IN_COURSE_USERS",
+    canvas_api_permissions: %w(
+      LIST_USERS_IN_COURSE_USERS
+      LIST_COURSE_SECTIONS
+    ).join(","),
     kind: Application.kinds[:lti],
     application_instances: [{
       tenant: "attendance",
