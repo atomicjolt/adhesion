@@ -38,7 +38,7 @@ export default class DateSelector extends React.Component {
   }
 
   toggleCalendar() {
-    this.setState({ datePickerClosed: !this.state.datePickerClosed },
+    this.setState(prevState => ({ datePickerClosed: !prevState.datePickerClosed }),
       this.datePicker.setOpen(this.state.datePickerClosed)
     );
   }

@@ -24,9 +24,9 @@ export default class RangePicker extends React.Component {
   }
 
   toggleCalendar(pickerId) {
-    this.setState({
-      [`${pickerId}PickerClosed`]: !this.state[`${pickerId}PickerClosed`]
-    },
+    this.setState(prevState => ({
+      [`${pickerId}PickerClosed`]: !prevState[`${pickerId}PickerClosed`]
+    }),
       this[`${pickerId}DatePicker`].setOpen(this.state[`${pickerId}PickerClosed`])
     );
   }
