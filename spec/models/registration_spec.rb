@@ -99,6 +99,17 @@ RSpec.describe Registration, type: :model do
       expect(@registration.student_course_analytics.count).to eq(8)
       expect(@registration.student_course_analytics[:title]).to eq("Scorm Title")
     end
+
+    it "gets the nav_buttons and makes sure they are correct" do
+      scorm_course = ScormCourse.create
+      @registration.update_attributes(lms_course_id: scorm_course.id)
+      nav_buttons = @registration.student_course_analytics[:nav_buttons]
+      expect(nav_buttons.count).to eq(4)
+      expect(nav_buttons[0][:name]).to eq("Complete")
+      expect(nav_buttons[1][:name]).to eq("Passed")
+      expect(nav_buttons[2][:stat]).to eq("0%")
+      expect(nav_buttons[3][:stat]).to eq(0)
+    end
   end
 
   describe "#store_activities" do
@@ -123,6 +134,15 @@ RSpec.describe Registration, type: :model do
     it "gets the activity data" do
       @registration.store_activities(@report[:registrationreport][:activity])
       expect(@registration.activity_data.count).to eq(2)
+    end
+
+    it "sorts the root activities with right depths" do
+      @registration.store_activities(@report[:registrationreport][:activity])
+      activity_data = @registration.activity_data
+      expect(activity_data[0][:activity_id]).to eq("golf_sample_default_org")
+      expect(activity_data[1][:activity_id]).to eq("item_1")
+      expect(activity_data[0][:depth]).to eq(0)
+      expect(activity_data[1][:depth]).to eq(1)
     end
   end
 
