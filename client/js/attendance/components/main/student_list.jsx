@@ -49,6 +49,8 @@ export class StudentList extends React.Component {
 
   constructor() {
     super();
+
+    this.handleKeyPress = ::this.handleKeyPress;
     this.state = {
       showExportModal: false,
       currentSection: -1,
@@ -73,6 +75,20 @@ export class StudentList extends React.Component {
       this.props.applicationDate,
       this.props.settings.lms_course_id
     );
+  }
+
+  componentDidMount() {
+    document.addEventListener('keyup', this.handleKeyPress);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keyup', this.handleKeyPress);
+  }
+
+  handleKeyPress(event) {
+    if (event.keyCode === 27) {
+      this.setState({ showExportModal: false });
+    }
   }
 
   updateStudentAttendance(student, status) {
