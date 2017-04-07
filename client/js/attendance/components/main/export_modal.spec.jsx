@@ -8,7 +8,7 @@ describe('Export CSV', () => {
     lmsCourseId: '123',
     downloadFile: () => {},
     onExport: () => {},
-    onOutsideClick: () => {},
+    closeModal: () => {},
   };
 
   it('renders', () => {
@@ -30,10 +30,10 @@ describe('Export CSV', () => {
   });
 
   it('should call onOut when someone clicks outside', () => {
-    spyOn(props, 'onOutsideClick');
+    spyOn(props, 'closeModal');
     const result = TestUtils.renderIntoDocument(<ExportCSV {...props} />);
     const outside = TestUtils.findRenderedDOMComponentWithClass(result, 'c-popup--outside');
     TestUtils.Simulate.click(outside);
-    expect(props.onOutsideClick).toHaveBeenCalled();
+    expect(props.closeModal).toHaveBeenCalled();
   });
 });
