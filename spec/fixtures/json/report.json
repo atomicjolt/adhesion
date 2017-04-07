@@ -1,0 +1,86 @@
+{
+  "registrationreport": {
+    "format": "full",
+    "regid": "1",
+    "instanceid": "0",
+    "activity": {
+      "id": "golf_sample_default_org",
+      "title": "Golf Explained - Run-time Basic Calls",
+      "satisfied": "false",
+      "completed": "false",
+      "progressstatus": "true",
+      "attemptprogressstatus": "true",
+      "attempts": "1",
+      "suspended": "false",
+      "objectives": {
+        "objective": {
+          "id": "",
+          "primary": "true",
+          "measurestatus": "false",
+          "normalizedmeasure": "0.0",
+          "progressstatus": "false",
+          "satisfiedstatus": "false"
+        }
+      },
+      "children": {
+        "activity": {
+          "id": "item_1",
+          "title": "Golf Explained",
+          "satisfied": "false",
+          "completed": "false",
+          "progressstatus": "true",
+          "attemptprogressstatus": "true",
+          "attempts": "2",
+          "suspended": "false",
+          "objectives": {
+            "objective": {
+              "id": "",
+              "primary": "true",
+              "measurestatus": "false",
+              "normalizedmeasure": "0.0",
+              "progressstatus": "false",
+              "satisfiedstatus": "false"
+            }
+          },
+          "runtime": {
+            "completion_status": "incomplete",
+            "credit": "Credit",
+            "entry": "AbInitio",
+            "exit": "Unknown",
+            "learnerpreference": {
+              "audio_level": "50.0",
+              "language": null,
+              "delivery_speed": "1.0",
+              "audio_captioning": "0"
+            },
+            "location": "3",
+            "mode": "Normal",
+            "progress_measure": null,
+            "score_scaled": "1.0",
+            "score_raw": "100.0",
+            "score_min": "0",
+            "score_max": "100.0",
+            "total_time": "0000:02:00",
+            "timetracked": "0000:00:01.89",
+            "success_status": "Unknown",
+            "suspend_data": "",
+            "comments_from_learner": null,
+            "comments_from_lms": null,
+            "interactions": null,
+            "objectives": null,
+            "static": {
+              "completion_threshold": null,
+              "launch_data": null,
+              "learner_id": "1",
+              "learner_name": "test@example.com",
+              "max_time_allowed": null,
+              "scaled_passing_score": null,
+              "time_limit_action": "Undefined"
+            }
+          },
+          "children": null
+        }
+      }
+    }
+  }
+}
