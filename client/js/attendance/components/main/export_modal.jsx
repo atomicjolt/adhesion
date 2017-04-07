@@ -67,7 +67,7 @@ export default class ExportModal extends React.Component {
 
     return (
       <div style={styles.container}>
-        <div className="c-popup  c-popup--export  is-open role="radioGroup">
+        <div className="c-popup  c-popup--export  is-open" role="radioGroup">
           <button
             className="c-btn"
             style={styles.cancel}
