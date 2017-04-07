@@ -28,6 +28,8 @@ describe('scorm index', () => {
       canvasAssignments: {},
       listAssignmentsDone: true,
       loadError: false,
+      hideModal: () => {},
+      showModal: () => {},
     };
     remove = false;
     result = TestUtils.renderIntoDocument(<Stub><ScormIndex {...props} /></Stub>);
