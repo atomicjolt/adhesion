@@ -23,7 +23,7 @@ class Registration < ActiveRecord::Base
 
     # return course activity details for user
     summary = {}
-    summary[:student_name] = user(&:name)
+    summary[:student_name] = user&.name
     summary[:title] = "Scorm Title"
     summary[:mean_score] = mean_registration_score
     summary[:pass_fail] = course_analytics[:pass_fail]
