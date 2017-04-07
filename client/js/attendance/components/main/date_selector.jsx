@@ -16,6 +16,13 @@ export default class DateSelector extends React.Component {
     return newDate.toDate().toDateString();
   }
 
+  constructor() {
+    super();
+    this.state = {
+      datePickerClosed: true,
+    };
+  }
+
   prevClick(e) {
     e.stopPropagation();
     this.props.updateDate(DateSelector.changeDay(this.props.date, -1));
@@ -31,7 +38,9 @@ export default class DateSelector extends React.Component {
   }
 
   toggleCalendar() {
-    this.datePicker.setOpen(!this.datePicker.state.open);
+    this.setState(prevState => ({ datePickerClosed: !prevState.datePickerClosed }),
+      this.datePicker.setOpen(this.state.datePickerClosed)
+    );
   }
 
   render() {
@@ -50,6 +59,9 @@ export default class DateSelector extends React.Component {
           ariaLabel="Date picker"
           className="c-btn c-btn--date"
           onClick={() => this.toggleCalendar()}
+          onBlur={() => this.setState(
+            { datePickerClosed: true }
+          )}
         >
           <DatePicker
             readOnly

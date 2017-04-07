@@ -5,10 +5,6 @@ class Registration < ActiveRecord::Base
   belongs_to :scorm_course,
              foreign_key: :lms_course_id,
              primary_key: :scorm_service_id
-  belongs_to :temp_scorm_course,
-             class_name: "ScormCourse",
-             foreign_key: :lms_course_id,
-             primary_key: :scorm_cloud_plain_id
   belongs_to :application_instance
   before_create :set_scorm_cloud_passback_secret
   before_create :set_scorm_registration_id

@@ -3,10 +3,12 @@ import CommonSvg from './common_svg';
 
 export default function svgButton(props) {
   const onClick = props.onClick || (() => {});
+  const onBlur = props.onBlur || (() => {});
   return (
     <button
       className={props.className || 'c-icon-btn'}
       onClick={onClick}
+      onBlur={onBlur}
       aria-label={props.ariaLabel}
     >
       {props.children}
@@ -22,4 +24,5 @@ svgButton.propTypes = {
   ariaLabel: React.PropTypes.string,
   noIconClass: React.PropTypes.bool,
   children: React.PropTypes.node,
+  onBlur: React.PropTypes.func,
 };
