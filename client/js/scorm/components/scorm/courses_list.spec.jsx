@@ -20,6 +20,8 @@ describe('courses list', () => {
       list: [
         { title: 'IMAPSEC', id: 'id' },
       ],
+      hideModal: () => {},
+      showModal: () => {},
     };
     result = TestUtils.renderIntoDocument(<Stub><CourseList {...props} /></Stub>);
   });

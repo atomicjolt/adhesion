@@ -33,6 +33,8 @@ export default class Course extends React.Component {
     updateImportType: React.PropTypes.func.isRequired,
     canvasUrl: React.PropTypes.string.isRequired,
     courseId: React.PropTypes.string.isRequired,
+    hideModal: React.PropTypes.func.isRequired,
+    showModal: React.PropTypes.func.isRequired,
   };
 
   static getStyles() {
@@ -182,6 +184,8 @@ export default class Course extends React.Component {
           handleUpdate={() => this.handleUpdate()}
           handleRemove={() => this.handleRemove()}
           updateInput={updateInput}
+          showModal={this.props.showModal}
+          hideModal={this.props.hideModal}
         />
       );
     }

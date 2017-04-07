@@ -5,10 +5,6 @@ class Registration < ActiveRecord::Base
   belongs_to :scorm_course,
              foreign_key: :lms_course_id,
              primary_key: :scorm_service_id
-  belongs_to :temp_scorm_course,
-             class_name: "ScormCourse",
-             foreign_key: :lms_course_id,
-             primary_key: :scorm_cloud_plain_id
   belongs_to :application_instance
   before_create :set_scorm_cloud_passback_secret
   before_create :set_scorm_registration_id
@@ -27,7 +23,7 @@ class Registration < ActiveRecord::Base
 
     # return course activity details for user
     summary = {}
-    summary[:student_name] = user.name
+    summary[:student_name] = user&.name
     summary[:title] = "Scorm Title"
     summary[:mean_score] = mean_registration_score
     summary[:pass_fail] = course_analytics[:pass_fail]
@@ -105,7 +101,7 @@ class Registration < ActiveRecord::Base
   end
 
   def mean_registration_time_tracked
-    registration_time_tracked / scorm_activities_count if scorm_activities_count > 0
+    registration_time_tracked.to_f / scorm_activities_count.to_f if scorm_activities_count > 0
   end
 
   def passed?

@@ -67,7 +67,7 @@ export default class ExportModal extends React.Component {
 
     return (
       <div style={styles.container}>
-        <div className="c-popup  c-popup--export  is-open">
+        <div className="c-popup  c-popup--export  is-open role="radioGroup">
           <button
             className="c-btn"
             style={styles.cancel}
@@ -79,6 +79,7 @@ export default class ExportModal extends React.Component {
             <ExportButton
               text={'Export All'}
               onExport={() => this.onExport()}
+              ariaPosinset={1}
             />
           </div>
           <div className="c-popup__right">
@@ -95,6 +96,7 @@ export default class ExportModal extends React.Component {
               }}
               text={'Export Date Range'}
               onExport={options => this.onExport(options)}
+              ariaPosinset={2}
             />
           </div>
         </div>
