@@ -2,6 +2,7 @@ import React             from 'react';
 import HoverButton       from '../common/hover_button';
 import Defines           from '../../../defines';
 import CommonSvg         from '../../../common_components/common_svg';
+import ConfirmDelete from '../../../common_components/confirm_delete';
 
 
 export default function settings(props) {
@@ -52,6 +53,20 @@ export default function settings(props) {
     return (<div />);
   }
 
+  function handleRemove() {
+    props.hideModal();
+    props.handleRemove();
+  }
+
+  function toggleRemove() {
+    props.showModal(
+      <ConfirmDelete
+        handleRemove={handleRemove}
+        closeModal={props.hideModal}
+      />
+    );
+  }
+
   return (
     <div style={{ ...settingsStyle }}>
       <div style={divStyle}>
@@ -83,7 +98,7 @@ export default function settings(props) {
         <HoverButton
           style={buttonStyle}
           hoveredStyle={hoveredStyle}
-          onClick={props.handleRemove}
+          onClick={toggleRemove}
         >
           <CommonSvg className="c-icon" type="delete" />
           Delete Package
@@ -101,4 +116,6 @@ settings.propTypes = {
   handleUpdate: React.PropTypes.func.isRequired,
   handleRemove: React.PropTypes.func.isRequired,
   updateInput: React.PropTypes.shape({}),
+  hideModal: React.PropTypes.func.isRequired,
+  showModal: React.PropTypes.func.isRequired,
 };

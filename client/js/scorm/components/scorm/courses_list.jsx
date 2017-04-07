@@ -1,6 +1,6 @@
 import _        from 'lodash';
 import React    from 'react';
-import Courses  from './course';
+import Course from './course';
 
 export default function courseList(props) {
   return (
@@ -8,7 +8,7 @@ export default function courseList(props) {
       <ul className="c-list">
         {
           _.map(props.list, (item, key) => (
-            <Courses
+            <Course
               key={`${key}_PackageItem`}
               course={item}
               canvasUrl={props.canvasUrl}
@@ -18,6 +18,8 @@ export default function courseList(props) {
               replacePackage={props.replacePackage}
               importPackage={props.importPackage}
               updateImportType={props.updateImportType}
+              showModal={props.showModal}
+              hideModal={props.hideModal}
             />
           ))
         }
@@ -29,4 +31,6 @@ export default function courseList(props) {
 courseList.propTypes = {
   list: React.PropTypes.arrayOf(React.PropTypes.shape({})).isRequired,
   updateImportType: React.PropTypes.func,
+  hideModal: React.PropTypes.func.isRequired,
+  showModal: React.PropTypes.func.isRequired,
 };
