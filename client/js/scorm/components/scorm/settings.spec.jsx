@@ -16,6 +16,8 @@ describe('settings', () => {
       handlePreview: () => {},
       handleUpdate: () => {},
       handleRemove: () => {},
+      hideModal: () => {},
+      showModal: () => {},
     };
   });
 
