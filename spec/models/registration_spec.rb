@@ -2,9 +2,7 @@ require "rails_helper"
 
 RSpec.describe Registration, type: :model do
   before do
-    file = File.read("spec/fixtures/json/report.json")
-    file = file.gsub("\n", "")
-    @report = JSON.parse(file)
+    @report = JSON.parse(File.read("spec/fixtures/json/report.json"))
     @report = @report.deep_symbolize_keys
     @registration = Registration.create
   end
