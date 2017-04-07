@@ -1,6 +1,6 @@
 import React from 'react';
-import Defines from '../../../defines';
-import HoverButton from '../common/hover_button';
+import Defines from '../defines';
+import HoverButton from './hover_button';
 
 const confirmDelete = (props) => {
   const styles = {

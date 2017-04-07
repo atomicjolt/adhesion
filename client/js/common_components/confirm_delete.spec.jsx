@@ -2,7 +2,7 @@ import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import _ from 'lodash';
 import ConfirmDelete from './confirm_delete';
-import Stub from '../../../../specs_support/stub';
+import Stub from '../../specs_support/stub';
 
 describe('confirm delete', () => {
   let props;
