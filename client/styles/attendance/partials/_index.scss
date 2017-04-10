@@ -63,6 +63,16 @@
     }
 }
 
+.c-btn--cancel{
+  position: absolute;
+  background: $lightest-gray;
+  padding: .8rem;
+  &:hover{
+    background: $gray;
+    color: $white;
+  }
+}
+
 .c-date-picker{
   position: absolute;
   display: inline-block;
