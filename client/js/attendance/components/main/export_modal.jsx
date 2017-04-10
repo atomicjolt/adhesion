@@ -8,7 +8,7 @@ export default class ExportModal extends React.Component {
   static propTypes = {
     lmsCourseId: React.PropTypes.string.isRequired,
     downloadFile: React.PropTypes.func.isRequired,
-    onOutsideClick: React.PropTypes.func.isRequired,
+    closeModal: React.PropTypes.func.isRequired,
     onExport: React.PropTypes.func,
   };
 
@@ -59,6 +59,12 @@ export default class ExportModal extends React.Component {
     return (
       <div style={styles.container}>
         <div className="c-popup  c-popup--export  is-open" role="radioGroup">
+          <button
+            className="c-btn c-btn--cancel"
+            onClick={() => this.props.closeModal()}
+          >
+            <i className="material-icons">clear</i>
+          </button>
           <div className="c-popup__left">
             <ExportButton
               text={'Export All'}
@@ -86,7 +92,7 @@ export default class ExportModal extends React.Component {
         </div>
         <button
           className="c-popup--outside"
-          onClick={() => this.props.onOutsideClick()}
+          onClick={() => this.props.closeModal()}
           style={styles.closeModal}
         />
       </div>

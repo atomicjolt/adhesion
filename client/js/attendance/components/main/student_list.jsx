@@ -62,6 +62,7 @@ export class StudentList extends React.Component {
       course_id: this.props.settings.lms_course_id,
       enrollment_type: ['student'],
       include: ['avatar_url', 'enrollments'],
+      per_page: 50,
     };
     this.props.canvasRequest(
       listUsersInCourseUsers,
@@ -171,7 +172,7 @@ export class StudentList extends React.Component {
           lmsCourseId={this.props.settings.lms_course_id}
           downloadFile={this.props.downloadFile}
           onExport={() => this.toggleExportModal()}
-          onOutsideClick={() => this.toggleExportModal()}
+          closeModal={() => this.toggleExportModal()}
         />
       );
     }
