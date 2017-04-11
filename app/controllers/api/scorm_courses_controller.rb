@@ -41,6 +41,7 @@ class Api::ScormCoursesController < ApplicationController
       ScormCourse.find(
         response["course_id"],
       ).update_attribute(:file_id, file_id)
+      hide_scorm_file(file_id)
     end
     send_scorm_connect_response(response)
   end
@@ -106,7 +107,10 @@ class Api::ScormCoursesController < ApplicationController
     )
     delete_canvas_file(course.file_id) if course&.file_id
     file_id = upload_canvas_file(params[:file], params[:lms_course_id])
-    course.update_attribute(:file_id, file_id) if file_id
+    if file_id
+      course.update_attribute(:file_id, file_id)
+      hide_scorm_file(file_id)
+    end
     if course.lms_assignment_id
       update_canvas_assignment(
         params[:lms_course_id],
@@ -155,6 +159,10 @@ class Api::ScormCoursesController < ApplicationController
         end
       end
     end
+  end
+
+  def hide_scorm_file(file_id)
+    canvas_api.proxy("UPDATE_FILE", { id: file_id }, { hidden: true })
   end
 
   def update_canvas_assignment(lms_course_id, assignment_id, name)
