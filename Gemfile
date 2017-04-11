@@ -88,9 +88,6 @@ group :development, :test do
   gem "vcr"
 end
 
-# serializers
-gem "active_model_serializers", "~> 0.10.0"
-
 # Scorm cloud ruby client
 gem "scorm_cloud", git: "https://github.com/instructure/scorm-cloud.git"
 
