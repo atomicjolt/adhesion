@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { hashHistory } from 'react-router';
+import { Link } from 'react-router';
 import { switchView } from '../../actions/analytics';
 
 export class Header extends React.Component {
@@ -32,12 +32,12 @@ export class Header extends React.Component {
     }
     return (
       <header className="c-aa-head">
-        <a
+        <Link
           className="c-aa-back-btn"
-          onClick={() => hashHistory.push('/')}
+          to={{ pathname: '/', query: { noSync: true } }}
         >
           <i className="material-icons">arrow_back</i>
-        </a>
+        </Link>
         <h1 className="c-aa-title">
           <span
             className="c-aa-title-btn"

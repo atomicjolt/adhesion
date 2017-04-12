@@ -31,6 +31,11 @@ export class ScormIndex extends React.Component {
     loadError: React.PropTypes.bool,
     hideModal: React.PropTypes.func.isRequired,
     showModal: React.PropTypes.func.isRequired,
+    location: React.PropTypes.shape({
+      query: React.PropTypes.shape({
+        noSync: React.PropTypes.string,
+      }),
+    }),
   };
 
   constructor() {
@@ -40,7 +45,7 @@ export class ScormIndex extends React.Component {
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.props.loadPackages(this.props.lmsCourseId);
     this.props.canvasRequest(
       listAssignments,
@@ -59,6 +64,10 @@ export class ScormIndex extends React.Component {
   }
 
   synchronize() {
+    if (this.props.location.query.noSync) {
+      this.setState({ synced: true });
+      return;
+    }
     _.forEach(this.props.scormList, (scorm) => {
       const canvasAssignment = _.findKey(
         this.props.canvasAssignments,
