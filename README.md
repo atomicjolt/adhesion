@@ -239,6 +239,58 @@ Once you press Save Key, a Developer ID and Key will be generated and displayed 
 The LTI Starter app makes working with the Canvas API simple. See [Canvas](Canvas.md) for more information.
 
 
+
+## Admin Page
+
+There is an admin page where one can setup the tools located at `/admin`.
+In the settings for an Application Instance, Visibility can be configured to affect who can see the tool when it gets installed.
+
+## Development Details
+
+#### Webpack
+Webpack is used to build the client side application. Configure the client application in client/config/settings.js
+
+#### React
+The React Rails Starter App uses React. All client side code can be found in the "client" directory. This project contains the code required to launch a React application. index.html.erb contains the following code which will launch a React application whose entry point is 'app.jsx'
+
+```
+<% content_for :head do -%>
+  <%= webpack_styles_tag 'styles' %>
+<% end -%>
+
+<%= render 'shared/default_client_settings' %>
+<%= webpack_manifest_script %>
+<div id="main-app"></div>
+<%= webpack_bundle_tag 'app' %>
+```
+
+#### Assets
+Any files added to the assets directory can be used by in code and assigned to a variable. This allows for referring to assets using dynamically generated strings. The assets will be built according to the rules specified in your webpack configuration. Typically, this means that in production the names will be changed to include a SHA.
+
+First importing the assets:
+  `import assets from '../libs/assets';`
+
+Then assign the assest to a variable:
+  `const img = assets("./images/atomicjolt.jpg");`
+
+The value can then be used when rendering:
+  `render(){
+    const img = assets("./images/atomicjolt.jpg");
+    return<div>
+    <img src={img} />
+    </div>;
+  }`
+
+#### Static
+Files added to the static directory will be copied directly into the build. These files will not be renamed.
+
+#### Check for updates
+Inside the client directory run:
+```
+yarn upgrade-interactive
+```
+
+
 ## Deployment
 
 ### Upload secrets to server:
