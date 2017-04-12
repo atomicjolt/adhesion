@@ -31,6 +31,11 @@ export class ScormIndex extends React.Component {
     loadError: React.PropTypes.bool,
     hideModal: React.PropTypes.func.isRequired,
     showModal: React.PropTypes.func.isRequired,
+    location: React.PropTypes.shape({
+      query: React.PropTypes.shape({
+        noSync: React.PropTypes.string,
+      }),
+    }),
   };
 
   constructor() {
@@ -40,7 +45,7 @@ export class ScormIndex extends React.Component {
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.props.loadPackages(this.props.lmsCourseId);
     this.props.canvasRequest(
       listAssignments,
@@ -59,15 +64,17 @@ export class ScormIndex extends React.Component {
   }
 
   synchronize() {
-    _.forEach(this.props.scormList, (scorm) => {
-      const canvasAssignment = _.findKey(
-        this.props.canvasAssignments,
-        assignment => assignment.id === scorm.lms_assignment_id,
-      );
-      if (!canvasAssignment && scorm.is_graded != null) {
-        this.props.removePackage(scorm.id);
-      }
-    });
+    if (this.props.location && !this.props.location.query.noSync) {
+      _.forEach(this.props.scormList, (scorm) => {
+        const canvasAssignment = _.findKey(
+          this.props.canvasAssignments,
+          assignment => assignment.id === scorm.lms_assignment_id,
+        );
+        if (!canvasAssignment && scorm.is_graded != null) {
+          this.props.removePackage(scorm.id);
+        }
+      });
+    }
     this.setState({ synced: true });
   }
 
