@@ -99,8 +99,8 @@ RSpec.describe ScormCoursesController, type: :controller do
   #                          "launch_url" => scorm_courses_url,
   #                          "roles" => "Learner",
   #                          "launch_presentation_return_url" => scu)
-  #     api_interface = Rails.application.secrets.scorm_api_url
-  #     scorm_tenant_url = Rails.application.secrets.scorm_domain + api_interface + "default"
+  #     api_interface = Rails.application.secrets.scorm_api_path
+  #     scorm_tenant_url = Rails.application.secrets.scorm_url + api_interface + "default"
 
   #     registration_url = scorm_tenant_url + "/registrations"
   #     stub_request(:any, registration_url).to_return(body: "{ \"response\": \"nil\" }")

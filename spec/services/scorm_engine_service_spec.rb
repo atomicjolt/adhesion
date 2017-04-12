@@ -37,7 +37,7 @@ describe "launch_course" do
     @reg = Registration.create(
       lms_user_id: 2,
       application_instance: @application_instance,
-      lis_outcome_service_url: Rails.application.secrets.scorm_domain,
+      lis_outcome_service_url: Rails.application.secrets.scorm_url,
     )
     @registration = { "format" => "summary",
                       "regid" => @reg.id.to_s,
@@ -49,8 +49,8 @@ describe "launch_course" do
   end
 
   it "should return correct launch" do
-    api_interface = Rails.application.secrets.scorm_api_url
-    scorm_tenant_url = Rails.application.secrets.scorm_domain + api_interface + "default"
+    api_interface = Rails.application.secrets.scorm_api_path
+    scorm_tenant_url = Rails.application.secrets.scorm_url + api_interface + "default"
 
     registration_url = scorm_tenant_url + "/registrations"
     stub_request(:any, registration_url).to_return(body: "{ \"status\": \"204\" }")
@@ -60,7 +60,7 @@ describe "launch_course" do
     stub_request(:any, launch_url).to_return(body: "{ \"launchLink\": \"#{launch_route}\" }")
 
     response = @subject.launch_course(@reg, "")
-    expect(response[:response]).to eq(Rails.application.secrets.scorm_ssl_domain + launch_route)
+    expect(response[:response]).to eq(Rails.application.secrets.scorm_url + launch_route)
     expect(response[:status]).to eq(200)
   end
 end
@@ -73,7 +73,7 @@ describe "registration_scorm_result" do
     @reg = Registration.create(
       lms_user_id: 2,
       application_instance: @application_instance,
-      lis_outcome_service_url: Rails.application.secrets.scorm_domain,
+      lis_outcome_service_url: Rails.application.secrets.scorm_url,
     )
     @registration = { "format" => "summary",
                       "regid" => @reg.id.to_s,
@@ -85,8 +85,8 @@ describe "registration_scorm_result" do
   end
 
   it "should return the correct registration results" do
-    api_interface = Rails.application.secrets.scorm_api_url
-    scorm_tenant_url = Rails.application.secrets.scorm_domain + api_interface + "default"
+    api_interface = Rails.application.secrets.scorm_api_path
+    scorm_tenant_url = Rails.application.secrets.scorm_url + api_interface + "default"
 
     registration_url = scorm_tenant_url + "/registrations/#{@reg.scorm_registration_id}/progress"
     stub_request(:any, registration_url).to_return(
@@ -100,8 +100,8 @@ describe "registration_scorm_result" do
   end
 
   it "should return the correct registration results" do
-    api_interface = Rails.application.secrets.scorm_api_url
-    scorm_tenant_url = Rails.application.secrets.scorm_domain + api_interface + "default"
+    api_interface = Rails.application.secrets.scorm_api_path
+    scorm_tenant_url = Rails.application.secrets.scorm_url + api_interface + "default"
 
     registration_url = scorm_tenant_url + "/registrations/#{@reg.scorm_registration_id}/progress"
     stub_request(:any, registration_url).to_return(
@@ -123,7 +123,7 @@ describe "Scorm Engine Service sync score", type: :controller do
     @reg = Registration.create(
       lms_user_id: 2,
       application_instance: @application_instance,
-      lis_outcome_service_url: Rails.application.secrets.scorm_domain,
+      lis_outcome_service_url: Rails.application.secrets.scorm_url,
     )
     @registration = { "format" => "summary",
                       "regid" => @reg.scorm_registration_id.to_s,
