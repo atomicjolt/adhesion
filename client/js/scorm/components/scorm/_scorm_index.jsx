@@ -64,7 +64,7 @@ export class ScormIndex extends React.Component {
   }
 
   synchronize() {
-    if (this.props.location.query.noSync) {
+    if (this.props.location && this.props.location.query.noSync) {
       this.setState({ synced: true });
       return;
     }
