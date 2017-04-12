@@ -67,12 +67,14 @@ class ScormCourse < ActiveRecord::Base
   def scores_statistics(reg_scores, mean_score, med_score, time_corr)
     low_score = reg_scores.first
     high_score = reg_scores.last
+    coef = (time_corr**0.5).abs.round(2)
     [
       { name: "Mean Score", value: mean_score },
       { name: "Median Score", value: med_score },
       { name: "Lowest Score", value: low_score },
       { name: "Highest Score", value: high_score },
       { name: "Correlation Coefficient (r)", value: time_corr },
+      { name: "Coefficient of Determination (r^2)", value: coef },
     ]
   end
 
@@ -172,7 +174,7 @@ class ScormCourse < ActiveRecord::Base
 
   def calc_correlation(scores, mean_score)
     if scores.count < 5
-      return 'N/A'
+      return "N/A"
     end
     numerator = 0
     sum_time = 0
@@ -185,14 +187,14 @@ class ScormCourse < ActiveRecord::Base
     end
 
     times.each do |t|
-      sum_time += (t - mean_time)**2
+      sum_time += ((t - mean_time) / 60.0)**2
     end
 
     scores.each do |s|
       sum_score += (s - mean_score)**2
     end
 
-    (numerator / sum_time**0.5 * sum_score**0.5).round(2)
+    (numerator / (sum_time * sum_score)**0.5).round(2)
   end
 
   def calc_complete

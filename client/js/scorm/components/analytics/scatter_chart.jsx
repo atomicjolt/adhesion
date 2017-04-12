@@ -24,7 +24,7 @@ const Chart = (props) => {
     >
       <XAxis dataKey="time" label="Time (minutes)" />
       <YAxis dataKey="score" label="Score (scaled)" />
-      <Scatter name="Score-time Correlation" data={data} />
+      <Scatter name="Score-time Correlation" data={data} fill="#8884d8" />
       <CartesianGrid />
       <Tooltip cursor={{ strokeDasharray: '3 3' }} />
     </ScatterChart>
