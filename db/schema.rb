@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 20170406194449) do
     t.integer  "site_id"
     t.string   "tenant"
     t.jsonb    "config",                                   default: {}
+    t.integer  "visibility",                               default: 0
   end
 
   add_index "application_instances", ["application_id"], name: "index_application_instances_on_application_id", using: :btree

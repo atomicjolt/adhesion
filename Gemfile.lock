@@ -421,7 +421,6 @@ DEPENDENCIES
   dotenv-rails
   factory_girl_rails
   faker
-  httparty
   hub
   ims-lti (~> 1.1.13)
   jwt (~> 1.5.0)
