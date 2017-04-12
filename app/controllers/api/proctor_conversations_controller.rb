@@ -1,5 +1,4 @@
 class Api::ProctorConversationsController < ApplicationController
-  require "httparty"
   include Concerns::CanvasSupport
   include Concerns::JwtToken
   before_action :validate_token
@@ -19,8 +18,11 @@ class Api::ProctorConversationsController < ApplicationController
       render json: { error: "Unauthorized" }
     end
 
+    url = "#{Rails.application.secrets.canvas_url}/proctor_conversations"
+
     headers = {
-      "Content-Type" => "application/json",
+      accept: :json,
+      content_type: :json,
     }
 
     body = {
@@ -31,13 +33,13 @@ class Api::ProctorConversationsController < ApplicationController
       proctor_code: @proctor_code,
     }
 
-    response = HTTParty.post(
-      "#{Rails.application.secrets.canvas_url}/proctor_conversations",
+    RestClient::Request.execute(
+      method: :post,
+      url: url,
       headers: headers,
-      body: body.to_json,
-      # verify: false,
-    )
-
-    render json: response
+      payload: body.to_json,
+    ) do |response|
+      render json: response
+    end
   end
 end
