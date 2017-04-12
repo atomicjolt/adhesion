@@ -89,7 +89,6 @@ Rails.application.routes.draw do
       end
     end
     resources :exam_requests
-    resources :proctor_codes
     resources :courses do
       resources :attendances, only: [:index, :create, :update] do
         get "search", on: :collection
