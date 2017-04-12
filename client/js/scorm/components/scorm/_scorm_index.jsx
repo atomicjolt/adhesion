@@ -64,19 +64,17 @@ export class ScormIndex extends React.Component {
   }
 
   synchronize() {
-    if (this.props.location && this.props.location.query.noSync) {
-      this.setState({ synced: true });
-      return;
+    if (this.props.location && !this.props.location.query.noSync) {
+      _.forEach(this.props.scormList, (scorm) => {
+        const canvasAssignment = _.findKey(
+          this.props.canvasAssignments,
+          assignment => assignment.id === scorm.lms_assignment_id,
+        );
+        if (!canvasAssignment && scorm.is_graded != null) {
+          this.props.removePackage(scorm.id);
+        }
+      });
     }
-    _.forEach(this.props.scormList, (scorm) => {
-      const canvasAssignment = _.findKey(
-        this.props.canvasAssignments,
-        assignment => assignment.id === scorm.lms_assignment_id,
-      );
-      if (!canvasAssignment && scorm.is_graded != null) {
-        this.props.removePackage(scorm.id);
-      }
-    });
     this.setState({ synced: true });
   }
 
