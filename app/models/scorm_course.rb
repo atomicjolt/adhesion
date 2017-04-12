@@ -17,13 +17,14 @@ class ScormCourse < ActiveRecord::Base
   def course_analytics
     summary = {}
 
-    reg_scores, mean_score, med_score = calc_scores
+    reg_scores, mean_score, med_score, time_corr = calc_scores
 
     passed = regs.map(&:passed?).compact.count(true)
     complete_count, incomplete_count = calc_complete
 
     summary[:title] = title
-    summary[:scores] = scores_statistics(reg_scores, mean_score, med_score)
+    summary[:scores] = scores_statistics(reg_scores, mean_score, med_score, time_corr)
+    summary[:correlation_data] = correlation_data
     summary[:completed] = completed(complete_count, incomplete_count)
     summary[:pass_fail] = pass_fail(reg_scores, passed)
     summary[:nav_buttons] = nav_buttons(complete_count, med_score, passed)
@@ -63,7 +64,7 @@ class ScormCourse < ActiveRecord::Base
     end
   end
 
-  def scores_statistics(reg_scores, mean_score, med_score)
+  def scores_statistics(reg_scores, mean_score, med_score, time_corr)
     low_score = reg_scores.first
     high_score = reg_scores.last
     [
@@ -71,8 +72,23 @@ class ScormCourse < ActiveRecord::Base
       { name: "Median Score", value: med_score },
       { name: "Lowest Score", value: low_score },
       { name: "Highest Score", value: high_score },
+      { name: "Correlation Coefficient (r)", value: time_corr },
     ]
   end
+
+  def correlation_data
+    score_time = []
+    regs.each do |reg|
+      score_time << { time: (reg.registration_time_tracked / 60.0).round(2),
+                      score: reg.mean_registration_score }
+    end
+    score_time
+  end
+
+  # def time_score_corrleation
+  #   correlation_data
+  #
+  # end
 
   def course_time_spent
     time_spent = {}
@@ -149,8 +165,34 @@ class ScormCourse < ActiveRecord::Base
     reg_scores = regs.map(&:mean_registration_score).compact.sort
     mean_score = mean(reg_scores) || 0
     med_score = median(reg_scores) || 0
+    time_corr = calc_correlation(reg_scores, mean_score) || 0
 
-    [reg_scores, mean_score, med_score]
+    [reg_scores, mean_score, med_score, time_corr]
+  end
+
+  def calc_correlation(scores, mean_score)
+    if scores.count < 5
+      return 'N/A'
+    end
+    numerator = 0
+    sum_time = 0
+    sum_score = 0
+    times = registrations_time_tracked
+    mean_time = mean(times) || 0
+
+    correlation_data.each do |obj|
+      numerator += (obj[:time] - mean_time) * (obj[:score] - mean_score)
+    end
+
+    times.each do |t|
+      sum_time += (t - mean_time)**2
+    end
+
+    scores.each do |s|
+      sum_score += (s - mean_score)**2
+    end
+
+    (numerator / sum_time**0.5 * sum_score**0.5).round(2)
   end
 
   def calc_complete

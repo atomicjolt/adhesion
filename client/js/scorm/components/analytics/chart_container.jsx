@@ -1,5 +1,6 @@
 import React from 'react';
-import Chart from './chart';
+import Chart from './pie_chart';
+import ScatterChart from './scatter_chart';
 import Scores from './scores';
 import BarChart from './bar_chart';
 
@@ -15,8 +16,16 @@ export default function ChartContainer(props) {
     passFail,
     completed,
     scores,
+    correlationData,
     courseTimeSpent,
   } = data;
+
+  const styles = {
+    scoresContainer: {
+      overflow: 'auto',
+      position: 'relative',
+    },
+  };
 
   let chart;
 
@@ -36,9 +45,14 @@ export default function ChartContainer(props) {
     );
   } else if (props.selected === 'average_score' && scores) {
     chart = (
-      <Scores
-        scores={scores}
-      />
+      <div style={styles.scoresContainer}>
+        <ScatterChart
+          data={correlationData}
+        />
+        <Scores
+          scores={scores}
+        />
+      </div>
     );
   } else if (props.selected === 'minutes_per_learner' && courseTimeSpent) {
     chart = (
