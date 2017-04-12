@@ -2,9 +2,9 @@ include ScormCommonService
 
 class ScormEngineService
   def initialize(tenant = "default")
-    api_interface = Rails.application.secrets.scorm_api_url
-    @scorm_ssl_domain = Rails.application.secrets.scorm_ssl_domain
-    @scorm_tenant_url = Rails.application.secrets.scorm_domain + api_interface + tenant
+    api_interface = Rails.application.secrets.scorm_api_path
+    @scorm_url = Rails.application.secrets.scorm_url
+    @scorm_tenant_url = Rails.application.secrets.scorm_url + api_interface + tenant
     @api_username = Rails.application.secrets.scorm_api_username
     @api_password = Rails.application.secrets.scorm_api_password
   end
@@ -242,7 +242,7 @@ class ScormEngineService
 
   def setup_url_response(launch_link)
     if launch_link
-      response = @scorm_ssl_domain + launch_link
+      response = @scorm_url + launch_link
       status = 200
     else
       status = 500
