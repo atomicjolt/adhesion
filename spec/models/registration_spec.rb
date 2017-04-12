@@ -117,7 +117,7 @@ RSpec.describe Registration, type: :model do
       @registration.store_activities(@report[:registrationreport][:activity])
       course_analytics = scorm_course.course_analytics
       course_scores = @registration.scores_statistics(course_analytics[:scores])
-      expect(course_scores.count).to eq(5)
+      expect(course_scores.count).to eq(7)
     end
   end
 end

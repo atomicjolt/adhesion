@@ -43,11 +43,13 @@ RSpec.describe ScormCourse, type: :model do
 
       it "should test the scores" do
         analytics = @scorm_course.course_analytics
-        expect(analytics[:scores].count).to eq(4)
+        expect(analytics[:scores].count).to eq(6)
         expect(analytics[:scores][0][:value]).to eq(0)
         expect(analytics[:scores][1][:value]).to eq(0)
         expect(analytics[:scores][2][:value]).to eq(nil)
         expect(analytics[:scores][3][:value]).to eq(nil)
+        expect(analytics[:scores][4][:value]).to eq("N/A")
+        expect(analytics[:scores][5][:value]).to eq(nil)
       end
 
       it "should test the completed" do
@@ -91,11 +93,13 @@ RSpec.describe ScormCourse, type: :model do
 
       it "should test the scores" do
         analytics = @scorm_course.course_analytics
-        expect(analytics[:scores].count).to eq(4)
+        expect(analytics[:scores].count).to eq(6)
         expect(analytics[:scores][0][:value]).to eq(1.0)
         expect(analytics[:scores][1][:value]).to eq(1.0)
         expect(analytics[:scores][2][:value]).to eq(1.0)
         expect(analytics[:scores][3][:value]).to eq(1.0)
+        expect(analytics[:scores][4][:value]).to eq("N/A")
+        expect(analytics[:scores][5][:value]).to eq(nil)
       end
 
       it "should test the completed" do

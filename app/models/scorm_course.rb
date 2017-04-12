@@ -67,7 +67,7 @@ class ScormCourse < ActiveRecord::Base
   def scores_statistics(reg_scores, mean_score, med_score, time_corr)
     low_score = reg_scores.first
     high_score = reg_scores.last
-    coef = (time_corr**0.5).abs.round(2)
+    coef = (time_corr**0.5).abs.round(2) unless time_corr == "N/A"
     [
       { name: "Mean Score", value: mean_score },
       { name: "Median Score", value: med_score },
