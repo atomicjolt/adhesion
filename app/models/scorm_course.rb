@@ -87,11 +87,6 @@ class ScormCourse < ActiveRecord::Base
     score_time
   end
 
-  # def time_score_corrleation
-  #   correlation_data
-  #
-  # end
-
   def course_time_spent
     time_spent = {}
     registrations_time_tracked.each do |time|
