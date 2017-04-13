@@ -25,7 +25,7 @@ class ScormEngineService
       },
       postBack: {
         url: postback_url,
-        password: registration[:scorm_cloud_passback_secret],
+        password: registration.scorm_cloud_passback_secret,
         userName: lti_key,
         resultsFormat: "FULL",
       },

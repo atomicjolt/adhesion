@@ -87,8 +87,11 @@ module ScormCommonService
   end
 
   def sync_registration_score(reg_result)
-    reg = Registration.find_by(scorm_registration_id: reg_result["regid"])
-    reg.store_activities(reg_result["activity"].deep_symbolize_keys) if reg_result["activity"]
+    reg = Registration.find_by(scorm_registration_id: reg_result["regid"] || reg_result["id"])
+    activity = reg_result["activity"] || reg_result["activityDetails"]
+    lms_user_id = reg_result["learner"]["id"] if reg_result["learner"]
+    lms_user_name = construct_name(reg_result)
+    reg.store_activities(activity.deep_symbolize_keys, nil, 0, lms_user_id, lms_user_name) if activity
     reg.score = package_score(reg_result["score"])
     if package_complete?(reg_result) && reg.changed?
       response = post_results(reg, reg_result)
@@ -97,6 +100,13 @@ module ScormCommonService
   end
 
   private
+
+  def construct_name(reg_result)
+    learner = reg_result["learner"]
+    if learner.present?
+      "#{learner['lastName']} #{learner['firstName']}"
+    end
+  end
 
   def create_local_registration(result_params, lti_credentials)
     registration_params = reg_params(result_params)
