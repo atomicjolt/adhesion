@@ -59,7 +59,7 @@ class ScormCourse < ActiveRecord::Base
       activity[:time] = time
       # calculate pass or fail
       passed_total = group.map { |x| x[:passed] }
-      activity[:pass] = passed_total.count("Pass") >= group_length / 2 ? "Pass" : "Fail"
+      activity[:passed] = passed_total.count("Pass") >= group_length / 2 ? "Pass" : "Fail"
       activity
     end
   end
