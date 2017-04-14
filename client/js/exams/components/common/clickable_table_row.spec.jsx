@@ -12,7 +12,7 @@ describe('Clickable Table Row', () => {
     props = {
       style: { display: 'block' },
       hoveredStyle: { color: 'green' },
-      onClick: () => { clicked = true },
+      onClick: () => { clicked = true; },
     };
     result = TestUtils.renderIntoDocument(<Stub><ClickableTableRow {...props} /></Stub>);
   });

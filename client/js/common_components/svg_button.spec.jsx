@@ -15,8 +15,8 @@ describe('common components svg button', () => {
     props = {
       className: 'IMASPEC',
       type: 'drop',
-      onClick: () => { clicked = true },
-      onBlur: () => { blur = true },
+      onClick: () => { clicked = true; },
+      onBlur: () => { blur = true; },
     };
     result = TestUtils.renderIntoDocument(<Stub><SvgButton {...props} /></Stub>);
   });

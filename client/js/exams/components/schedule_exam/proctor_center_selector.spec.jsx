@@ -6,12 +6,11 @@ import Stub      from '../../../../specs_support/stub';
 describe('Schedule Exam Proctor Center Selector', () => {
   let props;
   let result;
-  let changed = false;
 
   beforeEach(() => {
     props = {
       testingCenterList: [{ id: 1, name: 'name1' }, { id: 2, name: 'name2' }],
-      onChange: () => { changed = true },
+      onChange: () => {},
     };
     result = TestUtils.renderIntoDocument(<Stub><ProctorCenterSelector {...props} /></Stub>);
   });

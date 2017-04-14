@@ -1,6 +1,6 @@
+import moment from 'moment';
 import * as ExamRequestsActions from '../actions/exam_requests';
 import examRequests from './exam_requests';
-import moment from 'moment';
 
 describe('applications reducer', () => {
   describe('initial state', () => {
@@ -32,7 +32,7 @@ describe('applications reducer', () => {
     it('makes a PUT request for scheduleExam', () => {
       const scheduleId = 2;
       const payloadId = 3;
-      const state = { examRequestList: [ { id: payloadId } ] }
+      const state = { examRequestList: [{ id: payloadId }] };
       const body = {};
       const payload = { id: payloadId, config: 'new_config' };
       const request = ExamRequestsActions.scheduleExam(scheduleId, body);
@@ -55,7 +55,7 @@ describe('applications reducer', () => {
       const request = ExamRequestsActions.testingCentersAccountSetup(accountId, instanceName);
 
       expect(request).toBeDefined();
-      expect(request.url).toBe(`/api/testing_centers_accounts`);
+      expect(request.url).toBe('/api/testing_centers_accounts');
       expect(request.params.canvas_instance_name).toBe(instanceName);
       expect(request.params.testing_centers_account_id).toBe(accountId);
 
@@ -69,11 +69,10 @@ describe('applications reducer', () => {
       const accountId = 2;
       const startDate = moment('2010-10-20').toDate();
       const endDate = moment('2010-10-21').toDate();
-      const state = {};
       const request = ExamRequestsActions.exportExamsAsCSV(accountId, startDate, endDate);
 
       expect(request).toBeDefined();
-      expect(request.url).toBe(`/exports/export_exams_as_csv`);
+      expect(request.url).toBe('/exports/export_exams_as_csv');
       expect(request.params.testing_centers_account_id).toBe(accountId);
       expect(request.params.start).toBe(startDate);
       expect(request.params.end).toBe(endDate);
@@ -87,7 +86,7 @@ describe('applications reducer', () => {
       const signedUrl = 'www.example.com';
 
       expect(request).toBeDefined();
-      expect(request.url).toBe(`/api/proctor_login`);
+      expect(request.url).toBe('/api/proctor_login');
       expect(request.params.id).toBe(id);
       expect(request.newWindow).toBe(newWindow);
 
@@ -99,7 +98,6 @@ describe('applications reducer', () => {
     });
 
     it('makes a PUT request for startExam', () => {
-      const state = {};
       const id = 2;
       const request = ExamRequestsActions.startExam(id);
 
@@ -109,7 +107,6 @@ describe('applications reducer', () => {
     });
 
     it('makes a PUT request for enterAnswers', () => {
-      const state = {};
       const id = 2;
       const request = ExamRequestsActions.enterAnswers(id);
 
@@ -119,7 +116,6 @@ describe('applications reducer', () => {
     });
 
     it('makes a PUT request for finishExam', () => {
-      const state = {};
       const id = 2;
       const request = ExamRequestsActions.finishExam(id);
 
@@ -129,12 +125,11 @@ describe('applications reducer', () => {
     });
 
     it('makes a POST request for createProctorConversation', () => {
-      const state = {};
       const body = { id: 2 };
       const request = ExamRequestsActions.createProctorConversation(body);
 
       expect(request).toBeDefined();
-      expect(request.url).toBe(`/api/proctor_conversations`);
+      expect(request.url).toBe('/api/proctor_conversations');
       expect(request.body).toEqual(body);
     });
   });
