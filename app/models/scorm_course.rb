@@ -27,7 +27,7 @@ class ScormCourse < ActiveRecord::Base
     summary[:correlation_data] = correlation_data
     summary[:completed] = completed(complete_count, incomplete_count)
     summary[:pass_fail] = pass_fail(reg_scores, passed)
-    summary[:nav_buttons] = nav_buttons(complete_count, med_score, passed)
+    summary[:nav_buttons] = nav_buttons(complete_count, mean_score, passed)
     summary[:analytics_table] = regs.map(&:registration_data)
     summary[:course_time_spent] = course_time_spent
     summary
@@ -118,7 +118,7 @@ class ScormCourse < ActiveRecord::Base
     ]
   end
 
-  def nav_buttons(complete_count, med_score, passed)
+  def nav_buttons(complete_count, mean_score, passed)
     completed_score = 0
     passed_score = 0
     minutes_per_learner = 0
@@ -141,7 +141,7 @@ class ScormCourse < ActiveRecord::Base
       {
         type: "average_score",
         name: "Average Score",
-        stat: "#{(med_score * 100).to_i}%",
+        stat: "#{(mean_score * 100).to_i}%",
       },
       {
         type: "minutes_per_learner",
