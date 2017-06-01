@@ -210,10 +210,12 @@ module ScormCommonService
   end
 
   def package_complete?(reg_result)
-    reg_result["complete"] == "complete"
+    status = reg_result["complete"] || reg_result["registrationCompletion"]
+    status == "complete" || status == "COMPLETED"
   end
 
   def package_score(score)
+    score = score["scaled"] if score.is_a? Hash
     score.to_i / 100.0
   end
 
