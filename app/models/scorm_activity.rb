@@ -14,7 +14,7 @@ class ScormActivity < ActiveRecord::Base
     self.latest_attempt = true
   end
 
-  def update_with(activity)
+  def update_with(activity, lms_user_id = nil, lms_user_name = nil)
     self.satisfied = true?(activity[:satisfied])
     self.completed = true?(activity[:completed])
     self.suspended = true?(activity[:suspended])
@@ -22,24 +22,25 @@ class ScormActivity < ActiveRecord::Base
     # store runtime data
     runtime = activity[:runtime]
     if runtime.present?
-      if runtime[:score_scaled].present?
-        self.score_scaled = runtime[:score_scaled].to_f
+      score_scaled = extract_score_scaled(runtime)
+      if score_scaled.present?
+        self.score_scaled = score_scaled.to_f
       end
 
       # <timetracked>hours:minutes:seconds.centiseconds</timetracked>
-      self.time_tracked = parse_time(runtime[:timetracked])
+      self.time_tracked = parse_time(extract_time_tracked(runtime))
 
       # <total_time>hours:minutes:seconds.centiseconds</total_time>
-      self.total_time = parse_time(runtime[:total_time])
+      self.total_time = parse_time(extract_total_time(runtime))
 
-      self.completion_status = runtime[:completion_status]
-      self.score_raw = runtime[:score_raw].to_f if runtime[:score_raw].present?
-      self.score_min = runtime[:score_min].to_f if runtime[:score_min].present?
-      self.score_max = runtime[:score_max].to_f if runtime[:score_max].present?
+      self.completion_status = extract_completion_status(runtime)
+      self.score_raw = extract_score_raw(runtime)
+      self.score_min = extract_score_min(runtime)
+      self.score_max = extract_score_max(runtime)
 
-      self.success_status = runtime[:success_status]
-      self.lms_user_id = runtime[:static][:learner_id].to_i
-      self.lms_user_name = runtime[:static][:learner_name]
+      self.success_status = extract_success_status(runtime)
+      self.lms_user_id = lms_user_id || runtime[:static][:learner_id].to_i
+      self.lms_user_name = lms_user_name || runtime[:static][:learner_name]
     end
   end
 
@@ -101,6 +102,50 @@ class ScormActivity < ActiveRecord::Base
     if duration.present?
       duration.split(":").reverse.map.with_index.sum { |t, i| t.to_f * 60**i }
     end
+  end
+
+  def extract_score_raw(runtime)
+    if runtime[:score_raw].present?
+      runtime[:score_raw].to_f
+    elsif runtime[:scoreRaw].present?
+      runtime[:scoreRaw].to_f
+    end
+  end
+
+  def extract_score_min(runtime)
+    if runtime[:score_min].present?
+      runtime[:score_min].to_f
+    elsif runtime[:scoreMin].present?
+      runtime[:scoreMin].to_f
+    end
+  end
+
+  def extract_score_max(runtime)
+    if runtime[:score_max].present?
+      runtime[:score_max].to_f
+    elsif runtime[:scoreMax].present?
+      runtime[:scoreMax].to_f
+    end
+  end
+
+  def extract_completion_status(runtime)
+    runtime[:completion_status] || runtime[:completionStatus]
+  end
+
+  def extract_time_tracked(runtime)
+    runtime[:timetracked] || runtime[:timeTracked]
+  end
+
+  def extract_success_status(runtime)
+    runtime[:success_status] || runtime[:successStatus]
+  end
+
+  def extract_total_time(runtime)
+    runtime[:total_time] || runtime[:totalTime]
+  end
+
+  def extract_score_scaled(runtime)
+    runtime[:score_scaled] || runtime[:scoreScaled]
   end
 
   def true?(obj)

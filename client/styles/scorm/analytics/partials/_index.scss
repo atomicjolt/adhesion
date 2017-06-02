@@ -186,6 +186,13 @@
         color: $subtext-color;
         text-transform: uppercase;
         vertical-align: middle;
+        line-height: 2.5rem;
+        border-right-style: solid;
+        border-right-width: 1px;
+        padding-right: 1rem;
+        &:hover{
+          cursor: pointer;
+        }
 
         &:nth-of-type(1){
           width: 50%;
@@ -257,6 +264,7 @@
         vertical-align: middle;
         color: $dark-gray;
         font-size: 1.4rem;
+        padding-right: 1rem;
 
         a{
           width: 100%;

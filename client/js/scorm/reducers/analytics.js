@@ -13,6 +13,7 @@ export default (state = initialState, action) => {
       const courseData = {
         title: action.payload.title,
         scores: action.payload.scores,
+        correlationData: action.payload.correlation_data,
         completed: action.payload.completed,
         passFail: action.payload.pass_fail,
         analyticsTable: action.payload.analytics_table,

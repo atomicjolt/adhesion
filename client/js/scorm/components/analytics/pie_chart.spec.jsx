@@ -2,7 +2,7 @@ import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import _ from 'lodash';
 import Stub from '../../../../specs_support/stub';
-import Chart from './chart';
+import Chart from './pie_chart';
 
 describe('Scorm Analytics Chart', () => {
 

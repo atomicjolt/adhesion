@@ -34,7 +34,7 @@ class Registration < ActiveRecord::Base
     summary
   end
 
-  def store_activities(activity, parent_id = nil, depth = 0)
+  def store_activities(activity, parent_id = nil, depth = 0, lms_user_id = nil, lms_user_name = nil)
     # store activity
     is_new = false
     sc_activity = scorm_activities.
@@ -57,19 +57,26 @@ class Registration < ActiveRecord::Base
       sc_activity.set_to_latest
     end
 
-    sc_activity.update_with(activity)
+    sc_activity.update_with(activity, lms_user_id, lms_user_name)
     sc_activity.parent_activity_id = parent_id if parent_id
     sc_activity.save!
 
     children = activity[:children]
     if children.present?
-      if children[:activity].is_a? Array
-        children[:activity].each do |act|
-          store_activities(act, sc_activity.id, depth + 1)
-        end
-      else
-        store_activities(children[:activity], sc_activity.id, depth + 1)
+      children = extract_activity(children)
+      children.each do |act|
+        store_activities(act, sc_activity.id, depth + 1, lms_user_id, lms_user_name)
       end
+    end
+  end
+
+  def extract_activity(children)
+    if children.is_a? Array
+      children
+    elsif children[:activity].is_a? Array
+      children[:activity]
+    else
+      [children[:activity] || children].compact
     end
   end
 
