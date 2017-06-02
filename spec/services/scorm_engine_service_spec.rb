@@ -55,7 +55,7 @@ describe "launch_course" do
     registration_url = scorm_tenant_url + "/registrations"
     stub_request(:any, registration_url).to_return(body: "{ \"status\": \"204\" }")
 
-    launch_url = scorm_tenant_url + "/registrations/#{@reg.scorm_registration_id}/launchLink"
+    launch_url = scorm_tenant_url + "/registrations/#{@reg.scorm_registration_id}/launchLink?redirectOnExitUrl="
     launch_route = "/launchLink"
     stub_request(:any, launch_url).to_return(body: "{ \"launchLink\": \"#{launch_route}\" }")
 
