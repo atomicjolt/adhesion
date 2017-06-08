@@ -126,7 +126,7 @@ export class StudentList extends React.Component {
       );
     }
 
-    return _.map(students, (student) => {
+    return _.map(students, (student, index) => {
       const id = student.lms_student_id;
       const props = {
         student,
@@ -134,7 +134,13 @@ export class StudentList extends React.Component {
           (updateStudent, status) => this.updateStudentAttendance(updateStudent, status),
         status: attendance ? attendance[id] : '',
       };
-      return <Student key={`student${id}`} {...props} />;
+      return (
+        <Student
+          key={`student${id}`}
+          index={index}
+          {...props}
+        />
+      );
     });
   }
 
