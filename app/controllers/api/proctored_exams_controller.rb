@@ -7,7 +7,7 @@ class Api::ProctoredExamsController < ApplicationController
   respond_to :json
 
   def start_proctored_exam
-    if params[:update]
+    if params[:update].present?
       finish_proctored_exam
       return
     end
@@ -28,10 +28,6 @@ class Api::ProctoredExamsController < ApplicationController
   private
 
   def validate_proctor_code
-    @exam_request = ExamRequest.find_by(student_id: params[:student_id], status: "started")
-    if params[:update]
-      return
-    end
 
     find_params = {
       student_id: params[:student_id],
