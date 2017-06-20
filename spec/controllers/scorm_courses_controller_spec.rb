@@ -17,7 +17,7 @@ RSpec.describe ScormCoursesController, type: :controller do
         data:
           "<registrationreport
             format='summary'
-            regid='#{reg.id}'
+            regid='#{reg.scorm_registration_id}'
             instanceid='0'>
               <complete>complete</complete>
               <success>failed</success>
@@ -36,7 +36,7 @@ RSpec.describe ScormCoursesController, type: :controller do
         data:
           "<registrationreport
             format='summary'
-            regid='#{reg.id}'
+            regid='#{reg.scorm_registration_id}'
             instanceid='0'>
               <complete>complete</complete>
               <success>failed</success>
@@ -99,12 +99,12 @@ RSpec.describe ScormCoursesController, type: :controller do
   #                          "launch_url" => scorm_courses_url,
   #                          "roles" => "Learner",
   #                          "launch_presentation_return_url" => scu)
-  #     api_interface = Rails.application.secrets.scorm_api_url
-  #     scorm_tenant_url = Rails.application.secrets.scorm_domain + api_interface + "default"
+  #     api_interface = Rails.application.secrets.scorm_api_path
+  #     scorm_tenant_url = Rails.application.secrets.scorm_url + api_interface + "default"
 
   #     registration_url = scorm_tenant_url + "/registrations"
   #     stub_request(:any, registration_url).to_return(body: "{ \"response\": \"nil\" }")
-  #     launch_url = scorm_tenant_url + "/registrations/#{registration.id + 1}/launchLink"
+  #     launch_url = scorm_tenant_url + "/registrations/#{registration.scorm_registration_id + 1}/launchLink"
   #     stub_request(:any, launch_url).to_return(body: "{ \"launchLink\": \"https://www.example.com/launchLink\" }")
   #   end
   #   it "should handle the successful launch of a new SCORM course" do

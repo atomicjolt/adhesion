@@ -27,6 +27,8 @@ describe('course', () => {
       onClick: () => {},
       canvasUrl: 'www.canvas.com',
       courseId: '7',
+      hideModal: () => {},
+      showModal: () => {},
     };
     remove = false;
     result = TestUtils.renderIntoDocument(<Course {...props} />);

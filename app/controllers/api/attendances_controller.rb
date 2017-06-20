@@ -22,36 +22,28 @@ class Api::AttendancesController < ApplicationController
     filtered_params[:students] || []
   end
 
-  def index
-    attendances = Attendance.all
-    render json: attendances
-  end
-
   def create
     attendances = []
     Attendance.transaction do
       students.each do |student|
         att_params = attendance_params(student, params)
 
-        attendance = Attendance.find_by(
+        attendance = Attendance.where(
           lms_student_id: att_params[:lms_student_id],
           lms_course_id: att_params[:lms_course_id],
           date: att_params[:date],
-        )
-        if attendance.present? # status = present, late, absent
-          if att_params[:status] == ""
-            attendance.destroy
-            attendance = nil
-          else
-            attendance.update(status: att_params[:status])
-          end
-        elsif att_params[:status] != ""
-          attendance = Attendance.create(att_params)
+        ).first_or_create
+
+        # status = PRESENT, LATE, ABSENT
+        if att_params[:status].blank?
+          attendance.destroy
+        else
+          attendance.update(att_params)
         end
-        attendances << attendance
+        attendances << attendance unless attendance.destroyed?
       end
     end
-    render json: attendances.compact
+    render json: attendances
   end
 
   def search

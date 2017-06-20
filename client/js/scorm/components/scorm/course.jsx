@@ -4,6 +4,7 @@ import Settings           from './settings';
 import ImportTypeSelector from './import_type_selector';
 import AssignmentButton   from './assignment_button';
 import HoverButton        from '../common/hover_button';
+import appHistory         from '../../../history';
 import Defines            from '../../../defines';
 import Loader             from '../../../common_components/loader';
 
@@ -32,6 +33,8 @@ export default class Course extends React.Component {
     updateImportType: React.PropTypes.func.isRequired,
     canvasUrl: React.PropTypes.string.isRequired,
     courseId: React.PropTypes.string.isRequired,
+    hideModal: React.PropTypes.func.isRequired,
+    showModal: React.PropTypes.func.isRequired,
   };
 
   static getStyles() {
@@ -89,6 +92,10 @@ export default class Course extends React.Component {
     this.props.updateImportType(this.props.course.index, e.target.value);
   }
 
+  handleAnalytics() {
+    appHistory.push(`analytics/${this.props.course.id}`);
+  }
+
   handleGoClick() {
     let pointsPossible = 0;
     if (this.props.course.is_graded === Course.ImportTypes.GRADED) {
@@ -141,6 +148,7 @@ export default class Course extends React.Component {
     );
 
     let assignmentButton;
+    let analyticsButton = false;
     let dropDown;
     let settings;
 
@@ -148,9 +156,11 @@ export default class Course extends React.Component {
       dropDown = <div style={styles.loaderContainer}><Loader /></div>;
     } else if (isAssignment && isGraded) {
       assignmentButton = <AssignmentButton {...assignmentButtonProps} />;
+      analyticsButton = true;
       dropDown = <div className="c-list-item__type" style={styles.dropDown}>Graded Assignment</div>;
     } else if (isAssignment && !isGraded) {
       assignmentButton = <AssignmentButton {...assignmentButtonProps} />;
+      analyticsButton = true;
       dropDown = <div className="c-list-item__type" style={styles.dropDown}>Ungraded Assignment</div>;
     } else {
       const isUnselected = !_.isUndefined(this.props.course.is_graded)
@@ -168,10 +178,14 @@ export default class Course extends React.Component {
       settings = (
         <Settings
           assignmentButton={assignmentButton}
+          analyticsButton={analyticsButton}
           handlePreview={() => this.handlePreview()}
+          handleAnalytics={() => this.handleAnalytics()}
           handleUpdate={() => this.handleUpdate()}
           handleRemove={() => this.handleRemove()}
           updateInput={updateInput}
+          showModal={this.props.showModal}
+          hideModal={this.props.hideModal}
         />
       );
     }

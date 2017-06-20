@@ -13,6 +13,7 @@ describe('export button', () => {
     props = {
       onExport: (options) => { output = options; },
       downloadOptions: { america: 'the beautiful' },
+      ariaPosinset: 0,
     };
     result = TestUtils.renderIntoDocument(<Stub><ExportButton {...props} /></Stub>);
   });

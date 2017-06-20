@@ -16,11 +16,19 @@ class ApplicationInstance < ActiveRecord::Base
   store_accessor :config, :scorm_type
 
   enum lti_type: [:basic, :course_navigation, :account_navigation]
+  enum visibility: [:everyone, :admins, :members]
 
   attr_encrypted :canvas_token, key: Rails.application.secrets.encryption_key, mode: :per_attribute_iv_and_salt
 
   after_commit :create_schema, on: :create
   before_create :create_config
+
+  def self.loop_each
+    find_each do |instance|
+      Apartment::Tenant.switch(instance.tenant)
+      yield instance if block_given?
+    end
+  end
 
   def lti_config_xml
     Lti::Utils.lti_config_xml(self)

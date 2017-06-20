@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { DONE } from '../../constants/wrapper';
 import { listUsersInCourseUsers } from '../../libs/canvas/constants/courses';
+import { listCourseSections } from '../../libs/canvas/constants/sections';
 
 export const ATTENDANCE_STATES = {
   PRESENT: 'PRESENT',
@@ -28,8 +29,13 @@ export default (state = initialState(), action) => {
       return { ...state, ...newState };
     }
 
+    case listCourseSections.type + DONE: {
+      const newState = _.cloneDeep(state);
+      newState.sections = action.payload;
+      return { ...newState };
+    }
+
     default:
       return state;
   }
 };
-

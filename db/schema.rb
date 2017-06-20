@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170309132554) do
+ActiveRecord::Schema.define(version: 20170406194449) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 20170309132554) do
     t.integer  "site_id"
     t.string   "tenant"
     t.jsonb    "config",                                   default: {}
+    t.integer  "visibility",                               default: 0
   end
 
   add_index "application_instances", ["application_id"], name: "index_application_instances_on_application_id", using: :btree
@@ -145,7 +146,7 @@ ActiveRecord::Schema.define(version: 20170309132554) do
   end
 
   create_table "registrations", force: :cascade do |t|
-    t.integer  "lms_course_id"
+    t.string   "lms_course_id"
     t.integer  "lms_user_id"
     t.datetime "created_at",                                             null: false
     t.datetime "updated_at",                                             null: false
@@ -156,11 +157,14 @@ ActiveRecord::Schema.define(version: 20170309132554) do
     t.integer  "application_instance_id"
     t.text     "encrypted_scorm_cloud_passback_secret_iv"
     t.text     "encrypted_scorm_cloud_passback_secret"
+    t.string   "scorm_registration_id"
   end
 
   add_index "registrations", ["application_instance_id"], name: "index_registrations_on_application_instance_id", using: :btree
+  add_index "registrations", ["lms_course_id", "lms_user_id"], name: "index_registrations_on_lms_course_id_and_lms_user_id", using: :btree
   add_index "registrations", ["lms_course_id"], name: "index_registrations_on_lms_course_id", using: :btree
   add_index "registrations", ["lms_user_id"], name: "index_registrations_on_lms_user_id", using: :btree
+  add_index "registrations", ["scorm_registration_id"], name: "index_registrations_on_scorm_registration_id", using: :btree
 
   create_table "roles", force: :cascade do |t|
     t.string   "name"
@@ -168,18 +172,58 @@ ActiveRecord::Schema.define(version: 20170309132554) do
     t.datetime "updated_at"
   end
 
+  create_table "scorm_activities", force: :cascade do |t|
+    t.string  "title"
+    t.integer "registration_id"
+    t.boolean "satisfied"
+    t.boolean "completed"
+    t.integer "attempts"
+    t.boolean "suspended"
+    t.string  "completion_status"
+    t.float   "score_scaled"
+    t.float   "score_raw"
+    t.float   "score_min"
+    t.float   "score_max"
+    t.string  "success_status"
+    t.integer "lms_user_id"
+    t.string  "lms_user_name"
+    t.integer "parent_activity_id"
+    t.integer "total_time"
+    t.integer "time_tracked"
+    t.string  "activity_id"
+    t.boolean "latest_attempt"
+    t.integer "depth"
+  end
+
+  add_index "scorm_activities", ["registration_id", "activity_id", "title", "attempts"], name: "index_scorm_activities_on_reg_id_activity_id_title_attempt", using: :btree
+  add_index "scorm_activities", ["registration_id", "activity_id", "title", "latest_attempt"], name: "index_scorm_activities_on_reg_id_act_id_title_latest_attempt", using: :btree
+  add_index "scorm_activities", ["registration_id", "latest_attempt"], name: "index_scorm_activities_on_registration_id_and_latest_attempt", using: :btree
+  add_index "scorm_activities", ["registration_id"], name: "index_scorm_activities_on_registration_id", using: :btree
+  add_index "scorm_activities", ["title"], name: "index_scorm_activities_on_title", using: :btree
+
   create_table "scorm_courses", force: :cascade do |t|
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.integer  "lms_assignment_id"
     t.float    "points_possible"
-    t.string   "scorm_cloud_id"
+    t.string   "scorm_service_id"
     t.string   "title"
     t.integer  "file_id"
   end
 
   add_index "scorm_courses", ["lms_assignment_id"], name: "index_scorm_courses_on_lms_assignment_id", using: :btree
-  add_index "scorm_courses", ["scorm_cloud_id"], name: "index_scorm_courses_on_scorm_cloud_id", unique: true, using: :btree
+  add_index "scorm_courses", ["scorm_service_id"], name: "index_scorm_courses_on_scorm_service_id", unique: true, using: :btree
+
+  create_table "scorm_objectives", force: :cascade do |t|
+    t.integer "scorm_activity_id"
+    t.boolean "primary"
+    t.boolean "measure_status"
+    t.float   "normalized_measure"
+    t.boolean "progress_status"
+    t.boolean "satisfied_status"
+  end
+
+  add_index "scorm_objectives", ["scorm_activity_id"], name: "index_scorm_objectives_on_scorm_activity_id", using: :btree
 
   create_table "sections", force: :cascade do |t|
     t.integer  "course_id"

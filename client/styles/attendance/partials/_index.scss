@@ -23,6 +23,28 @@
   }
 }
 
+.c-btn--sections{
+    padding: 0rem;
+    background: $lightest-gray;
+    &:hover{
+      background: $gray;
+      color: $white;
+    }
+    .Dropdown-root{
+      background: $lightest-gray;
+      &:hover{
+        background: $gray;
+        color: $white;
+      }
+    }
+    .Dropdown-placeholder{
+      padding: 1.2rem;
+    }
+    .Dropdown-option{
+      padding: 1rem;
+    }
+}
+
 .c-btn--mark-all{
     background: $lightest-gray;
     margin-right: 1rem;
@@ -39,6 +61,16 @@
       background: $gray;
       color: $white;
     }
+}
+
+.c-btn--cancel{
+  position: absolute;
+  background: $lightest-gray;
+  padding: .8rem;
+  &:hover{
+    background: $gray;
+    color: $white;
+  }
 }
 
 .c-date-picker{
@@ -355,7 +387,6 @@
 
   .c-btn--date {
     width: 100%;
-    padding-left: 1.5rem;
     text-align: left;
   }
 }
@@ -365,6 +396,11 @@
     @include semi-bold;
     font-size: 14px;
     border-color: transparent;
-    line-height: 22px;
+    line-height: 30px;
+    width: 17rem;
+    padding-left: 1.2rem;
+    &:hover{
+      cursor: pointer;
+    }
   }
 }

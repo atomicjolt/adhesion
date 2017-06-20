@@ -12,6 +12,7 @@ export default function commonSVG(props) {
     previous: 'M14 20l10 10 10-10z',
     next: 'M14 20l10 10 10-10z',
     date: 'M34 24h-10v10h10v-10zm-2-22v4h-16v-4h-4v4h-2c-2.21 0-3.98 1.79-3.98 4l-.02 28c0 2.21 1.79 4 4 4h28c2.21 0 4-1.79 4-4v-28c0-2.21-1.79-4-4-4h-2v-4h-4zm6 36h-28v-22h28v22z',
+    stats: 'M38 6h-28c-2.21 0-4 1.79-4 4v28c0 2.21 1.79 4 4 4h28c2.21 0 4-1.79 4-4v-28c0-2.21-1.79-4-4-4zm-20 28h-4v-14h4v14zm8 0h-4v-20h4v20zm8 0h-4v-8h4v8z',
   };
   return (
     <svg className={props.className} xmlns="http://www.w3.org/2000/svg" width="24" height="48" viewBox="0 0 48 48">

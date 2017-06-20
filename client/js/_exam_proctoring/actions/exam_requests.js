@@ -10,6 +10,7 @@ const requests = [
   'START_EXAM',
   'DOWNLOAD_FILE',
   'FINISH_EXAM',
+  'CREATE_PROCTOR_CONVERSATION'
 ];
 
 export const Constants = wrapper([], requests);
@@ -76,4 +77,11 @@ export const finishExam = id => ({
   body: {
     status: 'finished'
   }
+});
+
+export const createProctorConversation = body => ({
+  method: Network.POST,
+  type: Constants.CREATE_PROCTOR_CONVERSATION,
+  url: '/api/proctor_conversations',
+  body
 });

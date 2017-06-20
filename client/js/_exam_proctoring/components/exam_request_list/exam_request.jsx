@@ -198,7 +198,7 @@ export default class ExamRequest extends React.Component {
   }
 
   scheduleExam(selectedDate, selectedTime, message) {
-    this.props.scheduleExam(this.props.examRequest.id, selectedDate, selectedTime.value);
+    this.props.scheduleExam(this.props.examRequest.id, selectedDate, `${selectedTime.value} ${selectedTime.timeZone}`);
     this.sendMessage(message, `Your exam (${this.props.examRequest.exam_name}) has been scheduled`);
     this.props.hideModal();
   }

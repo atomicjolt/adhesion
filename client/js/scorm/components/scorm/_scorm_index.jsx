@@ -7,6 +7,7 @@ import ConnectedUploader                                       from './uploader'
 import { createAssignment, deleteAssignment, listAssignments } from '../../../libs/canvas/constants/assignments';
 import canvasRequest                                           from '../../../libs/canvas/action';
 import FileUpload                                              from '../common/file_upload';
+import * as ModalActions from '../../../actions/modal';
 
 export class ScormIndex extends React.Component {
 
@@ -28,6 +29,13 @@ export class ScormIndex extends React.Component {
     scormFile: React.PropTypes.shape({}),
     canvasUrl: React.PropTypes.string.isRequired,
     loadError: React.PropTypes.bool,
+    hideModal: React.PropTypes.func.isRequired,
+    showModal: React.PropTypes.func.isRequired,
+    location: React.PropTypes.shape({
+      query: React.PropTypes.shape({
+        noSync: React.PropTypes.string,
+      }),
+    }),
   };
 
   constructor() {
@@ -37,7 +45,7 @@ export class ScormIndex extends React.Component {
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.props.loadPackages(this.props.lmsCourseId);
     this.props.canvasRequest(
       listAssignments,
@@ -56,15 +64,17 @@ export class ScormIndex extends React.Component {
   }
 
   synchronize() {
-    _.forEach(this.props.scormList, (scorm) => {
-      const canvasAssignment = _.findKey(
-        this.props.canvasAssignments,
-        assignment => assignment.id === scorm.lms_assignment_id,
-      );
-      if (!canvasAssignment && scorm.is_graded != null) {
-        this.props.removePackage(scorm.id);
-      }
-    });
+    if (this.props.location && !this.props.location.query.noSync) {
+      _.forEach(this.props.scormList, (scorm) => {
+        const canvasAssignment = _.findKey(
+          this.props.canvasAssignments,
+          assignment => assignment.id === scorm.lms_assignment_id,
+        );
+        if (!canvasAssignment && scorm.is_graded != null) {
+          this.props.removePackage(scorm.id);
+        }
+      });
+    }
     this.setState({ synced: true });
   }
 
@@ -143,6 +153,8 @@ export class ScormIndex extends React.Component {
           replacePackage={this.props.replacePackage}
           importPackage={(...args) => this.createAssignment(...args)}
           updateImportType={this.props.updateImportType}
+          showModal={this.props.showModal}
+          hideModal={this.props.hideModal}
         />
 
       </div>
@@ -167,4 +179,8 @@ const select = (state) => {
   };
 };
 
-export default connect(select, { ...ScormActions, canvasRequest })(ScormIndex);
+export default connect(select, {
+  ...ScormActions,
+  ...ModalActions,
+  canvasRequest,
+})(ScormIndex);

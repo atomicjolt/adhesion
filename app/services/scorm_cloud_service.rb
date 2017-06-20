@@ -13,7 +13,7 @@ class ScormCloudService
   ### Scorm Cloud api wrapper methods
   def launch_course(registration, redirect_url)
     scorm_cloud_request do
-      @scorm_cloud.registration.launch(registration.id, redirect_url)
+      @scorm_cloud.registration.launch(registration.scorm_registration_id, redirect_url)
     end
   end
 
@@ -21,7 +21,7 @@ class ScormCloudService
     scorm_cloud_request do
       @scorm_cloud.registration.create_registration(
         course_id,
-        registration.id,
+        registration.scorm_registration_id,
         user[:first_name],
         user[:last_name],
         user[:lms_user_id],
@@ -29,6 +29,7 @@ class ScormCloudService
         authtype: "form",
         urlpass: registration.scorm_cloud_passback_secret,
         urlname: lti_key,
+        resultsformat: "full",
       )
     end
   end
@@ -110,7 +111,6 @@ class ScormCloudService
         status: 200,
         response: yield,
       }
-
     rescue ScormCloud::InvalidPackageError => e
       response = { error: e.to_s, status: 400 }
     rescue ScormCloud::RequestError => e
@@ -127,11 +127,11 @@ class ScormCloudService
   end
 
   def get_title(courses, course)
-    courses.detect { |c| c.id == course.scorm_cloud_id }.title
+    courses.detect { |c| c.id == course.scorm_service_id }.title
   end
 
   def get_scorm_course(course)
-    ScormCourse.find_by(scorm_cloud_id: course.id)
+    ScormCourse.find_by(scorm_service_id: course.id)
   end
 
   def get_course_title(course)

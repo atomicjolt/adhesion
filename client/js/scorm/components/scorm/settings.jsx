@@ -2,6 +2,7 @@ import React             from 'react';
 import HoverButton       from '../common/hover_button';
 import Defines           from '../../../defines';
 import CommonSvg         from '../../../common_components/common_svg';
+import ConfirmDelete from '../../../common_components/confirm_delete';
 
 
 export default function settings(props) {
@@ -34,6 +35,38 @@ export default function settings(props) {
     backgroundColor: Defines.lightBackground,
   };
 
+  function analytics(useBtn, handleFunc) {
+    if (useBtn) {
+      return (
+        <div style={divStyle}>
+          <HoverButton
+            style={buttonStyle}
+            hoveredStyle={hoveredStyle}
+            onClick={handleFunc}
+          >
+            <CommonSvg className="c-icon" type="stats" />
+            Go to Analytics
+          </HoverButton>
+        </div>
+      );
+    }
+    return (<div />);
+  }
+
+  function handleRemove() {
+    props.hideModal();
+    props.handleRemove();
+  }
+
+  function toggleRemove() {
+    props.showModal(
+      <ConfirmDelete
+        handleRemove={handleRemove}
+        closeModal={props.hideModal}
+      />
+    );
+  }
+
   return (
     <div style={{ ...settingsStyle }}>
       <div style={divStyle}>
@@ -49,6 +82,7 @@ export default function settings(props) {
           Preview Package
         </HoverButton>
       </div>
+      {analytics(props.analyticsButton, props.handleAnalytics)}
       <div style={divStyle}>
         <HoverButton
           style={buttonStyle}
@@ -64,7 +98,7 @@ export default function settings(props) {
         <HoverButton
           style={buttonStyle}
           hoveredStyle={hoveredStyle}
-          onClick={props.handleRemove}
+          onClick={toggleRemove}
         >
           <CommonSvg className="c-icon" type="delete" />
           Delete Package
@@ -76,8 +110,12 @@ export default function settings(props) {
 
 settings.propTypes = {
   assignmentButton: React.PropTypes.shape({}),
+  analyticsButton: React.PropTypes.bool.isRequired,
   handlePreview: React.PropTypes.func.isRequired,
+  handleAnalytics: React.PropTypes.func.isRequired,
   handleUpdate: React.PropTypes.func.isRequired,
   handleRemove: React.PropTypes.func.isRequired,
   updateInput: React.PropTypes.shape({}),
+  hideModal: React.PropTypes.func.isRequired,
+  showModal: React.PropTypes.func.isRequired,
 };

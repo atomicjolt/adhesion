@@ -34,13 +34,14 @@ describe "Scorm Cloud Service sync score", type: :controller do
   before(:example) do
     @subject = ScormCloudService.new
     @application_instance = FactoryGirl.create(:application_instance)
+    @application_instance.update_attributes(config: { "scorm_type" => "cloud" })
     @reg = Registration.create(
       lms_user_id: 2,
       application_instance: @application_instance,
       lis_outcome_service_url: "http://cloud.scorm.com/this?isaspec",
     )
     @registration = { "format" => "summary",
-                      "regid" => @reg.id.to_s,
+                      "regid" => @reg.scorm_registration_id,
                       "instanceid" => "0",
                       "complete" => "complete",
                       "success" => "failed",
@@ -56,7 +57,7 @@ describe "Scorm Cloud Service sync score", type: :controller do
     expect(@reg.score).to eq(@registration["score"].to_f)
     @registration["score"] = "50"
     @subject.sync_registration_score(@registration)
-    reg = Registration.find(@reg.id)
+    reg = Registration.find_by(scorm_registration_id: @reg.scorm_registration_id)
     expect(reg.score).to eq(@registration["score"].to_f / 100)
   end
 
@@ -149,12 +150,13 @@ describe "sync_courses" do
     subject = ScormCloudService.new
     result = subject.sync_courses(
       [
-        MockCourse.new(graded_course.scorm_cloud_id),
+        MockCourse.new(graded_course.scorm_service_id),
         MockCourse.new("3"),
       ],
     )
 
-    expect(ScormCourse.where(scorm_cloud_id: [graded_course.id, 3]).count).to eq 2
+    courses = ScormCourse.where(scorm_service_id: [graded_course.id, 3])
+    expect(courses.count).to eq 2
 
     expect(result[0][:lms_assignment_id]).to eq(1)
     expect(result[0][:is_graded]).to eq("GRADED")
