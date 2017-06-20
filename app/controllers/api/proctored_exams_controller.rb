@@ -28,7 +28,6 @@ class Api::ProctoredExamsController < ApplicationController
   private
 
   def validate_proctor_code
-
     find_params = {
       student_id: params[:student_id],
     }
