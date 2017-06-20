@@ -1,10 +1,16 @@
 class Api::ProctoredExamsController < ApplicationController
-  before_action :validate_proctor_code
+  before_action :validate_proctor_code, only: [:start_proctored_exam]
+  skip_before_action :validate_token
+  skip_before_action :protect_from_forgery
   include Concerns::CanvasSupport
 
   respond_to :json
 
   def start_proctored_exam
+    if params[:update].present?
+      finish_proctored_exam
+      return
+    end
     quiz_params = {
       id: @exam_request.exam_id,
       course_id: @exam_request.course_id,
@@ -14,6 +20,11 @@ class Api::ProctoredExamsController < ApplicationController
     render json: { quiz: @exam_request, proctor_access_code: quiz.parsed_response["access_code"] }
   end
 
+  def finish_proctored_exam
+    @exam_request.update(status: "finished")
+    render json: { status: "ok" }
+  end
+
   private
 
   def validate_proctor_code
@@ -21,7 +32,11 @@ class Api::ProctoredExamsController < ApplicationController
       student_id: params[:student_id],
     }
     find_params["status"] = "started" unless params[:unstarted]
+
     @exam_request = ExamRequest.find_by(find_params)
+    if params[:update]
+      return
+    end
 
     if !@exam_request
       render json: { error: "You do not have an exam that is ready to start." }
