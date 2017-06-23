@@ -51,6 +51,7 @@ export default class DateFilter extends React.Component {
     return (
       <div style={{ ...styles.container, ...this.props.style }}>
         <HoverButton
+          className="qa-date-picker-left"
           style={{ ...styles.button, ...styles.leftButton }}
           onClick={() => this.arrowClick(-1)}
         >
@@ -63,6 +64,7 @@ export default class DateFilter extends React.Component {
           format="MMM Do"
         />
         <HoverButton
+          className="qa-date-picker-right"
           style={{ ...styles.button, ...styles.rightButton }}
           onClick={() => this.arrowClick(1)}
         >

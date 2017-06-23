@@ -127,7 +127,7 @@ export class BaseExamList extends React.Component {
           If you need to change where you take an exam, create a new request.
         </div>
         <hr style={styles.hr} />
-        <table style={styles.table}>
+        <table className="qa-exam-list-table" style={styles.table}>
           <thead style={styles.thead}>
             {BaseExamList.tableHeader(styles)}
           </thead>

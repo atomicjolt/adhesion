@@ -73,7 +73,7 @@ export default class MessageStudent extends React.Component {
       <div style={styles.popupStyle}>
         Message to the Student
         <HoverButton
-          className="spec_clear_button"
+          className="spec_clear_button qa-clear-btn"
           style={styles.exitButtonStyle}
           onClick={() => this.props.closeMessageModal()}
         >
@@ -82,6 +82,7 @@ export default class MessageStudent extends React.Component {
         <div style={{ clear: 'both' }} />
         <div style={styles.flex}>
           <input
+            className="qa-subject-box"
             style={styles.subjectBox}
             type="textarea"
             placeholder="Subject"
@@ -91,6 +92,7 @@ export default class MessageStudent extends React.Component {
         </div>
         <div style={styles.flex}>
           <textarea
+            className="qa-message-box"
             rows="25"
             style={styles.textBox}
             name="message"
@@ -98,6 +100,7 @@ export default class MessageStudent extends React.Component {
           />
         </div>
         <HoverButton
+          className="qa-send-btn"
           style={styles.buttonStyle}
           onClick={() => this.props.sendMessage(
             this.textArea.value,
