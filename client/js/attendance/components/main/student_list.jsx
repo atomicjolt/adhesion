@@ -207,7 +207,7 @@ export class StudentList extends React.Component {
             Unmark All
           </button>
           <button
-            className="c-btn c-btn--unmark-all"
+            className="c-btn c-btn--unmark-all qa-export-btn"
             onClick={() => this.toggleExportModal()}
           >
             Export
