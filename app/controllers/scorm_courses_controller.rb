@@ -54,7 +54,6 @@ class ScormCoursesController < ApplicationController
       response = JSON.parse(params[:data])
       @reg_id = response["id"]
       course_id = response["course"]["id"].split("_").second
-      @scorm_connect = scorm_connect_service(course_id)
       @data = response
     else
       response = Hash.from_xml(params[:data])

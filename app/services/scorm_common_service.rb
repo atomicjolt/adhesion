@@ -91,10 +91,12 @@ module ScormCommonService
     activity = reg_result["activity"] || reg_result["activityDetails"]
     lms_user_id = reg_result["learner"]["id"] if reg_result["learner"]
     lms_user_name = construct_name(reg_result)
-    reg.store_activities(activity.deep_symbolize_keys, nil, 0, lms_user_id, lms_user_name) if activity
+    ScormActivity.transaction do
+      reg.store_activities(activity.deep_symbolize_keys, nil, 0, lms_user_id, lms_user_name) if activity
+    end
     reg.score = package_score(reg_result["score"])
     if package_complete?(reg_result) && reg.changed?
-      response = post_results(reg, reg_result)
+      response = post_results(reg)
       print_response(reg, response)
     end
   end
@@ -179,8 +181,8 @@ module ScormCommonService
     )
   end
 
-  def post_results(reg, reg_results)
-    tp_params = setup_provider_params(reg_results)
+  def post_results(reg)
+    tp_params = setup_provider_params(reg)
     provider = IMS::LTI::ToolProvider.new(
       reg.application_instance.lti_key,
       reg.application_instance.lti_secret,
@@ -191,9 +193,9 @@ module ScormCommonService
 
   def setup_provider_params(reg)
     {
-      "lis_outcome_service_url" => reg[:lis_outcome_service_url],
-      "lis_result_sourcedid" => reg[:lis_result_sourcedid],
-      "user_id" => reg[:lms_user_id],
+      "lis_outcome_service_url" => reg.lis_outcome_service_url,
+      "lis_result_sourcedid" => reg.lis_result_sourcedid,
+      "user_id" => reg.lms_user_id,
     }
   end
 
@@ -210,10 +212,12 @@ module ScormCommonService
   end
 
   def package_complete?(reg_result)
-    reg_result["complete"] == "complete"
+    status = reg_result["complete"] || reg_result["registrationCompletion"]
+    status == "complete" || status == "COMPLETED"
   end
 
   def package_score(score)
+    score = score["scaled"] if score.is_a? Hash
     score.to_i / 100.0
   end
 

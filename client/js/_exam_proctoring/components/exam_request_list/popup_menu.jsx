@@ -41,6 +41,7 @@ export default function popupMenu(props) {
   if (_.includes(['scheduled', 'paused', 'requested', 'entering answers'], props.status)) {
     enterAnswerButton = (
       <HoverButton
+        className="qa-enter-answers-btn"
         style={buttonStyle}
         hoveredStyle={hoveredStyle}
         onClick={props.openExamModal}
@@ -53,6 +54,7 @@ export default function popupMenu(props) {
     actionButton = (
       <div style={divStyle}>
         <HoverButton
+          className="qa-menu-start-btn"
           style={{ ...buttonStyle, ...disabled }}
           hoveredStyle={{ ...hoveredStyle, ...disabled }}
           onClick={props.studentHasExamStarted ? () => {} : props.startExam}
@@ -65,6 +67,7 @@ export default function popupMenu(props) {
     actionButton = (
       <div style={divStyle}>
         <HoverButton
+          className="qa-menu-finish-btn"
           style={buttonStyle}
           hoveredStyle={hoveredStyle}
           onClick={props.finishExam}
@@ -79,6 +82,7 @@ export default function popupMenu(props) {
       {actionButton}
       <div style={divStyle}>
         <HoverButton
+          className="qa-menu-print-btn"
           style={buttonStyle}
           hoveredStyle={hoveredStyle}
           onClick={() => hashHistory.push(`/print?courseId=${props.courseId}&quizId=${props.examId}`)}
@@ -91,6 +95,7 @@ export default function popupMenu(props) {
       </div>
       <div style={divStyle}>
         <HoverButton
+          className="qa-menu-message-btn"
           style={buttonStyle}
           hoveredStyle={hoveredStyle}
           onClick={() => props.openMessageModal()}

@@ -183,7 +183,7 @@ export class BaseScheduleExam extends React.Component {
         <h2 style={styles.header}>
           Request Exam
           <HoverButton
-            className="spec_back"
+            className="spec_back qa-back-btn"
             style={styles.floatRight}
             onClick={() => this.goBack()}
           >
@@ -215,6 +215,7 @@ export class BaseScheduleExam extends React.Component {
         />
         <div style={styles.buttonContainer}>
           <HoverButton
+            className="qa-request-exam-btn"
             style={styles.requestButton}
             onClick={() => this.requestExam()}
           >

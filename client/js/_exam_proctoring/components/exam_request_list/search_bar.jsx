@@ -38,6 +38,7 @@ export default class SearchBar extends React.Component {
     return (
       <div style={{ ...styles.container, ...this.props.style }}>
         <input
+          className="qa-search-bar"
           style={styles.input}
           type="text"
           onChange={e => this.props.searchChange(e)}

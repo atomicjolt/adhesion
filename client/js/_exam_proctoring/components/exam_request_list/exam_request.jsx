@@ -116,6 +116,7 @@ export default class ExamRequest extends React.Component {
       return (
         <div>
           <HoverButton
+            className="qa-schedule-btn"
             style={styles.scheduleButton}
             hoveredStyle={styles.scheduleHoverStyle}
             onClick={() => this.openScheduleModal()}
@@ -128,7 +129,7 @@ export default class ExamRequest extends React.Component {
     }
     if (_.includes(['scheduled', 'started', 'finished', 'entering answers'], examRequest.status) && examRequest.scheduled_date) {
       return (
-        <div style={styles.scheduleInfo}>
+        <div className="qa-schedule-info" style={styles.scheduleInfo}>
           <div>{moment(examRequest.scheduled_date).format('D MMM YYYY')}</div>
           <div>{examRequest.scheduled_time}</div>
         </div>
@@ -148,6 +149,7 @@ export default class ExamRequest extends React.Component {
     if (this.props.examRequest.status === 'scheduled') {
       return (
         <HoverButton
+          className="qa-start-btn"
           style={{ ...styles.startFinishButton, ...disabled }}
           hoveredStyle={{ ...styles.startFinishedHovered, ...disabled }}
           onClick={studentHasExamStarted ? () => {} : () => this.startExam()}
@@ -158,6 +160,7 @@ export default class ExamRequest extends React.Component {
     } else if (_.includes(['started', 'entering answers'], this.props.examRequest.status)) {
       return (
         <HoverButton
+          className="qa-finish-button"
           style={styles.startFinishButton}
           hoveredStyle={styles.startFinishedHovered}
           onClick={() => this.finishExam()}
@@ -261,7 +264,7 @@ export default class ExamRequest extends React.Component {
     ));
 
     return (
-      <tr>
+      <tr className="qa-exam-request-row">
         <td style={styles.td}>
           <div style={styles.bigAndBold}>{examRequest.student_name}</div>
           <div>{examRequest.student_id}</div>

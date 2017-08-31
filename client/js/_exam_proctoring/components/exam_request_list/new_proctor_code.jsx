@@ -51,7 +51,7 @@ export default class NewProctorCode extends React.Component {
       <div style={styles.popupStyle}>
         New proctor code
         <HoverButton
-          className="spec_clear_button"
+          className="spec_clear_button qa-clear-button"
           style={styles.exitButtonStyle}
           onClick={this.props.hideModal}
         >

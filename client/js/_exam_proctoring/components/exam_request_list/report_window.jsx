@@ -118,10 +118,12 @@ export default class ReportWindow extends React.Component {
         </div>
         <div style={styles.buttonsSection}>
           <button
+            className="qa-cancel-report-btn"
             style={styles.cancelButton}
             onClick={this.props.onCancel}
           >CANCEL</button>
           <button
+            className="qa-download-report-btn"
             style={styles.downloadButton}
             onClick={() => this.props.onDownload(
               this.state.startDate.toDate(),
