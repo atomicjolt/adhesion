@@ -3,7 +3,7 @@ class ScormCoursesController < ApplicationController
   include ScormCourseHelper
 
   protect_from_forgery with: :null_session
-  skip_before_action :verify_authenticity_token, only: [:postback]
+  skip_before_action :verify_authenticity_token
 
   before_action :setup, except: [:postback]
   before_action :setup_postback, only: [:postback]
