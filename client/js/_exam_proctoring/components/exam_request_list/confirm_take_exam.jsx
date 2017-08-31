@@ -41,12 +41,14 @@ export default function confirmTakeExam(props) {
         Only select Begin Quiz if you are prepared to enter answers for this student.
       </div>
       <button
+        className="qa-cancel-take-exam"
         style={styles.button}
         onClick={() => props.closeModal()}
       >
         Cancel
       </button>
       <button
+        className="qa-begin-take-exam"
         style={{ ...styles.button, ...styles.confirm }}
         onClick={() => props.takeExam()}
       >

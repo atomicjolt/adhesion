@@ -168,6 +168,7 @@ export default class ScheduleForm extends React.Component {
           <div style={styles.dropdownHeader}>RESPONSE TO STUDENT</div>
           <div style={styles.textContainer}>
             <textarea
+              className="qa-message-box"
               defaultValue={this.state.autoMessage}
               onChange={e => this.onMessageChange(e)}
               style={styles.textarea}
@@ -178,6 +179,7 @@ export default class ScheduleForm extends React.Component {
         </div>
         <div style={styles.buttonContainer}>
           <HoverButton
+            className="qa-schedule-exam-btn"
             style={styles.buttonStyle}
             onClick={() => this.props.scheduleExam(
               this.state.date,
@@ -188,6 +190,7 @@ export default class ScheduleForm extends React.Component {
             SCHEDULE EXAM
           </HoverButton>
           <HoverButton
+            className="qa-cancel-schedule-exam"
             style={{ ...styles.buttonStyle, ...styles.cancelButton }}
             onClick={this.props.closeModal}
           >

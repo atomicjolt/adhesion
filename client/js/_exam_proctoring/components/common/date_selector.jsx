@@ -45,7 +45,7 @@ export default class DateSelector extends React.Component {
             selected={moment(this.props.date, this.props.format ? this.props.format : 'ddd MMM Do YYYY')}
             onChange={this.props.onChange}
           />
-          <button style={styles.icon} onMouseDown={e => this.toggleCalendar(e)}>
+          <button className="qa-calendar-btn" style={styles.icon} onMouseDown={e => this.toggleCalendar(e)}>
             <i className="material-icons">today</i>
           </button>
         </div>

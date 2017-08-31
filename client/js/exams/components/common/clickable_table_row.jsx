@@ -22,6 +22,7 @@ export default class ClickableTableRow extends React.Component {
 
     return (
       <tr // eslint-disable-line jsx-a11y/no-static-element-interactions
+        className="qa-clickable-tr"
         style={style}
         tabIndex="0"
         role="button"

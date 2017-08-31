@@ -12,7 +12,7 @@ export default function ReportButton(props) {
 
   return (
     <button
-      className="c-btn c-btn--export"
+      className="c-btn c-btn--export qa-export-btn"
       onClick={() => props.onExport(props.downloadOptions)}
       style={buttonStyle}
     >
