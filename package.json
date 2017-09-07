@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Javascript for the Adhesion.",
   "engines": {
-    "node": "5.10.1"
+    "node": "6.11.3"
   },
   "scripts": {
     "postinstall": "cd ./client && yarn",
