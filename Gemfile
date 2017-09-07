@@ -59,6 +59,7 @@ group :development do
   gem "sass-rails"
   gem "spring"
   gem "uglifier"
+  gem "rails-erd"
 end
 
 group :development, :test do
