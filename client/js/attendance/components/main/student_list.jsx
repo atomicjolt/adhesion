@@ -198,7 +198,7 @@ export class StudentList extends React.Component {
           <button
             className="c-btn c-btn--mark-all"
             onClick={() => this.markAll(AttendanceStates.PRESENT)}
-            ref={(ref) => { this.markAll = ref }}
+            ref={(ref) => { this.markAll = ref; }}
           >
             Mark All Present
           </button>
