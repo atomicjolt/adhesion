@@ -63,9 +63,11 @@ group :development do
   gem "rb-inotify", require: false
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem "listen"
+  gem "rails-erd"
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem "spring"
   gem "spring-watcher-listen"
+  gem "uglifier"
   gem "web-console"
 end
 
