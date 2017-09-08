@@ -1,4 +1,4 @@
-class User < ActiveRecord::Base
+class User < ApplicationRecord
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -10,6 +10,8 @@ class User < ActiveRecord::Base
   has_many :roles, through: :permissions
 
   validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, on: :create }
+
+  enum create_method: %i{sign_up oauth lti}
 
   def display_name
     name || email
@@ -54,11 +56,12 @@ class User < ActiveRecord::Base
   end
 
   def setup_authentication(auth)
+    provider_url = UrlHelper.scheme_host_port(auth["info"]["url"])
     attributes = {
       uid: auth["uid"].to_s,
       username: auth["info"]["nickname"],
       provider: auth["provider"],
-      provider_url: UrlHelper.scheme_host_port(auth["info"]["url"]),
+      provider_url: provider_url,
       json_response: auth.to_json,
     }
     if credentials = auth["credentials"]
@@ -67,7 +70,6 @@ class User < ActiveRecord::Base
       # Google sends a refresh token
       attributes[:refresh_token] = credentials["refresh_token"] if credentials["refresh_token"]
     end
-    provider_url = UrlHelper.scheme_host_port(auth["info"]["url"])
     if persisted? &&
         authentication = authentications.where({ provider: auth["provider"], provider_url: provider_url }).first
       authentication.update_attributes!(attributes)
@@ -98,23 +100,37 @@ class User < ActiveRecord::Base
     self.role ||= :user
   end
 
-  def role?(name)
-    any_role?(name)
+  def context_roles(context_id = nil)
+    roles.where(permissions: { context_id: context_id }).distinct
   end
 
-  def any_role?(*test_names)
+  def nil_or_context_roles(context_id = nil)
+    roles.where(permissions: { context_id: [context_id, nil] }).distinct
+  end
+
+  def role?(name, context_id = nil)
+    has_role?(context_id, name)
+  end
+
+  def has_role?(context_id, *test_names)
     test_names = [test_names] unless test_names.is_a?(Array)
-    test_names.flatten!
-    @role_names = roles.map(&:name) if @role_names.blank?
+    test_names = test_names.map(&:downcase).flatten
+    @role_names = nil_or_context_roles(context_id).map(&:name).map(&:downcase) if @role_names.blank?
     return false if @role_names.blank?
     !(@role_names & test_names).empty?
   end
 
+  def any_role?(*test_names)
+    has_role?(nil, *test_names)
+  end
+
   # Add the user to a new role
-  def add_to_role(name)
-    @role_names = nil
-    role = Role.find_or_create_by(name: name)
-    roles << role if !roles.include?(role) # Make sure that the user can only be put into a role once
+  def add_to_role(name, context_id = nil)
+    role = Role.where(name: name).first_or_create
+    # Make sure that the user can only be put into a role once
+    if context_roles(context_id).exclude?(role)
+      Permission.create(user: self, role: role, context_id: context_id)
+    end
   end
 
   def admin?

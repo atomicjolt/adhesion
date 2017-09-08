@@ -1,10 +1,3 @@
-class CustomDomain
-  def matches?(request)
-    return false if request.subdomain.length <= 0 || request.subdomain == "www"
-    true
-  end
-end
-
 Rails.application.routes.draw do
   root to: "home#index"
 
@@ -14,7 +7,10 @@ Rails.application.routes.draw do
   resources :lti_launches do
     collection do
       post :index
-      get :index
+      get :launch
+    end
+    member do
+      post :show
     end
   end
 
@@ -97,9 +93,9 @@ Rails.application.routes.draw do
 
     resources :quiz_conversions, only: [:create]
     resources :sites
+    resources :lti_content_item_selection, only: [:create]
+    resources :lti_launches
   end
-
-  mount MailPreview => "mail_view" if Rails.env.development?
 
   get "api/canvas" => "api/canvas_proxy#proxy"
   post "api/canvas" => "api/canvas_proxy#proxy"

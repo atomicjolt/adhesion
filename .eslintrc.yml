@@ -13,6 +13,7 @@ plugins:
   - import
 globals:
   describe: false
+  beforeAll: false
   beforeEach: false
   afterEach: false
   it: false
@@ -21,6 +22,7 @@ globals:
   spyOn: false
   jasmine: false
   module: false
+  jest: false
   __DEV__: false
 rules:
   linebreak-style:
@@ -58,3 +60,4 @@ rules:
       - any
   import/extensions: 0
   import/no-named-as-default: 0
+  react/prop-types: 0
