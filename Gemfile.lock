@@ -109,6 +109,7 @@ GEM
       xpath (~> 2.0)
     childprocess (0.6.1)
       ffi (~> 1.0, >= 1.0.11)
+    choice (0.2.0)
     coderay (1.1.1)
     colored (1.2)
     colorize (0.8.1)
@@ -256,6 +257,11 @@ GEM
       activesupport (>= 4.2.0.beta, < 5.0)
       nokogiri (~> 1.6)
       rails-deprecated_sanitizer (>= 1.0.1)
+    rails-erd (1.5.2)
+      activerecord (>= 3.2)
+      activesupport (>= 3.2)
+      choice (~> 0.2.0)
+      ruby-graphviz (~> 1.2)
     rails-html-sanitizer (1.0.3)
       loofah (~> 2.0)
     rails_apps_pages (0.6.7)
@@ -304,6 +310,7 @@ GEM
       rainbow (>= 1.99.1, < 3.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (~> 1.0, >= 1.0.1)
+    ruby-graphviz (1.2.3)
     ruby-progressbar (1.8.1)
     rubyzip (1.1.7)
     safe_yaml (1.0.4)
@@ -436,6 +443,7 @@ DEPENDENCIES
   quiet_assets
   rack-cors
   rails (= 4.2.7)
+  rails-erd
   rails_apps_pages
   rails_apps_testing
   rails_layout
@@ -463,4 +471,4 @@ DEPENDENCIES
   yajl-ruby
 
 BUNDLED WITH
-   1.14.5
+   1.15.4
