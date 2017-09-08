@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 const select = state => ({
@@ -11,6 +12,15 @@ export class CanvasAuthentication extends React.Component {
     overrides  : {},
     hideButton : false,
     autoSubmit : false,
+  }
+
+  static propTypes = {
+    overrides  : PropTypes.shape({}),
+    hideButton : PropTypes.bool,
+    autoSubmit : PropTypes.bool,
+    settings   : PropTypes.shape({
+      canvas_oauth_url: PropTypes.string,
+    }).isRequired,
   }
 
   componentDidMount() {
