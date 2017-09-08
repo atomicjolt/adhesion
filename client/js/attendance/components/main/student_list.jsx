@@ -80,7 +80,7 @@ export class StudentList extends React.Component {
 
   componentDidMount() {
     document.addEventListener('keyup', this.handleKeyPress);
-    this.refs.mark_all.focus();
+    this.markAll.focus();
   }
 
   componentWillUnmount() {
@@ -198,7 +198,7 @@ export class StudentList extends React.Component {
           <button
             className="c-btn c-btn--mark-all"
             onClick={() => this.markAll(AttendanceStates.PRESENT)}
-            ref={"mark_all"}
+            ref={(ref) => { this.markAll = ref }}
           >
             Mark All Present
           </button>
