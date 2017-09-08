@@ -115,17 +115,8 @@ ActiveRecord::Schema.define(version: 20170808145111) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["lms_course_id"], name: "index_courses_on_lms_course_id", using: :btree
   end
-
-  create_table "lti_launches", force: :cascade do |t|
-    t.jsonb    "config"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string   "token"
-    t.index ["token"], name: "index_lti_launches_on_token", unique: true, using: :btree
-  end
-
-  add_index "courses", ["lms_course_id"], name: "index_courses_on_lms_course_id", using: :btree
 
   create_table "exam_requests", force: :cascade do |t|
     t.integer  "course_id"
@@ -146,6 +137,14 @@ ActiveRecord::Schema.define(version: 20170808145111) do
     t.string   "scheduled_time"
     t.integer  "unlocked_by_id"
     t.string   "unlocked_by_name"
+  end
+
+  create_table "lti_launches", force: :cascade do |t|
+    t.jsonb    "config"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "token"
+    t.index ["token"], name: "index_lti_launches_on_token", unique: true, using: :btree
   end
 
   create_table "nonces", force: :cascade do |t|
@@ -185,23 +184,22 @@ ActiveRecord::Schema.define(version: 20170808145111) do
   create_table "registrations", force: :cascade do |t|
     t.string   "lms_course_id"
     t.integer  "lms_user_id"
-    t.datetime "created_at",                                             null: false
-    t.datetime "updated_at",                                             null: false
+    t.datetime "created_at",                                               null: false
+    t.datetime "updated_at",                                               null: false
     t.integer  "status",                                   default: 0
-    t.decimal  "score",                                    default: 0.0
+    t.decimal  "score",                                    default: "0.0"
     t.text     "lis_result_sourcedid",                     default: ""
     t.text     "lis_outcome_service_url",                  default: ""
     t.integer  "application_instance_id"
     t.text     "encrypted_scorm_cloud_passback_secret_iv"
     t.text     "encrypted_scorm_cloud_passback_secret"
     t.string   "scorm_registration_id"
+    t.index ["application_instance_id"], name: "index_registrations_on_application_instance_id", using: :btree
+    t.index ["lms_course_id", "lms_user_id"], name: "index_registrations_on_lms_course_id_and_lms_user_id", using: :btree
+    t.index ["lms_course_id"], name: "index_registrations_on_lms_course_id", using: :btree
+    t.index ["lms_user_id"], name: "index_registrations_on_lms_user_id", using: :btree
+    t.index ["scorm_registration_id"], name: "index_registrations_on_scorm_registration_id", using: :btree
   end
-
-  add_index "registrations", ["application_instance_id"], name: "index_registrations_on_application_instance_id", using: :btree
-  add_index "registrations", ["lms_course_id", "lms_user_id"], name: "index_registrations_on_lms_course_id_and_lms_user_id", using: :btree
-  add_index "registrations", ["lms_course_id"], name: "index_registrations_on_lms_course_id", using: :btree
-  add_index "registrations", ["lms_user_id"], name: "index_registrations_on_lms_user_id", using: :btree
-  add_index "registrations", ["scorm_registration_id"], name: "index_registrations_on_scorm_registration_id", using: :btree
 
   create_table "roles", force: :cascade do |t|
     t.string   "name"
@@ -230,13 +228,12 @@ ActiveRecord::Schema.define(version: 20170808145111) do
     t.string  "activity_id"
     t.boolean "latest_attempt"
     t.integer "depth"
+    t.index ["registration_id", "activity_id", "title", "attempts"], name: "index_scorm_activities_on_reg_id_activity_id_title_attempt", using: :btree
+    t.index ["registration_id", "activity_id", "title", "latest_attempt"], name: "index_scorm_activities_on_reg_id_act_id_title_latest_attempt", using: :btree
+    t.index ["registration_id", "latest_attempt"], name: "index_scorm_activities_on_registration_id_and_latest_attempt", using: :btree
+    t.index ["registration_id"], name: "index_scorm_activities_on_registration_id", using: :btree
+    t.index ["title"], name: "index_scorm_activities_on_title", using: :btree
   end
-
-  add_index "scorm_activities", ["registration_id", "activity_id", "title", "attempts"], name: "index_scorm_activities_on_reg_id_activity_id_title_attempt", using: :btree
-  add_index "scorm_activities", ["registration_id", "activity_id", "title", "latest_attempt"], name: "index_scorm_activities_on_reg_id_act_id_title_latest_attempt", using: :btree
-  add_index "scorm_activities", ["registration_id", "latest_attempt"], name: "index_scorm_activities_on_registration_id_and_latest_attempt", using: :btree
-  add_index "scorm_activities", ["registration_id"], name: "index_scorm_activities_on_registration_id", using: :btree
-  add_index "scorm_activities", ["title"], name: "index_scorm_activities_on_title", using: :btree
 
   create_table "scorm_courses", force: :cascade do |t|
     t.datetime "created_at",        null: false
@@ -246,10 +243,9 @@ ActiveRecord::Schema.define(version: 20170808145111) do
     t.string   "scorm_service_id"
     t.string   "title"
     t.integer  "file_id"
+    t.index ["lms_assignment_id"], name: "index_scorm_courses_on_lms_assignment_id", using: :btree
+    t.index ["scorm_service_id"], name: "index_scorm_courses_on_scorm_service_id", unique: true, using: :btree
   end
-
-  add_index "scorm_courses", ["lms_assignment_id"], name: "index_scorm_courses_on_lms_assignment_id", using: :btree
-  add_index "scorm_courses", ["scorm_service_id"], name: "index_scorm_courses_on_scorm_service_id", unique: true, using: :btree
 
   create_table "scorm_objectives", force: :cascade do |t|
     t.integer "scorm_activity_id"
@@ -258,9 +254,8 @@ ActiveRecord::Schema.define(version: 20170808145111) do
     t.float   "normalized_measure"
     t.boolean "progress_status"
     t.boolean "satisfied_status"
+    t.index ["scorm_activity_id"], name: "index_scorm_objectives_on_scorm_activity_id", using: :btree
   end
-
-  add_index "scorm_objectives", ["scorm_activity_id"], name: "index_scorm_objectives_on_scorm_activity_id", using: :btree
 
   create_table "sections", force: :cascade do |t|
     t.integer  "course_id"
@@ -268,10 +263,9 @@ ActiveRecord::Schema.define(version: 20170808145111) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["course_id"], name: "index_sections_on_course_id", using: :btree
+    t.index ["lms_section_id"], name: "index_sections_on_lms_section_id", using: :btree
   end
-
-  add_index "sections", ["course_id"], name: "index_sections_on_course_id", using: :btree
-  add_index "sections", ["lms_section_id"], name: "index_sections_on_lms_section_id", using: :btree
 
   create_table "shared_auths", force: :cascade do |t|
     t.string   "secret"
@@ -301,12 +295,11 @@ ActiveRecord::Schema.define(version: 20170808145111) do
     t.integer "course_id"
     t.integer "role_id",    default: 2
     t.integer "section_id"
+    t.index ["course_id"], name: "index_user_courses_on_course_id", using: :btree
+    t.index ["role_id"], name: "index_user_courses_on_role_id", using: :btree
+    t.index ["section_id"], name: "index_user_courses_on_section_id", using: :btree
+    t.index ["user_id"], name: "index_user_courses_on_user_id", using: :btree
   end
-
-  add_index "user_courses", ["course_id"], name: "index_user_courses_on_course_id", using: :btree
-  add_index "user_courses", ["role_id"], name: "index_user_courses_on_role_id", using: :btree
-  add_index "user_courses", ["section_id"], name: "index_user_courses_on_section_id", using: :btree
-  add_index "user_courses", ["user_id"], name: "index_user_courses_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",    null: false

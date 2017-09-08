@@ -19,8 +19,9 @@ class Application < ActiveRecord::Base
   # app: Stand alone applications that don't require an lti launch
   enum kind: %i{lti admin app}
 
-  ADMIN = "admin".freeze
-  AUTH = "auth".freeze
+  ADMIN = "adhesionadmin".freeze
+  AUTH = "adhesionauth".freeze
+  # TODO: add all the apps!!!
   HELLOWORLD = "helloworld".freeze
 
   def create_instance(site: nil, bundle_instance: nil)
