@@ -1,1 +1,0 @@
-require('./exams/styles.scss');
