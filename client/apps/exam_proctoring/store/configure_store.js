@@ -4,8 +4,8 @@ import rootReducer                               from '../reducers';
 import DevTools                                  from '../../dev/dev_tools';
 import API                                       from '../../middleware/api';
 import Listener                                  from '../../middleware/listener';
-import CanvasApi                                 from '../../libs/canvas/middleware';
-import Downloader                                from '../../middleware/download';
+import CanvasApi                                 from '../../../libs/canvas/middleware';
+import Downloader                                from '../../../libs/middleware/download';
 import EnterAnswers                              from '../middleware/enter_answers';
 
 const middleware = [API, CanvasApi, Listener, Downloader, EnterAnswers];

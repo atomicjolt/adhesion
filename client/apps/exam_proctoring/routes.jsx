@@ -3,7 +3,7 @@ import { Router, Route, IndexRoute }  from 'react-router';
 import appHistory                     from '../history';
 import Index                          from './components/index';
 import ExamAssignmentList             from './components/exam_request_list/_exam_request_list';
-import NotFound                       from '../common_components/not_found';
+import NotFound                       from '../../libs/components/not_found';
 import PrintTest                      from '../quiz_print/components/index';
 
 export default (

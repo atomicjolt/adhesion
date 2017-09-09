@@ -1,8 +1,8 @@
 import React             from 'react';
 import HoverButton       from '../common/hover_button';
 import Defines           from '../../../defines';
-import CommonSvg         from '../../../common_components/common_svg';
-import ConfirmDelete from '../../../common_components/confirm_delete';
+import CommonSvg         from '../../../../libs/components/common_svg';
+import ConfirmDelete from '../../../../libs/components/confirm_delete';
 
 
 export default function settings(props) {

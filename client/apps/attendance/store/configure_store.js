@@ -4,7 +4,7 @@ import rootReducer                               from '../reducers';
 import DevTools                                  from '../../dev/dev_tools';
 import API                                       from '../../middleware/api';
 import CanvasApi                                 from '../../libs/canvas/middleware';
-import Downloader                                from '../../middleware/download';
+import Downloader                                from '../../../libs/middleware/download';
 
 const middleware = [API, CanvasApi, Downloader];
 

@@ -3,7 +3,7 @@ import settings from '../../reducers/settings';
 import jwt from '../../reducers/jwt';
 import scorm from './scorm';
 import analytics from './analytics';
-import modal from '../../reducers/modal';
+import modal from '../../../libs/reducers/modal';
 
 const rootReducer = combineReducers({
   settings,

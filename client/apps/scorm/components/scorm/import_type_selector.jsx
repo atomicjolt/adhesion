@@ -1,5 +1,5 @@
 import React from 'react';
-import CommonSvg from '../../../common_components/common_svg';
+import CommonSvg from '../../../../libs/components/common_svg';
 
 export default function importTypeSelector(props) {
   return (

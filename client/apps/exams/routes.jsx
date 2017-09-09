@@ -4,7 +4,7 @@ import appHistory                     from '../history';
 import ExamList                       from './components/exam_list/_exam_list';
 import ScheduleExam                   from './components/schedule_exam/_schedule_exam';
 import Index                          from './components/index';
-import NotFound                       from '../common_components/not_found';
+import NotFound                       from '../../libs/components/not_found';
 
 export default (
   <Router history={appHistory}>

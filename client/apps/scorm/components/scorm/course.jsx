@@ -6,7 +6,7 @@ import AssignmentButton   from './assignment_button';
 import HoverButton        from '../common/hover_button';
 import appHistory         from '../../../history';
 import Defines            from '../../../defines';
-import Loader             from '../../../common_components/loader';
+import Loader             from '../../../../libs/components/loader';
 
 export default class Course extends React.Component {
   static ImportTypes = {

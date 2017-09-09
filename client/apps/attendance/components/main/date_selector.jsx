@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
-import SvgButton from '../../../common_components/svg_button';
+import SvgButton from '../../../../libs/components/svg_button';
 
 export default class DateSelector extends React.Component {
 

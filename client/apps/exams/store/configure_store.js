@@ -3,8 +3,8 @@ import { persistState }                          from 'redux-devtools';
 import rootReducer                               from '../reducers';
 import DevTools                                  from '../../dev/dev_tools';
 import API                                       from '../../middleware/api';
-import Download                                  from '../../middleware/download';
-import CanvasApi                                 from '../../libs/canvas/middleware';
+import Download                                  from '../../../libs/middleware/download';
+import CanvasApi                                 from '../../../libs/canvas/middleware';
 
 const middleware = [API, CanvasApi, Download];
 

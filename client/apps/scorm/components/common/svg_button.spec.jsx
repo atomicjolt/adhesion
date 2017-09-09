@@ -2,7 +2,7 @@
 
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
-import SVGButton from '../../../common_components/svg_button';
+import SVGButton from '../../../../libs/components/svg_button';
 import Stub from '../../../../specs_support/stub';
 
 describe('Common SVG Button', () => {

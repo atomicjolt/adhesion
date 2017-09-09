@@ -1,7 +1,7 @@
 import { combineReducers }  from 'redux';
 import settings             from '../../reducers/settings';
 import jwt                  from '../../reducers/jwt';
-import modal                from '../../reducers/modal';
+import modal                from '../../../libs/reducers/modal';
 import examRequests         from './exam_requests';
 import print                from '../../quiz_print/reducers/print';
 
