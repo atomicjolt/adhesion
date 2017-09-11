@@ -1,39 +1,39 @@
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
+import { shallow } from 'enzyme';
 import ExportCSV from './export_modal';
 
 describe('Export CSV', () => {
-  const props = {
-    apiUrl: '',
-    lmsCourseId: '123',
-    downloadFile: () => {},
-    onExport: () => {},
-    closeModal: () => {},
-  };
-
-  it('renders', () => {
-    const result = TestUtils.renderIntoDocument(<ExportCSV {...props} />);
-    expect(result).toBeDefined();
+  let modalClosed;
+  let props;
+  beforeEach(() => {
+    modalClosed = false;
+    props = {
+      apiUrl: '',
+      lmsCourseId: '123',
+      downloadFile: () => {},
+      onExport: () => {},
+      closeModal: () => { modalClosed = true; },
+    };
   });
 
-  it('should call onExport when export button is clicked', () => {
-    const result = TestUtils.renderIntoDocument(<ExportCSV {...props} />);
+  it('renders', () => {
+    const result = shallow(<ExportCSV {...props} />);
+    expect(result).toMatchSnapshot();
+  });
 
-    spyOn(result, 'onExport');
-    const button1 = TestUtils.scryRenderedDOMComponentsWithClass(result, 'c-btn--export')[0];
-    const button2 = TestUtils.scryRenderedDOMComponentsWithClass(result, 'c-btn--export')[1];
+  it('should close modal on button click', () => {
+    const result = shallow(<ExportCSV {...props} />);
 
-    TestUtils.Simulate.click(button1);
-    TestUtils.Simulate.click(button2);
+    result.find('.c-btn--cancel').simulate('click');
 
-    expect(result.onExport).toHaveBeenCalledTimes(2);
+    expect(modalClosed).toBeTruthy();
   });
 
   it('should call onOut when someone clicks outside', () => {
-    spyOn(props, 'closeModal');
-    const result = TestUtils.renderIntoDocument(<ExportCSV {...props} />);
-    const outside = TestUtils.findRenderedDOMComponentWithClass(result, 'c-popup--outside');
-    TestUtils.Simulate.click(outside);
-    expect(props.closeModal).toHaveBeenCalled();
+    expect(modalClosed).toBeFalsy();
+
+    const result = shallow(<ExportCSV {...props} />);
+    result.find('.c-popup--outside').simulate('click');
+    expect(modalClosed).toBeTruthy();
   });
 });

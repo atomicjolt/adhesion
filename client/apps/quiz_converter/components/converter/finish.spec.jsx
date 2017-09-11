@@ -1,7 +1,7 @@
 import React            from 'react';
 import TestUtils        from 'react-addons-test-utils';
 import Finish           from './finish';
-import appHistory          from '../../../history';
+import appHistory from '../../history';
 import Stub             from '../../../../specs_support/stub';
 
 describe('Finish page', () => {

@@ -1,6 +1,6 @@
 import studentReducer from './student';
-import { DONE } from '../../constants/wrapper';
-import { listUsersInCourseUsers } from '../../libs/canvas/constants/courses';
+import { DONE } from '../../../libs/constants/wrapper';
+import { listUsersInCourseUsers } from '../../../libs/canvas/constants/courses';
 
 
 describe('GET_STUDENTS_DONE', () => {

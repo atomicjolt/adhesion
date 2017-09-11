@@ -2,6 +2,8 @@ import React             from 'react';
 import TestUtils         from 'react-addons-test-utils';
 import { QuizConverter } from './quiz_converter';
 
+jest.mock('../../libs/assets');
+
 describe('Quiz Converter', () => {
   let result;
   let props;

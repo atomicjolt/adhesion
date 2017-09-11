@@ -2,7 +2,7 @@ import React            from 'react';
 import TestUtils        from 'react-addons-test-utils';
 import _                from 'lodash';
 import MultipleChoice   from './multiple_answers_question';
-import Stub             from '../../../../specs_support/stub';
+import Stub             from '../../../../../specs_support/stub';
 
 describe('Multiple Choice', () => {
   let result;

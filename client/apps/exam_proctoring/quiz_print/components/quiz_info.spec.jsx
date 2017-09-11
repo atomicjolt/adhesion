@@ -1,7 +1,7 @@
 import React            from 'react';
 import TestUtils        from 'react-addons-test-utils';
 import QuizInfo         from './quiz_info';
-import Stub             from '../../../specs_support/stub';
+import Stub             from '../../../../specs_support/stub';
 
 describe('Quiz Info', () => {
   let result;

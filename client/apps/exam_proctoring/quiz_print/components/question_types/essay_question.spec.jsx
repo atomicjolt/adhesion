@@ -1,7 +1,7 @@
 import React            from 'react';
 import TestUtils        from 'react-addons-test-utils';
 import Essay            from './essay_question';
-import Stub             from '../../../../specs_support/stub';
+import Stub             from '../../../../../specs_support/stub';
 
 describe('Essay', () => {
   let result;

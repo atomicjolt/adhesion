@@ -3,6 +3,8 @@ import TestUtils        from 'react-addons-test-utils';
 import UploadButton     from './upload_button';
 import Stub             from '../../../../specs_support/stub';
 
+jest.mock('../../libs/assets');
+
 describe('Upload Button', () => {
   let result;
   let props;

@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import TestUtils from 'react-addons-test-utils';
+import { shallow } from 'enzyme';
 
 import DateSelector from './date_selector';
 
@@ -14,12 +14,12 @@ describe('getDate', () => {
       date,
       updateDate: (newDate) => { props.date = newDate; },
     };
-    result = TestUtils.renderIntoDocument(<DateSelector {...props} />);
+    result = shallow(<DateSelector {...props} />);
   });
 
   it('moves one day towards the future', () => {
-    const button = TestUtils.findRenderedDOMComponentWithClass(result, 'c-btn--next');
-    TestUtils.Simulate.click(button);
+    const button = result.find('.c-btn--next');
+    button.simulate('click', { stopPropagation: () => {} });
     expect(props.date).toContain('Tue Dec 06 2016');
   });
 

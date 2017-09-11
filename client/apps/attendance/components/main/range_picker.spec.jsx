@@ -1,5 +1,5 @@
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
+import { shallow } from 'enzyme';
 import RangePicker from './range_picker';
 
 describe('Range Picker', () => {
@@ -14,10 +14,10 @@ describe('Range Picker', () => {
       startDate: initialDate,
       endDate: initialDate,
     };
-    result = TestUtils.renderIntoDocument(<RangePicker {...props} />);
+    result = shallow(<RangePicker {...props} />);
   });
   it('should render the date picker', () => {
-    const container = TestUtils.scryRenderedDOMComponentsWithClass(result, 'c-popup__label')[0];
-    expect(container.textContent).toContain('Start Date');
+    const container = result.find('.c-popup__label').first();
+    expect(container.text()).toContain('Start Date');
   });
 });

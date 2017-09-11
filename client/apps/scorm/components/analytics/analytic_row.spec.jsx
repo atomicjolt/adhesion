@@ -1,7 +1,6 @@
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
+import { shallow } from 'enzyme';
 import _ from 'lodash';
-import Stub from '../../../../specs_support/stub';
 import AnalyticRow from './analytic_row';
 
 describe('Scorm Analytics AnalyticRow', () => {
@@ -22,42 +21,25 @@ describe('Scorm Analytics AnalyticRow', () => {
         tableRowClicked: () => {},
       };
 
-      result = TestUtils.renderIntoDocument(
-        <Stub>
-          <AnalyticRow {...props} />
-        </Stub>
-      );
+      result = shallow(<AnalyticRow {...props} />);
+    });
+
+    it('renders', () => {
+      expect(result).toMatchSnapshot();
     });
 
     it('renders the analytic row with the correct values', () => {
-      const tr =  TestUtils.findRenderedDOMComponentWithTag(result, 'tr');
-      expect(tr.textContent).toContain(props.name);
-      expect(tr.textContent).toContain(props.passed);
-      expect(tr.textContent).toContain(props.score * 100);
-      expect(tr.textContent).toContain(`${props.time}s`);
+      const tr = result.find('.c-aa-row');
+      expect(tr).toBeDefined();
+      expect(tr.text()).toContain(props.name);
+      expect(tr.text()).toContain(props.passed);
+      expect(tr.text()).toContain(props.score * 100);
+      expect(tr.text()).toContain(`${props.time}s`);
     });
 
     it('renders the correct amount of table rows', () => {
-      const tr =  TestUtils.findRenderedDOMComponentWithTag(result, 'tr');
-      expect(tr.classList.length).toEqual(3);
-    });
-
-    it('renders the table row with the correct cursor', () => {
-      const tr =  TestUtils.findRenderedDOMComponentWithTag(result, 'tr');
-      expect(tr.style.cursor).toEqual('pointer');
-    });
-
-    it('renders the table column with the correct padding left value', () => {
-      const tds =  TestUtils.scryRenderedDOMComponentsWithTag(result, 'td');
-      const totalDepth = 2 * props.depth;
-      expect(tds[0].style.paddingLeft).toEqual(`${totalDepth + 4}rem`);
-    });
-
-    it('renders the icon with the correct style values', () => {
-      const icon =  TestUtils.findRenderedDOMComponentWithTag(result, 'i');
-      const totalDepth = 2 * props.depth;
-      expect(icon.textContent).toContain('arrow_drop_down');
-      expect(icon.style.left).toEqual(`${totalDepth + 1.3}rem`);
+      const tr = result.find('tr');
+      expect(tr.hasClass('c-aa-row c-aa-accordion is-open')).toBeTruthy();
     });
   });
 
@@ -75,37 +57,23 @@ describe('Scorm Analytics AnalyticRow', () => {
         tableRowClicked: () => {},
       };
 
-      result = TestUtils.renderIntoDocument(
-        <Stub>
-          <AnalyticRow {...props} />
-        </Stub>
-      );
+      result = shallow(<AnalyticRow {...props} />);
     });
 
     it('renders the table row with the correct values', () => {
-      const tr =  TestUtils.findRenderedDOMComponentWithTag(result, 'tr');
-      expect(tr.textContent).toContain('N/A');
-      expect(tr.textContent).toContain(`${_.ceil(props.time / 60)}m`);
+      const tr = result.find('tr');
+      expect(tr.text()).toContain('N/A');
+      expect(tr.text()).toContain(`${_.ceil(props.time / 60)}m`);
     });
 
     it('renders the table row with the correct amount of rows', () => {
-      const tr =  TestUtils.findRenderedDOMComponentWithTag(result, 'tr');
-      expect(tr.classList.length).toEqual(1);
-    });
-
-    it('renders the table row with the correct display values', () => {
-      const tr =  TestUtils.findRenderedDOMComponentWithTag(result, 'tr');
-      expect(tr.style.display).toEqual('none');
-    });
-
-    it('renders the table column with the correct style values', () => {
-      const tds =  TestUtils.scryRenderedDOMComponentsWithTag(result, 'td');
-      const totalDepth = 2 * props.depth;
-      expect(tds[0].style.paddingLeft).toEqual(`${totalDepth + 4}rem`);
+      const tr = result.find('tr');
+      expect(tr.hasClass('c-aa-row')).toBeTruthy();
+      expect(tr.hasClass('c-aa-row c-aa-accordion is-open')).toBeFalsy();
     });
 
     it('renders the icon with no values', () => {
-      const icons =  TestUtils.scryRenderedDOMComponentsWithTag(result, 'i');
+      const icons = result.find('i');
       expect(icons.length).toBe(0);
     });
   });

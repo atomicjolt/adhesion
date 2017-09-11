@@ -1,7 +1,7 @@
 import React            from 'react';
 import TestUtils        from 'react-addons-test-utils';
 import Buttons          from './action_buttons';
-import Stub             from '../../../specs_support/stub';
+import Stub             from '../../../../specs_support/stub';
 
 
 describe('Action Buttons', () => {

@@ -1,7 +1,7 @@
 import React            from 'react';
 import TestUtils        from 'react-addons-test-utils';
 import TextOnly         from './question_text';
-import Stub             from '../../../../specs_support/stub';
+import Stub             from '../../../../../specs_support/stub';
 
 describe('text Only', () => {
   let result;

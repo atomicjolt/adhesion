@@ -1,7 +1,7 @@
 import React            from 'react';
 import TestUtils        from 'react-addons-test-utils';
 import ShortAnswer      from './short_answer_question';
-import Stub             from '../../../../specs_support/stub';
+import Stub             from '../../../../../specs_support/stub';
 
 describe('Short Answer', () => {
   let result;
