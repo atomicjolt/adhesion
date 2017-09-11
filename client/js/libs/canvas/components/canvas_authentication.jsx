@@ -56,4 +56,5 @@ export class CanvasAuthentication extends React.Component {
   }
 }
 
+
 export default connect(select)(CanvasAuthentication);
