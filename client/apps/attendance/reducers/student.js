@@ -1,7 +1,7 @@
 import _ from 'lodash';
-import { DONE } from '../../constants/wrapper';
-import { listUsersInCourseUsers } from '../../libs/canvas/constants/courses';
-import { listCourseSections } from '../../libs/canvas/constants/sections';
+import { DONE } from '../../../libs/constants/wrapper';
+import { listUsersInCourseUsers } from '../../../libs/canvas/constants/courses';
+import { listCourseSections } from '../../../libs/canvas/constants/sections';
 
 export const ATTENDANCE_STATES = {
   PRESENT: 'PRESENT',

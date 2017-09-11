@@ -1,5 +1,5 @@
-import React    from 'react';
-import assets   from '../../../libs/assets';
+import React from 'react';
+import assets from '../../libs/assets';
 
 export default function UploadButton(props) {
   let content = 'Upload Files';

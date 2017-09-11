@@ -1,8 +1,8 @@
-import React             from 'react';
-import _                 from 'lodash';
-import hashHistory       from '../../../history';
-import HoverButton       from '../common/hover_button';
-import Defines           from '../../defines';
+import React from 'react';
+import _ from 'lodash';
+import hashHistory from '../../history';
+import HoverButton from '../common/hover_button';
+import Defines from '../../defines';
 
 export default function popupMenu(props) {
   const popupStyle = {

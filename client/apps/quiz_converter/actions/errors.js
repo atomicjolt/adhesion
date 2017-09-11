@@ -1,4 +1,4 @@
-import wrapper from '../../constants/wrapper';
+import wrapper from '../../../libs/constants/wrapper';
 
 // Actions that make an api request
 const actions = [

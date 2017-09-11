@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import settings from '../../reducers/settings';
-import jwt from '../../reducers/jwt';
+import settings from '../../../libs/reducers/settings';
+import jwt from '../../../libs/reducers/jwt';
 import scorm from './scorm';
 import analytics from './analytics';
 import modal from '../../../libs/reducers/modal';

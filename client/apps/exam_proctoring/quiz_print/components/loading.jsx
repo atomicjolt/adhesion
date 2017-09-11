@@ -1,5 +1,5 @@
-import React    from 'react';
-import Loader   from '../../../libs/components/loader';
+import React from 'react';
+import Loader from '../../../../libs/components/loader';
 
 export default function loading(props) {
   const styles = {

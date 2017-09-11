@@ -1,4 +1,4 @@
-import wrapper from '../../constants/wrapper';
+import wrapper from '../../../libs/constants/wrapper';
 
 // Local actions
 const actions = ['CHANGE_DATE'];

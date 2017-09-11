@@ -1,6 +1,6 @@
 import React        from 'react';
 import HoverButton  from '../common/hover_button';
-import Defines      from '../../../defines';
+import Defines      from '../../../../libs/defines';
 import CommonSvg    from '../../../../libs/components/common_svg';
 
 export default function assignmentButton(props) {

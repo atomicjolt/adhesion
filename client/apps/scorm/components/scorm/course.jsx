@@ -4,8 +4,8 @@ import Settings           from './settings';
 import ImportTypeSelector from './import_type_selector';
 import AssignmentButton   from './assignment_button';
 import HoverButton        from '../common/hover_button';
-import appHistory         from '../../../history';
-import Defines            from '../../../defines';
+import appHistory         from '../../history';
+import Defines            from '../../../../libs/defines';
 import Loader             from '../../../../libs/components/loader';
 
 export default class Course extends React.Component {

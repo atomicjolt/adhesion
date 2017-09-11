@@ -1,14 +1,14 @@
-import React                         from 'react';
-import { connect }                   from 'react-redux';
-import _                             from 'lodash';
-import moment                        from 'moment';
-import appHistory                    from '../../../history';
-import Defines                       from '../../defines';
-import canvasRequest                 from '../../../libs/canvas/action';
-import * as ExamActions              from '../../actions/exams';
-import { listQuizzesInCourse }       from '../../../libs/canvas/constants/quizzes';
-import ExamListItem                  from './exam_list_item';
-import { getTestingCentersAccount }  from '../../actions/testing_centers_account';
+import React from 'react';
+import { connect } from 'react-redux';
+import _ from 'lodash';
+import moment from 'moment';
+import appHistory from '../../history';
+import Defines from '../../defines';
+import canvasRequest from '../../../../libs/canvas/action';
+import * as ExamActions from '../../actions/exams';
+import { listQuizzesInCourse } from '../../../../libs/canvas/constants/quizzes';
+import ExamListItem from './exam_list_item';
+import { getTestingCentersAccount } from '../../actions/testing_centers_account';
 
 const select = state => ({
   examList: state.exams.examList,

@@ -8,9 +8,9 @@ import DateSelector from './date_selector';
 import * as errorActions from '../../actions/error';
 import * as attendanceActions from '../../actions/attendance';
 import * as applicationActions from '../../actions/application';
-import canvasRequest from '../../../libs/canvas/action';
-import { listUsersInCourseUsers } from '../../../libs/canvas/constants/courses';
-import { listCourseSections } from '../../../libs/canvas/constants/sections';
+import canvasRequest from '../../../../libs/canvas/action';
+import { listUsersInCourseUsers } from '../../../../libs/canvas/constants/courses';
+import { listCourseSections } from '../../../../libs/canvas/constants/sections';
 import { ATTENDANCE_STATES as AttendanceStates } from '../../reducers/student';
 
 const select = (state) => {

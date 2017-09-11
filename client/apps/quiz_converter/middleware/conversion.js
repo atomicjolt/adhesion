@@ -1,6 +1,6 @@
 import { Constants as QuizConverterConstants } from '../actions/quiz_converter';
-import { newError }                            from '../actions/errors';
-import appHistory                              from '../../history';
+import { newError } from '../actions/errors';
+import appHistory from '../history';
 
 const Conversion = store => next => (action) => { // eslint-disable-line no-unused-vars
   switch (action.type) {
