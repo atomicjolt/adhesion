@@ -18,7 +18,13 @@ cache:
   directories:
     - node_modules
     - client/node_modules
-    - client/apps/hello_world/node_modules
+    - client/apps/admin/node_modules
+    - client/apps/attendance/node_modules
+    - client/apps/exam_proctoring/node_modules
+    - client/apps/exams/node_modules
+    - client/apps/quiz_converter/node_modules
+    - client/apps/scorm/node_modules
+    - client/apps/survey_tool/node_modules
 
 branches:
   only:
