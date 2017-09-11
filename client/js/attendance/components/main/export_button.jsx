@@ -3,7 +3,7 @@ import React from 'react';
 export default class ExportButton extends React.Component {
 
   componentDidMount() {
-    this.props.text == 'Export All' ? this.eButton.focus() : null;
+    this.props.text === 'Export All' ? this.eButton.focus() : null;
   }
 
   render() {
