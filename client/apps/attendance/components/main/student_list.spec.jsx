@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
+import { shallow } from 'enzyme';
 import { StudentList } from './student_list';
 
 function makeStudent(id) {
@@ -41,19 +41,23 @@ describe('Student List', () => {
       sections: [{ id: 5, name: 'IMASECTION' }, { id: 999, name: 'ANOTHER' }],
     };
 
-    result = TestUtils.renderIntoDocument(<StudentList {...props} />);
+    result = shallow(<StudentList {...props} />);
+  });
+
+  it('matches the snapshot', () => {
+    expect(result).toMatchSnapshot();
   });
 
   it('calls getStudents when onMount', () => {
     spyOn(props, 'canvasRequest');
-    result = TestUtils.renderIntoDocument(<StudentList {...props} />);
+    result = shallow(<StudentList {...props} />);
     expect(props.canvasRequest).toHaveBeenCalled();
   });
 
   it('Mark all should apply a status to all students', () => {
     spyOn(props, 'markStudents');
-    result = TestUtils.renderIntoDocument(<StudentList {...props} />);
-    result.markAll('PRESENT');
+    result = shallow(<StudentList {...props} />);
+    result.instance().markAll('PRESENT');
     expect(props.markStudents).toHaveBeenCalledWith(
       props.students,
       props.settings.lms_course_id,
@@ -64,9 +68,9 @@ describe('Student List', () => {
 
   it('Unmark all should apply a status to all students', () => {
     spyOn(props, 'markStudents');
-    result = TestUtils.renderIntoDocument(<StudentList {...props} />);
-    const button = TestUtils.scryRenderedDOMComponentsWithClass(result, 'c-btn--unmark-all');
-    TestUtils.Simulate.click(button[0]);
+    result = shallow(<StudentList {...props} />);
+    const button = result.find('.c-btn--unmark-all').first();
+    button.simulate('click');
     expect(props.markStudents).toHaveBeenCalledWith(
       props.students,
       props.settings.lms_course_id,
@@ -76,18 +80,17 @@ describe('Student List', () => {
   });
 
   it('students should return an array of student components', () => {
-    const component = TestUtils.renderIntoDocument(<StudentList {...props} />);
-    result = component.students();
+    const component = shallow(<StudentList {...props} />);
+    result = component.instance().students();
     expect(result.length).toEqual(Object.keys(props.students).length);
-    result.forEach(e => expect(TestUtils.isElement(e)).toEqual(true));
   });
 
   it('should filter students by section', () => {
-    result.setState({ currentSection: 5 });
-    let students = result.students();
+    result.instance().setState({ currentSection: 5 });
+    let students = result.instance().students();
     expect(students.length).toBe(1);
-    result.setState({ currentSection: 999 });
-    students = result.students();
+    result.instance().setState({ currentSection: 999 });
+    students = result.instance().students();
     expect(students.length).toBe(0);
   });
 });
