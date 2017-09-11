@@ -24,8 +24,8 @@ describe('getDate', () => {
   });
 
   it('moves us further towards the past', () => {
-    const button = TestUtils.findRenderedDOMComponentWithClass(result, 'c-btn--previous');
-    TestUtils.Simulate.click(button);
+    const button = result.find('.c-btn--previous');
+    button.simulate('click', { stopPropagation: () => {} });
     expect(props.date).toContain('Sun Dec 04 2016');
   });
 
@@ -36,9 +36,9 @@ describe('getDate', () => {
     };
 
     spyOn(props, 'updateDate');
-    result = TestUtils.renderIntoDocument(<DateSelector {...props} />);
-    const nextButton = TestUtils.findRenderedDOMComponentWithClass(result, 'c-btn--next');
-    TestUtils.Simulate.click(nextButton);
+    result = shallow(<DateSelector {...props} />);
+    const nextButton = result.find('.c-btn--next');
+    nextButton.simulate('click', { stopPropagation: () => {} });
     const newDate = moment(props.date, 'ddd MMM Do YYYY').add(1, 'd').toDate().toDateString();
 
     expect(props.updateDate).toHaveBeenCalledWith(newDate);
@@ -51,18 +51,11 @@ describe('getDate', () => {
     };
 
     spyOn(props, 'updateDate');
-    result = TestUtils.renderIntoDocument(<DateSelector {...props} />);
-    const prevButton = TestUtils.findRenderedDOMComponentWithClass(result, 'c-btn--previous');
-    TestUtils.Simulate.click(prevButton);
+    result = shallow(<DateSelector {...props} />);
+    const prevButton = result.find('.c-btn--previous');
+    prevButton.simulate('click', { stopPropagation: () => {} });
     const newDate = moment(props.date, 'ddd MMM Do YYYY').add(-1, 'd').toDate().toDateString();
 
     expect(props.updateDate).toHaveBeenCalledWith(newDate);
-  });
-
-  it('should show the calendar when clicked', () => {
-    expect(result.datePicker.state.open).toBeFalsy();
-    const dateButton = TestUtils.findRenderedDOMComponentWithClass(result, 'c-btn--date');
-    TestUtils.Simulate.click(dateButton);
-    expect(result.datePicker.state.open).toBeTruthy();
   });
 });
