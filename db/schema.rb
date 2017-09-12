@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170406194449) do
+ActiveRecord::Schema.define(version: 20170912192337) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(version: 20170406194449) do
     t.jsonb    "default_config",              default: {}
   end
 
-  create_table "attendances", force: :cascade do |t|
+  create_table "attendances", id: :bigserial, force: :cascade do |t|
     t.integer "lms_student_id"
     t.integer "lms_course_id"
     t.date    "date"
@@ -57,8 +57,8 @@ ActiveRecord::Schema.define(version: 20170406194449) do
     t.string  "sortable_name"
   end
 
-  create_table "authentications", force: :cascade do |t|
-    t.integer  "user_id"
+  create_table "authentications", id: :bigserial, force: :cascade do |t|
+    t.integer  "user_id",                      limit: 8
     t.string   "provider"
     t.datetime "created_at",                                null: false
     t.datetime "updated_at",                                null: false
@@ -90,7 +90,7 @@ ActiveRecord::Schema.define(version: 20170406194449) do
 
   add_index "courses", ["lms_course_id"], name: "index_courses_on_lms_course_id", using: :btree
 
-  create_table "exam_requests", force: :cascade do |t|
+  create_table "exam_requests", id: :bigserial, force: :cascade do |t|
     t.integer  "course_id"
     t.integer  "exam_id"
     t.integer  "student_id"
@@ -111,7 +111,7 @@ ActiveRecord::Schema.define(version: 20170406194449) do
     t.string   "unlocked_by_name"
   end
 
-  create_table "nonces", force: :cascade do |t|
+  create_table "nonces", id: :bigserial, force: :cascade do |t|
     t.string   "nonce"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -128,9 +128,9 @@ ActiveRecord::Schema.define(version: 20170406194449) do
 
   add_index "oauth_states", ["state"], name: "index_oauth_states_on_state", using: :btree
 
-  create_table "permissions", force: :cascade do |t|
+  create_table "permissions", id: :bigserial, force: :cascade do |t|
     t.integer  "role_id"
-    t.integer  "user_id"
+    t.integer  "user_id",    limit: 8
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -145,7 +145,7 @@ ActiveRecord::Schema.define(version: 20170406194449) do
     t.datetime "updated_at",       null: false
   end
 
-  create_table "registrations", force: :cascade do |t|
+  create_table "registrations", id: :bigserial, force: :cascade do |t|
     t.string   "lms_course_id"
     t.integer  "lms_user_id"
     t.datetime "created_at",                                             null: false
@@ -172,9 +172,9 @@ ActiveRecord::Schema.define(version: 20170406194449) do
     t.datetime "updated_at"
   end
 
-  create_table "scorm_activities", force: :cascade do |t|
+  create_table "scorm_activities", id: :bigserial, force: :cascade do |t|
     t.string  "title"
-    t.integer "registration_id"
+    t.integer "registration_id",    limit: 8
     t.boolean "satisfied"
     t.boolean "completed"
     t.integer "attempts"
@@ -214,8 +214,8 @@ ActiveRecord::Schema.define(version: 20170406194449) do
   add_index "scorm_courses", ["lms_assignment_id"], name: "index_scorm_courses_on_lms_assignment_id", using: :btree
   add_index "scorm_courses", ["scorm_service_id"], name: "index_scorm_courses_on_scorm_service_id", unique: true, using: :btree
 
-  create_table "scorm_objectives", force: :cascade do |t|
-    t.integer "scorm_activity_id"
+  create_table "scorm_objectives", id: :bigserial, force: :cascade do |t|
+    t.integer "scorm_activity_id",  limit: 8
     t.boolean "primary"
     t.boolean "measure_status"
     t.float   "normalized_measure"
@@ -236,7 +236,7 @@ ActiveRecord::Schema.define(version: 20170406194449) do
   add_index "sections", ["course_id"], name: "index_sections_on_course_id", using: :btree
   add_index "sections", ["lms_section_id"], name: "index_sections_on_lms_section_id", using: :btree
 
-  create_table "shared_auths", force: :cascade do |t|
+  create_table "shared_auths", id: :bigserial, force: :cascade do |t|
     t.string   "secret"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -260,9 +260,9 @@ ActiveRecord::Schema.define(version: 20170406194449) do
   end
 
   create_table "user_courses", force: :cascade do |t|
-    t.integer "user_id"
+    t.integer "user_id",    limit: 8
     t.integer "course_id"
-    t.integer "role_id",    default: 2
+    t.integer "role_id",              default: 2
     t.integer "section_id"
   end
 
@@ -271,7 +271,7 @@ ActiveRecord::Schema.define(version: 20170406194449) do
   add_index "user_courses", ["section_id"], name: "index_user_courses_on_section_id", using: :btree
   add_index "user_courses", ["user_id"], name: "index_user_courses_on_user_id", using: :btree
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :bigserial, force: :cascade do |t|
     t.string   "email",                  default: "",    null: false
     t.string   "encrypted_password",     default: "",    null: false
     t.string   "reset_password_token"
