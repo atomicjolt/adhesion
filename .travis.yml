@@ -50,4 +50,3 @@ before_script:
 script:
   - ./bin/ci
   - yarn test
-  - yarn coverage
