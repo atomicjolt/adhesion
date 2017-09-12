@@ -31,14 +31,16 @@ export default class Student extends React.Component {
     const late = status === AttendanceStates.LATE;
     const absent = status === AttendanceStates.ABSENT;
 
+
+
     return (
       <tr>
         <td>
           <img className="c-profile-pic" src={`${this.props.student.avatar_url}`} alt="" />
         </td>
-        <td>
+        <th scope="row" className="c-align-header">
           <span tabIndex="0" className={`c-name qa-student-name-${index}`}>{name}</span>
-        </td>
+        </th>
         <td className="c-attendance" role="radiogroup" >
           <div className={`c-present qa-student-present-${index} ${present ? `qa-student-present-active-${index}` : ''}`}>
             <input
