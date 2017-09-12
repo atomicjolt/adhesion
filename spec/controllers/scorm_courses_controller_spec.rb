@@ -73,10 +73,16 @@ RSpec.describe ScormCoursesController, type: :controller do
     it "should handle the successful launch of a new SCORM course" do
       request.env["CONTENT_TYPE"] = "application/x-www-form-urlencoded"
       post :create, @params
-      expect(assigns(:scorm_connect)).to_not eq(nil)
       expect(response.status).to eq(302)
     end
     it "should handle the failed launch of a new SCORM course" do
+      obj = ScormEngineService.new("1")
+      allow(controller).to receive(:scorm_connect_service).and_return(obj)
+      meh = Object.new
+      allow(obj).to receive(:get_registration).and_return(meh)
+      launch_course = { status: 401 }
+      allow(obj).to receive(:launch_course).and_return(launch_course)
+
       post :create, @params
       expect(response.status).to eq(401)
     end
