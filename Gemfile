@@ -99,7 +99,7 @@ end
 gem "scorm_cloud", git: "https://github.com/instructure/scorm-cloud.git"
 
 # Word2Quiz for converting word doc quizzes
-# gem "word_2_quiz"
+gem "word_2_quiz"
 
 group :production do
   gem "cap-ec2", require: false
