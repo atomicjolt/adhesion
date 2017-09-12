@@ -391,6 +391,11 @@
   }
 }
 
+.c-align-header {
+  text-align: left;
+  vertical-align:middle
+}
+
 .react-datepicker__input-container {
   input {
     @include semi-bold;

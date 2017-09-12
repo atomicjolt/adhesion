@@ -38,7 +38,7 @@ export default class Student extends React.Component {
         <td>
           <img className="c-profile-pic" src={`${this.props.student.avatar_url}`} alt="" />
         </td>
-        <th scope="row" style={{textAlign:"left", verticalAlign:"middle"}}>
+        <th scope="row" className="c-align-header">
           <span tabIndex="0" className={`c-name qa-student-name-${index}`}>{name}</span>
         </th>
         <td className="c-attendance" role="radiogroup" >
