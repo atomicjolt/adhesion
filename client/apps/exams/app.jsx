@@ -2,37 +2,45 @@ import 'babel-polyfill';
 import es6Promise from 'es6-promise';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
-import routes from './routes';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 import DevTools from '../../libs/dev/dev_tools';
+import { getInitialSettings } from '../../libs/reducers/settings';
 import configureStore from './store/configure_store';
 import jwt from '../../libs/loaders/jwt';
-import { getInitialSettings } from '../../libs/reducers/settings';
+import routes from './routes';
+
+import './styles/styles';
 
 // Polyfill es6 promises for IE
 es6Promise.polyfill();
 
-function Root(props) {
-  const devTools = __DEV__ ? <DevTools /> : null;
-  const { store } = props;
+// Needed for onTouchTap
+// Can go away when react 1.0 release
+// Check this repo:
+// https://github.com/zilverline/react-tap-event-plugin
+injectTapEventPlugin();
 
-  const rootStyles = {
-    fontFamily: "'Roboto', sans-serif"
+
+class Root extends React.PureComponent {
+  static propTypes = {
+    store: PropTypes.object.isRequired,
   };
 
-  return (
-    <Provider store={store}>
-      <div style={rootStyles}>
-        {routes}
-        {devTools}
-      </div>
-    </Provider>
-  );
+  render() {
+    const devTools = __DEV__ ? <DevTools /> : null;
+    const { store } = this.props;
+    return (
+      <Provider store={store}>
+        <div>
+          {routes}
+          {devTools}
+        </div>
+      </Provider>
+    );
+  }
 }
-
-Root.propTypes = {
-  store: React.PropTypes.shape({}),
-};
 
 const settings = getInitialSettings(window.DEFAULT_SETTINGS);
 const store = configureStore({ settings, jwt: window.DEFAULT_JWT });

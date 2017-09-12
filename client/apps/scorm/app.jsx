@@ -2,13 +2,16 @@ import 'babel-polyfill';
 import es6Promise from 'es6-promise';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import routes from './routes';
 import DevTools from '../../libs/dev/dev_tools';
+import { getInitialSettings } from '../../libs/reducers/settings';
 import configureStore from './store/configure_store';
 import jwt from '../../libs/loaders/jwt';
-import { getInitialSettings } from '../../libs/reducers/settings';
+import routes from './routes';
+
+import './styles/styles';
 
 // Polyfill es6 promises for IE
 es6Promise.polyfill();
@@ -22,7 +25,7 @@ injectTapEventPlugin();
 
 class Root extends React.PureComponent {
   static propTypes = {
-    store: React.PropTypes.object.isRequired,
+    store: PropTypes.object.isRequired,
   };
 
   render() {
