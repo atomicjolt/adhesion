@@ -226,7 +226,6 @@ export class StudentList extends React.Component {
           />
         </div>
         <table className="c-table">
-        <caption>Attendance: Student List</caption>
           <thead />
           <tbody>
             {this.students()}
