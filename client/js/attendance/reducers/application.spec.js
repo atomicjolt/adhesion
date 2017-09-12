@@ -15,7 +15,7 @@ describe('application reducer', () => {
       const nextDate = '2016-1-2';
       const priorState = { date: '2016-1-1' };
       const result = application(priorState, ApplicationActions.changeDate(nextDate));
-      expect(result.date, nextDate);
+      expect(result.date).toBe(nextDate);
     });
   });
 });
