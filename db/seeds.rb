@@ -278,6 +278,7 @@ applications = [
         visibility: "admins",
       },
     },
+    application_instances: [],
     # application_instances: [{
     #   tenant: "word2quiz",
     #   lti_key: "word2quiz",
@@ -288,22 +289,47 @@ applications = [
     #   lti_type: ApplicationInstance.lti_types[:course_navigation],
     # }],
   },
-  # {
-  #   name: "Survey Aggregation Tool",
-  #   description: "Admin tool to view survey results",
-  #   client_application_name: "survey_tool",
-  #   canvas_api_permissions: "",
-  #   kind: Application.kinds[:lti],
-  #   application_instances: [{
-  #     tenant: "surveys",
-  #     lti_key: "surveys",
-  #     lti_secret: secrets.survey_tool_lti_secret,
-  #     site_url: lti_consumer_uri,
-  #     canvas_token: secrets.canvas_token,
-  #     domain: "surveys.#{secrets.domain_name}",
-  #     lti_type: ApplicationInstance.lti_types[:course_navigation],
-  #   }],
-  # },
+  {
+    key: Application::SURVEYAGGREGATION,
+    name: "Survey Aggregation Tool",
+    description: "Admin tool to view survey results",
+    client_application_name: "survey_tool",
+    canvas_api_permissions: {
+      default: [],
+      common: [
+        "urn:lti:sysrole:ims/lis/SysAdmin",
+        "urn:lti:sysrole:ims/lis/Administrator",
+        "urn:lti:instrole:ims/lis/Administrator",
+        "urn:lti:role:ims/lis/Instructor",
+      ],
+    },
+    kind: Application.kinds[:lti],
+    default_config: {},
+    lti_config: {
+      title: "Survey Aggregation",
+      description: "Survey Aggregation Application",
+      privacy_level: "public",
+      icon: "oauth_icon.png",
+      custom_fields: {
+        canvas_course_id: "$Canvas.course.id",
+        external_tool_url: "$Canvas.externalTool.url",
+      },
+      course_navigation: {
+        text: "Survey Aggregation",
+        visibility: "admins",
+      },
+    },
+    application_instances: [],
+    # application_instances: [{
+    #   tenant: "surveys",
+    #   lti_key: "surveys",
+    #   lti_secret: secrets.survey_tool_lti_secret,
+    #   site_url: lti_consumer_uri,
+    #   canvas_token: secrets.canvas_token,
+    #   domain: "surveys.#{secrets.domain_name}",
+    #   lti_type: ApplicationInstance.lti_types[:course_navigation],
+    # }],
+  },
 ]
 
 def setup_application_instances(application, application_instances)

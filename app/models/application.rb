@@ -27,6 +27,7 @@ class Application < ActiveRecord::Base
   EXAMS = "exams".freeze
   EXAMPROCTOR = "examproctor".freeze
   QUIZCONVERTER = "quizconverter".freeze
+  SURVEYAGGREGATION = "surveyaggregation".freeze
 
   def create_instance(site: nil, bundle_instance: nil)
     application_instances.find_or_create_by(
