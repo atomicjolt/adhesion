@@ -31,7 +31,7 @@ export class CanvasAuthentication extends React.Component {
 
   getButton() {
     if (this.props.hideButton) return null;
-    return <input type="submit" value="Authorize" />;
+    return <input type="submit" style={{ backgroundColor: '#007fa3', width: '15%', height: '35px', color: 'white', fontWeight: 'bold', fontSize: '15px' }} value="Authorize" />;
   }
 
   renderSettings() {
@@ -43,13 +43,15 @@ export class CanvasAuthentication extends React.Component {
 
   render() {
     return (
-      <form
-        ref={(ref) => { this.form = ref; }}
-        action={this.props.settings.canvas_oauth_url}
-      >
-        { this.getButton() }
-        { this.renderSettings() }
-      </form>
+      <div>
+        <form
+          ref={(ref) => { this.form = ref; }}
+          action={this.props.settings.canvas_oauth_url}
+        >
+          { this.getButton() }
+          { this.renderSettings() }
+        </form>
+      </div>
     );
   }
 }
