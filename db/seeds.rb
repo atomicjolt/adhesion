@@ -58,26 +58,56 @@ applications = [
     application_instances: [{
       lti_key: Application::ADMIN,
       site_url: secrets.canvas_url,
+      domain: "#{Application::ADMIN}.#{Rails.application.secrets.application_root_domain}",
     }],
   },
-  # {
-  #   key: Application::SCORM,
-  #   name: "SCORM Player",
-  #   description: "SCORM Player",
-  #   client_application_name: "scorm",
-  #   canvas_api_permissions: "CREATE_ASSIGNMENT,DELETE_ASSIGNMENT,LIST_ASSIGNMENTS",
-  #   kind: Application.kinds[:lti],
-  #   default_config: { "scorm_type" => "cloud" },
-  #   application_instances: [{
-  #     tenant: "scorm-player",
-  #     lti_key: "scorm-player",
-  #     lti_secret: secrets.scorm_lti_secret,
-  #     site_url: lti_consumer_uri,
-  #     canvas_token: secrets.canvas_token,
-  #     domain: "scorm.#{secrets.domain_name}",
-  #     lti_type: ApplicationInstance.lti_types[:course_navigation],
-  #   }],
-  # },
+  {
+    key: Application::SCORM,
+    name: "SCORM Player",
+    description: "SCORM Player",
+    client_application_name: "scorm",
+    canvas_api_permissions: {
+      default: [],
+      common: [
+        "urn:lti:sysrole:ims/lis/SysAdmin",
+        "urn:lti:sysrole:ims/lis/Administrator",
+        "urn:lti:instrole:ims/lis/Administrator",
+        "urn:lti:role:ims/lis/Instructor",
+      ],
+      LIST_ASSIGNMENTS: [
+        "urn:lti:role:ims/lis/Learner",
+        "urn:lti:sysrole:ims/lis/User",
+      ],
+      CREATE_ASSIGNMENT: [],
+      DELETE_ASSIGNMENT: [],
+    },
+    kind: Application.kinds[:lti],
+    default_config: { "scorm_type" => "engine" },
+    lti_config: {
+      title: "SCORM Player",
+      description: "SCORM Player Application",
+      privacy_level: "public",
+      icon: "oauth_icon.png",
+      custom_fields: {
+        canvas_course_id: "$Canvas.course.id",
+        external_tool_url: "$Canvas.externalTool.url",
+      },
+      course_navigation: {
+        text: "SCORM Player",
+        visibility: "members",
+      },
+    },
+    application_instances: [],
+    # application_instances: [{
+    #   tenant: "scorm-player",
+    #   lti_key: "scorm-player",
+    #   lti_secret: secrets.scorm_lti_secret,
+    #   site_url: lti_consumer_uri,
+    #   canvas_token: secrets.canvas_token,
+    #   domain: "scorm.#{secrets.domain_name}",
+    #   lti_type: ApplicationInstance.lti_types[:course_navigation],
+    # }],
+  },
   # {
   #   name: "Attendance",
   #   description: "Attendance Application",
@@ -204,7 +234,6 @@ end
 
 sites.each do |attrs|
   if site = Site.find_by(url: attrs[:url])
-    byebug
     site.update_attributes!(attrs)
   else
     Site.create!(attrs)
@@ -213,7 +242,7 @@ end
 
 applications.each do |attrs|
   application_instances = attrs.delete(:application_instances)
-  if application = Application.find_by(name: attrs[:name])
+  if application = Application.find_by(name: attrs[:name]) # TODO update to `find_by(key: attrs[:key])`
     application.update_attributes!(attrs)
   else
     application = Application.create!(attrs)
@@ -230,6 +259,8 @@ bundles.each do |attrs|
     bundle
   end
 end
+
+ApplicationInstance.find_each { |ai| ai.update lti_config: ai.application.lti_config }
 
 begin
   Apartment::Tenant.create Application::AUTH
