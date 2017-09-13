@@ -151,26 +151,50 @@ applications = [
     #   lti_type: ApplicationInstance.lti_types[:course_navigation],
     # }],
   },
-  # {
-  #   name: "Exams",
-  #   description: "Proctor Tool",
-  #   client_application_name: "exams",
-  #   canvas_api_permissions: %w{
-  #     LIST_USERS_IN_COURSE_USERS
-  #     LIST_QUIZZES_IN_COURSE
-  #     GET_SUB_ACCOUNTS_OF_ACCOUNT
-  #   }.join(","),
-  #   kind: Application.kinds[:lti],
-  #   application_instances: [{
-  #     tenant: "exam",
-  #     lti_key: "exam",
-  #     lti_secret: secrets.exams_lti_secret,
-  #     site_url: lti_consumer_uri,
-  #     canvas_token: secrets.canvas_token,
-  #     domain: "exam.#{secrets.domain_name}",
-  #     lti_type: ApplicationInstance.lti_types[:course_navigation],
-  #   }],
-  # },
+  {
+    key: Application::EXAMS,
+    name: "Exams",
+    description: "Proctor Tool",
+    client_application_name: "exams",
+    canvas_api_permissions: {
+      default: [],
+      common: [
+        "urn:lti:sysrole:ims/lis/SysAdmin",
+        "urn:lti:sysrole:ims/lis/Administrator",
+        "urn:lti:instrole:ims/lis/Administrator",
+        "urn:lti:role:ims/lis/Instructor",
+      ],
+      LIST_USERS_IN_COURSE_USERS: [],
+      LIST_QUIZZES_IN_COURSE: [],
+      GET_SUB_ACCOUNTS_OF_ACCOUNT: [],
+    },
+    kind: Application.kinds[:lti],
+    default_config: {},
+    lti_config: {
+      title: "Exams",
+      description: "Exams Application",
+      privacy_level: "public",
+      icon: "oauth_icon.png",
+      custom_fields: {
+        canvas_course_id: "$Canvas.course.id",
+        external_tool_url: "$Canvas.externalTool.url",
+      },
+      course_navigation: {
+        text: "Exams",
+        visibility: "admins",
+      },
+    },
+    application_instances: [],
+    # application_instances: [{
+    #   tenant: "exam",
+    #   lti_key: "exam",
+    #   lti_secret: secrets.exams_lti_secret,
+    #   site_url: lti_consumer_uri,
+    #   canvas_token: secrets.canvas_token,
+    #   domain: "exam.#{secrets.domain_name}",
+    #   lti_type: ApplicationInstance.lti_types[:course_navigation],
+    # }],
+  },
   # {
   #   name: "Exam Proctoring",
   #   description: "Exam Proctoring",
