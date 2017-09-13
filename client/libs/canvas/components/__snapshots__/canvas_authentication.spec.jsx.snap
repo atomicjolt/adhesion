@@ -8,33 +8,57 @@ ShallowWrapper {
     "findWhereUnwrapped": [Function],
   },
   "length": 1,
-  "node": <form
-    action="http://www.example.com"
->
-    <input
-        type="submit"
-        value="Authorize"
-    />
-    <input
-        name="canvas_oauth_url"
-        type="hidden"
-        value="http://www.example.com"
-    />
-</form>,
-  "nodes": Array [
+  "node": <div>
     <form
-      action="http://www.example.com"
->
-      <input
+        action="http://www.example.com"
+    >
+        <input
+            style={
+                Object {
+                    "backgroundColor": "#007fa3",
+                    "color": "white",
+                    "fontSize": "15px",
+                    "fontWeight": "bold",
+                    "height": "35px",
+                    "width": "15%",
+                  }
+            }
             type="submit"
             value="Authorize"
-      />
-      <input
+        />
+        <input
             name="canvas_oauth_url"
             type="hidden"
             value="http://www.example.com"
-      />
-</form>,
+        />
+    </form>
+</div>,
+  "nodes": Array [
+    <div>
+      <form
+            action="http://www.example.com"
+      >
+            <input
+                  style={
+                        Object {
+                              "backgroundColor": "#007fa3",
+                              "color": "white",
+                              "fontSize": "15px",
+                              "fontWeight": "bold",
+                              "height": "35px",
+                              "width": "15%",
+                            }
+                  }
+                  type="submit"
+                  value="Authorize"
+            />
+            <input
+                  name="canvas_oauth_url"
+                  type="hidden"
+                  value="http://www.example.com"
+            />
+      </form>
+</div>,
   ],
   "options": Object {},
   "renderer": ReactShallowRenderer {
@@ -86,33 +110,57 @@ ShallowWrapper {
       "_pendingReplaceState": false,
       "_pendingStateQueue": null,
       "_renderedComponent": NoopInternalComponent {
-        "_currentElement": <form
-          action="http://www.example.com"
->
-          <input
-                    type="submit"
-                    value="Authorize"
-          />
-          <input
-                    name="canvas_oauth_url"
-                    type="hidden"
-                    value="http://www.example.com"
-          />
-</form>,
+        "_currentElement": <div>
+          <form
+                    action="http://www.example.com"
+          >
+                    <input
+                              style={
+                                        Object {
+                                                  "backgroundColor": "#007fa3",
+                                                  "color": "white",
+                                                  "fontSize": "15px",
+                                                  "fontWeight": "bold",
+                                                  "height": "35px",
+                                                  "width": "15%",
+                                                }
+                              }
+                              type="submit"
+                              value="Authorize"
+                    />
+                    <input
+                              name="canvas_oauth_url"
+                              type="hidden"
+                              value="http://www.example.com"
+                    />
+          </form>
+</div>,
         "_debugID": 2,
-        "_renderedOutput": <form
-          action="http://www.example.com"
->
-          <input
-                    type="submit"
-                    value="Authorize"
-          />
-          <input
-                    name="canvas_oauth_url"
-                    type="hidden"
-                    value="http://www.example.com"
-          />
-</form>,
+        "_renderedOutput": <div>
+          <form
+                    action="http://www.example.com"
+          >
+                    <input
+                              style={
+                                        Object {
+                                                  "backgroundColor": "#007fa3",
+                                                  "color": "white",
+                                                  "fontSize": "15px",
+                                                  "fontWeight": "bold",
+                                                  "height": "35px",
+                                                  "width": "15%",
+                                                }
+                              }
+                              type="submit"
+                              value="Authorize"
+                    />
+                    <input
+                              name="canvas_oauth_url"
+                              type="hidden"
+                              value="http://www.example.com"
+                    />
+          </form>
+</div>,
       },
       "_renderedNodeType": 0,
       "_rootNodeID": 0,
