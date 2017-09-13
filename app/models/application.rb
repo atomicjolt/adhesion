@@ -21,8 +21,9 @@ class Application < ActiveRecord::Base
 
   ADMIN = "adhesionadmin".freeze
   AUTH = "adhesionauth".freeze
-  # TODO: add all the apps!!!
-  HELLOWORLD = "helloworld".freeze
+  WELCOME = "adhesionwelcome".freeze
+
+  SCORM = "scorm".freeze
 
   def create_instance(site: nil, bundle_instance: nil)
     application_instances.find_or_create_by(
