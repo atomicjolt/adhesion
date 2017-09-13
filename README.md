@@ -1,4 +1,4 @@
-# Adhesion [![Build Status](https://travis-ci.org/atomicjolt/adhesion.svg?branch=master)](https://travis-ci.org/atomicjolt/adhesion) [![Coverage Status](https://coveralls.io/repos/github/atomicjolt/adhesion/badge.svg?branch=master)](https://coveralls.io/github/atomicjolt/adhesion?branch=master)
+# Adhesion [![Build Status](https://travis-ci.org/atomicjolt/adhesion.svg?branch=master)](https://travis-ci.org/atomicjolt/adhesion)
 -----------------------
 
 Adhesion is the [Atomic Jolt](http://www.atomicjolt.com/) lti app suite.

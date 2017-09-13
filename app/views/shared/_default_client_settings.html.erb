@@ -3,21 +3,33 @@
     api_url: application_base_url,
     csrf_token: form_authenticity_token
   }
+
+
+  # OAuth related params
+  settings[:app_callback_url]     = user_canvas_omniauth_callback_url
+  settings[:canvas_oauth_url]     = user_canvas_omniauth_authorize_url(subdomain: Application::AUTH)
+  settings[:canvas_callback_url]  = user_canvas_omniauth_callback_url(subdomain: Application::AUTH)
+  settings[:canvas_auth_required] = @canvas_auth_required
+  settings[:canvas_url] = canvas_url
+
   if signed_in?
     settings[:user_id]      = current_user.id
     settings[:email]        = current_user.email
     settings[:display_name] = current_user.display_name
 
+    # LMS related params
+    settings[:lti_user_id] = current_user.lti_user_id
+    settings[:lms_user_id] = current_user.lms_user_id
+
     if @lti_launch
-      settings[:canvas_url]                             = @canvas_url
+      settings[:lti_launch_config] = @lti_launch.config
+    end
+
+    if @is_lti_launch
       settings[:oauth_consumer_key]                     = params[:oauth_consumer_key]
       settings[:lms_course_id]                          = params[:custom_canvas_course_id]
-      settings[:lti_user_id]                            = current_user.lti_user_id
-      settings[:lms_user_id]                            = current_user.lms_user_id
       settings[:lti_provider]                           = lti_provider
       settings[:lms_course_name]                        = params[:context_title]
-      settings[:canvas_oauth_path]                      = @canvas_oauth_path
-      settings[:canvas_auth_required]                   = @canvas_auth_required
 
       # LTI parameters
       settings[:context_id]                             = params["context_id"]
@@ -46,13 +58,30 @@
       settings[:oauth_callback]                         = params["oauth_callback"]
       settings[:resource_link_id]                       = params["resource_link_id"]
       settings[:resource_link_title]                    = params["resource_link_title"]
-      settings[:roles]                                  = params["roles"]
+      settings[:roles]                                  = lti_roles
       settings[:tool_consumer_info_product_family_code] = params["tool_consumer_info_product_family_code"]
       settings[:tool_consumer_info_version]             = params["tool_consumer_info_version"]
       settings[:tool_consumer_instance_contact_email]   = params["tool_consumer_instance_contact_email"]
       settings[:tool_consumer_instance_guid]            = params["tool_consumer_instance_guid"]
       settings[:tool_consumer_instance_name]            = params["tool_consumer_instance_name"]
       settings[:user_image]                             = params["user_image"]
+
+      # Outcome LTI parameters
+      if params["lis_outcome_service_url"].present?
+        settings[:lis_result_sourcedid]    = params["lis_result_sourcedid"]
+        settings[:lis_outcome_service_url] = params["lis_outcome_service_url"]
+      end
+
+      # Content Item LTI parameters
+      if params["content_item_return_url"].present?
+        settings[:accept_media_types] = params["accept_media_types"]
+        settings[:accept_multiple] = params["accept_multiple"]
+        settings[:accept_presentation_document_targets] = params["accept_presentation_document_targets"]
+        settings[:accept_unsigned] = params["accept_unsigned"]
+        settings[:content_item_return_url] = params["content_item_return_url"]
+
+        settings[:lti_launches_url] = lti_launches_url
+      end
     end
   end
 %>

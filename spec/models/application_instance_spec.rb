@@ -4,13 +4,39 @@ RSpec.describe ApplicationInstance, type: :model do
   describe "create application" do
     before :each do
       @site = create(:site)
-      @name = "test"
-      @application = create(:application, name: @name)
+      @name = "An Example application"
+      @key = "example"
+      @application = create(:application, name: @name, key: @key)
+    end
+
+    it "uses the provided lti key" do
+      lti_key = "atomic-key"
+      @application_instance = create(:application_instance, lti_key: lti_key, site: @site, application: @application)
+      expect(@application_instance.key).to eq(lti_key)
+      expect(@application_instance.lti_key).to eq(lti_key)
+      expect(@application_instance.domain).to eq("#{lti_key}.#{Rails.application.secrets.application_root_domain}")
     end
 
     it "sets a default lti key" do
       @application_instance = create(:application_instance, lti_key: nil, site: @site, application: @application)
-      expect(@application_instance.lti_key).to eq(@name)
+      expect(@application_instance.lti_key).to eq(@application_instance.key)
+    end
+
+    it "generates a key based on the site and application" do
+      @application_instance = create(:application_instance, lti_key: nil, site: @site, application: @application)
+      expect(@application_instance.key).to eq("#{@site.key}-#{@application.key}")
+    end
+
+    it "sets a default domain" do
+      @application_instance = create(
+        :application_instance,
+        lti_key: nil,
+        domain: nil,
+        site: @site,
+        application: @application,
+      )
+      application_instance_domain = "#{@application_instance.key}.#{Rails.application.secrets.application_root_domain}"
+      expect(@application_instance.domain).to eq(application_instance_domain)
     end
 
     it "sets a default secret" do
@@ -34,11 +60,11 @@ RSpec.describe ApplicationInstance, type: :model do
       expect(@application_instance.tenant).to eq("bfcoder")
     end
 
-    it "sets a valid lti_key using the name" do
-      name = "A Test"
-      application = create(:application, name: name)
+    it "sets a valid lti_key using the key" do
+      key = "a-test"
+      application = create(:application, key: key)
       @application_instance = create(:application_instance, lti_key: nil, site: @site, application: application)
-      expect(@application_instance.lti_key).to eq("a-test")
+      expect(@application_instance.lti_key).to eq("#{@site.key}-#{key}")
     end
 
     it "doesn't set lti_key if the lti_key is already set" do
@@ -63,22 +89,27 @@ RSpec.describe ApplicationInstance, type: :model do
       expect(app_instance.config).to eq("foo" => "baz")
     end
 
+    it "sets the lti_config to the application lti_config if blank" do
+      app = create(:application, lti_config: { foo: :bar })
+      app_instance = create(:application_instance, application: app)
+      expect(app_instance.lti_config).to eq app.lti_config
+    end
+
+    it "keeps the lti_config to as entered" do
+      app = create(:application, lti_config: { foo: :bar })
+      app_instance = create(:application_instance, application: app, lti_config: { foo: :baz })
+      expect(app_instance.lti_config).to eq("foo" => "baz")
+    end
+
     it "requires a site" do
       expect do
         create(:application_instance, site: nil, lti_key: "test")
       end.to raise_exception(ActiveRecord::RecordInvalid)
     end
 
-    it "sets the lti_type to basic if no value is set" do
-      @application_instance = create(:application_instance, lti_key: "test", site: @site)
-      expect(@application_instance.basic?).to be true
-    end
-
     it "creates a schema upon creation" do
-      TestAfterCommit.with_commits(true) do
-        expect(Apartment::Tenant).to receive(:create)
-        @application_instance = create :application_instance
-      end
+      expect(Apartment::Tenant).to receive(:create)
+      @application_instance = create :application_instance
     end
 
     it "does not allow the name to be changed after creation" do

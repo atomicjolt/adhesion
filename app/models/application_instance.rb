@@ -1,22 +1,25 @@
 class ApplicationInstance < ActiveRecord::Base
+
   serialize :config, HashSerializer
+  serialize :lti_config, HashSerializer
 
   belongs_to :application, counter_cache: true
   belongs_to :site
+  belongs_to :bundle_instance
 
   validates :lti_key, presence: true, uniqueness: true
   validates :lti_secret, presence: true
   validates :site_id, presence: true
+  validates :application_id, presence: true
 
   before_validation :set_lti
+  before_validation :set_domain
+
   before_validation on: [:update] do
     errors.add(:lti_key, "cannot be changed after creation") if lti_key_changed?
   end
 
   store_accessor :config, :scorm_type
-
-  enum lti_type: [:basic, :course_navigation, :account_navigation]
-  enum visibility: [:everyone, :admins, :members]
 
   attr_encrypted :canvas_token, key: Rails.application.secrets.encryption_key, mode: :per_attribute_iv_and_salt
 
@@ -31,16 +34,33 @@ class ApplicationInstance < ActiveRecord::Base
   end
 
   def lti_config_xml
-    Lti::Utils.lti_config_xml(self)
+    domain = self.domain || Rails.application.secrets.application_main_domain
+    config = lti_config.dup
+    if config.present?
+      config[:launch_url] ||= "https://#{domain}/lti_launches"
+      config[:secure_launch_url] ||= "https://#{domain}/lti_launches"
+      config[:domain] ||= domain
+      config[:icon] ||= "https://#{domain}/#{config[:icon]}"
+      Lti::Config.xml(config)
+    end
+  end
+
+  def key(application_key_override = nil)
+    return lti_key if lti_key.present?
+    return "" if site.blank? || application.blank?
+    "#{site.key}-#{application_key_override || application.key}"
   end
 
   private
 
   def set_lti
-    self.lti_type ||= ApplicationInstance.lti_types[:basic]
-    self.lti_key = (lti_key || application.name)&.parameterize&.dasherize
+    self.lti_key = lti_key || key
     self.lti_secret = ::SecureRandom::hex(64) if lti_secret.blank?
     self.tenant ||= lti_key
+  end
+
+  def set_domain
+    self.domain = domain || "#{key}.#{Rails.application.secrets.application_root_domain}"
   end
 
   def create_schema
@@ -52,6 +72,7 @@ class ApplicationInstance < ActiveRecord::Base
 
   def create_config
     self.config = application.default_config if config.blank?
+    self.lti_config = application.lti_config if lti_config.blank?
   end
 
   # Danger! Whole databases will be lost with this method!
