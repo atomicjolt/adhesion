@@ -21,9 +21,9 @@ class Application < ActiveRecord::Base
 
   ADMIN = "adhesionadmin".freeze
   AUTH = "adhesionauth".freeze
-  WELCOME = "adhesionwelcome".freeze
 
   SCORM = "scorm".freeze
+  ATTENDANCE = "attendance".freeze
 
   def create_instance(site: nil, bundle_instance: nil)
     application_instances.find_or_create_by(

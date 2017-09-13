@@ -108,25 +108,49 @@ applications = [
     #   lti_type: ApplicationInstance.lti_types[:course_navigation],
     # }],
   },
-  # {
-  #   name: "Attendance",
-  #   description: "Attendance Application",
-  #   client_application_name: "attendance",
-  #   canvas_api_permissions: %w(
-  #     LIST_USERS_IN_COURSE_USERS
-  #     LIST_COURSE_SECTIONS
-  #   ).join(","),
-  #   kind: Application.kinds[:lti],
-  #   application_instances: [{
-  #     tenant: "attendance",
-  #     lti_key: "attendance",
-  #     lti_secret: secrets.attendance_lti_secret,
-  #     site_url: lti_consumer_uri,
-  #     canvas_token: secrets.canvas_token,
-  #     domain: "attendance.#{secrets.domain_name}",
-  #     lti_type: ApplicationInstance.lti_types[:course_navigation],
-  #   }],
-  # },
+  {
+    key: Application::ATTENDANCE,
+    name: "Attendance",
+    description: "Attendance Application",
+    client_application_name: "attendance",
+    canvas_api_permissions: {
+      default: [],
+      common: [
+        "urn:lti:sysrole:ims/lis/SysAdmin",
+        "urn:lti:sysrole:ims/lis/Administrator",
+        "urn:lti:instrole:ims/lis/Administrator",
+        "urn:lti:role:ims/lis/Instructor",
+      ],
+      LIST_USERS_IN_COURSE_USERS: [],
+      LIST_COURSE_SECTIONS: [],
+    },
+    kind: Application.kinds[:lti],
+    default_config: {},
+    lti_config: {
+      title: "Attendance",
+      description: "Attendance Application",
+      privacy_level: "public",
+      icon: "oauth_icon.png",
+      custom_fields: {
+        canvas_course_id: "$Canvas.course.id",
+        external_tool_url: "$Canvas.externalTool.url",
+      },
+      course_navigation: {
+        text: "Attendance",
+        visibility: "admins",
+      },
+    },
+    application_instances: [],
+    # application_instances: [{
+    #   tenant: "attendance",
+    #   lti_key: "attendance",
+    #   lti_secret: secrets.attendance_lti_secret,
+    #   site_url: lti_consumer_uri,
+    #   canvas_token: secrets.canvas_token,
+    #   domain: "attendance.#{secrets.domain_name}",
+    #   lti_type: ApplicationInstance.lti_types[:course_navigation],
+    # }],
+  },
   # {
   #   name: "Exams",
   #   description: "Proctor Tool",
