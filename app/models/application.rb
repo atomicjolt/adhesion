@@ -26,6 +26,7 @@ class Application < ActiveRecord::Base
   ATTENDANCE = "attendance".freeze
   EXAMS = "exams".freeze
   EXAMPROCTOR = "examproctor".freeze
+  QUIZCONVERTER = "quizconverter".freeze
 
   def create_instance(site: nil, bundle_instance: nil)
     application_instances.find_or_create_by(
