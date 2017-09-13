@@ -19,7 +19,9 @@ module Concerns
     end
 
     def valid_lti_request?(lti_secret)
-      authenticator = IMS::LTI::Services::MessageAuthenticator.new(request.url, request.request_parameters, lti_secret)
+      # Remove any query parameters from the url
+      url = UrlHelper.scheme_host_port(request.url) + URI.parse(request.url).path
+      authenticator = IMS::LTI::Services::MessageAuthenticator.new(url, request.request_parameters, lti_secret)
       authenticator.valid_signature? &&
         Nonce.valid?(request.request_parameters["oauth_nonce"]) &&
         valid_timestamp?
