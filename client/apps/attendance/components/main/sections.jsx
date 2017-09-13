@@ -14,13 +14,13 @@ export default function sections(props) {
   );
 
   return (
-    <button className="c-btn c-btn--sections">
+    <div className="c-btn c-btn--sections">
       <Dropdown
         onChange={props.filterStudents}
         options={options}
         value={sectionList[0].label}
       />
-    </button>
+    </div>
   );
 }
 
