@@ -232,7 +232,7 @@ applications = [
         canvas_course_id: "$Canvas.course.id",
         external_tool_url: "$Canvas.externalTool.url",
       },
-      course_navigation: {
+      account_navigation: {
         text: "Exam Proctoring",
         visibility: "admins",
       },
