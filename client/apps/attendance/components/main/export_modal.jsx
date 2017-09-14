@@ -1,5 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
+import moment from 'moment';
+
 import RangePicker from './range_picker';
 import ExportButton from './export_button';
 
@@ -33,8 +35,9 @@ export default class ExportModal extends React.Component {
 
   constructor() {
     super();
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    const today = moment().startOf('day');
+    // today.setHours(0, 0, 0, 0);
+
     this.state = {
       startDate: today,
       endDate: today,

@@ -1,11 +1,12 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import moment from 'moment';
+
 import ExportCSV from './export_modal';
 
 
-const mockedDate = new Date(2016, 1, 1);
-global.Date.UTC = Date.UTC;
-global.Date = jest.fn(() => mockedDate);
+const mockedDate = moment('2016-01-01');
+moment.now = jest.fn(() => mockedDate);
 
 describe('Export CSV', () => {
   let modalClosed;
