@@ -1,6 +1,6 @@
-import React                         from 'react';
-import TestUtils                     from 'react-addons-test-utils';
-import ScheduleForm                  from './schedule_form';
+import React from 'react';
+import { shallow } from 'enzyme';
+import ScheduleForm from './schedule_form';
 
 describe('schedule form', () => {
   let result;
@@ -15,12 +15,13 @@ describe('schedule form', () => {
       closeModal: () => {},
       scheduleExam:  () => {}
     };
-    result = TestUtils.renderIntoDocument(<ScheduleForm {...props} />);
+    result = shallow(<ScheduleForm {...props} />);
   });
 
   it('changing date after adding text doesnt delete the text', () => {
-    result.onMessageChange({ target: { value: `${result.state.autoMessage}z` } });
-    result.handleDateChange(new Date(2010, 10, 10));
-    expect(result.messageField.value[result.messageField.value.length - 1]).toBe('z');
+    result.instance().onMessageChange({ target: { value: `${result.instance().state.autoMessage}z` } });
+    result.instance().messageField = {};
+    result.instance().handleDateChange(new Date(2010, 10, 10));
+    expect(result.instance().messageField.value[result.instance().messageField.value.length - 1]).toBe('z');
   });
 });
