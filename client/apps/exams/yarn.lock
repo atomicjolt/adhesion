@@ -520,7 +520,7 @@ core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
 
-create-react-class@^15.5.1, create-react-class@^15.5.2, create-react-class@^15.6.0:
+create-react-class@^15.5.1, create-react-class@^15.5.2, create-react-class@^15.5.x, create-react-class@^15.6.0:
   version "15.6.0"
   resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.6.0.tgz#ab448497c26566e1e29413e883207d57cfe7bed4"
   dependencies:
@@ -2182,6 +2182,12 @@ react-modal@^1.7.7:
     prop-types "^15.5.7"
     react-dom-factories "^1.0.0"
 
+react-onclickoutside@^5.7.1:
+  version "5.11.1"
+  resolved "https://registry.yarnpkg.com/react-onclickoutside/-/react-onclickoutside-5.11.1.tgz#00314e52567cf55faba94cabbacd119619070623"
+  dependencies:
+    create-react-class "^15.5.x"
+
 react-proxy-loader@^0.3.5:
   version "0.3.5"
   resolved "https://registry.yarnpkg.com/react-proxy-loader/-/react-proxy-loader-0.3.5.tgz#eaeebc3950f9efad36b8bfc47cf58a9a8ca3432d"
@@ -2226,6 +2232,12 @@ react-s3-uploader@4.5.0:
     object-assign "^2.0.0"
     prop-types "^15.5.8"
     uuid "^3.1.0"
+
+react-select-search@^0.5.4:
+  version "0.5.5"
+  resolved "https://registry.yarnpkg.com/react-select-search/-/react-select-search-0.5.5.tgz#4fbd958355e1cd850f568ea25862d8567866b1df"
+  dependencies:
+    react-onclickoutside "^5.7.1"
 
 react-tap-event-plugin@2.0.1:
   version "2.0.1"
