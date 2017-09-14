@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import ExportCSV from './export_modal';
 
 
-const mockedDate = new Date('2016');
+const mockedDate = new Date('2016-01-01T00:00:00.000Z');
 global.Date = jest.fn(() => mockedDate);
 
 describe('Export CSV', () => {
