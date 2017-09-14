@@ -36,8 +36,6 @@ export default class ExportModal extends React.Component {
   constructor() {
     super();
     const today = moment().startOf('day');
-    // today.setHours(0, 0, 0, 0);
-
     this.state = {
       startDate: today,
       endDate: today,

@@ -1,9 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import moment from 'moment';
-
 import ExportCSV from './export_modal';
-
 
 const mockedDate = moment('2016-01-01');
 moment.now = jest.fn(() => mockedDate);
