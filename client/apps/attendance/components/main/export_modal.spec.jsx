@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import moment from 'moment';
 import ExportCSV from './export_modal';
 
-const mockedDate = moment('2016-01-01');
+const mockedDate = moment.utc('2016-01-01');
 moment.now = jest.fn(() => mockedDate);
 
 describe('Export CSV', () => {
