@@ -1,10 +1,11 @@
-import React        from 'react';
-import moment       from 'moment';
-import TestUtils    from 'react-addons-test-utils';
+import React from 'react';
+import moment from 'moment';
+import { shallow } from 'enzyme';
 import DateSelector from './date_selector';
 
 describe('Date Selector', () => {
   let props;
+  let result;
   const date = moment('2010-10-20').toDate();
 
   beforeEach(() => {
@@ -12,17 +13,10 @@ describe('Date Selector', () => {
       date,
       onChange: () => {},
     };
+    result = shallow(<DateSelector {...props} />);
   });
 
-  it('opens the datepicker when you click the button', () => {
-    const result = TestUtils.renderIntoDocument(<DateSelector {...props} />);
-    const button = TestUtils.findRenderedDOMComponentWithTag(result, 'button');
-    TestUtils.Simulate.mouseDown(button);
-    expect(
-      TestUtils.findRenderedDOMComponentWithClass(
-        result,
-        'react-datepicker__input-container'
-      ).getAttribute('class')
-    ).toContain('react-datepicker__tether-enabled');
+  it('matches the snapshot', () => {
+    expect(result).toMatchSnapshot();
   });
 });

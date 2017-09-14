@@ -1,5 +1,5 @@
-import React                      from 'react';
-import TestUtils                  from 'react-addons-test-utils';
+import React from 'react';
+import { shallow } from 'enzyme';
 import { BaseExamRequestList } from './_exam_request_list';
 
 describe('Base Exam Assignment List', () => {
@@ -27,6 +27,8 @@ describe('Base Exam Assignment List', () => {
         exam_name: 'Whos that pokemon',
         id: 99,
       }],
+      getSignedUrl: () => {},
+      createProctorConversation: () => {},
       canvasRequest: () => {},
       finishExam: () => {},
       enterAnswers: () => {},
@@ -39,23 +41,27 @@ describe('Base Exam Assignment List', () => {
       toolConsumerInstanceName: 'Consumer name',
       scheduleExam: (id, body) => { examId = id; examBody = body; },
     };
-    result = TestUtils.renderIntoDocument(<BaseExamRequestList {...props} />);
+    result = shallow(<BaseExamRequestList {...props} />);
+  });
+
+  it('displays all', () => {
+    const element = result.find('ExamRequest');
+    expect(element.length).toBe(2);
   });
 
   it('filters on search', () => {
     result.setState({ searchVal: 'scheduled' });
-    const element = TestUtils.findRenderedDOMComponentWithTag(result, 'table');
-    expect(element.textContent).toContain('James');
-    expect(element.textContent).not.toContain('Picard');
+    const element = result.find('ExamRequest');
+    expect(element.length).toBe(1);
   });
 
   it('download', () => {
-    result.onDownload('yesterday', 'tomorrow');
+    result.instance().onDownload('yesterday', 'tomorrow');
     expect(willDownload).toBeTruthy();
   });
 
   it('schedule an exam', () => {
-    result.scheduleExam('123', 'scheduled for yesterday', 'did you not know?');
+    result.instance().scheduleExam('123', 'scheduled for yesterday', 'did you not know?');
     expect(examId).toBeDefined();
     expect(examBody).toBeDefined();
   });
