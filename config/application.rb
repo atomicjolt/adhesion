@@ -1,14 +1,7 @@
-require File.expand_path("../boot", __FILE__)
+require_relative 'boot'
+require_relative "../app/lib/middleware/oauth_state_middleware"
 
-# Pick the frameworks you want:
-require "active_model/railtie"
-require "active_record/railtie"
-require "action_controller/railtie"
-require "action_mailer/railtie"
-require "action_view/railtie"
-require "sprockets/railtie"
-require "syslog/logger"
-# require "rails/test_unit/railtie"
+require 'rails/all'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -34,7 +27,7 @@ module Adhesion
       "X-Frame-Options" => "ALLOWALL",
     }
 
-    config.middleware.insert_before 0, "Rack::Cors" do
+    config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins "*"
         resource "*", headers: :any, methods: [:get, :post, :options]
@@ -42,7 +35,7 @@ module Adhesion
     end
 
     # Middleware that can restore state after an OAuth request
-    config.middleware.insert_before 0, "OauthStateMiddleware"
+    config.middleware.insert_before 0, OauthStateMiddleware
 
     config.webpack = {
       use_manifest: false,

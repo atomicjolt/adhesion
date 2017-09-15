@@ -3,6 +3,8 @@ class Api::ApplicationInstancesController < Api::ApiApplicationController
   load_and_authorize_resource :application
   load_and_authorize_resource :application_instance, through: :application
 
+  before_action :set_configs, only: [:create, :update]
+
   def index
     application_instances = @application_instances.map do |app|
       app_json = app.as_json(include: :site)
@@ -14,31 +16,19 @@ class Api::ApplicationInstancesController < Api::ApiApplicationController
   end
 
   def show
-    application_instance = @application_instance.as_json(include: :site)
-    application_instance["lti_config_xml"] = @application_instance.lti_config_xml
-    render json: application_instance
+    respond_with_json
   end
 
   def create
     @application_instance.domain =
-      "#{@application_instance.lti_key}.#{ENV['APP_URL']}"
-
-    # Strong params doesn't allow arbitrary json to be permitted
-    # So we have to explicitly set the config
-    # This will be allowed in rails 5.1
-    @application_instance.config = params[:application_instance][:config]
-
+      "#{@application_instance.lti_key}.#{Rails.application.secrets.application_root_domain}"
     @application_instance.save!
-    render json: @application_instance.as_json(include: :site)
+    respond_with_json
   end
 
   def update
-    # Strong params doesn't allow arbitrary json to be permitted
-    # So we have to explicitly set the config
-    # This will be allowed in rails 5.1
-    @application_instance.config = params[:application_instance][:config]
     @application_instance.update(application_instance_params)
-    render json: @application_instance.as_json(include: :site)
+    respond_with_json
   end
 
   def destroy
@@ -48,14 +38,27 @@ class Api::ApplicationInstancesController < Api::ApiApplicationController
 
   private
 
+  def set_configs
+    # Strong params doesn't allow arbitrary json to be permitted
+    # So we have to explicitly set the config
+    # This will be allowed in rails 5.1
+    @application_instance.config = params[:application_instance][:config]
+    @application_instance.lti_config = params[:application_instance][:lti_config]
+  end
+
+  def respond_with_json
+    application_instance = @application_instance.as_json(include: :site)
+    application_instance["lti_config_xml"] = @application_instance.lti_config_xml
+    render json: application_instance
+  end
+
   def application_instance_params
     params.require(:application_instance).permit(
       :site_id,
       :lti_secret,
       :canvas_token,
       :lti_key,
-      :lti_type,
-      :visibility,
+      :disabled_at,
     )
   end
 
