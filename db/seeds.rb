@@ -45,7 +45,18 @@ admin_api_permissions = {
   HELPER_ALL_ACCOUNTS: [],
 }
 
+<<<<<<< HEAD
 bundles = []
+=======
+bundles = [
+  {
+    name: "Hello World",
+    key: Application::HELLOWORLD,
+    applications: [Application::HELLOWORLD],
+    shared_tenant: true,
+  },
+]
+>>>>>>> 7650677d36a6f5a4465753e72ba06439c4b30c37
 
 applications = [
   {
@@ -376,6 +387,14 @@ applications.each do |attrs|
   end
   setup_application_instances(application, application_instances)
 end
+
+## One Off
+Bundle.find_each do |bundle|
+  bundle_hash = bundles.detect { |b| b[:key] == bundle.key }
+  shared_tenant = bundle_hash[:shared_tenant] || bundle.shared_tenant == true
+  bundle.update(shared_tenant: shared_tenant)
+end
+## End One Off
 
 bundles.each do |attrs|
   current_bundle = Bundle.find_or_create_by(key: attrs[:key])
