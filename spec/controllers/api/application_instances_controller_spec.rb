@@ -18,7 +18,7 @@ RSpec.describe Api::ApplicationInstancesController, type: :controller do
   context "no jwt" do
     describe "GET index" do
       it "returns unauthorized" do
-        get :index, { application_id: @application.id, format: :json }
+        get :index, params: { application_id: @application.id }, format: :json
         expect(response).to have_http_status(401)
       end
     end
@@ -31,7 +31,7 @@ RSpec.describe Api::ApplicationInstancesController, type: :controller do
 
     describe "GET index" do
       it "returns unauthorized" do
-        get :index, { application_id: @application.id, format: :json }
+        get :index, params: { application_id: @application.id }, format: :json
         expect(response).to have_http_status(401)
       end
     end
@@ -44,7 +44,7 @@ RSpec.describe Api::ApplicationInstancesController, type: :controller do
 
     describe "GET index" do
       it "renders all application instances as json" do
-        get :index, { application_id: @application.id, format: :json }
+        get :index, params: { application_id: @application.id }, format: :json
         expect(response).to have_http_status(200)
       end
     end
@@ -56,7 +56,12 @@ RSpec.describe Api::ApplicationInstancesController, type: :controller do
           lti_key: "test-key",
           site_id: site.id,
         }
-        post :create, { application_id: @application.id, application_instance: attrs, format: :json }
+        post :create,
+             params: {
+               application_id: @application.id,
+               application_instance: attrs,
+             },
+             format: :json
         expect(response).to have_http_status(200)
       end
     end
@@ -64,19 +69,50 @@ RSpec.describe Api::ApplicationInstancesController, type: :controller do
     describe "PUT update" do
       it "Updates the application instance" do
         put :update,
-            application_id: @application.id,
-            id: @application_instance.id,
-            application_instance: {
-              lti_secret: "12345",
+            params: {
+              application_id: @application.id,
+              id: @application_instance.id,
+              application_instance: {
+                lti_secret: "12345",
+              },
             },
             format: :json
         expect(response).to have_http_status(200)
+      end
+      it "Updates the application instance config_xml" do
+        put :update,
+            params: {
+              application_id: @application.id,
+              id: @application_instance.id,
+              application_instance: {
+                lti_secret: "12345",
+                lti_config: {
+                  title: "LTI Starter App",
+                  privacy_level: "anonymous",
+                  icon: "oauth_icon.png",
+                  course_navigation: {
+                    text: "LTI Starter App",
+                    visibility: "public",
+                  },
+                },
+              },
+            },
+            format: :json
+        expect(response).to have_http_status(200)
+        result = JSON.parse(response.body)
+        xml = result["lti_config_xml"]
+        expect(xml).to include('<lticm:property name="privacy_level">anonymous</lticm:property>')
       end
     end
 
     describe "DEL destroy" do
       it "Deletes the application instance" do
-        delete :destroy, { application_id: @application.id, id: @application_instance.id, format: :json }
+        delete :destroy,
+               params: {
+                 application_id: @application.id,
+                 id: @application_instance.id,
+               },
+               format: :json
         expect(response).to have_http_status(200)
       end
     end

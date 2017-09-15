@@ -82,8 +82,9 @@ RSpec.describe Api::AttendancesController, type: :controller do
       attendance1 = create(:attendance)
       create(:attendance, date: Date.today - 2.days)
       get :search, course_id: attendance1[:lms_course_id], date: attendance1.date
-      expect(assigns(:attendances).count).to eq(1)
-      expect(assigns(:attendances).first).to eq(attendance1)
+      result = JSON.parse(response.body)
+      expect(result.count).to eq(1)
+      expect(result.first["id"]).to eq(attendance1.id)
     end
 
     it "renders json" do

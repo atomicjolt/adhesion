@@ -14,7 +14,7 @@ Apartment.configure do |config|
   # Add any models that you do not want to be multi-tenanted, but remain in the global (public) namespace.
   # A typical example would be a Customer or Tenant model that stores each Tenant's information.
   #
-  config.excluded_models = %w{Application ApplicationInstance OauthState Site}
+  config.excluded_models = %w{Application ApplicationInstance OauthState Site Bundle BundleInstance}
 
   # In order to migrate all of your Tenants you need to provide a list of Tenant names to Apartment.
   # You can make this dynamic by providing a Proc object to be called on migrations.
@@ -87,11 +87,14 @@ end
 #   request.host.split('.').first
 # }
 
-Rails.application.config.middleware.insert_before "Warden::Manager", "Apartment::Elevators::Generic", lambda { |request|
+Rails.application.config.middleware.insert_before Warden::Manager, Apartment::Elevators::Generic, lambda { |request|
   key = request.params["oauth_consumer_key"]
   host = request.host_with_port
+  subdomain = host.split(".").first
   if application_instance = ApplicationInstance.find_by(lti_key: key) || ApplicationInstance.find_by(domain: host)
     application_instance.tenant
+  elsif subdomain == Application::AUTH
+    Application::AUTH
   else
     raise "Please specify a valid oauth_consumer_key or valid domain name for this request"
   end

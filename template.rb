@@ -97,7 +97,7 @@ end
 create_file ".env" do
   <<-EOF
 APP_SUBDOMAIN=#{url_safe_name}
-APP_URL=atomicjolt.xyz
+APP_ROOT_DOMAIN=atomicjolt.xyz
 APP_PORT=#{rails_port}
 ASSETS_SUBDOMAIN=#{url_safe_name}assets
 ASSETS_PORT=#{assets_port}
@@ -119,6 +119,7 @@ modify_files = Dir.glob("#{@working_dir}/**/*").reject { |f| File.directory?(f) 
 modify_files << ".env"
 modify_files << "Gemfile"
 modify_files << ".ruby-gemset"
+modify_files << "./bin/bootstrap"
 
 modify_files.each do |f|
   gsub_file(f, "adhesion") do |_match|
@@ -156,7 +157,6 @@ begin
     RVM.gemset_use! url_safe_name
 
     run "gem install bundler"
-    run "gem install foreman"
     run "bundle install"
 
   rescue => ex
@@ -171,14 +171,14 @@ end
 #
 # npm install
 #
-run "cd client && npm install"
+run "yarn"
 
 ###########################################################
 #
 # Initialize the database
 #
 rake("db:create")
-rake("db:schema:load")
+rake("db:setup")
 rake("db:seed")
 
 ###########################################################

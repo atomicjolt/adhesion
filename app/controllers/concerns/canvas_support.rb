@@ -4,38 +4,76 @@ module Concerns
 
     protected
 
-    def canvas_api
-      if current_application_instance.canvas_token.present?
-        LMS::Canvas.new(
-          UrlHelper.scheme_host_port(current_application_instance.site.url),
-          current_application_instance.canvas_token,
-        )
-      elsif auth = canvas_auth(current_application_instance)
-        options = {
-          client_id: Rails.application.secrets.canvas_developer_id,
-          client_secret: Rails.application.secrets.canvas_developer_key,
-          redirect_uri: "https://#{request.host}/auth/canvas/callback",
-          refresh_token: auth.refresh_token,
-        }
-        LMS::Canvas.new(
-          UrlHelper.scheme_host_port(current_application_instance.site.url),
-          auth,
-          options,
-        )
+    def canvas_api(
+      application_instance: current_application_instance,
+      user: current_user
+    )
+      url = UrlHelper.scheme_host_port(application_instance.site.url)
+      if application_instance.canvas_token.present?
+        global_auth(url, application_instance.canvas_token)
+      elsif auth = canvas_auth(application_instance.site, user: user)
+        user_auth(auth, url, application_instance.site)
+      else
+        raise CanvasApiTokenRequired, "Could not find a global or user canvas api token."
       end
     end
 
-    def canvas_auth(current_application_instance)
-      current_user.authentications.find_by(
-        provider_url: UrlHelper.scheme_host_port(current_application_instance.site.url),
+    def global_auth(url, canvas_token)
+      LMS::Canvas.new(
+        url,
+        canvas_token,
       )
     end
 
-    def protect_canvas_api
-      canvas_api_permissions = current_application_instance.
-        application.canvas_api_permissions.
-        split(",")
-      user_not_authorized unless canvas_api_permissions.include?(params[:type])
+    def user_auth(auth, url, site)
+      options = {
+        client_id: site.oauth_key,
+        client_secret: site.oauth_secret,
+        redirect_uri: Rails.application.routes.url_helpers.user_canvas_omniauth_callback_url(
+          subdomain: Application::AUTH,
+          protocol: "https",
+        ),
+        refresh_token: auth.refresh_token,
+      }
+      LMS::Canvas.new(
+        url,
+        auth,
+        options,
+      )
     end
+
+    def canvas_auth(site, user: current_user)
+      return nil unless user.present?
+      user.authentications.find_by(
+        provider_url: UrlHelper.scheme_host_port(site.url),
+      )
+    end
+
+    def protect_canvas_api(type: params[:lms_proxy_call_type], context_id: params[:context_id])
+      return if canvas_api_authorized(type: type, context_id: context_id)
+      # this is not permanent, we will remove this when we go away from using the new application instance to install
+      return if canvas_auth(current_application_instance.site).present?
+      user_not_authorized
+    end
+
+    def canvas_api_authorized(type: params[:lms_proxy_call_type], context_id: params[:context_id])
+      canvas_api_permissions.has_key?(type) &&
+        allowed_roles(type: type).present? &&
+        (allowed_roles(type: type) & current_user.nil_or_context_roles(context_id).map(&:name)).present?
+    end
+
+    def allowed_roles(type: params[:lms_proxy_call_type])
+      roles = (canvas_api_permissions[type] || []) + (canvas_api_permissions[:common] || [])
+      roles = canvas_api_permissions[:default] || [] if roles.empty?
+      roles
+    end
+
+    def canvas_api_permissions
+      @canvas_api_permissions ||= current_application_instance.application.canvas_api_permissions
+    end
+
+    class CanvasApiTokenRequired < LMS::Canvas::CanvasException
+    end
+
   end
 end

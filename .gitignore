@@ -28,6 +28,7 @@
 .env
 config/secrets.yml
 config/database.yml
+config/assets/
 bin/deploy
 s3_website.yml
 secrets.js
@@ -57,14 +58,18 @@ public/assets
 
 # git artifacts
 **.orig
-
 canvas.manifest
 
 # Test artifacts
 rerun.txt
 /coverage/
 /spec/tmp
+erd.pdf
 
 # Because ben is weird
 /.idea/
 adhesion.iml
+
+.vscode/
+
+dump.sql
