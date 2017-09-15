@@ -12,6 +12,7 @@ import canvasRequest from '../../../../libs/canvas/action';
 import { listUsersInCourseUsers } from '../../../../libs/canvas/constants/courses';
 import { listCourseSections } from '../../../../libs/canvas/constants/sections';
 import { ATTENDANCE_STATES as AttendanceStates } from '../../reducers/student';
+import Auth from '../../../../libs/canvas/components/canvas_authentication';
 
 const select = (state) => {
   const currentDate = state.application.date;
@@ -23,6 +24,7 @@ const select = (state) => {
     error: state.error,
     attendance: state.attendance.attendances[currentDate],
     sections: state.student.sections,
+    canvasAuthRequired: state.settings.canvas_auth_required,
   };
 };
 
@@ -191,6 +193,10 @@ export class StudentList extends React.Component {
   }
 
   render() {
+    if (this.props.canvasAuthRequired) {
+      return <Auth autoSubmit hideButton />;
+    }
+
     return (
       <div>
         <div className="c-top-bar">
