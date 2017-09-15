@@ -1,5 +1,5 @@
 import React from 'react';
-import TestUtils        from 'react-addons-test-utils';
+import { shallow } from 'enzyme';
 import ReportWindow from './report_window';
 
 describe('report window', () => {
@@ -22,20 +22,19 @@ describe('report window', () => {
       },
     };
 
-    result = TestUtils.renderIntoDocument(<ReportWindow {...props} />);
+    result = shallow(<ReportWindow {...props} />);
   });
 
   it('did click cancel', () => {
-    const buttons = TestUtils.scryRenderedDOMComponentsWithTag(result, 'button');
-    const cancelButton = buttons[2];
-    TestUtils.Simulate.click(cancelButton);
+    const buttons = result.find('button .qa-cancel-report-btn');
+    const cancelButton = buttons;
+    cancelButton.simulate('click');
     expect(didCancel).toBeTruthy();
   });
 
   it('did click download', () => {
-    const buttons = TestUtils.scryRenderedDOMComponentsWithTag(result, 'button');
-    const downloadButton = buttons[3];
-    TestUtils.Simulate.click(downloadButton);
+    const downloadButton = result.find('button .qa-download-report-btn');
+    downloadButton.simulate('click');
     expect(didDownload).toBeTruthy();
     expect(startDate).toEqual(jasmine.any(Object));
     expect(endDate).toEqual(jasmine.any(Object));
