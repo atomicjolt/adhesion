@@ -377,6 +377,14 @@ applications.each do |attrs|
   setup_application_instances(application, application_instances)
 end
 
+## One Off
+Bundle.find_each do |bundle|
+  bundle_hash = bundles.detect { |b| b[:key] == bundle.key }
+  shared_tenant = bundle_hash[:shared_tenant] || bundle.shared_tenant == true
+  bundle.update(shared_tenant: shared_tenant)
+end
+## End One Off
+
 bundles.each do |attrs|
   current_bundle = Bundle.find_or_create_by(key: attrs[:key])
   current_bundle.update!(name: attrs[:name], shared_tenant: attrs[:shared_tenant] == true)

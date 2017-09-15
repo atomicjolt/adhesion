@@ -44,6 +44,9 @@ gem "rest-client"
 # Paging
 gem "will_paginate"
 
+# Application secrets checker
+gem "nuclear_secrets"
+
 group :development do
   # UI
   gem "autoprefixer-rails"
