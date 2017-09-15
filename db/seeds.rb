@@ -45,18 +45,7 @@ admin_api_permissions = {
   HELPER_ALL_ACCOUNTS: [],
 }
 
-<<<<<<< HEAD
 bundles = []
-=======
-bundles = [
-  {
-    name: "Hello World",
-    key: Application::HELLOWORLD,
-    applications: [Application::HELLOWORLD],
-    shared_tenant: true,
-  },
-]
->>>>>>> 7650677d36a6f5a4465753e72ba06439c4b30c37
 
 applications = [
   {
