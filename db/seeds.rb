@@ -45,7 +45,14 @@ admin_api_permissions = {
   HELPER_ALL_ACCOUNTS: [],
 }
 
-bundles = []
+bundles = [
+  {
+    name: "Proctor Tools",
+    key: Application::EXAMS,
+    applications: [Application::EXAMS, Application::EXAMPROCTOR],
+    shared_tenant: true,
+  },
+]
 
 applications = [
   {
