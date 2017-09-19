@@ -330,6 +330,40 @@ applications = [
     #   lti_type: ApplicationInstance.lti_types[:course_navigation],
     # }],
   },
+  {
+    key: Application::POSTGRADES,
+    name: "Post Grades Tool",
+    description: "Allows instructor to send Canvas grades to U4SM",
+    client_application_name: "post_grades",
+    canvas_api_permissions: {
+      default: [],
+      common: [
+        "urn:lti:sysrole:ims/lis/SysAdmin",
+        "urn:lti:sysrole:ims/lis/Administrator",
+        "urn:lti:instrole:ims/lis/Administrator",
+      ],
+      LIST_ASSIGNMENTS: [
+        "urn:lti:role:ims/lis/Instructor",
+      ],
+    },
+    kind: Application.kinds[:lti],
+    default_config: {},
+    lti_config: {
+      title: "Post Grades",
+      description: "Post Grades Application",
+      privacy_level: "public",
+      icon: "oauth_icon.png",
+      custom_fields: {
+        canvas_course_id: "$Canvas.course.id",
+        external_tool_url: "$Canvas.externalTool.url",
+      },
+      post_grades: {
+        text: "Post Grades",
+        visibility: "admins",
+      },
+    },
+    application_instances: [],
+  },
 ]
 
 def setup_application_instances(application, application_instances)
