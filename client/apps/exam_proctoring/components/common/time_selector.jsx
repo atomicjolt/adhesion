@@ -22,7 +22,7 @@ export default class TimeSelector extends React.Component {
       if (time.length === 3) {
         return `0${time}`;
       }
-      return `${time}`;
+      return time;
     });
   }
 
