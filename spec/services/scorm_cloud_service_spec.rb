@@ -32,6 +32,7 @@ end
 
 describe "Scorm Cloud Service sync score", type: :controller do
   before(:example) do
+    skip
     @subject = ScormCloudService.new
     @application_instance = FactoryGirl.create(:application_instance)
     @application_instance.update_attributes(config: { "scorm_type" => "cloud" })
