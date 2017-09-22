@@ -226,7 +226,7 @@ export default class Course extends React.Component {
                     <i className="material-icons">cloud_off</i>;
                   }
                 }}
-              </HoverButton>
+              </HoverButton>;
             }}
           </div>
         </div>
