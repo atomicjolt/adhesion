@@ -35,6 +35,8 @@ export default class Course extends React.Component {
     courseId: React.PropTypes.string.isRequired,
     hideModal: React.PropTypes.func.isRequired,
     showModal: React.PropTypes.func.isRequired,
+    canvasAssignment: React.PropTypes.shape({}),
+    publishPackage: React.PropTypes.func.isRequired,
   };
 
   static getStyles() {
@@ -54,6 +56,7 @@ export default class Course extends React.Component {
         border: 'none',
         cursor: 'pointer',
         fontSize: '1.8em',
+        marginRight: '1rem',
       },
       settingsContainer: {
         top: '25%',
@@ -129,6 +132,11 @@ export default class Course extends React.Component {
     this.setState({ opened: !opened });
   }
 
+  publishAssignment() {
+    const publishedState = !this.props.canvasAssignment.published;
+    this.props.publishPackage(this.props.course.lms_assignment_id, publishedState);
+  }
+
   render() {
     const styles = Course.getStyles();
     const isAssignment = !_.isUndefined(this.props.course.lms_assignment_id);
@@ -202,7 +210,24 @@ export default class Course extends React.Component {
               style={styles.button}
               onClick={() => this.openSettings()}
               hoveredStyle={styles.hoveredStyle}
-            ><i className="material-icons">settings</i></HoverButton>
+            >
+              <i className="material-icons">settings</i>
+            </HoverButton>
+            { isAssignment && do {
+              <HoverButton
+                style={styles.button}
+                onClick={() => this.publishAssignment()}
+                hoveredStyle={styles.hoveredStyle}
+              >
+                { do {
+                  if (this.props.canvasAssignment.published) {
+                    <i className="material-icons" style={{ color: '#51B548' }}>cloud_done</i>;
+                  } else {
+                    <i className="material-icons">cloud_off</i>;
+                  }
+                }}
+              </HoverButton>
+            }}
           </div>
         </div>
         {settings}

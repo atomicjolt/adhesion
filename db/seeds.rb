@@ -87,6 +87,7 @@ applications = [
       ],
       CREATE_ASSIGNMENT: [],
       DELETE_ASSIGNMENT: [],
+      EDIT_ASSIGNMENT: [],
     },
     kind: Application.kinds[:lti],
     default_config: { "scorm_type" => "engine" },

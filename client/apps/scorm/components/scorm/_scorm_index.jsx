@@ -1,12 +1,14 @@
-import React                                                   from 'react';
-import { connect }                                             from 'react-redux';
-import _                                                       from 'lodash';
-import * as ScormActions                                       from '../../actions/scorm';
-import CoursesList                                             from './courses_list';
-import ConnectedUploader                                       from './uploader';
-import { createAssignment, deleteAssignment, listAssignments } from '../../../../libs/canvas/constants/assignments';
-import canvasRequest                                           from '../../../../libs/canvas/action';
-import FileUpload                                              from '../common/file_upload';
+import React from 'react';
+import { connect } from 'react-redux';
+import _ from 'lodash';
+import * as ScormActions  from '../../actions/scorm';
+import CoursesList from './courses_list';
+import ConnectedUploader from './uploader';
+import {
+  createAssignment, deleteAssignment, listAssignments, editAssignment
+} from '../../../../libs/canvas/constants/assignments';
+import canvasRequest from '../../../../libs/canvas/action';
+import FileUpload from '../common/file_upload';
 import * as ModalActions from '../../../../libs/actions/modal';
 
 export class ScormIndex extends React.Component {
@@ -114,6 +116,16 @@ export class ScormIndex extends React.Component {
     this.props.uploadPackage(file, this.props.lmsCourseId);
   }
 
+  publishAssignment(assignmentId, publishedState) {
+    this.props.canvasRequest(
+      editAssignment,
+      { course_id: this.props.lmsCourseId, id: assignmentId },
+      { assignment: {
+        published: publishedState,
+      } },
+    );
+  }
+
   render() {
     if (this.props.loadError) {
       return (
@@ -146,6 +158,7 @@ export class ScormIndex extends React.Component {
 
         <CoursesList
           list={this.props.scormList}
+          canvasList={this.props.canvasAssignments}
           courseId={this.props.lmsCourseId}
           canvasUrl={this.props.canvasUrl}
           removePackage={(...args) => this.deleteAssignment(...args)}
@@ -155,6 +168,7 @@ export class ScormIndex extends React.Component {
           updateImportType={this.props.updateImportType}
           showModal={this.props.showModal}
           hideModal={this.props.hideModal}
+          publishPackage={(...args) => this.publishAssignment(...args)}
         />
 
       </div>
