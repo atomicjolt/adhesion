@@ -1,0 +1,124 @@
+
+@mixin display-flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+@mixin justify-content($flex) {
+  -webkit-justify-content: $flex;
+  justify-content: $flex;
+}
+@mixin align-items($flex) {
+  -webkit-align-items: $flex;
+  -ms-flex-align: $flex;
+  align-items: $flex;
+}
+@mixin align-self($flex) {
+  -webkit-align-self: $flex;
+  -ms-flex-item-align: $flex;
+  align-self: $flex;
+}
+@mixin flex-wrap($flex) {
+  -webkit-flex-wrap: $flex;
+  -ms-flex-wrap: $flex;
+  flex-wrap: $flex;
+}
+@mixin flex-direction($flex) {
+  -webkit-flex-direction: $flex;
+  -ms-flex-direction: $flex;
+  flex-direction: $flex;
+}
+@mixin flex-shrink($flex) {
+  -webkit-flex-shrink: $flex;
+  -ms-flex-negative: $flex;
+  flex-shrink: $flex;
+}
+@mixin flex($flex...) {
+  -webkit-flex: $flex;
+  flex: $flex;
+}
+
+@mixin center($position) {
+
+  @if $position == 'vertical' {
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+  @else if $position == 'horizontal' {
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+  }
+  @else if $position == 'both' {
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+}
+
+@mixin semi-bold{
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+}
+@mixin regular{
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+}
+@mixin bold{
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+}
+
+// Transition mixin
+// Add CSS transition to any element
+@mixin transform($transform...) {
+    -webkit-transform: $transform;
+    -moz-transform: $transform;
+    -o-transform: $transform;
+    -ms-transform: $transform;
+    transform: $transform;
+}
+
+// Transition mixin
+// Add CSS transition to any element
+@mixin transition($transition...) {
+    -webkit-transition: $transition;
+    -moz-transition: $transition;
+    -o-transition: $transition;
+    -ms-transition: $transition;
+    transition: $transition;
+}
+
+// Animation mixin
+// Animate an element
+@mixin animation($animation...) {
+	-webkit-animation: $animation;
+	-moz-animation: $animation;
+	-o-animation: $animation;
+	animation: $animation;
+}
+
+// Clearfix hack mixin
+// Add clearfix hack - to contain floats within containers
+@mixin clearfix {
+    &:before,
+    &:after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+}
+
+// Truncate mixin
+// Truncate single line text
+@mixin truncate {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}

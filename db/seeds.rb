@@ -345,6 +345,15 @@ applications = [
       LIST_ASSIGNMENTS: [
         "urn:lti:role:ims/lis/Instructor",
       ],
+      LIST_ASSIGNMENT_SUBMISSIONS_SECTIONS: [
+        "urn:lti:role:ims/lis/Instructor",
+      ],
+      LIST_COURSE_SECTIONS: [
+        "urn:lti:role:ims/lis/Instructor",
+      ],
+      LIST_ENROLLMENTS_SECTIONS: [
+        "urn:lti:role:ims/lis/Instructor",
+      ],
     },
     kind: Application.kinds[:lti],
     default_config: {},

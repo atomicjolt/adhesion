@@ -93,6 +93,8 @@ Rails.application.routes.draw do
 
     resources :quiz_conversions, only: [:create]
     resources :sites
+    resources :submissions
+    resources :section_metadata
     resources :lti_content_item_selection, only: [:create]
     resources :lti_launches
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170915142046) do
+ActiveRecord::Schema.define(version: 20170922174532) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -256,6 +256,14 @@ ActiveRecord::Schema.define(version: 20170915142046) do
     t.boolean "progress_status"
     t.boolean "satisfied_status"
     t.index ["scorm_activity_id"], name: "index_scorm_objectives_on_scorm_activity_id", using: :btree
+  end
+
+  create_table "section_metadata", force: :cascade do |t|
+    t.integer  "lms_course_id"
+    t.integer  "lms_section_id"
+    t.boolean  "any_posted"
+    t.datetime "mid_posted"
+    t.datetime "final_posted"
   end
 
   create_table "sections", force: :cascade do |t|

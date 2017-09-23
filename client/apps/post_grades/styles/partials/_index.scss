@@ -1,0 +1,177 @@
+.post-grades-modal{
+  max-width: 70rem;
+  padding: 3rem;
+}
+
+.subtitle{
+  @include semi-bold;
+  font-size: 1.5rem;
+  color: $gray2;
+  margin: 0;
+}
+
+.body-text{
+  @include regular;
+  font-size: 1.5rem;
+  color: $gray5;
+  margin: 0 0 3rem;
+}
+
+.input-container{
+  margin-bottom: 3rem;
+  max-width: 40rem;
+
+  &.is-disabled{
+    pointer-events: none;
+
+    & > label{
+      color: $grayA;
+      &:before{
+        color: $grayA;
+      }
+    }
+  }
+
+  & > label{
+    @include regular;
+    font-size: 1.3rem;
+    color: $gray5;
+    margin-bottom: 0.5rem;
+    display: block;
+    position: relative;
+
+    &:before{
+      content: '\E5C5';
+      position: absolute;
+      right: 1rem;
+      top: 2.7rem;
+      font-family: 'Material Icons';
+      line-height: 1;
+      font-size: 2rem;
+      color: $gray5;
+      pointer-events: none;
+    }
+  }
+
+  select{
+    width: 100%;
+    height: 3.5rem;
+    padding: 0 3rem 0 1rem;
+    border: 0.1rem solid $gray8;
+    border-radius: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    @include regular;
+    font-size: 1.5rem;
+    color: $gray2;
+
+    &[disabled="true"]{
+      color: $grayA !important;
+      border-color: $grayC !important;
+    }
+  }
+}
+
+fieldset{
+  border: none;
+  padding: 0;
+  margin: 0;
+
+  &.is-disabled{
+    pointer-events: none;
+
+    legend{
+      color: $grayA;
+    }
+  }
+
+  legend{
+    @include regular;
+    font-size: 1.3rem;
+    color: $gray5;
+    margin-bottom: 1rem;
+    display: block;
+    position: relative;
+  }
+}
+
+.radio-container{
+  display: inline-block;
+
+  input{
+    display: inline-block;
+
+    &[disabled="true"] + label .radio-label{
+      color: $grayA !important;
+    }
+  }
+  label{
+    display: inline-block;
+    max-width: 15rem;
+    margin-left: 1rem;
+    margin-right: 4rem;
+  }
+}
+
+.radio-label{
+  @include regular;
+  font-size: 1.5rem;
+  color: $gray2;
+}
+
+.date-posted{
+  @include regular;
+  font-size: 1.3rem;
+  color: $gray5;
+  display: block;
+  position: relative;
+  margin-top: 0.5rem;
+}
+
+.post-grades-modal__bottom{
+  padding-top: 5rem;
+  position: relative;
+  @include display-flex;
+  @include align-items(center);
+  @include justify-content(flex-end);
+
+  .btn{
+    margin-left: 1rem;
+  }
+}
+
+.post-grades__confirmation{
+  position: absolute;
+  top: 2rem;
+  right: 0;
+  @include regular;
+  color: $gray2;
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.btn{
+  padding: 1rem 1.5rem;
+  border-radius: 0;
+  border: none;
+  background: none;
+  @include semi-bold;
+  color: $gray5;
+  text-transform: uppercase;
+  font-size: 1.3rem;
+  cursor: pointer;
+
+  &:active{
+    @include transform(scale(0.975));
+  }
+}
+
+.btn--gray{
+  background: $grayF;
+  color: $gray5;
+}
+
+.btn--blue{
+  background: $blue;
+  color: $white;
+}
