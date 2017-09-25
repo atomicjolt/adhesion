@@ -15,6 +15,7 @@ describe('courses list', () => {
       importPackage: () => {},
       previewPackage: () => {},
       removePackage: () => {},
+      replacePackage: () => {},
       updateImportType: () => {},
       canvasUrl: 'salad.com',
       list: [
@@ -22,6 +23,8 @@ describe('courses list', () => {
       ],
       hideModal: () => {},
       showModal: () => {},
+      publishPackage: () => {},
+      canvasList: {},
     };
     result = TestUtils.renderIntoDocument(<Stub><CourseList {...props} /></Stub>);
   });

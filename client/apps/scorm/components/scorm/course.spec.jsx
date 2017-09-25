@@ -24,11 +24,13 @@ describe('course', () => {
       previewPackage: () => { remove = true; },
       updateImportType: () => { remove = true; },
       replacePackage: () => {},
+      publishPackage: () => {},
       onClick: () => {},
       canvasUrl: 'www.canvas.com',
       courseId: '7',
       hideModal: () => {},
       showModal: () => {},
+      canvasAssignment: {},
     };
     remove = false;
     result = TestUtils.renderIntoDocument(<Course {...props} />);
