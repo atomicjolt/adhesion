@@ -9,6 +9,7 @@ const requests = [
   'GET_STUDENT_ATTENDANCE',
   'DOWNLOAD_FILE',
   'UPDATE_STATUS',
+  'TOGGLE_ISLARGEDOWNLOAD'
 ];
 
 export const Constants = wrapper(actions, requests);
@@ -38,8 +39,12 @@ export const downloadFile = (lmsCourseId, startDate, endDate) => ({
   method: Network.GET,
   url: `courses/${lmsCourseId}/exports/attendances.csv`,
   params: {
-    startDate,
-    endDate,
+    start_date: startDate,
+    end_date: endDate,
   },
   filename: 'attendance.csv'
+});
+
+export const toggleIsLargeDownload = () => ({
+  type: Constants.TOGGLE_ISLARGEDOWNLOAD,
 });

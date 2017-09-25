@@ -4,6 +4,7 @@ import { Constants as AttendanceConstants } from '../actions/attendance';
 
 
 const initialState = {
+  isLargeDownload: false,
   attendances: {},
 };
 
@@ -41,6 +42,24 @@ export default (state = initialState, action) => {
         newAttendances[date][student.lms_student_id] = student.status;
       });
       return { ...state, ...{ attendances: newAttendances } };
+    }
+
+    case AttendanceConstants.DOWNLOAD_FILE_DONE: {
+
+      if (action.error || action.payload === null) return state;
+      const newState = _.cloneDeep(state);
+      newState.isLargeDownload = action.payload.large_file;
+
+      console.log(newState)
+
+      return newState;
+    }
+
+    case AttendanceConstants.TOGGLE_ISLARGEDOWNLOAD: {
+      if (action.error) return state;
+      const newState = _.cloneDeep(state);
+      newState.isLargeDownload = false;
+      return newState;
     }
 
     default:

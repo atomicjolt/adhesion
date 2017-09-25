@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import SvgButton from '../../../../libs/components/svg_button';
@@ -6,8 +7,8 @@ import SvgButton from '../../../../libs/components/svg_button';
 export default class DateSelector extends React.Component {
 
   static propTypes = {
-    date: React.PropTypes.string.isRequired,
-    updateDate: React.PropTypes.func.isRequired,
+    date: PropTypes.string.isRequired,
+    updateDate: PropTypes.func.isRequired,
   };
 
   static changeDay(currentDate, numDays) {

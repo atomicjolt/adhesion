@@ -1,17 +1,18 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { ATTENDANCE_STATES as AttendanceStates } from '../../reducers/student';
 import { AbsentIcon, PresentIcon, LateIcon } from './attendance_icons';
 
 export default class Student extends React.Component {
   static propTypes = {
-    student: React.PropTypes.shape({
-      lms_student_id: React.PropTypes.number.isRequired,
-      name: React.PropTypes.string.isRequired,
-      avatar_url: React.PropTypes.string.isRequired,
+    student: PropTypes.shape({
+      lms_student_id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      avatar_url: PropTypes.string.isRequired,
     }).isRequired,
-    updateStudentAttendance: React.PropTypes.func.isRequired,
-    status: React.PropTypes.string,
-    index: React.PropTypes.number,
+    updateStudentAttendance: PropTypes.func.isRequired,
+    status: PropTypes.string,
+    index: PropTypes.number,
   };
 
   static getNewStatus(currentStatus, newStatus) {

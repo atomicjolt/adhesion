@@ -1,14 +1,32 @@
 class ExportsController < ApplicationController
-  include Concerns::JwtToken
+  include Concerns::LtiSupport
   include Concerns::CanvasSupport
+  include Concerns::JwtToken
   include AttendanceExportsHelper
   include ExamExportHelper
   before_action :validate_token
 
   def attendances
-    attendances = get_attendances
-    final_csv = AttendanceExportsHelper.generate_csv(attendances)
-    send_data(final_csv)
+    attendances = AttendanceExportsHelper.
+      get_attendances(params[:course_id], params[:start_date], params[:end_date])
+    if attendances.count > 1000
+      render json: { large_file: true }
+      tenant = Apartment::Tenant.current
+      Apartment::Tenant.switch(Application::PUBLIC_TENANT) do
+        AttendanceReportJob.
+          perform_later(
+            tenant,
+            current_application_instance.id,
+            current_user.id,
+            params[:course_id],
+            params[:start_date],
+            params[:end_date],
+          )
+      end
+    else
+      final_csv = AttendanceExportsHelper.generate_csv(attendances)
+      send_data(final_csv)
+    end
   end
 
   def export_exams_as_csv
@@ -22,16 +40,5 @@ class ExportsController < ApplicationController
     ExamRequest.
       by_dates(params[:start]..params[:end]).
       by_center_id(params[:testing_centers_account_id])
-  end
-
-  def get_attendances
-    attendances = Attendance.where(lms_course_id: params[:course_id])
-    if params[:startDate].present? && params[:endDate].present?
-      attendances = attendances.
-        where("date <= ?", Date.parse(params[:endDate])).
-        where("date >= ?", Date.parse(params[:startDate]))
-    end
-
-    attendances
   end
 end
