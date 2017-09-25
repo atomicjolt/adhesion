@@ -37,6 +37,9 @@ gem "yajl-ruby", require: "yajl"
 # server
 gem "puma"
 
+# job worker
+gem "que", "~> 0.14.0"
+
 # API Related
 gem "rack-cors", require: "rack/cors"
 gem "rest-client"
