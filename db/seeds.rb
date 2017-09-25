@@ -367,7 +367,7 @@ applications = [
         external_tool_url: "$Canvas.externalTool.url",
       },
       post_grades: {
-        text: "Post Grades",
+        text: "Post Grades to U4SM",
         visibility: "admins",
       },
     },

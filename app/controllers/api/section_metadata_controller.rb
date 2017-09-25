@@ -12,8 +12,11 @@ class Api::SectionMetadataController < Api::ApiApplicationController
         section
       end
     else
-      sections = params[:lms_section_ids].map do |sec_id|
-        SectionMetadata.where(lms_course_id: params[:lms_course_id], lms_section_id: sec_id).first_or_create
+      sections = [SectionMetadata.where(lms_course_id: params[:lms_course_id], lms_section_id: -1).first_or_create]
+      params[:lms_section_ids].map do |sec_id|
+        sections.append(
+          SectionMetadata.where(lms_course_id: params[:lms_course_id], lms_section_id: sec_id).first_or_create
+        )
       end
     end
     render json: sections

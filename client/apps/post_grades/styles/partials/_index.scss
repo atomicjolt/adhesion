@@ -1,5 +1,4 @@
 .post-grades-modal{
-  max-width: 70rem;
   padding: 3rem;
 }
 
@@ -29,6 +28,9 @@
       &:before{
         color: $grayA;
       }
+    }
+    .radio-label{
+      color: $grayA;
     }
   }
 
@@ -65,7 +67,7 @@
     font-size: 1.5rem;
     color: $gray2;
 
-    &[disabled="true"]{
+    &[disabled]{
       color: $grayA !important;
       border-color: $grayC !important;
     }
@@ -101,7 +103,7 @@ fieldset{
   input{
     display: inline-block;
 
-    &[disabled="true"] + label .radio-label{
+    &[disabled] + label .radio-label{
       color: $grayA !important;
     }
   }

@@ -11,6 +11,7 @@ import canvasRequest from '../../../libs/canvas/action';
 
 const select = state => ({
   lmsCourseId: state.settings.lms_course_id,
+  launchPesentationReturnUrl: state.settings.launch_presentation_return_url,
   assignments: state.assignments,
   sections: state.sections,
   sectionsInfo: state.sectionsInfo,
@@ -27,6 +28,7 @@ export class PostGradesTool extends React.Component {
     super();
     this.state = {
       selSection: {},
+      type: null,
     };
   }
 
@@ -46,6 +48,9 @@ export class PostGradesTool extends React.Component {
       const ids = _.map(this.props.sections, sec => (sec.id));
       this.props.createSectionInfo(ids, this.props.lmsCourseId);
     }
+    if (prevProps.sectionsInfo !== this.props.sectionsInfo) {
+      this.setSelected(-1);
+    }
   }
 
   secInfo(s) {
@@ -56,55 +61,44 @@ export class PostGradesTool extends React.Component {
     };
   }
 
-  getSectionInfoById(id) {
-    if (id === -1) return null;
-    return this.props.sectionsInfo[id];
-  }
-
   confirm() {
-    let sections = null;
-    if (this.sectionSelect.value === 'all') {
-      sections = _.map(this.props.sections, section => (
-        this.secInfo(section)
-      ));
-    } else {
-      const section = _.find(this.props.sections, sec => (
-        parseInt(this.sectionSelect.value) === sec.id
-      ));
-      sections = [this.secInfo(section)];
-    }
-    this.props.createStudentInfo(sections, this.columnSelect.value, this.state.type);
-    this.props.updateSectionMetadata(sections, this.props.lmsCourseId, this.state.type);
-  }
-
-  renderAssignments() {
-    return (
-      <div className="input-container">
-        <label htmlFor="grade-column">Grade book column to submit</label>
-        <select ref={(e) => { this.columnSelect = e; }} name="select2" id="grade-column">
-          <option value="total">Total</option>
-          {
-            _.map(this.props.assignments, assignment => (
-              <option value={assignment.id}>{assignment.name}</option>
-            ))
+    if (this.state.confirmed) {
+      let sections = null;
+      if (this.sectionSelect.value === '-1') {
+        sections = [{ id: -1 }];
+        _.each(this.props.sections, (section) => {
+          const type = this.state.type === 'midterm' ? 'midPosted' : 'finalPosted';
+          const shouldSend = this.props.sectionsInfo[section.id][type];
+          if (!shouldSend) {
+            sections.push(this.secInfo(section));
           }
-        </select>
-      </div>
-    );
+        });
+      } else {
+        const section = _.find(this.props.sections, sec => (
+          parseInt(this.sectionSelect.value, 10) === sec.id
+        ));
+        sections = [this.secInfo(section)];
+      }
+      this.props.createStudentInfo(_.compact(sections), this.columnSelect.value, this.state.type);
+      this.props.updateSectionMetadata(_.compact(sections), this.props.lmsCourseId, this.state.type);
+      this.form.submit();
+    } else {
+      this.setState({ confirmed: true });
+    }
   }
 
-  setSelected(e) {
-    const selSection = this.getSectionInfoById(e.target.value);
+  setSelected(value) {
+    const selSection = this.props.sectionsInfo[value];
     this.setState({ selSection });
   }
 
   renderSections() {
-    const { anyPosted, midPosted, finalPosted } = this.state.selSection;
+    const { anyPosted, midPosted, finalPosted, lmsSectionId } = this.state.selSection;
     return (
       <div className="input-container">
         <label htmlFor="grade-section">Section</label>
-        <select ref={(el) => { this.sectionSelect = el; }} onChange={e => this.setSelected(e)} name="select" id="grade-section" aria-describedby="date-posted">
-          <option value="all">All Sections</option>
+        <select ref={(el) => { this.sectionSelect = el; }} onChange={e => this.setSelected(e.target.value)} name="select" id="grade-section" aria-describedby="date-posted">
+          <option value={-1}>All Sections</option>
           {
             _.map(this.props.sections, section => (
               <option value={section.id}>{section.name}</option>
@@ -114,10 +108,16 @@ export class PostGradesTool extends React.Component {
         {
           anyPosted && do {
             <div className="date-posted" id="date-posted">
-              {midPosted ? `Midterm posted ${midPosted}` : null}
-              {finalPosted ? `Final posted ${finalPosted}` : null}
+              {midPosted ? `Midterm posted ${midPosted.split('T')[0]}` : null} <br />
+              {finalPosted ? `Final posted ${finalPosted.split('T')[0]}` : null}
             </div>;
           }
+        }
+        {
+          lmsSectionId === -1 ?
+            <div className="date-posted" id="date-posted">
+                Previously posted sections will not be included.
+            </div> : null
         }
       </div>
     );
@@ -144,19 +144,82 @@ export class PostGradesTool extends React.Component {
     );
   }
 
+  renderAssignments() {
+    const { finalPosted } = this.state.selSection;
+    return (
+      <div className={`input-container ${finalPosted ? 'is-disabled' : ''}`}>
+        <label htmlFor="grade-column">Grade book column to submit</label>
+        <select ref={(e) => { this.columnSelect = e; }} name="select2" id="grade-column">
+          <option value="total">Total</option>
+          {
+            _.map(this.props.assignments, assignment => (
+              <option value={assignment.id}>{assignment.name}</option>
+            ))
+          }
+        </select>
+      </div>
+    );
+  }
+
+  topText() {
+    const a = (
+      <div>
+        <h2 className="subtitle">You have already submitted final grades:</h2>
+        <p className="body-text">
+          If you need to change grades you will have to contact the Registrar. If you would like a record of the grades you submitted, you can export or print your grade book.
+        </p>
+      </div>
+    );
+    const b = (
+      <div>
+        <h2 className="subtitle">Please Note:</h2>
+        <p className="body-text">
+          This will submit grades to the school, if you need to change grades afterwards you will have to contact the Registrar. If you would like a record of the grades you submitted, you can export or print your grade book.
+        </p>
+      </div>
+    );
+
+    return this.state.selSection.finalPosted ? a : b;
+  }
+
+  renderClose(title) {
+    return (
+      <form ref={(el) => this.form = el} action={this.props.launchPesentationReturnUrl}>
+        <input type="submit" value={title} className="btn btn--blue" />
+      </form>
+    );
+  }
+
+  bottomButtons() {
+    if (this.state.selSection.finalPosted) {
+      return (
+        <div className="post-grades-modal__bottom">
+          {this.renderClose('Close')}
+        </div>
+      );
+    }
+
+    return (
+      <div className="post-grades-modal__bottom">
+        {
+          this.state.confirmed && do {
+            <p className="post-grades__confirmation" role="alert">Are you sure you want to post grades?</p>;
+          }
+        }
+        {this.renderClose('Cancel')}
+        <button disabled={!this.state.type} onClick={() => this.confirm()} className="btn btn--blue">{this.state.confirmed ? 'Post Grades' : 'Confirm'}</button>
+      </div>
+    );
+  }
+
   render() {
     return (
       <div className="post-grades-modal">
-        <h2 className="subtitle">Please Note:</h2>
-        <p className="body-text">This will submit grades to the school, if you need to change grades afterwards you wil have to contact the Registrar. If you would like a record of the grades you submitted, you can export or print your grade book.</p>
+        {this.topText()}
         {this.renderSections()}
         {this.renderTypes()}
         {this.renderAssignments()}
-        <div className="post-grades-modal__bottom">
-          <p className="post-grades__confirmation" role="alert">Are you sure you want to post grades?</p>
-          <button onClick={() => {}} className="btn btn--gray">Cancel</button>
-          <button onClick={() => this.confirm()} className="btn btn--blue">Confirm</button>
-        </div>
+        {this.bottomButtons()}
       </div>
     );
   }
