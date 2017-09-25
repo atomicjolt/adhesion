@@ -19,6 +19,8 @@ class Application < ActiveRecord::Base
   # app: Stand alone applications that don't require an lti launch
   enum kind: %i{lti admin app}
 
+  PUBLIC_TENANT = "public".freeze
+
   ADMIN = "adhesionadmin".freeze
   AUTH = "adhesionauth".freeze
 

@@ -12,20 +12,17 @@ export default class TimeSelector extends React.Component {
 
   static getTimes() {
     const times = [];
-    for (let i = 0; i < 2400; i += 15) {
-      times.push(i);
+    for (let i = 0; i < 24; i += 1) {
+      times.push(`${i}00`);
+      times.push(`${i}15`);
+      times.push(`${i}30`);
+      times.push(`${i}45`);
     }
     return _.map(times, (time) => {
-      if (time < 10) {
-        return `000${time}`;
-      }
-      if (time < 100) {
-        return `00${time}`;
-      }
-      if (time < 1000) {
+      if (time.length === 3) {
         return `0${time}`;
       }
-      return `${time}`;
+      return time;
     });
   }
 
