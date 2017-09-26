@@ -11,14 +11,20 @@ class Api::SubmissionsController < ApplicationController
           section_id: section["id"],
           assignment_id: params[:assignment_id]
         }
-        section_subs = canvas_api.proxy("LIST_ASSIGNMENT_SUBMISSIONS_SECTIONS", sub_params) unless params[:assignment_id] == "total"
+        if params[:assignment_id] != "total"
+          section_subs = canvas_api.proxy("LIST_ASSIGNMENT_SUBMISSIONS_SECTIONS", sub_params)
+        end
         section_users = canvas_api.proxy("LIST_ENROLLMENTS_SECTIONS", { section_id: section["id"] })
         submissions.append({ subs: section_subs, users: section_users, section: section })
       end
     end
 
     sendable_data = submissions.map do |section_info|
-      grades = params[:assignment_id] == "total" ? total_grades(section_info[:users]) : make_grades(section_info) # return array
+      if params[:assignment_id] == "total"
+        grades = total_grades(section_info[:users])
+      else
+        grades = make_grades(section_info)
+      end
       {
         sis_course_id: section_info[:section][:sis_course_id],
         sis_section_id: section_info[:section][:sis_section_id],
@@ -33,7 +39,7 @@ class Api::SubmissionsController < ApplicationController
     section_info[:subs].map do |sub|
       {
         sis_user_id: get_user_sis(section_info[:users], sub["user_id"]),
-        grade: sub["score"]
+        grade: sub["score"],
       }
     end
   end
@@ -42,7 +48,7 @@ class Api::SubmissionsController < ApplicationController
     users.map do |user|
       {
         sis_user_id: user["sis_user_id"],
-        grade: user["grades"]["final_score"]
+        grade: user["grades"]["final_score"],
       }
     end
   end

@@ -119,6 +119,17 @@ export class PostGradesTool extends React.Component {
     return this.state.selSection.finalPosted ? finalSubmitted : clarification;
   }
 
+  confirmationText() {
+    if (this.state.confirmed) {
+      return  (
+        <p className="post-grades__confirmation" role="alert">
+          Are you sure you want to post grades?
+        </p>
+      );
+    }
+    return null;
+  }
+
   bottomButtons() {
     if (this.state.selSection.finalPosted) {
       return (
@@ -130,19 +141,25 @@ export class PostGradesTool extends React.Component {
 
     return (
       <div className="post-grades-modal__bottom">
-        {
-          this.state.confirmed && do {
-            <p className="post-grades__confirmation" role="alert">
-              Are you sure you want to post grades?
-            </p>;
-          }
-        }
+        { this.confirmationText() }
         {this.renderClose('Cancel')}
         <button disabled={!this.state.type} onClick={() => this.confirm()} className="btn btn--blue">
           {this.state.confirmed ? 'Post Grades' : 'Confirm'}
         </button>
       </div>
     );
+  }
+
+  postedTimes(anyPosted, midPosted, finalPosted) {
+    if (anyPosted) {
+      return (
+        <div className="date-posted" id="date-posted">
+          {midPosted ? `Midterm posted ${midPosted.split('T')[0]}` : null} <br />
+          {finalPosted ? `Final posted ${finalPosted.split('T')[0]}` : null}
+        </div>
+      );
+    }
+    return null;
   }
 
   renderSections() {
@@ -153,7 +170,9 @@ export class PostGradesTool extends React.Component {
         <select
           ref={(el) => { this.sectionSelect = el; }}
           onChange={e => this.setSelected(e.target.value)}
-          name="select" id="grade-section" aria-describedby="date-posted"
+          name="select"
+          id="grade-section"
+          aria-describedby="date-posted"
         >
           <option value={-1}>All Sections</option>
           {
@@ -162,14 +181,7 @@ export class PostGradesTool extends React.Component {
             ))
           }
         </select>
-        {
-          anyPosted && do {
-            <div className="date-posted" id="date-posted">
-              {midPosted ? `Midterm posted ${midPosted.split('T')[0]}` : null} <br />
-              {finalPosted ? `Final posted ${finalPosted.split('T')[0]}` : null}
-            </div>;
-          }
-        }
+        { this.postedTimes(anyPosted, midPosted, finalPosted) }
         {
           lmsSectionId === -1 ?
             <div className="date-posted" id="date-posted">
@@ -189,7 +201,10 @@ export class PostGradesTool extends React.Component {
           <input
             onChange={() => this.setState({ type: 'midterm' })}
             disabled={midPosted}
-            id="midterm" type="radio" name="grade-type" value="midterm"
+            id="midterm"
+            type="radio"
+            name="grade-type"
+            value="midterm"
           />
           <label htmlFor="midterm">
             <div className="radio-label">Midterm</div>
