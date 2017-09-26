@@ -1,6 +1,6 @@
 module ScormCommonService
 
-  require 'ajims/lti'
+  require "ajims/lti"
 
   SCORM_ASSIGNMENT_STATE = {
     GRADED: "GRADED",
