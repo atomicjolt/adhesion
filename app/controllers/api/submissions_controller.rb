@@ -9,7 +9,7 @@ class Api::SubmissionsController < ApplicationController
       if section["id"] > 0
         sub_params = {
           section_id: section["id"],
-          assignment_id: params[:assignment_id]
+          assignment_id: params[:assignment_id],
         }
         if params[:assignment_id] != "total"
           section_subs = canvas_api.proxy("LIST_ASSIGNMENT_SUBMISSIONS_SECTIONS", sub_params)

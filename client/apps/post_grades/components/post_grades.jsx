@@ -121,7 +121,7 @@ export class PostGradesTool extends React.Component {
 
   confirmationText() {
     if (this.state.confirmed) {
-      return  (
+      return (
         <p className="post-grades__confirmation" role="alert">
           Are you sure you want to post grades?
         </p>
