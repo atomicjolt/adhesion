@@ -20,6 +20,7 @@ describe('scorm index', () => {
       lmsCourseId: '1',
       removePackage: () => {},
       previewPackage: () => {},
+      replacePackage: () => {},
       updateImportType: () => {},
       canvasUrl: 'salad.com',
       scormFile: null,
