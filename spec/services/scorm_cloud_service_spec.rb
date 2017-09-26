@@ -1,5 +1,6 @@
 require "rails_helper"
 require "scorm_cloud"
+require "ajims/lti"
 
 class MockCourse
   attr_accessor :id
@@ -32,7 +33,6 @@ end
 
 describe "Scorm Cloud Service sync score", type: :controller do
   before(:example) do
-    skip
     @subject = ScormCloudService.new
     @application_instance = FactoryGirl.create(:application_instance)
     @application_instance.update_attributes(config: { "scorm_type" => "cloud" })
@@ -51,7 +51,7 @@ describe "Scorm Cloud Service sync score", type: :controller do
   end
 
   it "should sync the registration score" do
-    allow_any_instance_of(IMS::LTI::ToolProvider).to receive(
+    allow_any_instance_of(AJIMS::LTI::ToolProvider).to receive(
       :post_replace_result!,
     ).and_return(MockTool.new)
     @subject.sync_registration_score(@registration)
@@ -64,7 +64,7 @@ describe "Scorm Cloud Service sync score", type: :controller do
 
   it "raises an error" do
     mock_tool = MockTool.new(false, true)
-    allow_any_instance_of(IMS::LTI::ToolProvider).to receive(
+    allow_any_instance_of(AJIMS::LTI::ToolProvider).to receive(
       :post_replace_result!,
     ).and_return(mock_tool)
     @subject.sync_registration_score(@registration)
@@ -76,7 +76,7 @@ describe "Scorm Cloud Service sync score", type: :controller do
 
   it "raises an error" do
     mock_tool = MockTool.new(false, false, true)
-    allow_any_instance_of(IMS::LTI::ToolProvider).to receive(
+    allow_any_instance_of(AJIMS::LTI::ToolProvider).to receive(
       :post_replace_result!,
     ).and_return(mock_tool)
     @subject.sync_registration_score(@registration)
@@ -88,7 +88,7 @@ describe "Scorm Cloud Service sync score", type: :controller do
 
   it "raises an error" do
     mock_tool = MockTool.new(false)
-    allow_any_instance_of(IMS::LTI::ToolProvider).to receive(
+    allow_any_instance_of(AJIMS::LTI::ToolProvider).to receive(
       :post_replace_result!,
     ).and_return(mock_tool)
     @subject.sync_registration_score(@registration)
