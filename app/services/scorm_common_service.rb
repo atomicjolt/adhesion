@@ -1,5 +1,7 @@
 module ScormCommonService
 
+  require "ajims/lti"
+
   SCORM_ASSIGNMENT_STATE = {
     GRADED: "GRADED",
     UNGRADED: "UNGRADED",
@@ -183,7 +185,7 @@ module ScormCommonService
 
   def post_results(reg)
     tp_params = setup_provider_params(reg)
-    provider = IMS::LTI::ToolProvider.new(
+    provider = AJIMS::LTI::ToolProvider.new(
       reg.application_instance.lti_key,
       reg.application_instance.lti_secret,
       tp_params,
