@@ -216,7 +216,10 @@ export class PostGradesTool extends React.Component {
               () => this.setState({ type: 'final' })
             }
             disabled={finalPosted}
-            id="final-grade" type="radio" name="grade-type" value="final grade"
+            id="final-grade"
+            type="radio"
+            name="grade-type"
+            value="final grade"
           />
           <label htmlFor="final-grade">
             <div className="radio-label">Final Grade</div>
