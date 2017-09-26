@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170915142046) do
+ActiveRecord::Schema.define(version: 20170922215453) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -88,7 +88,10 @@ ActiveRecord::Schema.define(version: 20170915142046) do
     t.string   "encrypted_refresh_token_salt"
     t.string   "encrypted_refresh_token_iv"
     t.string   "id_token"
+    t.string   "lti_user_id"
+    t.index ["lti_user_id"], name: "index_authentications_on_lti_user_id", using: :btree
     t.index ["provider", "uid"], name: "index_authentications_on_provider_and_uid", using: :btree
+    t.index ["uid", "provider", "provider_url"], name: "index_authentications_on_uid_and_provider_and_provider_url", using: :btree
     t.index ["user_id"], name: "index_authentications_on_user_id", using: :btree
   end
 
@@ -180,6 +183,17 @@ ActiveRecord::Schema.define(version: 20170915142046) do
     t.integer  "proctor_id"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+  end
+
+  create_table "que_jobs", primary_key: ["queue", "priority", "run_at", "job_id"], force: :cascade, comment: "3" do |t|
+    t.integer   "priority",    limit: 2, default: 100,            null: false
+    t.datetime  "run_at",                default: -> { "now()" }, null: false
+    t.bigserial "job_id",                                         null: false
+    t.text      "job_class",                                      null: false
+    t.json      "args",                  default: [],             null: false
+    t.integer   "error_count",           default: 0,              null: false
+    t.text      "last_error"
+    t.text      "queue",                 default: "",             null: false
   end
 
   create_table "registrations", force: :cascade do |t|
@@ -327,6 +341,7 @@ ActiveRecord::Schema.define(version: 20170915142046) do
     t.string   "lms_user_id"
     t.integer  "create_method",          default: 0
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["lti_user_id"], name: "index_users_on_lti_user_id", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 

@@ -38,6 +38,9 @@ gem "yajl-ruby", require: "yajl"
 # server
 gem "puma"
 
+# job worker
+gem "que", "~> 0.14.0"
+
 # API Related
 gem "rack-cors", require: "rack/cors"
 gem "rest-client"
@@ -71,7 +74,6 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem "spring"
   gem "spring-watcher-listen"
-  gem "uglifier"
   gem "web-console"
 end
 
