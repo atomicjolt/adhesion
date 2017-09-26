@@ -5,7 +5,6 @@ class Api::SubmissionsController < ApplicationController
   def create
     submissions = []
 
-    # Can either get user info right here with the section of get it previously
     params[:sections].each do |section|
       if section["id"] > 0
         sub_params = {

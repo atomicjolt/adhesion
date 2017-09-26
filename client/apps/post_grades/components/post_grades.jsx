@@ -53,6 +53,11 @@ export class PostGradesTool extends React.Component {
     }
   }
 
+  setSelected(value) {
+    const selSection = this.props.sectionsInfo[value];
+    this.setState({ selSection });
+  }
+
   secInfo(s) {
     return {
       id: s.id,
@@ -79,17 +84,65 @@ export class PostGradesTool extends React.Component {
         ));
         sections = [this.secInfo(section)];
       }
-      this.props.createStudentInfo(_.compact(sections), this.columnSelect.value, this.state.type);
-      this.props.updateSectionMetadata(_.compact(sections), this.props.lmsCourseId, this.state.type);
+      const compSecs = _.compact(sections);
+      this.props.createStudentInfo(compSecs, this.columnSelect.value, this.state.type);
+      this.props.updateSectionMetadata(compSecs, this.props.lmsCourseId, this.state.type);
       this.form.submit();
     } else {
       this.setState({ confirmed: true });
     }
   }
 
-  setSelected(value) {
-    const selSection = this.props.sectionsInfo[value];
-    this.setState({ selSection });
+  topText() {
+    const finalSubmitted = (
+      <div>
+        <h2 className="subtitle">You have already submitted final grades:</h2>
+        <p className="body-text">
+          If you need to change grades you will have to contact the Registrar.
+          If you would like a record of the grades you submitted,
+          you can export or print your grade book.
+        </p>
+      </div>
+    );
+    const clarification = (
+      <div>
+        <h2 className="subtitle">Please Note:</h2>
+        <p className="body-text">
+          This will submit grades to the school,
+          if you need to change grades afterwards you will have to contact the Registrar.
+          If you would like a record of the grades you submitted,
+          you can export or print your grade book.
+        </p>
+      </div>
+    );
+
+    return this.state.selSection.finalPosted ? finalSubmitted : clarification;
+  }
+
+  bottomButtons() {
+    if (this.state.selSection.finalPosted) {
+      return (
+        <div className="post-grades-modal__bottom">
+          {this.renderClose('Close')}
+        </div>
+      );
+    }
+
+    return (
+      <div className="post-grades-modal__bottom">
+        {
+          this.state.confirmed && do {
+            <p className="post-grades__confirmation" role="alert">
+              Are you sure you want to post grades?
+            </p>;
+          }
+        }
+        {this.renderClose('Cancel')}
+        <button disabled={!this.state.type} onClick={() => this.confirm()} className="btn btn--blue">
+          {this.state.confirmed ? 'Post Grades' : 'Confirm'}
+        </button>
+      </div>
+    );
   }
 
   renderSections() {
@@ -97,7 +150,11 @@ export class PostGradesTool extends React.Component {
     return (
       <div className="input-container">
         <label htmlFor="grade-section">Section</label>
-        <select ref={(el) => { this.sectionSelect = el; }} onChange={e => this.setSelected(e.target.value)} name="select" id="grade-section" aria-describedby="date-posted">
+        <select
+          ref={(el) => { this.sectionSelect = el; }}
+          onChange={e => this.setSelected(e.target.value)}
+          name="select" id="grade-section" aria-describedby="date-posted"
+        >
           <option value={-1}>All Sections</option>
           {
             _.map(this.props.sections, section => (
@@ -129,13 +186,23 @@ export class PostGradesTool extends React.Component {
       <fieldset className={`input-container ${finalPosted ? 'is-disabled' : ''}`}>
         <legend>Grade type</legend>
         <div className="radio-container">
-          <input onChange={() => this.setState({ type: 'midterm' })} disabled={midPosted} id="midterm" type="radio" name="grade-type" value="midterm" />
+          <input
+            onChange={() => this.setState({ type: 'midterm' })}
+            disabled={midPosted}
+            id="midterm" type="radio" name="grade-type" value="midterm"
+          />
           <label htmlFor="midterm">
             <div className="radio-label">Midterm</div>
           </label>
         </div>
         <div className="radio-container">
-          <input onChange={() => this.setState({ type: 'final' })} disabled={finalPosted} id="final-grade" type="radio" name="grade-type" value="final grade" />
+          <input
+            onChange={
+              () => this.setState({ type: 'final' })
+            }
+            disabled={finalPosted}
+            id="final-grade" type="radio" name="grade-type" value="final grade"
+          />
           <label htmlFor="final-grade">
             <div className="radio-label">Final Grade</div>
           </label>
@@ -161,54 +228,11 @@ export class PostGradesTool extends React.Component {
     );
   }
 
-  topText() {
-    const a = (
-      <div>
-        <h2 className="subtitle">You have already submitted final grades:</h2>
-        <p className="body-text">
-          If you need to change grades you will have to contact the Registrar. If you would like a record of the grades you submitted, you can export or print your grade book.
-        </p>
-      </div>
-    );
-    const b = (
-      <div>
-        <h2 className="subtitle">Please Note:</h2>
-        <p className="body-text">
-          This will submit grades to the school, if you need to change grades afterwards you will have to contact the Registrar. If you would like a record of the grades you submitted, you can export or print your grade book.
-        </p>
-      </div>
-    );
-
-    return this.state.selSection.finalPosted ? a : b;
-  }
-
   renderClose(title) {
     return (
-      <form ref={(el) => this.form = el} action={this.props.launchPesentationReturnUrl}>
+      <form ref={(el) => { this.form = el; }} action={this.props.launchPesentationReturnUrl}>
         <input type="submit" value={title} className="btn btn--blue" />
       </form>
-    );
-  }
-
-  bottomButtons() {
-    if (this.state.selSection.finalPosted) {
-      return (
-        <div className="post-grades-modal__bottom">
-          {this.renderClose('Close')}
-        </div>
-      );
-    }
-
-    return (
-      <div className="post-grades-modal__bottom">
-        {
-          this.state.confirmed && do {
-            <p className="post-grades__confirmation" role="alert">Are you sure you want to post grades?</p>;
-          }
-        }
-        {this.renderClose('Cancel')}
-        <button disabled={!this.state.type} onClick={() => this.confirm()} className="btn btn--blue">{this.state.confirmed ? 'Post Grades' : 'Confirm'}</button>
-      </div>
     );
   }
 
