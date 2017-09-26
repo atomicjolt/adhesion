@@ -272,6 +272,14 @@ ActiveRecord::Schema.define(version: 20170922215453) do
     t.index ["scorm_activity_id"], name: "index_scorm_objectives_on_scorm_activity_id", using: :btree
   end
 
+  create_table "section_metadata", force: :cascade do |t|
+    t.integer  "lms_course_id"
+    t.integer  "lms_section_id"
+    t.boolean  "any_posted"
+    t.datetime "mid_posted"
+    t.datetime "final_posted"
+  end
+
   create_table "sections", force: :cascade do |t|
     t.integer  "course_id"
     t.string   "lms_section_id"
