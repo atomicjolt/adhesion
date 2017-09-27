@@ -4,10 +4,10 @@
 // Submit an assignment
 // Make a submission for an assignment. You must be enrolled as a student in
 // the course/section to do this.
-// 
+//
 // All online turn-in submission types are supported in this API. However,
 // there are a few things that are not yet supported:
-// 
+//
 // * Files can be submitted based on a file ID of a user or group file. However, there is no API yet for listing the user and group files, or uploading new files via the API. A file upload API is coming soon.
 // * Media comments can be submitted, however, there is no API yet for creating a media comment to submit.
 // * Integration with Google Docs is not yet supported.
@@ -31,10 +31,10 @@ export const submitAssignmentCourses = { type: 'SUBMIT_ASSIGNMENT_COURSES', meth
 // Submit an assignment
 // Make a submission for an assignment. You must be enrolled as a student in
 // the course/section to do this.
-// 
+//
 // All online turn-in submission types are supported in this API. However,
 // there are a few things that are not yet supported:
-// 
+//
 // * Files can be submitted based on a file ID of a user or group file. However, there is no API yet for listing the user and group files, or uploading new files via the API. A file upload API is coming soon.
 // * Media comments can be submitted, however, there is no API yet for creating a media comment to submit.
 // * Integration with Google Docs is not yet supported.
@@ -149,10 +149,10 @@ export const getSingleSubmissionSections = { type: 'GET_SINGLE_SUBMISSION_SECTIO
 
 // Upload a file
 // Upload a file to a submission.
-// 
+//
 // This API endpoint is the first step in uploading a file to a submission as a student.
 // See the {file:file_uploads.html File Upload Documentation} for details on the file upload workflow.
-// 
+//
 // The final step of the file upload workflow will return the attachment data,
 // including the new file id. The caller can then POST to submit the
 // +online_upload+ assignment with these file ids.
@@ -166,10 +166,10 @@ export const uploadFileCourses = { type: 'UPLOAD_FILE_COURSES', method: 'post', 
 
 // Upload a file
 // Upload a file to a submission.
-// 
+//
 // This API endpoint is the first step in uploading a file to a submission as a student.
 // See the {file:file_uploads.html File Upload Documentation} for details on the file upload workflow.
-// 
+//
 // The final step of the file upload workflow will return the attachment data,
 // including the new file id. The caller can then POST to submit the
 // +online_upload+ assignment with these file ids.
@@ -235,9 +235,9 @@ export const gradeOrCommentOnSubmissionSections = { type: 'GRADE_OR_COMMENT_ON_S
 
 // List gradeable students
 // List students eligible to submit the assignment. The caller must have permission to view grades.
-// 
+//
 // Section-limited instructors will only see students in their own sections.
-// 
+//
 // returns [UserDisplay]
 //
 // API Docs: https://canvas.instructure.com/doc/api/submissions.html
@@ -250,7 +250,7 @@ export const listGradeableStudents = { type: 'LIST_GRADEABLE_STUDENTS', method: 
 // List multiple assignments gradeable students
 // List students eligible to submit a list of assignments. The caller must have
 // permission to view grades for the requested course.
-// 
+//
 // Section-limited instructors will only see students in their own sections.
 //
 // API Docs: https://canvas.instructure.com/doc/api/submissions.html
@@ -266,7 +266,7 @@ export const listMultipleAssignmentsGradeableStudents = { type: 'LIST_MULTIPLE_A
 // Grade or comment on multiple submissions
 // Update the grading and comments on multiple student's assignment
 // submissions in an asynchronous job.
-// 
+//
 // The user must have permission to manage grades in the appropriate context
 // (course or section).
 //
@@ -291,7 +291,7 @@ export const gradeOrCommentOnMultipleSubmissionsCoursesSubmissions = { type: 'GR
 // Grade or comment on multiple submissions
 // Update the grading and comments on multiple student's assignment
 // submissions in an asynchronous job.
-// 
+//
 // The user must have permission to manage grades in the appropriate context
 // (course or section).
 //
@@ -316,7 +316,7 @@ export const gradeOrCommentOnMultipleSubmissionsCoursesAssignments = { type: 'GR
 // Grade or comment on multiple submissions
 // Update the grading and comments on multiple student's assignment
 // submissions in an asynchronous job.
-// 
+//
 // The user must have permission to manage grades in the appropriate context
 // (course or section).
 //
@@ -341,7 +341,7 @@ export const gradeOrCommentOnMultipleSubmissionsSectionsSubmissions = { type: 'G
 // Grade or comment on multiple submissions
 // Update the grading and comments on multiple student's assignment
 // submissions in an asynchronous job.
-// 
+//
 // The user must have permission to manage grades in the appropriate context
 // (course or section).
 //
@@ -365,7 +365,7 @@ export const gradeOrCommentOnMultipleSubmissionsSectionsAssignments = { type: 'G
 
 // Mark submission as read
 // No request fields are necessary.
-// 
+//
 // On success, the response will be 204 No Content with an empty body.
 //
 // API Docs: https://canvas.instructure.com/doc/api/submissions.html
@@ -377,7 +377,7 @@ export const markSubmissionAsReadCourses = { type: 'MARK_SUBMISSION_AS_READ_COUR
 
 // Mark submission as read
 // No request fields are necessary.
-// 
+//
 // On success, the response will be 204 No Content with an empty body.
 //
 // API Docs: https://canvas.instructure.com/doc/api/submissions.html
@@ -389,7 +389,7 @@ export const markSubmissionAsReadSections = { type: 'MARK_SUBMISSION_AS_READ_SEC
 
 // Mark submission as unread
 // No request fields are necessary.
-// 
+//
 // On success, the response will be 204 No Content with an empty body.
 //
 // API Docs: https://canvas.instructure.com/doc/api/submissions.html
@@ -401,7 +401,7 @@ export const markSubmissionAsUnreadCourses = { type: 'MARK_SUBMISSION_AS_UNREAD_
 
 // Mark submission as unread
 // No request fields are necessary.
-// 
+//
 // On success, the response will be 204 No Content with an empty body.
 //
 // API Docs: https://canvas.instructure.com/doc/api/submissions.html

@@ -20,6 +20,8 @@ export default function courseList(props) {
               updateImportType={props.updateImportType}
               showModal={props.showModal}
               hideModal={props.hideModal}
+              canvasAssignment={props.canvasList[item.lms_assignment_id]}
+              publishPackage={props.publishPackage}
             />
           ))
         }
@@ -33,4 +35,7 @@ courseList.propTypes = {
   updateImportType: React.PropTypes.func,
   hideModal: React.PropTypes.func.isRequired,
   showModal: React.PropTypes.func.isRequired,
+  canvasList: React.PropTypes.shape({
+    published: React.PropTypes.bool,
+  }).isRequired,
 };

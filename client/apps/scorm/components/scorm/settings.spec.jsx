@@ -18,6 +18,8 @@ describe('settings', () => {
       handleRemove: () => {},
       hideModal: () => {},
       showModal: () => {},
+      handleAnalytics: () => {},
+      analyticsButton: false,
     };
   });
 

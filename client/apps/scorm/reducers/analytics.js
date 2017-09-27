@@ -11,7 +11,7 @@ export default (state = initialState, action) => {
 
     case Constants.LOAD_COURSE_DATA_DONE: {
       const courseData = {
-        title: action.payload.title,
+        title: action.payload.title || '',
         scores: action.payload.scores,
         correlationData: action.payload.correlation_data,
         completed: action.payload.completed,
@@ -30,7 +30,7 @@ export default (state = initialState, action) => {
     case Constants.LOAD_USER_DATA_DONE: {
       const courseData = {
         studentName: action.payload.student_name,
-        title: action.payload.title,
+        title: action.payload.title || '',
         scores: action.payload.scores,
         completed: action.payload.completed,
         passFail: action.payload.pass_fail,
@@ -43,7 +43,7 @@ export default (state = initialState, action) => {
     }
     case Constants.LOAD_ACTIVITY_DATA_DONE: {
       const courseData = {
-        title: action.payload.title,
+        title: action.payload.title || '',
         analyticsTable: action.payload.analytics_table,
       };
       return { ...state,

@@ -22,6 +22,7 @@ gem "attr_encrypted"
 gem "cancancan"
 gem "devise"
 gem "ims-lti", "~> 2.1.5" # IMS LTI tool consumers and providers
+gem "aj-ims-lti", git: "https://github.com/atomicjolt/aj_lms_lti"
 gem "jwt", "~> 1.5.0" # json web token
 gem "lms-api", "~> 1.3.7"
 gem "omniauth"
@@ -36,6 +37,9 @@ gem "yajl-ruby", require: "yajl"
 
 # server
 gem "puma"
+
+# job worker
+gem "que", "~> 0.14.0"
 
 # API Related
 gem "rack-cors", require: "rack/cors"
@@ -70,7 +74,6 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem "spring"
   gem "spring-watcher-listen"
-  gem "uglifier"
   gem "web-console"
 end
 

@@ -12,7 +12,7 @@ RSpec.describe Registration, type: :model do
       scorm_course = ScormCourse.create
       @registration.update_attributes(lms_course_id: scorm_course.id)
       expect(@registration.student_course_analytics.count).to eq(8)
-      expect(@registration.student_course_analytics[:title]).to eq("Scorm Title")
+      expect(@registration.student_course_analytics[:title]).to eq("User")
     end
 
     it "gets the nav_buttons and makes sure they are correct" do
