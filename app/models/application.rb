@@ -21,8 +21,8 @@ class Application < ActiveRecord::Base
 
   PUBLIC_TENANT = "public".freeze
 
-  ADMIN = "adhesionadmin".freeze
-  AUTH = "adhesionauth".freeze
+  ADMIN = "admin".freeze
+  AUTH = "auth".freeze
 
   SCORM = "scorm".freeze
   ATTENDANCE = "attendance".freeze
