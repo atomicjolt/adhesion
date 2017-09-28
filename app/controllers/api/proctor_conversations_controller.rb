@@ -2,8 +2,6 @@ class Api::ProctorConversationsController < Api::ApiApplicationController
   include Concerns::CanvasSupport
   respond_to :json
 
-  # joe proctor 28b9f68f
-
   def initiate_conversation
     begin
       custom_data_params = {
