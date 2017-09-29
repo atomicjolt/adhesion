@@ -11,7 +11,7 @@ class Registration < ActiveRecord::Base
   has_many :scorm_activities
 
   def set_scorm_cloud_passback_secret
-    self.scorm_cloud_passback_secret = ::SecureRandom::hex(32)
+    self.scorm_cloud_passback_secret = ::SecureRandom::hex(64)
   end
 
   def set_scorm_registration_id

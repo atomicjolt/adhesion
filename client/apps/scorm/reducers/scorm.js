@@ -33,7 +33,9 @@ export default (state = initialState, action) => {
       updatedScorm.fetching = false;
       const updatedScormList = state.scormList.slice();
       updatedScormList[action.original.localData.index] = updatedScorm;
-      return { ...state, scormList: updatedScormList };
+      const updatedAssignments = state.canvasAssignments;
+      updatedAssignments[action.payload.id] = action.payload;
+      return { ...state, scormList: updatedScormList, canvasAssignments: updatedAssignments };
     }
     case 'LIST_ASSIGNMENTS_DONE': {
       const newState = _.cloneDeep(state);
