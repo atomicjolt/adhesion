@@ -30,7 +30,6 @@ export default (state = initialState, action) => {
     }
     case 'CREATE_ASSIGNMENT_DONE': {
       const updatedScorm = { ...state.scormList[action.original.localData.index] };
-      updatedScorm.fetching = false;
       const updatedScormList = state.scormList.slice();
       updatedScormList[action.original.localData.index] = updatedScorm;
       const updatedAssignments = state.canvasAssignments;
