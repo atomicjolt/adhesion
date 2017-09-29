@@ -102,7 +102,7 @@ applications = [
       },
       course_navigation: {
         text: "SCORM Player",
-        visibility: "members",
+        visibility: "admins",
       },
     },
     application_instances: [],
