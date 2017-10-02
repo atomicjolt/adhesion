@@ -35,7 +35,5 @@ courseList.propTypes = {
   updateImportType: React.PropTypes.func,
   hideModal: React.PropTypes.func.isRequired,
   showModal: React.PropTypes.func.isRequired,
-  canvasList: React.PropTypes.shape({
-    published: React.PropTypes.bool,
-  }).isRequired,
+  canvasList: React.PropTypes.shape({}).isRequired,
 };
