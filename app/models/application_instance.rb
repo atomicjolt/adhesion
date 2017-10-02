@@ -1,4 +1,5 @@
 class ApplicationInstance < ActiveRecord::Base
+  extend Concerns::EncryptionSupport
 
   serialize :config, HashSerializer
   serialize :lti_config, HashSerializer
@@ -21,7 +22,9 @@ class ApplicationInstance < ActiveRecord::Base
 
   store_accessor :config, :scorm_type
 
-  attr_encrypted :canvas_token, key: Rails.application.secrets.encryption_key, mode: :per_attribute_iv_and_salt
+  attr_encrypted :canvas_token,
+                 key: decode_hex(Rails.application.secrets.encryption_key),
+                 mode: :per_attribute_iv_and_salt
 
   after_commit :create_schema, on: :create
   before_create :create_config
