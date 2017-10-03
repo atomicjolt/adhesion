@@ -120,16 +120,16 @@ RSpec.describe Authentication, type: :model do
         end
       end
 
-      it "for a CanvasCourse" do
+      it "for a Course" do
         auth = create(:authentication)
         canvas_course = create(:canvas_course)
-        @course = CanvasCourse.create_on_tenant(
+        @course = Course.create_on_tenant(
           @application_instance.tenant,
           canvas_course.lms_course_id,
         )
         auth.copy_to_tenant(@application_instance, @course)
         Apartment::Tenant.switch(@application_instance.tenant) do
-          cc = CanvasCourse.find_by lms_course_id: canvas_course.lms_course_id
+          cc = Course.find_by lms_course_id: canvas_course.lms_course_id
           expect(cc.authentications.last.token).to eq(auth.token)
         end
       end

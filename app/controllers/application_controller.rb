@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_application_instance,
                 :current_bundle_instance,
-                :current_canvas_course,
+                :current_course,
                 :canvas_url,
                 :targeted_app_instance
 
@@ -38,11 +38,11 @@ class ApplicationController < ActionController::Base
       ApplicationInstance.find_by(id: params[:application_instance_id])
   end
 
-  def current_canvas_course
+  def current_course
     @canvas_course ||=
-      CanvasCourse.
+      Course.
         where(lms_course_id: params[:custom_canvas_course_id]).
-        or(CanvasCourse.where(lms_course_id: params[:lms_course_id])).
+        or(Course.where(lms_course_id: params[:lms_course_id])).
         first
   end
 
