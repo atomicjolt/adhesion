@@ -15,7 +15,7 @@ class Authentication < ApplicationRecord
 
   belongs_to :user, inverse_of: :authentications
   belongs_to :application_instance, inverse_of: :authentications
-  belongs_to :canvas_course, inverse_of: :authentications
+  belongs_to :course, inverse_of: :authentications
 
   validates :provider,
             presence: true,

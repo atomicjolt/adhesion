@@ -90,7 +90,7 @@ ActiveRecord::Schema.define(version: 20170926200235) do
     t.string   "id_token"
     t.string   "lti_user_id"
     t.integer  "application_instance_id"
-    t.integer  "canvas_course_id"
+    t.integer  "course_id"
     t.index ["lti_user_id"], name: "index_authentications_on_lti_user_id", using: :btree
     t.index ["provider", "uid"], name: "index_authentications_on_provider_and_uid", using: :btree
     t.index ["uid", "provider", "provider_url"], name: "index_authentications_on_uid_and_provider_and_provider_url", using: :btree

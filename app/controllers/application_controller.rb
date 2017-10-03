@@ -39,7 +39,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_course
-    @canvas_course ||=
+    @course ||=
       Course.
         where(lms_course_id: params[:custom_canvas_course_id]).
         or(Course.where(lms_course_id: params[:lms_course_id])).
