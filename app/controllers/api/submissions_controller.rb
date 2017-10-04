@@ -32,7 +32,6 @@ class Api::SubmissionsController < Api::ApiApplicationController
         grades,
       )
     end
-
   end
 
   def make_grades(section_info)
