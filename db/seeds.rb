@@ -381,6 +381,33 @@ applications = [
     },
     application_instances: [],
   },
+  {
+    key: Application::COURSECOMPLETION,
+    name: "Course Completion",
+    description: "Tool for indicating a self paced course has been completed",
+    client_application_name: "course_completion",
+    canvas_api_permissions: {
+      default: [],
+      common: [],
+    },
+    kind: Application.kinds[:lti],
+    default_config: {},
+    lti_config: {
+      title: "Course Completion",
+      description: "Course Completion Application",
+      privacy_level: "public",
+      icon: "oauth_icon.png",
+      custom_fields: {
+        canvas_course_id: "$Canvas.course.id",
+        external_tool_url: "$Canvas.externalTool.url",
+      },
+      course_navigation: {
+        text: "Course Completion",
+        visibility: "members",
+      },
+    },
+    application_instances: [],
+  },
 ]
 
 def setup_application_instances(application, application_instances)

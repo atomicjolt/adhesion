@@ -26,5 +26,8 @@ NuclearSecrets.configure do |config|
     proctor_login_secret: String,
     scorm_cloud_app_id: String,
     scorm_cloud_secret_key: String,
+    u4sm_url: String,
+    u4sm_username: String,
+    u4sm_password: String,
   }
 end
