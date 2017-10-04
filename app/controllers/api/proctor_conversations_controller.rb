@@ -1,10 +1,6 @@
-class Api::ProctorConversationsController < ApplicationController
+class Api::ProctorConversationsController < Api::ApiApplicationController
   include Concerns::CanvasSupport
-  include Concerns::JwtToken
-  before_action :validate_token
-  respond_to :jsons
-
-  # joe proctor 28b9f68f
+  respond_to :json
 
   def initiate_conversation
     begin
@@ -18,7 +14,7 @@ class Api::ProctorConversationsController < ApplicationController
       render json: { error: "Unauthorized" }
     end
 
-    url = "#{Rails.application.secrets.canvas_url}/proctor_conversations"
+    url = "#{current_application_instance.site.url}/proctor_conversations"
 
     headers = {
       accept: :json,
@@ -32,7 +28,6 @@ class Api::ProctorConversationsController < ApplicationController
       subject: params[:subject],
       proctor_code: @proctor_code,
     }
-
     RestClient::Request.execute(
       method: :post,
       url: url,
