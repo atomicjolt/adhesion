@@ -445,6 +445,20 @@ sites.each do |attrs|
   end
 end
 
+## One Off
+Bundle.where(key: "exams").update_all(key: Application::EXAMS)
+
+Application.where(key: "exams").update_all(key: Application::EXAMS)
+Application.where(key: "examproctor").update_all(key: Application::EXAMPROCTOR)
+Application.where(key: "quizconverter").update_all(key: Application::QUIZCONVERTER)
+Application.where(key: "surveyaggregation").update_all(key: Application::SURVEYAGGREGATION)
+
+ApplicationInstance.where(lti_key: "exams").update_all(lti_key: Application::EXAMS)
+ApplicationInstance.where(lti_key: "examproctor").update_all(lti_key: Application::EXAMPROCTOR)
+ApplicationInstance.where(lti_key: "quizconverter").update_all(lti_key: Application::QUIZCONVERTER)
+ApplicationInstance.where(lti_key: "surveyaggregation").update_all(lti_key: Application::SURVEYAGGREGATION)
+## End One Off
+
 applications.each do |attrs|
   application_instances = attrs.delete(:application_instances)
   if application = Application.find_by(name: attrs[:name]) # TODO update to `find_by(key: attrs[:key])`
