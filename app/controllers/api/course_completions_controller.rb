@@ -13,13 +13,13 @@ class Api::CourseCompletionsController < Api::ApiApplicationController
       grade: enrollment["grades"]["final_score"],
     }]
 
-    status = Integrations::U4sm.post_grades_to_sis(
+    Integrations::U4sm.post_grades_to_sis(
       enrollment["sis_course_id"],
       enrollment["sis_section_id"],
       "final",
       grades,
     )
-    render json: { status: status }
+    render json: { status: 200 }
   end
 
 end

@@ -5,8 +5,7 @@ module Integrations
   module U4sm
     def self.post_grades_to_sis(sis_course_id, sis_section_id, gradetype, grades)
       cookie = U4sm.get_cookie
-      return 500 if cookie.empty?
-      resp = RestClient.post(
+      RestClient.post(
         "#{Rails.application.secrets.u4sm_url}/U4SMAPI/Canvas/CanvasGradePush",
         {
           sis_course_id: sis_course_id,
@@ -21,7 +20,6 @@ module Integrations
           },
         },
       )
-      resp.code
     end
 
     def self.get_cookie

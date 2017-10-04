@@ -403,7 +403,7 @@ applications = [
       },
       course_navigation: {
         text: "Course Completion",
-        visibility: "public",
+        visibility: "members",
       },
     },
     application_instances: [],
