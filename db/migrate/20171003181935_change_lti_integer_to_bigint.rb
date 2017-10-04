@@ -19,7 +19,7 @@ class ChangeLtiIntegerToBigint < ActiveRecord::Migration[5.0]
     change_column :applications, :kind, :bigint
     change_column :applications, :application_instances_count, :bigint
     change_column :authentications, :application_instance_id, :bigint
-    change_column :authentications, :canvas_course_id, :bigint
+    change_column :authentications, :course_id, :bigint
     change_column :bundle_instances, :site_id, :bigint
     change_column :bundle_instances, :bundle_id, :bigint
   end
@@ -30,7 +30,7 @@ class ChangeLtiIntegerToBigint < ActiveRecord::Migration[5.0]
     change_column :applications, :id, :integer
     change_column :bundle_instances, :id, :integer
     change_column :bundles, :id, :integer
-    change_column :canvas_courses, :id, :integer
+    change_column :courses, :id, :integer
     change_column :lti_launches, :id, :integer
     change_column :nonces, :id, :integer
     change_column :oauth_states, :id, :integer

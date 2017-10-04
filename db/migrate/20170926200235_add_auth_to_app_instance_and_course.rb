@@ -3,7 +3,7 @@ class AddAuthToAppInstanceAndCourse < ActiveRecord::Migration[5.0]
     unless column_exists? :authentications, :application_instance_id
       add_column :authentications, :application_instance_id, :integer
     end
-    unless column_exists? :authentications, :canvas_course_id
+    unless column_exists? :authentications, :course_id
       add_column :authentications, :course_id, :integer
     end
   end
