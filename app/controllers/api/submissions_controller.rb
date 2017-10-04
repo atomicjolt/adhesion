@@ -19,7 +19,7 @@ class Api::SubmissionsController < Api::ApiApplicationController
       end
     end
 
-    sendable_data = submissions.map do |section_info|
+    submissions.each do |section_info|
       if params[:assignment_id] == "total"
         grades = total_grades(section_info[:users])
       else
@@ -48,7 +48,7 @@ class Api::SubmissionsController < Api::ApiApplicationController
       {
         sis_user_id: user["sis_user_id"],
         grade: user["grades"]["final_score"],
-      } unless user["role"] == "TeacherEnrollment"
+      } if user["role"] == "StudentEnrollment"
     end
   end
 
