@@ -24,7 +24,7 @@ class Authentication < ApplicationRecord
                 uid
                 user_id
                 application_instance_id
-                canvas_course_id
+                course_id
                 provider_url
               ],
             }
@@ -48,7 +48,7 @@ class Authentication < ApplicationRecord
       "updated_at",
       "user_id",
       "application_instance_id",
-      "canvas_course_id",
+      "course_id",
     )
   end
 
