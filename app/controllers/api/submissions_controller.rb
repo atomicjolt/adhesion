@@ -1,4 +1,4 @@
-class Api::SubmissionsController < ApplicationController
+class Api::SubmissionsController < Api::ApiApplicationController
 
   include Concerns::CanvasSupport
 
@@ -25,14 +25,14 @@ class Api::SubmissionsController < ApplicationController
       else
         grades = make_grades(section_info)
       end
-      {
-        sis_course_id: section_info[:section][:sis_course_id],
-        sis_section_id: section_info[:section][:sis_section_id],
-        gradetype: params[:type],
-        grades: grades,
-      }
+      Integrations::U4sm.post_grades_to_sis(
+        section_info[:section][:sis_course_id],
+        section_info[:section][:sis_section_id],
+        params[:type],
+        grades,
+      )
     end
-    # TODO: Use AU endpoint to send "sendable_data"
+
   end
 
   def make_grades(section_info)
@@ -49,7 +49,7 @@ class Api::SubmissionsController < ApplicationController
       {
         sis_user_id: user["sis_user_id"],
         grade: user["grades"]["final_score"],
-      }
+      } unless user["role"] == "TeacherEnrollment"
     end
   end
 
