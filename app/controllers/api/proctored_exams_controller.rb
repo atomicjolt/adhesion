@@ -1,7 +1,6 @@
-class Api::ProctoredExamsController < ApplicationController
+class Api::ProctoredExamsController < Api::ApiApplicationController
   before_action :validate_proctor_code, only: [:start_proctored_exam]
   skip_before_action :validate_token
-  skip_before_action :protect_from_forgery
   include Concerns::CanvasSupport
 
   respond_to :json
@@ -47,7 +46,6 @@ class Api::ProctoredExamsController < ApplicationController
       account_id: @exam_request[:testing_center_id],
     }
     users = canvas_api.proxy("LIST_USERS_IN_ACCOUNT", account_params)
-
     matched_code = false
     users.parsed_response.each do |user|
       begin

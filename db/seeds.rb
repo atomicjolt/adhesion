@@ -87,6 +87,7 @@ applications = [
       ],
       CREATE_ASSIGNMENT: [],
       DELETE_ASSIGNMENT: [],
+      EDIT_ASSIGNMENT: [],
     },
     kind: Application.kinds[:lti],
     default_config: { "scorm_type" => "engine" },
@@ -101,7 +102,7 @@ applications = [
       },
       course_navigation: {
         text: "SCORM Player",
-        visibility: "members",
+        visibility: "admins",
       },
     },
     application_instances: [],
@@ -376,6 +377,33 @@ applications = [
       post_grades: {
         text: "Post Grades",
         visibility: "admins",
+      },
+    },
+    application_instances: [],
+  },
+  {
+    key: Application::COURSECOMPLETION,
+    name: "Course Completion",
+    description: "Tool for indicating a self paced course has been completed",
+    client_application_name: "course_completion",
+    canvas_api_permissions: {
+      default: [],
+      common: [],
+    },
+    kind: Application.kinds[:lti],
+    default_config: {},
+    lti_config: {
+      title: "Course Completion",
+      description: "Course Completion Application",
+      privacy_level: "public",
+      icon: "oauth_icon.png",
+      custom_fields: {
+        canvas_course_id: "$Canvas.course.id",
+        external_tool_url: "$Canvas.externalTool.url",
+      },
+      course_navigation: {
+        text: "Course Completion",
+        visibility: "members",
       },
     },
     application_instances: [],

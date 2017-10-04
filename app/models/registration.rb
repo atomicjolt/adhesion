@@ -1,5 +1,8 @@
 class Registration < ActiveRecord::Base
-  attr_encrypted :scorm_cloud_passback_secret, key: Rails.application.secrets.encryption_key
+  extend Concerns::EncryptionSupport
+
+  attr_encrypted :scorm_cloud_passback_secret,
+                 key: decode_hex(Rails.application.secrets.encryption_key)
   belongs_to :course
   belongs_to :user, foreign_key: :lms_user_id, primary_key: :lms_user_id
   belongs_to :scorm_course,
@@ -24,7 +27,7 @@ class Registration < ActiveRecord::Base
     # return course activity details for user
     summary = {}
     summary[:student_name] = user&.name
-    summary[:title] = "Scorm Title"
+    summary[:title] = "User"
     summary[:mean_score] = mean_registration_score
     summary[:pass_fail] = course_analytics[:pass_fail]
     summary[:completed] = course_analytics[:completed]

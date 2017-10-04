@@ -21,16 +21,17 @@ class Application < ActiveRecord::Base
 
   PUBLIC_TENANT = "public".freeze
 
-  ADMIN = "adhesionadmin".freeze
-  AUTH = "adhesionauth".freeze
+  ADMIN = "admin".freeze
+  AUTH = "admin".freeze
 
   SCORM = "scorm".freeze
   ATTENDANCE = "attendance".freeze
-  EXAMS = "exams".freeze
-  EXAMPROCTOR = "examproctor".freeze
-  QUIZCONVERTER = "quizconverter".freeze
-  SURVEYAGGREGATION = "surveyaggregation".freeze
+  EXAMS = "exam".freeze
+  EXAMPROCTOR = "proctor".freeze
+  QUIZCONVERTER = "word2quiz".freeze
+  SURVEYAGGREGATION = "surveys".freeze
   POSTGRADES = "postgrades".freeze
+  COURSECOMPLETION = "coursecompletion".freeze
 
   def create_instance(site: nil, bundle_instance: nil, tenant: nil)
     app = application_instances.find_or_create_by(
