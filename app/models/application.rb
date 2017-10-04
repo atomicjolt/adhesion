@@ -26,10 +26,10 @@ class Application < ActiveRecord::Base
 
   SCORM = "scorm".freeze
   ATTENDANCE = "attendance".freeze
-  EXAMS = "exams".freeze
-  EXAMPROCTOR = "examproctor".freeze
-  QUIZCONVERTER = "quizconverter".freeze
-  SURVEYAGGREGATION = "surveyaggregation".freeze
+  EXAMS = "exam".freeze
+  EXAMPROCTOR = "proctor".freeze
+  QUIZCONVERTER = "word2quiz".freeze
+  SURVEYAGGREGATION = "surveys".freeze
   POSTGRADES = "postgrades".freeze
   COURSECOMPLETION = "coursecompletion".freeze
 
