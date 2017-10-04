@@ -22,7 +22,7 @@ class Application < ActiveRecord::Base
   PUBLIC_TENANT = "public".freeze
 
   ADMIN = "admin".freeze
-  AUTH = "auth".freeze
+  AUTH = "admin".freeze
 
   SCORM = "scorm".freeze
   ATTENDANCE = "attendance".freeze
