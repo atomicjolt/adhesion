@@ -22,6 +22,7 @@ class Api::ScormCoursesController < ApplicationController
     if courses[:status] != 400
       courses[:response] = scorm_connect_service(params[:lms_course_id]).sync_courses(
         courses[:response],
+        params[:lms_course_id],
       )
     end
     send_scorm_connect_response(courses)
