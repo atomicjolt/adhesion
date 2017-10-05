@@ -12,7 +12,7 @@ module ScormCommonService
       course_ids = get_course_ids(courses)
       existing_course_ids = ScormCourse.
         where("scorm_service_id LIKE '%_?'", lms_course_id.to_i).
-        map { |c| c[:scorm_service_id] }
+        map(&:scorm_service_id)
       extra = existing_course_ids - course_ids
       remove_extras(extra)
       needed = course_ids - existing_course_ids
