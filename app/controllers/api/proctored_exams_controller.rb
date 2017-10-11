@@ -1,22 +1,33 @@
 class Api::ProctoredExamsController < Api::ApiApplicationController
-  before_action :validate_proctor_code, only: [:start_proctored_exam]
   skip_before_action :validate_token
   include Concerns::CanvasSupport
 
   respond_to :json
 
   def start_proctored_exam
+    find_params = {
+      student_id: params[:student_id],
+    }
+
+    find_params["status"] = "started" unless params[:unstarted]
+
+    @exam_request = ExamRequest.find_by(find_params)
+
     if params[:update].present?
       finish_proctored_exam
       return
     end
-    quiz_params = {
-      id: @exam_request.exam_id,
-      course_id: @exam_request.course_id,
-    }
-    quiz = canvas_api.proxy("GET_SINGLE_QUIZ", quiz_params)
 
-    render json: { quiz: @exam_request, proctor_access_code: quiz.parsed_response["access_code"] }
+    render json: { exam_request: @exam_request }
+  end
+
+  def update
+    ExamRequest.find(params[:id]).
+      update_attributes(
+        unlocked_by_id: params[:proctor_id],
+        unlocked_by_name: params[:proctor_name],
+      )
+    render json: { status: "ok" }
   end
 
   def finish_proctored_exam
@@ -24,54 +35,4 @@ class Api::ProctoredExamsController < Api::ApiApplicationController
     render json: { status: "ok" }
   end
 
-  private
-
-  def validate_proctor_code
-    find_params = {
-      student_id: params[:student_id],
-    }
-    find_params["status"] = "started" unless params[:unstarted]
-
-    @exam_request = ExamRequest.find_by(find_params)
-    if params[:update]
-      return
-    end
-
-    if !@exam_request
-      render json: { error: "You do not have an exam that is ready to start." }
-      return
-    end
-
-    account_params = {
-      account_id: @exam_request[:testing_center_id],
-    }
-    users = canvas_api.proxy("LIST_USERS_IN_ACCOUNT", account_params)
-    matched_code = false
-    users.parsed_response.each do |user|
-      begin
-        custom_data_params = {
-          ns: "edu.au.exam",
-          scope: "/exam/proctor_code",
-          user_id: user["id"],
-        }
-        proctor_code = canvas_api.proxy("LOAD_CUSTOM_DATA", custom_data_params).parsed_response["data"]
-        if proctor_code == params[:proctor_code]
-          matched_code = true
-          if !params[:unstarted]
-            @exam_request.update_attributes(unlocked_by_id: user["id"], unlocked_by_name: user["name"])
-          end
-        end
-      rescue LMS::Canvas::InvalidAPIRequestFailedException
-        # this probably means that the user doesnt have a proctor code... unfortunately canvas doesn't
-        # actually tell us why it returned 401 just that it did
-      end
-    end
-
-    if !matched_code
-      render(
-        json: { error: "Unauthorized: Invalid Proctor Code." },
-        status: :unauthorized,
-      )
-    end
-  end
 end
