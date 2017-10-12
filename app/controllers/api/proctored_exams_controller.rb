@@ -23,7 +23,7 @@ class Api::ProctoredExamsController < Api::ApiApplicationController
 
   def update
     ExamRequest.find(params[:id]).
-      update_attributes(
+      update(
         unlocked_by_id: params[:proctor_id],
         unlocked_by_name: params[:proctor_name],
       )

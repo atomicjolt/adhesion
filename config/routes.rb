@@ -52,7 +52,7 @@ Rails.application.routes.draw do
   namespace :api do
     get "proctor_login" => "proctor_login#signed_url"
     get "proctored_exams" => "proctored_exams#start_proctored_exam"
-    resources :proctored_exams
+    resources :proctored_exams, only: [:update]
     post "proctor_conversations" => "proctor_conversations#initiate_conversation"
     resources :jwts
     resources :canvas_accounts
