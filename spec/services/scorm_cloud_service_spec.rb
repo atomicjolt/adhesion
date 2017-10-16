@@ -142,8 +142,10 @@ end
 
 describe "sync_courses" do
   it "should sync cloud courses table" do
-    ScormCourse.create
-    graded_course = ScormCourse.create
+    lms_course_id = "1234"
+    graded_id = "12"
+    create(:scorm_course, scorm_service_id: "3_#{lms_course_id}")
+    graded_course = create(:scorm_course, scorm_service_id: "#{graded_id}_#{lms_course_id}")
     graded_course.lms_assignment_id = 1
     graded_course.points_possible = 5
     graded_course.save!
@@ -152,12 +154,17 @@ describe "sync_courses" do
     result = subject.sync_courses(
       [
         MockCourse.new(graded_course.scorm_service_id),
-        MockCourse.new("3"),
+        MockCourse.new("3_#{lms_course_id}"),
+        MockCourse.new("35_68000"),
       ],
+      lms_course_id,
     )
 
-    courses = ScormCourse.where(scorm_service_id: [graded_course.id, 3])
-    expect(courses.count).to eq 2
+    scorm_course_count = ScormCourse.
+      where(
+        scorm_service_id: ["3_#{lms_course_id}", graded_course.scorm_service_id],
+      ).count
+    expect(scorm_course_count).to eq 2
 
     expect(result[0][:lms_assignment_id]).to eq(1)
     expect(result[0][:is_graded]).to eq("GRADED")

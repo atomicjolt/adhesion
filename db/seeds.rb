@@ -104,16 +104,12 @@ applications = [
         visibility: "admins",
       },
     },
-    application_instances: [],
-    # application_instances: [{
-    #   tenant: "scorm-player",
-    #   lti_key: "scorm-player",
-    #   lti_secret: secrets.scorm_lti_secret,
-    #   site_url: lti_consumer_uri,
-    #   canvas_token: secrets.canvas_token,
-    #   domain: "scorm.#{secrets.domain_name}",
-    #   lti_type: ApplicationInstance.lti_types[:course_navigation],
-    # }],
+    application_instances: [{
+      lti_key: Application::SCORM,
+      site_url: secrets.canvas_url,
+      canvas_token: secrets.canvas_token,
+      domain: "#{Application::SCORM}.#{secrets.application_root_domain}",
+    }],
   },
   {
     key: Application::ATTENDANCE,
@@ -147,16 +143,12 @@ applications = [
         visibility: "admins",
       },
     },
-    application_instances: [],
-    # application_instances: [{
-    #   tenant: "attendance",
-    #   lti_key: "attendance",
-    #   lti_secret: secrets.attendance_lti_secret,
-    #   site_url: lti_consumer_uri,
-    #   canvas_token: secrets.canvas_token,
-    #   domain: "attendance.#{secrets.domain_name}",
-    #   lti_type: ApplicationInstance.lti_types[:course_navigation],
-    # }],
+    application_instances: [{
+      lti_key: Application::ATTENDANCE,
+      site_url: secrets.canvas_url,
+      canvas_token: secrets.canvas_token,
+      domain: "#{Application::ATTENDANCE}.#{secrets.application_root_domain}",
+    }],
   },
   {
     key: Application::EXAMS,
@@ -196,16 +188,12 @@ applications = [
         visibility: "members",
       },
     },
-    application_instances: [],
-    # application_instances: [{
-    #   tenant: "exam",
-    #   lti_key: "exam",
-    #   lti_secret: secrets.exams_lti_secret,
-    #   site_url: lti_consumer_uri,
-    #   canvas_token: secrets.canvas_token,
-    #   domain: "exam.#{secrets.domain_name}",
-    #   lti_type: ApplicationInstance.lti_types[:course_navigation],
-    # }],
+    application_instances: [{
+      lti_key: Application::EXAMS,
+      site_url: secrets.canvas_url,
+      canvas_token: secrets.canvas_token,
+      domain: "#{Application::EXAMS}.#{secrets.application_root_domain}",
+    }],
   },
   {
     key: Application::EXAMPROCTOR,
@@ -244,16 +232,13 @@ applications = [
         visibility: "admins",
       },
     },
-    application_instances: [],
-    # application_instances: [{
-    #   tenant: "exam",
-    #   lti_key: "proctor",
-    #   lti_secret: secrets.test_administration_lti_secret,
-    #   site_url: lti_consumer_uri,
-    #   canvas_token: secrets.canvas_token,
-    #   domain: "proctor.#{secrets.domain_name}",
-    #   lti_type: ApplicationInstance.lti_types[:account_navigation],
-    # }],
+    application_instances: [{
+      tenant: Application::EXAMS,
+      lti_key: Application::EXAMPROCTOR,
+      site_url: secrets.canvas_url,
+      canvas_token: secrets.canvas_token,
+      domain: "#{Application::EXAMPROCTOR}.#{secrets.application_root_domain}",
+    }],
   },
   {
     key: Application::QUIZCONVERTER,
@@ -285,16 +270,12 @@ applications = [
         visibility: "admins",
       },
     },
-    application_instances: [],
-    # application_instances: [{
-    #   tenant: "word2quiz",
-    #   lti_key: "word2quiz",
-    #   lti_secret: secrets.quiz_converter_lti_secret,
-    #   site_url: lti_consumer_uri,
-    #   canvas_token: secrets.canvas_token,
-    #   domain: "word2quiz.#{secrets.domain_name}",
-    #   lti_type: ApplicationInstance.lti_types[:course_navigation],
-    # }],
+    application_instances: [{
+      lti_key: Application::QUIZCONVERTER,
+      site_url: secrets.canvas_url,
+      canvas_token: secrets.canvas_token,
+      domain: "#{Application::QUIZCONVERTER}.#{secrets.application_root_domain}",
+    }],
   },
   {
     key: Application::SURVEYAGGREGATION,
@@ -326,16 +307,12 @@ applications = [
         visibility: "admins",
       },
     },
-    application_instances: [],
-    # application_instances: [{
-    #   tenant: "surveys",
-    #   lti_key: "surveys",
-    #   lti_secret: secrets.survey_tool_lti_secret,
-    #   site_url: lti_consumer_uri,
-    #   canvas_token: secrets.canvas_token,
-    #   domain: "surveys.#{secrets.domain_name}",
-    #   lti_type: ApplicationInstance.lti_types[:course_navigation],
-    # }],
+    application_instances: [{
+      lti_key: Application::SURVEYAGGREGATION,
+      site_url: secrets.canvas_url,
+      canvas_token: secrets.canvas_token,
+      domain: "#{Application::SURVEYAGGREGATION}.#{secrets.application_root_domain}",
+    }],
   },
   {
     key: Application::POSTGRADES,
@@ -378,7 +355,12 @@ applications = [
         visibility: "admins",
       },
     },
-    application_instances: [],
+    application_instances: [{
+      lti_key: Application::POSTGRADES,
+      site_url: secrets.canvas_url,
+      canvas_token: secrets.canvas_token,
+      domain: "#{Application::POSTGRADES}.#{secrets.application_root_domain}",
+    }],
   },
   {
     key: Application::COURSECOMPLETION,
@@ -405,7 +387,12 @@ applications = [
         visibility: "members",
       },
     },
-    application_instances: [],
+    application_instances: [{
+      lti_key: Application::COURSECOMPLETION,
+      site_url: secrets.canvas_url,
+      canvas_token: secrets.canvas_token,
+      domain: "#{Application::COURSECOMPLETION}.#{secrets.application_root_domain}",
+    }],
   },
 ]
 
@@ -446,21 +433,13 @@ end
 
 applications.each do |attrs|
   application_instances = attrs.delete(:application_instances)
-  if application = Application.find_by(name: attrs[:name]) # TODO update to `find_by(key: attrs[:key])`
+  if application = Application.find_by(key: attrs[:key])
     application.update_attributes!(attrs)
   else
     application = Application.create!(attrs)
   end
   setup_application_instances(application, application_instances)
 end
-
-## One Off
-Bundle.find_each do |bundle|
-  bundle_hash = bundles.detect { |b| b[:key] == bundle.key }
-  shared_tenant = bundle_hash[:shared_tenant] || bundle.shared_tenant == true
-  bundle.update(shared_tenant: shared_tenant)
-end
-## End One Off
 
 bundles.each do |attrs|
   current_bundle = Bundle.find_or_create_by(key: attrs[:key])

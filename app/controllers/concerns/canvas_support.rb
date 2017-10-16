@@ -1,5 +1,6 @@
 module Concerns
   module CanvasSupport
+    include ApplicationHelper
     extend ActiveSupport::Concern
     include OauthHelper
 

@@ -90,4 +90,12 @@ FactoryGirl.define do
   sequence :message do |n|
     "Ima Message#{n}"
   end
+
+  sequence :scorm_service_id do |n|
+    "#{n}_#{n + 12}"
+  end
+
+  sequence :lms_assignment_id do |n|
+    n + 512
+  end
 end

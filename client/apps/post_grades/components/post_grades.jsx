@@ -87,7 +87,7 @@ export class PostGradesTool extends React.Component {
       const compSecs = _.compact(sections);
       this.props.createStudentInfo(compSecs, this.columnSelect.value, this.state.type);
       this.props.updateSectionMetadata(compSecs, this.props.lmsCourseId, this.state.type);
-      this.form.submit();
+      this.form.submit(); // closes Modal
     } else {
       this.setState({ confirmed: true });
     }
