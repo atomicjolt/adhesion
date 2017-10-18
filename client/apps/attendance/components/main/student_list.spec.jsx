@@ -6,6 +6,7 @@ import { StudentList } from './student_list';
 function makeStudent(id) {
   return {
     name: 'Fake Student',
+    sortable_name: 'Fake Student',
     lms_student_id: id,
     avatar_url: 'http://',
     enrollments: [{ course_section_id: id + 1 }],
@@ -58,8 +59,18 @@ describe('Student List', () => {
     spyOn(props, 'markStudents');
     result = shallow(<StudentList {...props} />);
     result.instance().markAll('PRESENT');
-    expect(props.markStudents).toHaveBeenCalledWith(
+    const studentsData = _.map(
       props.students,
+      student => (
+        {
+          name: student.name,
+          lms_student_id: student.lms_student_id,
+          sortable_name: student.sortable_name,
+        }
+      )
+    );
+    expect(props.markStudents).toHaveBeenCalledWith(
+      studentsData,
       props.settings.lms_course_id,
       props.applicationDate,
       'PRESENT',
@@ -71,8 +82,18 @@ describe('Student List', () => {
     result = shallow(<StudentList {...props} />);
     const button = result.find('.c-btn--unmark-all').first();
     button.simulate('click');
-    expect(props.markStudents).toHaveBeenCalledWith(
+    const studentsData = _.map(
       props.students,
+      student => (
+        {
+          name: student.name,
+          lms_student_id: student.lms_student_id,
+          sortable_name: student.sortable_name,
+        }
+      )
+    );
+    expect(props.markStudents).toHaveBeenCalledWith(
+      studentsData,
       props.settings.lms_course_id,
       props.applicationDate,
       '',
