@@ -44,7 +44,7 @@ export default class Student extends React.Component {
           processing && do {
             <td>
               <div className="loading">
-                <div className="c-loading-icon" />
+                <div className="c-loading-icon" role="img" aria-label="loading" />
               </div>
             </td>;
           }
