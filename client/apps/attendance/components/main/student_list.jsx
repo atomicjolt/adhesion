@@ -149,7 +149,17 @@ export class StudentList extends React.Component {
 
   markAll(status) {
     const { students, settings, applicationDate } = this.props;
-    this.props.markStudents(students, settings.lms_course_id, applicationDate, status);
+    const studentsData = _.map(
+      students,
+      student => (
+        {
+          name: student.name,
+          lms_student_id: student.lms_student_id,
+          sortable_name: student.sortable_name,
+        }
+      )
+    );
+    this.props.markStudents(studentsData, settings.lms_course_id, applicationDate, status);
   }
 
   toggleExportModal() {

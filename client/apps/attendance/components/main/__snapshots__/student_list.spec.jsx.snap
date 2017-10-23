@@ -69,6 +69,7 @@ ShallowWrapper {
                         ],
                         "lms_student_id": 0,
                         "name": "Fake Student",
+                        "sortable_name": "Fake Student",
                       }
                 }
                 updateStudentAttendance={[Function]}
@@ -86,6 +87,7 @@ ShallowWrapper {
                         ],
                         "lms_student_id": 1,
                         "name": "Fake Student",
+                        "sortable_name": "Fake Student",
                       }
                 }
                 updateStudentAttendance={[Function]}
@@ -103,6 +105,7 @@ ShallowWrapper {
                         ],
                         "lms_student_id": 2,
                         "name": "Fake Student",
+                        "sortable_name": "Fake Student",
                       }
                 }
                 updateStudentAttendance={[Function]}
@@ -120,6 +123,7 @@ ShallowWrapper {
                         ],
                         "lms_student_id": 3,
                         "name": "Fake Student",
+                        "sortable_name": "Fake Student",
                       }
                 }
                 updateStudentAttendance={[Function]}
@@ -137,6 +141,7 @@ ShallowWrapper {
                         ],
                         "lms_student_id": 4,
                         "name": "Fake Student",
+                        "sortable_name": "Fake Student",
                       }
                 }
                 updateStudentAttendance={[Function]}
@@ -154,6 +159,7 @@ ShallowWrapper {
                         ],
                         "lms_student_id": 5,
                         "name": "Fake Student",
+                        "sortable_name": "Fake Student",
                       }
                 }
                 updateStudentAttendance={[Function]}
@@ -171,6 +177,7 @@ ShallowWrapper {
                         ],
                         "lms_student_id": 6,
                         "name": "Fake Student",
+                        "sortable_name": "Fake Student",
                       }
                 }
                 updateStudentAttendance={[Function]}
@@ -188,6 +195,7 @@ ShallowWrapper {
                         ],
                         "lms_student_id": 7,
                         "name": "Fake Student",
+                        "sortable_name": "Fake Student",
                       }
                 }
                 updateStudentAttendance={[Function]}
@@ -205,6 +213,7 @@ ShallowWrapper {
                         ],
                         "lms_student_id": 8,
                         "name": "Fake Student",
+                        "sortable_name": "Fake Student",
                       }
                 }
                 updateStudentAttendance={[Function]}
@@ -222,6 +231,7 @@ ShallowWrapper {
                         ],
                         "lms_student_id": 9,
                         "name": "Fake Student",
+                        "sortable_name": "Fake Student",
                       }
                 }
                 updateStudentAttendance={[Function]}
@@ -291,6 +301,7 @@ ShallowWrapper {
                                     ],
                                     "lms_student_id": 0,
                                     "name": "Fake Student",
+                                    "sortable_name": "Fake Student",
                                   }
                         }
                         updateStudentAttendance={[Function]}
@@ -308,6 +319,7 @@ ShallowWrapper {
                                     ],
                                     "lms_student_id": 1,
                                     "name": "Fake Student",
+                                    "sortable_name": "Fake Student",
                                   }
                         }
                         updateStudentAttendance={[Function]}
@@ -325,6 +337,7 @@ ShallowWrapper {
                                     ],
                                     "lms_student_id": 2,
                                     "name": "Fake Student",
+                                    "sortable_name": "Fake Student",
                                   }
                         }
                         updateStudentAttendance={[Function]}
@@ -342,6 +355,7 @@ ShallowWrapper {
                                     ],
                                     "lms_student_id": 3,
                                     "name": "Fake Student",
+                                    "sortable_name": "Fake Student",
                                   }
                         }
                         updateStudentAttendance={[Function]}
@@ -359,6 +373,7 @@ ShallowWrapper {
                                     ],
                                     "lms_student_id": 4,
                                     "name": "Fake Student",
+                                    "sortable_name": "Fake Student",
                                   }
                         }
                         updateStudentAttendance={[Function]}
@@ -376,6 +391,7 @@ ShallowWrapper {
                                     ],
                                     "lms_student_id": 5,
                                     "name": "Fake Student",
+                                    "sortable_name": "Fake Student",
                                   }
                         }
                         updateStudentAttendance={[Function]}
@@ -393,6 +409,7 @@ ShallowWrapper {
                                     ],
                                     "lms_student_id": 6,
                                     "name": "Fake Student",
+                                    "sortable_name": "Fake Student",
                                   }
                         }
                         updateStudentAttendance={[Function]}
@@ -410,6 +427,7 @@ ShallowWrapper {
                                     ],
                                     "lms_student_id": 7,
                                     "name": "Fake Student",
+                                    "sortable_name": "Fake Student",
                                   }
                         }
                         updateStudentAttendance={[Function]}
@@ -427,6 +445,7 @@ ShallowWrapper {
                                     ],
                                     "lms_student_id": 8,
                                     "name": "Fake Student",
+                                    "sortable_name": "Fake Student",
                                   }
                         }
                         updateStudentAttendance={[Function]}
@@ -444,6 +463,7 @@ ShallowWrapper {
                                     ],
                                     "lms_student_id": 9,
                                     "name": "Fake Student",
+                                    "sortable_name": "Fake Student",
                                   }
                         }
                         updateStudentAttendance={[Function]}
@@ -502,6 +522,7 @@ ShallowWrapper {
                           ],
                           "lms_student_id": 0,
                           "name": "Fake Student",
+                          "sortable_name": "Fake Student",
                         },
                         Object {
                           "avatar_url": "http://",
@@ -512,6 +533,7 @@ ShallowWrapper {
                           ],
                           "lms_student_id": 1,
                           "name": "Fake Student",
+                          "sortable_name": "Fake Student",
                         },
                         Object {
                           "avatar_url": "http://",
@@ -522,6 +544,7 @@ ShallowWrapper {
                           ],
                           "lms_student_id": 2,
                           "name": "Fake Student",
+                          "sortable_name": "Fake Student",
                         },
                         Object {
                           "avatar_url": "http://",
@@ -532,6 +555,7 @@ ShallowWrapper {
                           ],
                           "lms_student_id": 3,
                           "name": "Fake Student",
+                          "sortable_name": "Fake Student",
                         },
                         Object {
                           "avatar_url": "http://",
@@ -542,6 +566,7 @@ ShallowWrapper {
                           ],
                           "lms_student_id": 4,
                           "name": "Fake Student",
+                          "sortable_name": "Fake Student",
                         },
                         Object {
                           "avatar_url": "http://",
@@ -552,6 +577,7 @@ ShallowWrapper {
                           ],
                           "lms_student_id": 5,
                           "name": "Fake Student",
+                          "sortable_name": "Fake Student",
                         },
                         Object {
                           "avatar_url": "http://",
@@ -562,6 +588,7 @@ ShallowWrapper {
                           ],
                           "lms_student_id": 6,
                           "name": "Fake Student",
+                          "sortable_name": "Fake Student",
                         },
                         Object {
                           "avatar_url": "http://",
@@ -572,6 +599,7 @@ ShallowWrapper {
                           ],
                           "lms_student_id": 7,
                           "name": "Fake Student",
+                          "sortable_name": "Fake Student",
                         },
                         Object {
                           "avatar_url": "http://",
@@ -582,6 +610,7 @@ ShallowWrapper {
                           ],
                           "lms_student_id": 8,
                           "name": "Fake Student",
+                          "sortable_name": "Fake Student",
                         },
                         Object {
                           "avatar_url": "http://",
@@ -592,6 +621,7 @@ ShallowWrapper {
                           ],
                           "lms_student_id": 9,
                           "name": "Fake Student",
+                          "sortable_name": "Fake Student",
                         },
                       ]
         }
@@ -640,6 +670,7 @@ ShallowWrapper {
               ],
               "lms_student_id": 0,
               "name": "Fake Student",
+              "sortable_name": "Fake Student",
             },
             Object {
               "avatar_url": "http://",
@@ -650,6 +681,7 @@ ShallowWrapper {
               ],
               "lms_student_id": 1,
               "name": "Fake Student",
+              "sortable_name": "Fake Student",
             },
             Object {
               "avatar_url": "http://",
@@ -660,6 +692,7 @@ ShallowWrapper {
               ],
               "lms_student_id": 2,
               "name": "Fake Student",
+              "sortable_name": "Fake Student",
             },
             Object {
               "avatar_url": "http://",
@@ -670,6 +703,7 @@ ShallowWrapper {
               ],
               "lms_student_id": 3,
               "name": "Fake Student",
+              "sortable_name": "Fake Student",
             },
             Object {
               "avatar_url": "http://",
@@ -680,6 +714,7 @@ ShallowWrapper {
               ],
               "lms_student_id": 4,
               "name": "Fake Student",
+              "sortable_name": "Fake Student",
             },
             Object {
               "avatar_url": "http://",
@@ -690,6 +725,7 @@ ShallowWrapper {
               ],
               "lms_student_id": 5,
               "name": "Fake Student",
+              "sortable_name": "Fake Student",
             },
             Object {
               "avatar_url": "http://",
@@ -700,6 +736,7 @@ ShallowWrapper {
               ],
               "lms_student_id": 6,
               "name": "Fake Student",
+              "sortable_name": "Fake Student",
             },
             Object {
               "avatar_url": "http://",
@@ -710,6 +747,7 @@ ShallowWrapper {
               ],
               "lms_student_id": 7,
               "name": "Fake Student",
+              "sortable_name": "Fake Student",
             },
             Object {
               "avatar_url": "http://",
@@ -720,6 +758,7 @@ ShallowWrapper {
               ],
               "lms_student_id": 8,
               "name": "Fake Student",
+              "sortable_name": "Fake Student",
             },
             Object {
               "avatar_url": "http://",
@@ -730,6 +769,7 @@ ShallowWrapper {
               ],
               "lms_student_id": 9,
               "name": "Fake Student",
+              "sortable_name": "Fake Student",
             },
           ],
         },
@@ -817,6 +857,7 @@ ShallowWrapper {
                                                             ],
                                                             "lms_student_id": 0,
                                                             "name": "Fake Student",
+                                                            "sortable_name": "Fake Student",
                                                           }
                                         }
                                         updateStudentAttendance={[Function]}
@@ -834,6 +875,7 @@ ShallowWrapper {
                                                             ],
                                                             "lms_student_id": 1,
                                                             "name": "Fake Student",
+                                                            "sortable_name": "Fake Student",
                                                           }
                                         }
                                         updateStudentAttendance={[Function]}
@@ -851,6 +893,7 @@ ShallowWrapper {
                                                             ],
                                                             "lms_student_id": 2,
                                                             "name": "Fake Student",
+                                                            "sortable_name": "Fake Student",
                                                           }
                                         }
                                         updateStudentAttendance={[Function]}
@@ -868,6 +911,7 @@ ShallowWrapper {
                                                             ],
                                                             "lms_student_id": 3,
                                                             "name": "Fake Student",
+                                                            "sortable_name": "Fake Student",
                                                           }
                                         }
                                         updateStudentAttendance={[Function]}
@@ -885,6 +929,7 @@ ShallowWrapper {
                                                             ],
                                                             "lms_student_id": 4,
                                                             "name": "Fake Student",
+                                                            "sortable_name": "Fake Student",
                                                           }
                                         }
                                         updateStudentAttendance={[Function]}
@@ -902,6 +947,7 @@ ShallowWrapper {
                                                             ],
                                                             "lms_student_id": 5,
                                                             "name": "Fake Student",
+                                                            "sortable_name": "Fake Student",
                                                           }
                                         }
                                         updateStudentAttendance={[Function]}
@@ -919,6 +965,7 @@ ShallowWrapper {
                                                             ],
                                                             "lms_student_id": 6,
                                                             "name": "Fake Student",
+                                                            "sortable_name": "Fake Student",
                                                           }
                                         }
                                         updateStudentAttendance={[Function]}
@@ -936,6 +983,7 @@ ShallowWrapper {
                                                             ],
                                                             "lms_student_id": 7,
                                                             "name": "Fake Student",
+                                                            "sortable_name": "Fake Student",
                                                           }
                                         }
                                         updateStudentAttendance={[Function]}
@@ -953,6 +1001,7 @@ ShallowWrapper {
                                                             ],
                                                             "lms_student_id": 8,
                                                             "name": "Fake Student",
+                                                            "sortable_name": "Fake Student",
                                                           }
                                         }
                                         updateStudentAttendance={[Function]}
@@ -970,6 +1019,7 @@ ShallowWrapper {
                                                             ],
                                                             "lms_student_id": 9,
                                                             "name": "Fake Student",
+                                                            "sortable_name": "Fake Student",
                                                           }
                                         }
                                         updateStudentAttendance={[Function]}
@@ -1039,6 +1089,7 @@ ShallowWrapper {
                                                             ],
                                                             "lms_student_id": 0,
                                                             "name": "Fake Student",
+                                                            "sortable_name": "Fake Student",
                                                           }
                                         }
                                         updateStudentAttendance={[Function]}
@@ -1056,6 +1107,7 @@ ShallowWrapper {
                                                             ],
                                                             "lms_student_id": 1,
                                                             "name": "Fake Student",
+                                                            "sortable_name": "Fake Student",
                                                           }
                                         }
                                         updateStudentAttendance={[Function]}
@@ -1073,6 +1125,7 @@ ShallowWrapper {
                                                             ],
                                                             "lms_student_id": 2,
                                                             "name": "Fake Student",
+                                                            "sortable_name": "Fake Student",
                                                           }
                                         }
                                         updateStudentAttendance={[Function]}
@@ -1090,6 +1143,7 @@ ShallowWrapper {
                                                             ],
                                                             "lms_student_id": 3,
                                                             "name": "Fake Student",
+                                                            "sortable_name": "Fake Student",
                                                           }
                                         }
                                         updateStudentAttendance={[Function]}
@@ -1107,6 +1161,7 @@ ShallowWrapper {
                                                             ],
                                                             "lms_student_id": 4,
                                                             "name": "Fake Student",
+                                                            "sortable_name": "Fake Student",
                                                           }
                                         }
                                         updateStudentAttendance={[Function]}
@@ -1124,6 +1179,7 @@ ShallowWrapper {
                                                             ],
                                                             "lms_student_id": 5,
                                                             "name": "Fake Student",
+                                                            "sortable_name": "Fake Student",
                                                           }
                                         }
                                         updateStudentAttendance={[Function]}
@@ -1141,6 +1197,7 @@ ShallowWrapper {
                                                             ],
                                                             "lms_student_id": 6,
                                                             "name": "Fake Student",
+                                                            "sortable_name": "Fake Student",
                                                           }
                                         }
                                         updateStudentAttendance={[Function]}
@@ -1158,6 +1215,7 @@ ShallowWrapper {
                                                             ],
                                                             "lms_student_id": 7,
                                                             "name": "Fake Student",
+                                                            "sortable_name": "Fake Student",
                                                           }
                                         }
                                         updateStudentAttendance={[Function]}
@@ -1175,6 +1233,7 @@ ShallowWrapper {
                                                             ],
                                                             "lms_student_id": 8,
                                                             "name": "Fake Student",
+                                                            "sortable_name": "Fake Student",
                                                           }
                                         }
                                         updateStudentAttendance={[Function]}
@@ -1192,6 +1251,7 @@ ShallowWrapper {
                                                             ],
                                                             "lms_student_id": 9,
                                                             "name": "Fake Student",
+                                                            "sortable_name": "Fake Student",
                                                           }
                                         }
                                         updateStudentAttendance={[Function]}
@@ -1254,6 +1314,7 @@ ShallowWrapper {
               ],
               "lms_student_id": 0,
               "name": "Fake Student",
+              "sortable_name": "Fake Student",
             },
             Object {
               "avatar_url": "http://",
@@ -1264,6 +1325,7 @@ ShallowWrapper {
               ],
               "lms_student_id": 1,
               "name": "Fake Student",
+              "sortable_name": "Fake Student",
             },
             Object {
               "avatar_url": "http://",
@@ -1274,6 +1336,7 @@ ShallowWrapper {
               ],
               "lms_student_id": 2,
               "name": "Fake Student",
+              "sortable_name": "Fake Student",
             },
             Object {
               "avatar_url": "http://",
@@ -1284,6 +1347,7 @@ ShallowWrapper {
               ],
               "lms_student_id": 3,
               "name": "Fake Student",
+              "sortable_name": "Fake Student",
             },
             Object {
               "avatar_url": "http://",
@@ -1294,6 +1358,7 @@ ShallowWrapper {
               ],
               "lms_student_id": 4,
               "name": "Fake Student",
+              "sortable_name": "Fake Student",
             },
             Object {
               "avatar_url": "http://",
@@ -1304,6 +1369,7 @@ ShallowWrapper {
               ],
               "lms_student_id": 5,
               "name": "Fake Student",
+              "sortable_name": "Fake Student",
             },
             Object {
               "avatar_url": "http://",
@@ -1314,6 +1380,7 @@ ShallowWrapper {
               ],
               "lms_student_id": 6,
               "name": "Fake Student",
+              "sortable_name": "Fake Student",
             },
             Object {
               "avatar_url": "http://",
@@ -1324,6 +1391,7 @@ ShallowWrapper {
               ],
               "lms_student_id": 7,
               "name": "Fake Student",
+              "sortable_name": "Fake Student",
             },
             Object {
               "avatar_url": "http://",
@@ -1334,6 +1402,7 @@ ShallowWrapper {
               ],
               "lms_student_id": 8,
               "name": "Fake Student",
+              "sortable_name": "Fake Student",
             },
             Object {
               "avatar_url": "http://",
@@ -1344,6 +1413,7 @@ ShallowWrapper {
               ],
               "lms_student_id": 9,
               "name": "Fake Student",
+              "sortable_name": "Fake Student",
             },
           ]
     }
