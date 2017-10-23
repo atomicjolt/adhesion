@@ -7,6 +7,7 @@ export const ATTENDANCE_STATES = {
   PRESENT: 'PRESENT',
   ABSENT: 'ABSENT',
   LATE: 'LATE',
+  PROCESSING: 'PROCESSING',
 };
 
 export const initialState = () => ({

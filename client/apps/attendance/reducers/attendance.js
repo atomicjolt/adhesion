@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import moment from 'moment';
 import { Constants as AttendanceConstants } from '../actions/attendance';
+import { ATTENDANCE_STATES as AttendanceStates } from './student';
 
 
 const initialState = {
@@ -27,8 +28,12 @@ export default (state = initialState, action) => {
     case AttendanceConstants.UPDATE_STATUS: {
       const date = action.body.date;
       const newAttendances = _.cloneDeep(state.attendances);
+      let status = action.body.status;
+      if (status !== '') {
+        status = AttendanceStates.PROCESSING;
+      }
       _.forEach(action.body.students, (student) => {
-        newAttendances[date][student.lms_student_id] = action.body.status;
+        newAttendances[date][student.lms_student_id] = status;
       });
       return { ...state, ...{ attendances: newAttendances } };
     }
