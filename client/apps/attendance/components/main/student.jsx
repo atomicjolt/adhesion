@@ -51,10 +51,9 @@ export default class Student extends React.Component {
         }
         {
           !processing && do {
-            <td className="c-attendance" role="radiogroup" >
+            <td className="c-attendance" >
               <div className={`c-present qa-student-present-${index} ${present ? `qa-student-present-active-${index}` : ''}`}>
                 <input
-                  role="radio"
                   aria-checked={present}
                   aria-setsize="4"
                   aria-posinset="1"
@@ -69,7 +68,6 @@ export default class Student extends React.Component {
               </div>
               <div className={`c-late qa-student-late-${index} ${late ? `qa-student-late-active-${index}` : ''}`}>
                 <input
-                  role="radio"
                   aria-checked={late}
                   aria-setsize="4"
                   aria-posinset="2"
@@ -84,7 +82,6 @@ export default class Student extends React.Component {
               </div>
               <div className={`c-absent qa-student-absent-${index} ${absent ? `qa-student-absent-active-${index}` : ''}`}>
                 <input
-                  role="radio"
                   aria-checked={absent}
                   aria-setsize="4"
                   aria-posinset="3"
