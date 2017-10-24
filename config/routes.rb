@@ -106,5 +106,5 @@ Rails.application.routes.draw do
   delete "api/canvas" => "api/canvas_proxy#proxy"
 
   # handle routing errors
-  match '*path', to: 'application#routing_error', via: :all
+  match "*path", to: "application#routing_error", via: :all
 end
