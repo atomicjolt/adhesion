@@ -1,6 +1,6 @@
-require "spec_helper"
+require "rails_helper"
 
-describe Authentication, type: :model do
+RSpec.describe Authentication, type: :model do
   it { should belong_to :user }
   it "Requires the provider" do
     authentication = FactoryGirl.build(:authentication, provider: nil)
@@ -94,6 +94,35 @@ describe Authentication, type: :model do
       expect(attributes[:provider]).to eq auth["provider"]
       expect(attributes[:provider_url]).to eq auth["info"]["url"]
       expect(attributes[:lti_user_id]).to eq auth["extra"]["raw_info"]["lti_user_id"]
+    end
+  end
+
+  describe "copy_to_tenant" do
+    context "copies the authentication to given tenant" do
+      before do
+        @site = create(:site)
+        @name = "An Example application"
+        @key = "example"
+        @application = create(:application, name: @name, key: @key)
+        lti_key = "atomic-key"
+        @application_instance = create(
+          :application_instance,
+          lti_key: lti_key,
+          site: @site,
+          application: @application,
+        )
+      end
+
+      it "for a User" do
+        auth = create(:authentication)
+        user = create(:user)
+        tenant_user = User.create_on_tenant(@application_instance, user)
+        tenant_auth = auth.copy_to_tenant(@application_instance, tenant_user)
+        Apartment::Tenant.switch(@application_instance.tenant) do
+          found_user = User.find_by(email: tenant_user.email)
+          expect(found_user.authentications.last.token).to eq(tenant_auth.token)
+        end
+      end
     end
   end
 end

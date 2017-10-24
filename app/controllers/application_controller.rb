@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_application_instance,
                 :current_bundle_instance,
+                :current_course,
                 :canvas_url,
                 :targeted_app_instance
 
@@ -37,6 +38,14 @@ class ApplicationController < ActionController::Base
       ApplicationInstance.find_by(id: params[:application_instance_id])
   end
 
+  def current_course
+    @course ||=
+      Course.
+        where(lms_course_id: params[:custom_canvas_course_id]).
+        or(Course.where(lms_course_id: params[:lms_course_id])).
+        first
+  end
+
   def current_application
     Application.find_by(key: request.subdomains.first)
   end
@@ -49,7 +58,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_ability
-    @current_ability ||= Ability.new(current_user)
+    @current_ability ||= Ability.new(current_user, params[:context_id])
   end
 
   def user_not_authorized

@@ -2,16 +2,22 @@ module Concerns
   module CanvasSupport
     include ApplicationHelper
     extend ActiveSupport::Concern
+    include OauthHelper
 
     protected
 
     def canvas_api(
       application_instance: current_application_instance,
-      user: current_user
+      user: current_user,
+      course: current_course
     )
       url = UrlHelper.scheme_host_port(application_instance.site.url)
       if application_instance.canvas_token.present?
         global_auth(url, application_instance.canvas_token)
+      elsif auth = canvas_auth_instance(application_instance.site, application_instance: application_instance)
+        user_auth(auth, url, application_instance.site)
+      elsif auth = canvas_auth_course(application_instance.site, course: course)
+        user_auth(auth, url, application_instance.site)
       elsif auth = canvas_auth(application_instance.site, user: user)
         user_auth(auth, url, application_instance.site)
       else
@@ -40,6 +46,20 @@ module Concerns
         url,
         auth,
         options,
+      )
+    end
+
+    def canvas_auth_instance(site, application_instance:)
+      return nil unless application_instance.present?
+      application_instance.authentications.find_by(
+        provider_url: UrlHelper.scheme_host_port(site.url),
+      )
+    end
+
+    def canvas_auth_course(site, course: nil)
+      return nil unless course.present?
+      course.authentications.find_by(
+        provider_url: UrlHelper.scheme_host_port(site.url),
       )
     end
 
