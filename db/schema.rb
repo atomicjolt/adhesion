@@ -10,21 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170922215453) do
+ActiveRecord::Schema.define(version: 20171003204943) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "application_bundles", force: :cascade do |t|
-    t.integer  "application_id"
-    t.integer  "bundle_id"
+  create_table "application_bundles", id: :bigserial, force: :cascade do |t|
+    t.bigint   "application_id"
+    t.bigint   "bundle_id"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
     t.index ["application_id", "bundle_id"], name: "index_application_bundles_on_application_id_and_bundle_id", using: :btree
   end
 
-  create_table "application_instances", force: :cascade do |t|
-    t.integer  "application_id"
+  create_table "application_instances", id: :bigserial, force: :cascade do |t|
+    t.bigint   "application_id"
     t.string   "lti_key"
     t.string   "lti_secret"
     t.string   "encrypted_canvas_token"
@@ -33,25 +33,25 @@ ActiveRecord::Schema.define(version: 20170922215453) do
     t.datetime "created_at",                                            null: false
     t.datetime "updated_at",                                            null: false
     t.string   "domain",                      limit: 2048
-    t.integer  "site_id"
+    t.bigint   "site_id"
     t.string   "tenant"
     t.jsonb    "config",                                   default: {}
     t.jsonb    "lti_config"
     t.datetime "disabled_at"
-    t.integer  "bundle_instance_id"
+    t.bigint   "bundle_instance_id"
     t.index ["application_id"], name: "index_application_instances_on_application_id", using: :btree
     t.index ["lti_key"], name: "index_application_instances_on_lti_key", using: :btree
     t.index ["site_id"], name: "index_application_instances_on_site_id", using: :btree
   end
 
-  create_table "applications", force: :cascade do |t|
+  create_table "applications", id: :bigserial, force: :cascade do |t|
     t.string   "name"
     t.string   "description"
     t.string   "client_application_name"
     t.datetime "created_at",                               null: false
     t.datetime "updated_at",                               null: false
-    t.integer  "kind",                        default: 0
-    t.integer  "application_instances_count"
+    t.bigint   "kind",                        default: 0
+    t.bigint   "application_instances_count"
     t.jsonb    "default_config",              default: {}
     t.jsonb    "lti_config"
     t.jsonb    "canvas_api_permissions",      default: {}
@@ -59,17 +59,17 @@ ActiveRecord::Schema.define(version: 20170922215453) do
     t.index ["key"], name: "index_applications_on_key", using: :btree
   end
 
-  create_table "attendances", force: :cascade do |t|
-    t.integer "lms_student_id"
-    t.integer "lms_course_id"
-    t.date    "date"
-    t.string  "status"
-    t.string  "name"
-    t.string  "sortable_name"
+  create_table "attendances", id: :bigserial, force: :cascade do |t|
+    t.bigint "lms_student_id"
+    t.bigint "lms_course_id"
+    t.date   "date"
+    t.string "status"
+    t.string "name"
+    t.string "sortable_name"
   end
 
-  create_table "authentications", force: :cascade do |t|
-    t.integer  "user_id"
+  create_table "authentications", id: :bigserial, force: :cascade do |t|
+    t.bigint   "user_id"
     t.string   "provider"
     t.datetime "created_at",                                null: false
     t.datetime "updated_at",                                null: false
@@ -89,15 +89,17 @@ ActiveRecord::Schema.define(version: 20170922215453) do
     t.string   "encrypted_refresh_token_iv"
     t.string   "id_token"
     t.string   "lti_user_id"
+    t.bigint   "application_instance_id"
+    t.bigint   "course_id"
     t.index ["lti_user_id"], name: "index_authentications_on_lti_user_id", using: :btree
     t.index ["provider", "uid"], name: "index_authentications_on_provider_and_uid", using: :btree
     t.index ["uid", "provider", "provider_url"], name: "index_authentications_on_uid_and_provider_and_provider_url", using: :btree
     t.index ["user_id"], name: "index_authentications_on_user_id", using: :btree
   end
 
-  create_table "bundle_instances", force: :cascade do |t|
-    t.integer  "site_id"
-    t.integer  "bundle_id"
+  create_table "bundle_instances", id: :bigserial, force: :cascade do |t|
+    t.bigint   "site_id"
+    t.bigint   "bundle_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string   "entity_key"
@@ -105,7 +107,7 @@ ActiveRecord::Schema.define(version: 20170922215453) do
     t.index ["id_token"], name: "index_bundle_instances_on_id_token", using: :btree
   end
 
-  create_table "bundles", force: :cascade do |t|
+  create_table "bundles", id: :bigserial, force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
@@ -114,7 +116,7 @@ ActiveRecord::Schema.define(version: 20170922215453) do
     t.index ["key"], name: "index_bundles_on_key", using: :btree
   end
 
-  create_table "courses", force: :cascade do |t|
+  create_table "courses", id: :bigserial, force: :cascade do |t|
     t.string   "lms_course_id"
     t.string   "name"
     t.datetime "created_at"
@@ -122,16 +124,16 @@ ActiveRecord::Schema.define(version: 20170922215453) do
     t.index ["lms_course_id"], name: "index_courses_on_lms_course_id", using: :btree
   end
 
-  create_table "exam_requests", force: :cascade do |t|
-    t.integer  "course_id"
-    t.integer  "exam_id"
-    t.integer  "student_id"
-    t.integer  "testing_center_id"
+  create_table "exam_requests", id: :bigserial, force: :cascade do |t|
+    t.bigint   "course_id"
+    t.bigint   "exam_id"
+    t.bigint   "student_id"
+    t.bigint   "testing_center_id"
     t.string   "status",              default: "requested"
     t.datetime "created_at",                                null: false
     t.datetime "updated_at",                                null: false
     t.string   "exam_name"
-    t.integer  "opened_by_id"
+    t.bigint   "opened_by_id"
     t.string   "opened_by_name"
     t.string   "student_name"
     t.string   "course_name"
@@ -139,11 +141,11 @@ ActiveRecord::Schema.define(version: 20170922215453) do
     t.string   "message"
     t.date     "scheduled_date"
     t.string   "scheduled_time"
-    t.integer  "unlocked_by_id"
+    t.bigint   "unlocked_by_id"
     t.string   "unlocked_by_name"
   end
 
-  create_table "lti_launches", force: :cascade do |t|
+  create_table "lti_launches", id: :bigserial, force: :cascade do |t|
     t.jsonb    "config"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -151,14 +153,14 @@ ActiveRecord::Schema.define(version: 20170922215453) do
     t.index ["token"], name: "index_lti_launches_on_token", unique: true, using: :btree
   end
 
-  create_table "nonces", force: :cascade do |t|
+  create_table "nonces", id: :bigserial, force: :cascade do |t|
     t.string   "nonce"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["nonce"], name: "index_nonces_on_nonce", unique: true, using: :btree
   end
 
-  create_table "oauth_states", force: :cascade do |t|
+  create_table "oauth_states", id: :bigserial, force: :cascade do |t|
     t.string   "state"
     t.text     "payload"
     t.datetime "created_at", null: false
@@ -166,9 +168,9 @@ ActiveRecord::Schema.define(version: 20170922215453) do
     t.index ["state"], name: "index_oauth_states_on_state", using: :btree
   end
 
-  create_table "permissions", force: :cascade do |t|
-    t.integer  "role_id"
-    t.integer  "user_id"
+  create_table "permissions", id: :bigserial, force: :cascade do |t|
+    t.bigint   "role_id"
+    t.bigint   "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "context_id"
@@ -177,10 +179,10 @@ ActiveRecord::Schema.define(version: 20170922215453) do
     t.index ["role_id", "user_id"], name: "index_permissions_on_role_id_and_user_id", using: :btree
   end
 
-  create_table "proctor_codes", force: :cascade do |t|
-    t.integer  "assigned_exam_id"
+  create_table "proctor_codes", id: :bigserial, force: :cascade do |t|
+    t.bigint   "assigned_exam_id"
     t.string   "code"
-    t.integer  "proctor_id"
+    t.bigint   "proctor_id"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
   end
@@ -196,16 +198,16 @@ ActiveRecord::Schema.define(version: 20170922215453) do
     t.text      "queue",                 default: "",             null: false
   end
 
-  create_table "registrations", force: :cascade do |t|
+  create_table "registrations", id: :bigserial, force: :cascade do |t|
     t.string   "lms_course_id"
-    t.integer  "lms_user_id"
+    t.bigint   "lms_user_id"
     t.datetime "created_at",                                               null: false
     t.datetime "updated_at",                                               null: false
     t.integer  "status",                                   default: 0
     t.decimal  "score",                                    default: "0.0"
     t.text     "lis_result_sourcedid",                     default: ""
     t.text     "lis_outcome_service_url",                  default: ""
-    t.integer  "application_instance_id"
+    t.bigint   "application_instance_id"
     t.text     "encrypted_scorm_cloud_passback_secret_iv"
     t.text     "encrypted_scorm_cloud_passback_secret"
     t.string   "scorm_registration_id"
@@ -216,15 +218,15 @@ ActiveRecord::Schema.define(version: 20170922215453) do
     t.index ["scorm_registration_id"], name: "index_registrations_on_scorm_registration_id", using: :btree
   end
 
-  create_table "roles", force: :cascade do |t|
+  create_table "roles", id: :bigserial, force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "scorm_activities", force: :cascade do |t|
+  create_table "scorm_activities", id: :bigserial, force: :cascade do |t|
     t.string  "title"
-    t.integer "registration_id"
+    t.bigint  "registration_id"
     t.boolean "satisfied"
     t.boolean "completed"
     t.integer "attempts"
@@ -235,9 +237,9 @@ ActiveRecord::Schema.define(version: 20170922215453) do
     t.float   "score_min"
     t.float   "score_max"
     t.string  "success_status"
-    t.integer "lms_user_id"
+    t.bigint  "lms_user_id"
     t.string  "lms_user_name"
-    t.integer "parent_activity_id"
+    t.bigint  "parent_activity_id"
     t.integer "total_time"
     t.integer "time_tracked"
     t.string  "activity_id"
@@ -250,20 +252,20 @@ ActiveRecord::Schema.define(version: 20170922215453) do
     t.index ["title"], name: "index_scorm_activities_on_title", using: :btree
   end
 
-  create_table "scorm_courses", force: :cascade do |t|
+  create_table "scorm_courses", id: :bigserial, force: :cascade do |t|
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
-    t.integer  "lms_assignment_id"
+    t.bigint   "lms_assignment_id"
     t.float    "points_possible"
     t.string   "scorm_service_id"
     t.string   "title"
-    t.integer  "file_id"
+    t.bigint   "file_id"
     t.index ["lms_assignment_id"], name: "index_scorm_courses_on_lms_assignment_id", using: :btree
     t.index ["scorm_service_id"], name: "index_scorm_courses_on_scorm_service_id", unique: true, using: :btree
   end
 
-  create_table "scorm_objectives", force: :cascade do |t|
-    t.integer "scorm_activity_id"
+  create_table "scorm_objectives", id: :bigserial, force: :cascade do |t|
+    t.bigint  "scorm_activity_id"
     t.boolean "primary"
     t.boolean "measure_status"
     t.float   "normalized_measure"
@@ -272,16 +274,16 @@ ActiveRecord::Schema.define(version: 20170922215453) do
     t.index ["scorm_activity_id"], name: "index_scorm_objectives_on_scorm_activity_id", using: :btree
   end
 
-  create_table "section_metadata", force: :cascade do |t|
-    t.integer  "lms_course_id"
-    t.integer  "lms_section_id"
+  create_table "section_metadata", id: :bigserial, force: :cascade do |t|
+    t.bigint   "lms_course_id"
+    t.bigint   "lms_section_id"
     t.boolean  "any_posted"
     t.datetime "mid_posted"
     t.datetime "final_posted"
   end
 
-  create_table "sections", force: :cascade do |t|
-    t.integer  "course_id"
+  create_table "sections", id: :bigserial, force: :cascade do |t|
+    t.bigint   "course_id"
     t.string   "lms_section_id"
     t.string   "name"
     t.datetime "created_at"
@@ -290,13 +292,13 @@ ActiveRecord::Schema.define(version: 20170922215453) do
     t.index ["lms_section_id"], name: "index_sections_on_lms_section_id", using: :btree
   end
 
-  create_table "shared_auths", force: :cascade do |t|
+  create_table "shared_auths", id: :bigserial, force: :cascade do |t|
     t.string   "secret"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "sites", force: :cascade do |t|
+  create_table "sites", id: :bigserial, force: :cascade do |t|
     t.string   "url",          limit: 2048
     t.string   "oauth_key"
     t.string   "oauth_secret"
@@ -306,31 +308,31 @@ ActiveRecord::Schema.define(version: 20170922215453) do
     t.index ["url"], name: "index_sites_on_url", using: :btree
   end
 
-  create_table "testing_centers_accounts", force: :cascade do |t|
+  create_table "testing_centers_accounts", id: :bigserial, force: :cascade do |t|
     t.string   "canvas_instance_name"
-    t.integer  "testing_centers_account_id"
+    t.bigint   "testing_centers_account_id"
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
   end
 
-  create_table "user_courses", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "course_id"
-    t.integer "role_id",    default: 2
-    t.integer "section_id"
+  create_table "user_courses", id: :bigserial, force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "course_id"
+    t.bigint "role_id",    default: 2
+    t.bigint "section_id"
     t.index ["course_id"], name: "index_user_courses_on_course_id", using: :btree
     t.index ["role_id"], name: "index_user_courses_on_role_id", using: :btree
     t.index ["section_id"], name: "index_user_courses_on_section_id", using: :btree
     t.index ["user_id"], name: "index_user_courses_on_user_id", using: :btree
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :bigserial, force: :cascade do |t|
     t.string   "email",                  default: "",    null: false
     t.string   "encrypted_password",     default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,     null: false
+    t.bigint   "sign_in_count",          default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -347,7 +349,7 @@ ActiveRecord::Schema.define(version: 20170922215453) do
     t.string   "lti_user_id"
     t.string   "lti_provider"
     t.string   "lms_user_id"
-    t.integer  "create_method",          default: 0
+    t.bigint   "create_method",          default: 0
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["lti_user_id"], name: "index_users_on_lti_user_id", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
