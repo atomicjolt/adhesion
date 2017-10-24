@@ -11,12 +11,54 @@ class ApplicationController < ActionController::Base
                 :canvas_url,
                 :targeted_app_instance
 
+  def routing_error
+    raise ActionController::RoutingError.new(params[:path])
+  end
+
   protected
 
   rescue_from CanCan::AccessDenied do |exception|
     respond_to do |format|
       format.html { redirect_to root_url, alert: exception.message }
       format.json { render json: { error: exception.message }, status: :unauthorized }
+    end
+  end
+
+  rescue_from StandardError, with: :error unless Rails.application.config.consider_all_requests_local
+
+  def error(e)
+    @exception = e.message
+    @backtrace = e.backtrace
+    status = ActionDispatch::ExceptionWrapper.new(request.env, e).status_code
+    respond_to do |format|
+      format.html do
+        if status == 404
+          render template: 'errors/not_found', layout: "errors", status: status
+        elsif status == 401
+          render template: 'errors/unauthorized', layout: "errors", status: status
+        elsif status == 422
+          render template: 'errors/unprocessable', layout: "errors", status: status
+        else
+          render template: 'errors/internal_server_error', layout: "errors", status: status
+        end
+      end
+      format.json do
+        if status_code == 404 || status_code == 401 || status_code == 422
+          error_info = {
+            error: status_code.to_s,
+            exception: "#{e.class.name} : #{@exception}",
+          }
+          render json: error_info.to_json, status: status_code
+        else
+          error_info = {
+            error: "internal-server-error",
+            exception: "#{e.class.name} : #{@exception}",
+            backtrace: @backtrace
+          }
+          render json: error_info.to_json, status: 500
+        end
+      end
+      format.all { render nothing: true, status: 404 }
     end
   end
 
