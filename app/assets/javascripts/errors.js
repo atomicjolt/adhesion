@@ -1,9 +1,8 @@
 // Place all the behaviors and hooks related to the matching controller here.
 // All this logic will automatically be available in application.js.
 
-(function() {
-
-  var toggler = {
+var toggler = function() {
+  var display = {
     errorTextToggle: document.querySelector('.error-text-toggle'),
     errorText: document.querySelector('.error-text'),
 
@@ -13,6 +12,7 @@
     }
   };
 
-  toggler.errorTextToggle.addEventListener('click', function(e) { toggler.doToggle(e); });
+  display.errorTextToggle.addEventListener('click', function(e) { display.doToggle(e); });
+};
 
-}());
+toggler();
