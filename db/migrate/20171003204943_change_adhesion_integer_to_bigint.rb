@@ -24,15 +24,10 @@ class ChangeAdhesionIntegerToBigint < ActiveRecord::Migration[5.0]
     change_column :proctor_codes, :assigned_exam_id, :bigint
     change_column :proctor_codes, :proctor_id, :bigint
     change_column :registrations, :lms_user_id, :bigint
-    change_column :registrations, :status, :bigint
     change_column :registrations, :application_instance_id, :bigint
     change_column :scorm_activities, :registration_id, :bigint
-    change_column :scorm_activities, :attempts, :bigint
     change_column :scorm_activities, :lms_user_id, :bigint
     change_column :scorm_activities, :parent_activity_id, :bigint
-    change_column :scorm_activities, :total_time, :bigint
-    change_column :scorm_activities, :time_tracked, :bigint
-    change_column :scorm_activities, :depth, :bigint
     change_column :scorm_courses, :lms_assignment_id, :bigint
     change_column :scorm_courses, :file_id, :bigint
     change_column :scorm_objectives, :scorm_activity_id, :bigint
@@ -71,15 +66,10 @@ class ChangeAdhesionIntegerToBigint < ActiveRecord::Migration[5.0]
     change_column :proctor_codes, :assigned_exam_id, :integer
     change_column :proctor_codes, :proctor_id, :integer
     change_column :registrations, :lms_user_id, :integer
-    change_column :registrations, :status, :integer
     change_column :registrations, :application_instance_id, :integer
     change_column :scorm_activities, :registration_id, :integer
-    change_column :scorm_activities, :attempts, :integer
     change_column :scorm_activities, :lms_user_id, :integer
     change_column :scorm_activities, :parent_activity_id, :integer
-    change_column :scorm_activities, :total_time, :integer
-    change_column :scorm_activities, :time_tracked, :integer
-    change_column :scorm_activities, :depth, :integer
     change_column :scorm_courses, :lms_assignment_id, :integer
     change_column :scorm_courses, :file_id, :integer
     change_column :scorm_objectives, :scorm_activity_id, :integer

@@ -203,7 +203,7 @@ ActiveRecord::Schema.define(version: 20171003204943) do
     t.bigint   "lms_user_id"
     t.datetime "created_at",                                               null: false
     t.datetime "updated_at",                                               null: false
-    t.bigint   "status",                                   default: 0
+    t.integer  "status",                                   default: 0
     t.decimal  "score",                                    default: "0.0"
     t.text     "lis_result_sourcedid",                     default: ""
     t.text     "lis_outcome_service_url",                  default: ""
@@ -229,7 +229,7 @@ ActiveRecord::Schema.define(version: 20171003204943) do
     t.bigint  "registration_id"
     t.boolean "satisfied"
     t.boolean "completed"
-    t.bigint  "attempts"
+    t.integer "attempts"
     t.boolean "suspended"
     t.string  "completion_status"
     t.float   "score_scaled"
@@ -240,11 +240,11 @@ ActiveRecord::Schema.define(version: 20171003204943) do
     t.bigint  "lms_user_id"
     t.string  "lms_user_name"
     t.bigint  "parent_activity_id"
-    t.bigint  "total_time"
-    t.bigint  "time_tracked"
+    t.integer "total_time"
+    t.integer "time_tracked"
     t.string  "activity_id"
     t.boolean "latest_attempt"
-    t.bigint  "depth"
+    t.integer "depth"
     t.index ["registration_id", "activity_id", "title", "attempts"], name: "index_scorm_activities_on_reg_id_activity_id_title_attempt", using: :btree
     t.index ["registration_id", "activity_id", "title", "latest_attempt"], name: "index_scorm_activities_on_reg_id_act_id_title_latest_attempt", using: :btree
     t.index ["registration_id", "latest_attempt"], name: "index_scorm_activities_on_registration_id_and_latest_attempt", using: :btree
