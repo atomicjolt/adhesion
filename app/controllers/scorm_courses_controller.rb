@@ -25,7 +25,7 @@ class ScormCoursesController < ApplicationController
     if launch[:status] == 200
       redirect_to launch[:response]
     else
-      render file: "public/401.html", status: :unauthorized
+      render template: "errors/unauthorized", layout: "errors", status: :unauthorized
     end
   end
 
