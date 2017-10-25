@@ -1,8 +1,11 @@
-// Place all the behaviors and hooks related to the matching controller here.
-// All this logic will automatically be available in application.js.
+/* eslint-disable no-var,object-shorthand,func-names,prefer-arrow-callback */
 
-var toggler = function() {
-  var display = {
+var toggler;
+
+toggler = function() {
+  var display;
+
+  display = {
     errorTextToggle: document.querySelector('.error-text-toggle'),
     errorText: document.querySelector('.error-text'),
 
