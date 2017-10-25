@@ -12,7 +12,9 @@ var toggler = function() {
     }
   };
 
-  display.errorTextToggle.addEventListener('click', function(e) { display.doToggle(e); });
+  if (display.errorTextToggle) {
+    display.errorTextToggle.addEventListener('click', function(e) { display.doToggle(e); });
+  }
 };
 
 toggler();
