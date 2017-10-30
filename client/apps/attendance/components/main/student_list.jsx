@@ -8,11 +8,11 @@ import DateSelector from './date_selector';
 import * as errorActions from '../../actions/error';
 import * as attendanceActions from '../../actions/attendance';
 import * as applicationActions from '../../actions/application';
-import canvasRequest from '../../../../libs/canvas/action';
-import { listUsersInCourseUsers } from '../../../../libs/canvas/constants/courses';
-import { listCourseSections } from '../../../../libs/canvas/constants/sections';
+import canvasRequest from 'atomic-canvas/libs/action';
+import { listUsersInCourseUsers } from 'atomic-canvas/libs/constants/courses';
+import { listCourseSections } from 'atomic-canvas/libs/constants/sections';
 import { ATTENDANCE_STATES as AttendanceStates } from '../../reducers/student';
-import Auth from '../../../../libs/canvas/components/canvas_authentication';
+import Auth from 'atomic-canvas/libs/components/canvas_authentication';
 
 const select = (state) => {
   const currentDate = state.application.date;
