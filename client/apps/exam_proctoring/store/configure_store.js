@@ -2,7 +2,7 @@ import configureStore from 'atomic-fuel/libs/store/configure_store';
 import CanvasApi from 'atomic-canvas/libs/middleware';
 import rootReducer from '../reducers/index';
 import API from '../middleware/api';
-import Downloader from 'atomic-fuel/libs/middleware/download';
+import Downloader from '../../../libs/middleware/download';
 import EnterAnswers from '../middleware/enter_answers';
 
 const middleware = [API, CanvasApi, Downloader, EnterAnswers];

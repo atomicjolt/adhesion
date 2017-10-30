@@ -1,14 +1,7 @@
-<<<<<<< HEAD:client/apps/survey_tool/store/configure_store.js
-import configureStore from 'atomic-fuel/libs/store/configure_store';
-import CanvasApi from 'atomic-canvas/libs/middleware';
-import rootReducer from '../reducers/index';
-import API from '../middleware/api';
-=======
 import configureStore from 'atomic-fuel/libs/store/configure_store';
 import CanvasApi      from 'atomic-canvas/libs/middleware';
 import rootReducer    from '../reducers/index';
 import API            from '../middleware/api';
->>>>>>> upstream/master:client/apps/hello_world/store/configure_store.js
 
 const middleware = [API, CanvasApi];
 

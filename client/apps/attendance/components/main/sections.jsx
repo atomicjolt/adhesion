@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import _ from 'lodash';
 import Dropdown from 'react-accessible-dropdown';
 
@@ -25,7 +26,7 @@ export default function sections(props) {
 }
 
 sections.propTypes = {
-  filterStudents: React.PropTypes.func.isRequired,
-  currentSection: React.PropTypes.number.isRequired,
-  sections: React.PropTypes.array,
+  filterStudents: PropTypes.func.isRequired,
+  currentSection: PropTypes.number.isRequired,
+  sections: PropTypes.array,
 };

@@ -1,15 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import * as ScormActions  from '../../actions/scorm';
-import CoursesList from './courses_list';
-import ConnectedUploader from './uploader';
 import {
   createAssignment, deleteAssignment, listAssignments, editAssignment
 } from 'atomic-canvas/libs/constants/assignments';
 import canvasRequest from 'atomic-canvas/libs/action';
+import * as ScormActions  from '../../actions/scorm';
+import CoursesList from './courses_list';
+import ConnectedUploader from './uploader';
 import FileUpload from '../common/file_upload';
-import * as ModalActions from 'atomic-fuel/libs/actions/modal';
+import * as ModalActions from '../../../../libs/actions/modal';
 
 export class ScormIndex extends React.Component {
 

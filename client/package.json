@@ -7,7 +7,9 @@
     "nuke": "rm -rf node_modules && for dir in apps/*; do cd \"$dir\" || continue; rm -rf node_modules; cd ..; cd ..; done"
   },
   "dependencies": {
+    "atomic-fuel": "^1.0.4",
     "eventsource-polyfill": "^0.9.6",
+    "file-saver": "^1.3.3",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-redux": "^5.0.5",
