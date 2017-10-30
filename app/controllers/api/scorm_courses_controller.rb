@@ -3,7 +3,8 @@ class Api::ScormCoursesController < ApplicationController
   include Concerns::JwtToken
   include ScormCourseHelper
 
-  before_action :validate_token
+  before_action :validate_token, except: :create
+  before_action :validate_token_shared, only: :create
 
   protect_from_forgery with: :null_session
 
@@ -123,6 +124,16 @@ class Api::ScormCoursesController < ApplicationController
   end
 
   private
+
+  def validate_token_shared
+    if params[:shared_auth].present?
+      aud = Rails.application.secrets.auth0_client_id
+      secret = Rails.application.secrets.shared_auth_secret
+      validate_token_with_secret(aud, secret)
+    else
+      validate_token
+    end
+  end
 
   def get_course_id(id)
     id.split("_")[1] || id

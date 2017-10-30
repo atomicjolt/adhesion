@@ -17,6 +17,7 @@ NuclearSecrets.configure do |config|
     canvas_token: String,
     auth0_client_id: String,
     auth0_client_secret: String,
+    shared_auth_secret: String,
     secret_key_base: String,
     secret_token: NilClass,
     canvas_proctor_url: String,
