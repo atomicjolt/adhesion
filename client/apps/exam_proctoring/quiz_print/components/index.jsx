@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import canvasRequest from '../../../../libs/canvas/action';
-import { getSingleQuiz } from '../../../../libs/canvas/constants/quizzes';
-import { listQuestionsInQuizOrSubmission } from '../../../../libs/canvas/constants/quiz_questions';
+import canvasRequest from 'atomic-canvas/libs/action';
+import { getSingleQuiz } from 'atomic-canvas/libs/constants/quizzes';
+import { listQuestionsInQuizOrSubmission } from 'atomic-canvas/libs/constants/quiz_questions';
 
 import Loading    from './loading';
 import Buttons    from './action_buttons';

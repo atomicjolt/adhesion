@@ -4,9 +4,9 @@ import _ from 'lodash';
 import moment from 'moment';
 import appHistory from '../../history';
 import Defines from '../../defines';
-import canvasRequest from '../../../../libs/canvas/action';
+import canvasRequest from 'atomic-canvas/libs/action';
 import * as ExamActions from '../../actions/exams';
-import { listQuizzesInCourse } from '../../../../libs/canvas/constants/quizzes';
+import { listQuizzesInCourse } from 'atomic-canvas/libs/constants/quizzes';
 import ExamListItem from './exam_list_item';
 import { getTestingCentersAccount } from '../../actions/testing_centers_account';
 

@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import camelize from '../../../libs/camelizer';
-import { DONE } from '../../../libs/constants/wrapper';
+import { DONE } from 'atomic-fuel/libs/constants/wrapper';
 import { Constants as InfoConstants } from '../actions/sections_info';
 
 export default (state = {}, action) => {

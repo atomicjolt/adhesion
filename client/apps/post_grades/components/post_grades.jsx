@@ -3,11 +3,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { listAssignments } from '../../../libs/canvas/constants/assignments';
-import { listCourseSections } from '../../../libs/canvas/constants/sections';
+import { listAssignments } from 'atomic-canvas/libs/constants/assignments';
+import { listCourseSections } from 'atomic-canvas/libs/constants/sections';
 import { createStudentInfo } from '../actions/submissions';
 import { createSectionInfo, updateSectionMetadata } from '../actions/sections_info';
-import canvasRequest from '../../../libs/canvas/action';
+import canvasRequest from 'atomic-canvas/libs/action';
 
 const select = state => ({
   lmsCourseId: state.settings.lms_course_id,

@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import settings from '../../../libs/reducers/settings';
+import settings from 'atomic-fuel/libs/reducers/settings';
 
 const rootReducer = combineReducers({
   settings,

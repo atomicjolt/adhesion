@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import { DONE } from '../../../libs/constants/wrapper';
-import { listCourseSections } from '../../../libs/canvas/constants/sections';
+import { DONE } from 'atomic-fuel/libs/constants/wrapper';
+import { listCourseSections } from 'atomic-canvas/libs/constants/sections';
 
 export default (state = {}, action) => {
   switch (action.type) {

@@ -6,10 +6,10 @@ import CoursesList from './courses_list';
 import ConnectedUploader from './uploader';
 import {
   createAssignment, deleteAssignment, listAssignments, editAssignment
-} from '../../../../libs/canvas/constants/assignments';
-import canvasRequest from '../../../../libs/canvas/action';
+} from 'atomic-canvas/libs/constants/assignments';
+import canvasRequest from 'atomic-canvas/libs/action';
 import FileUpload from '../common/file_upload';
-import * as ModalActions from '../../../../libs/actions/modal';
+import * as ModalActions from 'atomic-fuel/libs/actions/modal';
 
 export class ScormIndex extends React.Component {
 

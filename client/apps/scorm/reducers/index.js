@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
-import settings from '../../../libs/reducers/settings';
-import jwt from '../../../libs/reducers/jwt';
+import settings from 'atomic-fuel/libs/reducers/settings';
+import jwt from 'atomic-fuel/libs/reducers/jwt';
 import scorm from './scorm';
 import analytics from './analytics';
-import modal from '../../../libs/reducers/modal';
+import modal from 'atomic-fuel/libs/reducers/modal';
 
 const rootReducer = combineReducers({
   settings,
