@@ -7,8 +7,8 @@ import { Provider } from 'react-redux';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import DevTools from 'atomic-fuel/libs/dev/dev_tools';
 import { getInitialSettings } from 'atomic-fuel/libs/reducers/settings';
-import configureStore from './store/configure_store';
 import jwt from 'atomic-fuel/libs/loaders/jwt';
+import configureStore from './store/configure_store';
 import routes from './routes';
 
 import './styles/styles';

@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import Defines from '../../defines';
-import canvasRequest from 'atomic-canvas/libs/action';
-import * as ExamActions from '../../actions/exams';
 import { getSubAccountsOfAccount } from 'atomic-canvas/libs/constants/accounts';
+import canvasRequest from 'atomic-canvas/libs/action';
+import Defines from '../../defines';
+import * as ExamActions from '../../actions/exams';
 import appHistory from '../../history';
 import HoverButton from '../common/hover_button';
 import CenterError from '../common/center_error';

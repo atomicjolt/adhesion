@@ -2,11 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import moment from 'moment';
+import canvasRequest from 'atomic-canvas/libs/action';
+import { listQuizzesInCourse } from 'atomic-canvas/libs/constants/quizzes';
 import appHistory from '../../history';
 import Defines from '../../defines';
-import canvasRequest from 'atomic-canvas/libs/action';
 import * as ExamActions from '../../actions/exams';
-import { listQuizzesInCourse } from 'atomic-canvas/libs/constants/quizzes';
 import ExamListItem from './exam_list_item';
 import { getTestingCentersAccount } from '../../actions/testing_centers_account';
 

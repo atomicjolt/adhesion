@@ -1,6 +1,5 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import _ from 'lodash';
 import MultipleDropdown from './multiple_dropdowns_question';
 
 describe('Multiple DropDown', () => {
@@ -54,6 +53,6 @@ describe('Multiple DropDown', () => {
   it('renders radio buttons for the options', () => {
     const radios = result.find('input');
     expect(radios.length).toBe(6);
-    expect(radios.at(0).props().type).toBe('radio')
+    expect(radios.at(0).props().type).toBe('radio');
   });
 });

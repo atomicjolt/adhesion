@@ -43,6 +43,6 @@ describe('Multiple Choice', () => {
   it('renders radio buttons for the options', () => {
     const boxes = result.find('input');
     expect(boxes.length).toBe(5);
-    expect(boxes.at(0).props().type).toEqual('checkbox')
+    expect(boxes.at(0).props().type).toEqual('checkbox');
   });
 });
