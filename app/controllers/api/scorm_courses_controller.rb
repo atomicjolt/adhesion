@@ -3,8 +3,8 @@ class Api::ScormCoursesController < ApplicationController
   include Concerns::JwtToken
   include ScormCourseHelper
 
-  before_action :validate_token, except: :create
-  before_action :validate_token_shared, only: :create
+  before_action :validate_token, except: %i[create update]
+  before_action :validate_token_shared, only: %i[create update]
 
   protect_from_forgery with: :null_session
 
