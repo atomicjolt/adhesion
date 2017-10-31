@@ -31,6 +31,7 @@ module ScormCommonService
       scorm_service_id: package_id,
     )
     response["course_id"] = course.id
+    response["package_id"] = package_id
     response
   end
 
