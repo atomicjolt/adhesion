@@ -1,22 +1,16 @@
-import React            from 'react';
-import TestUtils        from 'react-addons-test-utils';
-import Finish           from './finish';
-import appHistory from '../../history';
-import Stub             from '../../../../specs_support/stub';
+import React from 'react';
+import { shallow } from 'enzyme';
+import Finish from './finish';
 
 describe('Finish page', () => {
   let result;
 
   beforeEach(() => {
-    const props = {
-    };
-    spyOn(appHistory, 'push');
-    result = TestUtils.renderIntoDocument(<Stub><Finish {...props} /></Stub>);
-
+    const props = {};
+    result = shallow(<Finish {...props} />);
   });
 
-  it('renders redirect text', () => {
-    const h1 = TestUtils.findRenderedDOMComponentWithTag(result, 'h1');
-    expect(h1.textContent).toContain('Redirecting to Quiz...');
+  it('matches the snapshot', () => {
+    expect(result).toMatchSnapshot();
   });
 });

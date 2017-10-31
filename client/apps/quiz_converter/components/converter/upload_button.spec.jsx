@@ -1,7 +1,6 @@
-import React            from 'react';
-import TestUtils        from 'react-addons-test-utils';
-import UploadButton     from './upload_button';
-import Stub             from '../../../../specs_support/stub';
+import React from 'react';
+import { shallow } from 'enzyme';
+import UploadButton from './upload_button';
 
 jest.mock('../../libs/assets');
 
@@ -15,18 +14,17 @@ describe('Upload Button', () => {
       canSubmit: false,
     };
 
-    result = TestUtils.renderIntoDocument(<Stub><UploadButton {...props} /></Stub>);
+    result = shallow(<UploadButton {...props} />);
   });
 
-  it('renders the button', () => {
-    const button = TestUtils.findRenderedDOMComponentWithTag(result, 'button');
-    expect(button.textContent).toContain('Upload Files');
+  it('matches the snapshot', () => {
+    expect(result).toMatchSnapshot();
   });
 
   it('shows the spinner when isConverting is true', () => {
     props.isConverting = true;
-    result = TestUtils.renderIntoDocument(<Stub><UploadButton {...props} /></Stub>);
-    const spinner = TestUtils.findRenderedDOMComponentWithTag(result, 'img');
+    result = shallow(<UploadButton {...props} />);
+    const spinner = result.find('img');
     expect(spinner).toBeDefined();
   });
 });

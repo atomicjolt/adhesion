@@ -1,7 +1,5 @@
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
-import _ from 'lodash';
-import Stub from '../../../../specs_support/stub';
+import { shallow } from 'enzyme';
 import ChartContainer from './chart_container';
 
 describe('Scorm Analytics ChartContainer', () => {
@@ -17,16 +15,15 @@ describe('Scorm Analytics ChartContainer', () => {
         },
       };
 
-      result = TestUtils.renderIntoDocument(
-        <Stub>
-          <ChartContainer {...props} />
-        </Stub>
-      );
+      result = shallow(<ChartContainer {...props} />);
+    });
+
+    it('matches the snapshot', () => {
+      expect(result).toMatchSnapshot();
     });
 
     it('renders a single chart', () => {
-      const div = TestUtils.findRenderedDOMComponentWithClass(result, 'recharts-wrapper');
-      expect(_.size(div)).toBe(1);
+      expect(result.find('Chart').length).toBe(1);
     });
   });
 
@@ -39,44 +36,11 @@ describe('Scorm Analytics ChartContainer', () => {
         },
       };
 
-      result = TestUtils.renderIntoDocument(
-        <Stub>
-          <ChartContainer {...props} />
-        </Stub>
-      );
+      result = shallow(<ChartContainer {...props} />);
     });
 
     it('renders a single chart', () => {
-      const div = TestUtils.findRenderedDOMComponentWithClass(result, 'recharts-wrapper');
-      expect(_.size(div)).toBe(1);
-    });
-  });
-
-  describe('completed charts', () => {
-    beforeEach(() => {
-      props = {
-        selected: 'average_score',
-        data: {
-          scores: [
-            {
-              name: 'test application',
-              value: '12',
-            },
-          ],
-        },
-      };
-
-      result = TestUtils.renderIntoDocument(
-        <Stub>
-          <ChartContainer {...props} />
-        </Stub>
-      );
-    });
-
-    it('renders the scores section with the correct values', () => {
-      const div = TestUtils.findRenderedDOMComponentWithClass(result, 'c-aa-label');
-      expect(div.textContent).toContain(props.data.scores[0].name);
-      expect(div.textContent).toContain(props.data.scores[0].value);
+      expect(result.find('Chart').length).toBe(1);
     });
   });
 });

@@ -1,7 +1,6 @@
 import React            from 'react';
-import TestUtils        from 'react-addons-test-utils';
+import { shallow } from 'enzyme';
 import ShortAnswer      from './short_answer_question';
-import Stub             from '../../../../../specs_support/stub';
 
 describe('Short Answer', () => {
   let result;
@@ -12,18 +11,17 @@ describe('Short Answer', () => {
       question_text: '<p>Riddle me this Batman!</p>',
       id: '7',
     };
-    result = TestUtils.renderIntoDocument(<Stub><ShortAnswer {...props} /></Stub>);
+    result = shallow(<ShortAnswer {...props} />);
   });
 
   it('renders the question text', () => {
-    const element = TestUtils.scryRenderedDOMComponentsWithTag(result, 'div')[0];
-    expect(element.textContent).toContain('Riddle me this Batman!');
-    expect(element.textContent).not.toContain('<p>');
+    const element = result.find('div').first().props().children[0].props;
+    expect(element.text).toBe(props.question_text);
   });
 
   it('renders text input', () => {
-    const input = TestUtils.findRenderedDOMComponentWithTag(result, 'input');
+    const input = result.find('input');
     expect(input).toBeDefined();
-    expect(input.type).toBe('text');
+    expect(input.props().type).toBe('text');
   });
 });

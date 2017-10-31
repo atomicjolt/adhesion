@@ -37,8 +37,7 @@
     "uuid": "3.0.1"
   },
   "devDependencies": {
-    "enzyme": "^2.9.1",
-    "jest": "^20.0.1",
+    "enzyme": "^3.1.0",
     "react-test-renderer": "^15.5.4",
     "redux-devtools": "^3.4.0"
   }

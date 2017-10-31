@@ -1,6 +1,5 @@
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
-import Stub from '../../../../specs_support/stub';
+import { shallow } from 'enzyme';
 import NavButton from './nav_button';
 
 describe('Scorm Analytics NavButton', () => {
@@ -14,22 +13,17 @@ describe('Scorm Analytics NavButton', () => {
   };
 
   beforeEach(() => {
-    result = TestUtils.renderIntoDocument(
-      <Stub>
-        <NavButton {...props} />
-      </Stub>
-    );
+    result = shallow(<NavButton {...props} />);
   });
 
-  it('renders the nav button with the correct values', () => {
-    const div = TestUtils.findRenderedDOMComponentWithTag(result, 'button');
-    expect(div.textContent).toContain(props.label);
-    expect(div.textContent).toContain(props.stat);
+  it('matches the snapshot', () => {
+    expect(result).toMatchSnapshot();
   });
 
   it('calls the callback on click', () => {
-    const button = TestUtils.findRenderedDOMComponentWithTag(result, 'button');
-    TestUtils.Simulate.click(button);
+    expect(active).toBeFalsy();
+    const button = result.find('.c-aa-graph-nav__item');
+    button.simulate('click');
     expect(active).toBeTruthy();
   });
 });

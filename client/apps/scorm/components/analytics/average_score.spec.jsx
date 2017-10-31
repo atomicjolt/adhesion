@@ -1,7 +1,5 @@
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
-import _ from 'lodash';
-import Stub from '../../../../specs_support/stub';
+import { shallow } from 'enzyme';
 import AverageScore from './average_score';
 
 describe('Scorm Analytics Average Score', () => {
@@ -14,24 +12,14 @@ describe('Scorm Analytics Average Score', () => {
     highScore: 20,
   };
   beforeEach(() => {
-    result = TestUtils.renderIntoDocument(
-      <Stub>
-        <AverageScore {...props} />
-      </Stub>
-    );
+    result = shallow(<AverageScore {...props} />);
   });
 
-  it('renders the average score with the correct mean values', () => {
-    const divs = TestUtils.scryRenderedDOMComponentsWithClass(result, 'c-aa-label');
-    expect(_.size(divs)).toBe(4);
-    expect(divs[0].textContent).toContain('Mean Score');
-    expect(divs[0].textContent).toContain(props.meanScore);
+  it('matches the snapshot', () => {
+    expect(result).toMatchSnapshot();
   });
 
-  it('renders the scores with the correct other values', () => {
-    const divs = TestUtils.scryRenderedDOMComponentsWithClass(result, 'c-aa-label');
-    expect(divs[1].textContent).toContain(props.medScore);
-    expect(divs[2].textContent).toContain(props.lowScore);
-    expect(divs[3].textContent).toContain(props.highScore);
+  it('renders 4 scorelabel components', () => {
+    expect(result.find('ScoreLabel').length).toBe(4);
   });
 });

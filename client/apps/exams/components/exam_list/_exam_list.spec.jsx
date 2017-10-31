@@ -1,5 +1,5 @@
-import React            from 'react';
-import TestUtils        from 'react-addons-test-utils';
+import React from 'react';
+import { shallow } from 'enzyme';
 import { BaseExamList } from './_exam_list';
 
 describe('Exam list', () => {
@@ -20,11 +20,10 @@ describe('Exam list', () => {
       lmsUserId: 'lms user id',
       toolConsumerInstanceName: 'instance name'
     };
-    result = TestUtils.renderIntoDocument(<BaseExamList {...props} />);
+    result = shallow(<BaseExamList {...props} />);
   });
 
-  it('renders the exam list', () => {
-    const element = TestUtils.findRenderedDOMComponentWithTag(result, 'tbody');
-    expect(element.textContent).toContain('Requested');
+  it('matches the snapshot', () => {
+    expect(result).toMatchSnapshot();
   });
 });

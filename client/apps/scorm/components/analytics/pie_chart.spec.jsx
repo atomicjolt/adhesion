@@ -1,7 +1,5 @@
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
-import _ from 'lodash';
-import Stub from '../../../../specs_support/stub';
+import { shallow } from 'enzyme';
 import Chart from './pie_chart';
 
 describe('Scorm Analytics Chart', () => {
@@ -15,16 +13,11 @@ describe('Scorm Analytics Chart', () => {
         colors: [],
       };
 
-      result = TestUtils.renderIntoDocument(
-        <Stub>
-          <Chart {...props} />
-        </Stub>
-      );
+      result = shallow(<Chart {...props} />);
     });
 
-    it('renders a single chart', () => {
-      const div = TestUtils.findRenderedDOMComponentWithClass(result, 'recharts-wrapper');
-      expect(_.size(div)).toBe(1);
+    it('matches the snapshot', () => {
+      expect(result).toMatchSnapshot();
     });
   });
 });

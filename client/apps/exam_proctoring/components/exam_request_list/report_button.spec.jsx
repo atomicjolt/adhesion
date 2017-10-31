@@ -1,6 +1,5 @@
-import React        from 'react';
-import TestUtils    from 'react-addons-test-utils';
-import Stub         from '../../../../specs_support/stub';
+import React from 'react';
+import { shallow } from 'enzyme';
 import ReportButton from './report_button';
 
 describe('report button', () => {
@@ -17,16 +16,16 @@ describe('report button', () => {
       downloadOptions: {}
     };
 
-    result = TestUtils.renderIntoDocument(
-      <Stub>
-        <ReportButton {...props} />
-      </Stub>
-    );
+    result = shallow(<ReportButton {...props} />);
+  });
+
+  it('matches the snapshot', () => {
+    expect(result).toMatchSnapshot();
   });
 
   it('did click button', () => {
-    const button = TestUtils.findRenderedDOMComponentWithClass(result, 'c-btn  c-btn--export');
-    TestUtils.Simulate.click(button);
+    const button = result.find('.c-btn--export');
+    button.simulate('click');
     expect(didChange).toBeTruthy();
   });
 });

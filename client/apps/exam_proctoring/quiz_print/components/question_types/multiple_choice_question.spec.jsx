@@ -1,8 +1,7 @@
 import React            from 'react';
-import TestUtils        from 'react-addons-test-utils';
+import { shallow } from 'enzyme';
 import _                from 'lodash';
 import MultipleChoice   from './multiple_choice_question';
-import Stub             from '../../../../../specs_support/stub';
 
 describe('Multiple Choice', () => {
   let result;
@@ -27,27 +26,16 @@ describe('Multiple Choice', () => {
       question_text: '<p>I am the title</p>',
       id: 7,
     };
-    result = TestUtils.renderIntoDocument(<Stub><MultipleChoice {...props} /></Stub>);
+    result = shallow(<MultipleChoice {...props} />);
   });
 
-  it('renders the question text', () => {
-    const element = TestUtils.scryRenderedDOMComponentsWithTag(result, 'div')[0];
-    expect(element.textContent).toContain('I am the title');
-    expect(element.textContent).not.toContain('<p>');
+  it('matches the snapshot', () => {
+    expect(result).toMatchSnapshot();
   });
 
   it('renders radio buttons for the options', () => {
-    const radios = TestUtils.scryRenderedDOMComponentsWithTag(result, 'input');
+    const radios = result.find('input');
     expect(radios.length).toBe(3);
-    _.forEach(radios, (radio) => {
-      expect(radio.type).toBe('radio');
-    });
-  });
-
-  it('renders the answer Text', () => {
-    const element = TestUtils.scryRenderedDOMComponentsWithTag(result, 'div')[0];
-    expect(element.textContent).toContain('yes');
-    expect(element.textContent).toContain('no');
-    expect(element.textContent).toContain('maybe');
+    expect(radios.at(0).props().type).toEqual('radio');
   });
 });

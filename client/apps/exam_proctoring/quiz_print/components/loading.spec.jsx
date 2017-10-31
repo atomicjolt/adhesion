@@ -1,7 +1,6 @@
-import React            from 'react';
-import TestUtils        from 'react-addons-test-utils';
-import Loading          from './loading';
-import Stub             from '../../../../specs_support/stub';
+import React from 'react';
+import { shallow } from 'enzyme';
+import Loading from './loading';
 
 describe('loading', () => {
   let result;
@@ -11,18 +10,18 @@ describe('loading', () => {
     props = {
       loadingQuiz: true,
     };
-    result = TestUtils.renderIntoDocument(<Stub><Loading {...props} /></Stub>);
+    result = shallow(<Loading {...props} />);
   });
 
-  it('Says its loading', () => {
-    const element = TestUtils.scryRenderedDOMComponentsWithTag(result, 'div')[0];
-    expect(element.textContent).toContain('Loading Quiz');
+  it('matches the snapshot', () => {
+    expect(result).toMatchSnapshot();
   });
 
   it('loading questions', () => {
     props.loadingQuiz = false;
-    result = TestUtils.renderIntoDocument(<Stub><Loading {...props} /></Stub>);
-    const element = TestUtils.scryRenderedDOMComponentsWithTag(result, 'div')[0];
-    expect(element.textContent).toContain('Loading Questions');
+    result = shallow(<Loading {...props} />);
+    const element = result.find('h3').first();
+    expect(element.props().children).toContain('Loading ');
+    expect(element.props().children).toContain('Questions');
   });
 });
