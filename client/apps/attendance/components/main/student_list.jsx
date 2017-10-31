@@ -1,6 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import canvasRequest from 'atomic-canvas/libs/action';
+import { listUsersInCourseUsers } from 'atomic-canvas/libs/constants/courses';
+import { listCourseSections } from 'atomic-canvas/libs/constants/sections';
+import Auth from 'atomic-canvas/libs/components/canvas_authentication';
 import Sections from './sections';
 import Student from './student';
 import ExportModal from './export_modal';
@@ -8,11 +12,7 @@ import DateSelector from './date_selector';
 import * as errorActions from '../../actions/error';
 import * as attendanceActions from '../../actions/attendance';
 import * as applicationActions from '../../actions/application';
-import canvasRequest from 'atomic-canvas/libs/action';
-import { listUsersInCourseUsers } from 'atomic-canvas/libs/constants/courses';
-import { listCourseSections } from 'atomic-canvas/libs/constants/sections';
 import { ATTENDANCE_STATES as AttendanceStates } from '../../reducers/student';
-import Auth from 'atomic-canvas/libs/components/canvas_authentication';
 
 const select = (state) => {
   const currentDate = state.application.date;

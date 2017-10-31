@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 
 import { listAssignments } from 'atomic-canvas/libs/constants/assignments';
 import { listCourseSections } from 'atomic-canvas/libs/constants/sections';
+import canvasRequest from 'atomic-canvas/libs/action';
 import { createStudentInfo } from '../actions/submissions';
 import { createSectionInfo, updateSectionMetadata } from '../actions/sections_info';
-import canvasRequest from 'atomic-canvas/libs/action';
 
 const select = state => ({
   lmsCourseId: state.settings.lms_course_id,
