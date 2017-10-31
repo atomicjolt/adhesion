@@ -1,7 +1,6 @@
-import React            from 'react';
-import TestUtils        from 'react-addons-test-utils';
-import QuizInfo         from './quiz_info';
-import Stub             from '../../../../specs_support/stub';
+import React from 'react';
+import { shallow } from 'enzyme';
+import QuizInfo from './quiz_info';
 
 describe('Quiz Info', () => {
   let result;
@@ -11,11 +10,10 @@ describe('Quiz Info', () => {
     props = {
       title: 'Testacular',
     };
-    result = TestUtils.renderIntoDocument(<Stub><QuizInfo {...props} /></Stub>);
+    result = shallow(<QuizInfo {...props} />);
   });
 
-  it('renders the title', () => {
-    const element = TestUtils.scryRenderedDOMComponentsWithTag(result, 'div')[0];
-    expect(element.textContent).toContain('Testacular');
+  it('matches the snapshot', () => {
+    expect(result).toMatchSnapshot();
   });
 });

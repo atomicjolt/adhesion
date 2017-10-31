@@ -1,7 +1,7 @@
 import _ from 'lodash';
-import { DONE } from '../../../libs/constants/wrapper';
-import { listUsersInCourseUsers } from '../../../libs/canvas/constants/courses';
-import { listCourseSections } from '../../../libs/canvas/constants/sections';
+import { DONE } from 'atomic-fuel/libs/constants/wrapper';
+import { listUsersInCourseUsers } from 'atomic-canvas/libs/constants/courses';
+import { listCourseSections } from 'atomic-canvas/libs/constants/sections';
 
 export const ATTENDANCE_STATES = {
   PRESENT: 'PRESENT',

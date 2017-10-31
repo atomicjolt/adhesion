@@ -1,8 +1,6 @@
-import React            from 'react';
-import TestUtils        from 'react-addons-test-utils';
-import _                from 'lodash';
+import React from 'react';
+import { shallow } from 'enzyme';
 import MultipleDropdown from './multiple_dropdowns_question';
-import Stub             from '../../../../../specs_support/stub';
 
 describe('Multiple DropDown', () => {
   let result;
@@ -45,30 +43,16 @@ describe('Multiple DropDown', () => {
       question_text: '<p>Skyrim belongs to the [Skyrim], while Marrowind is the homeland of the [Marrowind].</p>',
       id: '7',
     };
-    result = TestUtils.renderIntoDocument(<Stub><MultipleDropdown {...props} /></Stub>);
+    result = shallow(<MultipleDropdown {...props} />);
   });
 
-  it('renders the question text', () => {
-    const element = TestUtils.scryRenderedDOMComponentsWithTag(result, 'div')[0];
-    expect(element.textContent).toContain('Skyrim belongs to the');
-    expect(element.textContent).toContain(', while Marrowind is the homeland of the');
-    expect(element.textContent).not.toContain('<p>');
+  it('matches the snapshot', () => {
+    expect(result).toMatchSnapshot();
   });
 
   it('renders radio buttons for the options', () => {
-    const radios = TestUtils.scryRenderedDOMComponentsWithTag(result, 'input');
+    const radios = result.find('input');
     expect(radios.length).toBe(6);
-    _.forEach(radios, (radio) => {
-      expect(radio.type).toBe('radio');
-    });
-  });
-
-  it('renders the answer Text', () => {
-    const element = TestUtils.scryRenderedDOMComponentsWithTag(result, 'div')[0];
-    expect(element.textContent).toContain('Bretons');
-    expect(element.textContent).toContain('Nords');
-    expect(element.textContent).toContain('Argonians');
-    expect(element.textContent).toContain('Dunmer');
-    expect(element.textContent).toContain('Falmer');
+    expect(radios.at(0).props().type).toBe('radio');
   });
 });

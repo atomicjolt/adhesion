@@ -1,6 +1,6 @@
+import { DONE } from 'atomic-fuel/libs/constants/wrapper';
+import { listUsersInCourseUsers } from 'atomic-canvas/libs/constants/courses';
 import studentReducer from './student';
-import { DONE } from '../../../libs/constants/wrapper';
-import { listUsersInCourseUsers } from '../../../libs/canvas/constants/courses';
 
 
 describe('GET_STUDENTS_DONE', () => {

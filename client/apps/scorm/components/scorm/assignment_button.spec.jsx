@@ -1,9 +1,6 @@
-/* global describe beforeEach it expect */
-
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
+import { shallow } from 'enzyme';
 import AssignmentButton from './assignment_button';
-import Stub from '../../../../specs_support/stub';
 
 describe('Assignment Button', () => {
   let result;
@@ -16,15 +13,15 @@ describe('Assignment Button', () => {
       lms_assignment_id: 54321,
     };
 
-    result = TestUtils.renderIntoDocument(<Stub><AssignmentButton {...props} /></Stub>);
+    result = shallow(<AssignmentButton {...props} />);
   });
 
   it('renders the correct reference', () => {
-    const anchor = TestUtils.findRenderedDOMComponentWithTag(result, 'a');
-    expect(anchor.href).toBe('https://canvasorother/courses/12345/assignments/54321');
+    const anchor = result.find('a');
+    expect(anchor.props().href).toBe('https://canvasorother/courses/12345/assignments/54321');
   });
 
-  it('renders an SVG button', () => {
-    expect(TestUtils.isElement(<svg />)).toBeTruthy();
+  it('matches the snapshot', () => {
+    expect(result).toMatchSnapshot();
   });
 });

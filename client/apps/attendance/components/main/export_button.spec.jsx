@@ -1,6 +1,5 @@
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
-import Stub from '../../../../specs_support/stub';
+import { shallow } from 'enzyme';
 import ExportButton from './export_button';
 
 describe('export button', () => {
@@ -15,12 +14,16 @@ describe('export button', () => {
       downloadOptions: { america: 'the beautiful' },
       ariaPosinset: 0,
     };
-    result = TestUtils.renderIntoDocument(<Stub><ExportButton {...props} /></Stub>);
+    result = shallow(<ExportButton {...props} />);
+  });
+
+  it('matches the snapshot', () => {
+    expect(result).toMatchSnapshot();
   });
 
   it('should pass the options into the onExport function', () => {
-    const buttons = TestUtils.scryRenderedDOMComponentsWithTag(result, 'button');
-    TestUtils.Simulate.click(buttons[0]);
+    const buttons = result.find('button');
+    buttons.first().simulate('click');
     expect(output.america).toBe('the beautiful');
   });
 });

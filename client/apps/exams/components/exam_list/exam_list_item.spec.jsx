@@ -1,7 +1,6 @@
-import React            from 'react';
-import TestUtils        from 'react-addons-test-utils';
-import ExamListItem     from './exam_list_item';
-import Stub             from '../../../../specs_support/stub';
+import React from 'react';
+import { shallow } from 'enzyme';
+import ExamListItem from './exam_list_item';
 
 describe('Exam list item', () => {
   let result;
@@ -11,11 +10,10 @@ describe('Exam list item', () => {
       exam: { title: 'america', id: 1 },
       goToExam: () => {},
     };
-    result = TestUtils.renderIntoDocument(<Stub><ExamListItem {...props} /></Stub>);
+    result = shallow(<ExamListItem {...props} />);
   });
 
-  it('renders the exam', () => {
-    const element = TestUtils.findRenderedDOMComponentWithTag(result, 'tr');
-    expect(element.textContent).toContain('america');
+  it('matches the snapshot', () => {
+    expect(result).toMatchSnapshot();
   });
 });

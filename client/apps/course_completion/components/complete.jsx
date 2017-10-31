@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import canvasRequest from 'atomic-canvas/libs/action';
 import { markCourseAsCompleted } from '../actions/course_completion';
-import canvasRequest from '../../../libs/canvas/action';
 
 const select = ({ settings }) => ({
   lmsCourseId: settings.lms_course_id

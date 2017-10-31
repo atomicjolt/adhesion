@@ -1,7 +1,6 @@
-import React            from 'react';
-import TestUtils        from 'react-addons-test-utils';
-import Matching         from './matching_question';
-import Stub             from '../../../../../specs_support/stub';
+import React from 'react';
+import { shallow } from 'enzyme';
+import Matching from './matching_question';
 
 describe('Matching', () => {
   let result;
@@ -40,26 +39,15 @@ describe('Matching', () => {
       question_text: '<p>Match each race to its homeland</p>',
       id: 7,
     };
-    result = TestUtils.renderIntoDocument(<Stub><Matching {...props} /></Stub>);
+    result = shallow(<Matching {...props} />);
   });
 
   it('renders the question text', () => {
-    const element = TestUtils.scryRenderedDOMComponentsWithTag(result, 'div')[0];
-    expect(element.textContent).toContain('Match each race to its homeland');
-    expect(element.textContent).not.toContain('<p>');
+    const element = result.find('div').at(0).props().children[0].props;
+    expect(element.text).toContain('Match each race to its homeland');
   });
 
-  it('renders the answer Text', () => {
-    const element = TestUtils.scryRenderedDOMComponentsWithTag(result, 'div')[0];
-    expect(element.textContent).toContain('Bretons');
-    expect(element.textContent).toContain('Nords');
-    expect(element.textContent).toContain('Argonians');
-  });
-
-  it('renders the Match Text', () => {
-    const element = TestUtils.scryRenderedDOMComponentsWithTag(result, 'div')[0];
-    expect(element.textContent).toContain('Black Marsh');
-    expect(element.textContent).toContain('High Rock');
-    expect(element.textContent).toContain('Skyrim');
+  it('matches the snapshot', () => {
+    expect(result).toMatchSnapshot();
   });
 });

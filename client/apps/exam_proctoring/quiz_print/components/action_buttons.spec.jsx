@@ -1,18 +1,22 @@
-import React            from 'react';
-import TestUtils        from 'react-addons-test-utils';
-import Buttons          from './action_buttons';
-import Stub             from '../../../../specs_support/stub';
-
+import React from 'react';
+import { shallow } from 'enzyme';
+import { hashHistory } from 'react-router';
+import Buttons from './action_buttons';
 
 describe('Action Buttons', () => {
   let result;
 
   beforeEach(() => {
-    result = TestUtils.renderIntoDocument(<Stub><Buttons /></Stub>);
+    result = shallow(<Buttons />);
   });
 
-  it('renders', () => {
-    const buttons = TestUtils.scryRenderedDOMComponentsWithTag(result, 'button');
-    expect(buttons.length).toBe(2);
+  it('matches the snapshot', () => {
+    expect(result).toMatchSnapshot();
+  });
+
+  it('handles the history push button', () => {
+    hashHistory.push = jest.fn();
+    result.find('button').first().simulate('click');
+    expect(hashHistory.push).toBeCalled();
   });
 });

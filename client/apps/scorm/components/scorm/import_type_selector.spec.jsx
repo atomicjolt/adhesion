@@ -1,9 +1,6 @@
-/* global describe beforeEach it expect */
-
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
+import { shallow } from 'enzyme';
 import ImportTypeSelector from './import_type_selector';
-import Stub from '../../../../specs_support/stub';
 
 describe('import type selector', () => {
   let props;
@@ -16,23 +13,23 @@ describe('import type selector', () => {
       isGoBtnActive: false,
     };
 
-    result = TestUtils.renderIntoDocument(<Stub><ImportTypeSelector {...props} /></Stub>);
+    result = shallow(<ImportTypeSelector {...props} />);
   });
 
   it('Go button calls callback on click', () => {
     expect(props.isGoBtnActive).toBeFalsy();
-    const button = TestUtils.findRenderedDOMComponentWithClass(result, 'c-btn--go');
-    TestUtils.Simulate.click(button);
+    const button = result.find('.c-btn--go');
+    button.simulate('click');
     expect(props.isGoBtnActive).toBeTruthy();
   });
 
   it('select change activated on change', () => {
-    const selection = TestUtils.findRenderedDOMComponentWithTag(result, 'select');
-    TestUtils.Simulate.change(selection, { target: { value: 'Graded Assignment' } });
+    const selection = result.find('select');
+    selection.simulate('change', { target: { value: 'Graded Assignment' } });
     expect(props.handleSelectChange).toEqual('Graded Assignment');
-    TestUtils.Simulate.change(selection, { target: { value: 'Ungraded Assignment' } });
+    selection.simulate('change', { target: { value: 'Ungraded Assignment' } });
     expect(props.handleSelectChange).toEqual('Ungraded Assignment');
-    TestUtils.Simulate.change(selection, { target: { value: 0 } });
+    selection.simulate('change', { target: { value: 0 } });
     expect(props.handleSelectChange).toEqual(0);
   });
 });

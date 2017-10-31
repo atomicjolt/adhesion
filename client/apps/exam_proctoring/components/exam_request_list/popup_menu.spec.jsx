@@ -1,7 +1,6 @@
-import React            from 'react';
-import TestUtils        from 'react-addons-test-utils';
-import PopupMenu        from './popup_menu';
-import Stub             from '../../../../specs_support/stub';
+import React from 'react';
+import { shallow } from 'enzyme';
+import PopupMenu from './popup_menu';
 
 describe('popup menu', () => {
   let result;
@@ -24,49 +23,10 @@ describe('popup menu', () => {
       openMessageModal: () => { message = "If you're reading this, I'm too late"; },
     };
 
-    result = TestUtils.renderIntoDocument(<Stub><PopupMenu {...props} /></Stub>);
+    result = shallow(<PopupMenu {...props} />);
   });
 
-  it('renders the start button when assigned', () => {
-    const element = TestUtils.scryRenderedDOMComponentsWithTag(result, 'div')[0];
-    expect(element.textContent).toContain('Start');
-  });
-
-  it('renders the renders the pause and terminate buttons when started', () => {
-    props.status = 'started';
-    result = TestUtils.renderIntoDocument(<Stub><PopupMenu {...props} /></Stub>);
-    const element = TestUtils.scryRenderedDOMComponentsWithTag(result, 'div')[0];
-    expect(element.textContent).toContain('Finish');
-  });
-
-  it('start exam', () => {
-    props.studentHasExamStarted = true;
-    const buttons = TestUtils.scryRenderedDOMComponentsWithTag(result, 'button');
-    const startButton = buttons[0];
-    TestUtils.Simulate.click(startButton);
-    expect(examHasStarted).toBeTruthy();
-  });
-
-  it('finish exam', () => {
-    props.status = 'started';
-    result = TestUtils.renderIntoDocument(<Stub><PopupMenu {...props} /></Stub>);
-    const buttons = TestUtils.scryRenderedDOMComponentsWithTag(result, 'button');
-    const finishButton = buttons[0];
-    TestUtils.Simulate.click(finishButton);
-    expect(examHasFinished).toBeTruthy();
-  });
-
-  it('open exam modal', () => {
-    const buttons = TestUtils.scryRenderedDOMComponentsWithTag(result, 'button');
-    const openExamModalButton = buttons[2];
-    TestUtils.Simulate.click(openExamModalButton);
-    expect(examModal).toBeDefined();
-  });
-
-  it('open message modal', () => {
-    const buttons = TestUtils.scryRenderedDOMComponentsWithTag(result, 'button');
-    const messageStudentButton = buttons[3];
-    TestUtils.Simulate.click(messageStudentButton);
-    expect(message).toContain("If you're reading this, I'm too late");
+  it('matches the snapshot', () => {
+    expect(result).toMatchSnapshot();
   });
 });
