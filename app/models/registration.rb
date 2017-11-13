@@ -21,22 +21,6 @@ class Registration < ActiveRecord::Base
     self.scorm_registration_id ||= ::SecureRandom::uuid
   end
 
-  def student_course_analytics
-    course_analytics = scorm_course.course_analytics
-
-    # return course activity details for user
-    summary = {}
-    summary[:student_name] = user&.name
-    summary[:title] = "User"
-    summary[:mean_score] = mean_registration_score
-    summary[:pass_fail] = course_analytics[:pass_fail]
-    summary[:completed] = course_analytics[:completed]
-    summary[:scores] = scores_statistics(course_analytics[:scores])
-    summary[:nav_buttons] = nav_buttons
-    summary[:analytics_table] = activity_data
-    summary
-  end
-
   def store_activities(activity, parent_id = nil, depth = 0, lms_user_id = nil, lms_user_name = nil)
     # store activity
     is_new = false
