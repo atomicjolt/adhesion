@@ -17,7 +17,7 @@ ShallowWrapper {
   },
   Symbol(enzyme.__node__): Object {
     "instance": null,
-    "key": null,
+    "key": undefined,
     "nodeType": "host",
     "props": Object {
       "children": Array [
@@ -80,7 +80,7 @@ ShallowWrapper {
     "rendered": Array [
       Object {
         "instance": null,
-        "key": null,
+        "key": undefined,
         "nodeType": "host",
         "props": Object {
           "children": "Are you sure?",
@@ -91,7 +91,7 @@ ShallowWrapper {
       },
       Object {
         "instance": null,
-        "key": null,
+        "key": undefined,
         "nodeType": "host",
         "props": Object {
           "children": "You are about to begin a quiz on the behalf of a student. This action will save the attempt and scores of the quiz attempt to the students account. You will be recorded as the proctor who entered the answers. Time limits, shuffled questions, and other factors will still apply. Only select Begin Quiz if you are prepared to enter answers for this student.",
@@ -105,7 +105,7 @@ ShallowWrapper {
       },
       Object {
         "instance": null,
-        "key": null,
+        "key": undefined,
         "nodeType": "host",
         "props": Object {
           "children": "Cancel",
@@ -124,7 +124,7 @@ ShallowWrapper {
       },
       Object {
         "instance": null,
-        "key": null,
+        "key": undefined,
         "nodeType": "host",
         "props": Object {
           "children": "Begin Quiz",
@@ -149,7 +149,7 @@ ShallowWrapper {
   Symbol(enzyme.__nodes__): Array [
     Object {
       "instance": null,
-      "key": null,
+      "key": undefined,
       "nodeType": "host",
       "props": Object {
         "children": Array [
@@ -212,7 +212,7 @@ ShallowWrapper {
       "rendered": Array [
         Object {
           "instance": null,
-          "key": null,
+          "key": undefined,
           "nodeType": "host",
           "props": Object {
             "children": "Are you sure?",
@@ -223,7 +223,7 @@ ShallowWrapper {
         },
         Object {
           "instance": null,
-          "key": null,
+          "key": undefined,
           "nodeType": "host",
           "props": Object {
             "children": "You are about to begin a quiz on the behalf of a student. This action will save the attempt and scores of the quiz attempt to the students account. You will be recorded as the proctor who entered the answers. Time limits, shuffled questions, and other factors will still apply. Only select Begin Quiz if you are prepared to enter answers for this student.",
@@ -237,7 +237,7 @@ ShallowWrapper {
         },
         Object {
           "instance": null,
-          "key": null,
+          "key": undefined,
           "nodeType": "host",
           "props": Object {
             "children": "Cancel",
@@ -256,7 +256,7 @@ ShallowWrapper {
         },
         Object {
           "instance": null,
-          "key": null,
+          "key": undefined,
           "nodeType": "host",
           "props": Object {
             "children": "Begin Quiz",

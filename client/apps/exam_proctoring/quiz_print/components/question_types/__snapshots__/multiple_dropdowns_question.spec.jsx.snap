@@ -51,7 +51,7 @@ ShallowWrapper {
   },
   Symbol(enzyme.__node__): Object {
     "instance": null,
-    "key": null,
+    "key": undefined,
     "nodeType": "host",
     "props": Object {
       "children": Array [
@@ -146,7 +146,7 @@ ShallowWrapper {
     "rendered": Array [
       Object {
         "instance": null,
-        "key": null,
+        "key": undefined,
         "nodeType": "function",
         "props": Object {
           "text": "<p>Skyrim belongs to the [Skyrim], while Marrowind is the homeland of the [Marrowind].</p>",
@@ -204,7 +204,7 @@ ShallowWrapper {
         "rendered": Array [
           Object {
             "instance": null,
-            "key": null,
+            "key": undefined,
             "nodeType": "host",
             "props": Object {
               "children": "Skyrim",
@@ -215,7 +215,7 @@ ShallowWrapper {
           },
           Object {
             "instance": null,
-            "key": null,
+            "key": undefined,
             "nodeType": "host",
             "props": Object {},
             "ref": null,
@@ -240,7 +240,7 @@ ShallowWrapper {
             "rendered": Array [
               Object {
                 "instance": null,
-                "key": null,
+                "key": undefined,
                 "nodeType": "host",
                 "props": Object {
                   "disabled": true,
@@ -273,7 +273,7 @@ ShallowWrapper {
             "rendered": Array [
               Object {
                 "instance": null,
-                "key": null,
+                "key": undefined,
                 "nodeType": "host",
                 "props": Object {
                   "disabled": true,
@@ -306,7 +306,7 @@ ShallowWrapper {
             "rendered": Array [
               Object {
                 "instance": null,
-                "key": null,
+                "key": undefined,
                 "nodeType": "host",
                 "props": Object {
                   "disabled": true,
@@ -373,7 +373,7 @@ ShallowWrapper {
         "rendered": Array [
           Object {
             "instance": null,
-            "key": null,
+            "key": undefined,
             "nodeType": "host",
             "props": Object {
               "children": "Marrowind",
@@ -384,7 +384,7 @@ ShallowWrapper {
           },
           Object {
             "instance": null,
-            "key": null,
+            "key": undefined,
             "nodeType": "host",
             "props": Object {},
             "ref": null,
@@ -409,7 +409,7 @@ ShallowWrapper {
             "rendered": Array [
               Object {
                 "instance": null,
-                "key": null,
+                "key": undefined,
                 "nodeType": "host",
                 "props": Object {
                   "disabled": true,
@@ -442,7 +442,7 @@ ShallowWrapper {
             "rendered": Array [
               Object {
                 "instance": null,
-                "key": null,
+                "key": undefined,
                 "nodeType": "host",
                 "props": Object {
                   "disabled": true,
@@ -475,7 +475,7 @@ ShallowWrapper {
             "rendered": Array [
               Object {
                 "instance": null,
-                "key": null,
+                "key": undefined,
                 "nodeType": "host",
                 "props": Object {
                   "disabled": true,
@@ -499,7 +499,7 @@ ShallowWrapper {
   Symbol(enzyme.__nodes__): Array [
     Object {
       "instance": null,
-      "key": null,
+      "key": undefined,
       "nodeType": "host",
       "props": Object {
         "children": Array [
@@ -594,7 +594,7 @@ ShallowWrapper {
       "rendered": Array [
         Object {
           "instance": null,
-          "key": null,
+          "key": undefined,
           "nodeType": "function",
           "props": Object {
             "text": "<p>Skyrim belongs to the [Skyrim], while Marrowind is the homeland of the [Marrowind].</p>",
@@ -652,7 +652,7 @@ ShallowWrapper {
           "rendered": Array [
             Object {
               "instance": null,
-              "key": null,
+              "key": undefined,
               "nodeType": "host",
               "props": Object {
                 "children": "Skyrim",
@@ -663,7 +663,7 @@ ShallowWrapper {
             },
             Object {
               "instance": null,
-              "key": null,
+              "key": undefined,
               "nodeType": "host",
               "props": Object {},
               "ref": null,
@@ -688,7 +688,7 @@ ShallowWrapper {
               "rendered": Array [
                 Object {
                   "instance": null,
-                  "key": null,
+                  "key": undefined,
                   "nodeType": "host",
                   "props": Object {
                     "disabled": true,
@@ -721,7 +721,7 @@ ShallowWrapper {
               "rendered": Array [
                 Object {
                   "instance": null,
-                  "key": null,
+                  "key": undefined,
                   "nodeType": "host",
                   "props": Object {
                     "disabled": true,
@@ -754,7 +754,7 @@ ShallowWrapper {
               "rendered": Array [
                 Object {
                   "instance": null,
-                  "key": null,
+                  "key": undefined,
                   "nodeType": "host",
                   "props": Object {
                     "disabled": true,
@@ -821,7 +821,7 @@ ShallowWrapper {
           "rendered": Array [
             Object {
               "instance": null,
-              "key": null,
+              "key": undefined,
               "nodeType": "host",
               "props": Object {
                 "children": "Marrowind",
@@ -832,7 +832,7 @@ ShallowWrapper {
             },
             Object {
               "instance": null,
-              "key": null,
+              "key": undefined,
               "nodeType": "host",
               "props": Object {},
               "ref": null,
@@ -857,7 +857,7 @@ ShallowWrapper {
               "rendered": Array [
                 Object {
                   "instance": null,
-                  "key": null,
+                  "key": undefined,
                   "nodeType": "host",
                   "props": Object {
                     "disabled": true,
@@ -890,7 +890,7 @@ ShallowWrapper {
               "rendered": Array [
                 Object {
                   "instance": null,
-                  "key": null,
+                  "key": undefined,
                   "nodeType": "host",
                   "props": Object {
                     "disabled": true,
@@ -923,7 +923,7 @@ ShallowWrapper {
               "rendered": Array [
                 Object {
                   "instance": null,
-                  "key": null,
+                  "key": undefined,
                   "nodeType": "host",
                   "props": Object {
                     "disabled": true,
