@@ -21,7 +21,7 @@ ShallowWrapper {
   },
   Symbol(enzyme.__node__): Object {
     "instance": null,
-    "key": null,
+    "key": undefined,
     "nodeType": "host",
     "props": Object {
       "children": <Chart
@@ -38,7 +38,7 @@ ShallowWrapper {
     "ref": null,
     "rendered": Object {
       "instance": null,
-      "key": null,
+      "key": undefined,
       "nodeType": "function",
       "props": Object {
         "colors": Array [
@@ -57,7 +57,7 @@ ShallowWrapper {
   Symbol(enzyme.__nodes__): Array [
     Object {
       "instance": null,
-      "key": null,
+      "key": undefined,
       "nodeType": "host",
       "props": Object {
         "children": <Chart
@@ -74,7 +74,7 @@ ShallowWrapper {
       "ref": null,
       "rendered": Object {
         "instance": null,
-        "key": null,
+        "key": undefined,
         "nodeType": "function",
         "props": Object {
           "colors": Array [
