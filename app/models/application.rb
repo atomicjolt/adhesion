@@ -28,7 +28,6 @@ class Application < ActiveRecord::Base
   ATTENDANCE = "attendance".freeze
   EXAMS = "exam".freeze
   EXAMPROCTOR = "proctor".freeze
-  QUIZCONVERTER = "word2quiz".freeze
   SURVEYAGGREGATION = "surveys".freeze
   POSTGRADES = "postgrades".freeze
   COURSECOMPLETION = "coursecompletion".freeze

@@ -248,45 +248,6 @@ applications = [
     }],
   },
   {
-    key: Application::QUIZCONVERTER,
-    name: "Quiz Converter",
-    description: "Converts word docs to quizzes",
-    client_application_name: "quiz_converter",
-    canvas_api_permissions: {
-      default: [],
-      common: [
-        "urn:lti:sysrole:ims/lis/SysAdmin",
-        "urn:lti:sysrole:ims/lis/Administrator",
-        "urn:lti:instrole:ims/lis/Administrator",
-        "urn:lti:role:ims/lis/Instructor",
-        "urn:lti:role:ims/lis/TeachingAssistant",
-        "urn:lti:role:ims/lis/ContentDeveloper",
-      ],
-    },
-    kind: Application.kinds[:lti],
-    default_config: {},
-    lti_config: {
-      title: "Quiz Converter",
-      description: "Quiz Converter Application",
-      privacy_level: "public",
-      icon: "oauth_icon.png",
-      custom_fields: {
-        canvas_course_id: "$Canvas.course.id",
-        external_tool_url: "$Canvas.externalTool.url",
-      },
-      course_navigation: {
-        text: "Quiz Converter",
-        visibility: "admins",
-      },
-    },
-    application_instances: [{
-      lti_key: Application::QUIZCONVERTER,
-      site_url: secrets.canvas_url,
-      canvas_token: secrets.canvas_token,
-      domain: "#{Application::QUIZCONVERTER}.#{secrets.application_root_domain}",
-    }],
-  },
-  {
     key: Application::SURVEYAGGREGATION,
     name: "Survey Aggregation Tool",
     description: "Admin tool to view survey results",
