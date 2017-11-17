@@ -8,7 +8,7 @@ Rails.application.config.assets.version = "1.1"
 
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
-Rails.application.config.assets.precompile += %w(application.scss errors.scss)
+Rails.application.config.assets.precompile += %w(errors.scss)
 Rails.application.config.assets.precompile += %w(client.scss scorm_course.scss)
 
 Rails.application.config.assets.precompile += %w(errors.js)
