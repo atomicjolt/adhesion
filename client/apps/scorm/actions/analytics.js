@@ -22,14 +22,6 @@ export const loadCourseData = courseId => ({
   courseId,
 });
 
-export const loadUserData = (courseId, userId) => ({
-  method: Network.GET,
-  type: Constants.LOAD_USER_DATA,
-  url: `/api/scorm_courses/${courseId}/student_report`,
-  params: { user_id: userId },
-  userId,
-});
-
 export const loadActivityData = courseId => ({
   method: Network.GET,
   type: Constants.LOAD_ACTIVITY_DATA,

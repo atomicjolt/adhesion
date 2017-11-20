@@ -7,26 +7,6 @@ RSpec.describe Registration, type: :model do
     @registration = Registration.create
   end
 
-  describe "#student_course_analytics" do
-    it "gets the summary put together" do
-      scorm_course = ScormCourse.create
-      @registration.update_attributes(lms_course_id: scorm_course.id)
-      expect(@registration.student_course_analytics.count).to eq(8)
-      expect(@registration.student_course_analytics[:title]).to eq("User")
-    end
-
-    it "gets the nav_buttons and makes sure they are correct" do
-      scorm_course = ScormCourse.create
-      @registration.update_attributes(lms_course_id: scorm_course.id)
-      nav_buttons = @registration.student_course_analytics[:nav_buttons]
-      expect(nav_buttons.count).to eq(4)
-      expect(nav_buttons[0][:name]).to eq("Complete")
-      expect(nav_buttons[1][:name]).to eq("Passed")
-      expect(nav_buttons[2][:stat]).to eq("0%")
-      expect(nav_buttons[3][:stat]).to eq(0)
-    end
-  end
-
   describe "#store_activities" do
     it "stores scorm activites in the database" do
       expect(@registration.scorm_activities.count).to eq(0)
