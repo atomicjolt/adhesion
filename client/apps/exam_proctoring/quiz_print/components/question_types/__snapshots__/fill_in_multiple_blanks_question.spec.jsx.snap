@@ -17,7 +17,7 @@ ShallowWrapper {
   },
   Symbol(enzyme.__node__): Object {
     "instance": null,
-    "key": null,
+    "key": undefined,
     "nodeType": "function",
     "props": Object {
       "text": "<p>Holy <input type=\\"text\\" class=\\"textbox\\" disabled /> youve been down too long in the <input type=\\"text\\" class=\\"textbox\\" disabled /> sea.</p>",
@@ -29,7 +29,7 @@ ShallowWrapper {
   Symbol(enzyme.__nodes__): Array [
     Object {
       "instance": null,
-      "key": null,
+      "key": undefined,
       "nodeType": "function",
       "props": Object {
         "text": "<p>Holy <input type=\\"text\\" class=\\"textbox\\" disabled /> youve been down too long in the <input type=\\"text\\" class=\\"textbox\\" disabled /> sea.</p>",
