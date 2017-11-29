@@ -5,6 +5,7 @@ import { ATTENDANCE_STATES as AttendanceStates } from './student';
 
 
 const initialState = {
+  isLargeDownload: false,
   attendances: {},
 };
 
@@ -46,6 +47,16 @@ export default (state = initialState, action) => {
         newAttendances[date][student.lms_student_id] = student.status;
       });
       return { ...state, ...{ attendances: newAttendances } };
+    }
+
+    case AttendanceConstants.DOWNLOAD_FILE_DONE: {
+      if (action.error || action.payload === null) return state;
+      return { ...state, isLargeDownload: action.payload.large_file };
+    }
+
+    case AttendanceConstants.RESET_ISLARGEDOWNLOAD: {
+      if (action.error) return state;
+      return { ...state, isLargeDownload: false };
     }
 
     default:
