@@ -52,20 +52,12 @@ class ApplicationController < ActionController::Base
   end
 
   def render_json_error
-    if [401, 404, 422].include?(@status)
-      error_info = {
-        error: @status.to_s,
-        exception: "#{@exception_name} : #{@exception}",
-      }
-      render json: error_info.to_json, status: @status
-    else
-      error_info = {
-        error: "internal-server-error",
-        exception: "#{@exception_name} : #{@exception}",
-        backtrace: @backtrace,
-      }
-      render json: error_info.to_json, status: 500
-    end
+    error_info = {
+      error: @status.to_s,
+      exception: "#{@exception_name} : #{@exception}",
+      backtrace: @backtrace,
+    }
+    render json: error_info.to_json, status: @status
   end
 
   def canvas_url
