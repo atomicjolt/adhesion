@@ -1,16 +1,24 @@
 module Concerns
   module CanvasSupport
+    include ApplicationHelper
     extend ActiveSupport::Concern
+    include OauthHelper
+    include Concerns::JwtToken
 
     protected
 
     def canvas_api(
       application_instance: current_application_instance,
-      user: current_user
+      user: current_user,
+      course: current_course
     )
       url = UrlHelper.scheme_host_port(application_instance.site.url)
       if application_instance.canvas_token.present?
         global_auth(url, application_instance.canvas_token)
+      elsif auth = canvas_auth_instance(application_instance.site, application_instance: application_instance)
+        user_auth(auth, url, application_instance.site)
+      elsif auth = canvas_auth_course(application_instance.site, course: course)
+        user_auth(auth, url, application_instance.site)
       elsif auth = canvas_auth(application_instance.site, user: user)
         user_auth(auth, url, application_instance.site)
       else
@@ -30,7 +38,7 @@ module Concerns
         client_id: site.oauth_key,
         client_secret: site.oauth_secret,
         redirect_uri: Rails.application.routes.url_helpers.user_canvas_omniauth_callback_url(
-          subdomain: Application::AUTH,
+          host: oauth_host,
           protocol: "https",
         ),
         refresh_token: auth.refresh_token,
@@ -42,6 +50,20 @@ module Concerns
       )
     end
 
+    def canvas_auth_instance(site, application_instance:)
+      return nil unless application_instance.present?
+      application_instance.authentications.find_by(
+        provider_url: UrlHelper.scheme_host_port(site.url),
+      )
+    end
+
+    def canvas_auth_course(site, course: nil)
+      return nil unless course.present?
+      course.authentications.find_by(
+        provider_url: UrlHelper.scheme_host_port(site.url),
+      )
+    end
+
     def canvas_auth(site, user: current_user)
       return nil unless user.present?
       user.authentications.find_by(
@@ -49,17 +71,15 @@ module Concerns
       )
     end
 
-    def protect_canvas_api(type: params[:lms_proxy_call_type], context_id: params[:context_id])
-      return if canvas_api_authorized(type: type, context_id: context_id)
-      # this is not permanent, we will remove this when we go away from using the new application instance to install
-      return if canvas_auth(current_application_instance.site).present?
+    def protect_canvas_api(type: params[:lms_proxy_call_type], context_id: jwt_context_id)
+      return if canvas_api_authorized(type: type, context_id: context_id) && custom_api_checks_pass(type: type)
       user_not_authorized
     end
 
-    def canvas_api_authorized(type: params[:lms_proxy_call_type], context_id: params[:context_id])
+    def canvas_api_authorized(type: params[:lms_proxy_call_type], context_id: jwt_context_id)
       canvas_api_permissions.has_key?(type) &&
         allowed_roles(type: type).present? &&
-        (allowed_roles(type: type) & current_user.nil_or_context_roles(context_id).map(&:name)).present?
+        (allowed_roles(type: type) & current_user_roles(context_id: context_id)).present?
     end
 
     def allowed_roles(type: params[:lms_proxy_call_type])
@@ -70,6 +90,11 @@ module Concerns
 
     def canvas_api_permissions
       @canvas_api_permissions ||= current_application_instance.application.canvas_api_permissions
+    end
+
+    def custom_api_checks_pass(type: nil)
+      # Add custom logic to protect specific api calls
+      true
     end
 
     class CanvasApiTokenRequired < LMS::Canvas::CanvasException

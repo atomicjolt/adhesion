@@ -1,5 +1,5 @@
-import wrapper from '../../../libs/constants/wrapper';
-import Network from '../../../libs/constants/network';
+import wrapper from 'atomic-fuel/libs/constants/wrapper';
+import Network from 'atomic-fuel/libs/constants/network';
 
 // Local actions
 const actions = [
@@ -20,14 +20,6 @@ export const loadCourseData = courseId => ({
   type: Constants.LOAD_COURSE_DATA,
   url: `/api/scorm_courses/${courseId}/course_report`,
   courseId,
-});
-
-export const loadUserData = (courseId, userId) => ({
-  method: Network.GET,
-  type: Constants.LOAD_USER_DATA,
-  url: `/api/scorm_courses/${courseId}/student_report`,
-  params: { user_id: userId },
-  userId,
 });
 
 export const loadActivityData = courseId => ({

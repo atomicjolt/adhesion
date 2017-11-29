@@ -24,7 +24,7 @@ export default class ScheduleForm extends React.Component {
         boxShadow: `0px 0px 5px ${Defines.darkGrey}`,
         backgroundColor: 'white',
         padding: '25px',
-        position: 'fixed',
+        position: 'absolute',
         top: '5vh',
         left: '25vw',
         right: '25vw',

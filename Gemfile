@@ -22,6 +22,7 @@ gem "attr_encrypted"
 gem "cancancan"
 gem "devise"
 gem "ims-lti", "~> 2.1.5" # IMS LTI tool consumers and providers
+gem "aj-ims-lti", git: "https://github.com/atomicjolt/aj_lms_lti"
 gem "jwt", "~> 1.5.0" # json web token
 gem "lms-api", "~> 1.3.7"
 gem "omniauth"
@@ -72,6 +73,7 @@ group :development do
   gem "rails-erd"
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem "spring"
+  gem "spring-commands-rspec"
   gem "spring-watcher-listen"
   gem "web-console"
 end
@@ -81,6 +83,7 @@ group :development, :test do
   gem "dotenv-rails"
   gem "factory_girl_rails"
   gem "faker"
+  gem "guard-rspec", require: false
   gem "rspec-rails"
   gem "rubocop"
 end
@@ -102,9 +105,6 @@ end
 
 # Scorm cloud ruby client
 gem "scorm_cloud", git: "https://github.com/instructure/scorm-cloud.git"
-
-# Word2Quiz for converting word doc quizzes
-gem "word_2_quiz"
 
 group :production do
   gem "cap-ec2", require: false

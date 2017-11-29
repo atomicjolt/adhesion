@@ -1,4 +1,4 @@
-import wrapper from '../constants/wrapper';
+import wrapper from 'atomic-fuel/libs/constants/wrapper';
 
 // Local actions
 const actions = [

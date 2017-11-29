@@ -52,8 +52,8 @@ Rails.application.routes.draw do
   namespace :api do
     get "proctor_login" => "proctor_login#signed_url"
     get "proctored_exams" => "proctored_exams#start_proctored_exam"
+    resources :proctored_exams, only: [:update]
     post "proctor_conversations" => "proctor_conversations#initiate_conversation"
-
     resources :jwts
     resources :canvas_accounts
     resources :oauths
@@ -73,7 +73,6 @@ Rails.application.routes.draw do
     resources :testing_centers_accounts
     resources :scorm_courses do
       get "course_report" => "scorm_courses#course_report"
-      get "student_report" => "scorm_courses#student_report"
       get "activity_report" => "scorm_courses#activity_report"
       get "launch" => "scorm_courses#launch"
       get "preview" => "scorm_courses#preview"
@@ -93,6 +92,9 @@ Rails.application.routes.draw do
 
     resources :quiz_conversions, only: [:create]
     resources :sites
+    resources :submissions
+    resources :course_completions
+    resources :section_metadata
     resources :lti_content_item_selection, only: [:create]
     resources :lti_launches
   end
@@ -101,4 +103,7 @@ Rails.application.routes.draw do
   post "api/canvas" => "api/canvas_proxy#proxy"
   put "api/canvas" => "api/canvas_proxy#proxy"
   delete "api/canvas" => "api/canvas_proxy#proxy"
+
+  # handle routing errors
+  match "*path", to: "application#routing_error", via: :all
 end

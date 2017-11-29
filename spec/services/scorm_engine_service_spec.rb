@@ -1,4 +1,5 @@
 require "rails_helper"
+require "ajims/lti"
 
 class MockCourse
   attr_accessor :id
@@ -117,7 +118,6 @@ end
 
 describe "Scorm Engine Service sync score", type: :controller do
   before(:example) do
-    skip
     @subject = ScormEngineService.new
     @application_instance = FactoryGirl.create(:application_instance)
     @application_instance.update_attributes(config: { "scorm_type" => "engine" })
@@ -136,7 +136,7 @@ describe "Scorm Engine Service sync score", type: :controller do
   end
 
   it "should sync the registration score" do
-    allow_any_instance_of(IMS::LTI::ToolProvider).to receive(
+    allow_any_instance_of(AJIMS::LTI::ToolProvider).to receive(
       :post_replace_result!,
     ).and_return(MockTool.new)
     @subject.sync_registration_score(@registration)
@@ -149,7 +149,7 @@ describe "Scorm Engine Service sync score", type: :controller do
 
   it "raises an error" do
     mock_tool = MockTool.new(false, true)
-    allow_any_instance_of(IMS::LTI::ToolProvider).to receive(
+    allow_any_instance_of(AJIMS::LTI::ToolProvider).to receive(
       :post_replace_result!,
     ).and_return(mock_tool)
     @subject.sync_registration_score(@registration)
@@ -161,7 +161,7 @@ describe "Scorm Engine Service sync score", type: :controller do
 
   it "raises an error" do
     mock_tool = MockTool.new(false, false, true)
-    allow_any_instance_of(IMS::LTI::ToolProvider).to receive(
+    allow_any_instance_of(AJIMS::LTI::ToolProvider).to receive(
       :post_replace_result!,
     ).and_return(mock_tool)
     @subject.sync_registration_score(@registration)
@@ -173,7 +173,7 @@ describe "Scorm Engine Service sync score", type: :controller do
 
   it "raises an error" do
     mock_tool = MockTool.new(false)
-    allow_any_instance_of(IMS::LTI::ToolProvider).to receive(
+    allow_any_instance_of(AJIMS::LTI::ToolProvider).to receive(
       :post_replace_result!,
     ).and_return(mock_tool)
     @subject.sync_registration_score(@registration)
@@ -186,8 +186,10 @@ end
 
 describe "sync_courses" do
   it "should sync courses table" do
-    ScormCourse.create
-    graded_course = ScormCourse.create
+    lms_course_id = "1234"
+    graded_id = "12"
+    create(:scorm_course, scorm_service_id: "3_#{lms_course_id}")
+    graded_course = create(:scorm_course, scorm_service_id: "#{graded_id}_#{lms_course_id}")
     graded_course.lms_assignment_id = 1
     graded_course.points_possible = 5
     graded_course.save!
@@ -196,10 +198,17 @@ describe "sync_courses" do
     result = subject.sync_courses(
       [
         { "id" => graded_course.scorm_service_id, "title" => "The Title" },
-        { "id" => "3", "title" => "The New Title" },
+        { "id" => "3_#{lms_course_id}", "title" => "The New Title" },
+        { "id" => "35_#{68000}", "title" => "meh" },
       ],
+      lms_course_id,
     )
-    expect(ScormCourse.where(scorm_service_id: [graded_course.id, 3]).count).to eq 2
+
+    scorm_course_count = ScormCourse.
+      where(
+        scorm_service_id: ["3_#{lms_course_id}", graded_course.scorm_service_id],
+      ).count
+    expect(scorm_course_count).to eq 2
 
     expect(result[0][:lms_assignment_id]).to eq(1)
     expect(result[0][:is_graded]).to eq("GRADED")

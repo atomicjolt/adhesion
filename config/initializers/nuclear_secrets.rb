@@ -14,8 +14,10 @@ NuclearSecrets.configure do |config|
     canvas_url: String,
     canvas_developer_id: Integer,
     canvas_developer_key: String,
+    canvas_token: String,
     auth0_client_id: String,
     auth0_client_secret: String,
+    shared_auth_secret: String,
     secret_key_base: String,
     secret_token: NilClass,
     canvas_proctor_url: String,
@@ -26,5 +28,8 @@ NuclearSecrets.configure do |config|
     proctor_login_secret: String,
     scorm_cloud_app_id: String,
     scorm_cloud_secret_key: String,
+    u4sm_url: String,
+    u4sm_username: String,
+    u4sm_password: String,
   }
 end

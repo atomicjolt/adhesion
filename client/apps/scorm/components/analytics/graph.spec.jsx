@@ -1,7 +1,5 @@
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
-import _ from 'lodash';
-import Stub from '../../../../specs_support/stub';
+import { shallow } from 'enzyme';
 import Graph from './graph';
 
 describe('Scorm Analytics Graph', () => {
@@ -20,26 +18,15 @@ describe('Scorm Analytics Graph', () => {
   };
 
   beforeEach(() => {
-    result = TestUtils.renderIntoDocument(
-      <Stub>
-        <Graph {...props} />
-      </Stub>
-    );
+    result = shallow(<Graph {...props} />);
   });
 
   it('renders the graph a single div', () => {
-    const divs =  TestUtils.scryRenderedDOMComponentsWithClass(result, 'c-aa-graph-picker');
+    const divs =  result.find('.c-aa-graph-picker');
     expect(divs.length).toBe(1);
   });
 
-  it('renders the button with the correct values', () => {
-    const div =  TestUtils.findRenderedDOMComponentWithTag(result, 'button');
-    expect(div.textContent).toContain(props.navButtons[0].name);
-    expect(div.textContent).toContain(props.navButtons[0].stat);
-  });
-
-  it('renders a single chart', () => {
-    const div = TestUtils.findRenderedDOMComponentWithClass(result, 'recharts-wrapper');
-    expect(_.size(div)).toBe(1);
+  it('matches the snapshot', () => {
+    expect(result).toMatchSnapshot();
   });
 });

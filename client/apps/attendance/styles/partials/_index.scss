@@ -24,6 +24,8 @@
 }
 
 .c-btn--sections{
+    position: absolute;
+    z-index: 1;
     display: inline-block;
     padding: 0rem;
     background: $lightest-gray;
@@ -159,12 +161,15 @@
   tr{
 
     &:hover{
-      td{
+      td, th{
         background: $lightest-gray;
+        .c-loading-icon:before{
+          border-color: $lightest-gray;
+        }
       }
     }
 
-    td{
+    td, th{
       vertical-align: middle;
       padding: 1rem;
       border-bottom: 0.1rem solid $light-gray;
@@ -174,11 +179,12 @@
       width: 6rem;
       text-align: center;
     }
-    td:nth-of-type(2){
+    th{
       text-align: left;
     }
-    td:nth-of-type(3){
+    td:nth-of-type(2){
       text-align: right;
+      width: 17.5rem;
     }
   }
 }
@@ -212,12 +218,47 @@
     padding: 0.3rem;
     border-radius: 50%;
     position: relative;
-    margin-left: 1rem;
+    margin: 0 0.5rem;
     display: inline-block;
     cursor: pointer;
   }
   input[type="radio"]:focus ~ label{
     outline: thin dotted;
+  }
+}
+
+.loading{
+  width: 100%;
+
+  .c-loading-icon{
+    margin: 0 auto;
+    width: 2.8rem;
+    height: 2.8rem;
+    border-radius: 50%;
+    border: 0.3rem solid $blue;
+    position: relative;
+    @include animation(spinner 1.5s linear infinite);
+
+    &:before{
+      content: '';
+      width: 0.1rem;
+      height: 0.1rem;
+      border-top: 1.4rem solid $white;
+      border-right: 1.4rem solid $white;
+      border-bottom: none;
+      border-left: none;
+      position: absolute;
+      top: -0.3rem;
+      left: 50%;
+    }
+  }
+  @keyframes spinner{
+    0%{
+      @include transform(rotate(0));
+    }
+    100%{
+      @include transform(rotate(360deg));
+    }
   }
 }
 

@@ -1,7 +1,6 @@
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
+import { shallow } from 'enzyme';
 import Sections from './sections';
-import Stub from '../../../../specs_support/stub';
 
 describe('Sections', () => {
   let result;
@@ -20,12 +19,10 @@ describe('Sections', () => {
       filterStudents: () => {},
     };
 
-    result = TestUtils.renderIntoDocument(<Stub><Sections {...props} /></Stub>);
+    result = shallow(<Sections {...props} />);
   });
 
-  it('renders Dropdown', () => {
-    const button = TestUtils.findRenderedDOMComponentWithClass(result, 'c-btn c-btn--sections');
-    expect(button).toBeTruthy();
+  it('matches the snapshot', () => {
+    expect(result).toMatchSnapshot();
   });
-
 });

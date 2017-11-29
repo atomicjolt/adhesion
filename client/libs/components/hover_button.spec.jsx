@@ -1,13 +1,15 @@
-import React       from 'react';
-import TestUtils   from 'react-addons-test-utils';
+import React from 'react';
+import { shallow } from 'enzyme';
 import HoverButton from './hover_button';
 
 describe('hover button', () => {
   let result;
+  let clicked;
 
   beforeEach(() => {
+    clicked = false;
     const props = {
-      onClick: () => {},
+      onClick: () => { clicked = true; },
       style: {
         color: 'white',
       },
@@ -15,13 +17,16 @@ describe('hover button', () => {
         color: 'black',
       },
     };
-    result = TestUtils.renderIntoDocument(<HoverButton {...props} />);
+    result = shallow(<HoverButton {...props} />);
   });
 
-  it('applies the correct styles when you hover', () => {
-    const element = TestUtils.findRenderedDOMComponentWithTag(result, 'button');
-    expect(element.getAttribute('style')).toContain('white');
-    TestUtils.Simulate.mouseEnter(element);
-    expect(element.getAttribute('style')).toContain('black');
+  it('matches the snapshot', () => {
+    expect(result).toMatchSnapshot();
+  });
+
+  it('handles the onClick function', () => {
+    expect(clicked).toBeFalsy();
+    result.find('button').simulate('click');
+    expect(clicked).toBeTruthy();
   });
 });

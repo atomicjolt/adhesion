@@ -1,6 +1,5 @@
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
-import Stub from '../../../../specs_support/stub';
+import { shallow } from 'enzyme';
 import Scores from './scores';
 
 describe('Scorm Analytics Scores', () => {
@@ -16,16 +15,10 @@ describe('Scorm Analytics Scores', () => {
   };
 
   beforeEach(() => {
-    result = TestUtils.renderIntoDocument(
-      <Stub>
-        <Scores {...props} />
-      </Stub>
-    );
+    result = shallow(<Scores {...props} />);
   });
 
-  it('renders the scores with the correct values', () => {
-    const div =  TestUtils.findRenderedDOMComponentWithClass(result, 'c-aa-label');
-    expect(div.textContent).toContain(props.scores[0].name);
-    expect(div.textContent).toContain(props.scores[0].value);
+  it('matches the snapshot', () => {
+    expect(result).toMatchSnapshot();
   });
 });

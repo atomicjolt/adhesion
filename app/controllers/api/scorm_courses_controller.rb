@@ -3,7 +3,8 @@ class Api::ScormCoursesController < ApplicationController
   include Concerns::JwtToken
   include ScormCourseHelper
 
-  before_action :validate_token
+  before_action :validate_token, except: %i[create update]
+  before_action :validate_token_shared, only: %i[create update]
 
   protect_from_forgery with: :null_session
 
@@ -22,6 +23,7 @@ class Api::ScormCoursesController < ApplicationController
     if courses[:status] != 400
       courses[:response] = scorm_connect_service(params[:lms_course_id]).sync_courses(
         courses[:response],
+        params[:lms_course_id],
       )
     end
     send_scorm_connect_response(courses)
@@ -83,14 +85,6 @@ class Api::ScormCoursesController < ApplicationController
     render json: scorm_course.course_analytics
   end
 
-  def student_report
-    registration = Registration.find_by(
-      lms_course_id: params[:scorm_course_id],
-      lms_user_id: params[:user_id],
-    )
-    render json: registration.student_course_analytics
-  end
-
   def activity_report
     scorm_course = ScormCourse.find_by(
       scorm_service_id: params[:scorm_course_id],
@@ -122,6 +116,16 @@ class Api::ScormCoursesController < ApplicationController
   end
 
   private
+
+  def validate_token_shared
+    if params[:shared_auth].present?
+      aud = Rails.application.secrets.auth0_client_id
+      secret = Rails.application.secrets.shared_auth_secret
+      validate_token_with_secret(aud, secret)
+    else
+      validate_token
+    end
+  end
 
   def get_course_id(id)
     id.split("_")[1] || id

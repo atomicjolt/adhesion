@@ -1,6 +1,5 @@
 admin = CreateAdminService.new.call
 puts "CREATED ADMIN USER: " << admin.email
-admin.save!
 
 secrets = Rails.application.secrets
 
@@ -41,7 +40,6 @@ admin_api_permissions = {
   LIST_EXTERNAL_TOOLS_ACCOUNTS: [],
   CREATE_EXTERNAL_TOOL_ACCOUNTS: [],
   DELETE_EXTERNAL_TOOL_ACCOUNTS: [],
-  GET_SUB_ACCOUNTS_OF_ACCOUNT: [],
   HELPER_ALL_ACCOUNTS: [],
 }
 
@@ -80,6 +78,8 @@ applications = [
         "urn:lti:sysrole:ims/lis/Administrator",
         "urn:lti:instrole:ims/lis/Administrator",
         "urn:lti:role:ims/lis/Instructor",
+        "urn:lti:role:ims/lis/TeachingAssistant",
+        "urn:lti:role:ims/lis/ContentDeveloper",
       ],
       LIST_ASSIGNMENTS: [
         "urn:lti:role:ims/lis/Learner",
@@ -87,6 +87,7 @@ applications = [
       ],
       CREATE_ASSIGNMENT: [],
       DELETE_ASSIGNMENT: [],
+      EDIT_ASSIGNMENT: [],
     },
     kind: Application.kinds[:lti],
     default_config: { "scorm_type" => "engine" },
@@ -101,19 +102,15 @@ applications = [
       },
       course_navigation: {
         text: "SCORM Player",
-        visibility: "members",
+        visibility: "admins",
       },
     },
-    application_instances: [],
-    # application_instances: [{
-    #   tenant: "scorm-player",
-    #   lti_key: "scorm-player",
-    #   lti_secret: secrets.scorm_lti_secret,
-    #   site_url: lti_consumer_uri,
-    #   canvas_token: secrets.canvas_token,
-    #   domain: "scorm.#{secrets.domain_name}",
-    #   lti_type: ApplicationInstance.lti_types[:course_navigation],
-    # }],
+    application_instances: [{
+      lti_key: Application::SCORM,
+      site_url: secrets.canvas_url,
+      canvas_token: secrets.canvas_token,
+      domain: "#{Application::SCORM}.#{secrets.application_root_domain}",
+    }],
   },
   {
     key: Application::ATTENDANCE,
@@ -127,6 +124,8 @@ applications = [
         "urn:lti:sysrole:ims/lis/Administrator",
         "urn:lti:instrole:ims/lis/Administrator",
         "urn:lti:role:ims/lis/Instructor",
+        "urn:lti:role:ims/lis/TeachingAssistant",
+        "urn:lti:role:ims/lis/ContentDeveloper",
       ],
       LIST_USERS_IN_COURSE_USERS: [],
       LIST_COURSE_SECTIONS: [],
@@ -147,16 +146,12 @@ applications = [
         visibility: "admins",
       },
     },
-    application_instances: [],
-    # application_instances: [{
-    #   tenant: "attendance",
-    #   lti_key: "attendance",
-    #   lti_secret: secrets.attendance_lti_secret,
-    #   site_url: lti_consumer_uri,
-    #   canvas_token: secrets.canvas_token,
-    #   domain: "attendance.#{secrets.domain_name}",
-    #   lti_type: ApplicationInstance.lti_types[:course_navigation],
-    # }],
+    application_instances: [{
+      lti_key: Application::ATTENDANCE,
+      site_url: secrets.canvas_url,
+      canvas_token: secrets.canvas_token,
+      domain: "#{Application::ATTENDANCE}.#{secrets.application_root_domain}",
+    }],
   },
   {
     key: Application::EXAMS,
@@ -170,6 +165,8 @@ applications = [
         "urn:lti:sysrole:ims/lis/Administrator",
         "urn:lti:instrole:ims/lis/Administrator",
         "urn:lti:role:ims/lis/Instructor",
+        "urn:lti:role:ims/lis/TeachingAssistant",
+        "urn:lti:role:ims/lis/ContentDeveloper",
       ],
       LIST_QUIZZES_IN_COURSE: [
         "urn:lti:role:ims/lis/Learner",
@@ -196,16 +193,12 @@ applications = [
         visibility: "members",
       },
     },
-    application_instances: [],
-    # application_instances: [{
-    #   tenant: "exam",
-    #   lti_key: "exam",
-    #   lti_secret: secrets.exams_lti_secret,
-    #   site_url: lti_consumer_uri,
-    #   canvas_token: secrets.canvas_token,
-    #   domain: "exam.#{secrets.domain_name}",
-    #   lti_type: ApplicationInstance.lti_types[:course_navigation],
-    # }],
+    application_instances: [{
+      lti_key: Application::EXAMS,
+      site_url: secrets.canvas_url,
+      canvas_token: secrets.canvas_token,
+      domain: "#{Application::EXAMS}.#{secrets.application_root_domain}",
+    }],
   },
   {
     key: Application::EXAMPROCTOR,
@@ -219,6 +212,8 @@ applications = [
         "urn:lti:sysrole:ims/lis/Administrator",
         "urn:lti:instrole:ims/lis/Administrator",
         "urn:lti:role:ims/lis/Instructor",
+        "urn:lti:role:ims/lis/TeachingAssistant",
+        "urn:lti:role:ims/lis/ContentDeveloper",
       ],
       GET_SINGLE_QUIZ: [],
       LIST_QUESTIONS_IN_QUIZ_OR_SUBMISSION: [],
@@ -244,57 +239,13 @@ applications = [
         visibility: "admins",
       },
     },
-    application_instances: [],
-    # application_instances: [{
-    #   tenant: "exam",
-    #   lti_key: "proctor",
-    #   lti_secret: secrets.test_administration_lti_secret,
-    #   site_url: lti_consumer_uri,
-    #   canvas_token: secrets.canvas_token,
-    #   domain: "proctor.#{secrets.domain_name}",
-    #   lti_type: ApplicationInstance.lti_types[:account_navigation],
-    # }],
-  },
-  {
-    key: Application::QUIZCONVERTER,
-    name: "Quiz Converter",
-    description: "Converts word docs to quizzes",
-    client_application_name: "quiz_converter",
-    canvas_api_permissions: {
-      default: [],
-      common: [
-        "urn:lti:sysrole:ims/lis/SysAdmin",
-        "urn:lti:sysrole:ims/lis/Administrator",
-        "urn:lti:instrole:ims/lis/Administrator",
-        "urn:lti:role:ims/lis/Instructor",
-      ],
-    },
-    kind: Application.kinds[:lti],
-    default_config: {},
-    lti_config: {
-      title: "Quiz Converter",
-      description: "Quiz Converter Application",
-      privacy_level: "public",
-      icon: "oauth_icon.png",
-      custom_fields: {
-        canvas_course_id: "$Canvas.course.id",
-        external_tool_url: "$Canvas.externalTool.url",
-      },
-      course_navigation: {
-        text: "Quiz Converter",
-        visibility: "admins",
-      },
-    },
-    application_instances: [],
-    # application_instances: [{
-    #   tenant: "word2quiz",
-    #   lti_key: "word2quiz",
-    #   lti_secret: secrets.quiz_converter_lti_secret,
-    #   site_url: lti_consumer_uri,
-    #   canvas_token: secrets.canvas_token,
-    #   domain: "word2quiz.#{secrets.domain_name}",
-    #   lti_type: ApplicationInstance.lti_types[:course_navigation],
-    # }],
+    application_instances: [{
+      tenant: Application::EXAMS,
+      lti_key: Application::EXAMPROCTOR,
+      site_url: secrets.canvas_url,
+      canvas_token: secrets.canvas_token,
+      domain: "#{Application::EXAMPROCTOR}.#{secrets.application_root_domain}",
+    }],
   },
   {
     key: Application::SURVEYAGGREGATION,
@@ -308,6 +259,8 @@ applications = [
         "urn:lti:sysrole:ims/lis/Administrator",
         "urn:lti:instrole:ims/lis/Administrator",
         "urn:lti:role:ims/lis/Instructor",
+        "urn:lti:role:ims/lis/TeachingAssistant",
+        "urn:lti:role:ims/lis/ContentDeveloper",
       ],
     },
     kind: Application.kinds[:lti],
@@ -326,20 +279,92 @@ applications = [
         visibility: "admins",
       },
     },
-    application_instances: [],
-    # application_instances: [{
-    #   tenant: "surveys",
-    #   lti_key: "surveys",
-    #   lti_secret: secrets.survey_tool_lti_secret,
-    #   site_url: lti_consumer_uri,
-    #   canvas_token: secrets.canvas_token,
-    #   domain: "surveys.#{secrets.domain_name}",
-    #   lti_type: ApplicationInstance.lti_types[:course_navigation],
-    # }],
+    application_instances: [{
+      lti_key: Application::SURVEYAGGREGATION,
+      site_url: secrets.canvas_url,
+      canvas_token: secrets.canvas_token,
+      domain: "#{Application::SURVEYAGGREGATION}.#{secrets.application_root_domain}",
+    }],
+  },
+  {
+    key: Application::POSTGRADES,
+    name: "Post Grades Tool",
+    description: "Allows instructor to send Canvas grades to U4SM",
+    client_application_name: "post_grades",
+    canvas_api_permissions: {
+      default: [],
+      common: [
+        "urn:lti:sysrole:ims/lis/SysAdmin",
+        "urn:lti:sysrole:ims/lis/Administrator",
+        "urn:lti:instrole:ims/lis/Administrator",
+        "urn:lti:role:ims/lis/Instructor",
+        "urn:lti:role:ims/lis/TeachingAssistant",
+        "urn:lti:role:ims/lis/ContentDeveloper",
+      ],
+      LIST_ASSIGNMENTS: [],
+      LIST_ASSIGNMENT_SUBMISSIONS_SECTIONS: [],
+      LIST_COURSE_SECTIONS: [],
+      LIST_ENROLLMENTS_SECTIONS: [],
+    },
+    kind: Application.kinds[:lti],
+    default_config: {},
+    lti_config: {
+      title: "Post Grades",
+      description: "Post Grades Application",
+      privacy_level: "public",
+      icon: "oauth_icon.png",
+      custom_fields: {
+        canvas_course_id: "$Canvas.course.id",
+        external_tool_url: "$Canvas.externalTool.url",
+      },
+      post_grades: {
+        text: "Post Grades",
+        visibility: "admins",
+      },
+    },
+    application_instances: [{
+      lti_key: Application::POSTGRADES,
+      site_url: secrets.canvas_url,
+      canvas_token: secrets.canvas_token,
+      domain: "#{Application::POSTGRADES}.#{secrets.application_root_domain}",
+    }],
+  },
+  {
+    key: Application::COURSECOMPLETION,
+    name: "Course Completion",
+    description: "Tool for indicating a self paced course has been completed",
+    client_application_name: "course_completion",
+    canvas_api_permissions: {
+      default: [],
+      common: [],
+    },
+    kind: Application.kinds[:lti],
+    default_config: {},
+    lti_config: {
+      title: "Course Completion",
+      description: "Course Completion Application",
+      privacy_level: "public",
+      icon: "oauth_icon.png",
+      custom_fields: {
+        canvas_course_id: "$Canvas.course.id",
+        external_tool_url: "$Canvas.externalTool.url",
+      },
+      course_navigation: {
+        text: "Course Completion",
+        visibility: "members",
+      },
+    },
+    application_instances: [{
+      lti_key: Application::COURSECOMPLETION,
+      site_url: secrets.canvas_url,
+      canvas_token: secrets.canvas_token,
+      domain: "#{Application::COURSECOMPLETION}.#{secrets.application_root_domain}",
+    }],
   },
 ]
 
 def setup_application_instances(application, application_instances)
+  puts "*** Seeding Application Instances ***"
   application_instances.each do |attrs|
     site = Site.find_by(url: attrs.delete(:site_url))
     attrs = attrs.merge(site_id: site.id)
@@ -347,11 +372,24 @@ def setup_application_instances(application, application_instances)
 
     app_inst = application.application_instances.new(attrs)
     if application_instance = application.application_instances.find_by(lti_key: app_inst.key)
-      # Don't change production lti keys or set keys to nil
-      attrs.delete(:lti_secret) if attrs[:lti_secret].blank? || Rails.env.production?
+      puts "Updating application instance with lti key: #{application_instance.lti_key} for site: #{site.url}"
+      # Don't change production lti keys and canvas_token or set keys to nil
+      if attrs[:lti_secret].blank?
+        attrs.delete(:lti_secret)
+        puts "- lti_secret is blank. Not updating value."
+      end
+      if attrs[:lti_key].blank?
+        attrs.delete(:lti_key)
+        puts "- lti_key is blank. Not updating value."
+      end
+      if attrs[:canvas_token].blank?
+        attrs.delete(:canvas_token)
+        puts "- canvas_token is blank. Not updating value."
+      end
 
       application_instance.update_attributes!(attrs)
     else
+      puts "Creating new application instance for site: #{site.url}"
       application_instance = application.application_instances.create!(attrs)
     end
 
@@ -366,31 +404,31 @@ def setup_application_instances(application, application_instances)
   end
 end
 
+puts "*** Seeding Sites ***"
 sites.each do |attrs|
   if site = Site.find_by(url: attrs[:url])
+    puts "Updating site: #{site.url}"
+    attrs.delete(:oauth_key) if attrs[:oauth_key].blank?
+    attrs.delete(:oauth_secret) if attrs[:oauth_secret].blank?
     site.update_attributes!(attrs)
   else
+    puts "Creating site: #{attrs[:url]}"
     Site.create!(attrs)
   end
 end
 
+puts "*** Seeding Applications ***"
 applications.each do |attrs|
   application_instances = attrs.delete(:application_instances)
-  if application = Application.find_by(name: attrs[:name]) # TODO update to `find_by(key: attrs[:key])`
+  if application = Application.find_by(key: attrs[:key])
+    puts "Updating application: #{application.name}"
     application.update_attributes!(attrs)
   else
+    puts "Creating application: #{attrs[:name]}"
     application = Application.create!(attrs)
   end
   setup_application_instances(application, application_instances)
 end
-
-## One Off
-Bundle.find_each do |bundle|
-  bundle_hash = bundles.detect { |b| b[:key] == bundle.key }
-  shared_tenant = bundle_hash[:shared_tenant] || bundle.shared_tenant == true
-  bundle.update(shared_tenant: shared_tenant)
-end
-## End One Off
 
 bundles.each do |attrs|
   current_bundle = Bundle.find_or_create_by(key: attrs[:key])

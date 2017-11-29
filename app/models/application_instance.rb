@@ -1,4 +1,5 @@
 class ApplicationInstance < ActiveRecord::Base
+  extend Concerns::EncryptionSupport
 
   serialize :config, HashSerializer
   serialize :lti_config, HashSerializer
@@ -6,6 +7,8 @@ class ApplicationInstance < ActiveRecord::Base
   belongs_to :application, counter_cache: true
   belongs_to :site
   belongs_to :bundle_instance
+
+  has_many :authentications, dependent: :destroy, inverse_of: :application_instance
 
   validates :lti_key, presence: true, uniqueness: true
   validates :lti_secret, presence: true
@@ -21,7 +24,9 @@ class ApplicationInstance < ActiveRecord::Base
 
   store_accessor :config, :scorm_type
 
-  attr_encrypted :canvas_token, key: Rails.application.secrets.encryption_key, mode: :per_attribute_iv_and_salt
+  attr_encrypted :canvas_token,
+                 key: decode_hex(Rails.application.secrets.encryption_key),
+                 mode: :per_attribute_iv_and_salt
 
   after_commit :create_schema, on: :create
   before_create :create_config
@@ -49,6 +54,11 @@ class ApplicationInstance < ActiveRecord::Base
     return lti_key if lti_key.present?
     return "" if site.blank? || application.blank?
     "#{site.key}-#{application_key_override || application.key}"
+  end
+
+  def canvas_token_preview
+    return nil if canvas_token.nil?
+    "#{canvas_token.first(4)}...#{canvas_token.last(4)}"
   end
 
   private

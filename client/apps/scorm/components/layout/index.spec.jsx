@@ -1,6 +1,5 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { Provider } from 'react-redux';
 import Index from './index';
 
 describe('index', () => {
@@ -11,7 +10,7 @@ describe('index', () => {
     props = {
       children: <div className="testy">Im a test</div>,
     };
-    const component = <Provider><Index {...props} /></Provider>;
+    const component = <Index {...props} />;
     result = shallow(component);
   });
 

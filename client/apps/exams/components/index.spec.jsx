@@ -1,7 +1,6 @@
-import React            from 'react';
-import TestUtils        from 'react-addons-test-utils';
-import Index     from './index';
-import Stub             from '../../../specs_support/stub';
+import React from 'react';
+import { shallow } from 'enzyme';
+import Index from './index';
 
 describe('index', () => {
   let result;
@@ -10,11 +9,10 @@ describe('index', () => {
     const props = {
       children: 'america'
     };
-    result = TestUtils.renderIntoDocument(<Stub><Index {...props} /></Stub>);
+    result = shallow(<Index {...props} />);
   });
 
-  it('renders the children', () => {
-    const element = TestUtils.scryRenderedDOMComponentsWithTag(result, 'div')[0];
-    expect(element.textContent).toContain('america');
+  it('matches the snapshot', () => {
+    expect(result).toMatchSnapshot();
   });
 });

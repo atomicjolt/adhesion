@@ -1,14 +1,18 @@
 module ScormCommonService
 
+  require "ajims/lti"
+
   SCORM_ASSIGNMENT_STATE = {
     GRADED: "GRADED",
     UNGRADED: "UNGRADED",
   }.freeze
 
-  def sync_courses(courses)
+  def sync_courses(courses, lms_course_id)
     if courses
       course_ids = get_course_ids(courses)
-      existing_course_ids = ScormCourse.all.map { |c| c[:scorm_service_id] }
+      existing_course_ids = ScormCourse.
+        where("scorm_service_id LIKE '%_?'", lms_course_id.to_i).
+        map(&:scorm_service_id)
       extra = existing_course_ids - course_ids
       remove_extras(extra)
       needed = course_ids - existing_course_ids
@@ -27,6 +31,7 @@ module ScormCommonService
       scorm_service_id: package_id,
     )
     response["course_id"] = course.id
+    response["package_id"] = package_id
     response
   end
 
@@ -183,7 +188,7 @@ module ScormCommonService
 
   def post_results(reg)
     tp_params = setup_provider_params(reg)
-    provider = IMS::LTI::ToolProvider.new(
+    provider = AJIMS::LTI::ToolProvider.new(
       reg.application_instance.lti_key,
       reg.application_instance.lti_secret,
       tp_params,

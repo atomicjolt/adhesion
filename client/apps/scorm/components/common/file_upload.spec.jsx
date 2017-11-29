@@ -1,9 +1,8 @@
 /* global describe beforeEach it expect */
 
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
+import { mount } from 'enzyme';
 import FileUpload from './file_upload';
-import Stub from '../../../../specs_support/stub';
 
 describe('File Upload', () => {
   let props;
@@ -17,18 +16,18 @@ describe('File Upload', () => {
       uploadPackage: () => { uploading = true; },
     };
 
-    result = TestUtils.renderIntoDocument(<Stub><FileUpload {...props} /></Stub>);
+    result = mount(<FileUpload {...props} />);
   });
 
   it('calls upload file', () => {
-    const fileIn = TestUtils.findRenderedDOMComponentWithTag(result, 'input');
-    TestUtils.Simulate.change(fileIn, { target: { files: ['file'] } });
+    const fileIn = result.find('input');
+    fileIn.simulate('change', { target: { files: ['file'] } });
     expect(uploading).toBeTruthy();
   });
 
   it('wont upload if no files are present', () => {
-    const fileIn = TestUtils.findRenderedDOMComponentWithTag(result, 'input');
-    TestUtils.Simulate.change(fileIn, { target: { files: [] } });
+    const fileIn = result.find('input');
+    fileIn.simulate('change', { target: { files: [] } });
     expect(uploading).toBeFalsy();
   });
 });

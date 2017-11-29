@@ -37,8 +37,6 @@ export class CourseReport extends React.Component {
   setView(props) {
     if (props.view === 'course') {
       props.loadCourseData(props.scormCourseId);
-    } else if (props.view === 'student') {
-      props.loadUserData(props.scormCourseId, props.viewId);
     } else if (props.view === 'activities') {
       props.loadActivityData(props.scormCourseId, props.viewId);
     }

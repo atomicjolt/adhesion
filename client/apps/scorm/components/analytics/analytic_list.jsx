@@ -54,15 +54,11 @@ export class AnalyticList extends React.Component {
   }
 
   tableRowClicked(viewId) {
-    if (this.props.view === 'course' && viewId) {
-      this.props.switchView('student', viewId);
-    } else {
-      const parent = _.find(this.state.parents, { id: viewId });
-      if (parent) {
-        const show = !parent.show;
-        const parents = this.hideChildren(this.state.parents, viewId, show);
-        this.setState({ parents });
-      }
+    const parent = _.find(this.state.parents, { id: viewId });
+    if (parent) {
+      const show = !parent.show;
+      const parents = this.hideChildren(this.state.parents, viewId, show);
+      this.setState({ parents });
     }
   }
 

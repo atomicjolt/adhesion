@@ -1,8 +1,6 @@
-import React            from 'react';
-import TestUtils        from 'react-addons-test-utils';
-import _                from 'lodash';
-import MultipleChoice   from './multiple_answers_question';
-import Stub             from '../../../../../specs_support/stub';
+import React from 'react';
+import { shallow } from 'enzyme';
+import MultipleChoice from './multiple_answers_question';
 
 describe('Multiple Choice', () => {
   let result;
@@ -35,29 +33,16 @@ describe('Multiple Choice', () => {
       question_text: '<p>What things are green</p>',
       id: 7,
     };
-    result = TestUtils.renderIntoDocument(<Stub><MultipleChoice {...props} /></Stub>);
+    result = shallow(<MultipleChoice {...props} />);
   });
 
-  it('renders the question text', () => {
-    const element = TestUtils.scryRenderedDOMComponentsWithTag(result, 'div')[0];
-    expect(element.textContent).toContain('What things are green');
-    expect(element.textContent).not.toContain('<p>');
+  it('matches the snapshot', () => {
+    expect(result).toMatchSnapshot();
   });
 
   it('renders radio buttons for the options', () => {
-    const boxes = TestUtils.scryRenderedDOMComponentsWithTag(result, 'input');
+    const boxes = result.find('input');
     expect(boxes.length).toBe(5);
-    _.forEach(boxes, (box) => {
-      expect(box.type).toBe('checkbox');
-    });
-  });
-
-  it('renders the answer Text', () => {
-    const element = TestUtils.scryRenderedDOMComponentsWithTag(result, 'div')[0];
-    expect(element.textContent).toContain('grass');
-    expect(element.textContent).toContain('potatoes');
-    expect(element.textContent).toContain('trees');
-    expect(element.textContent).toContain('bats');
-    expect(element.textContent).toContain('fear');
+    expect(boxes.at(0).props().type).toEqual('checkbox');
   });
 });

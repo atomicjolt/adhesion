@@ -1,7 +1,7 @@
 class Ability
   include CanCan::Ability
 
-  def initialize(user)
+  def initialize(user, context_id = nil)
     # Define abilities for the passed in user here. For example:
     #
     #   user ||= User.new # guest user (not logged in)
@@ -32,6 +32,7 @@ class Ability
     user ||= User.new # guest user (not logged in)
 
     basic(user)
+    canvas_oauth_user(user) if user.role?("canvas_oauth_user", context_id)
     admin(user) if user.admin?
   end
 
@@ -39,6 +40,8 @@ class Ability
     can :manage, User, id: user.id
     can :manage, LtiLaunch
   end
+
+  def canvas_oauth_user(_user); end
 
   def admin(_user)
     can :manage, :all

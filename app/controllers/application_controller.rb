@@ -7,8 +7,14 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_application_instance,
                 :current_bundle_instance,
+                :current_course,
                 :canvas_url,
-                :targeted_app_instance
+                :targeted_app_instance,
+                :current_user_roles
+
+  def routing_error
+    raise ActionController::RoutingError.new(params[:path])
+  end
 
   protected
 
@@ -16,6 +22,48 @@ class ApplicationController < ActionController::Base
     respond_to do |format|
       format.html { redirect_to root_url, alert: exception.message }
       format.json { render json: { error: exception.message }, status: :unauthorized }
+    end
+  end
+
+  rescue_from StandardError, with: :error unless Rails.application.config.consider_all_requests_local
+
+  def error(e)
+    @exception = e.message
+    @backtrace = e.backtrace
+    status = ActionDispatch::ExceptionWrapper.new(request.env, e).status_code
+    respond_to do |format|
+      format.html { render_html_error(status) }
+      format.json { render_json_error(status) }
+      format.all { render nothing: true, status: 404 }
+    end
+  end
+
+  def render_html_error(status)
+    if status == 404
+      render template: "errors/not_found", layout: "errors", status: status
+    elsif status == 401
+      render template: "errors/unauthorized", layout: "errors", status: status
+    elsif status == 422
+      render template: "errors/unprocessable", layout: "errors", status: status
+    else
+      render template: "errors/internal_server_error", layout: "errors", status: status
+    end
+  end
+
+  def render_json_error(status)
+    if [401, 404, 422].include?(status)
+      error_info = {
+        error: status.to_s,
+        exception: "#{e.class.name} : #{@exception}",
+      }
+      render json: error_info.to_json, status: status
+    else
+      error_info = {
+        error: "internal-server-error",
+        exception: "#{e.class.name} : #{@exception}",
+        backtrace: @backtrace,
+      }
+      render json: error_info.to_json, status: 500
     end
   end
 
@@ -37,6 +85,14 @@ class ApplicationController < ActionController::Base
       ApplicationInstance.find_by(id: params[:application_instance_id])
   end
 
+  def current_course
+    @course ||=
+      Course.
+        where(lms_course_id: params[:custom_canvas_course_id]).
+        or(Course.where(lms_course_id: params[:lms_course_id])).
+        first
+  end
+
   def current_application
     Application.find_by(key: request.subdomains.first)
   end
@@ -49,12 +105,16 @@ class ApplicationController < ActionController::Base
   end
 
   def current_ability
-    @current_ability ||= Ability.new(current_user)
+    @current_ability ||= Ability.new(current_user, params[:context_id])
+  end
+
+  def current_user_roles(context_id: nil)
+    current_user.nil_or_context_roles(context_id).map(&:name)
   end
 
   def user_not_authorized
     respond_to do |format|
-      format.html { render file: "public/401.html", status: :unauthorized }
+      format.html { render template: "errors/unauthorized", layout: "errors", status: :unauthorized }
       format.json { render json: {}, status: :unauthorized }
     end
   end

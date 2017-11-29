@@ -2,6 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import canvasRequest from 'atomic-canvas/libs/action';
+import { listUsersInCourseUsers } from 'atomic-canvas/libs/constants/courses';
+import { listCourseSections } from 'atomic-canvas/libs/constants/sections';
+import Auth from 'atomic-canvas/libs/components/canvas_authentication';
 import Sections from './sections';
 import Student from './student';
 import ExportModal from './export_modal';
@@ -9,11 +13,7 @@ import DateSelector from './date_selector';
 import * as errorActions from '../../actions/error';
 import * as attendanceActions from '../../actions/attendance';
 import * as applicationActions from '../../actions/application';
-import canvasRequest from '../../../../libs/canvas/action';
-import { listUsersInCourseUsers } from '../../../../libs/canvas/constants/courses';
-import { listCourseSections } from '../../../../libs/canvas/constants/sections';
 import { ATTENDANCE_STATES as AttendanceStates } from '../../reducers/student';
-import Auth from '../../../../libs/canvas/components/canvas_authentication';
 
 const select = (state) => {
   const currentDate = state.application.date;
@@ -150,7 +150,17 @@ export class StudentList extends React.Component {
 
   markAll(status) {
     const { students, settings, applicationDate } = this.props;
-    this.props.markStudents(students, settings.lms_course_id, applicationDate, status);
+    const studentsData = _.map(
+      students,
+      student => (
+        {
+          name: student.name,
+          lms_student_id: student.lms_student_id,
+          sortable_name: student.sortable_name,
+        }
+      )
+    );
+    this.props.markStudents(studentsData, settings.lms_course_id, applicationDate, status);
   }
 
   toggleExportModal() {
