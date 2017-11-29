@@ -6,8 +6,11 @@ class ExportsController < ApplicationController
   before_action :validate_token
 
   def attendances
-    attendances = AttendanceExportsHelper.
-      get_attendances(params[:course_id], params[:start_date], params[:end_date])
+    attendances = AttendanceExportsHelper.get_attendances(
+      params[:course_id],
+      params[:start_date],
+      params[:end_date],
+    )
     if attendances.count > 1000
       tenant = Apartment::Tenant.current
       Apartment::Tenant.switch(Application::PUBLIC_TENANT) do
