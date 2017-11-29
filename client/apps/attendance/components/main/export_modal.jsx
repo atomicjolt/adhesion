@@ -65,8 +65,8 @@ export default class ExportModal extends React.Component {
     if (this.props.isLargeDownload) {
       return (
         <div style={styles.container}>
-          <div className="c-popup  is-open">
-            <div className="c-popup  c-popup--export  is-open">
+          <div className="c-popup is-open">
+            <div className="c-popup c-popup--export is-open">
               <button
                 className="c-btn c-btn--cancel"
                 onClick={() => this.closeMsgModal()}
@@ -82,7 +82,7 @@ export default class ExportModal extends React.Component {
 
     return (
       <div style={styles.container}>
-        <div className="c-popup  c-popup--export  is-open" role="radioGroup">
+        <div className="c-popup c-popup--export is-open" role="radioGroup">
           <button
             className="c-btn c-btn--cancel"
             onClick={() => this.props.closeModal()}
