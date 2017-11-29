@@ -9,7 +9,7 @@ const requests = [
   'GET_STUDENT_ATTENDANCE',
   'DOWNLOAD_FILE',
   'UPDATE_STATUS',
-  'TOGGLE_ISLARGEDOWNLOAD'
+  'RESET_ISLARGEDOWNLOAD'
 ];
 
 export const Constants = wrapper(actions, requests);
@@ -46,5 +46,5 @@ export const downloadFile = (lmsCourseId, startDate, endDate) => ({
 });
 
 export const toggleIsLargeDownload = () => ({
-  type: Constants.TOGGLE_ISLARGEDOWNLOAD,
+  type: Constants.RESET_ISLARGEDOWNLOAD,
 });

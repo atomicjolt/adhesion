@@ -58,7 +58,7 @@ export default (state = initialState, action) => {
       return newState;
     }
 
-    case AttendanceConstants.TOGGLE_ISLARGEDOWNLOAD: {
+    case AttendanceConstants.RESET_ISLARGEDOWNLOAD: {
       if (action.error) return state;
       const newState = _.cloneDeep(state);
       newState.isLargeDownload = false;
