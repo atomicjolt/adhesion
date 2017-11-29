@@ -50,19 +50,13 @@ export default (state = initialState, action) => {
     }
 
     case AttendanceConstants.DOWNLOAD_FILE_DONE: {
-
       if (action.error || action.payload === null) return state;
-      const newState = _.cloneDeep(state);
-      newState.isLargeDownload = action.payload.large_file;
-
-      return newState;
+      return { ...state, isLargeDownload: action.payload.large_file };
     }
 
     case AttendanceConstants.RESET_ISLARGEDOWNLOAD: {
       if (action.error) return state;
-      const newState = _.cloneDeep(state);
-      newState.isLargeDownload = false;
-      return newState;
+      return { ...state, isLargeDownload: false };
     }
 
     default:
