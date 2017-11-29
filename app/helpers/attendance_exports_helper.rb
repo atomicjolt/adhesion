@@ -1,5 +1,4 @@
 module AttendanceExportsHelper
-
   def self.generate_csv(attendances)
     CSV.generate do |csv|
       days = attendances.group_by(&:date).keys.sort
