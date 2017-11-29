@@ -22,11 +22,18 @@ class AttendanceReportJob < ApplicationJob
       )
       attendances = AttendanceExportsHelper.get_attendances(lms_course_id, start_date, end_date)
       final_csv = AttendanceExportsHelper.generate_csv(attendances)
-      new_file = File.new("attendance-#{Date.today}.csv", "w")
-      new_file.puts(final_csv)
-      new_file.close
+      new_file = write_file(final_csv)
       upload_canvas_file(new_file, lms_course_id)
+      FileUtils.remove_entry_secure(new_file)
     end
+  end
+
+  def write_file(data)
+    file_path = File.join(Dir.mktmpdir, "attendance-#{Date.today}.csv")
+    file = File.open(file_path, "wb")
+    file.puts(data)
+    file.close
+    file
   end
 
   def upload_canvas_file(file, lms_course_id)
@@ -37,13 +44,13 @@ class AttendanceReportJob < ApplicationJob
           course_id: lms_course_id,
         },
         {
-          name: file.to_path,
+          name: File.basename(file),
           content_type: "text/csv",
           parent_folder_path: "attendance/",
           on_duplicate: "rename",
         },
       ).parsed_response
-      canvas_response["upload_params"]["file"] = File.new(file)
+      canvas_response["upload_params"]["file"] = File.open(file)
       RestClient.post(
         canvas_response["upload_url"],
         canvas_response["upload_params"],
