@@ -55,8 +55,6 @@ export default (state = initialState, action) => {
       const newState = _.cloneDeep(state);
       newState.isLargeDownload = action.payload.large_file;
 
-      console.log(newState)
-
       return newState;
     }
 
