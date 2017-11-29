@@ -43,7 +43,6 @@ export default class ExportModal extends React.Component {
     this.state = {
       startDate: today,
       endDate: today,
-      async: false
     };
   }
 
