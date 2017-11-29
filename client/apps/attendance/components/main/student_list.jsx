@@ -56,7 +56,7 @@ export class StudentList extends React.Component {
     this.handleKeyPress = ::this.handleKeyPress;
     this.state = {
       showExportModal: false,
-      currentSection: -1
+      currentSection: -1,
     };
   }
 
