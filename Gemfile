@@ -15,6 +15,7 @@ gem "rails", "5.0.2"
 
 # Database
 gem "apartment"
+gem "apartment-activejob", git: "https://github.com/bfcoder/apartment-activejob", branch: "bf-enqueue-public-tenant"
 gem "pg"
 
 # authentication, authorization, integrations

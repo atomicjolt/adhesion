@@ -8,6 +8,15 @@ GIT
       uuid
 
 GIT
+  remote: https://github.com/bfcoder/apartment-activejob
+  revision: d6f212bf1e34ab65cebcfd978d67b11439dee47f
+  branch: bf-enqueue-public-tenant
+  specs:
+    apartment-activejob (0.0.1)
+      activesupport
+      apartment
+
+GIT
   remote: https://github.com/instructure/scorm-cloud.git
   revision: 8288c51a6b3fcf2d12ff6f1b171c77724c0fe84e
   specs:
@@ -433,6 +442,7 @@ PLATFORMS
 DEPENDENCIES
   aj-ims-lti!
   apartment
+  apartment-activejob!
   attr_encrypted
   autoprefixer-rails
   better_errors
