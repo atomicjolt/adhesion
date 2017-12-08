@@ -69,6 +69,7 @@ class ScormEngineService
           file: UploadIO.new(zip, "zip/zip", file.original_filename),
         },
       ) do |response|
+        raise response if response.code == 500
         import_job_id = JSON.parse(response.body)["result"]
         import_status = check_import_progress(import_job_id)
         course = {}
@@ -207,6 +208,7 @@ class ScormEngineService
         params: params,
       },
     ) do |response|
+      raise response if response.code == 500
       response
     end
   end
@@ -223,6 +225,7 @@ class ScormEngineService
       },
       payload: body.to_json,
     ) do |response|
+      raise response if response.code == 500
       response
     end
   end
@@ -234,6 +237,7 @@ class ScormEngineService
       user: @api_username,
       password: @api_password,
     ) do |response|
+      raise response if response.code == 500
       {
         status: response.code,
         response: [200, 204].include?(response.code),
