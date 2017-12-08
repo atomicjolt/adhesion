@@ -24,6 +24,7 @@ ShallowWrapper {
     "props": Object {
       "children": Array [
         <Link
+          aria-label="Back"
           className="c-aa-back-btn"
           onlyActiveOnIndex={false}
           style={Object {}}
@@ -69,6 +70,7 @@ ShallowWrapper {
         "key": undefined,
         "nodeType": "class",
         "props": Object {
+          "aria-label": "Back",
           "children": <i
             className="material-icons"
 >
@@ -158,6 +160,7 @@ ShallowWrapper {
       "props": Object {
         "children": Array [
           <Link
+            aria-label="Back"
             className="c-aa-back-btn"
             onlyActiveOnIndex={false}
             style={Object {}}
@@ -203,6 +206,7 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "class",
           "props": Object {
+            "aria-label": "Back",
             "children": <i
               className="material-icons"
 >

@@ -21,39 +21,53 @@ ShallowWrapper {
     "key": undefined,
     "nodeType": "host",
     "props": Object {
-      "children": <ScormHoverButton
-        hoveredStyle={
-                Object {
-                        "backgroundColor": "#f5f5f5",
-                      }
-        }
-        style={
-                Object {
-                        "backgroundColor": "white",
-                        "border": "none",
-                        "cursor": "pointer",
-                        "fontSize": "inherit",
-                        "padding": "20px",
-                        "textAlign": "left",
-                        "verticalAlign": "middle",
-                        "width": "100%",
-                      }
-        }
->
+      "children": Array [
         <commonSVG
-                className="c-icon"
-                type="gradedAssignment"
-        />
-        Go to Assignment
-</ScormHoverButton>,
+          className="c-icon"
+          type="gradedAssignment"
+/>,
+        "Go to Assignment",
+      ],
+      "hoveredStyle": Object {
+        "backgroundColor": "#f5f5f5",
+      },
       "href": "https://canvasorother/courses/12345/assignments/54321",
+      "style": Object {
+        "backgroundColor": "white",
+        "border": "none",
+        "cursor": "pointer",
+        "display": "inline-block",
+        "fontSize": "inherit",
+        "padding": "20px",
+        "textAlign": "left",
+        "verticalAlign": "middle",
+        "width": "100%",
+      },
       "target": "_parent",
     },
     "ref": null,
-    "rendered": Object {
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "function",
+        "props": Object {
+          "className": "c-icon",
+          "type": "gradedAssignment",
+        },
+        "ref": null,
+        "rendered": null,
+        "type": [Function],
+      },
+      "Go to Assignment",
+    ],
+    "type": "a",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
       "instance": null,
       "key": undefined,
-      "nodeType": "class",
+      "nodeType": "host",
       "props": Object {
         "children": Array [
           <commonSVG
@@ -65,16 +79,19 @@ ShallowWrapper {
         "hoveredStyle": Object {
           "backgroundColor": "#f5f5f5",
         },
+        "href": "https://canvasorother/courses/12345/assignments/54321",
         "style": Object {
           "backgroundColor": "white",
           "border": "none",
           "cursor": "pointer",
+          "display": "inline-block",
           "fontSize": "inherit",
           "padding": "20px",
           "textAlign": "left",
           "verticalAlign": "middle",
           "width": "100%",
         },
+        "target": "_parent",
       },
       "ref": null,
       "rendered": Array [
@@ -92,89 +109,6 @@ ShallowWrapper {
         },
         "Go to Assignment",
       ],
-      "type": [Function],
-    },
-    "type": "a",
-  },
-  Symbol(enzyme.__nodes__): Array [
-    Object {
-      "instance": null,
-      "key": undefined,
-      "nodeType": "host",
-      "props": Object {
-        "children": <ScormHoverButton
-          hoveredStyle={
-                    Object {
-                              "backgroundColor": "#f5f5f5",
-                            }
-          }
-          style={
-                    Object {
-                              "backgroundColor": "white",
-                              "border": "none",
-                              "cursor": "pointer",
-                              "fontSize": "inherit",
-                              "padding": "20px",
-                              "textAlign": "left",
-                              "verticalAlign": "middle",
-                              "width": "100%",
-                            }
-          }
->
-          <commonSVG
-                    className="c-icon"
-                    type="gradedAssignment"
-          />
-          Go to Assignment
-</ScormHoverButton>,
-        "href": "https://canvasorother/courses/12345/assignments/54321",
-        "target": "_parent",
-      },
-      "ref": null,
-      "rendered": Object {
-        "instance": null,
-        "key": undefined,
-        "nodeType": "class",
-        "props": Object {
-          "children": Array [
-            <commonSVG
-              className="c-icon"
-              type="gradedAssignment"
-/>,
-            "Go to Assignment",
-          ],
-          "hoveredStyle": Object {
-            "backgroundColor": "#f5f5f5",
-          },
-          "style": Object {
-            "backgroundColor": "white",
-            "border": "none",
-            "cursor": "pointer",
-            "fontSize": "inherit",
-            "padding": "20px",
-            "textAlign": "left",
-            "verticalAlign": "middle",
-            "width": "100%",
-          },
-        },
-        "ref": null,
-        "rendered": Array [
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "function",
-            "props": Object {
-              "className": "c-icon",
-              "type": "gradedAssignment",
-            },
-            "ref": null,
-            "rendered": null,
-            "type": [Function],
-          },
-          "Go to Assignment",
-        ],
-        "type": [Function],
-      },
       "type": "a",
     },
   ],

@@ -65,8 +65,9 @@ ShallowWrapper {
 </tbody>,
       ],
       "className": "c-aa-table",
+      "tabIndex": "0",
     },
-    "ref": null,
+    "ref": [Function],
     "rendered": Array [
       Object {
         "instance": null,
@@ -350,8 +351,9 @@ ShallowWrapper {
 </tbody>,
         ],
         "className": "c-aa-table",
+        "tabIndex": "0",
       },
-      "ref": null,
+      "ref": [Function],
       "rendered": Array [
         Object {
           "instance": null,
