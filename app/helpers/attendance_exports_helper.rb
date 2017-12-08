@@ -33,4 +33,15 @@ module AttendanceExportsHelper
       end
     end
   end
+
+  def self.get_attendances(lms_course_id, start_date, end_date)
+    attendances = Attendance.where(lms_course_id: lms_course_id)
+    if start_date.present? && end_date.present?
+      attendances = attendances.
+        where("date <= ?", Date.parse(end_date)).
+        where("date >= ?", Date.parse(start_date))
+    end
+
+    attendances
+  end
 end

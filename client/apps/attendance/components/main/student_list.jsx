@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import _ from 'lodash';
 import canvasRequest from 'atomic-canvas/libs/action';
 import { listUsersInCourseUsers } from 'atomic-canvas/libs/constants/courses';
@@ -16,7 +17,6 @@ import { ATTENDANCE_STATES as AttendanceStates } from '../../reducers/student';
 
 const select = (state) => {
   const currentDate = state.application.date;
-
   return {
     students: _.orderBy(state.student.all, 'sortable_name'),
     settings: state.settings,
@@ -25,28 +25,29 @@ const select = (state) => {
     attendance: state.attendance.attendances[currentDate],
     sections: state.student.sections,
     canvasAuthRequired: state.settings.canvas_auth_required,
+    isLargeDownload: state.attendance.isLargeDownload,
   };
 };
 
 export class StudentList extends React.Component {
   static propTypes = {
-    error: React.PropTypes.shape({
-      showError: React.PropTypes.bool,
-      statusCode: React.PropTypes.number,
+    error: PropTypes.shape({
+      showError: PropTypes.bool,
+      statusCode: PropTypes.number,
     }).isRequired,
-    students: React.PropTypes.arrayOf(React.PropTypes.shape({})).isRequired,
-    settings: React.PropTypes.shape({
-      lms_course_id: React.PropTypes.string,
-      api_url: React.PropTypes.string,
+    students: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    settings: PropTypes.shape({
+      lms_course_id: PropTypes.string,
+      api_url: PropTypes.string,
     }).isRequired,
-    applicationDate: React.PropTypes.string.isRequired,
-    attendance: React.PropTypes.objectOf(React.PropTypes.string),
-    canvasRequest: React.PropTypes.func.isRequired,
-    getStudentAttendance: React.PropTypes.func.isRequired,
-    markStudents: React.PropTypes.func.isRequired,
-    showError: React.PropTypes.func.isRequired,
-    downloadFile: React.PropTypes.func.isRequired,
-    sections: React.PropTypes.array,
+    applicationDate: PropTypes.string.isRequired,
+    attendance: PropTypes.objectOf(PropTypes.string),
+    canvasRequest: PropTypes.func.isRequired,
+    getStudentAttendance: PropTypes.func.isRequired,
+    markStudents: PropTypes.func.isRequired,
+    showError: PropTypes.func.isRequired,
+    downloadFile: PropTypes.func.isRequired,
+    sections: PropTypes.array,
   };
 
   constructor() {
@@ -170,6 +171,10 @@ export class StudentList extends React.Component {
     this.setState({ showSections: !this.state.showSections });
   }
 
+  closeReportModal() {
+    this.props.toggleIsLargeDownload();
+  }
+
   errorModal() {
     if (!this.props.error.showError) {
       return null;
@@ -187,11 +192,11 @@ export class StudentList extends React.Component {
     if (this.state.showExportModal) {
       return (
         <ExportModal
-          apiUrl={this.props.settings.api_url}
           lmsCourseId={this.props.settings.lms_course_id}
           downloadFile={this.props.downloadFile}
-          onExport={() => this.toggleExportModal()}
           closeModal={() => this.toggleExportModal()}
+          closeReportModal={() => this.closeReportModal()}
+          isLargeDownload={this.props.isLargeDownload}
         />
       );
     }
@@ -206,7 +211,6 @@ export class StudentList extends React.Component {
     if (this.props.canvasAuthRequired) {
       return <Auth autoSubmit hideButton />;
     }
-
     return (
       <div>
         <div className="c-top-bar">

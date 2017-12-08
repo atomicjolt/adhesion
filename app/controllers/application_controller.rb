@@ -29,42 +29,35 @@ class ApplicationController < ActionController::Base
 
   def error(e)
     @exception = e.message
+    @exception_name = e.class.name
     @backtrace = e.backtrace
-    status = ActionDispatch::ExceptionWrapper.new(request.env, e).status_code
+    @status = ActionDispatch::ExceptionWrapper.new(request.env, e).status_code
     respond_to do |format|
-      format.html { render_html_error(status) }
-      format.json { render_json_error(status) }
-      format.all { render nothing: true, status: 404 }
+      format.html { render_html_error }
+      format.json { render_json_error }
+      format.all { render nothing: true, status: status }
     end
   end
 
-  def render_html_error(status)
-    if status == 404
-      render template: "errors/not_found", layout: "errors", status: status
-    elsif status == 401
-      render template: "errors/unauthorized", layout: "errors", status: status
-    elsif status == 422
-      render template: "errors/unprocessable", layout: "errors", status: status
+  def render_html_error
+    if @status == 404
+      render template: "errors/not_found", layout: "errors", status: @status
+    elsif @status == 401
+      render template: "errors/unauthorized", layout: "errors", status: @status
+    elsif @status == 422
+      render template: "errors/unprocessable", layout: "errors", status: @status
     else
-      render template: "errors/internal_server_error", layout: "errors", status: status
+      render template: "errors/internal_server_error", layout: "errors", status: @status
     end
   end
 
-  def render_json_error(status)
-    if [401, 404, 422].include?(status)
-      error_info = {
-        error: status.to_s,
-        exception: "#{e.class.name} : #{@exception}",
-      }
-      render json: error_info.to_json, status: status
-    else
-      error_info = {
-        error: "internal-server-error",
-        exception: "#{e.class.name} : #{@exception}",
-        backtrace: @backtrace,
-      }
-      render json: error_info.to_json, status: 500
-    end
+  def render_json_error
+    error_info = {
+      error: @status.to_s,
+      exception: "#{@exception_name} : #{@exception}",
+      backtrace: @backtrace,
+    }
+    render json: error_info.to_json, status: @status
   end
 
   def canvas_url
@@ -86,11 +79,8 @@ class ApplicationController < ActionController::Base
   end
 
   def current_course
-    @course ||=
-      Course.
-        where(lms_course_id: params[:custom_canvas_course_id]).
-        or(Course.where(lms_course_id: params[:lms_course_id])).
-        first
+    lms_course_id = params[:custom_canvas_course_id] || params[:lms_course_id]
+    @course ||= Course.find_by(lms_course_id: lms_course_id)
   end
 
   def current_application
