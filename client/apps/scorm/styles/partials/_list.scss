@@ -17,7 +17,6 @@
       position: absolute;
       right: 0.5rem;
       top: 0.5rem;
-      width: 12rem;
     }
     .c-list-item__type{
       min-width: 30rem;
@@ -27,7 +26,7 @@
   .c-list-item__main{
     height: 6rem;
     background: $lightest-gray;
-    padding-left: 5rem;
+    padding-left: 2rem;
     padding-right: 14rem;
     position: relative;
 
@@ -110,13 +109,6 @@
           }
         }
 
-    .c-list-item__icons{
-      position: absolute;
-      right: 0.5rem;
-      top: 0.5rem;
-      width: 11rem;
-    }
-
       .c-icon{
         width: 1.9rem;
         height: 1.9rem;
@@ -142,3 +134,29 @@
       font-weight: 400;
     }
   }
+
+@media screen and (max-width: 650px) {
+  .c-list-item__main{
+    height: auto;
+  }
+  .c-list-item__contain{
+    min-height: 6rem;
+    flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    padding: 1rem 0;
+  }
+  .c-list-item__title{
+    -webkit-flex: auto;
+    flex: auto;
+  }
+  .c-list-item__type{
+    @include display-flex;
+    margin: .5rem 0;
+  }
+  .c-list__item--choose .c-list-item__type{
+    min-width: 24rem;
+  }
+  .c-dropdown select{
+    width: 100%;
+  }
+}

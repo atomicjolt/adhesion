@@ -36,6 +36,7 @@ export class Header extends React.Component {
         <Link
           className="c-aa-back-btn"
           to={{ pathname: '/', query: { noSync: true } }}
+          aria-label="Back"
         >
           <i className="material-icons">arrow_back</i>
         </Link>

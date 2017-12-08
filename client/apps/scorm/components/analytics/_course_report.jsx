@@ -22,6 +22,7 @@ export class CourseReport extends React.Component {
     this.state = {
       currentView: 'course',
     };
+    this.tableRef = this.tableRef.bind(this);
   }
 
   componentWillMount() {
@@ -41,6 +42,10 @@ export class CourseReport extends React.Component {
       props.loadActivityData(props.scormCourseId, props.viewId);
     }
     this.setState({ currentView: props.view });
+  }
+
+  tableRef(el) {
+    this.analyticTable = el;
   }
 
   render() {
@@ -63,11 +68,21 @@ export class CourseReport extends React.Component {
           view={this.props.view}
           studentName={data.studentName}
         />
+        <div className="skip-button">
+          <button
+            onClick={() => { this.analyticTable.focus(); }}
+          >
+            Skip to Table
+          </button>
+        </div>
         { graph }
-        <AnalyticList
-          tableData={data.analyticsTable}
-          view={this.props.view}
-        />
+        <div className="table-scroll">
+          <AnalyticList
+            tableData={data.analyticsTable}
+            view={this.props.view}
+            tableRef={this.tableRef}
+          />
+        </div>
       </div>
     );
   }

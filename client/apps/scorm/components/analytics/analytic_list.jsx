@@ -2,12 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import AnalyticRow from './analytic_row';
-import { switchView } from '../../actions/analytics';
 
 export class AnalyticList extends React.Component {
 
   static propTypes = {
-    switchView: React.PropTypes.func.isRequired,
     tableData: React.PropTypes.array,
     view: React.PropTypes.string.isRequired,
   }
@@ -140,9 +138,12 @@ export class AnalyticList extends React.Component {
   }
 
   render() {
-
     return (
-      <table className="c-aa-table">
+      <table
+        className="c-aa-table"
+        tabIndex="0"
+        ref={(el) => { this.props.tableRef(el); }}
+      >
         <thead>
           <tr>
             { this.tableHeaders() }
@@ -160,4 +161,4 @@ const select = state => ({
   view: state.analytics.view,
 });
 
-export default connect(select, { switchView })(AnalyticList);
+export default connect(select)(AnalyticList);

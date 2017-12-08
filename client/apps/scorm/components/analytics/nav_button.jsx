@@ -1,7 +1,8 @@
 import React from 'react';
+import _ from 'lodash';
 
 export default function NavButton(props) {
-  const active = props.activeBtn === props.label ? 'is-active' : '';
+  const active = props.activeBtn === _.snakeCase(props.label) ? 'is-active' : '';
   return (
     <button
       className={`c-aa-graph-nav__item ${active}`}

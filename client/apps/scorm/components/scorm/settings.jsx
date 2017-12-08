@@ -25,6 +25,7 @@ export default function settings(props) {
     textAlign: 'left',
     cursor: 'pointer',
     verticalAlign: 'middle',
+    fontWeight: '200',
   };
 
   const divStyle = {

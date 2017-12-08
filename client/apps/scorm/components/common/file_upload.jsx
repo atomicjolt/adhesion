@@ -21,26 +21,25 @@ export default class FileUpload extends React.Component {
     }
   }
 
+  clickInput() {
+    this.inputRef.click();
+  }
 
   render() {
-    const inputStyles = {
-      display: 'none',
-    };
-
     return (
-      <label className="c-btn-label" htmlFor="upload">
-        <div className="c-btn c-btn--upload">
+      <div className="upload-container">
+        <input
+          id="upload"
+          type="file"
+          ref={(node) => { this.inputRef = node; }}
+          onChange={e => this.handleChange(e)}
+          className="hidden"
+        />
+        <label className="c-btn c-btn--upload" htmlFor="upload">
           <CommonSvg className="c-icon-upload" type="upload" />
-          <input
-            id="upload"
-            type="file"
-            ref={(node) => { this.inputRef = node; }}
-            onChange={e => this.handleChange(e)}
-            style={inputStyles}
-          />
           <strong> Upload</strong>
-        </div>
-      </label>
+        </label>
+      </div>
     );
   }
 }

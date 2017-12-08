@@ -6,7 +6,6 @@
   padding: 0.5rem 0.8rem;
   background: $light-gray;
   border: none;
-  outline: none;
 }
 
 .c-btn--go{
@@ -106,18 +105,8 @@
   }
 }
 
-i-settings{
-  font-size: 2rem;
-  color: $gray;
-  position: absolute;
-  top: 2rem;
-  right: 2rem;
-  @include transition(all 0.1s ease);
-
-  &:hover{
-    color: $yellow;
-  }
-  &:active{
-    @include transform(scale(0.9));
+.upload-container{
+  input:focus + label{
+    outline: thin dotted $dark-gray;
   }
 }
