@@ -1,5 +1,5 @@
 import React from 'react';
-import _ from 'lodash';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import RangePicker from './range_picker';
@@ -8,10 +8,11 @@ import ExportButton from './export_button';
 export default class ExportModal extends React.Component {
 
   static propTypes = {
-    lmsCourseId: React.PropTypes.string.isRequired,
-    downloadFile: React.PropTypes.func.isRequired,
-    closeModal: React.PropTypes.func.isRequired,
-    onExport: React.PropTypes.func,
+    lmsCourseId: PropTypes.string.isRequired,
+    downloadFile: PropTypes.func.isRequired,
+    closeModal: PropTypes.func.isRequired,
+    closeReportModal: PropTypes.func.isRequired,
+    isLargeDownload: PropTypes.bool
   };
 
   static getStyles() {
@@ -30,6 +31,9 @@ export default class ExportModal extends React.Component {
         width: '100%',
         height: '100%',
       },
+      msgModal: {
+        marginLeft: '5rem'
+      }
     };
   }
 
@@ -43,9 +47,6 @@ export default class ExportModal extends React.Component {
   }
 
   onExport(downloadOptions = {}) {
-    if (_.isFunction(this.props.onExport)) {
-      this.props.onExport();
-    }
     this.props.downloadFile(
       this.props.lmsCourseId,
       downloadOptions.startDate,
@@ -53,13 +54,35 @@ export default class ExportModal extends React.Component {
     );
   }
 
+  closeMsgModal() {
+    this.props.closeReportModal();
+    this.props.closeModal();
+  }
+
   // That overlay is a button, for accessibility
   render() {
     const styles = ExportModal.getStyles();
+    if (this.props.isLargeDownload) {
+      return (
+        <div style={styles.container}>
+          <div className="c-popup is-open">
+            <div className="c-popup c-popup--export is-open">
+              <button
+                className="c-btn c-btn--cancel"
+                onClick={() => this.closeMsgModal()}
+              >
+                <i className="material-icons">clear</i>
+              </button>
+              <p className="c-popup__message" style={styles.msgModal}>It will take some time to create this report. It will be placed in an Attendance folder in your Course.</p>
+            </div>
+          </div>
+        </div>
+      );
+    }
 
     return (
       <div style={styles.container}>
-        <div className="c-popup  c-popup--export  is-open" role="radioGroup">
+        <div className="c-popup c-popup--export is-open" role="radioGroup">
           <button
             className="c-btn c-btn--cancel"
             onClick={() => this.props.closeModal()}
