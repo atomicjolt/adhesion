@@ -1,6 +1,6 @@
-include ScormCommonService
-
 class ScormEngineService
+  include ScormCommonService
+
   def initialize(tenant = "default")
     api_interface = Rails.application.secrets.scorm_api_path
     @scorm_url = Rails.application.secrets.scorm_url
@@ -69,6 +69,7 @@ class ScormEngineService
           file: UploadIO.new(zip, "zip/zip", file.original_filename),
         },
       ) do |response|
+        raise response if response.code == 500
         import_job_id = JSON.parse(response.body)["result"]
         import_status = check_import_progress(import_job_id)
         course = {}
@@ -96,8 +97,12 @@ class ScormEngineService
     backoff = 0
     loop do
       response = send_get_request(url)
-      status = JSON.parse(response.body)["status"]
-      break if ["COMPLETE", "ERROR"].include? status || backoff > 36
+      response_body = JSON.parse(response.body)
+      status = response_body["status"]
+
+      raise Adhesion::Exceptions::ScormImport.new(response_body) if status == "ERROR"
+
+      break if status == "COMPLETE" || backoff > 36
       backoff += 3
       sleep backoff
     end
@@ -207,6 +212,7 @@ class ScormEngineService
         params: params,
       },
     ) do |response|
+      raise response if response.code == 500
       response
     end
   end
@@ -223,6 +229,7 @@ class ScormEngineService
       },
       payload: body.to_json,
     ) do |response|
+      raise response if response.code == 500
       response
     end
   end
@@ -234,6 +241,7 @@ class ScormEngineService
       user: @api_username,
       password: @api_password,
     ) do |response|
+      raise response if response.code == 500
       {
         status: response.code,
         response: [200, 204].include?(response.code),
