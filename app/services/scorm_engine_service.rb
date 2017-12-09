@@ -97,8 +97,12 @@ class ScormEngineService
     backoff = 0
     loop do
       response = send_get_request(url)
-      status = JSON.parse(response.body)["status"]
-      break if ["COMPLETE", "ERROR"].include? status || backoff > 36
+      response_body = JSON.parse(response.body)
+      status = response_body["status"]
+
+      raise Adhesion::Exceptions::ScormImport.new(response_body) if status == "ERROR"
+
+      break if status == "COMPLETE" || backoff > 36
       backoff += 3
       sleep backoff
     end
