@@ -1,6 +1,6 @@
-include ScormCommonService
-
 class ScormEngineService
+  include ScormCommonService
+
   def initialize(tenant = "default")
     api_interface = Rails.application.secrets.scorm_api_path
     @scorm_url = Rails.application.secrets.scorm_url
