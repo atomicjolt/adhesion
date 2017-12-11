@@ -39,6 +39,7 @@ gem "yajl-ruby", require: "yajl"
 gem "puma"
 
 # job worker
+gem "apartment-activejob-que"
 gem "que", "~> 0.14.0"
 
 # API Related

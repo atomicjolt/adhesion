@@ -12,18 +12,14 @@ class ExportsController < ApplicationController
       params[:end_date],
     )
     if attendances.count > 1000
-      tenant = Apartment::Tenant.current
-      Apartment::Tenant.switch(Application::PUBLIC_TENANT) do
-        AttendanceReportJob.
-          perform_later(
-            tenant,
-            current_application_instance.id,
-            current_user.id,
-            params[:course_id],
-            params[:start_date],
-            params[:end_date],
-          )
-      end
+      AttendanceReportJob.
+        perform_later(
+          current_application_instance.id,
+          current_user.id,
+          params[:course_id],
+          params[:start_date],
+          params[:end_date],
+        )
       render json: { large_file: true }
     else
       final_csv = AttendanceExportsHelper.generate_csv(attendances)

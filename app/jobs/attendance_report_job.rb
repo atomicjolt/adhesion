@@ -4,28 +4,25 @@ class AttendanceReportJob < ApplicationJob
   queue_as :default
 
   def perform(
-    tenant,
     application_instance_id,
     user_id,
     lms_course_id,
     start_date,
     end_date
   )
-    Apartment::Tenant.switch(tenant) do
-      application_instance = ApplicationInstance.find(application_instance_id)
-      current_user = User.find(user_id)
-      current_course = Course.find_by(lms_course_id: lms_course_id)
-      @canvas_api = canvas_api(
-        application_instance: application_instance,
-        user: current_user,
-        course: current_course,
-      )
-      attendances = AttendanceExportsHelper.get_attendances(lms_course_id, start_date, end_date)
-      final_csv = AttendanceExportsHelper.generate_csv(attendances)
-      new_file = write_file(final_csv)
-      upload_canvas_file(new_file, lms_course_id)
-      FileUtils.remove_entry_secure(new_file)
-    end
+    application_instance = ApplicationInstance.find(application_instance_id)
+    current_user = User.find(user_id)
+    current_course = Course.find_by(lms_course_id: lms_course_id)
+    @canvas_api = canvas_api(
+      application_instance: application_instance,
+      user: current_user,
+      course: current_course,
+    )
+    attendances = AttendanceExportsHelper.get_attendances(lms_course_id, start_date, end_date)
+    final_csv = AttendanceExportsHelper.generate_csv(attendances)
+    new_file = write_file(final_csv)
+    upload_canvas_file(new_file, lms_course_id)
+    FileUtils.remove_entry_secure(new_file)
   end
 
   def write_file(data)
