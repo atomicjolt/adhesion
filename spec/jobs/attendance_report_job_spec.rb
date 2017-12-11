@@ -3,7 +3,6 @@ require "rails_helper"
 RSpec.describe AttendanceReportJob, type: :job do
   subject { AttendanceReportJob }
 
-  let(:tenant) { Application::PUBLIC_TENANT }
   let(:application_instance_id) { create(:application_instance).id }
   let(:user_id) { create(:user).id }
   let(:lms_course_id) { create(:course).lms_course_id }
@@ -15,7 +14,6 @@ RSpec.describe AttendanceReportJob, type: :job do
       with(kind_of(File), lms_course_id)
 
     subject.perform_now(
-      tenant,
       application_instance_id,
       user_id,
       lms_course_id,
