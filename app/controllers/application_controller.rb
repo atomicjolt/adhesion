@@ -79,11 +79,8 @@ class ApplicationController < ActionController::Base
   end
 
   def current_course
-    @course ||=
-      Course.
-        where(lms_course_id: params[:custom_canvas_course_id]).
-        or(Course.where(lms_course_id: params[:lms_course_id])).
-        first
+    lms_course_id = params[:custom_canvas_course_id] || params[:lms_course_id]
+    @course ||= Course.find_by(lms_course_id: lms_course_id)
   end
 
   def current_application
