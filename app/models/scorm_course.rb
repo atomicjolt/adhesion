@@ -5,6 +5,11 @@ class ScormCourse < ActiveRecord::Base
 
   after_commit :set_scorm_service_id, on: [:create]
 
+  CREATED = "CREATED".freeze
+  RUNNING = "RUNNING".freeze
+  COMPLETE = "COMPLETE".freeze
+  FAILED = "FAILED".freeze
+
   def regs
     @regs ||= registrations.includes(:scorm_activities)
   end

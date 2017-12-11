@@ -44,15 +44,15 @@ class ScormEngineService
     courses
   end
 
-  def upload_scorm_course(file, course_id, _cleanup)
-    import_course(file, course_id)
+  def upload_scorm_course(file, filename, course_id, _cleanup)
+    import_course(file, filename, course_id)
   end
 
-  def update_scorm_course(file, course_id)
-    import_course(file, course_id)
+  def update_scorm_course(file, filename, course_id)
+    import_course(file, filename, course_id)
   end
 
-  def import_course(file, course_id)
+  def import_course(file, filename, course_id)
     params = {
       course: course_id,
       mayCreateNewVersion: true,
@@ -66,21 +66,11 @@ class ScormEngineService
         user: @api_username,
         password: @api_password,
         payload: {
-          file: UploadIO.new(zip, "zip/zip", file.original_filename),
+          file: UploadIO.new(zip, "zip/zip", filename),
         },
       ) do |response|
         raise response if response.code == 500
-        import_job_id = JSON.parse(response.body)["result"]
-        import_status = check_import_progress(import_job_id)
-        course = {}
-        course[:response] = {}
-        course[:response][:title] = get_scorm_title(course_id)
-        course[:status] = if import_status == "COMPLETE"
-                            200
-                          else
-                            500
-                          end
-        course
+        JSON.parse(response.body)["result"]
       end
     end
   end

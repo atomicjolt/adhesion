@@ -30,22 +30,17 @@ class Api::ScormCoursesController < ApplicationController
   end
 
   def create
-    response = scorm_connect_service(params[:lms_course_id]).upload_course(
-      params[:file],
-      params[:lms_course_id],
-    )
-    if response[:error].present?
-      render json: response[:error], status: response[:status]
-      return
-    end
-    file_id = upload_canvas_file(params[:file], params[:lms_course_id])
-    if file_id
-      ScormCourse.find(
-        response["course_id"],
-      ).update_attribute(:file_id, file_id)
-      hide_scorm_file(file_id)
-    end
-    send_scorm_connect_response(response)
+    scorm_course = ScormCourse.create(import_job_status: ScormCourse::CREATED)
+    ScormImportJob.
+      perform_later(
+        current_application_instance,
+        current_user,
+        params[:lms_course_id],
+        scorm_course,
+        params[:file].tempfile.to_path,
+        params[:file].original_filename,
+      )
+    render json: { scorm_course_id: scorm_course.id }
   end
 
   def show
