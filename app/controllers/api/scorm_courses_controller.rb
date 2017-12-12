@@ -31,13 +31,21 @@ class Api::ScormCoursesController < ApplicationController
 
   def create
     scorm_course = ScormCourse.create(import_job_status: ScormCourse::CREATED)
+
+    output_file = File.join(Dir.mktmpdir, params[:file].original_filename)
+    duplicate = File.open(output_file, "wb")
+    original_file = File.open(params[:file].tempfile, "rb")
+    IO.copy_stream(original_file, duplicate)
+    duplicate.close
+    original_file.close
+
     ScormImportJob.
       perform_later(
         current_application_instance,
         current_user,
         params[:lms_course_id],
         scorm_course,
-        params[:file].tempfile.to_path,
+        duplicate.path,
         params[:file].original_filename,
       )
     render json: { scorm_course_id: scorm_course.id }
