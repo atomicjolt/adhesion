@@ -31,5 +31,6 @@ NuclearSecrets.configure do |config|
     u4sm_url: String,
     u4sm_username: String,
     u4sm_password: String,
+    storage_mount: String,
   }
 end

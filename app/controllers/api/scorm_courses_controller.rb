@@ -32,7 +32,9 @@ class Api::ScormCoursesController < ApplicationController
   def create
     scorm_course = ScormCourse.create(import_job_status: ScormCourse::CREATED)
 
-    output_file = File.join(Dir.mktmpdir, params[:file].original_filename)
+    storage_mount = Rails.env.production? ? Rails.application.secrets.storage_mount : Dir.mktmpdir
+
+    output_file = File.join(storage_mount, params[:file].original_filename)
     duplicate = File.open(output_file, "wb")
     original_file = File.open(params[:file].tempfile, "rb")
     IO.copy_stream(original_file, duplicate)
