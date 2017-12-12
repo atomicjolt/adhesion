@@ -30,5 +30,8 @@ class ScormImportJob < ApplicationJob
         filename,
         response,
       )
+  rescue StandardError => e
+    scorm_course.update(import_job_status: ScormCourse::FAILED)
+    raise e
   end
 end

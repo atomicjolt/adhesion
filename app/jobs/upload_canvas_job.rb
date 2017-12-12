@@ -11,6 +11,8 @@ class UploadCanvasJob < ApplicationJob
     file_path,
     filename
   )
+    scorm_course.update(import_job_status: ScormCourse::RUNNING)
+
     current_course = Course.find_by(lms_course_id: lms_course_id)
     @canvas_api = canvas_api(
       application_instance: application_instance,
@@ -27,10 +29,13 @@ class UploadCanvasJob < ApplicationJob
         import_job_status: ScormCourse::COMPLETE,
       )
     else
-      scorm_course.update(ScormCourse::FAILED)
+      raise Adhesion::Exceptions::ScormCanvasUpload.new
     end
 
     FileUtils.remove_entry_secure(scorm_file)
+  rescue StandardError => e
+    scorm_course.update(import_job_status: ScormCourse::FAILED)
+    raise e
   end
 
   def upload_canvas_file(file_path, filename, lms_course_id)

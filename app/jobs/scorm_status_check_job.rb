@@ -11,6 +11,8 @@ class ScormStatusCheckJob < ApplicationJob
     filename,
     response
   )
+    scorm_course.update(import_job_status: ScormCourse::RUNNING)
+
     scorm_service = scorm_connect_service(lms_course_id, application_instance)
     status = scorm_service.check_import_progress(response[:import_job_id])
 
@@ -28,5 +30,8 @@ class ScormStatusCheckJob < ApplicationJob
         file_path,
         filename,
       )
+  rescue StandardError => e
+    scorm_course.update(import_job_status: ScormCourse::FAILED)
+    raise e
   end
 end
