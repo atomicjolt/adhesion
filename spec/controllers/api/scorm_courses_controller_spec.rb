@@ -88,6 +88,16 @@ RSpec.describe Api::ScormCoursesController, type: :controller do
     end
   end
 
+  describe "GET status" do
+    it "should return the status" do
+      scorm_course = create(:scorm_course, import_job_status: "RUNNING")
+      get :status, scorm_course_id: scorm_course.id
+      expect(response).to have_http_status 200
+      expected = { "scorm_course_id" => scorm_course.id, "status" => "RUNNING" }
+      expect(JSON.parse(response.body)).to eq(expected)
+    end
+  end
+
   describe "GET course_report" do
     it "should return course analytics data" do
       course = ScormCourse.create

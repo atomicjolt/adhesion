@@ -110,6 +110,11 @@ class Api::ScormCoursesController < ApplicationController
     send_scorm_connect_response(response)
   end
 
+  def status
+    scorm_course = ScormCourse.find(params[:scorm_course_id])
+    render json: { scorm_course_id: scorm_course.id, status: scorm_course.import_job_status }
+  end
+
   private
 
   def validate_token_shared
