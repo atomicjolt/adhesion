@@ -12,15 +12,13 @@ class ScormImportJob < ApplicationJob
   )
     scorm_course.update(import_job_status: ScormCourse::RUNNING)
 
-    scorm_file = File.open(file_path)
     response = scorm_connect_service(lms_course_id, application_instance).
       upload_course(
-        scorm_file,
+        file_path,
         filename,
         lms_course_id,
         scorm_course,
       )
-    scorm_file.close
 
     ScormStatusCheckJob.
       perform_later(

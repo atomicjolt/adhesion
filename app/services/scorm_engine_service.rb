@@ -59,7 +59,7 @@ class ScormEngineService
     }.to_query
     url = "#{@scorm_tenant_url}/courses/importJobs?#{params}"
 
-    File.open(File.new(file.path)) do |zip|
+    File.open(file) do |zip|
       RestClient::Request.execute(
         method: :post,
         url: url,
