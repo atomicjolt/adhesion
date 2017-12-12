@@ -41,7 +41,6 @@ describe('scorm reducer', () => {
     let file;
     action.upload = { file };
     const newState = reducer(state, action);
-    expect(newState.showUploading).toBeTruthy();
     expect(newState.file).toBeDefined();
   });
 
