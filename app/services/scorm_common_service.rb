@@ -21,11 +21,10 @@ module ScormCommonService
     end
   end
 
-  def upload_course(file, filename, scorm_course)
+  def upload_course(file, scorm_course)
     cleanup = Proc.new { scorm_course.destroy }
     import_job_id = upload_scorm_course(
       file,
-      filename,
       scorm_course.scorm_service_id,
       cleanup,
     )

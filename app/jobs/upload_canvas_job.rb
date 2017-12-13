@@ -8,8 +8,7 @@ class UploadCanvasJob < ApplicationJob
     current_user,
     lms_course_id,
     scorm_course,
-    file_path,
-    filename
+    file_path
   )
     scorm_course.update(import_job_status: ScormCourse::RUNNING)
 
@@ -21,7 +20,7 @@ class UploadCanvasJob < ApplicationJob
     )
 
     delete_canvas_file(scorm_course.file_id) if scorm_course&.file_id
-    file_id = upload_canvas_file(file_path, filename, lms_course_id)
+    file_id = upload_canvas_file(file_path, lms_course_id)
     if file_id
       hide_scorm_file(file_id)
       scorm_course.update(
@@ -46,7 +45,7 @@ class UploadCanvasJob < ApplicationJob
     raise e
   end
 
-  def upload_canvas_file(file_path, filename, lms_course_id)
+  def upload_canvas_file(file_path, lms_course_id)
     if file_path.present?
       canvas_response = @canvas_api.proxy(
         "COURSES_UPLOAD_FILE",
@@ -54,7 +53,7 @@ class UploadCanvasJob < ApplicationJob
           course_id: lms_course_id,
         },
         {
-          name: filename,
+          name: File.basename(file_path),
           content_type: "application/zip",
           parent_folder_path: "scorm_files/",
           on_duplicate: "rename",

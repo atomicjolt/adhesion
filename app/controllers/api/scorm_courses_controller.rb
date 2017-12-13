@@ -35,14 +35,7 @@ class Api::ScormCoursesController < ApplicationController
       lms_course_id: params[:lms_course_id],
     )
 
-    storage_mount = Rails.env.production? ? Rails.application.secrets.storage_mount : Dir.mktmpdir
-
-    output_file = File.join(storage_mount, params[:file].original_filename)
-    duplicate = File.open(output_file, "wb")
-    original_file = File.open(params[:file].tempfile, "rb")
-    IO.copy_stream(original_file, duplicate)
-    duplicate.close
-    original_file.close
+    duplicate = copy_file(params[:file])
 
     ScormImportJob.
       perform_later(
@@ -51,7 +44,6 @@ class Api::ScormCoursesController < ApplicationController
         params[:lms_course_id],
         scorm_course,
         duplicate.path,
-        params[:file].original_filename,
       )
     render json: { scorm_course_id: scorm_course.id }
   end
@@ -104,14 +96,7 @@ class Api::ScormCoursesController < ApplicationController
     scorm_course = ScormCourse.find_by(scorm_service_id: params[:scorm_course_id])
     scorm_course.update(import_job_status: ScormCourse::CREATED)
 
-    storage_mount = Rails.env.production? ? Rails.application.secrets.storage_mount : Dir.mktmpdir
-
-    output_file = File.join(storage_mount, params[:file].original_filename)
-    duplicate = File.open(output_file, "wb")
-    original_file = File.open(params[:file].tempfile, "rb")
-    IO.copy_stream(original_file, duplicate)
-    duplicate.close
-    original_file.close
+    duplicate = copy_file(params[:file])
 
     ScormImportJob.
       perform_later(
@@ -120,7 +105,6 @@ class Api::ScormCoursesController < ApplicationController
         params[:lms_course_id],
         scorm_course,
         duplicate.path,
-        params[:file].original_filename,
       )
     render json: { scorm_course_id: scorm_course.id }
   end
@@ -131,6 +115,17 @@ class Api::ScormCoursesController < ApplicationController
   end
 
   private
+
+  def copy_file(file)
+    storage_mount = Rails.env.production? ? Rails.application.secrets.storage_mount : Dir.mktmpdir
+    output_file = File.join(storage_mount, file.original_filename)
+    duplicate = File.open(output_file, "wb")
+    original_file = File.open(file.tempfile, "rb")
+    IO.copy_stream(original_file, duplicate)
+    duplicate.close
+    original_file.close
+    duplicate
+  end
 
   def validate_token_shared
     if params[:shared_auth].present?

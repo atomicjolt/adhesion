@@ -44,15 +44,15 @@ class ScormEngineService
     courses
   end
 
-  def upload_scorm_course(file, filename, course_id, _cleanup)
-    import_course(file, filename, course_id)
+  def upload_scorm_course(file, course_id, _cleanup)
+    import_course(file, course_id)
   end
 
-  def update_scorm_course(file, filename, course_id)
-    import_course(file, filename, course_id)
+  def update_scorm_course(file, course_id)
+    import_course(file, course_id)
   end
 
-  def import_course(file, filename, course_id)
+  def import_course(file, course_id)
     params = {
       course: course_id,
       mayCreateNewVersion: true,
@@ -66,7 +66,7 @@ class ScormEngineService
         user: @api_username,
         password: @api_password,
         payload: {
-          file: UploadIO.new(zip, "zip/zip", filename),
+          file: UploadIO.new(zip, "zip/zip", File.basename(file)),
         },
       ) do |response|
         raise response if response.code == 500

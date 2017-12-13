@@ -8,7 +8,6 @@ class ScormStatusCheckJob < ApplicationJob
     lms_course_id,
     scorm_course,
     file_path,
-    filename,
     response
   )
     scorm_course.update(import_job_status: ScormCourse::RUNNING)
@@ -28,7 +27,6 @@ class ScormStatusCheckJob < ApplicationJob
         lms_course_id,
         scorm_course,
         file_path,
-        filename,
       )
   rescue StandardError => e
     scorm_course.update(import_job_status: ScormCourse::FAILED)
