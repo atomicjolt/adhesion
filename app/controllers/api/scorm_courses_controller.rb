@@ -113,6 +113,7 @@ class Api::ScormCoursesController < ApplicationController
   def copy_to_storage(file)
     storage_mount = Rails.env.production? ? Rails.application.secrets.storage_mount : Dir.mktmpdir
     duplicate_file_path = File.join(storage_mount, file.original_filename)
+    FileUtils.touch(duplicate_file_path)
     FileUtils.cp(file.tempfile.path, duplicate_file_path)
     duplicate_file_path
   end
