@@ -35,17 +35,7 @@ class Api::ScormCoursesController < ApplicationController
       lms_course_id: params[:lms_course_id],
     )
 
-    duplicate = copy_file(params[:file])
-
-    ScormImportJob.
-      perform_later(
-        current_application_instance,
-        current_user,
-        params[:lms_course_id],
-        scorm_course,
-        duplicate.path,
-      )
-    render json: { scorm_course_id: scorm_course.id }
+    process_scorm_import(scorm_course)
   end
 
   def show
@@ -96,17 +86,7 @@ class Api::ScormCoursesController < ApplicationController
     scorm_course = ScormCourse.find_by(scorm_service_id: params[:scorm_course_id])
     scorm_course.update(import_job_status: ScormCourse::CREATED)
 
-    duplicate = copy_file(params[:file])
-
-    ScormImportJob.
-      perform_later(
-        current_application_instance,
-        current_user,
-        params[:lms_course_id],
-        scorm_course,
-        duplicate.path,
-      )
-    render json: { scorm_course_id: scorm_course.id }
+    process_scorm_import(scorm_course)
   end
 
   def status
@@ -116,7 +96,21 @@ class Api::ScormCoursesController < ApplicationController
 
   private
 
-  def copy_file(file)
+  def process_scorm_import(scorm_course)
+    file = copy_to_storage(params[:file])
+
+    ScormImportJob.
+      perform_later(
+        current_application_instance,
+        current_user,
+        params[:lms_course_id],
+        scorm_course,
+        file.path,
+      )
+    render json: { scorm_course_id: scorm_course.id }
+  end
+
+  def copy_to_storage(file)
     storage_mount = Rails.env.production? ? Rails.application.secrets.storage_mount : Dir.mktmpdir
     output_file = File.join(storage_mount, file.original_filename)
     duplicate = File.open(output_file, "wb")

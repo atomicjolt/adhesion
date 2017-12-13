@@ -46,7 +46,7 @@ RSpec.describe Api::ScormCoursesController, type: :controller do
 
       file = Foo.new
 
-      allow(controller).to receive(:copy_file).and_return(file)
+      allow(controller).to receive(:copy_to_storage).and_return(file)
 
       post :create, file: "fake_file", lms_course_id: "course_id"
       expect(response).to have_http_status(200)
