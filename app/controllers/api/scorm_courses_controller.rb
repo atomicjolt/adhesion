@@ -97,7 +97,7 @@ class Api::ScormCoursesController < ApplicationController
   private
 
   def process_scorm_import(scorm_course)
-    file = copy_to_storage(params[:file])
+    file_path = copy_to_storage(params[:file])
 
     ScormImportJob.
       perform_later(
@@ -105,20 +105,16 @@ class Api::ScormCoursesController < ApplicationController
         current_user,
         params[:lms_course_id],
         scorm_course,
-        file.path,
+        file_path,
       )
     render json: { scorm_course_id: scorm_course.id }
   end
 
   def copy_to_storage(file)
     storage_mount = Rails.env.production? ? Rails.application.secrets.storage_mount : Dir.mktmpdir
-    output_file = File.join(storage_mount, file.original_filename)
-    duplicate = File.open(output_file, "wb")
-    original_file = File.open(file.tempfile, "rb")
-    IO.copy_stream(original_file, duplicate)
-    duplicate.close
-    original_file.close
-    duplicate
+    duplicate_file_path = File.join(storage_mount, file.original_filename)
+    FileUtils.cp(file.tempfile.path, duplicate_file_path)
+    duplicate_file_path
   end
 
   def validate_token_shared
