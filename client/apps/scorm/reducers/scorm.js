@@ -126,8 +126,11 @@ export default (state = initialState, action) => {
       return { ...state, scormList: updatedScormList };
     }
 
-    case PackageConstants.REPLACE_PACKAGE_DONE:
-      return { ...state, shouldRefreshList: true };
+    case PackageConstants.REPLACE_PACKAGE_DONE: {
+      const scormCourseId = action.payload ? action.payload.scorm_course_id : null;
+      const shouldPollStatus = !!scormCourseId;
+      return { ...state, scormCourseId, shouldPollStatus };
+    }
 
     default:
       return state;
