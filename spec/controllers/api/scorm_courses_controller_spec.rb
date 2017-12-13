@@ -39,10 +39,15 @@ RSpec.describe Api::ScormCoursesController, type: :controller do
 
   describe "POST create" do
     it "should upload scorm package" do
-      expect(@mock_scorm).to receive(:upload_course).with(
-        "fake_file",
-        "course_id",
-      )
+      expect(ScormImportJob).to receive(:perform_later)
+      class Foo
+        def path; end
+      end
+
+      file = Foo.new
+
+      allow(controller).to receive(:copy_file).and_return(file)
+
       post :create, file: "fake_file", lms_course_id: "course_id"
       expect(response).to have_http_status(200)
     end
@@ -62,7 +67,7 @@ RSpec.describe Api::ScormCoursesController, type: :controller do
     it "should update scorm package" do
       course = ScormCourse.create
       course_params = { points_possible: "50" }
-      put(:update, id: course.id, scorm_course: course_params)
+      put :update, params: { id: course.scorm_service_id, scorm_course: course_params }
       expect(course.reload.points_possible).to eq(50.0)
       expect(response.body).to include('"points_possible":50.0')
     end
@@ -91,7 +96,7 @@ RSpec.describe Api::ScormCoursesController, type: :controller do
   describe "GET status" do
     it "should return the status" do
       scorm_course = create(:scorm_course, import_job_status: "RUNNING")
-      get :status, scorm_course_id: scorm_course.id
+      get :status, params: { scorm_course_id: scorm_course.id }
       expect(response).to have_http_status 200
       expected = { "scorm_course_id" => scorm_course.id, "status" => "RUNNING" }
       expect(JSON.parse(response.body)).to eq(expected)
@@ -101,7 +106,7 @@ RSpec.describe Api::ScormCoursesController, type: :controller do
   describe "GET course_report" do
     it "should return course analytics data" do
       course = ScormCourse.create
-      get :course_report, scorm_course_id: course.id
+      get :course_report, params: { scorm_course_id: course.scorm_service_id }
       expect(response).to have_http_status 200
       expect(JSON.parse(response.body)).to include("scores")
     end
@@ -110,7 +115,7 @@ RSpec.describe Api::ScormCoursesController, type: :controller do
   describe "GET activity_report" do
     it "should return student course analytics data" do
       course = ScormCourse.create
-      get :activity_report, scorm_course_id: course.id
+      get :activity_report, params: { scorm_course_id: course.scorm_service_id }
       expect(response).to have_http_status 200
       expect(JSON.parse(response.body)).to include("analytics_table")
     end
