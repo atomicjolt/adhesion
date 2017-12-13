@@ -19,9 +19,9 @@ class UploadCanvasJob < ApplicationJob
       user: current_user,
       course: current_course,
     )
-    scorm_file = File.open(file_path)
-    file_id = upload_canvas_file(file_path, filename, lms_course_id)
 
+    delete_canvas_file(scorm_course.file_id) if scorm_course&.file_id
+    file_id = upload_canvas_file(file_path, filename, lms_course_id)
     if file_id
       hide_scorm_file(file_id)
       scorm_course.update(
@@ -32,7 +32,15 @@ class UploadCanvasJob < ApplicationJob
       raise Adhesion::Exceptions::ScormCanvasUpload.new
     end
 
-    FileUtils.remove_entry_secure(scorm_file)
+    FileUtils.remove_entry_secure(file_path)
+
+    if scorm_course.lms_assignment_id.present?
+      update_canvas_assignment(
+        lms_course_id,
+        scorm_course.lms_assignment_id,
+        scorm_course.title,
+      )
+    end
   rescue StandardError => e
     scorm_course.update(import_job_status: ScormCourse::FAILED)
     raise e
@@ -70,5 +78,22 @@ class UploadCanvasJob < ApplicationJob
 
   def hide_scorm_file(file_id)
     @canvas_api.proxy("UPDATE_FILE", { id: file_id }, { hidden: true })
+  end
+
+  def delete_canvas_file(file_id)
+    @canvas_api.proxy("DELETE_FILE", { id: file_id })
+  end
+
+  def update_canvas_assignment(lms_course_id, assignment_id, name)
+    @canvas_api.proxy(
+      "EDIT_ASSIGNMENT",
+      {
+        course_id: lms_course_id,
+        id: assignment_id,
+      },
+      {
+        assignment: { name: name },
+      },
+    )
   end
 end

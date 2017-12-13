@@ -21,23 +21,19 @@ module ScormCommonService
     end
   end
 
-  def upload_course(file, filename, lms_course_id, scorm_course)
+  def upload_course(file, filename, scorm_course)
     cleanup = Proc.new { scorm_course.destroy }
-    package_id = "#{scorm_course.id}_#{lms_course_id}"
-    import_job_id = upload_scorm_course(file, filename, package_id, cleanup)
-    scorm_course.update(scorm_service_id: package_id)
+    import_job_id = upload_scorm_course(
+      file,
+      filename,
+      scorm_course.scorm_service_id,
+      cleanup,
+    )
 
     {
       scorm_course_id: scorm_course.id,
-      package_id: package_id,
       import_job_id: import_job_id,
     }
-  end
-
-  def update_course(file, course)
-    response = update_scorm_course(file, course.scorm_service_id)
-    course.update_attribute(:title, response[:response][:title])
-    response
   end
 
   def remove_course(course_id)

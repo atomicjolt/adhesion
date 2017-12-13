@@ -18,7 +18,7 @@ class ScormStatusCheckJob < ApplicationJob
 
     raise Adhesion::Exceptions::ScormImport.new(status) if status != "COMPLETE"
 
-    title = scorm_service.get_scorm_title(response[:package_id])
+    title = scorm_service.get_scorm_title(scorm_course.scorm_service_id)
     scorm_course.update(title: title)
 
     UploadCanvasJob.

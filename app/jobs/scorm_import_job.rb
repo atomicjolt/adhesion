@@ -16,7 +16,6 @@ class ScormImportJob < ApplicationJob
       upload_course(
         file_path,
         filename,
-        lms_course_id,
         scorm_course,
       )
 
