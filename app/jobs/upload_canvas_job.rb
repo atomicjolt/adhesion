@@ -31,8 +31,6 @@ class UploadCanvasJob < ApplicationJob
       raise Adhesion::Exceptions::ScormCanvasUpload.new
     end
 
-    FileUtils.remove_entry_secure(file_path)
-
     if scorm_course.lms_assignment_id.present?
       update_canvas_assignment(
         lms_course_id,
@@ -40,6 +38,8 @@ class UploadCanvasJob < ApplicationJob
         scorm_course.title,
       )
     end
+
+    FileUtils.remove_entry_secure(file_path)
   rescue StandardError => e
     scorm_course.update(import_job_status: ScormCourse::FAILED)
     raise e
