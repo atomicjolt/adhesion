@@ -30,7 +30,10 @@ class Api::ScormCoursesController < ApplicationController
   end
 
   def create
-    scorm_course = ScormCourse.create(import_job_status: ScormCourse::CREATED)
+    scorm_course = ScormCourse.create(
+      import_job_status: ScormCourse::CREATED,
+      lms_course_id: params[:lms_course_id],
+    )
 
     storage_mount = Rails.env.production? ? Rails.application.secrets.storage_mount : Dir.mktmpdir
 
