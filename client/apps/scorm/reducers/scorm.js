@@ -65,8 +65,7 @@ export default (state = initialState, action) => {
 
     case PackageConstants.UPLOAD_PACKAGE: {
       const file = action.upload;
-      const showUpload = true;
-      return { ...state, showUploading: showUpload, file };
+      return { ...state, file };
     }
     case PackageConstants.REMOVE_PACKAGE: {
       const newState = _.cloneDeep(state);
@@ -85,7 +84,33 @@ export default (state = initialState, action) => {
           errorText,
         };
       }
-      return { ...state, file: null, shouldRefreshList: true };
+      const scormCourseId = action.payload ? action.payload.scorm_course_id : null;
+      const shouldPollStatus = !!scormCourseId;
+      return { ...state, scormCourseId, shouldPollStatus };
+    }
+    case PackageConstants.POLL_STATUS_DONE: {
+      const {
+        status,
+        scorm_course_id:scormCourseId,
+      } = action.payload;
+
+      const shouldPollStatus = !_.includes(['COMPLETE', 'FAILED'], status);
+      let shouldRefreshList = !shouldPollStatus;
+      let errorText = '';
+      let uploadError = false;
+      if (status === 'FAILED') {
+        uploadError = true;
+        errorText = status;
+        shouldRefreshList = false;
+      }
+      return {
+        ...state,
+        scormCourseId,
+        shouldPollStatus,
+        shouldRefreshList,
+        uploadError,
+        errorText,
+      };
     }
     case PackageConstants.UPDATE_UPLOAD_FILE:
       return { ...state, file: action.file };
@@ -101,8 +126,11 @@ export default (state = initialState, action) => {
       return { ...state, scormList: updatedScormList };
     }
 
-    case PackageConstants.REPLACE_PACKAGE_DONE:
-      return { ...state, shouldRefreshList: true };
+    case PackageConstants.REPLACE_PACKAGE_DONE: {
+      const scormCourseId = action.payload ? action.payload.scorm_course_id : null;
+      const shouldPollStatus = !!scormCourseId;
+      return { ...state, scormCourseId, shouldPollStatus };
+    }
 
     default:
       return state;

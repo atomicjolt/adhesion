@@ -3,7 +3,8 @@ require "rails_helper"
 RSpec.describe ScormCourse, type: :model do
   describe "#regs" do
     before do
-      @scorm_course = ScormCourse.create
+      @lms_course_id = generate(:lms_course_id)
+      @scorm_course = ScormCourse.create(lms_course_id: @lms_course_id)
     end
 
     it "sets registration" do
@@ -11,7 +12,7 @@ RSpec.describe ScormCourse, type: :model do
     end
 
     it "sets registration" do
-      registration = Registration.create(lms_course_id: @scorm_course.id)
+      registration = Registration.create(lms_course_id: @scorm_course.scorm_service_id)
       report = JSON.parse(File.read("spec/fixtures/json/report.json"))
       report = report.deep_symbolize_keys
       registration.store_activities(report[:registrationreport][:activity])
@@ -21,10 +22,11 @@ RSpec.describe ScormCourse, type: :model do
 
   describe "#set_scorm_service_id" do
     it "should set the scorm_service_id" do
-      scorm_course = ScormCourse.new
+      scorm_course = ScormCourse.new(lms_course_id: @lms_course_id)
       expect(scorm_course.scorm_service_id).to eq(nil)
       scorm_course.save!
-      expect(scorm_course.scorm_service_id).to eq(scorm_course.id.to_s)
+      scorm_service_id = "#{scorm_course.id}_#{@lms_course_id}"
+      expect(scorm_course.scorm_service_id).to eq(scorm_service_id)
     end
   end
 
@@ -79,7 +81,7 @@ RSpec.describe ScormCourse, type: :model do
 
     describe "with registration code" do
       before do
-        registration = Registration.create(lms_course_id: @scorm_course.id)
+        registration = Registration.create(lms_course_id: @scorm_course.scorm_service_id)
         report = JSON.parse(File.read("spec/fixtures/json/report.json"))
         report = report.deep_symbolize_keys
         registration.store_activities(report[:registrationreport][:activity])
@@ -141,7 +143,7 @@ RSpec.describe ScormCourse, type: :model do
     end
 
     it "should return the course activities with analytics table" do
-      registration = Registration.create(lms_course_id: @scorm_course.id)
+      registration = Registration.create(lms_course_id: @scorm_course.scorm_service_id)
       report = JSON.parse(File.read("spec/fixtures/json/report.json"))
       report = report.deep_symbolize_keys
       registration.store_activities(report[:registrationreport][:activity])
@@ -151,7 +153,7 @@ RSpec.describe ScormCourse, type: :model do
     end
 
     it "should contain correct analytics table" do
-      registration = Registration.create(lms_course_id: @scorm_course.id)
+      registration = Registration.create(lms_course_id: @scorm_course.scorm_service_id)
       report = JSON.parse(File.read("spec/fixtures/json/report.json"))
       report = report.deep_symbolize_keys
       registration.store_activities(report[:registrationreport][:activity])

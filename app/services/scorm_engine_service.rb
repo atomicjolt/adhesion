@@ -59,28 +59,18 @@ class ScormEngineService
     }.to_query
     url = "#{@scorm_tenant_url}/courses/importJobs?#{params}"
 
-    File.open(File.new(file.path)) do |zip|
+    File.open(file) do |zip|
       RestClient::Request.execute(
         method: :post,
         url: url,
         user: @api_username,
         password: @api_password,
         payload: {
-          file: UploadIO.new(zip, "zip/zip", file.original_filename),
+          file: UploadIO.new(zip, "zip/zip", File.basename(file)),
         },
       ) do |response|
         raise response if response.code == 500
-        import_job_id = JSON.parse(response.body)["result"]
-        import_status = check_import_progress(import_job_id)
-        course = {}
-        course[:response] = {}
-        course[:response][:title] = get_scorm_title(course_id)
-        course[:status] = if import_status == "COMPLETE"
-                            200
-                          else
-                            500
-                          end
-        course
+        JSON.parse(response.body)["result"]
       end
     end
   end

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import {
@@ -14,28 +15,29 @@ import * as ModalActions from '../../../../libs/actions/modal';
 export class ScormIndex extends React.Component {
 
   static propTypes = {
-    loadPackages: React.PropTypes.func,
-    canvasRequest: React.PropTypes.func,
-    removePackage: React.PropTypes.func,
-    uploadPackage: React.PropTypes.func,
-    previewPackage: React.PropTypes.func,
-    replacePackage: React.PropTypes.func,
-    updateImportType: React.PropTypes.func,
-    removeError: React.PropTypes.func,
-    lmsCourseId: React.PropTypes.string,
-    scormList: React.PropTypes.arrayOf(React.PropTypes.object),
-    canvasAssignments: React.PropTypes.shape({}),
-    listAssignmentsDone: React.PropTypes.bool,
-    shouldRefreshList: React.PropTypes.bool,
-    apiUrl: React.PropTypes.string,
-    scormFile: React.PropTypes.shape({}),
-    canvasUrl: React.PropTypes.string.isRequired,
-    loadError: React.PropTypes.bool,
-    hideModal: React.PropTypes.func.isRequired,
-    showModal: React.PropTypes.func.isRequired,
-    location: React.PropTypes.shape({
-      query: React.PropTypes.shape({
-        noSync: React.PropTypes.string,
+    loadPackages: PropTypes.func,
+    canvasRequest: PropTypes.func,
+    removePackage: PropTypes.func,
+    uploadPackage: PropTypes.func,
+    previewPackage: PropTypes.func,
+    replacePackage: PropTypes.func,
+    updateImportType: PropTypes.func,
+    removeError: PropTypes.func,
+    lmsCourseId: PropTypes.string,
+    scormList: PropTypes.arrayOf(PropTypes.object),
+    canvasAssignments: PropTypes.shape({}),
+    listAssignmentsDone: PropTypes.bool,
+    shouldRefreshList: PropTypes.bool,
+    scormCourseId: PropTypes.number,
+    apiUrl: PropTypes.string,
+    scormFile: PropTypes.shape({}),
+    canvasUrl: PropTypes.string.isRequired,
+    loadError: PropTypes.bool,
+    hideModal: PropTypes.func.isRequired,
+    showModal: PropTypes.func.isRequired,
+    location: PropTypes.shape({
+      query: PropTypes.shape({
+        noSync: PropTypes.string,
       }),
     }),
   };
@@ -56,6 +58,11 @@ export class ScormIndex extends React.Component {
   }
 
   componentDidUpdate() {
+    if (this.props.shouldPollStatus) {
+      _.delay(() => {
+        this.props.pollStatus(this.props.scormCourseId);
+      }, 5000);
+    }
     if (this.props.shouldRefreshList) {
       this.props.loadPackages(this.props.lmsCourseId);
     }
@@ -184,9 +191,10 @@ const select = (state) => {
     apiUrl: state.settings.api_url,
     scormList: courseList,
     shouldRefreshList: state.scorm.shouldRefreshList,
+    shouldPollStatus: state.scorm.shouldPollStatus,
+    scormCourseId: state.scorm.scormCourseId,
     scormFile: state.scorm.file,
     loadError: state.scorm.loadError,
-    uploadError: state.scorm.uploadError,
     canvasAssignments: state.scorm.canvasAssignments,
     listAssignmentsDone: state.scorm.listAssignmentsDone,
     canvasUrl: state.settings.custom_canvas_api_domain,

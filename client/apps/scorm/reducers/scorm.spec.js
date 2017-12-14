@@ -41,7 +41,6 @@ describe('scorm reducer', () => {
     let file;
     action.upload = { file };
     const newState = reducer(state, action);
-    expect(newState.showUploading).toBeTruthy();
     expect(newState.file).toBeDefined();
   });
 
@@ -56,8 +55,10 @@ describe('scorm reducer', () => {
   it('should handle UPLOAD_PACKAGE_DONE without an error', () => {
     action.type = Constants.UPLOAD_PACKAGE_DONE;
     action.error = false;
+    action.payload = {};
+    action.payload.scorm_course_id = 123;
     const newState = reducer(state, action);
-    expect(newState.shouldRefreshList).toBeTruthy();
+    expect(newState.shouldPollStatus).toBeTruthy();
   });
 
   it('should handle UPDATE_UPLOAD_FILE', () => {

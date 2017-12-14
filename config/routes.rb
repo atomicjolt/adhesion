@@ -76,6 +76,7 @@ Rails.application.routes.draw do
       get "activity_report" => "scorm_courses#activity_report"
       get "launch" => "scorm_courses#launch"
       get "preview" => "scorm_courses#preview"
+      get "status" => "scorm_courses#status"
       post "import" => "scorm_courses#import"
       post "replace" => "scorm_courses#replace"
       resources :students, only: [:index]

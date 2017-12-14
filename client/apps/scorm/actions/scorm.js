@@ -16,6 +16,7 @@ const requests = [
   'PREVIEW_PACKAGE',
   'UPDATE_PACKAGE',
   'REPLACE_PACKAGE',
+  'POLL_STATUS',
 ];
 
 export const Constants = wrapper(actions, requests);
@@ -31,6 +32,12 @@ export const loadPackages = lmsCourseId => ({
   type: Constants.LOAD_PACKAGES,
   url: '/api/scorm_courses',
   params: { lms_course_id: lmsCourseId },
+});
+
+export const pollStatus = scormCourseId => ({
+  method: Network.GET,
+  type: Constants.POLL_STATUS,
+  url: `/api/scorm_courses/${scormCourseId}/status`,
 });
 
 export const uploadPackage = (file, lmsCourseId) => {

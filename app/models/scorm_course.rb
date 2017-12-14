@@ -5,12 +5,20 @@ class ScormCourse < ActiveRecord::Base
 
   after_commit :set_scorm_service_id, on: [:create]
 
+  attr_accessor :lms_course_id
+
+  CREATED = "CREATED".freeze
+  RUNNING = "RUNNING".freeze
+  COMPLETE = "COMPLETE".freeze
+  FAILED = "FAILED".freeze
+
   def regs
     @regs ||= registrations.includes(:scorm_activities)
   end
 
   def set_scorm_service_id
-    self.scorm_service_id = id if scorm_service_id.blank?
+    package_id = "#{id}_#{lms_course_id}"
+    self.scorm_service_id = package_id if scorm_service_id.blank?
     save if scorm_service_id_changed?
   end
 
