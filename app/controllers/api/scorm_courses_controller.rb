@@ -97,7 +97,7 @@ class Api::ScormCoursesController < ApplicationController
   private
 
   def process_scorm_import(scorm_course)
-    file_path = copy_to_storage(params[:file])
+    file_path = copy_to_storage(params[:file], scorm_course.id)
 
     ScormImportJob.
       perform_later(
@@ -110,23 +110,16 @@ class Api::ScormCoursesController < ApplicationController
     render json: { scorm_course_id: scorm_course.id }
   end
 
-  def copy_to_storage(file)
+  def copy_to_storage(file, scorm_course_id)
     storage_mount = Rails.env.production? ? Rails.application.secrets.storage_mount : Dir.tmpdir
-    duplicate_file_path = File.join(storage_mount, file.original_filename)
-    Thread.new do
-      begin
-        FileUtils.cp(file.tempfile.path, duplicate_file_path)
-      rescue StandardError => e
-        log = <<~DOC
-          SCORM upload failed to copy to storage.
-          tempfile: #{file.tempfile.path}
-          duplicate_file_path: #{duplicate_file_path}
-          e: #{e}
-        DOC
-        logger.error log
-        raise e
-      end
-    end
+    duplicate_dir_path = File.join(storage_mount, "job", scorm_course_id.to_s)
+    cmd = "mkdir -p #{duplicate_dir_path}"
+    success = system(cmd)
+    raise ScormCopyToStorage unless success
+    duplicate_file_path = File.join(duplicate_dir_path, file.original_filename)
+    cmd = "mv #{file.tempfile.path} #{duplicate_file_path}"
+    success = system(cmd)
+    raise ScormCopyToStorage unless success
     duplicate_file_path
   end
 

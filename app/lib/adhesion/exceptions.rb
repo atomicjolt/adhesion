@@ -11,5 +11,11 @@ module Adhesion
         super(msg)
       end
     end
+
+    class ScormCopyToStorage < StandardError
+      def initialize(msg = "Error with copying to storage")
+        super(msg)
+      end
+    end
   end
 end
