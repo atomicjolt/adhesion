@@ -26,6 +26,10 @@ class ScormImportJob < ApplicationJob
         file_path,
         response,
       )
+  rescue Errno::ENOENT => e
+    # Don't mark the scorm course as failed as the file might
+    # not be copied to storage yet
+    raise e
   rescue StandardError => e
     scorm_course.update(import_job_status: ScormCourse::FAILED)
     raise e
