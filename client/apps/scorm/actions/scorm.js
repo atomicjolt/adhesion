@@ -11,6 +11,7 @@ const actions = [
 const requests = [
   'LOAD_PACKAGES',
   'UPLOAD_PACKAGE',
+  'CREATE_SCORM_COURSE',
   'REMOVE_PACKAGE',
   'UPDATE_UPLOAD_FILE',
   'PREVIEW_PACKAGE',
@@ -40,19 +41,15 @@ export const pollStatus = scormCourseId => ({
   url: `/api/scorm_courses/${scormCourseId}/status`,
 });
 
-export const uploadPackage = (file, lmsCourseId) => {
-  const form = new FormData();
-  form.append('file', file);
-  return {
-    method: Network.POST,
-    type: Constants.UPLOAD_PACKAGE,
-    url: '/api/scorm_courses',
-    body: form,
-    params: { lms_course_id: lmsCourseId },
-    upload: file,
-    timeout: 10000000
-  };
-};
+export const createScormCourse = (file, lmsCourseId) => ({
+  method: Network.POST,
+  type: Constants.CREATE_SCORM_COURSE,
+  url: '/api/scorm_courses',
+  body: {
+    lms_course_id: lmsCourseId,
+  },
+  upload: file,
+});
 
 export const removePackage = courseId => ({
   method: Network.DEL,
@@ -75,13 +72,13 @@ export const updatePackage = (courseId, body = {}, lmsCourseId) => ({
   lmsCourseId,
 });
 
-export const replacePackage = (file, courseId, lmsCourseId, index) => {
+export const replacePackage = (file, scormServiceId, lmsCourseId, index) => {
   const form = new FormData();
   form.append('file', file);
   return {
     method: Network.POST,
     type: Constants.REPLACE_PACKAGE,
-    url: `/api/scorm_courses/${courseId}/replace`,
+    url: `/api/scorm_courses/${scormServiceId}/replace`,
     body: form,
     upload: file,
     params: { lms_course_id: lmsCourseId, index },

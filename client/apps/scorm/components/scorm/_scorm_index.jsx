@@ -118,9 +118,9 @@ export class ScormIndex extends React.Component {
     );
   }
 
-  uploadPackage(file) {
+  processPackage(file) {
     this.props.removeError();
-    this.props.uploadPackage(file, this.props.lmsCourseId);
+    this.props.createScormCourse(file, this.props.lmsCourseId);
   }
 
   publishAssignment(assignmentId, publishedState) {
@@ -156,7 +156,7 @@ export class ScormIndex extends React.Component {
           <h1 className="c-header__title">SCORM</h1>
           <div className="c-header__btns" >
             <FileUpload
-              uploadPackage={file => this.uploadPackage(file)}
+              processPackage={file => this.processPackage(file)}
             />
           </div>
         </div>

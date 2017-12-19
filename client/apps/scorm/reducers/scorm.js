@@ -63,10 +63,6 @@ export default (state = initialState, action) => {
         file: null,
       };
 
-    case PackageConstants.UPLOAD_PACKAGE: {
-      const file = action.upload;
-      return { ...state, file };
-    }
     case PackageConstants.REMOVE_PACKAGE: {
       const newState = _.cloneDeep(state);
       _.remove(newState.scormList, scorm => scorm.id === action.courseId);
@@ -74,19 +70,20 @@ export default (state = initialState, action) => {
     }
 
     case PackageConstants.REMOVE_PACKAGE_DONE:
-    case PackageConstants.UPLOAD_PACKAGE_DONE: {
+    case PackageConstants.CREATE_SCORM_COURSE_DONE: {
       if (action.error) {
         const errorText = action.error.rawResponse || action.error.message;
         return {
           ...state,
-          file: action.original.upload,
           uploadError: true,
           errorText,
         };
       }
       const scormCourseId = action.payload ? action.payload.scorm_course_id : null;
+      const scormServiceId = action.payload ? action.payload.scorm_service_id : null;
       const shouldPollStatus = !!scormCourseId;
-      return { ...state, scormCourseId, shouldPollStatus };
+      const file = action.original.upload;
+      return { ...state, scormCourseId, scormServiceId, shouldPollStatus, file };
     }
     case PackageConstants.POLL_STATUS_DONE: {
       const {
