@@ -83,7 +83,13 @@ export default (state = initialState, action) => {
       const scormServiceId = action.payload ? action.payload.scorm_service_id : null;
       const shouldPollStatus = !!scormCourseId;
       const file = action.original.upload;
-      return { ...state, scormCourseId, scormServiceId, shouldPollStatus, file };
+      return {
+        ...state,
+        scormCourseId,
+        scormServiceId,
+        shouldPollStatus,
+        file,
+      };
     }
     case PackageConstants.POLL_STATUS_DONE: {
       const {
