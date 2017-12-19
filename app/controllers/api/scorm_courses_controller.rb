@@ -99,6 +99,10 @@ class Api::ScormCoursesController < ApplicationController
   def process_scorm_import(scorm_course)
     file_path = copy_to_storage(params[:file], scorm_course.id)
 
+    skip_canvas_upload =
+      params[:skip_canvas_upload] == true ||
+      params[:skip_canvas_upload] == "true"
+
     ScormImportJob.
       perform_later(
         current_application_instance,
@@ -106,7 +110,7 @@ class Api::ScormCoursesController < ApplicationController
         params[:lms_course_id],
         scorm_course,
         file_path,
-        params[:skip_canvas_upload].present?,
+        skip_canvas_upload,
       )
     render json: { scorm_course_id: scorm_course.id }
   end
