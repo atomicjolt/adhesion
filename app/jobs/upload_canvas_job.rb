@@ -8,7 +8,8 @@ class UploadCanvasJob < ApplicationJob
     current_user,
     lms_course_id,
     scorm_course,
-    file_path
+    file_path,
+    skip_canvas_upload
   )
     scorm_course.update(import_job_status: ScormCourse::RUNNING)
 
@@ -19,16 +20,12 @@ class UploadCanvasJob < ApplicationJob
       course: current_course,
     )
 
-    delete_canvas_file(scorm_course.file_id) if scorm_course&.file_id
-    file_id = upload_canvas_file(file_path, lms_course_id)
-    if file_id
-      hide_scorm_file(file_id)
+    if skip_canvas_upload
       scorm_course.update(
-        file_id: file_id,
         import_job_status: ScormCourse::COMPLETE,
       )
     else
-      raise Adhesion::Exceptions::ScormCanvasUpload.new
+      process_canvas_file(scorm_course, file_path, lms_course_id)
     end
 
     if scorm_course.lms_assignment_id.present?
@@ -43,6 +40,20 @@ class UploadCanvasJob < ApplicationJob
   rescue StandardError => e
     scorm_course.update(import_job_status: ScormCourse::FAILED)
     raise e
+  end
+
+  def process_canvas_file(scorm_course, file_path, lms_course_id)
+    delete_canvas_file(scorm_course.file_id) if scorm_course&.file_id
+    file_id = upload_canvas_file(file_path, lms_course_id)
+    if file_id
+      hide_scorm_file(file_id)
+      scorm_course.update(
+        file_id: file_id,
+        import_job_status: ScormCourse::COMPLETE,
+      )
+    else
+      raise Adhesion::Exceptions::ScormCanvasUpload.new
+    end
   end
 
   def upload_canvas_file(file_path, lms_course_id)
