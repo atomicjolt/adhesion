@@ -7,7 +7,8 @@ class ScormImportJob < ApplicationJob
     user,
     lms_course_id,
     scorm_course,
-    file_path
+    file_path,
+    skip_canvas_upload
   )
     scorm_course.update(import_job_status: ScormCourse::RUNNING)
 
@@ -25,6 +26,7 @@ class ScormImportJob < ApplicationJob
         scorm_course,
         file_path,
         response,
+        skip_canvas_upload,
       )
   rescue StandardError => e
     scorm_course.update(import_job_status: ScormCourse::FAILED)
