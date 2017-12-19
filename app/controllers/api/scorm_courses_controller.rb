@@ -108,6 +108,7 @@ class Api::ScormCoursesController < ApplicationController
         params[:lms_course_id],
         scorm_course,
         file_path,
+        params[:skip_canvas_upload].present?,
       )
   end
 
