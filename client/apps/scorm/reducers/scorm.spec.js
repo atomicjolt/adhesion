@@ -44,17 +44,19 @@ describe('scorm reducer', () => {
     expect(newState.file).toBeDefined();
   });
 
-  it('should handle UPLOAD_PACKAGE_DONE with an error', () => {
-    action.type = Constants.UPLOAD_PACKAGE_DONE;
+  it('should handle CREATE_SCORM_COURSE_DONE with an error', () => {
+    action.type = Constants.CREATE_SCORM_COURSE_DONE;
     action.original = { upload: 'originalFile' };
-    action.error = true;
+    action.error = {};
+    action.error.message = 'Danger, Will Robinson! Danger!';
     const newState = reducer(state, action);
-    expect(newState.file).toBe('originalFile');
+    expect(newState.errorText).toBe('Danger, Will Robinson! Danger!');
   });
 
-  it('should handle UPLOAD_PACKAGE_DONE without an error', () => {
-    action.type = Constants.UPLOAD_PACKAGE_DONE;
+  it('should handle CREATE_SCORM_COURSE_DONE without an error', () => {
+    action.type = Constants.CREATE_SCORM_COURSE_DONE;
     action.error = false;
+    action.original = { upload: 'originalFile' };
     action.payload = {};
     action.payload.scorm_course_id = 123;
     const newState = reducer(state, action);
