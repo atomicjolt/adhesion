@@ -35,7 +35,7 @@ class Api::ScormCoursesController < ApplicationController
       lms_course_id: params[:lms_course_id],
     )
 
-    process_scorm_import(scorm_course)
+    render json: { scorm_course_id: scorm_course.id, scorm_service_id: scorm_course.scorm_service_id }
   end
 
   def show
@@ -87,6 +87,8 @@ class Api::ScormCoursesController < ApplicationController
     scorm_course.update(import_job_status: ScormCourse::CREATED)
 
     process_scorm_import(scorm_course)
+
+    render json: { scorm_course_id: scorm_course.id }
   end
 
   def status
@@ -107,7 +109,6 @@ class Api::ScormCoursesController < ApplicationController
         scorm_course,
         file_path,
       )
-    render json: { scorm_course_id: scorm_course.id }
   end
 
   def copy_to_storage(file, scorm_course_id)

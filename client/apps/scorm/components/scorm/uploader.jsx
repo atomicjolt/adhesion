@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import * as ScormActions from '../../actions/scorm';
 import CommonSvg from '../../../../libs/components/common_svg';
 import SvgButton from '../../../../libs/components/svg_button';
@@ -7,6 +8,8 @@ import Loader from '../../../../libs/components/loader';
 
 const select = state => ({
   scormFile: state.scorm.file,
+  scormServiceId: state.scorm.scormServiceId,
+  lmsCourseId: state.settings.lms_course_id,
   error: state.scorm.uploadError,
   errorText: state.scorm.errorText,
   errorHandle: 'removeError',
@@ -27,6 +30,17 @@ export class Uploader extends React.Component {
         fontSize: '1.5em'
       }
     };
+  }
+
+  componentWillMount() {
+    if (this.props.scormServiceId) {
+      this.props.replacePackage(
+        this.props.scormFile,
+        this.props.scormServiceId,
+        this.props.lmsCourseId,
+        null,
+      );
+    }
   }
 
   renderError() {
@@ -71,12 +85,14 @@ export class Uploader extends React.Component {
 }
 
 Uploader.propTypes = {
-  error: React.PropTypes.bool,
-  errorText: React.PropTypes.string,
-  errorHandle: React.PropTypes.string.isRequired,
-  removeError: React.PropTypes.func.isRequired,
-  scormFile: React.PropTypes.shape({
-    name: React.PropTypes.string,
+  error: PropTypes.bool,
+  errorText: PropTypes.string,
+  errorHandle: PropTypes.string.isRequired,
+  removeError: PropTypes.func.isRequired,
+  scormCourseId: PropTypes.number,
+  lmsCourseId: PropTypes.string,
+  scormFile: PropTypes.shape({
+    name: PropTypes.string,
   }),
 };
 
