@@ -115,11 +115,11 @@ class Api::ScormCoursesController < ApplicationController
     duplicate_dir_path = File.join(storage_mount, "job", scorm_course_id.to_s)
     cmd = "mkdir -p #{duplicate_dir_path}"
     success = system(cmd)
-    raise ScormCopyToStorage unless success
+    raise Adhesion::Exceptions::ScormCopyToStorage unless success
     duplicate_file_path = File.join(duplicate_dir_path, file.original_filename)
     cmd = "mv #{file.tempfile.path} #{duplicate_file_path}"
     success = system(cmd)
-    raise ScormCopyToStorage unless success
+    raise Adhesion::Exceptions::ScormCopyToStorage unless success
     duplicate_file_path
   end
 
