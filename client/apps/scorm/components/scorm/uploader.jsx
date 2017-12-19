@@ -89,7 +89,7 @@ Uploader.propTypes = {
   errorText: PropTypes.string,
   errorHandle: PropTypes.string.isRequired,
   removeError: PropTypes.func.isRequired,
-  scormCourseId: PropTypes.number,
+  scormServiceId: PropTypes.number,
   lmsCourseId: PropTypes.string,
   scormFile: PropTypes.shape({
     name: PropTypes.string,
