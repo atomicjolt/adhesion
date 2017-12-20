@@ -37,11 +37,27 @@ class ScormEngineService
   def list_courses(options = {})
     courses = {}
     url = "#{@scorm_tenant_url}/courses"
-    response = send_get_request(url, options)
-    body_courses = JSON.parse(response.body)["courses"]
+    body_courses, response = get_courses(url, options)
     courses[:response] = get_merged_list(body_courses)
     courses[:status] = response.code
     courses
+  end
+
+  ##
+  # Recursively get all courses
+  def get_courses(url, options = {})
+    response = send_get_request(url, options)
+    body = JSON.parse(response.body)
+    body_courses = body["courses"]
+    more_url = body["more"]
+    if more_url.present?
+      more_url_parsed = URI.parse(more_url)
+      options[:more] = Rack::Utils.parse_nested_query(more_url_parsed.query)["more"]
+      more_body_courses, response = get_courses(url, options)
+      body_courses << more_body_courses
+      body_courses.flatten!
+    end
+    [body_courses, response]
   end
 
   def upload_scorm_course(file, course_id, _cleanup)
