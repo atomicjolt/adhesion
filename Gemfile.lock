@@ -270,7 +270,7 @@ GEM
       method_source (~> 0.8.1)
     public_suffix (2.0.5)
     puma (3.10.0)
-    que (0.14.0)
+    que (0.13.1)
     rack (2.0.3)
     rack-cors (1.0.1)
     rack-test (0.6.3)
@@ -473,7 +473,7 @@ DEPENDENCIES
   omniauth-canvas (~> 1.0.1)
   pg
   puma
-  que (~> 0.14.0)
+  que (~> 0.13.0)
   rack-cors
   rails (= 5.0.2)
   rails-erd
