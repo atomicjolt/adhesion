@@ -122,10 +122,10 @@ class Api::ScormCoursesController < ApplicationController
     success = system(cmd)
     raise Adhesion::Exceptions::ScormCopyToStorage unless success
     duplicate_file_path = File.join(duplicate_dir_path, file.original_filename)
-    file.close
     cmd = "mv #{file.tempfile.path} #{duplicate_file_path}"
     success = system(cmd)
     raise Adhesion::Exceptions::ScormCopyToStorage unless success
+    file.close
     duplicate_file_path
   end
 
