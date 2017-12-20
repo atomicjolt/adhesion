@@ -125,6 +125,7 @@ class Api::ScormCoursesController < ApplicationController
     cmd = "mv #{file.tempfile.path} #{duplicate_file_path}"
     success = system(cmd)
     raise Adhesion::Exceptions::ScormCopyToStorage unless success
+    file.close
     duplicate_file_path
   end
 
