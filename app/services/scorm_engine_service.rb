@@ -60,7 +60,7 @@ class ScormEngineService
     url = "#{@scorm_tenant_url}/courses/importJobs?#{params}"
 
     File.open(file) do |zip|
-      RestClient::Request.execute(
+      response = RestClient::Request.execute(
         method: :post,
         url: url,
         user: @api_username,
@@ -68,10 +68,8 @@ class ScormEngineService
         payload: {
           file: UploadIO.new(zip, "zip/zip", File.basename(file)),
         },
-      ) do |response|
-        raise response if response.code == 500
-        JSON.parse(response.body)["result"]
-      end
+      )
+      JSON.parse(response.body)["result"]
     end
   end
 
@@ -201,10 +199,7 @@ class ScormEngineService
         content_type: :json,
         params: params,
       },
-    ) do |response|
-      raise response if response.code == 500
-      response
-    end
+    )
   end
 
   def send_post_request(url, body = {}, content_type = :json)
@@ -218,25 +213,20 @@ class ScormEngineService
         content_type: content_type,
       },
       payload: body.to_json,
-    ) do |response|
-      raise response if response.code == 500
-      response
-    end
+    )
   end
 
   def send_delete_request(url)
-    RestClient::Request.execute(
+    response = RestClient::Request.execute(
       method: :delete,
       url: url,
       user: @api_username,
       password: @api_password,
-    ) do |response|
-      raise response if response.code == 500
-      {
-        status: response.code,
-        response: [200, 204].include?(response.code),
-      }
-    end
+    )
+    {
+      status: response.code,
+      response: [200, 204].include?(response.code),
+    }
   end
 
   def setup_url_response(launch_link)
