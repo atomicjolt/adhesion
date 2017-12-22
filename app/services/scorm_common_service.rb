@@ -12,7 +12,7 @@ module ScormCommonService
       course_ids = get_course_ids(courses)
       existing_course_ids = ScormCourse.
         where("scorm_service_id LIKE '%_?'", lms_course_id.to_i).
-        map(&:scorm_service_id)
+        pluck(:scorm_service_id)
       extra = existing_course_ids - course_ids
       remove_extras(extra)
       needed = course_ids - existing_course_ids
@@ -129,8 +129,9 @@ module ScormCommonService
   end
 
   def update_scorm_courses(courses, needed)
-    new_courses = []
-    needed.each { |scorm_service_id| new_courses << ScormCourse.create(scorm_service_id: scorm_service_id) }
+    new_courses = needed.map do |scorm_service_id|
+      ScormCourse.create(scorm_service_id: scorm_service_id)
+    end
     new_courses.each do |course|
       title = get_title(courses, course)
       course.update_attribute(:title, title)
