@@ -32,6 +32,9 @@ class ApplicationController < ActionController::Base
     @exception_name = e.class.name
     @backtrace = e.backtrace
     @status = ActionDispatch::ExceptionWrapper.new(request.env, e).status_code
+
+    ErrorMailer.error_email(current_user, error_info).deliver_later
+
     respond_to do |format|
       format.html { render_html_error }
       format.json { render_json_error }
