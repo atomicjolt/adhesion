@@ -1,0 +1,76 @@
+<div>
+  User <%= @user&.name || "unknown" %> had an error
+</div>
+
+<div class="error-text">
+  <div>
+    error: <%= @error_info[:error] %>
+  </div>
+  <div>
+    exception: <%= @error_info[:exception] %>
+  </div>
+  <div>
+    user_id: <%= @error_info[:user_id] %>
+  </div>
+  <div>
+    user_email: <%= @error_info[:user_email] %>
+  </div>
+  <div>
+    user_name: <%= @error_info[:user_name] %>
+  </div>
+  <div>
+    lti_user_id: <%= @error_info[:lti_user_id] %>
+  </div>
+  <div>
+    lms_user_id: <%= @error_info[:lms_user_id] %>
+  </div>
+  <div>
+    timestamp: <%= @error_info[:timestamp] %>
+  </div>
+  <div>
+    url: <%= @error_info[:url] %>
+  </div>
+  <div>
+    request_method: <%= @error_info[:request_method] %>
+  </div>
+  <div>
+    params: <%= @error_info[:params] %>
+  </div>
+  <div>
+    headers: {
+      <div>
+        "Accept-Language": <%= @error_info[:headers][:"Accept-Language"] %>
+      </div>
+      <div>
+        "Accept-Encoding": <%= @error_info[:headers][:"Accept-Encoding"] %>
+      </div>
+      <div>
+        "Accept": <%= @error_info[:headers][:"Accept"] %>
+      </div>
+      <div>
+        "User-Agent": <%= @error_info[:headers][:"User-Agent"] %>
+      </div>
+      <div>
+        "Host": <%= @error_info[:headers][:"Host"] %>
+      </div>
+      <div>
+        "Version": <%= @error_info[:headers][:"Version"] %>
+      </div>
+      <div>
+        "Referer": <%= @error_info[:headers][:"Referer"] %>
+      </div>
+      <div>
+        "If-None-Match": <%= @error_info[:headers][:"If-None-Match"] %>
+      </div>
+    }
+  </div>
+  <div>
+    <br>
+    backtrace:
+    <% @error_info[:backtrace]&.each do |line| -%>
+      <div>
+        <%= line %>
+      </div>
+    <% end -%>
+  </div>
+</div>
