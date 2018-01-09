@@ -39,17 +39,9 @@ RSpec.describe Api::ScormCoursesController, type: :controller do
 
   describe "POST create" do
     it "should upload scorm package" do
-      expect(ScormImportJob).to receive(:perform_later)
-      class Foo
-        def path; end
-      end
-
-      file = Foo.new
-
-      allow(controller).to receive(:copy_to_storage).and_return(file)
-
-      post :create, file: "fake_file", lms_course_id: "course_id"
-      expect(response).to have_http_status(200)
+      expect do
+        post :create, params: { lms_course_id: "course_id" }
+      end.to change { ScormCourse.count }.by(1)
     end
   end
 
@@ -80,6 +72,29 @@ RSpec.describe Api::ScormCoursesController, type: :controller do
       delete :destroy, id: 1
       expect(response).to have_http_status(200)
       expect(JSON.parse(response.body)["response"]["removed"]).to equal(true)
+    end
+  end
+
+  describe "POST replace" do
+    it "should upload scorm package" do
+      scorm_course = create(:scorm_course, import_job_status: ScormCourse::CREATED)
+      expect(ScormImportJob).to receive(:perform_later)
+      class Foo
+        def path; end
+      end
+
+      file = Foo.new
+
+      allow(controller).to receive(:copy_to_storage).and_return(file)
+
+      params = {
+        scorm_course_id: scorm_course.scorm_service_id,
+        file: "fake_file",
+        lms_course_id: "course_id",
+      }
+
+      post :replace, params: params
+      expect(response).to have_http_status(200)
     end
   end
 

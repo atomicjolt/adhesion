@@ -4,7 +4,7 @@ import CommonSvg from '../../../../libs/components/common_svg';
 export default class FileUpload extends React.Component {
 
   static propTypes = {
-    uploadPackage: React.PropTypes.func.isRequired,
+    processPackage: React.PropTypes.func.isRequired,
   };
 
   constructor() {
@@ -16,7 +16,7 @@ export default class FileUpload extends React.Component {
     const files = e.target.files;
     const file = files.length === 1 ? files[0] : null;
     if (file) {
-      this.props.uploadPackage(file);
+      this.props.processPackage(file);
       this.inputRef.value = '';
     }
   }

@@ -13,7 +13,7 @@ describe('File Upload', () => {
     uploading = false;
 
     props = {
-      uploadPackage: () => { uploading = true; },
+      processPackage: () => { uploading = true; },
     };
 
     result = mount(<FileUpload {...props} />);
