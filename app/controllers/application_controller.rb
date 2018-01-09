@@ -32,6 +32,9 @@ class ApplicationController < ActionController::Base
     @exception_name = e.class.name
     @backtrace = e.backtrace
     @status = ActionDispatch::ExceptionWrapper.new(request.env, e).status_code
+
+    ErrorMailer.error_email(current_user, error_info).deliver_later
+
     respond_to do |format|
       format.html { render_html_error }
       format.json { render_json_error }
@@ -52,12 +55,39 @@ class ApplicationController < ActionController::Base
   end
 
   def render_json_error
-    error_info = {
+    render json: error_info.to_json, status: @status
+  end
+
+  def error_info
+    params_dup = request.params.dup
+    params_dup["authenticity_token"] = "******"
+    if params_dup["user"].present?
+      params_dup["user"]["password"] = "******"
+    end
+    {
+      user_id: current_user&.id,
+      user_email: current_user&.email,
+      user_name: current_user&.name,
+      lti_user_id: current_user&.lti_user_id,
+      lms_user_id: current_user&.lms_user_id,
+      timestamp: Time.zone.now.to_s,
+      url: request.url,
+      request_method: request.request_method,
+      params: params_dup,
+      headers: {
+        "Accept-Language": request.headers["Accept-Language"],
+        "Accept-Encoding": request.headers["Accept-Encoding"],
+        "Accept": request.headers["Accept"],
+        "User-Agent": request.headers["User-Agent"],
+        "Host": request.headers["host"],
+        "Version": request.headers["version"],
+        "Referer": request.headers["Referer"],
+        "If-None-Match": request.headers["If-None-Match"],
+      },
       error: @status.to_s,
       exception: "#{@exception_name} : #{@exception}",
       backtrace: @backtrace,
     }
-    render json: error_info.to_json, status: @status
   end
 
   def canvas_url

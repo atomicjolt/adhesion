@@ -1,0 +1,29 @@
+User <%= @user&.name || "unknown" %> had an error
+
+error: <%= @error_info[:error] %>
+exception: <%= @error_info[:exception] %>
+user_id: <%= @error_info[:user_id] %>
+user_email: <%= @error_info[:user_email] %>
+user_name: <%= @error_info[:user_name] %>
+lti_user_id: <%= @error_info[:lti_user_id] %>
+lms_user_id: <%= @error_info[:lms_user_id] %>
+
+timestamp: <%= @error_info[:timestamp] %>
+url: <%= @error_info[:url] %>
+request_method: <%= @error_info[:request_method] %>
+params: <%= @error_info[:params] %>
+headers: {
+  "Accept-Language": <%= @error_info[:headers][:"Accept-Language"] %>
+  "Accept-Encoding": <%= @error_info[:headers][:"Accept-Encoding"] %>
+  "Accept": <%= @error_info[:headers][:"Accept"] %>
+  "User-Agent": <%= @error_info[:headers][:"User-Agent"] %>
+  "Host": <%= @error_info[:headers][:"Host"] %>
+  "Version": <%= @error_info[:headers][:"Version"] %>
+  "Referer": <%= @error_info[:headers][:"Referer"] %>
+  "If-None-Match": <%= @error_info[:headers][:"If-None-Match"] %>
+},
+
+backtrace:
+<% @error_info[:backtrace]&.each do |line| -%>
+  <%= line %>
+<% end -%>
