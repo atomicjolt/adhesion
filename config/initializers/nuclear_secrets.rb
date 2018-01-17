@@ -33,5 +33,6 @@ NuclearSecrets.configure do |config|
     u4sm_password: String,
     storage_mount: String,
     error_email: String,
+    shared_sis_auth_secret: String,
   }
 end
