@@ -1,4 +1,7 @@
 class SisGrade < ApplicationRecord
+  FINAL = "final".freeze
+  MIDTERM = "midterm".freeze
+
   def update_grades(new_grades)
     new_grades.each do |grade|
       grade_found = grades.detect do |stored_grade|

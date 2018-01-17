@@ -4,9 +4,9 @@ class Api::SectionMetadataController < Api::ApiApplicationController
     if params[:updater]
       sections = params[:sections].map do |sec|
         section = SectionMetadata.find_by(lms_course_id: params[:lms_course_id], lms_section_id: sec[:id])
-        if params[:type] == "midterm"
+        if params[:type] == SisGrade::MIDTERM
           section.update_attributes(any_posted: true, mid_posted: Time.now)
-        elsif params[:type] == "final"
+        elsif params[:type] == SisGrade::FINAL
           section.update_attributes(any_posted: true, final_posted: Time.now)
         end
         section
