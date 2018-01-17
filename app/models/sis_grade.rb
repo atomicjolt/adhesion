@@ -1,0 +1,2 @@
+class SisGrade < ApplicationRecord
+end
