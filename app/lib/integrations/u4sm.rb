@@ -3,6 +3,16 @@ require "rest-client"
 module Integrations
 
   module U4sm
+    def self.post_grades_to_db(sis_course_id, sis_section_id, gradetype, grades)
+      grade = SisGrade.find_or_create_by(
+        sis_course_id: sis_course_id,
+        sis_section_id: sis_section_id,
+        gradetype: gradetype,
+      )
+
+      grade.update_grades(grades)
+    end
+
     def self.post_grades_to_sis(sis_course_id, sis_section_id, gradetype, grades)
       cookie = U4sm.get_cookie
       RestClient.post(
