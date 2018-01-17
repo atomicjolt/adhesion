@@ -13,7 +13,7 @@ class Api::CourseCompletionsController < Api::ApiApplicationController
       grade: enrollment["grades"]["final_score"],
     }]
 
-    Integrations::U4sm.post_grades_to_sis(
+    Integrations::U4sm.post_grades_to_db(
       enrollment["sis_course_id"],
       enrollment["sis_section_id"],
       "final",
