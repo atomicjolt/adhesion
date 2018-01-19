@@ -110,15 +110,18 @@ RSpec.describe SisGrade, type: :model do
       expect(@grade.grades.length).to eq(3)
     end
 
-    it "doesn't update grades" do
+    it "doesn't update student individual grade" do
       sis_user_id = @grades.first[:sis_user_id]
-      user_2_new_grade = generate(:common_grade)
+      user_2_original_grade = @grades.first[:grade]
+      user_2_new_grade = "Z"
       new_grades = [
         { sis_user_id: sis_user_id, grade: user_2_new_grade },
       ]
       @grade.update_grades(new_grades)
 
       expect(@grade.grades.length).to eq(2)
+      grade = @grade.grades.detect { |g| g["sis_user_id"] == sis_user_id }
+      expect(grade["grade"]).to eq(user_2_original_grade)
     end
   end
 
