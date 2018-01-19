@@ -25,7 +25,7 @@ class Api::SubmissionsController < Api::ApiApplicationController
       else
         grades = make_grades(section_info)
       end
-      Integrations::U4sm.post_grades_to_db(
+      Integrations::SIS.post_grades_to_db(
         section_info[:section][:sis_course_id],
         section_info[:section][:sis_section_id],
         params[:type],
