@@ -8,5 +8,7 @@ class CreateSisGrades < ActiveRecord::Migration[5.0]
 
       t.timestamps
     end
+
+    add_index :sis_grades, %i[created_at gradetype sis_course_id sis_section_id], name: "index_sis_grades_on_created_at_gradetype_course_id_section_id"
   end
 end

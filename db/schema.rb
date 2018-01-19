@@ -308,6 +308,7 @@ ActiveRecord::Schema.define(version: 20180113150137) do
     t.jsonb    "grades",         default: []
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
+    t.index ["created_at", "gradetype", "sis_course_id", "sis_section_id"], name: "index_sis_grades_on_created_at_gradetype_course_id_section_id", using: :btree
   end
 
   create_table "sites", id: :bigserial, force: :cascade do |t|
