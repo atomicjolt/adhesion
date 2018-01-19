@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  rescue_from StandardError, with: :error unless Rails.application.config.consider_all_requests_local
+  rescue_from StandardError, with: :error # unless Rails.application.config.consider_all_requests_local
 
   def error(e)
     @exception = e.message
@@ -88,6 +88,15 @@ class ApplicationController < ActionController::Base
       exception: "#{@exception_name} : #{@exception}",
       backtrace: @backtrace,
     }
+  end
+
+  # **********************************************
+  # Paging methods
+  #
+  def setup_will_paginate
+    @page = (params[:page] || 1).to_i
+    @page = 1 if @page < 1
+    @per_page = (params[:per_page] || (Rails.env.test? ? 1 : 40)).to_i
   end
 
   def canvas_url

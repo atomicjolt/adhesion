@@ -1,6 +1,96 @@
 require "rails_helper"
 
 RSpec.describe SisGrade, type: :model do
+  context "scopes" do
+    before do
+      @grade1 = create(
+        :sis_grade,
+        created_at: Date.today - 6.days,
+        gradetype: SisGrade::MIDTERM,
+      )
+
+      @grade2 = create(
+        :sis_grade,
+        created_at: Date.today - 4.days,
+        gradetype: SisGrade::FINAL,
+      )
+
+      @grade3 = create(
+        :sis_grade,
+        created_at: Date.today - 2.days,
+        gradetype: SisGrade::MIDTERM,
+      )
+    end
+
+    describe "after_date" do
+      it "returns grades after a date" do
+        grades = SisGrade.after_date(Date.today - 5.days)
+        expect(grades.count).to eq(2)
+        expect(grades).to_not include(@grade1)
+        expect(grades).to include(@grade2)
+        expect(grades).to include(@grade3)
+      end
+    end
+
+    describe "before_date" do
+      it "returns grades before a date" do
+        grades = SisGrade.before_date(Date.today - 5.days)
+        expect(grades.count).to eq(1)
+        expect(grades).to include(@grade1)
+        expect(grades).to_not include(@grade2)
+        expect(grades).to_not include(@grade3)
+      end
+    end
+
+    describe "in_between" do
+      it "returns grades in between a date" do
+        grades = SisGrade.in_between(Date.today - 5.days, Date.today - 1.days)
+        expect(grades.count).to eq(2)
+        expect(grades).to_not include(@grade1)
+        expect(grades).to include(@grade2)
+        expect(grades).to include(@grade3)
+      end
+    end
+
+    describe "for_sis_course_id" do
+      it "returns grades for a sis_course_id" do
+        grades = SisGrade.for_sis_course_id(@grade1.sis_course_id)
+        expect(grades.count).to eq(1)
+        expect(grades).to include(@grade1)
+        expect(grades).to_not include(@grade2)
+        expect(grades).to_not include(@grade3)
+      end
+    end
+
+    describe "for_sis_section_id" do
+      it "returns grades for a sis_section_id" do
+        grades = SisGrade.for_sis_section_id(@grade2.sis_section_id)
+        expect(grades.count).to eq(1)
+        expect(grades).to_not include(@grade1)
+        expect(grades).to include(@grade2)
+        expect(grades).to_not include(@grade3)
+      end
+    end
+
+    describe "for_gradetype" do
+      it "returns grades for a gradetype SisGrade::MIDTERM" do
+        grades = SisGrade.for_gradetype(SisGrade::MIDTERM)
+        expect(grades.count).to eq(2)
+        expect(grades).to include(@grade1)
+        expect(grades).to_not include(@grade2)
+        expect(grades).to include(@grade3)
+      end
+
+      it "returns grades for a gradetype SisGrade::FINAL" do
+        grades = SisGrade.for_gradetype(SisGrade::FINAL)
+        expect(grades.count).to eq(1)
+        expect(grades).to_not include(@grade1)
+        expect(grades).to include(@grade2)
+        expect(grades).to_not include(@grade3)
+      end
+    end
+  end
+
   describe "update_grades" do
     before do
       @grades = Array.new(2) do
