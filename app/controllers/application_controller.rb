@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  rescue_from StandardError, with: :error # unless Rails.application.config.consider_all_requests_local
+  rescue_from StandardError, with: :error unless Rails.application.config.consider_all_requests_local
 
   def error(e)
     @exception = e.message
