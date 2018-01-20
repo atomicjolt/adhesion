@@ -3,14 +3,24 @@ require "rest-client"
 module Integrations
 
   module SIS
-    def self.post_grades_to_db(sis_course_id, sis_section_id, gradetype, grades)
-      grade = SisGrade.find_or_create_by(
+    def self.post_grades_to_db(sis_course_id, sis_section_id, gradetype, grades, sis_user_id = nil)
+      sis_grade = SisGrade.find_by(
+        gradetype: gradetype,
         sis_course_id: sis_course_id,
         sis_section_id: sis_section_id,
-        gradetype: gradetype,
+        sis_user_id: sis_user_id,
       )
 
-      grade.update_grades(grades)
+      # Only create with grades if not found
+      if sis_grade.nil?
+        SisGrade.create(
+          gradetype: gradetype,
+          sis_course_id: sis_course_id,
+          sis_section_id: sis_section_id,
+          sis_user_id: sis_user_id,
+          grades: grades,
+        )
+      end
     end
 
     def self.post_grades_to_sis(sis_course_id, sis_section_id, gradetype, grades)
