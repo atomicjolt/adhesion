@@ -304,11 +304,12 @@ ActiveRecord::Schema.define(version: 20180113150137) do
   create_table "sis_grades", force: :cascade do |t|
     t.string   "sis_course_id"
     t.string   "sis_section_id"
+    t.string   "sis_user_id"
     t.string   "gradetype"
     t.jsonb    "grades",         default: []
     t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
-    t.index ["created_at", "gradetype", "sis_course_id", "sis_section_id"], name: "index_sis_grades_on_created_at_gradetype_course_id_section_id", using: :btree
+    t.index ["created_at", "gradetype", "sis_course_id", "sis_section_id", "sis_user_id"], name: "index_sis_grades_on_created_at_gradetype_course_section_user", using: :btree
+    t.index ["gradetype", "sis_course_id", "sis_section_id", "sis_user_id"], name: "index_sis_grades_on_gradetype_course_section_user", using: :btree
   end
 
   create_table "sites", id: :bigserial, force: :cascade do |t|
