@@ -91,7 +91,7 @@ RSpec.describe SisGrade, type: :model do
     end
   end
 
-  describe "update_grades" do
+  describe "add_grades" do
     before do
       @grades = Array.new(2) do
         { sis_user_id: generate(:sis_user_id), grade: generate(:common_grade) }
@@ -105,7 +105,7 @@ RSpec.describe SisGrade, type: :model do
       new_grades = [
         { sis_user_id: @sis_user_id3, grade: @user_3_grade },
       ]
-      @grade.update_grades(new_grades)
+      @grade.add_grades(new_grades)
 
       expect(@grade.grades.length).to eq(3)
     end
@@ -117,7 +117,7 @@ RSpec.describe SisGrade, type: :model do
       new_grades = [
         { sis_user_id: sis_user_id, grade: user_2_new_grade },
       ]
-      @grade.update_grades(new_grades)
+      @grade.add_grades(new_grades)
 
       expect(@grade.grades.length).to eq(2)
       grade = @grade.grades.detect { |g| g["sis_user_id"] == sis_user_id }
@@ -125,7 +125,7 @@ RSpec.describe SisGrade, type: :model do
     end
   end
 
-  describe "update_grades speed test" do
+  describe "add_grades speed test" do
     before do
       @grades = Array.new(3000) do
         { sis_user_id: generate(:sis_user_id), grade: generate(:common_grade) }
@@ -141,7 +141,7 @@ RSpec.describe SisGrade, type: :model do
       ]
 
       time_start = Time.now
-      @grade.update_grades(new_grades)
+      @grade.add_grades(new_grades)
       time_end = Time.now
 
       elapsed_time = time_end - time_start

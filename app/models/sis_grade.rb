@@ -12,7 +12,9 @@ class SisGrade < ApplicationRecord
   scope :by_oldest, -> { order(start_date: :asc) }
   scope :by_latest, -> { order(updated_at: :desc) }
 
-  def update_grades(new_grades)
+  ##
+  # Add new grades but doesn't update existing
+  def add_grades(new_grades)
     new_grades.each do |grade|
       grade_found = grades.detect do |stored_grade|
         stored_grade.with_indifferent_access[:sis_user_id] ==
