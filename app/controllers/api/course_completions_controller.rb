@@ -18,6 +18,7 @@ class Api::CourseCompletionsController < Api::ApiApplicationController
       enrollment["sis_section_id"],
       SisGrade::FINAL,
       grades,
+      enrollment["sis_user_id"],
     )
     render json: { status: 200 }
   end
