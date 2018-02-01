@@ -116,6 +116,6 @@ FactoryGirl.define do
   end
 
   sequence :common_grade do
-    ["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F"].sample
+    ["100.0", "97.2", "95.8", "92.1", "90.6", "87.0", "85.1", "82.9", "80.3", "77.0", "75.8", "72.3", "67.2"].sample
   end
 end
