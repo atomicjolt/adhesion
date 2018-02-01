@@ -15,7 +15,7 @@ class Api::SisGradesController < Api::ApiApplicationController
   # Optional Parameters
   #
   # start_date: defaults to today - String format of "YYYY-MM-DD"
-  # end_date: defaults to today - String format of "YYYY-MM-DD"
+  # end_date: defaults to current utc time - String format of "YYYY-MM-DD"
   # gradetype: String "final" or "midterm"
   # sis_course_id: String
   # sis_section_id: String
@@ -43,7 +43,7 @@ class Api::SisGradesController < Api::ApiApplicationController
   private
 
   def scope_grades(grades)
-    scoped_grades = grades.in_between(params[:start_date] || Date.today, params[:end_date] || Date.today)
+    scoped_grades = grades.in_between(params[:start_date] || Date.today, params[:end_date] || Time.now.utc)
     scoped_grades = scoped_grades.for_gradetype(params[:gradetype]) if params[:gradetype].present?
     scoped_grades = scoped_grades.for_sis_course_id(params[:sis_course_id]) if params[:sis_course_id].present?
     scoped_grades = scoped_grades.for_sis_section_id(params[:sis_section_id]) if params[:sis_section_id].present?
