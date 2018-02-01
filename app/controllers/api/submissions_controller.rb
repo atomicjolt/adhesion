@@ -45,13 +45,13 @@ class Api::SubmissionsController < Api::ApiApplicationController
 
   def grades(section_info)
     if params[:assignment_id] == "total"
-      total_grades(section_info[:users])
+      total_grades(section_info)
     else
-      make_grades(section_info)
+      section_submission_grades(section_info)
     end
   end
 
-  def make_grades(section_info)
+  def section_submission_grades(section_info)
     section_info[:subs].map do |sub|
       {
         sis_user_id: get_user_sis(section_info[:users], sub["user_id"]),
@@ -60,8 +60,8 @@ class Api::SubmissionsController < Api::ApiApplicationController
     end
   end
 
-  def total_grades(users)
-    users.select do |user|
+  def total_grades(section_info)
+    section_info[:users].select do |user|
       user["role"] == "StudentEnrollment"
     end.map do |student|
       {
