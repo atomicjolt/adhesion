@@ -14,8 +14,8 @@ class Api::SisGradesController < Api::ApiApplicationController
   #
   # Optional Parameters
   #
-  # start_date: defaults to today - String format of "YYYY-MM-DD"
-  # end_date: defaults to current utc time - String format of "YYYY-MM-DD"
+  # start_date: defaults to beginning of today - String format of "YYYY-MM-DD" or "YYYY-MM-DD HH:MM:SS"
+  # end_date: defaults to current utc time - String format of "YYYY-MM-DD" or "YYYY-MM-DD HH:MM:SS"
   # gradetype: String "final" or "midterm"
   # sis_course_id: String
   # sis_section_id: String
