@@ -6,7 +6,7 @@ class Api::SubmissionsController < Api::ApiApplicationController
     submissions = []
 
     params[:sections].each do |section|
-      if section["id"] > 0
+      if section["id"].to_i > 0
         sub_params = {
           section_id: section["id"],
           assignment_id: params[:assignment_id],
@@ -38,17 +38,19 @@ class Api::SubmissionsController < Api::ApiApplicationController
     section_info[:subs].map do |sub|
       {
         sis_user_id: get_user_sis(section_info[:users], sub["user_id"]),
-        grade: sub["score"],
+        grade: sub["grade"].to_f,
       }
     end
   end
 
   def total_grades(users)
-    users.map do |user|
+    users.select do |user|
+      user["role"] == "StudentEnrollment"
+    end.map do |student|
       {
-        sis_user_id: user["sis_user_id"],
-        grade: user["grades"]["final_score"],
-      } if user["role"] == "StudentEnrollment"
+        sis_user_id: student["sis_user_id"],
+        grade: student["grades"]["final_score"],
+      }
     end
   end
 
