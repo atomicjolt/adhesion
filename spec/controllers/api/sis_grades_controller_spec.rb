@@ -160,6 +160,28 @@ RSpec.describe Api::SisGradesController, type: :controller do
         expect(grade_found).to be true
       end
 
+      it "returns grades based on timestamp and sis_user_id" do
+        @grade1.update(sis_user_id: generate(:sis_user_id))
+        params = {
+          shared_auth: true,
+          start_date: Date.today - 8.days,
+          end_date: Date.today,
+          sis_user_id: @grade1.sis_user_id,
+        }
+
+        get :index, params: params, format: :json
+
+        expect(response).to have_http_status(200)
+
+        sis_grades = JSON.parse(response.body)
+
+        grades = sis_grades["grades"]
+
+        expect(grades.count).to eq(1)
+        grade_found = grades.any? { |grade| grade["id"] == @grade1.id }
+        expect(grade_found).to be true
+      end
+
       it "returns paginated grades" do
         params = {
           shared_auth: true,

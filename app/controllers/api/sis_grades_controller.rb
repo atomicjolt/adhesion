@@ -19,6 +19,7 @@ class Api::SisGradesController < Api::ApiApplicationController
   # gradetype: String "final" or "midterm"
   # sis_course_id: String
   # sis_section_id: String
+  # sis_user_id: String
   # page: Integer - Requried if per_page is passed in - Must be greater than 0
   # per_page: Integer - Default is 40
   #
@@ -46,6 +47,7 @@ class Api::SisGradesController < Api::ApiApplicationController
     scoped_grades = scoped_grades.for_gradetype(params[:gradetype]) if params[:gradetype].present?
     scoped_grades = scoped_grades.for_sis_course_id(params[:sis_course_id]) if params[:sis_course_id].present?
     scoped_grades = scoped_grades.for_sis_section_id(params[:sis_section_id]) if params[:sis_section_id].present?
+    scoped_grades = scoped_grades.for_sis_user_id(params[:sis_user_id]) if params[:sis_user_id].present?
     scoped_grades
   end
 

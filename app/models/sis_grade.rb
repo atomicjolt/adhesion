@@ -7,6 +7,7 @@ class SisGrade < ApplicationRecord
   scope :in_between, ->(start_date, end_date) { where("created_at >= ? AND created_at <= ?", start_date, end_date) }
   scope :for_sis_course_id, ->(sis_course_id) { where(sis_course_id: sis_course_id) }
   scope :for_sis_section_id, ->(sis_section_id) { where(sis_section_id: sis_section_id) }
+  scope :for_sis_user_id, ->(sis_user_id) { where(sis_user_id: sis_user_id) }
   scope :for_gradetype, ->(gradetype) { where(gradetype: gradetype) }
   scope :by_newest, -> { order(created_at: :desc) }
   scope :by_oldest, -> { order(start_date: :asc) }
