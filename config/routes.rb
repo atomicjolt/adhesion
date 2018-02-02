@@ -98,6 +98,8 @@ Rails.application.routes.draw do
     resources :section_metadata
     resources :lti_content_item_selection, only: [:create]
     resources :lti_launches
+
+    resources :sis_grades, only: [:index]
   end
 
   get "api/canvas" => "api/canvas_proxy#proxy"

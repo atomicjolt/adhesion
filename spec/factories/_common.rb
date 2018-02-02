@@ -98,4 +98,24 @@ FactoryGirl.define do
   sequence :lms_assignment_id do |n|
     n + 512
   end
+
+  sequence :gradetype do
+    [SisGrade::MIDTERM, SisGrade::FINAL].sample
+  end
+
+  sequence :sis_course_id do |n|
+    "abc123_#{n}"
+  end
+
+  sequence :sis_section_id do |n|
+    "def456_#{n}"
+  end
+
+  sequence :sis_user_id do |n|
+    "meh789_#{n}"
+  end
+
+  sequence :common_grade do
+    ["100.0", "97.2", "95.8", "92.1", "90.6", "87.0", "85.1", "82.9", "80.3", "77.0", "75.8", "72.3", "67.2"].sample
+  end
 end

@@ -2,9 +2,29 @@ require "rest-client"
 
 module Integrations
 
-  module U4sm
+  module SIS
+    def self.post_grades_to_db(sis_course_id, sis_section_id, gradetype, grades, sis_user_id = nil)
+      sis_grade = SisGrade.find_by(
+        gradetype: gradetype,
+        sis_course_id: sis_course_id,
+        sis_section_id: sis_section_id,
+        sis_user_id: sis_user_id,
+      )
+
+      # Only create with grades if not found
+      if sis_grade.nil?
+        SisGrade.create(
+          gradetype: gradetype,
+          sis_course_id: sis_course_id,
+          sis_section_id: sis_section_id,
+          sis_user_id: sis_user_id,
+          grades: grades,
+        )
+      end
+    end
+
     def self.post_grades_to_sis(sis_course_id, sis_section_id, gradetype, grades)
-      cookie = U4sm.get_cookie
+      cookie = SIS.get_cookie
       RestClient.post(
         "#{Rails.application.secrets.u4sm_url}/U4SMAPI/Canvas/CanvasGradePush",
         {
