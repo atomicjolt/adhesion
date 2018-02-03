@@ -13,6 +13,8 @@ class Api::SubmissionsController < Api::ApiApplicationController
         grades(section_info),
       )
     end
+
+    render json: {}, status: 200
   end
 
   def extract_submissions(sections)

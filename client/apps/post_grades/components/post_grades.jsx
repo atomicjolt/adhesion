@@ -66,13 +66,21 @@ export class PostGradesTool extends React.Component {
     };
   }
 
-  confirm() {
+  confirm(e) {
+    e.preventDefault();
+
+    const {
+      gradeSection = {},
+      gradeColumn = {},
+      gradeType = {},
+    } = e.target.elements;
+
     if (this.state.confirmed) {
       let sections = null;
-      if (this.sectionSelect.value === '-1') {
+      if (gradeSection.value === '-1') {
         sections = [{ id: -1 }];
         _.each(this.props.sections, (section) => {
-          const type = this.state.type === 'midterm' ? 'midPosted' : 'finalPosted';
+          const type = gradeType.value === 'midterm' ? 'midPosted' : 'finalPosted';
           const shouldSend = this.props.sectionsInfo[section.id][type];
           if (!shouldSend) {
             sections.push(this.secInfo(section));
@@ -80,14 +88,14 @@ export class PostGradesTool extends React.Component {
         });
       } else {
         const section = _.find(this.props.sections, sec => (
-          parseInt(this.sectionSelect.value, 10) === sec.id
+          parseInt(gradeSection.value, 10) === sec.id
         ));
         sections = [this.secInfo(section)];
       }
       const compSecs = _.compact(sections);
-      this.props.createStudentInfo(compSecs, this.columnSelect.value, this.state.type);
-      this.props.updateSectionMetadata(compSecs, this.props.lmsCourseId, this.state.type);
-      this.form.submit(); // closes Modal
+      this.props.createStudentInfo(compSecs, gradeColumn.value, gradeType.value);
+      // this.props.updateSectionMetadata(compSecs, this.props.lmsCourseId, gradeType.value);
+      this.closeTool.submit(); // closes Modal
     } else {
       this.setState({ confirmed: true });
     }
@@ -143,7 +151,7 @@ export class PostGradesTool extends React.Component {
       <div className="post-grades-modal__bottom">
         { this.confirmationText() }
         {this.renderClose('Cancel')}
-        <button disabled={!this.state.type} onClick={() => this.confirm()} className="btn btn--blue">
+        <button type="submit" className="btn btn--blue">
           {this.state.confirmed ? 'Post Grades' : 'Confirm'}
         </button>
       </div>
@@ -166,18 +174,23 @@ export class PostGradesTool extends React.Component {
     const { anyPosted, midPosted, finalPosted, lmsSectionId } = this.state.selSection;
     return (
       <div className="input-container">
-        <label htmlFor="grade-section">Section</label>
+        <label htmlFor="gradeSection">Section</label>
         <select
-          ref={(el) => { this.sectionSelect = el; }}
+          key="gradeSection"
           onChange={e => this.setSelected(e.target.value)}
-          name="select"
-          id="grade-section"
+          name="gradeSection"
+          id="gradeSection"
           aria-describedby="date-posted"
         >
           <option value={-1}>All Sections</option>
           {
             _.map(this.props.sections, section => (
-              <option value={section.id}>{section.name}</option>
+              <option
+                key={`section_${section.id}`}
+                value={section.id}
+              >
+                {section.name}
+              </option>
             ))
           }
         </select>
@@ -199,11 +212,10 @@ export class PostGradesTool extends React.Component {
         <legend>Grade type</legend>
         <div className="radio-container">
           <input
-            onChange={() => this.setState({ type: 'midterm' })}
             disabled={midPosted}
             id="midterm"
             type="radio"
-            name="grade-type"
+            name="gradeType"
             value="midterm"
           />
           <label htmlFor="midterm">
@@ -212,14 +224,11 @@ export class PostGradesTool extends React.Component {
         </div>
         <div className="radio-container">
           <input
-            onChange={
-              () => this.setState({ type: 'final' })
-            }
             disabled={finalPosted}
             id="final-grade"
             type="radio"
-            name="grade-type"
-            value="final grade"
+            name="gradeType"
+            value="final"
           />
           <label htmlFor="final-grade">
             <div className="radio-label">Final Grade</div>
@@ -233,12 +242,22 @@ export class PostGradesTool extends React.Component {
     const { finalPosted } = this.state.selSection;
     return (
       <div className={`input-container ${finalPosted ? 'is-disabled' : ''}`}>
-        <label htmlFor="grade-column">Grade book column to submit</label>
-        <select ref={(e) => { this.columnSelect = e; }} name="select2" id="grade-column">
+        <label htmlFor="gradeColumn">Grade book column to submit</label>
+        <select
+          key="gradeColumn"
+          ref={(e) => { this.columnSelect = e; }}
+          name="gradeColumn"
+          id="gradeColumn"
+        >
           <option value="total">Total</option>
           {
             _.map(this.props.assignments, assignment => (
-              <option value={assignment.id}>{assignment.name}</option>
+              <option
+                key={`assignment_${assignment.id}`}
+                value={assignment.id}
+              >
+                {assignment.name}
+              </option>
             ))
           }
         </select>
@@ -246,22 +265,36 @@ export class PostGradesTool extends React.Component {
     );
   }
 
+  close() {
+    this.closeTool.submit();
+  }
+
   renderClose(title) {
     return (
-      <form ref={(el) => { this.form = el; }} action={this.props.launchPesentationReturnUrl}>
-        <input type="submit" value={title} className="btn btn--blue" />
-      </form>
+      <input type="button" value={title} onClick={() => this.close()} className="btn btn--blue" />
+    );
+  }
+
+  closeForm() {
+    return (
+      <form
+        ref={(el) => { this.closeTool = el; }}
+        action={this.props.launchPesentationReturnUrl}
+      />
     );
   }
 
   render() {
     return (
       <div className="post-grades-modal">
-        {this.topText()}
-        {this.renderSections()}
-        {this.renderTypes()}
-        {this.renderAssignments()}
-        {this.bottomButtons()}
+        {this.closeForm()}
+        <form role="form" onSubmit={e => this.confirm(e)}>
+          {this.topText()}
+          {this.renderSections()}
+          {this.renderTypes()}
+          {this.renderAssignments()}
+          {this.bottomButtons()}
+        </form>
       </div>
     );
   }
