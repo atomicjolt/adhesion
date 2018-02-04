@@ -2,6 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 
 import { listAssignments } from 'atomic-canvas/libs/constants/assignments';
 import { listCourseSections } from 'atomic-canvas/libs/constants/sections';
@@ -24,11 +25,19 @@ export class PostGradesTool extends React.Component {
     assignments: PropTypes.array,
   };
 
+  static secInfo(section) {
+    return {
+      id: section.id,
+      sis_section_id: section.sis_section_id,
+      sis_course_id: section.sis_course_id
+    };
+  }
+
   constructor() {
     super();
     this.state = {
       selSection: {},
-      type: null,
+      confirm: false,
     };
   }
 
@@ -55,15 +64,10 @@ export class PostGradesTool extends React.Component {
 
   setSelected(value) {
     const selSection = this.props.sectionsInfo[value];
-    this.setState({ selSection });
-  }
-
-  secInfo(s) {
-    return {
-      id: s.id,
-      sis_section_id: s.sis_section_id,
-      sis_course_id: s.sis_course_id
-    };
+    this.setState({
+      selSection,
+      confirm: false,
+    });
   }
 
   confirm(e) {
@@ -75,30 +79,37 @@ export class PostGradesTool extends React.Component {
       gradeType = {},
     } = e.target.elements;
 
-    if (this.state.confirmed) {
-      let sections = null;
+    if (this.state.confirm) {
+      const sections = [];
       if (gradeSection.value === '-1') {
-        sections = [{ id: -1 }];
+        sections.push({ id: -1 });
         _.each(this.props.sections, (section) => {
-          const type = gradeType.value === 'midterm' ? 'midPosted' : 'finalPosted';
-          const shouldSend = this.props.sectionsInfo[section.id][type];
-          if (!shouldSend) {
-            sections.push(this.secInfo(section));
+          const shouldSend = this.shouldSend(gradeType, section);
+          if (shouldSend) {
+            sections.push(PostGradesTool.secInfo(section));
           }
         });
       } else {
         const section = _.find(this.props.sections, sec => (
           parseInt(gradeSection.value, 10) === sec.id
         ));
-        sections = [this.secInfo(section)];
+        const shouldSend = this.shouldSend(gradeType, section);
+        if (shouldSend) {
+          sections.push(PostGradesTool.secInfo(section));
+        }
       }
       const compSecs = _.compact(sections);
       this.props.createStudentInfo(compSecs, gradeColumn.value, gradeType.value);
       this.props.updateSectionMetadata(compSecs, this.props.lmsCourseId, gradeType.value);
       this.closeTool.submit(); // closes Modal
     } else {
-      this.setState({ confirmed: true });
+      this.setState({ confirm: true });
     }
+  }
+
+  shouldSend(gradeType, section) {
+    const type = gradeType.value === 'midterm' ? 'mid_posted' : 'final_posted';
+    return !this.props.sectionsInfo[section.id][type];
   }
 
   topText() {
@@ -108,7 +119,7 @@ export class PostGradesTool extends React.Component {
         <p className="body-text">
           If you need to change grades you will have to contact the Registrar.
           If you would like a record of the grades you submitted,
-          you can export or print your grade book.
+          you can export or print your gradebook.
         </p>
       </div>
     );
@@ -119,7 +130,7 @@ export class PostGradesTool extends React.Component {
           This will submit grades to the school,
           if you need to change grades afterwards you will have to contact the Registrar.
           If you would like a record of the grades you submitted,
-          you can export or print your grade book.
+          you can export or print your gradebook.
         </p>
       </div>
     );
@@ -128,7 +139,7 @@ export class PostGradesTool extends React.Component {
   }
 
   confirmationText() {
-    if (this.state.confirmed) {
+    if (this.state.confirm) {
       return (
         <p className="post-grades__confirmation" role="alert">
           Are you sure you want to post grades?
@@ -152,18 +163,24 @@ export class PostGradesTool extends React.Component {
         { this.confirmationText() }
         {this.renderClose('Cancel')}
         <button type="submit" className="btn btn--blue">
-          {this.state.confirmed ? 'Post Grades' : 'Confirm'}
+          {this.state.confirm ? 'Post Grades' : 'Confirm'}
         </button>
       </div>
     );
   }
 
-  postedTimes(anyPosted, midPosted, finalPosted) {
+  postedTimes() {
+    const {
+      any_posted:anyPosted,
+      mid_posted:midPosted,
+      final_posted:finalPosted,
+    } = this.state.selSection;
+
     if (anyPosted) {
       return (
         <div className="date-posted" id="date-posted">
-          {midPosted ? `Midterm posted ${midPosted.split('T')[0]}` : null} <br />
-          {finalPosted ? `Final posted ${finalPosted.split('T')[0]}` : null}
+          {midPosted ? `Midterm posted ${moment(midPosted).calendar()}` : null} <br />
+          {finalPosted ? `Final posted ${moment(finalPosted).calendar()}` : null}
         </div>
       );
     }
@@ -172,9 +189,6 @@ export class PostGradesTool extends React.Component {
 
   renderSections() {
     const {
-      any_posted:anyPosted,
-      mid_posted:midPosted,
-      final_posted:finalPosted,
       lms_section_id:lmsSectionId,
     } = this.state.selSection;
     return (
@@ -199,7 +213,7 @@ export class PostGradesTool extends React.Component {
             ))
           }
         </select>
-        { this.postedTimes(anyPosted, midPosted, finalPosted) }
+        { this.postedTimes() }
         {
           lmsSectionId === -1 ?
             <div className="date-posted" id="date-posted">
@@ -215,6 +229,7 @@ export class PostGradesTool extends React.Component {
       mid_posted:midPosted,
       final_posted:finalPosted,
     } = this.state.selSection;
+
     return (
       <fieldset className={`input-container ${finalPosted ? 'is-disabled' : ''}`}>
         <legend>Grade type</legend>
@@ -250,14 +265,15 @@ export class PostGradesTool extends React.Component {
     const {
       final_posted:finalPosted,
     } = this.state.selSection;
+
     return (
       <div className={`input-container ${finalPosted ? 'is-disabled' : ''}`}>
-        <label htmlFor="gradeColumn">Grade book column to submit</label>
+        <label htmlFor="gradeColumn">Gradebook column to submit</label>
         <select
           key="gradeColumn"
-          ref={(e) => { this.columnSelect = e; }}
           name="gradeColumn"
           id="gradeColumn"
+          aria-describedby="Gradebook column"
         >
           <option value="total">Total</option>
           {
