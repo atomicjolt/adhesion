@@ -94,7 +94,7 @@ export class PostGradesTool extends React.Component {
       }
       const compSecs = _.compact(sections);
       this.props.createStudentInfo(compSecs, gradeColumn.value, gradeType.value);
-      // this.props.updateSectionMetadata(compSecs, this.props.lmsCourseId, gradeType.value);
+      this.props.updateSectionMetadata(compSecs, this.props.lmsCourseId, gradeType.value);
       this.closeTool.submit(); // closes Modal
     } else {
       this.setState({ confirmed: true });
@@ -124,7 +124,7 @@ export class PostGradesTool extends React.Component {
       </div>
     );
 
-    return this.state.selSection.finalPosted ? finalSubmitted : clarification;
+    return this.state.selSection.final_posted ? finalSubmitted : clarification;
   }
 
   confirmationText() {
@@ -139,7 +139,7 @@ export class PostGradesTool extends React.Component {
   }
 
   bottomButtons() {
-    if (this.state.selSection.finalPosted) {
+    if (this.state.selSection.final_posted) {
       return (
         <div className="post-grades-modal__bottom">
           {this.renderClose('Close')}
@@ -171,7 +171,12 @@ export class PostGradesTool extends React.Component {
   }
 
   renderSections() {
-    const { anyPosted, midPosted, finalPosted, lmsSectionId } = this.state.selSection;
+    const {
+      any_posted:anyPosted,
+      mid_posted:midPosted,
+      final_posted:finalPosted,
+      lms_section_id:lmsSectionId,
+    } = this.state.selSection;
     return (
       <div className="input-container">
         <label htmlFor="gradeSection">Section</label>
@@ -206,7 +211,10 @@ export class PostGradesTool extends React.Component {
   }
 
   renderTypes() {
-    const { midPosted, finalPosted } = this.state.selSection;
+    const {
+      mid_posted:midPosted,
+      final_posted:finalPosted,
+    } = this.state.selSection;
     return (
       <fieldset className={`input-container ${finalPosted ? 'is-disabled' : ''}`}>
         <legend>Grade type</legend>
@@ -239,7 +247,9 @@ export class PostGradesTool extends React.Component {
   }
 
   renderAssignments() {
-    const { finalPosted } = this.state.selSection;
+    const {
+      final_posted:finalPosted,
+    } = this.state.selSection;
     return (
       <div className={`input-container ${finalPosted ? 'is-disabled' : ''}`}>
         <label htmlFor="gradeColumn">Grade book column to submit</label>
