@@ -44,11 +44,11 @@ export class PostGradesTool extends React.Component {
   componentWillMount() {
     this.props.canvasRequest(
       listAssignments,
-      { course_id: this.props.lmsCourseId },
+      { course_id: this.props.lmsCourseId, get_all: true },
     );
     this.props.canvasRequest(
       listCourseSections,
-      { course_id: this.props.lmsCourseId },
+      { course_id: this.props.lmsCourseId, get_all: true },
     );
   }
 
