@@ -11,7 +11,6 @@ export default (state = {}, action) => {
         newState[section.lms_section_id] = section;
       });
       return newState;
-      // return { ...state, ...action.payload };
     }
 
     case InfoConstants.UPDATE_SECTIONS_INFO + DONE: {
