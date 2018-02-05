@@ -292,7 +292,11 @@ export class PostGradesTool extends React.Component {
   }
 
   close() {
-    this.closeTool.submit();
+    if (this.state.confirm) {
+      this.setState({ confirm: false });
+    } else {
+      this.closeTool.submit();
+    }
   }
 
   renderClose(title) {
