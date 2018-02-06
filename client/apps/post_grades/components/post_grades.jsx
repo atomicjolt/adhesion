@@ -339,7 +339,7 @@ export class PostGradesTool extends React.Component {
     return (
       <div className="post-grades-modal">
         {this.closeForm()}
-        <form role="form" onSubmit={e => this.confirm(e)}>
+        <form onSubmit={e => this.confirm(e)}>
           {this.topText()}
           {this.renderSections()}
           {this.renderTypes()}
