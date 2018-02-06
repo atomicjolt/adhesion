@@ -71,7 +71,11 @@ export class PostGradesTool extends React.Component {
       }
     }
     if (prevProps.sectionsInfo !== this.props.sectionsInfo) {
-      this.setSelected(-1);
+      if (this.props.sectionsInfo.sectionMetadataSubmitted) {
+        this.closeTool.submit(); // closes Modal
+      } else {
+        this.setSelected(-1);
+      }
     }
   }
 
@@ -119,7 +123,6 @@ export class PostGradesTool extends React.Component {
         gradeType: gradeType.value,
       });
       this.props.createStudentInfo(sections, gradeColumn.value, gradeType.value);
-      // this.closeTool.submit(); // closes Modal
     } else {
       this.setState({ confirm: true });
     }

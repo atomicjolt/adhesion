@@ -2,7 +2,11 @@ import _ from 'lodash';
 import { DONE } from 'atomic-fuel/libs/constants/wrapper';
 import { Constants as InfoConstants } from '../actions/sections_info';
 
-export default (state = {}, action) => {
+const defaultState = {
+  sectionMetadataSubmitted: false,
+};
+
+export default (state = defaultState, action) => {
   switch (action.type) {
 
     case InfoConstants.SECTIONS_INFO + DONE: {
@@ -18,7 +22,19 @@ export default (state = {}, action) => {
       _.forEach(action.payload, (section) => {
         newState[section.lms_section_id] = section;
       });
-      return newState;
+      const status = action.response ? action.response.status : '';
+      let sectionMetadataSubmitted = false;
+      if (status === 200) {
+        sectionMetadataSubmitted = true;
+      }
+      return {
+        ...newState,
+        ...{
+          showError: action.error,
+          statusCode: status,
+          sectionMetadataSubmitted,
+        }
+      };
     }
 
     default:
