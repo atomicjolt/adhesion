@@ -13,7 +13,7 @@ module Integrations
 
       # Only create with grades if not found
       if sis_grade.nil?
-        SisGrade.create(
+        SisGrade.create!(
           gradetype: gradetype,
           sis_course_id: sis_course_id,
           sis_section_id: sis_section_id,
