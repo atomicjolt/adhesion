@@ -90,7 +90,7 @@ export class PostGradesTool extends React.Component {
   }
 
   setSelected(value) {
-    const selSection = this.props.sectionsInfo[value];
+    const selSection = this.props.sectionsInfo.data[value];
     this.setState({
       selSection,
       sections: [],
@@ -140,7 +140,7 @@ export class PostGradesTool extends React.Component {
 
   shouldSend(gradeType, section) {
     const type = gradeType.value === 'midterm' ? 'mid_posted' : 'final_posted';
-    return !this.props.sectionsInfo[section.id][type];
+    return !this.props.sectionsInfo.data[section.id][type];
   }
 
   topText() {

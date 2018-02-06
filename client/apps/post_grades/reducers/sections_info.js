@@ -4,23 +4,29 @@ import { Constants as InfoConstants } from '../actions/sections_info';
 
 const defaultState = {
   sectionMetadataSubmitted: false,
+  data: {},
 };
 
 export default (state = defaultState, action) => {
   switch (action.type) {
 
     case InfoConstants.SECTIONS_INFO + DONE: {
-      const newState = _.cloneDeep(state);
+      const newSectionsInfo = _.cloneDeep(state.data);
       _.forEach(action.payload, (section) => {
-        newState[section.lms_section_id] = section;
+        newSectionsInfo[section.lms_section_id] = section;
       });
-      return newState;
+      return {
+        ...state,
+        ...{
+          data: newSectionsInfo,
+        },
+      };
     }
 
     case InfoConstants.UPDATE_SECTIONS_INFO + DONE: {
-      const newState = _.cloneDeep(state);
+      const newSectionsInfo = _.cloneDeep(state.data);
       _.forEach(action.payload, (section) => {
-        newState[section.lms_section_id] = section;
+        newSectionsInfo[section.lms_section_id] = section;
       });
       const status = action.response ? action.response.status : '';
       let sectionMetadataSubmitted = false;
@@ -28,8 +34,9 @@ export default (state = defaultState, action) => {
         sectionMetadataSubmitted = true;
       }
       return {
-        ...newState,
+        ...state,
         ...{
+          data: newSectionsInfo,
           showError: action.error,
           statusCode: status,
           sectionMetadataSubmitted,
