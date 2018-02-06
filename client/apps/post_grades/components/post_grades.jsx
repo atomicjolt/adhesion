@@ -35,6 +35,13 @@ export class PostGradesTool extends React.Component {
     };
   }
 
+  static posted(type, date) {
+    if (date) {
+      return <div>{`${type} posted ${moment(date).calendar()}`}</div>;
+    }
+    return null;
+  }
+
   constructor() {
     super();
     this.state = {
@@ -200,8 +207,8 @@ export class PostGradesTool extends React.Component {
     if (anyPosted) {
       return (
         <div className="date-posted" id="date-posted">
-          {midPosted ? `Midterm posted ${moment(midPosted).calendar()}` : null} <br />
-          {finalPosted ? `Final posted ${moment(finalPosted).calendar()}` : null}
+          {PostGradesTool.posted('Midterm', midPosted)}
+          {PostGradesTool.posted('Final', finalPosted)}
         </div>
       );
     }
