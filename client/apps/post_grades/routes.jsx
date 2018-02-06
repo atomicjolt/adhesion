@@ -3,7 +3,7 @@ import { Router, Route, IndexRoute } from 'react-router';
 
 import appHistory from './history';
 import Index from './components/index';
-import PostGradesTool from './components/post_grades';
+import PostGradesTool from './components/post_grades/_post_grades';
 import NotFound from '../../libs/components/not_found';
 
 export default (
