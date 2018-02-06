@@ -189,6 +189,7 @@ export class PostGradesTool extends React.Component {
     return (
       <div className="post-grades-modal__bottom">
         { this.confirmationText() }
+        {this.gradeTypeErrors()}
         {this.renderClose('Cancel')}
         <button type="submit" className="btn btn--blue">
           {this.state.confirm ? 'Post Grades' : 'Confirm'}
@@ -250,6 +251,16 @@ export class PostGradesTool extends React.Component {
         }
       </div>
     );
+  }
+
+  gradeTypeErrors() {
+    if (this.props.submissions.showError) {
+      return <div style={{ color: 'red' }}>{this.props.submissions.showError.response.body.exception}</div>;
+    }
+    if (this.props.sectionsInfo.showError) {
+      return <div style={{ color: 'red' }}>{this.props.sectionsInfo.showError.response.body.exception}</div>;
+    }
+    return null;
   }
 
   renderTypes() {
