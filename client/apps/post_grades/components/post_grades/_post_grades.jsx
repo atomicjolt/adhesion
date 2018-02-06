@@ -2,13 +2,14 @@ import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 
 import { listAssignments } from 'atomic-canvas/libs/constants/assignments';
 import { listCourseSections } from 'atomic-canvas/libs/constants/sections';
 import canvasRequest from 'atomic-canvas/libs/action';
 import { createStudentInfo } from '../../actions/submissions';
 import { createSectionInfo, updateSectionMetadata } from '../../actions/sections_info';
+
+import Sections from './sections';
 
 const select = state => ({
   lmsCourseId: state.settings.lms_course_id,
@@ -36,13 +37,6 @@ export class PostGradesTool extends React.Component {
       sis_section_id: section.sis_section_id,
       sis_course_id: section.sis_course_id
     };
-  }
-
-  static posted(type, date) {
-    if (date) {
-      return <div>{`${type} posted ${moment(date).calendar()}`}</div>;
-    }
-    return null;
   }
 
   constructor() {
@@ -201,70 +195,6 @@ export class PostGradesTool extends React.Component {
     );
   }
 
-  postedTimes() {
-    const {
-      any_posted:anyPosted,
-      mid_posted:midPosted,
-      final_posted:finalPosted,
-    } = this.state.selSection;
-
-    if (anyPosted) {
-      return (
-        <div className="date-posted" id="date-posted">
-          {PostGradesTool.posted('Midterm', midPosted)}
-          {PostGradesTool.posted('Final', finalPosted)}
-        </div>
-      );
-    }
-    return null;
-  }
-
-  renderSections() {
-    const {
-      lms_section_id:lmsSectionId,
-    } = this.state.selSection;
-
-    const {
-      sectionsLoading,
-    } = this.props;
-
-    if (sectionsLoading) {
-      return <div>Loading...</div>;
-    }
-
-    return (
-      <div className="input-container">
-        <label htmlFor="gradeSection">Section</label>
-        <select
-          key="gradeSection"
-          onChange={e => this.setSelected(e.target.value)}
-          name="gradeSection"
-          id="gradeSection"
-          aria-describedby="date-posted"
-        >
-          <option value={-1}>All Sections</option>
-          {
-            _.map(this.props.sections, section => (
-              <option
-                key={`section_${section.id}`}
-                value={section.id}
-              >
-                {section.name}
-              </option>
-            ))
-          }
-        </select>
-        { this.postedTimes() }
-        {
-          lmsSectionId === -1 ?
-            <div className="date-posted" id="date-posted">
-                Previously posted sections will not be included.
-            </div> : null
-        }
-      </div>
-    );
-  }
-
   gradeTypeErrors() {
     if (this.props.submissions.showError) {
       return <div style={{ color: 'red' }}>{this.props.submissions.showError.response.body.exception}</div>;
@@ -379,7 +309,12 @@ export class PostGradesTool extends React.Component {
         {this.closeForm()}
         <form onSubmit={e => this.confirm(e)}>
           {this.topText()}
-          {this.renderSections()}
+          <Sections
+            selSection={this.state.selSection}
+            sections={this.props.sections}
+            sectionsLoading={this.props.sectionsLoading}
+            setSelected={() => this.setSelected}
+          />
           {this.renderTypes()}
           {this.renderAssignments()}
           {this.bottomButtons()}
