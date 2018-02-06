@@ -13,8 +13,10 @@ import { createSectionInfo, updateSectionMetadata } from '../actions/sections_in
 const select = state => ({
   lmsCourseId: state.settings.lms_course_id,
   launchPesentationReturnUrl: state.settings.launch_presentation_return_url,
-  assignments: state.assignments,
-  sections: state.sections,
+  assignments: state.assignments.assignments,
+  assignmentsLoading: state.assignments.loading,
+  sections: state.sections.sections,
+  sectionsLoading: state.sections.loading,
   sectionsInfo: state.sectionsInfo,
   submissions: state.submissions,
 });
@@ -23,6 +25,7 @@ export class PostGradesTool extends React.Component {
   static propTypes = {
     canvasRequest: PropTypes.func,
     lmsCourseId: PropTypes.string,
+    sections: PropTypes.object,
     assignments: PropTypes.array,
     submissions: PropTypes.object,
   };
@@ -220,6 +223,15 @@ export class PostGradesTool extends React.Component {
     const {
       lms_section_id:lmsSectionId,
     } = this.state.selSection;
+
+    const {
+      sectionsLoading,
+    } = this.props;
+
+    if (sectionsLoading) {
+      return <div>Loading...</div>;
+    }
+
     return (
       <div className="input-container">
         <label htmlFor="gradeSection">Section</label>
@@ -304,6 +316,14 @@ export class PostGradesTool extends React.Component {
     const {
       final_posted:finalPosted,
     } = this.state.selSection;
+
+    const {
+      assignmentsLoading,
+    } = this.props;
+
+    if (assignmentsLoading) {
+      return <div>Loading...</div>;
+    }
 
     return (
       <div className={`input-container ${finalPosted ? 'is-disabled' : ''}`}>
