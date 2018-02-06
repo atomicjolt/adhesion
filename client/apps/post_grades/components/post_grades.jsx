@@ -16,6 +16,7 @@ const select = state => ({
   assignments: state.assignments,
   sections: state.sections,
   sectionsInfo: state.sectionsInfo,
+  submissions: state.submissions,
 });
 
 export class PostGradesTool extends React.Component {
@@ -23,6 +24,7 @@ export class PostGradesTool extends React.Component {
     canvasRequest: PropTypes.func,
     lmsCourseId: PropTypes.string,
     assignments: PropTypes.array,
+    submissions: PropTypes.object,
   };
 
   static secInfo(section) {
@@ -37,6 +39,8 @@ export class PostGradesTool extends React.Component {
     super();
     this.state = {
       selSection: {},
+      sections: [],
+      gradeType: '',
       confirm: false,
     };
   }
@@ -57,6 +61,15 @@ export class PostGradesTool extends React.Component {
       const ids = _.map(this.props.sections, sec => (sec.id));
       this.props.createSectionInfo(ids, this.props.lmsCourseId);
     }
+    if (prevProps.submissions !== this.props.submissions) {
+      if (this.props.submissions.studentInfoSubmitted) {
+        this.props.updateSectionMetadata(
+          this.state.sections,
+          this.props.lmsCourseId,
+          this.state.gradeType,
+        );
+      }
+    }
     if (prevProps.sectionsInfo !== this.props.sectionsInfo) {
       this.setSelected(-1);
     }
@@ -66,6 +79,8 @@ export class PostGradesTool extends React.Component {
     const selSection = this.props.sectionsInfo[value];
     this.setState({
       selSection,
+      sections: [],
+      gradeType: '',
       confirm: false,
     });
   }
@@ -80,7 +95,7 @@ export class PostGradesTool extends React.Component {
     } = e.target.elements;
 
     if (this.state.confirm) {
-      const sections = [];
+      let sections = [];
       if (gradeSection.value === '-1') {
         sections.push({ id: -1 });
         _.each(this.props.sections, (section) => {
@@ -98,10 +113,13 @@ export class PostGradesTool extends React.Component {
           sections.push(PostGradesTool.secInfo(section));
         }
       }
-      const compSecs = _.compact(sections);
-      this.props.createStudentInfo(compSecs, gradeColumn.value, gradeType.value);
-      this.props.updateSectionMetadata(compSecs, this.props.lmsCourseId, gradeType.value);
-      this.closeTool.submit(); // closes Modal
+      sections = _.compact(sections);
+      this.setState({
+        sections,
+        gradeType: gradeType.value,
+      });
+      this.props.createStudentInfo(sections, gradeColumn.value, gradeType.value);
+      // this.closeTool.submit(); // closes Modal
     } else {
       this.setState({ confirm: true });
     }
