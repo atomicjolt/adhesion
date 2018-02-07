@@ -4,18 +4,18 @@ import { listAssignments } from 'atomic-canvas/libs/constants/assignments';
 
 const defaultState = {
   loading: true,
-  assignments: [],
+  data: [],
 };
 
 export default (state = defaultState, action) => {
   switch (action.type) {
 
     case listAssignments.type + DONE: {
-      const newAssignments = _.concat(state.assignments, action.payload);
+      const newAssignments = _.concat(state.data, action.payload);
       return {
         ...state,
         ...{
-          assignments: newAssignments,
+          data: newAssignments,
           loading: false,
         },
       };

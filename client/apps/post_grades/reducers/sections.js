@@ -4,21 +4,21 @@ import { listCourseSections } from 'atomic-canvas/libs/constants/sections';
 
 const defaultState = {
   loading: true,
-  sections: {},
+  data: {},
 };
 
 export default (state = defaultState, action) => {
   switch (action.type) {
 
     case listCourseSections.type + DONE: {
-      const newSections = _.cloneDeep(state.sections);
+      const newSections = _.cloneDeep(state.data);
       _.forEach(action.payload, (section) => {
         newSections[section.id] = section;
       });
       return {
         ...state,
         ...{
-          sections: newSections,
+          data: newSections,
           loading: false,
         },
       };

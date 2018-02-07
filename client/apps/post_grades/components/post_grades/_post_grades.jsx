@@ -14,9 +14,9 @@ import Sections from './sections';
 const select = state => ({
   lmsCourseId: state.settings.lms_course_id,
   launchPesentationReturnUrl: state.settings.launch_presentation_return_url,
-  assignments: state.assignments.assignments,
+  assignments: state.assignments.data,
   assignmentsLoading: state.assignments.loading,
-  sections: state.sections.sections,
+  sections: state.sections.data,
   sectionsLoading: state.sections.loading,
   sectionsInfo: state.sectionsInfo,
   submissions: state.submissions,
