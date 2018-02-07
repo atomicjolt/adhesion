@@ -11,6 +11,7 @@ import { createSectionInfo, updateSectionMetadata } from '../../actions/sections
 
 import Assignments from './assignments';
 import Sections from './sections';
+import GradeTypes from './grade_types';
 
 const select = state => ({
   lmsCourseId: state.settings.lms_course_id,
@@ -206,43 +207,6 @@ export class PostGradesTool extends React.Component {
     return null;
   }
 
-  renderTypes() {
-    const {
-      mid_posted:midPosted,
-      final_posted:finalPosted,
-    } = this.state.selSection;
-
-    return (
-      <fieldset className={`input-container ${finalPosted ? 'is-disabled' : ''}`}>
-        <legend>Grade type</legend>
-        <div className="radio-container">
-          <input
-            disabled={midPosted}
-            id="midterm"
-            type="radio"
-            name="gradeType"
-            value="midterm"
-          />
-          <label htmlFor="midterm">
-            <div className="radio-label">Midterm</div>
-          </label>
-        </div>
-        <div className="radio-container">
-          <input
-            disabled={finalPosted}
-            id="final-grade"
-            type="radio"
-            name="gradeType"
-            value="final"
-          />
-          <label htmlFor="final-grade">
-            <div className="radio-label">Final Grade</div>
-          </label>
-        </div>
-      </fieldset>
-    );
-  }
-
   close() {
     if (this.state.confirm) {
       this.setState({ confirm: false });
@@ -278,7 +242,9 @@ export class PostGradesTool extends React.Component {
             sectionsLoading={this.props.sectionsLoading}
             setSelected={e => this.setSelected(e)}
           />
-          {this.renderTypes()}
+          <GradeTypes
+            selSection={this.state.selSection}
+          />
           <Assignments
             selSection={this.state.selSection}
             assignments={this.props.assignments}
