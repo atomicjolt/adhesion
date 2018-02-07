@@ -42,12 +42,6 @@ RSpec.describe Api::SubmissionsController, type: :controller do
         allow(Application).to receive(:find_by).with(:lti_key).and_return(@application_instance)
         request.headers["Authorization"] = @user_token_header
         allow(controller.request).to receive(:host).and_return("example.com")
-
-        # @user_grade = generate(:common_grade)
-        # @grades = [{
-        #   sis_user_id: "SHEL93921",
-        #   grade: @user_grade,
-        # }]
       end
 
       describe "POST" do
@@ -65,6 +59,7 @@ RSpec.describe Api::SubmissionsController, type: :controller do
                   sis_course_id: nil,
                 },
               ],
+              type: generate(:gradetype),
               assignment_id: "total",
             }
           end
@@ -95,6 +90,7 @@ RSpec.describe Api::SubmissionsController, type: :controller do
                   sis_course_id: nil,
                 },
               ],
+              type: generate(:gradetype),
               assignment_id: "16753",
             }
           end
