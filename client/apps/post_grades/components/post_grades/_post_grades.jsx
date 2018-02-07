@@ -257,10 +257,12 @@ export class PostGradesTool extends React.Component {
   }
 }
 
-export default connect(select,
+export default connect(
+  select,
   {
     canvasRequest,
     createStudentInfo,
     createSectionInfo,
     updateSectionMetadata,
-  })(PostGradesTool);
+  }
+)(PostGradesTool);
