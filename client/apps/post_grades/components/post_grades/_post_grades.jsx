@@ -215,18 +215,18 @@ export class PostGradesTool extends React.Component {
     }
   }
 
-  renderClose(title) {
-    return (
-      <input type="button" value={title} onClick={() => this.close()} className="btn btn--blue" />
-    );
-  }
-
   closeForm() {
     return (
       <form
         ref={(el) => { this.closeTool = el; }}
         action={this.props.launchPesentationReturnUrl}
       />
+    );
+  }
+
+  renderClose(title) {
+    return (
+      <input type="button" value={title} onClick={() => this.close()} className="btn btn--blue" />
     );
   }
 
