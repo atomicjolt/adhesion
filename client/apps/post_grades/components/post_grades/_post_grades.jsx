@@ -313,7 +313,7 @@ export class PostGradesTool extends React.Component {
             selSection={this.state.selSection}
             sections={this.props.sections}
             sectionsLoading={this.props.sectionsLoading}
-            setSelected={() => this.setSelected}
+            setSelected={e => this.setSelected(e)}
           />
           {this.renderTypes()}
           {this.renderAssignments()}
