@@ -9,6 +9,7 @@ import canvasRequest from 'atomic-canvas/libs/action';
 import { createStudentInfo } from '../../actions/submissions';
 import { createSectionInfo, updateSectionMetadata } from '../../actions/sections_info';
 
+import Assignments from './assignments';
 import Sections from './sections';
 
 const select = state => ({
@@ -242,44 +243,6 @@ export class PostGradesTool extends React.Component {
     );
   }
 
-  renderAssignments() {
-    const {
-      final_posted:finalPosted,
-    } = this.state.selSection;
-
-    const {
-      assignmentsLoading,
-    } = this.props;
-
-    if (assignmentsLoading) {
-      return <div>Loading...</div>;
-    }
-
-    return (
-      <div className={`input-container ${finalPosted ? 'is-disabled' : ''}`}>
-        <label htmlFor="gradeColumn">Gradebook column to submit</label>
-        <select
-          key="gradeColumn"
-          name="gradeColumn"
-          id="gradeColumn"
-          aria-describedby="Gradebook column"
-        >
-          <option value="total">Total</option>
-          {
-            _.map(this.props.assignments, assignment => (
-              <option
-                key={`assignment_${assignment.id}`}
-                value={assignment.id}
-              >
-                {assignment.name}
-              </option>
-            ))
-          }
-        </select>
-      </div>
-    );
-  }
-
   close() {
     if (this.state.confirm) {
       this.setState({ confirm: false });
@@ -316,7 +279,11 @@ export class PostGradesTool extends React.Component {
             setSelected={e => this.setSelected(e)}
           />
           {this.renderTypes()}
-          {this.renderAssignments()}
+          <Assignments
+            selSection={this.state.selSection}
+            assignments={this.props.assignments}
+            assignmentsLoading={this.props.assignmentsLoading}
+          />
           {this.bottomButtons()}
         </form>
       </div>
