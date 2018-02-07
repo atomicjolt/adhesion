@@ -20,7 +20,11 @@ export default class Assignments extends React.PureComponent {
     } = this.props;
 
     if (assignmentsLoading) {
-      return <div>Loading...</div>;
+      return (
+        <div className="loading">
+          <div className="c-loading-icon" role="img" aria-label="loading" />
+        </div>
+      );
     }
 
     return (
