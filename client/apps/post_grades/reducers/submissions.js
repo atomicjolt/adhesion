@@ -13,7 +13,14 @@ export default (state = defaultState, action) => {
       if (status === 200) {
         studentInfoSubmitted = true;
       }
-      return { ...state, ...{ showError: action.error, statusCode: status, studentInfoSubmitted } };
+      return {
+        ...state,
+        ...{
+          showError: action.error,
+          statusCode: status,
+          studentInfoSubmitted,
+        },
+      };
     }
 
     default:
