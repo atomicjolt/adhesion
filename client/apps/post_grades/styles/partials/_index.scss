@@ -177,3 +177,38 @@ fieldset{
   background: $blue;
   color: $white;
 }
+
+.loading{
+  width: 100%;
+
+  .c-loading-icon{
+    margin: 0 auto;
+    width: 2.8rem;
+    height: 2.8rem;
+    border-radius: 50%;
+    border: 0.3rem solid $blue;
+    position: relative;
+    @include animation(spinner 1.5s linear infinite);
+
+    &:before{
+      content: '';
+      width: 0.1rem;
+      height: 0.1rem;
+      border-top: 1.4rem solid $white;
+      border-right: 1.4rem solid $white;
+      border-bottom: none;
+      border-left: none;
+      position: absolute;
+      top: -0.3rem;
+      left: 50%;
+    }
+  }
+  @keyframes spinner{
+    0%{
+      @include transform(rotate(0));
+    }
+    100%{
+      @include transform(rotate(360deg));
+    }
+  }
+}

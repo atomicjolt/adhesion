@@ -13,6 +13,13 @@ class SisGrade < ApplicationRecord
   scope :by_oldest, -> { order(start_date: :asc) }
   scope :by_latest, -> { order(updated_at: :desc) }
 
+  validates :gradetype, inclusion: {
+    in: [SisGrade::FINAL, SisGrade::MIDTERM],
+    message: ->(_object, data) do
+      "#{data[:value]} is not a valid gradetype"
+    end,
+  }
+
   ##
   # Add new grades but doesn't update existing
   def add_grades(new_grades)

@@ -2,11 +2,23 @@ import _ from 'lodash';
 import { DONE } from 'atomic-fuel/libs/constants/wrapper';
 import { listAssignments } from 'atomic-canvas/libs/constants/assignments';
 
-export default (state = [], action) => {
+const defaultState = {
+  loading: true,
+  data: [],
+};
+
+export default (state = defaultState, action) => {
   switch (action.type) {
 
     case listAssignments.type + DONE: {
-      return _.concat(state, action.payload);
+      const newAssignments = _.concat(state.data, action.payload);
+      return {
+        ...state,
+        ...{
+          data: newAssignments,
+          loading: false,
+        },
+      };
     }
 
     default:

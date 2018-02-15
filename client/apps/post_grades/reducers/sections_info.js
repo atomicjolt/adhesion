@@ -1,25 +1,47 @@
 import _ from 'lodash';
 import { DONE } from 'atomic-fuel/libs/constants/wrapper';
-import camelize from '../../../libs/camelizer';
 import { Constants as InfoConstants } from '../actions/sections_info';
 
-export default (state = {}, action) => {
+const defaultState = {
+  sectionMetadataSubmitted: false,
+  data: {},
+};
+
+export default (state = defaultState, action) => {
   switch (action.type) {
 
     case InfoConstants.SECTIONS_INFO + DONE: {
-      const newState = _.cloneDeep(state);
+      const newSectionsInfo = _.cloneDeep(state.data);
       _.forEach(action.payload, (section) => {
-        newState[section.lms_section_id] = camelize(section);
+        newSectionsInfo[section.lms_section_id] = section;
       });
-      return newState;
+      return {
+        ...state,
+        ...{
+          data: newSectionsInfo,
+        },
+      };
     }
 
     case InfoConstants.UPDATE_SECTIONS_INFO + DONE: {
-      const newState = _.cloneDeep(state);
+      const newSectionsInfo = _.cloneDeep(state.data);
       _.forEach(action.payload, (section) => {
-        newState[section.lms_section_id] = camelize(section);
+        newSectionsInfo[section.lms_section_id] = section;
       });
-      return newState;
+      const status = action.response ? action.response.status : '';
+      let sectionMetadataSubmitted = false;
+      if (status === 200) {
+        sectionMetadataSubmitted = true;
+      }
+      return {
+        ...state,
+        ...{
+          data: newSectionsInfo,
+          showError: action.error,
+          statusCode: status,
+          sectionMetadataSubmitted,
+        }
+      };
     }
 
     default:
