@@ -68,8 +68,8 @@ applications = [
   },
   {
     key: Application::SCORM,
-    name: "SCORM Player",
-    description: "SCORM Player",
+    name: "SCORM",
+    description: "SCORM",
     client_application_name: "scorm",
     canvas_api_permissions: {
       default: [],
@@ -92,8 +92,8 @@ applications = [
     kind: Application.kinds[:lti],
     default_config: { "scorm_type" => "engine" },
     lti_config: {
-      title: "SCORM Player",
-      description: "SCORM Player Application",
+      title: "SCORM",
+      description: "SCORM Application",
       privacy_level: "public",
       icon: "oauth_icon.png",
       custom_fields: {
@@ -101,7 +101,7 @@ applications = [
         external_tool_url: "$Canvas.externalTool.url",
       },
       course_navigation: {
-        text: "SCORM Player",
+        text: "SCORM",
         visibility: "admins",
       },
     },
