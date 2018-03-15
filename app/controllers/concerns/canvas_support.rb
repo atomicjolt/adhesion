@@ -14,7 +14,7 @@ module Concerns
     )
 
       # Find OAuth token
-      api = find_canvas_api(application_instance, user, canvas_course)
+      api = find_canvas_api(application_instance, user, course)
 
       if api.blank?
         raise CanvasApiTokenRequired, "Could not find a global or user canvas api token."
@@ -23,16 +23,16 @@ module Concerns
       api
     end
 
-    def find_canvas_api(application_instance, user, canvas_course)
+    def find_canvas_api(application_instance, user, course)
       application_instance.oauth_precedence.each do |kind|
-        if api = api_for(kind, application_instance, user, canvas_course)
+        if api = api_for(kind, application_instance, user, course)
           return api # Return the first authentication object we find
         end
       end
       nil # Unable to find Canvas API token
     end
 
-    def api_for(kind, application_instance, user, canvas_course)
+    def api_for(kind, application_instance, user, course)
       url = UrlHelper.scheme_host_port(application_instance.site.url)
       site = application_instance.site
 
@@ -44,7 +44,7 @@ module Concerns
       when "application_instance"
         application_instance_api(application_instance, url, site)
       when "course"
-        course_api(canvas_course, url, site)
+        course_api(course, url, site)
       else
         nil
       end
