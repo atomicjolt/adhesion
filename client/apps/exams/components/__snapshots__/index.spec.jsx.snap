@@ -19,25 +19,10 @@ ShallowWrapper {
     "key": undefined,
     "nodeType": "host",
     "props": Object {
-      "children": Array [
-        <Connect(Errors) />,
-        "",
-      ],
-      "className": "app-index",
+      "children": "america",
     },
     "ref": null,
-    "rendered": Array [
-      Object {
-        "instance": null,
-        "key": undefined,
-        "nodeType": "class",
-        "props": Object {},
-        "ref": null,
-        "rendered": null,
-        "type": [Function],
-      },
-      "",
-    ],
+    "rendered": "america",
     "type": "div",
   },
   Symbol(enzyme.__nodes__): Array [
@@ -46,25 +31,10 @@ ShallowWrapper {
       "key": undefined,
       "nodeType": "host",
       "props": Object {
-        "children": Array [
-          <Connect(Errors) />,
-          "",
-        ],
-        "className": "app-index",
+        "children": "america",
       },
       "ref": null,
-      "rendered": Array [
-        Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "class",
-          "props": Object {},
-          "ref": null,
-          "rendered": null,
-          "type": [Function],
-        },
-        "",
-      ],
+      "rendered": "america",
       "type": "div",
     },
   ],
