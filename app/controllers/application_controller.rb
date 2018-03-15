@@ -25,6 +25,23 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  rescue_from LMS::Canvas::RefreshTokenRequired do |exception|
+    # Auth has gone bad. Remove it and request that the user do OAuth
+    auth = Authentication.find(exception.auth.id)
+    user = auth.user
+    auth.destroy
+    if current_application_instance.oauth_precedence.include?("user") || # The application allows for user tokens
+        current_user == user # User owns the authentication. We can ask them to refresh
+      respond_to do |format|
+        format.json { render json: { message: "canvas_authorization_required" }, status: :forbidden }
+      end
+    else
+      respond_to do |format|
+        format.json { render json: { message: "Unable to find Canvas API Token." }, status: :forbidden }
+      end
+    end
+  end
+
   rescue_from StandardError, with: :error unless Rails.application.config.consider_all_requests_local
 
   def error(e)
@@ -141,10 +158,10 @@ class ApplicationController < ActionController::Base
     current_user.nil_or_context_roles(context_id).map(&:name)
   end
 
-  def user_not_authorized
+  def user_not_authorized(message = "")
     respond_to do |format|
       format.html { render template: "errors/unauthorized", layout: "errors", status: :unauthorized }
-      format.json { render json: {}, status: :unauthorized }
+      format.json { render json: { message: message }, status: :unauthorized }
     end
   end
 
