@@ -22,6 +22,7 @@ Apartment.configure do |config|
     Bundle
     BundleInstance
     ApplicationBundle
+    ImsExport
     SisGrade
   }
 

@@ -30,6 +30,7 @@ Rails.application.routes.draw do
     post    "sign_in"               => "sessions#create"
     get     "sign_up"               => "devise/registrations#new"
     delete  "sign_out"              => "sessions#destroy"
+    get     "sign_out"              => "sessions#destroy"
   end
 
   resources :users
@@ -65,7 +66,11 @@ Rails.application.routes.draw do
     end
 
     resources :applications do
-      resources :application_instances
+      resources :application_instances do
+        member do
+          get :check_auth
+        end
+      end
     end
 
     resources :canvas_accounts, only: [:index]
@@ -98,6 +103,13 @@ Rails.application.routes.draw do
     resources :section_metadata
     resources :lti_content_item_selection, only: [:create]
     resources :lti_launches
+
+    resources :ims_exports do
+      member do
+        get :status
+      end
+    end
+    resources :ims_imports, only: [:create]
 
     resources :sis_grades, only: [:index]
   end

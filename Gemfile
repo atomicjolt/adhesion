@@ -24,9 +24,9 @@ gem "devise"
 gem "ims-lti", "~> 2.1.5" # IMS LTI tool consumers and providers
 gem "aj-ims-lti", git: "https://github.com/atomicjolt/aj_lms_lti"
 gem "jwt", "~> 1.5.0" # json web token
-gem "lms-api", "~> 1.3.7"
+gem "lms-api", "~> 1.3.9"
 gem "omniauth"
-gem "omniauth-canvas", "~>1.0.1"
+gem "omniauth-canvas", "~>1.0.2"
 gem "rolify"
 
 # Email

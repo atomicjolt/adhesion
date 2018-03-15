@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactModal from 'react-modal';
@@ -6,7 +7,6 @@ import ApplicationInstanceForm from './form';
 
 export default class Modal extends React.Component {
   static propTypes = {
-    isOpen: PropTypes.bool.isRequired,
     closeModal: PropTypes.func.isRequired,
     sites: PropTypes.shape({}),
     save: PropTypes.func.isRequired,
@@ -38,13 +38,6 @@ export default class Modal extends React.Component {
     this.setState({ siteModalOpen: false });
   }
 
-  showInstanceModal() {
-    if (this.props.isOpen && !this.state.siteModalOpen) {
-      return 'is-open';
-    }
-    return '';
-  }
-
   closeModal() {
     this.closeSiteModal();
     this.props.closeModal();
@@ -67,6 +60,16 @@ export default class Modal extends React.Component {
       } catch (err) {
         ltiConfigParseError = err.toString();
       }
+    }
+
+    if (e.target.name === 'anonymous') {
+      const newApplicationInstance = _.cloneDeep(this.state.newApplicationInstance);
+      newApplicationInstance.anonymous = false;
+      if (e.target.checked) {
+        newApplicationInstance.anonymous = true;
+      }
+      this.setState({ newApplicationInstance });
+      return;
     }
 
     this.setState({
@@ -101,11 +104,11 @@ export default class Modal extends React.Component {
 
     return (
       <ReactModal
-        isOpen={this.props.isOpen}
+        isOpen
         onRequestClose={() => this.closeModal()}
         contentLabel="Application Instances Modal"
         overlayClassName="c-modal__background"
-        className={`c-modal c-modal--settings ${this.showInstanceModal()}`}
+        className="c-modal c-modal--settings is-open"
       >
         <h2 className="c-modal__title">
           {title} {applicationName} Instance
