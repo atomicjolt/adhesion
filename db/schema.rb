@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180209234904) do
+ActiveRecord::Schema.define(version: 20180321214830) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -280,6 +280,7 @@ ActiveRecord::Schema.define(version: 20180209234904) do
     t.string   "title"
     t.bigint   "file_id"
     t.string   "import_job_status"
+    t.string   "resource_link_id"
     t.index ["lms_assignment_id"], name: "index_scorm_courses_on_lms_assignment_id", using: :btree
     t.index ["scorm_service_id"], name: "index_scorm_courses_on_scorm_service_id", unique: true, using: :btree
   end
