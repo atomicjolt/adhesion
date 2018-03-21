@@ -13,14 +13,6 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-
-    case 'CREATE_ASSIGNMENT': {
-      const updatedScorm = { ...state.scormList[action.localData.index] };
-      updatedScorm.fetching = true;
-      const updatedScormList = state.scormList.slice();
-      updatedScormList[action.localData.index] = updatedScorm;
-      return { ...state, scormList: updatedScormList };
-    }
     case 'EDIT_ASSIGNMENT': {
       const newState = _.cloneDeep(state);
       newState
@@ -28,12 +20,12 @@ export default (state = initialState, action) => {
         .published = action.body.assignment.published;
       return { ...newState };
     }
-    case 'CREATE_ASSIGNMENT_DONE': {
-      const updatedScorm = { ...state.scormList[action.original.localData.index] };
+    case 'UPDATE_PACKAGE_DONE': {
+      const updatedScorm = { ...state.scormList[action.original.index] };
       const updatedScormList = state.scormList.slice();
-      updatedScormList[action.original.localData.index] = updatedScorm;
+      updatedScormList[action.original.index] = updatedScorm;
       const updatedAssignments = state.canvasAssignments;
-      updatedAssignments[action.payload.id] = action.payload;
+      updatedAssignments[action.payload.lms_assignment.id] = action.payload.lms_assignment;
       return { ...state, scormList: updatedScormList, canvasAssignments: updatedAssignments };
     }
     case 'LIST_ASSIGNMENTS_DONE': {
