@@ -61,14 +61,14 @@ class ScormEngineService
   end
 
   def upload_scorm_course(file, course_id, _cleanup)
-    import_course(file, course_id)
+    import_course_file(file, course_id)
   end
 
   def update_scorm_course(file, course_id)
-    import_course(file, course_id)
+    import_course_file(file, course_id)
   end
 
-  def import_course(file, course_id)
+  def import_course_file(file, course_id)
     params = {
       course: course_id,
       mayCreateNewVersion: true,
@@ -87,6 +87,41 @@ class ScormEngineService
       )
       JSON.parse(response.body)["result"]
     end
+  end
+
+  def upload_scorm_course_url(file_url, course_id, _cleanup)
+    import_course_url(file_url, course_id)
+  end
+
+  def update_scorm_course_url(file_url, course_id)
+    import_course_url(file_url, course_id)
+  end
+
+  def import_course_url(file_url, course_id)
+    params = {
+      course: course_id,
+      mayCreateNewVersion: true,
+    }.to_query
+    url = "#{@scorm_tenant_url}/courses/importJobs?#{params}"
+
+    body = {
+      url: file_url,
+      courseName: course_id,
+    }
+
+    response = RestClient::Request.execute(
+      verify_ssl: false,
+      method: :post,
+      headers: {
+        accept: :json,
+        content_type: :json,
+      },
+      url: url,
+      user: @api_username,
+      password: @api_password,
+      payload: body.to_json,
+    )
+    JSON.parse(response.body)["result"]
   end
 
   ##
