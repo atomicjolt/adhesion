@@ -104,6 +104,7 @@ applications = [
         text: "SCORM",
         visibility: "admins",
       },
+      content_migration: true,
     },
     application_instances: [{
       lti_key: Application::SCORM,
