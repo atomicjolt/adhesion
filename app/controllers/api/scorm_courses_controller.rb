@@ -45,6 +45,22 @@ class Api::ScormCoursesController < ApplicationController
 
   def update
     course = ScormCourse.find_by(scorm_service_id: params[:id])
+
+    token = decoded_jwt_token(request)
+
+    config = {
+      scorm_course_id: course.id,
+      scorm_service_id: course.scorm_service_id,
+      lms_course_id: token["lms_course_id"],
+    }
+
+    # Add LTI Launch object
+    LtiLaunch.create!(
+      config: config,
+      tool_consumer_instance_guid: token["tool_consumer_instance_guid"],
+      context_id: token["context_id"],
+    )
+
     course.update_attributes(course_params)
     render json: course
   end
