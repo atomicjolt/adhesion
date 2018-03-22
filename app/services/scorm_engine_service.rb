@@ -110,7 +110,6 @@ class ScormEngineService
     }
 
     response = RestClient::Request.execute(
-      verify_ssl: false,
       method: :post,
       headers: {
         accept: :json,
