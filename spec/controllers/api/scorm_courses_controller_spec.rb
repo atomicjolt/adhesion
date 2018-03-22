@@ -64,10 +64,51 @@ RSpec.describe Api::ScormCoursesController, type: :controller do
   end
 
   describe "PUT update" do
+    before do
+      canvas_api_permissions = {
+        default: [
+          "administrator", # Internal (non-LTI) role
+          "urn:lti:sysrole:ims/lis/SysAdmin",
+          "urn:lti:sysrole:ims/lis/Administrator",
+          "urn:lti:role:ims/lis/Instructor",
+        ],
+        common: [],
+        CREATE_ASSIGNMENT: [],
+      }
+      @application = create(
+        :application,
+        canvas_api_permissions: canvas_api_permissions,
+      )
+      @application_instance = create(:application_instance, application: @application)
+      allow(controller).to receive(:current_application_instance).and_return(@application_instance)
+      allow(Application).to receive(:find_by).with(:lti_key).and_return(@application_instance)
+
+      @user_token = AuthToken.issue_token(
+        {
+          user_id: @user.id,
+          lms_course_id: "123",
+          tool_consumer_instance_guid: "123abc",
+          context_id: "456def",
+        },
+      )
+      @user_token_header = "Bearer #{@user_token}"
+      request.headers["Authorization"] = @user_token_header
+    end
+
     it "should update scorm package" do
       course = ScormCourse.create
       course_params = { points_possible: "50" }
-      put :update, params: { id: course.scorm_service_id, scorm_course: course_params }
+      params = {
+        id: course.scorm_service_id,
+        scorm_course: course_params,
+        scorm_assignment_data: {
+          assignment: {
+            name: "bfcoder",
+            points_possible: course_params[:points_possible],
+          },
+        },
+      }
+      put :update, params: params
       expect(course.reload.points_possible).to eq(50.0)
       expect(response.body).to include('"points_possible":50.0')
     end
