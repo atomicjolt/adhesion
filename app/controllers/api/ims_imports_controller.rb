@@ -26,12 +26,10 @@ class Api::ImsImportsController < ApplicationController
       lti_launch = LtiLaunch.find_by(token: lti_launch_attrs[:token], context_id: params[:context_id])
 
       if lti_launch.blank?
-        lti_launch = LtiLaunch.new(lti_launch_attrs)
-        lti_launch.context_id = params[:context_id]
         scorm_course = ScormCourse.new(scorm_course_attrs)
         scorm_course.update(import_job_status: ScormCourse::CREATED)
-        lti_launch.config[:scorm_course_id] = scorm_course.id
-        lti_launch.tool_consumer_instance_guid = params[:tool_consumer_instance_guid]
+        lti_launch_attrs = merge_lti_launch_attrs(lti_launch_attrs, params, scorm_course)
+        lti_launch = LtiLaunch.new(lti_launch_attrs)
         lti_launch.save!
 
         if file_id.present?
@@ -45,6 +43,18 @@ class Api::ImsImportsController < ApplicationController
   end
 
   private
+
+  def merge_lti_launch_attrs(attrs, params, scorm_course)
+    new_attrs = attrs.dup
+    new_attrs[:context_id] = params[:context_id]
+    new_attrs[:tool_consumer_instance_guid] = params[:tool_consumer_instance_guid]
+    new_attrs[:config] = {
+      lms_course_id: scorm_course.lms_course_id,
+      scorm_course_id: scorm_course.id,
+      scorm_service_id: scorm_course.scorm_service_id,
+    }
+    new_attrs
+  end
 
   def process_scorm_import_url(scorm_course, lms_course_id, public_file_url)
     ScormImportJob.
