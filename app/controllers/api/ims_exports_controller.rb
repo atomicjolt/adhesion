@@ -22,7 +22,8 @@ class Api::ImsExportsController < ApplicationController
     scorm_courses = ScormCourse.where(id: scorm_course_ids)
 
     lti_launches_payloads = lti_launches.find_each.map do |lti_launch|
-      if scorm_course = scorm_courses.find(lti_launch.config[:scorm_course_id])
+      scorm_course_id = lti_launch.config[:scorm_course_id]
+      if scorm_course = scorm_courses.detect { |sc| sc.id == scorm_course_id }
         payload_json(scorm_course, lti_launch)
       end
     end
