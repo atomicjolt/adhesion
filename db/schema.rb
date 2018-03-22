@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180321214830) do
+ActiveRecord::Schema.define(version: 20180322170723) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -168,7 +168,9 @@ ActiveRecord::Schema.define(version: 20180321214830) do
     t.string   "token"
     t.string   "context_id"
     t.string   "tool_consumer_instance_guid"
+    t.bigint   "scorm_course_id"
     t.index ["context_id"], name: "index_lti_launches_on_context_id", using: :btree
+    t.index ["scorm_course_id"], name: "index_lti_launches_on_scorm_course_id", using: :btree
     t.index ["token", "context_id"], name: "index_lti_launches_on_token_and_context_id", unique: true, using: :btree
   end
 

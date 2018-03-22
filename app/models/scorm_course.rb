@@ -2,6 +2,7 @@ class ScormCourse < ActiveRecord::Base
   has_many :registrations,
            foreign_key: :lms_course_id,
            primary_key: :scorm_service_id
+  has_one :lti_launch, dependent: :destroy
 
   after_commit :set_scorm_service_id, on: [:create]
 
