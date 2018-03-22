@@ -18,6 +18,18 @@ class LtiLaunchesController < ApplicationController
 
   def show
     @lti_launch = LtiLaunch.find_by(token: params[:id], context_id: params[:context_id])
+
+    # TODO This code is temporary and is meant to update existing records with the correct
+    # context id. We'll want to remove this after it's been in production long enough
+    # for user data to get updated
+    if @lti_launch.blank?
+      @lti_launch = LtiLaunch.find_by(token: params[:id])
+      if @lti_launch.context_id.blank?
+        @lti_launch.update!(context_id: params[:context_id])
+      end
+    end
+    # TODO END
+
     if @lti_launch[:config][:scorm_service_id].present?
       launch_scorm_course(@lti_launch[:config][:scorm_service_id])
       return
