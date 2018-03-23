@@ -48,6 +48,7 @@ class Api::ImsImportsController < ApplicationController
     new_attrs = attrs.dup
     new_attrs[:context_id] = params[:context_id]
     new_attrs[:tool_consumer_instance_guid] = params[:tool_consumer_instance_guid]
+    new_attrs[:scorm_course_id] = scorm_course.id
     new_attrs[:config] = {
       lms_course_id: scorm_course.lms_course_id,
       scorm_course_id: scorm_course.id,
