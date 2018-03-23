@@ -45,6 +45,7 @@ canvas_students = '[{"associated_user_id":null,"course_id":263,"course_section_i
 canvas_student_enrollments = '[{"id":1,"course_id":1,"sis_course_id":"SHEL93921","course_integration_id":"SHEL93921","course_section_id":1,"section_integration_id":"SHEL93921","sis_account_id":"SHEL93921","sis_section_id":"SHEL93921","sis_user_id":"SHEL93921","enrollment_state":"active","limit_privileges_to_course_section":true,"sis_import_id":83,"root_account_id":1,"type":"StudentEnrollment","user_id":1,"associated_user_id":null,"role":"StudentEnrollment","role_id":1,"created_at":"2012-04-18T23:08:51Z","updated_at":"2012-04-18T23:08:51Z","start_at":"2012-04-18T23:08:51Z","end_at":"2012-04-18T23:08:51Z","last_activity_at":"2012-04-18T23:08:51Z","total_activity_time":260,"html_url":"https://...","grades":{"html_url": "","current_grade": "B+","final_grade": "B+","current_score": "88","final_score": "88","unposted_current_grade": "B+","unposted_final_grade": "B+","unposted_current_score": "88","unposted_final_score": "88"},"computed_current_score":90.25,"computed_final_score":80.67,"computed_current_grade":"A-","computed_final_grade":"B-","has_grading_periods":true,"totals_for_all_grading_periods_option":true,"current_grading_period_title":"FallGradingPeriod","current_grading_period_id":5,"current_period_computed_current_score":95.8,"current_period_computed_final_score":85.25,"current_period_computed_current_grade":"A","current_period_computed_final_grade":"B"}]'
 canvas_assignment_submissions_sections = '[{"assignment_id": 23,"assignment": "Assignment","course": "Course","attempt": 1,"body": "There are three factors too...","grade": "A-","grade_matches_current_submission": true,"html_url": "http://example.com/courses/255/assignments/543/submissions/134","preview_url": "http://example.com/courses/255/assignments/543/submissions/134?preview=1","score": 13.5,"submission_comments": null,"submission_type": "online_text_entry","submitted_at": "2012-01-01T01:00:00Z","url": null,"user_id": 134,"grader_id": 86,"graded_at": "2012-01-02T03:05:34Z","user": "User","late": false,"assignment_visible": true,"excused": true,"missing": true,"late_policy_status": "missing","points_deducted": 12.3,"seconds_late": 300,"workflow_state": "submitted"}]'
 canvas_course_assignment = "{\"id\":4,\"name\":\"some assignment\",\"description\":\"\\u003cp\\u003eDo the following:\\u003c/p\\u003e...\",\"created_at\":\"2012-07-01T23:59:00-06:00\",\"updated_at\":\"2012-07-01T23:59:00-06:00\",\"due_at\":\"2012-07-01T23:59:00-06:00\",\"lock_at\":\"2012-07-01T23:59:00-06:00\",\"unlock_at\":\"2012-07-01T23:59:00-06:00\",\"has_overrides\":true,\"all_dates\":null,\"course_id\":123,\"html_url\":\"https://...\",\"submissions_download_url\":\"https://example.com/courses/:course_id/assignments/:id/submissions?zip=1\",\"assignment_group_id\":2,\"due_date_required\":true,\"allowed_extensions\":[\"docx\",\"ppt\"],\"max_name_length\":15,\"turnitin_enabled\":true,\"vericite_enabled\":true,\"turnitin_settings\":null,\"grade_group_students_individually\":false,\"external_tool_tag_attributes\":{\"resource_link_id\":\"123abc\"},\"peer_reviews\":false,\"automatic_peer_reviews\":false,\"peer_review_count\":0,\"peer_reviews_assign_at\":\"2012-07-01T23:59:00-06:00\",\"intra_group_peer_reviews\":false,\"group_category_id\":1,\"needs_grading_count\":17,\"needs_grading_count_by_section\":[{\"section_id\":\"123456\",\"needs_grading_count\":5},{\"section_id\":\"654321\",\"needs_grading_count\":0}],\"position\":1,\"post_to_sis\":true,\"integration_id\":\"12341234\",\"integration_data\":\"12341234\",\"muted\":null,\"points_possible\":12,\"submission_types\":[\"online_text_entry\"],\"has_submitted_submissions\":true,\"grading_type\":\"points\",\"grading_standard_id\":null,\"published\":true,\"unpublishable\":false,\"only_visible_to_overrides\":false,\"locked_for_user\":false,\"lock_info\":null,\"lock_explanation\":\"This assignment is locked until September 1 at 12:00am\",\"quiz_id\":620,\"anonymous_submissions\":false,\"discussion_topic\":null,\"freeze_on_copy\":false,\"frozen\":false,\"frozen_attributes\":[\"title\"],\"submission\":null,\"use_rubric_for_grading\":true,\"rubric_settings\":\"{'points_possible'=\\u003e12}\",\"rubric\":null,\"assignment_visibility\":[137,381,572],\"overrides\":null,\"omit_from_final_grade\":true}"
+canvas_course_attachment = "{\"public_url\":\"https://example-bucket.s3.amazonaws.com/example-namespace/attachments/1/example-filename?AWSAccessKeyId=example-key\\u0026Expires=1400000000\\u0026Signature=example-signature\"}"
 
 RSpec.configure do |config|
   config.before(:each) do
@@ -107,6 +108,17 @@ RSpec.configure do |config|
       to_return(
         status: 200,
         body: canvas_course_assignment,
+        headers: canvas_headers,
+      )
+
+    #
+    # Course Files
+    #
+
+    stub_request(:get, %r|http[s]*://[a-zA-Z0-9]+\.[a-zA-Z0-9]+.*com/api/v1/files/.+/public_url|).
+      to_return(
+        status: 200,
+        body: canvas_course_attachment,
         headers: canvas_headers,
       )
 
