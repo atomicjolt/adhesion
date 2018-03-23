@@ -1,6 +1,12 @@
 require "rails_helper"
 
 RSpec.describe Api::ImsImportsController, type: :controller do
+  include ActiveJob::TestHelper
+
+  after do
+    clear_enqueued_jobs
+  end
+
   before do
     setup_application_and_instance
     tool_consumer_instance_guid = "4MRcxnx6vQbFXxhLb8005m5WXFM2Z2i8lQwhJ1QT:canvas-lms"
@@ -132,6 +138,7 @@ RSpec.describe Api::ImsImportsController, type: :controller do
         expect(LtiLaunch.find_by(token: "N4aDqFbQzQFrPhqzyZuEJErd")).to be
 
         lti_launch = LtiLaunch.find_by(token: "dgqgRSCUGdkmmKMAC3Ma2nei")
+        expect(lti_launch.scorm_course_id).to_not eq(41)
         scorm_course = lti_launch.scorm_course
         expect(lti_launch).to be
         expect(lti_launch.config).to eq(
@@ -155,6 +162,7 @@ RSpec.describe Api::ImsImportsController, type: :controller do
         expect(result["status"]).to eq("completed")
 
         lti_launch = LtiLaunch.find_by(token: "dgqgRSCUGdkmmKMAC3Ma2nei")
+        expect(lti_launch.scorm_course_id).to_not eq(41)
         scorm_course = lti_launch.scorm_course
         expect(lti_launch).to be
         expect(lti_launch.config).to eq(
@@ -164,6 +172,14 @@ RSpec.describe Api::ImsImportsController, type: :controller do
             lms_course_id: scorm_course.scorm_service_id.split("_").last,
           }.with_indifferent_access,
         )
+      end
+
+      context "scorm package" do
+        it "enqueues scorm processing for 2 of the 4" do
+          expect do
+            post :create, params: @import_params, format: :json
+          end.to change(enqueued_jobs, :size).by(2)
+        end
       end
     end
   end
