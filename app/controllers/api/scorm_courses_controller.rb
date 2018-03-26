@@ -27,9 +27,25 @@ class Api::ScormCoursesController < ApplicationController
   end
 
   def create
+    token = decoded_jwt_token(request)
+
     scorm_course = ScormCourse.create(
       import_job_status: ScormCourse::CREATED,
-      lms_course_id: params[:lms_course_id],
+      lms_course_id: token["lms_course_id"],
+    )
+
+    config = {
+      scorm_course_id: scorm_course.id,
+      scorm_service_id: scorm_course.scorm_service_id,
+      lms_course_id: token["lms_course_id"],
+    }
+
+    # Add LTI Launch object
+    LtiLaunch.create!(
+      config: config,
+      scorm_course_id: scorm_course.id,
+      tool_consumer_instance_guid: token["tool_consumer_instance_guid"],
+      context_id: token["context_id"],
     )
 
     process_scorm_import(scorm_course)
@@ -45,20 +61,7 @@ class Api::ScormCoursesController < ApplicationController
 
     token = decoded_jwt_token(request)
 
-    config = {
-      scorm_course_id: course.id,
-      scorm_service_id: course.scorm_service_id,
-      lms_course_id: token["lms_course_id"],
-    }
-
-    # Add LTI Launch object
-    lti_launch = LtiLaunch.create!(
-      config: config,
-      scorm_course_id: course.id,
-      tool_consumer_instance_guid: token["tool_consumer_instance_guid"],
-      context_id: token["context_id"],
-    )
-
+    lti_launch = course.lti_launch
     domain = current_application_instance.domain
     lti_url = "https://#{domain}/lti_launches/#{lti_launch.token}"
 
