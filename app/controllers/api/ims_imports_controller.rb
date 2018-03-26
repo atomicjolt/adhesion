@@ -19,6 +19,7 @@ class Api::ImsImportsController < ApplicationController
       file_id = nil if file_id == "$OBJECT_NOT_FOUND"
 
       scorm_course_attrs[:lms_course_id] = params[:custom_canvas_course_id]
+      scorm_course_attrs[:file_id] = file_id
 
       lti_launch_attrs = lti_launch_params(current_params)
 
