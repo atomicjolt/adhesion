@@ -54,6 +54,7 @@ class Api::ScormCoursesController < ApplicationController
     # Add LTI Launch object
     lti_launch = LtiLaunch.create!(
       config: config,
+      scorm_course_id: course.id,
       tool_consumer_instance_guid: token["tool_consumer_instance_guid"],
       context_id: token["context_id"],
     )

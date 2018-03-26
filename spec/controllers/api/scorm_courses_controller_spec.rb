@@ -112,6 +112,34 @@ RSpec.describe Api::ScormCoursesController, type: :controller do
       expect(course.reload.points_possible).to eq(50.0)
       expect(response.body).to include('"points_possible":50.0')
     end
+
+    it "should create an LtiLaunch" do
+      scorm_course = ScormCourse.create(lms_course_id: "123")
+      course_params = { points_possible: "100" }
+      params = {
+        id: scorm_course.scorm_service_id,
+        scorm_course: course_params,
+        scorm_assignment_data: {
+          assignment: {
+            name: "bfcoder",
+            points_possible: course_params[:points_possible],
+          },
+        },
+      }
+      put :update, params: params
+      scorm_course.reload
+      lti_launch = scorm_course.lti_launch
+      expect(lti_launch).to be
+      expect(lti_launch.config).to eq(
+        {
+          scorm_course_id: scorm_course.id,
+          scorm_service_id: scorm_course.scorm_service_id,
+          lms_course_id: scorm_course.scorm_service_id.split("_").last,
+        }.with_indifferent_access,
+      )
+      expect(lti_launch.tool_consumer_instance_guid).to eq("123abc")
+      expect(lti_launch.context_id).to eq("456def")
+    end
   end
 
   describe "DEL destroy" do
