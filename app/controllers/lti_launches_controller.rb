@@ -1,11 +1,13 @@
 class LtiLaunchesController < ApplicationController
   include Concerns::CanvasSupport
   include Concerns::LtiSupport
+  include ScormCourseHelper
 
   layout "client"
 
   skip_before_action :verify_authenticity_token
   before_action :do_lti, except: [:launch]
+  before_action :setup, only: %i[show]
 
   def index
     if current_application_instance.disabled_at
@@ -16,6 +18,22 @@ class LtiLaunchesController < ApplicationController
 
   def show
     @lti_launch = LtiLaunch.find_by(token: params[:id], context_id: params[:context_id])
+
+    # TODO This code is temporary and is meant to update existing records with the correct
+    # context id. We'll want to remove this after it's been in production long enough
+    # for user data to get updated
+    if @lti_launch.blank?
+      @lti_launch = LtiLaunch.find_by(token: params[:id])
+      if @lti_launch.context_id.blank?
+        @lti_launch.update!(context_id: params[:context_id])
+      end
+    end
+    # TODO END
+
+    if @lti_launch[:config][:scorm_service_id].present?
+      launch_scorm_course(@lti_launch[:config][:scorm_service_id])
+      return
+    end
     setup_lti_response
     render :index
   end
@@ -32,6 +50,12 @@ class LtiLaunchesController < ApplicationController
   end
 
   private
+
+  def setup
+    if current_application_instance.application.client_application_name == "scorm"
+      @scorm_connect = scorm_connect_service(params[:custom_canvas_course_id])
+    end
+  end
 
   def setup_lti_response
     begin

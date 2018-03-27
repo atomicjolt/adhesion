@@ -1,6 +1,12 @@
 require "rails_helper"
 
 RSpec.describe Api::ImsImportsController, type: :controller do
+  include ActiveJob::TestHelper
+
+  after do
+    clear_enqueued_jobs
+  end
+
   before do
     setup_application_and_instance
     tool_consumer_instance_guid = "4MRcxnx6vQbFXxhLb8005m5WXFM2Z2i8lQwhJ1QT:canvas-lms"
@@ -26,11 +32,72 @@ RSpec.describe Api::ImsImportsController, type: :controller do
       context_id: @import_context_id,
       data: {
         context_id: initial_context_id,
-        "lti_launches" => [
-          { "token" => "dgqgRSCUGdkmmKMAC3Ma2nei", "config" => {"is_embedded" => "true", "iframe_height" => "510", "learnosity_activity_reference_id" => "Dynamic Content"}, "assignment" => {"embed_url" => nil, "is_embedded" => "true", "reference_id" => "Dynamic Content", "resource_title" => "Dynamic Content", "lms_assignment_override_id" => nil}, "context_id" => "3155b3a04eba69bc0e52b987d3ffc465156daded", "tool_consumer_instance_guid" => nil}, {"token" => "kcgmuAKNyRu55S1kT4XuY5ag", "config" => {"is_embedded" => "false", "iframe_height" => "510", "learnosity_activity_reference_id" => "Animals"}, "assignment" => {"embed_url" => nil, "is_embedded" => "false", "reference_id" => "Animals", "resource_title" => "Added via the connector", "$canvas_course_id" => "2114", "$canvas_assignment_id" => "19189", "lms_assignment_override_id" => nil}, "context_id" => "3155b3a04eba69bc0e52b987d3ffc465156daded", "tool_consumer_instance_guid" => nil}, {"token" => "jfvTHBDVW68y9auBLGihpq3G", "config" => {"is_embedded" => "true", "assignment_id" => "101", "iframe_height" => "510", "learnosity_activity_reference_id" => "Joseph Test"}, "assignment" => {"embed_url" => nil, "is_embedded" => "true", "reference_id" => "Joseph Test", "resource_title" => "Joseph Test", "$canvas_course_id" => "2114", "$canvas_assignment_id" => "$OBJECT_NOT_FOUND", "lms_assignment_override_id" => nil}, "context_id" => "3155b3a04eba69bc0e52b987d3ffc465156daded", "tool_consumer_instance_guid" => nil}, {"token" => "N4aDqFbQzQFrPhqzyZuEJErd", "config" => {"is_embedded" => "true", "assignment_id" => "102", "iframe_height" => "510", "learnosity_activity_reference_id" => "SETH"}, "assignment" => {"embed_url" => nil, "is_embedded" => "true", "reference_id" => "SETH", "resource_title" => "SETH", "$canvas_course_id" => "2114", "$canvas_assignment_id" => "19190", "lms_assignment_override_id" => nil}, "context_id" => "3155b3a04eba69bc0e52b987d3ffc465156daded", "tool_consumer_instance_guid" => nil }
+        lti_launches: [
+          {
+            token: "dgqgRSCUGdkmmKMAC3Ma2nei",
+            config: {
+              scorm_course_id: 41,
+              scorm_service_id: "41_1234",
+              lms_course_id: "1234",
+            },
+            scorm_course: {
+              points_possible: 100.0,
+              title: "meh 1",
+            },
+            context_id: "3155b3a04eba69bc0e52b987d3ffc465156daded",
+            tool_consumer_instance_guid: nil,
+          },
+          {
+            token: "kcgmuAKNyRu55S1kT4XuY5ag",
+            config: {
+              scorm_course_id: 42,
+              scorm_service_id: "42_1234",
+              lms_course_id: "1234",
+            },
+            scorm_course: {
+              "$canvas_assignment_id": "1221",
+              "$canvas_attachment_id": "5665",
+              points_possible: 100.0,
+              title: "meh 2",
+            },
+            context_id: "3155b3a04eba69bc0e52b987d3ffc465156daded",
+            tool_consumer_instance_guid: nil,
+          },
+          {
+            token: "jfvTHBDVW68y9auBLGihpq3G",
+            config: {
+              scorm_course_id: 43,
+              scorm_service_id: "43_1234",
+              lms_course_id: "1234",
+            },
+            scorm_course: {
+              "$canvas_assignment_id": "1221",
+              "$canvas_attachment_id": "$OBJECT_NOT_FOUND",
+              points_possible: 100.0,
+              title: "meh 3",
+            },
+            context_id: "3155b3a04eba69bc0e52b987d3ffc465156daded",
+            tool_consumer_instance_guid: nil,
+          },
+          {
+            token: "N4aDqFbQzQFrPhqzyZuEJErd",
+            config: {
+              scorm_course_id: 44,
+              scorm_service_id: "44_1234",
+              lms_course_id: "1234",
+            },
+            scorm_course: {
+              "$canvas_assignment_id": "1221",
+              "$canvas_attachment_id": "7887",
+              points_possible: 0.0,
+              title: "meh 4",
+            },
+            context_id: "3155b3a04eba69bc0e52b987d3ffc465156daded",
+            tool_consumer_instance_guid: nil,
+          },
         ],
-        "application_instance_id" => "3",
-        "ims_export_id" => @ims_export.token,
+        application_instance_id: "3",
+        ims_export_id: @ims_export.token,
       },
       tool_consumer_instance_guid: tool_consumer_instance_guid,
       custom_canvas_course_id: "2123",
@@ -61,7 +128,7 @@ RSpec.describe Api::ImsImportsController, type: :controller do
     end
 
     describe "POST create" do
-      it "starts the export process" do
+      it "starts the import process" do
         post :create, params: @import_params, format: :json
         expect(response).to have_http_status(:success)
         result = JSON.parse(response.body)
@@ -72,13 +139,21 @@ RSpec.describe Api::ImsImportsController, type: :controller do
 
         lti_launch = LtiLaunch.find_by(token: "dgqgRSCUGdkmmKMAC3Ma2nei")
         expect(lti_launch).to be
+        expect(lti_launch.scorm_course_id).to_not eq(41)
+        scorm_course = lti_launch.scorm_course
         expect(lti_launch.config).to eq(
           {
-            "is_embedded" => "true",
-            "iframe_height" => "510",
-            "learnosity_activity_reference_id" => "Dynamic Content",
-          },
+            scorm_course_id: scorm_course.id,
+            scorm_service_id: scorm_course.scorm_service_id,
+            lms_course_id: scorm_course.scorm_service_id.split("_").last,
+          }.with_indifferent_access,
         )
+
+        lti_launch2 = LtiLaunch.find_by(token: "kcgmuAKNyRu55S1kT4XuY5ag")
+        expect(lti_launch2).to be
+        scorm_course2 = lti_launch2.scorm_course
+        expect(scorm_course2).to be
+        expect(scorm_course2.file_id).to eq(5665)
       end
 
       it "handles importing the same package multiple times" do
@@ -93,14 +168,24 @@ RSpec.describe Api::ImsImportsController, type: :controller do
         expect(result["status"]).to eq("completed")
 
         lti_launch = LtiLaunch.find_by(token: "dgqgRSCUGdkmmKMAC3Ma2nei")
+        expect(lti_launch.scorm_course_id).to_not eq(41)
+        scorm_course = lti_launch.scorm_course
         expect(lti_launch).to be
         expect(lti_launch.config).to eq(
           {
-            "is_embedded" => "true",
-            "iframe_height" => "510",
-            "learnosity_activity_reference_id" => "Dynamic Content",
-          },
+            scorm_course_id: scorm_course.id,
+            scorm_service_id: scorm_course.scorm_service_id,
+            lms_course_id: scorm_course.scorm_service_id.split("_").last,
+          }.with_indifferent_access,
         )
+      end
+
+      context "scorm package" do
+        it "enqueues scorm processing for 2 of the 4" do
+          expect do
+            post :create, params: @import_params, format: :json
+          end.to change(enqueued_jobs, :size).by(2)
+        end
       end
     end
   end

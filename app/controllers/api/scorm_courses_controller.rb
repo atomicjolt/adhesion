@@ -5,12 +5,9 @@ class Api::ScormCoursesController < ApplicationController
 
   before_action :validate_token, except: %i[create update]
   before_action :validate_token_shared, only: %i[create update]
+  before_action :setup_canvas_api, only: %i[update]
 
   protect_from_forgery with: :null_session
-
-  def course_params
-    params.require(:scorm_course).permit(:lms_assignment_id, :points_possible)
-  end
 
   def send_scorm_connect_response(response)
     render json: response, status: response[:status]
@@ -30,9 +27,25 @@ class Api::ScormCoursesController < ApplicationController
   end
 
   def create
+    token = decoded_jwt_token(request)
+
     scorm_course = ScormCourse.create(
       import_job_status: ScormCourse::CREATED,
-      lms_course_id: params[:lms_course_id],
+      lms_course_id: token["lms_course_id"],
+    )
+
+    config = {
+      scorm_course_id: scorm_course.id,
+      scorm_service_id: scorm_course.scorm_service_id,
+      lms_course_id: token["lms_course_id"],
+    }
+
+    # Add LTI Launch object
+    LtiLaunch.create!(
+      config: config,
+      scorm_course_id: scorm_course.id,
+      tool_consumer_instance_guid: token["tool_consumer_instance_guid"],
+      context_id: token["context_id"],
     )
 
     process_scorm_import(scorm_course)
@@ -45,8 +58,28 @@ class Api::ScormCoursesController < ApplicationController
 
   def update
     course = ScormCourse.find_by(scorm_service_id: params[:id])
-    course.update_attributes(course_params)
-    render json: course
+
+    token = decoded_jwt_token(request)
+
+    lti_launch = course.lti_launch
+    domain = current_application_instance.domain
+    lti_url = "https://#{domain}/lti_launches/#{lti_launch.token}"
+
+    lms_assignment = create_canvas_assignment(
+      package_id: params[:id],
+      lti_url: lti_url,
+      lms_course_id: token["lms_course_id"],
+      name: scorm_course_attrs[:assignment][:name],
+      points_possible: scorm_course_attrs[:assignment][:points_possible],
+    )
+
+    lms_assignment_id = lms_assignment["id"]
+    resource_link_id = lms_assignment["external_tool_tag_attributes"]["resource_link_id"]
+
+    course.lms_assignment_id = lms_assignment_id
+    course.resource_link_id = resource_link_id
+    course.update(course_params)
+    render json: { course: course, lms_assignment: lms_assignment }
   end
 
   def destroy
@@ -95,6 +128,50 @@ class Api::ScormCoursesController < ApplicationController
   end
 
   private
+
+  def course_params
+    params.require(:scorm_course).permit(:lms_assignment_id, :points_possible)
+  end
+
+  def scorm_course_attrs
+    params.
+      require(:scorm_assignment_data).
+      permit(
+        assignment: [
+          :name,
+          :points_possible,
+        ],
+      )
+  end
+
+  def setup_canvas_api
+    @api = canvas_api(
+      application_instance: current_application_instance,
+      user: current_user,
+      course: current_course,
+    )
+  end
+
+  def create_canvas_assignment(package_id:, lti_url:, lms_course_id:, name:, points_possible:)
+    payload = {
+      assignment: {
+        name: name,
+        submission_types: ["external_tool"],
+        integration_id: package_id,
+        integration_data: { provider: "atomic-scorm" },
+        external_tool_tag_attributes: {
+          url: lti_url,
+        },
+        points_possible: points_possible,
+      },
+    }
+
+    @api.proxy(
+      "CREATE_ASSIGNMENT",
+      { course_id: lms_course_id },
+      payload,
+    )
+  end
 
   def process_scorm_import(scorm_course)
     file_path = copy_to_storage(params[:file], scorm_course.id)

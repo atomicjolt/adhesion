@@ -8,7 +8,8 @@ class ScormImportJob < ApplicationJob
     lms_course_id,
     scorm_course,
     file_path,
-    skip_canvas_upload
+    skip_canvas_upload,
+    file_url = nil
   )
     scorm_course.update(import_job_status: ScormCourse::RUNNING)
 
@@ -16,6 +17,7 @@ class ScormImportJob < ApplicationJob
       upload_course(
         file_path,
         scorm_course,
+        file_url,
       )
 
     ScormStatusCheckJob.

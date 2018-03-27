@@ -21,13 +21,21 @@ module ScormCommonService
     end
   end
 
-  def upload_course(file, scorm_course)
+  def upload_course(file, scorm_course, file_url)
     cleanup = Proc.new { scorm_course.destroy }
-    import_job_id = upload_scorm_course(
-      file,
-      scorm_course.scorm_service_id,
-      cleanup,
-    )
+    import_job_id = if file_url.present?
+                      upload_scorm_course_url(
+                        file_url,
+                        scorm_course.scorm_service_id,
+                        cleanup,
+                      )
+                    else
+                      upload_scorm_course(
+                        file,
+                        scorm_course.scorm_service_id,
+                        cleanup,
+                      )
+                    end
 
     {
       scorm_course_id: scorm_course.id,
@@ -166,7 +174,7 @@ module ScormCommonService
 
   def reg_params(params)
     resp = {}
-    resp[:id] = params[:id] unless params[:id].nil?
+    # resp[:id] = params[:id] unless params[:id].nil? # Is this actually needed?
     resp[:lms_course_id] = params[:course_id] unless params[:course_id].nil?
     resp[:lms_user_id] = params[:custom_canvas_user_id] unless params[:custom_canvas_user_id].nil?
     resp[:lis_result_sourcedid] = params[:lis_result_sourcedid] unless params[:lis_result_sourcedid].nil?

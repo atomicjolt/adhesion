@@ -19,6 +19,7 @@ export class ScormIndex extends React.Component {
     canvasRequest: PropTypes.func,
     removePackage: PropTypes.func,
     uploadPackage: PropTypes.func,
+    updatePackage: PropTypes.func,
     previewPackage: PropTypes.func,
     replacePackage: PropTypes.func,
     updateImportType: PropTypes.func,
@@ -88,24 +89,21 @@ export class ScormIndex extends React.Component {
   }
 
   createAssignment(packageId, assignmentName, packageIndex, pointsPossible = 0) {
-    const query = {
+    const data = {
       assignment: {
         name: assignmentName,
-        submission_types: ['external_tool'],
-        integration_id: `${packageId}`,
-        integration_data: { provider: 'atomic-scorm' },
-        external_tool_tag_attributes: {
-          url: `${this.props.apiUrl}scorm_courses?course_id=${packageId}`,
-        },
         points_possible: pointsPossible,
       },
     };
 
-    this.props.canvasRequest(
-      createAssignment,
-      { course_id: this.props.lmsCourseId },
-      query,
-      { index: packageIndex },
+    this.props.updatePackage(
+      packageId,
+      {
+        points_possible: pointsPossible,
+        scorm_assignment_data: data,
+      },
+      this.props.lmsCourseId,
+      packageIndex,
     );
   }
 

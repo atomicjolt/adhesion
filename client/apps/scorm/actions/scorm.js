@@ -67,12 +67,13 @@ export const previewPackage = courseId => ({
   url: `/api/scorm_courses/${courseId}/preview`,
 });
 
-export const updatePackage = (courseId, body = {}, lmsCourseId) => ({
+export const updatePackage = (courseId, body = {}, lmsCourseId, index) => ({
   method: Network.PUT,
   type: Constants.UPDATE_PACKAGE,
   url: `/api/scorm_courses/${courseId}`,
   body,
   lmsCourseId,
+  index,
 });
 
 export const replacePackage = (file, courseId, lmsCourseId, index) => {
