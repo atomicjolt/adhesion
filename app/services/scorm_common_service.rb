@@ -174,7 +174,6 @@ module ScormCommonService
 
   def reg_params(params)
     resp = {}
-    # resp[:id] = params[:id] unless params[:id].nil? # Is this actually needed?
     resp[:lms_course_id] = params[:course_id] unless params[:course_id].nil?
     resp[:lms_user_id] = params[:custom_canvas_user_id] unless params[:custom_canvas_user_id].nil?
     resp[:lis_result_sourcedid] = params[:lis_result_sourcedid] unless params[:lis_result_sourcedid].nil?
