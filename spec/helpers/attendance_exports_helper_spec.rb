@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe AttendanceExportsHelper do
   before :each do
-    @attendance = FactoryGirl.create(:attendance)
+    @attendance = FactoryBot.create(:attendance)
   end
   it "Builds the CSV Correctly" do
     csv = AttendanceExportsHelper.generate_csv([@attendance])

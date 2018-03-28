@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :registration do
     lms_course_id { 1 }
     lms_user_id { 1 }

@@ -29,7 +29,7 @@ describe ApplicationController, type: :controller do
         # Create a user with the same email as for this spec thus forcing
         # a generated email to happen for the new lti user.
 
-        FactoryGirl.create(:user, email: "steve@apple.com")
+        FactoryBot.create(:user, email: "steve@apple.com")
 
         params = lti_params(
           @application_instance.lti_key,
@@ -107,7 +107,7 @@ describe ApplicationController, type: :controller do
           },
         )
 
-        user = FactoryGirl.create(
+        user = FactoryBot.create(
           :user,
           email: "steve@apple.com",
           lti_provider: params["tool_consumer_instance_guid"],

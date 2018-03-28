@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe ScormCoursesController, type: :controller do
   describe "POST#postback" do
     before(:example) do
-      @application_instance = FactoryGirl.create(:application_instance)
+      @application_instance = FactoryBot.create(:application_instance)
       @application_instance.application.
         update_attributes(default_config: { scorm_type: "cloud" })
       allow(controller).to receive(
@@ -54,7 +54,7 @@ RSpec.describe ScormCoursesController, type: :controller do
       allow_any_instance_of(ScormCloud::ScormCloud).to receive(
         :registration,
       ).and_return(MockScorm.new)
-      @application_instance = FactoryGirl.create(:application_instance)
+      @application_instance = FactoryBot.create(:application_instance)
       @application_instance.application.
         update_attributes(default_config: { scorm_type: "cloud" })
       allow(controller).to receive(
@@ -90,7 +90,7 @@ RSpec.describe ScormCoursesController, type: :controller do
 
   # describe "Create ScormEngineService" do
   #   before(:example) do
-  #     @application_instance = FactoryGirl.create(:application_instance)
+  #     @application_instance = FactoryBot.create(:application_instance)
   #     @application_instance.application.
   #       update_attributes(default_config: { scorm_type: "engine" })
   #     allow(controller).to receive(
