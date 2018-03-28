@@ -4,19 +4,25 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
-import { Router } from 'react-router';
-import { Route } from 'react-router-dom';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 import DevTools from 'atomic-fuel/libs/dev/dev_tools';
 import { getInitialSettings } from 'atomic-fuel/libs/reducers/settings';
 import jwt from 'atomic-fuel/libs/loaders/jwt';
+
 import configureStore from './store/configure_store';
-import Index from './components/layout/index';
-import appHistory from './history';
+import routes from './routes';
 
 import './styles/styles';
 
 // Polyfill es6 promises for IE
 es6Promise.polyfill();
+
+// Needed for onTouchTap
+// Can go away when react 1.0 release
+// Check this repo:
+// https://github.com/zilverline/react-tap-event-plugin
+injectTapEventPlugin();
+
 
 class Root extends React.PureComponent {
   static propTypes = {
@@ -28,12 +34,10 @@ class Root extends React.PureComponent {
     const { store } = this.props;
     return (
       <Provider store={store}>
-        <Router history={appHistory}>
-          <div>
-            <Route component={Index} />
-            {devTools}
-          </div>
-        </Router>
+        <div>
+          {routes}
+          {devTools}
+        </div>
       </Provider>
     );
   }
