@@ -12,7 +12,7 @@ RSpec.describe Api::ExamRequestsController, type: :controller do
     it "returns exam requests for student" do
       student = create(:user)
       exam_request = create(:exam_request, student_id: student.id)
-      get :index, student_id: student.id
+      get :index, params: { student_id: student.id }
       expect(response).to be_success
       exam_requests = JSON.parse(response.body)
       expect(exam_requests.count).to eq(1)
@@ -22,7 +22,7 @@ RSpec.describe Api::ExamRequestsController, type: :controller do
 
     it "returns exam requests for student" do
       exam_request = create(:exam_request, testing_center_id: 123)
-      get :index, testing_center_id: 123
+      get :index, params: { testing_center_id: 123 }
       expect(response).to be_success
       exam_requests = JSON.parse(response.body)
       expect(exam_requests.count).to eq(1)
@@ -38,7 +38,7 @@ RSpec.describe Api::ExamRequestsController, type: :controller do
       }
     end
     it "successfully creates an exam request" do
-      expect { post :create, @params }.to change { ExamRequest.count }.by(1)
+      expect { post :create, params: @params }.to change { ExamRequest.count }.by(1)
     end
 
     it "successfully deletes and creates exam request" do
@@ -50,7 +50,7 @@ RSpec.describe Api::ExamRequestsController, type: :controller do
         student_id: params[:student_id],
         exam_id: params[:exam_id],
       )
-      expect { post :create, params }.to change { ExamRequest.count }.by(0)
+      expect { post :create, params: params }.to change { ExamRequest.count }.by(0)
     end
   end
 
@@ -62,7 +62,7 @@ RSpec.describe Api::ExamRequestsController, type: :controller do
         scheduled_time: Time.now + 2.days,
         status: "meh",
       }
-      put :update, id: exam_request.id, exam_request: exam_request_params
+      put :update, params: { id: exam_request.id, exam_request: exam_request_params }
       expect(response).to be_success
       updated_exam_request = JSON.parse(response.body)
       expect(updated_exam_request["status"]).to eq(exam_request_params[:status])
@@ -72,7 +72,7 @@ RSpec.describe Api::ExamRequestsController, type: :controller do
   describe "DELETE #destroy" do
     it "should destroy the exam request" do
       exam_request = create(:exam_request)
-      delete :destroy, id: exam_request.id
+      delete :destroy, params: { id: exam_request.id }
       expect(response).to be_success
     end
   end

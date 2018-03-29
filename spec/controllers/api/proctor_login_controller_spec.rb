@@ -12,7 +12,7 @@ RSpec.describe Api::ProctorLoginController, type: :controller do
     it "returns a signed url" do
       student = create(:user)
       exam_request = create(:exam_request, student_id: student.id)
-      get :signed_url, id: exam_request.id
+      get :signed_url, params: { id: exam_request.id }
       expect(response).to be_success
 
       body = JSON.parse(response.body)
