@@ -26,6 +26,7 @@
     "uuid": "3.0.1"
   },
   "devDependencies": {
+    "enzyme-adapter-react-16": "^1.1.1",
     "redux-devtools": "^3.4.0"
   }
 }
