@@ -465,6 +465,10 @@ if Apartment::Tenant.current == "public"
   end
 end
 
+## ONE-OFF CODE
+User.oauth_user.unconfirmed.update_all(confirmed_at: Time.now)
+## END ONE-OFF CODE
+
 ## Use this to update all the application instances
 # ApplicationInstance.for_tenant(Apartment::Tenant.current).find_each do |ai|
 # end
