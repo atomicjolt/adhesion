@@ -20,7 +20,6 @@ NuclearSecrets.configure do |config|
     shared_auth_secret: String,
     secret_key_base: String,
     secret_token: NilClass,
-    deploy_env: String,
     canvas_proctor_url: String,
     scorm_url: String,
     scorm_api_path: String,
