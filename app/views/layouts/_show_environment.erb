@@ -1,3 +1,4 @@
-<% if !Rails.env.production? || Rails.application.secrets.deploy_env != "production" -%>
-  <div class="aj-env-banner no-print"><%= Rails.application.secrets.deploy_env.present? ? Rails.application.secrets.deploy_env.upcase : Rails.env.upcase %></div>
+<% env = Rails.application.secrets.deploy_env -%>
+<% if env.present? -%>
+  <div class="aj-env-banner no-print"><%= env.upcase %></div>
 <% end -%>
