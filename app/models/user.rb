@@ -13,6 +13,9 @@ class User < ApplicationRecord
 
   enum create_method: %i{sign_up oauth lti}
 
+  scope :oauth_user, -> { where(create_method: create_methods[:oauth]) }
+  scope :unconfirmed, -> { where(confirmed_at: nil) }
+
   def display_name
     name || email
   end
