@@ -107,18 +107,5 @@ end
 # Scorm cloud ruby client
 gem "scorm_cloud", git: "https://github.com/instructure/scorm-cloud.git"
 
-group :production do
-  gem "cap-ec2", require: false
-  gem "capistrano", require: false
-  gem "capistrano-bundler", require: false
-  gem "capistrano-db-tasks", require: false
-  gem "capistrano-logtail", require: false
-  gem "capistrano-passenger", require: false
-  gem "capistrano-rails", require: false
-  gem "capistrano-shell", require: false
-  gem "capistrano-upload", require: false
-  gem "capistrano3-unicorn", require: false
-end
-
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
