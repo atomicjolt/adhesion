@@ -198,7 +198,7 @@ class Api::ScormCoursesController < ApplicationController
     FileUtils.mkdir_p(duplicate_dir_path)
     duplicate_file_path = File.join(duplicate_dir_path, file.original_filename)
     pid = spawn("/bin/mv", file.tempfile.path, duplicate_file_path)
-    success = Process.wait pid
+    success = Process.wait(pid)
     raise Adhesion::Exceptions::ScormCopyToStorage unless success
     file.close
     duplicate_file_path
