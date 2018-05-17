@@ -50,7 +50,7 @@ RSpec.describe ErrorMailer, type: :mailer do
         exception: "you did : something wrong",
         backtrace: backtrace,
       }
-      ErrorMailer.error_email(user, error_info)
+      ErrorMailer.error_email(user, error_info.to_json)
     end
 
     it "renders the headers" do
