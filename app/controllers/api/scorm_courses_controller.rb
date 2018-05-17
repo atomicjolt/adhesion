@@ -195,7 +195,7 @@ class Api::ScormCoursesController < ApplicationController
   def copy_to_storage(file, scorm_course_id)
     storage_mount = Rails.env.production? ? Rails.application.secrets.storage_mount : Dir.tmpdir
     duplicate_dir_path = File.join(storage_mount, "job", scorm_course_id.to_s)
-    Dir.mkdir(duplicate_dir_path)
+    FileUtils.mkdir_p(duplicate_dir_path)
     duplicate_file_path = File.join(duplicate_dir_path, file.original_filename)
     fork { exec("/bin/mv", file.tempfile.path, duplicate_file_path) }
     file.close
