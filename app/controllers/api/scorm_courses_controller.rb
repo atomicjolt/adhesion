@@ -124,7 +124,11 @@ class Api::ScormCoursesController < ApplicationController
 
   def status
     scorm_course = ScormCourse.find(params[:scorm_course_id])
-    render json: { scorm_course_id: scorm_course.id, status: scorm_course.import_job_status }
+    render json: {
+      scorm_course_id: scorm_course.id,
+      status: scorm_course.import_job_status,
+      message: scorm_course.message,
+    }
   end
 
   private

@@ -31,7 +31,10 @@ class ScormStatusCheckJob < ApplicationJob
         skip_canvas_upload,
       )
   rescue StandardError => e
-    scorm_course.update(import_job_status: ScormCourse::FAILED)
+    scorm_course.update(
+      import_job_status: ScormCourse::FAILED,
+      message: JSON.parse(e.message)["message"],
+    )
     raise e
   end
 end

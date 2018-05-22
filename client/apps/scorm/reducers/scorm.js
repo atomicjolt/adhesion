@@ -84,6 +84,7 @@ export default (state = initialState, action) => {
       const {
         status,
         scorm_course_id:scormCourseId,
+        message,
       } = action.payload;
 
       const shouldPollStatus = !_.includes(['COMPLETE', 'FAILED'], status);
@@ -92,7 +93,7 @@ export default (state = initialState, action) => {
       let uploadError = false;
       if (status === 'FAILED') {
         uploadError = true;
-        errorText = status;
+        errorText = `${status} - ${message}`;
         shouldRefreshList = false;
       }
       return {

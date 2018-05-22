@@ -138,7 +138,7 @@ class ScormEngineService
       response_body = JSON.parse(response.body)
       status = response_body["status"]
 
-      raise Adhesion::Exceptions::ScormImport.new(response_body) if status == "ERROR"
+      raise Adhesion::Exceptions::ScormImport.new(response_body.to_json) if status == "ERROR"
 
       break if status == "COMPLETE" || backoff > 36
       backoff += 3
