@@ -176,7 +176,24 @@ RSpec.describe Api::ScormCoursesController, type: :controller do
       params = { scorm_course_id: scorm_course.id }
       get :status, params: params
       expect(response).to have_http_status 200
-      expected = { "scorm_course_id" => scorm_course.id, "status" => "RUNNING" }
+      expected = { "scorm_course_id" => scorm_course.id, "status" => "RUNNING", "message" => nil }
+      expect(JSON.parse(response.body)).to eq(expected)
+    end
+
+    it "should return the status with a message" do
+      scorm_course = create(
+        :scorm_course,
+        import_job_status: "FAILED",
+        message: "Specified zip does not contain a manifest.",
+      )
+      params = { scorm_course_id: scorm_course.id }
+      get :status, params: params
+      expect(response).to have_http_status 200
+      expected = {
+        "scorm_course_id" => scorm_course.id,
+        "status" => "FAILED",
+        "message" => "Specified zip does not contain a manifest.",
+      }
       expect(JSON.parse(response.body)).to eq(expected)
     end
   end
