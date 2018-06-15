@@ -42,8 +42,7 @@ export class Complete extends React.Component {
     },
     messageBox: {
       fontSize: '3em',
-      color: 'white',
-      padding: '10px 20px',
+      padding: '10px 10px',
       margin: '40px auto',
     }
   }
@@ -89,7 +88,7 @@ export class Complete extends React.Component {
     if (this.props.processing) {
       return (
         // TODO: Put Processing Component Here instead
-        <h2 style={this.styles.messageBox}>{ this.state.msg }</h2>
+        <h3 style={this.styles.messageBox}>{ this.state.msg }</h3>
       );
     }
     // TODO: Make this button it's own component
@@ -102,7 +101,7 @@ export class Complete extends React.Component {
       </button>
     );
     const noButton = (
-      <h2 style={this.styles.messageBox}>{ this.state.msg }</h2>
+      <h3 style={this.styles.messageBox}>{ this.state.msg }</h3>
     );
     return (
       <div style={this.styles.container}>
