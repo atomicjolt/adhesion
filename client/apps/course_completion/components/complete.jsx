@@ -1,24 +1,35 @@
 import React from 'react';
+import _ from 'lodash';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import canvasRequest from 'atomic-canvas/libs/action';
+import { listEnrollmentsUsers } from 'atomic-canvas/libs/constants/enrollments';
 import { markCourseAsCompleted } from '../actions/course_completion';
 
-const select = ({ settings }) => ({
-  lmsCourseId: settings.lms_course_id
+const select = ({ settings, complete }) => ({
+  lmsCourseId: settings.lms_course_id,
+  lmsUserId: settings.lms_user_id,
+  enrollments: complete.enrollments,
+  processing: complete.processing,
+  completed: complete.completed,
+  error: complete.error || undefined,
+  result: complete.result,
 });
 
 export class Complete extends React.Component {
   static propTypes = {
     markCourseAsCompleted: PropTypes.func.isRequired,
     lmsCourseId: PropTypes.string.isRequired,
+    lmsUserId: PropTypes.string.isRequired,
+  }
+
+  state = {
+    valid: false,
+    ready: false,
+    msg: 'Cannot complete your enrollment',
   }
 
   styles = {
-    container: {
-      marginTop: '40px',
-      padding: '20px'
-    },
     completeButton: {
       fontSize: '3em',
       color: 'white',
@@ -26,23 +37,74 @@ export class Complete extends React.Component {
       backgroundColor: '#3F51B5',
       border: 'none',
       borderRadius: '2px',
-      boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
+      boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
+      margin: '40px auto',
+    }
+  }
+
+  componentWillMount() {
+    const filter = { state: ['active', 'completed'] };
+    const params = { user_id: this.props.lmsUserId, ...filter };
+    this.props.canvasRequest(listEnrollmentsUsers, params, {});
+  }
+
+  componentWillUpdate(nextProps) {
+    // TODO: refactor into fewer cases
+    if (_.isEmpty(this.props.enrollments) && !_.isEmpty(nextProps.enrollments)) {
+      debugger
+      this.state.ready = true;
+      const enrollment = _.find(
+        nextProps.enrollments,
+        i => i.course_id === parseInt(this.props.lmsCourseId, 10)
+      );
+      if (enrollment.type === 'StudentEnrollment' && enrollment.enrollment_state === 'active') {
+        this.setState({ valid: true });
+        // if (enrollment.enrollment_state !== 'active') {
+        //   this.setState({ msg: 'Course Completed!' });
+        // }
+      }
+      if (nextProps.enrollments === [] || enrollment === undefined) {
+        this.setState({ msg: 'No enrollment to complete' });
+      }
+      if (enrollment.enrollment_state === 'completed') {
+        this.setState({ msg: 'Course Completed!' });
+      }
+    }
+    if (this.props.processing) {
+      this.setState({ msg: 'Processing...' });
+    }
+    if (this.props.completed && this.props.error !== undefined) {
+      this.setState({
+        msg: 'Unable to complete course at this time.\nPlease try again later.'
+      });
     }
   }
 
   render() {
+    if (!this.state.ready) {
+      return null;
+    }
+    if (this.props.processing) {
+      return (
+        // TODO: Put Processing Component Here instead
+        <h2>{ this.state.msg }</h2>
+      );
+    }
+    // TODO: Make this button it's own component
+    const button = (
+      <button
+        style={this.styles.completeButton}
+        onClick={() => this.props.markCourseAsCompleted(this.props.lmsCourseId)}
+      >
+        Complete Course
+      </button>
+    );
+    const noButton = (
+      <h2>{ this.state.msg }</h2>
+    );
     return (
       <div style={this.styles.container}>
-        <h2>Mark course as complete</h2>
-        <div>This action will mark that you have completed your self paced course.</div>
-        <div>Be sure you have finished all your work before pushing the complete button.</div>
-        <div>This action cannot be undone.</div>
-        <button
-          style={this.styles.completeButton}
-          onClick={() => this.props.markCourseAsCompleted(this.props.lmsCourseId)}
-        >
-          Complete
-        </button>
+        { this.state.valid && !this.props.completed ? button : noButton }
       </div>
     );
   }
@@ -52,5 +114,5 @@ export class Complete extends React.Component {
 export default connect(select,
   {
     canvasRequest,
-    markCourseAsCompleted
+    markCourseAsCompleted,
   })(Complete);
