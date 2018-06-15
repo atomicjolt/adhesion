@@ -59,9 +59,6 @@ export class Complete extends React.Component {
       );
       if (enrollment.type === 'StudentEnrollment' && enrollment.enrollment_state === 'active') {
         this.setState({ valid: true });
-        // if (enrollment.enrollment_state !== 'active') {
-        //   this.setState({ msg: 'Course Completed!' });
-        // }
       }
       if (nextProps.enrollments === [] || enrollment === undefined) {
         this.setState({ msg: 'No enrollment to complete' });
