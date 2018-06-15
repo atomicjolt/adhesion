@@ -50,7 +50,6 @@ export default class Course extends React.Component {
         minWidth: '20rem',
       },
       button: {
-        float: 'right',
         color: Defines.darkGrey,
         backgroundColor: Defines.lightBackground,
         border: 'none',
@@ -60,7 +59,6 @@ export default class Course extends React.Component {
       },
       settingsContainer: {
         top: '25%',
-        right: '20px',
       },
       hoveredStyle: {
         color: Defines.tanishBrown,
@@ -178,6 +176,7 @@ export default class Course extends React.Component {
           isGoBtnActive={isUnselected}
           handleSelectChange={e => this.handleImportType(e)}
           handleGoClick={() => this.handleGoClick()}
+          index={this.props.course.index}
         />
       );
     }
@@ -202,22 +201,22 @@ export default class Course extends React.Component {
       <li className="c-list__item c-list__item--choose">
         <div className="c-list-item__main">
           <div className="c-list-item__contain">
-            <div className="c-list-item__title">{this.props.course.title}</div>
+            <div
+              id={`title-${this.props.course.index}`}
+              className="c-list-item__title"
+            >
+              {this.props.course.title}
+            </div>
             {dropDown}
           </div>
           <div className="c-list-item__icons" style={styles.settingsContainer}>
-            <HoverButton
-              style={styles.button}
-              onClick={() => this.openSettings()}
-              hoveredStyle={styles.hoveredStyle}
-            >
-              <i className="material-icons">settings</i>
-            </HoverButton>
             { isAssignment && do {
               <HoverButton
                 style={styles.button}
                 onClick={() => this.publishAssignment()}
                 hoveredStyle={styles.hoveredStyle}
+                ariaLabel="Publish Canvas Assignment"
+                ariaDescribedBy={`title-${this.props.course.index}`}
               >
                 { do {
                   if (this.props.canvasAssignment.published) {
@@ -228,6 +227,15 @@ export default class Course extends React.Component {
                 }}
               </HoverButton>;
             }}
+            <HoverButton
+              style={styles.button}
+              onClick={() => this.openSettings()}
+              hoveredStyle={styles.hoveredStyle}
+              ariaLabel="Additional Options"
+              ariaDescribedBy={`title-${this.props.course.index}`}
+            >
+              <i className="material-icons">settings</i>
+            </HoverButton>
           </div>
         </div>
         {settings}

@@ -8,6 +8,8 @@ export default class HoverButton extends React.Component {
     className: React.PropTypes.string,
     children: React.PropTypes.node,
     hoveredStyle: React.PropTypes.shape({}),
+    ariaLabel: React.PropTypes.string,
+    ariaDescribedBy: React.PropTypes.string,
   }
 
   constructor() {
@@ -29,6 +31,8 @@ export default class HoverButton extends React.Component {
         onMouseEnter={() => this.setState({ hovered: true })}
         onMouseLeave={() => this.setState({ hovered: false })}
         style={style}
+        aria-label={this.props.ariaLabel}
+        aria-describedby={this.props.ariaDescribedBy}
       >
         {this.props.children}
       </button>

@@ -18,17 +18,18 @@ export default function assignmentButton(props) {
     textAlign: 'left',
     cursor: 'pointer',
     verticalAlign: 'middle',
+    display: 'inline-block',
   };
 
   return (
-    <a href={`https://${props.canvasUrl}/courses/${props.courseId}/assignments/${props.lms_assignment_id}`} target="_parent">
-      <HoverButton
-        style={buttonStyle}
-        hoveredStyle={hoveredStyle}
-      >
-        <CommonSvg className="c-icon" type="gradedAssignment" />
-        Go to Assignment
-      </HoverButton>
+    <a
+      href={`https://${props.canvasUrl}/courses/${props.courseId}/assignments/${props.lms_assignment_id}`}
+      target="_parent"
+      style={buttonStyle}
+      hoveredStyle={hoveredStyle}
+    >
+      <CommonSvg className="c-icon" type="gradedAssignment" />
+      Go to Assignment
     </a>
   );
 }

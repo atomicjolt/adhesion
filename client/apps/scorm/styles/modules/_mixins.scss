@@ -111,10 +111,6 @@
 	text-overflow: ellipsis;
 }
 
-.i-settings:before {
-  content: "\e2cb";
-}
-
 @mixin semi-bold{
   font-family: 'Roboto', sans-serif;
   font-weight: 500;

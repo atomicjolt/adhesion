@@ -15,7 +15,7 @@ const Chart = (props) => {
 
   return (
     <BarChart
-      width={600}
+      width={400}
       height={300}
       data={data}
       margin={margin}

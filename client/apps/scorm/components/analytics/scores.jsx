@@ -2,17 +2,8 @@ import React from 'react';
 import ScoreLabel from './score_label';
 
 export default function AverageScore(props) {
-
-  const styles = {
-    container: {
-      position: 'absolute',
-      top: '2rem',
-      right: '5rem',
-    },
-  };
-
   return (
-    <div style={styles.container}>
+    <div className="score-data">
       {
         props.scores.map(score =>
           <ScoreLabel
