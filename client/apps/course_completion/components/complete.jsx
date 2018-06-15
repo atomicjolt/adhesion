@@ -39,6 +39,12 @@ export class Complete extends React.Component {
       borderRadius: '2px',
       boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
       margin: '40px auto',
+    },
+    messageBox: {
+      fontSize: '3em',
+      color: 'white',
+      padding: '10px 20px',
+      margin: '40px auto',
     }
   }
 
@@ -51,7 +57,6 @@ export class Complete extends React.Component {
   componentWillUpdate(nextProps) {
     // TODO: refactor into fewer cases
     if (_.isEmpty(this.props.enrollments) && !_.isEmpty(nextProps.enrollments)) {
-      debugger
       this.state.ready = true;
       const enrollment = _.find(
         nextProps.enrollments,
@@ -84,7 +89,7 @@ export class Complete extends React.Component {
     if (this.props.processing) {
       return (
         // TODO: Put Processing Component Here instead
-        <h2>{ this.state.msg }</h2>
+        <h2 style={this.styles.messageBox}>{ this.state.msg }</h2>
       );
     }
     // TODO: Make this button it's own component
@@ -97,7 +102,7 @@ export class Complete extends React.Component {
       </button>
     );
     const noButton = (
-      <h2>{ this.state.msg }</h2>
+      <h2 style={this.styles.messageBox}>{ this.state.msg }</h2>
     );
     return (
       <div style={this.styles.container}>
