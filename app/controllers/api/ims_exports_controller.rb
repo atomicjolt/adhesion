@@ -10,34 +10,24 @@ class Api::ImsExportsController < ApplicationController
   end
 
   def status
+    export = ImsExport.find_by(token: params[:id])
     respond_to do |format|
-      format.json { render json: { status: "completed" } }
+      format.json do
+        render json: { status: export.status, message: export.message }
+      end
     end
   end
 
   def create
-    lti_launches = LtiLaunch.where(context_id: params[:context_id])
-    lti_launch_configs = lti_launches.pluck(:config)
-    scorm_course_ids = lti_launch_configs.map { |llc| llc[:scorm_course_id] }
-    scorm_courses = ScormCourse.where(id: scorm_course_ids)
-
-    lti_launches_payloads = lti_launches.find_each.map do |lti_launch|
-      scorm_course_id = lti_launch.config[:scorm_course_id]
-      if scorm_course = scorm_courses.detect { |sc| sc.id == scorm_course_id }
-        payload_json(scorm_course, lti_launch)
-      end
-    end
-
-    payload = {
-      application_instance_id: current_application_instance.id,
-      context_id: params[:context_id],
-      lti_launches: lti_launches_payloads.compact,
-    }
     export = ImsExport.create!(
       tool_consumer_instance_guid: params[:tool_consumer_instance_guid],
       context_id: params[:context_id],
       custom_canvas_course_id: params[:custom_canvas_course_id],
-      payload: payload,
+    )
+    ImsExportJob.perform_later(
+      export,
+      current_application_instance,
+      ims_export_params.to_json,
     )
     response = {
       "status_url": status_api_ims_export_url(export.token),
@@ -48,19 +38,14 @@ class Api::ImsExportsController < ApplicationController
     end
   end
 
-  def payload_json(scorm_course, lti_launch)
-    {
-      config: lti_launch.config,
-      token: lti_launch.token,
-      context_id: lti_launch.context_id,
-      tool_consumer_instance_guid: lti_launch.tool_consumer_instance_guid,
-      scorm_course: {
-        "$canvas_assignment_id": scorm_course.lms_assignment_id,
-        "$canvas_attachment_id": scorm_course.file_id,
-        points_possible: scorm_course.points_possible,
-        title: scorm_course.title,
-      },
-    }
-  end
+  private
 
+  def ims_export_params
+    params.
+      permit(
+        :context_id,
+        :tool_consumer_instance_guid,
+        :custom_canvas_course_id,
+      )
+  end
 end

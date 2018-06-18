@@ -128,56 +128,12 @@ RSpec.describe Api::ImsImportsController, type: :controller do
     end
 
     describe "POST create" do
-      it "starts the import process" do
-        post :create, params: @import_params, format: :json
-        expect(response).to have_http_status(:success)
-        result = JSON.parse(response.body)
-        expect(result["status"]).to eq("completed")
-        expect(LtiLaunch.find_by(token: "kcgmuAKNyRu55S1kT4XuY5ag")).to be
-        expect(LtiLaunch.find_by(token: "jfvTHBDVW68y9auBLGihpq3G")).to be
-        expect(LtiLaunch.find_by(token: "N4aDqFbQzQFrPhqzyZuEJErd")).to be
-
-        lti_launch = LtiLaunch.find_by(token: "dgqgRSCUGdkmmKMAC3Ma2nei")
-        expect(lti_launch).to be
-        expect(lti_launch.scorm_course_id).to_not eq(41)
-        scorm_course = lti_launch.scorm_course
-        expect(lti_launch.config).to eq(
-          {
-            scorm_course_id: scorm_course.id,
-            scorm_service_id: scorm_course.scorm_service_id,
-            lms_course_id: scorm_course.scorm_service_id.split("_").last,
-          }.with_indifferent_access,
-        )
-
-        lti_launch2 = LtiLaunch.find_by(token: "kcgmuAKNyRu55S1kT4XuY5ag")
-        expect(lti_launch2).to be
-        scorm_course2 = lti_launch2.scorm_course
-        expect(scorm_course2).to be
-        expect(scorm_course2.file_id).to eq(5665)
-      end
-
-      it "handles importing the same package multiple times" do
-        post :create, params: @import_params, format: :json
-        expect(response).to have_http_status(:success)
-        result = JSON.parse(response.body)
-        expect(result["status"]).to eq("completed")
-
-        post :create, params: @import_params, format: :json
-        expect(response).to have_http_status(:success)
-        result = JSON.parse(response.body)
-        expect(result["status"]).to eq("completed")
-
-        lti_launch = LtiLaunch.find_by(token: "dgqgRSCUGdkmmKMAC3Ma2nei")
-        expect(lti_launch.scorm_course_id).to_not eq(41)
-        scorm_course = lti_launch.scorm_course
-        expect(lti_launch).to be
-        expect(lti_launch.config).to eq(
-          {
-            scorm_course_id: scorm_course.id,
-            scorm_service_id: scorm_course.scorm_service_id,
-            lms_course_id: scorm_course.scorm_service_id.split("_").last,
-          }.with_indifferent_access,
-        )
+      context "background jobs" do
+        it "enqueues processing" do
+          expect do
+            post :create, params: @import_params, format: :json
+          end.to have_enqueued_job(ImsImportJob)
+        end
       end
 
       context "scorm package" do
