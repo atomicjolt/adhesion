@@ -124,7 +124,11 @@ class Api::ScormCoursesController < ApplicationController
 
   def status
     scorm_course = ScormCourse.find(params[:scorm_course_id])
-    render json: { scorm_course_id: scorm_course.id, status: scorm_course.import_job_status }
+    render json: {
+      scorm_course_id: scorm_course.id,
+      status: scorm_course.import_job_status,
+      message: scorm_course.message,
+    }
   end
 
   private
@@ -195,12 +199,10 @@ class Api::ScormCoursesController < ApplicationController
   def copy_to_storage(file, scorm_course_id)
     storage_mount = Rails.env.production? ? Rails.application.secrets.storage_mount : Dir.tmpdir
     duplicate_dir_path = File.join(storage_mount, "job", scorm_course_id.to_s)
-    cmd = "mkdir -p #{duplicate_dir_path}"
-    success = system(cmd)
-    raise Adhesion::Exceptions::ScormCopyToStorage unless success
+    FileUtils.mkdir_p(duplicate_dir_path)
     duplicate_file_path = File.join(duplicate_dir_path, file.original_filename)
-    cmd = "mv #{file.tempfile.path} #{duplicate_file_path}"
-    success = system(cmd)
+    pid = spawn("/bin/mv", file.tempfile.path, duplicate_file_path)
+    success = Process.wait(pid)
     raise Adhesion::Exceptions::ScormCopyToStorage unless success
     file.close
     duplicate_file_path

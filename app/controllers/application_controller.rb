@@ -50,7 +50,7 @@ class ApplicationController < ActionController::Base
     @backtrace = e.backtrace
     @status = ActionDispatch::ExceptionWrapper.new(request.env, e).status_code
 
-    ErrorMailer.error_email(current_user, error_info).deliver_later
+    ErrorMailer.error_email(current_user, error_info.to_json).deliver_later
 
     respond_to do |format|
       format.html { render_html_error }
@@ -81,6 +81,10 @@ class ApplicationController < ActionController::Base
     if params_dup["user"].present?
       params_dup["user"]["password"] = "******"
     end
+    if params_dup["file"].present?
+      params_dup["file"] = params_dup["file"].headers
+    end
+
     {
       user_id: current_user&.id,
       user_email: current_user&.email,
