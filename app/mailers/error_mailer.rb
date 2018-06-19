@@ -4,6 +4,7 @@ class ErrorMailer < ApplicationMailer
     @error_info = JSON.parse(error_info).with_indifferent_access
 
     mail(
+      from: Rails.application.secrets.error_email,
       to: Rails.application.secrets.error_email,
       subject: @error_info[:exception],
     )
