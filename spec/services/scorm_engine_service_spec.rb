@@ -33,7 +33,7 @@ end
 describe "launch_course" do
   before(:example) do
     @subject = ScormEngineService.new
-    @application_instance = FactoryGirl.create(:application_instance)
+    @application_instance = FactoryBot.create(:application_instance)
     @application_instance.update_attributes(config: { "scorm_type" => "engine" })
     @reg = Registration.create(
       lms_user_id: 2,
@@ -69,7 +69,7 @@ end
 describe "registration_scorm_result" do
   before(:example) do
     @subject = ScormEngineService.new
-    @application_instance = FactoryGirl.create(:application_instance)
+    @application_instance = FactoryBot.create(:application_instance)
     @application_instance.update_attributes(config: { "scorm_type" => "engine" })
     @reg = Registration.create(
       lms_user_id: 2,
@@ -119,7 +119,7 @@ end
 describe "Scorm Engine Service sync score", type: :controller do
   before(:example) do
     @subject = ScormEngineService.new
-    @application_instance = FactoryGirl.create(:application_instance)
+    @application_instance = FactoryBot.create(:application_instance)
     @application_instance.update_attributes(config: { "scorm_type" => "engine" })
     @reg = Registration.create(
       lms_user_id: 2,

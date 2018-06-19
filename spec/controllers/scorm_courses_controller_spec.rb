@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe ScormCoursesController, type: :controller do
   describe "POST#postback" do
     before(:example) do
-      @application_instance = FactoryGirl.create(:application_instance)
+      @application_instance = FactoryBot.create(:application_instance)
       @application_instance.application.
         update_attributes(default_config: { scorm_type: "cloud" })
       allow(controller).to receive(
@@ -12,8 +12,7 @@ RSpec.describe ScormCoursesController, type: :controller do
     end
     it "should reject bad password" do
       reg = Registration.create
-      post(
-        :postback,
+      params = {
         data:
           "<registrationreport
             format='summary'
@@ -25,14 +24,14 @@ RSpec.describe ScormCoursesController, type: :controller do
               <score>0</score>
           </registrationreport>",
         password: "FakePass",
-      )
+      }
+      post :postback, params: params
       expect(response.status).to equal(400)
     end
 
     it "should accept good password" do
       reg = Registration.create
-      post(
-        :postback,
+      params = {
         data:
           "<registrationreport
             format='summary'
@@ -44,7 +43,8 @@ RSpec.describe ScormCoursesController, type: :controller do
               <score>0</score>
           </registrationreport>",
         password: reg.scorm_cloud_passback_secret,
-      )
+      }
+      post :postback, params: params
       expect(response.status).to equal(200)
     end
   end
@@ -54,7 +54,7 @@ RSpec.describe ScormCoursesController, type: :controller do
       allow_any_instance_of(ScormCloud::ScormCloud).to receive(
         :registration,
       ).and_return(MockScorm.new)
-      @application_instance = FactoryGirl.create(:application_instance)
+      @application_instance = FactoryBot.create(:application_instance)
       @application_instance.application.
         update_attributes(default_config: { scorm_type: "cloud" })
       allow(controller).to receive(
@@ -72,7 +72,7 @@ RSpec.describe ScormCoursesController, type: :controller do
     end
     it "should handle the successful launch of a new SCORM course" do
       request.env["CONTENT_TYPE"] = "application/x-www-form-urlencoded"
-      post :create, @params
+      post :create, params: @params
       expect(response.status).to eq(302)
     end
     it "should handle the failed launch of a new SCORM course" do
@@ -83,14 +83,14 @@ RSpec.describe ScormCoursesController, type: :controller do
       launch_course = { status: 401 }
       allow(obj).to receive(:launch_course).and_return(launch_course)
 
-      post :create, @params
+      post :create, params: @params
       expect(response.status).to eq(401)
     end
   end
 
   # describe "Create ScormEngineService" do
   #   before(:example) do
-  #     @application_instance = FactoryGirl.create(:application_instance)
+  #     @application_instance = FactoryBot.create(:application_instance)
   #     @application_instance.application.
   #       update_attributes(default_config: { scorm_type: "engine" })
   #     allow(controller).to receive(

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :exam_request do
     exam_id { generate(:exam_id) }
     course_id { generate(:course_id) }
