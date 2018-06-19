@@ -37,32 +37,52 @@ class ImsImportJob < ApplicationJob
       lti_launch = LtiLaunch.find_by(token: lti_launch_attrs[:token], context_id: context_id)
 
       if lti_launch.blank?
-        scorm_course = ScormCourse.new(scorm_course_attrs)
-        scorm_course.update(import_job_status: ScormCourse::CREATED)
-
-        launch_attrs = merge_lti_launch_attrs(
+        create_lti_launch(
+          scorm_course_attrs,
           lti_launch_attrs,
           context_id,
           tool_consumer_instance_guid,
-          scorm_course,
+          file_id,
+          application_instance,
+          user,
         )
-
-        lti_launch = LtiLaunch.new(launch_attrs)
-        lti_launch.context_id = context_id
-        lti_launch.tool_consumer_instance_guid = tool_consumer_instance_guid
-        lti_launch.save!
-
-        if file_id.present?
-          public_file_url = file_url(file_id)
-          process_scorm_import_url(
-            scorm_course,
-            scorm_course_attrs[:lms_course_id],
-            public_file_url,
-            application_instance,
-            user,
-          )
-        end
       end
+    end
+  end
+
+  def create_lti_launch(
+    scorm_course_attrs,
+    lti_launch_attrs,
+    context_id,
+    tool_consumer_instance_guid,
+    file_id,
+    application_instance,
+    user
+  )
+    scorm_course = ScormCourse.new(scorm_course_attrs)
+    scorm_course.update(import_job_status: ScormCourse::CREATED)
+
+    launch_attrs = merge_lti_launch_attrs(
+      lti_launch_attrs,
+      context_id,
+      tool_consumer_instance_guid,
+      scorm_course,
+    )
+
+    lti_launch = LtiLaunch.new(launch_attrs)
+    lti_launch.context_id = context_id
+    lti_launch.tool_consumer_instance_guid = tool_consumer_instance_guid
+    lti_launch.save!
+
+    if file_id.present?
+      public_file_url = file_url(file_id)
+      process_scorm_import_url(
+        scorm_course,
+        scorm_course_attrs[:lms_course_id],
+        public_file_url,
+        application_instance,
+        user,
+      )
     end
   end
 
