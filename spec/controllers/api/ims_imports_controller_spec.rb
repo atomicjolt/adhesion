@@ -135,14 +135,6 @@ RSpec.describe Api::ImsImportsController, type: :controller do
           end.to have_enqueued_job(ImsImportJob)
         end
       end
-
-      context "scorm package" do
-        it "enqueues scorm processing for 2 of the 4" do
-          expect do
-            post :create, params: @import_params, format: :json
-          end.to change(enqueued_jobs, :size).by(2)
-        end
-      end
     end
   end
 end

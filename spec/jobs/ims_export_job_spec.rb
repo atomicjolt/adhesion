@@ -9,7 +9,16 @@ RSpec.describe ImsExportJob, type: :job do
 
   subject { ImsExportJob }
 
-  let(:export) { create(:ims_export, payload: { lti_launches: [] }) }
+  let(:export) do
+    create(
+      :ims_export,
+      payload: {
+        lti_launches: [],
+        lti_tools: [],
+        ims_export_token: nil,
+      },
+    )
+  end
 
   let(:application_instance) { create(:application_instance) }
 
@@ -21,7 +30,17 @@ RSpec.describe ImsExportJob, type: :job do
     }
   end
 
-  let(:lti_launch) { create(:lti_launch, context_id: "123") }
+  let(:scorm_course) { create(:scorm_course) }
+
+  let(:config) do
+    {
+      "lms_course_id": "1331",
+      "scorm_course_id": scorm_course.id,
+      "scorm_service_id": "#{scorm_course.id}_1331",
+    }
+  end
+
+  let(:lti_launch) { create(:lti_launch, context_id: "123", config: config) }
 
   it "Collects the lti launches" do
     expect(export.payload["lti_launches"]).to_not include(lti_launch)

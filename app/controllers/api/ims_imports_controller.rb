@@ -1,5 +1,4 @@
 class Api::ImsImportsController < ApplicationController
-  include Concerns::CanvasSupport
   include Concerns::CanvasImsccSupport
 
   def create
@@ -9,9 +8,10 @@ class Api::ImsImportsController < ApplicationController
       lti_launches: lti_launches,
       context_id: params[:context_id],
       tool_consumer_instance_guid: params[:tool_consumer_instance_guid],
+      canvas_course_id: params[:custom_canvas_course_id],
     }
 
-    ImsImportJob.perform_later(data.to_json)
+    ImsImportJob.perform_later(data.to_json, current_application_instance, current_user)
 
     render json: { status: "completed" }
   end
@@ -22,6 +22,12 @@ class Api::ImsImportsController < ApplicationController
     current_params.permit(
       lti_launches: [
         :token,
+        scorm_course: [
+          "$canvas_assignment_id",
+          "$canvas_attachment_id",
+          :points_possible,
+          :title,
+        ],
         config: {},
       ],
     )
