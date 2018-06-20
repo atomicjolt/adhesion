@@ -55,7 +55,9 @@ RSpec.describe ErrorMailer, type: :mailer do
 
     it "renders the headers" do
       expect(mail.subject).to eq("you did : something wrong")
-      expect(mail.from).to eq(nil) # We want sendmail to assign the from value
+      # We wanted sendmail to assign the from value,
+      # however rails won't let us leave the from value blank
+      expect(mail.from).to eq([])
     end
 
     it "renders the body" do
