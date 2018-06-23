@@ -7,7 +7,7 @@ ShallowWrapper {
   Symbol(enzyme.__unrendered__): <fillInMultipleBlanks
     id="7"
     question_text="<p>Holy [blank1] youve been down too long in the [blank2] sea.</p>"
-/>,
+  />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
     "getNode": [Function],

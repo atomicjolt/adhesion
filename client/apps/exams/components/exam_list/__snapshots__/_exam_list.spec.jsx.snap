@@ -7,27 +7,27 @@ ShallowWrapper {
   Symbol(enzyme.__unrendered__): <BaseExamList
     canvasRequest={[Function]}
     examList={
-        Array [
-            Object {
-              "access_code": "proctored-exam-asdfasdf",
-              "id": 1,
-              "title": "america",
-            },
-          ]
+      Array [
+        Object {
+          "access_code": "proctored-exam-asdfasdf",
+          "id": 1,
+          "title": "america",
+        },
+      ]
     }
     examRequests={
-        Object {
-            "1": Object {
-              "status": "requested",
-            },
-          }
+      Object {
+        "1": Object {
+          "status": "requested",
+        },
+      }
     }
     getTestingCentersAccount={[Function]}
     lmsCourseId="1"
     lmsUserId="lms user id"
     loadExamRequests={[Function]}
     toolConsumerInstanceName="instance name"
-/>,
+  />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
     "getNode": [Function],
@@ -43,106 +43,106 @@ ShallowWrapper {
       "children": Array [
         <h1
           style={
-                    Object {
-                              "color": "#555555",
-                              "padding": "10px 20px 0px 20px",
-                            }
+            Object {
+              "color": "#555555",
+              "padding": "10px 20px 0px 20px",
+            }
           }
->
+        >
           Request an Exam
-</h1>,
+        </h1>,
         <div
           style={
-                    Object {
-                              "marginBottom": "20px",
-                              "padding": "0px 20px",
-                            }
+            Object {
+              "marginBottom": "20px",
+              "padding": "0px 20px",
+            }
           }
->
+        >
           If you need to change where you take an exam, create a new request.
-</div>,
+        </div>,
         <hr
           style={
-                    Object {
-                              "borderTop": "2px solid #ededed",
-                              "margin": "0px",
-                            }
+            Object {
+              "borderTop": "2px solid #ededed",
+              "margin": "0px",
+            }
           }
-/>,
+        />,
         <table
           className="qa-exam-list-table"
           style={
-                    Object {
-                              "borderCollapse": "collapse",
-                              "width": "100%",
-                            }
+            Object {
+              "borderCollapse": "collapse",
+              "width": "100%",
+            }
           }
->
+        >
           <thead
-                    style={
-                              Object {
-                                        "backgroundColor": "#f5f5f5",
-                                        "color": "#aaa",
-                                      }
-                    }
+            style={
+              Object {
+                "backgroundColor": "#f5f5f5",
+                "color": "#aaa",
+              }
+            }
           >
-                    <tr>
-                              <th
-                                        style={
-                                                  Object {
-                                                            "fontWeight": "normal",
-                                                            "padding": "15px 20px",
-                                                            "textAlign": "left",
-                                                            "width": "50%",
-                                                          }
-                                        }
-                              >
-                                        EXAM
-                              </th>
-                              <th
-                                        style={
-                                                  Object {
-                                                            "fontWeight": "normal",
-                                                            "padding": "15px 20px",
-                                                            "textAlign": "left",
-                                                            "width": "25%",
-                                                          }
-                                        }
-                              >
-                                        TESTING CENTER
-                              </th>
-                              <th
-                                        style={
-                                                  Object {
-                                                            "fontWeight": "normal",
-                                                            "padding": "15px 20px",
-                                                            "textAlign": "left",
-                                                            "width": "25%",
-                                                          }
-                                        }
-                              >
-                                        STATUS
-                              </th>
-                    </tr>
+            <tr>
+              <th
+                style={
+                  Object {
+                    "fontWeight": "normal",
+                    "padding": "15px 20px",
+                    "textAlign": "left",
+                    "width": "50%",
+                  }
+                }
+              >
+                EXAM
+              </th>
+              <th
+                style={
+                  Object {
+                    "fontWeight": "normal",
+                    "padding": "15px 20px",
+                    "textAlign": "left",
+                    "width": "25%",
+                  }
+                }
+              >
+                TESTING CENTER
+              </th>
+              <th
+                style={
+                  Object {
+                    "fontWeight": "normal",
+                    "padding": "15px 20px",
+                    "textAlign": "left",
+                    "width": "25%",
+                  }
+                }
+              >
+                STATUS
+              </th>
+            </tr>
           </thead>
           <tbody>
-                    <examListItem
-                              exam={
-                                        Object {
-                                                  "access_code": "proctored-exam-asdfasdf",
-                                                  "id": 1,
-                                                  "title": "america",
-                                                }
-                              }
-                              examRequest={
-                                        Object {
-                                                  "status": "requested",
-                                                }
-                              }
-                              goToExam={[Function]}
-                    />
+            <examListItem
+              exam={
+                Object {
+                  "access_code": "proctored-exam-asdfasdf",
+                  "id": 1,
+                  "title": "america",
+                }
+              }
+              examRequest={
+                Object {
+                  "status": "requested",
+                }
+              }
+              goToExam={[Function]}
+            />
           </tbody>
-</table>,
+        </table>,
       ],
     },
     "ref": null,
@@ -199,68 +199,68 @@ ShallowWrapper {
           "children": Array [
             <thead
               style={
-                            Object {
-                                          "backgroundColor": "#f5f5f5",
-                                          "color": "#aaa",
-                                        }
+                Object {
+                  "backgroundColor": "#f5f5f5",
+                  "color": "#aaa",
+                }
               }
->
+            >
               <tr>
-                            <th
-                                          style={
-                                                        Object {
-                                                                      "fontWeight": "normal",
-                                                                      "padding": "15px 20px",
-                                                                      "textAlign": "left",
-                                                                      "width": "50%",
-                                                                    }
-                                          }
-                            >
-                                          EXAM
-                            </th>
-                            <th
-                                          style={
-                                                        Object {
-                                                                      "fontWeight": "normal",
-                                                                      "padding": "15px 20px",
-                                                                      "textAlign": "left",
-                                                                      "width": "25%",
-                                                                    }
-                                          }
-                            >
-                                          TESTING CENTER
-                            </th>
-                            <th
-                                          style={
-                                                        Object {
-                                                                      "fontWeight": "normal",
-                                                                      "padding": "15px 20px",
-                                                                      "textAlign": "left",
-                                                                      "width": "25%",
-                                                                    }
-                                          }
-                            >
-                                          STATUS
-                            </th>
+                <th
+                  style={
+                    Object {
+                      "fontWeight": "normal",
+                      "padding": "15px 20px",
+                      "textAlign": "left",
+                      "width": "50%",
+                    }
+                  }
+                >
+                  EXAM
+                </th>
+                <th
+                  style={
+                    Object {
+                      "fontWeight": "normal",
+                      "padding": "15px 20px",
+                      "textAlign": "left",
+                      "width": "25%",
+                    }
+                  }
+                >
+                  TESTING CENTER
+                </th>
+                <th
+                  style={
+                    Object {
+                      "fontWeight": "normal",
+                      "padding": "15px 20px",
+                      "textAlign": "left",
+                      "width": "25%",
+                    }
+                  }
+                >
+                  STATUS
+                </th>
               </tr>
-</thead>,
+            </thead>,
             <tbody>
               <examListItem
-                            exam={
-                                          Object {
-                                                        "access_code": "proctored-exam-asdfasdf",
-                                                        "id": 1,
-                                                        "title": "america",
-                                                      }
-                            }
-                            examRequest={
-                                          Object {
-                                                        "status": "requested",
-                                                      }
-                            }
-                            goToExam={[Function]}
+                exam={
+                  Object {
+                    "access_code": "proctored-exam-asdfasdf",
+                    "id": 1,
+                    "title": "america",
+                  }
+                }
+                examRequest={
+                  Object {
+                    "status": "requested",
+                  }
+                }
+                goToExam={[Function]}
               />
-</tbody>,
+            </tbody>,
           ],
           "className": "qa-exam-list-table",
           "style": Object {
@@ -277,42 +277,42 @@ ShallowWrapper {
             "props": Object {
               "children": <tr>
                 <th
-                                style={
-                                                Object {
-                                                                "fontWeight": "normal",
-                                                                "padding": "15px 20px",
-                                                                "textAlign": "left",
-                                                                "width": "50%",
-                                                              }
-                                }
+                  style={
+                    Object {
+                      "fontWeight": "normal",
+                      "padding": "15px 20px",
+                      "textAlign": "left",
+                      "width": "50%",
+                    }
+                  }
                 >
-                                EXAM
+                  EXAM
                 </th>
                 <th
-                                style={
-                                                Object {
-                                                                "fontWeight": "normal",
-                                                                "padding": "15px 20px",
-                                                                "textAlign": "left",
-                                                                "width": "25%",
-                                                              }
-                                }
+                  style={
+                    Object {
+                      "fontWeight": "normal",
+                      "padding": "15px 20px",
+                      "textAlign": "left",
+                      "width": "25%",
+                    }
+                  }
                 >
-                                TESTING CENTER
+                  TESTING CENTER
                 </th>
                 <th
-                                style={
-                                                Object {
-                                                                "fontWeight": "normal",
-                                                                "padding": "15px 20px",
-                                                                "textAlign": "left",
-                                                                "width": "25%",
-                                                              }
-                                }
+                  style={
+                    Object {
+                      "fontWeight": "normal",
+                      "padding": "15px 20px",
+                      "textAlign": "left",
+                      "width": "25%",
+                    }
+                  }
                 >
-                                STATUS
+                  STATUS
                 </th>
-</tr>,
+              </tr>,
               "style": Object {
                 "backgroundColor": "#f5f5f5",
                 "color": "#aaa",
@@ -327,40 +327,40 @@ ShallowWrapper {
                 "children": Array [
                   <th
                     style={
-                                        Object {
-                                                            "fontWeight": "normal",
-                                                            "padding": "15px 20px",
-                                                            "textAlign": "left",
-                                                            "width": "50%",
-                                                          }
+                      Object {
+                        "fontWeight": "normal",
+                        "padding": "15px 20px",
+                        "textAlign": "left",
+                        "width": "50%",
+                      }
                     }
->
+                  >
                     EXAM
-</th>,
+                  </th>,
                   <th
                     style={
-                                        Object {
-                                                            "fontWeight": "normal",
-                                                            "padding": "15px 20px",
-                                                            "textAlign": "left",
-                                                            "width": "25%",
-                                                          }
+                      Object {
+                        "fontWeight": "normal",
+                        "padding": "15px 20px",
+                        "textAlign": "left",
+                        "width": "25%",
+                      }
                     }
->
+                  >
                     TESTING CENTER
-</th>,
+                  </th>,
                   <th
                     style={
-                                        Object {
-                                                            "fontWeight": "normal",
-                                                            "padding": "15px 20px",
-                                                            "textAlign": "left",
-                                                            "width": "25%",
-                                                          }
+                      Object {
+                        "fontWeight": "normal",
+                        "padding": "15px 20px",
+                        "textAlign": "left",
+                        "width": "25%",
+                      }
                     }
->
+                  >
                     STATUS
-</th>,
+                  </th>,
                 ],
               },
               "ref": null,
@@ -429,19 +429,19 @@ ShallowWrapper {
               "children": Array [
                 <examListItem
                   exam={
-                                    Object {
-                                                      "access_code": "proctored-exam-asdfasdf",
-                                                      "id": 1,
-                                                      "title": "america",
-                                                    }
+                    Object {
+                      "access_code": "proctored-exam-asdfasdf",
+                      "id": 1,
+                      "title": "america",
+                    }
                   }
                   examRequest={
-                                    Object {
-                                                      "status": "requested",
-                                                    }
+                    Object {
+                      "status": "requested",
+                    }
                   }
                   goToExam={[Function]}
-/>,
+                />,
               ],
             },
             "ref": null,
@@ -483,106 +483,106 @@ ShallowWrapper {
         "children": Array [
           <h1
             style={
-                        Object {
-                                    "color": "#555555",
-                                    "padding": "10px 20px 0px 20px",
-                                  }
+              Object {
+                "color": "#555555",
+                "padding": "10px 20px 0px 20px",
+              }
             }
->
+          >
             Request an Exam
-</h1>,
+          </h1>,
           <div
             style={
-                        Object {
-                                    "marginBottom": "20px",
-                                    "padding": "0px 20px",
-                                  }
+              Object {
+                "marginBottom": "20px",
+                "padding": "0px 20px",
+              }
             }
->
+          >
             If you need to change where you take an exam, create a new request.
-</div>,
+          </div>,
           <hr
             style={
-                        Object {
-                                    "borderTop": "2px solid #ededed",
-                                    "margin": "0px",
-                                  }
+              Object {
+                "borderTop": "2px solid #ededed",
+                "margin": "0px",
+              }
             }
-/>,
+          />,
           <table
             className="qa-exam-list-table"
             style={
-                        Object {
-                                    "borderCollapse": "collapse",
-                                    "width": "100%",
-                                  }
+              Object {
+                "borderCollapse": "collapse",
+                "width": "100%",
+              }
             }
->
+          >
             <thead
-                        style={
-                                    Object {
-                                                "backgroundColor": "#f5f5f5",
-                                                "color": "#aaa",
-                                              }
-                        }
+              style={
+                Object {
+                  "backgroundColor": "#f5f5f5",
+                  "color": "#aaa",
+                }
+              }
             >
-                        <tr>
-                                    <th
-                                                style={
-                                                            Object {
-                                                                        "fontWeight": "normal",
-                                                                        "padding": "15px 20px",
-                                                                        "textAlign": "left",
-                                                                        "width": "50%",
-                                                                      }
-                                                }
-                                    >
-                                                EXAM
-                                    </th>
-                                    <th
-                                                style={
-                                                            Object {
-                                                                        "fontWeight": "normal",
-                                                                        "padding": "15px 20px",
-                                                                        "textAlign": "left",
-                                                                        "width": "25%",
-                                                                      }
-                                                }
-                                    >
-                                                TESTING CENTER
-                                    </th>
-                                    <th
-                                                style={
-                                                            Object {
-                                                                        "fontWeight": "normal",
-                                                                        "padding": "15px 20px",
-                                                                        "textAlign": "left",
-                                                                        "width": "25%",
-                                                                      }
-                                                }
-                                    >
-                                                STATUS
-                                    </th>
-                        </tr>
+              <tr>
+                <th
+                  style={
+                    Object {
+                      "fontWeight": "normal",
+                      "padding": "15px 20px",
+                      "textAlign": "left",
+                      "width": "50%",
+                    }
+                  }
+                >
+                  EXAM
+                </th>
+                <th
+                  style={
+                    Object {
+                      "fontWeight": "normal",
+                      "padding": "15px 20px",
+                      "textAlign": "left",
+                      "width": "25%",
+                    }
+                  }
+                >
+                  TESTING CENTER
+                </th>
+                <th
+                  style={
+                    Object {
+                      "fontWeight": "normal",
+                      "padding": "15px 20px",
+                      "textAlign": "left",
+                      "width": "25%",
+                    }
+                  }
+                >
+                  STATUS
+                </th>
+              </tr>
             </thead>
             <tbody>
-                        <examListItem
-                                    exam={
-                                                Object {
-                                                            "access_code": "proctored-exam-asdfasdf",
-                                                            "id": 1,
-                                                            "title": "america",
-                                                          }
-                                    }
-                                    examRequest={
-                                                Object {
-                                                            "status": "requested",
-                                                          }
-                                    }
-                                    goToExam={[Function]}
-                        />
+              <examListItem
+                exam={
+                  Object {
+                    "access_code": "proctored-exam-asdfasdf",
+                    "id": 1,
+                    "title": "america",
+                  }
+                }
+                examRequest={
+                  Object {
+                    "status": "requested",
+                  }
+                }
+                goToExam={[Function]}
+              />
             </tbody>
-</table>,
+          </table>,
         ],
       },
       "ref": null,
@@ -639,68 +639,68 @@ ShallowWrapper {
             "children": Array [
               <thead
                 style={
-                                Object {
-                                                "backgroundColor": "#f5f5f5",
-                                                "color": "#aaa",
-                                              }
+                  Object {
+                    "backgroundColor": "#f5f5f5",
+                    "color": "#aaa",
+                  }
                 }
->
+              >
                 <tr>
-                                <th
-                                                style={
-                                                                Object {
-                                                                                "fontWeight": "normal",
-                                                                                "padding": "15px 20px",
-                                                                                "textAlign": "left",
-                                                                                "width": "50%",
-                                                                              }
-                                                }
-                                >
-                                                EXAM
-                                </th>
-                                <th
-                                                style={
-                                                                Object {
-                                                                                "fontWeight": "normal",
-                                                                                "padding": "15px 20px",
-                                                                                "textAlign": "left",
-                                                                                "width": "25%",
-                                                                              }
-                                                }
-                                >
-                                                TESTING CENTER
-                                </th>
-                                <th
-                                                style={
-                                                                Object {
-                                                                                "fontWeight": "normal",
-                                                                                "padding": "15px 20px",
-                                                                                "textAlign": "left",
-                                                                                "width": "25%",
-                                                                              }
-                                                }
-                                >
-                                                STATUS
-                                </th>
+                  <th
+                    style={
+                      Object {
+                        "fontWeight": "normal",
+                        "padding": "15px 20px",
+                        "textAlign": "left",
+                        "width": "50%",
+                      }
+                    }
+                  >
+                    EXAM
+                  </th>
+                  <th
+                    style={
+                      Object {
+                        "fontWeight": "normal",
+                        "padding": "15px 20px",
+                        "textAlign": "left",
+                        "width": "25%",
+                      }
+                    }
+                  >
+                    TESTING CENTER
+                  </th>
+                  <th
+                    style={
+                      Object {
+                        "fontWeight": "normal",
+                        "padding": "15px 20px",
+                        "textAlign": "left",
+                        "width": "25%",
+                      }
+                    }
+                  >
+                    STATUS
+                  </th>
                 </tr>
-</thead>,
+              </thead>,
               <tbody>
                 <examListItem
-                                exam={
-                                                Object {
-                                                                "access_code": "proctored-exam-asdfasdf",
-                                                                "id": 1,
-                                                                "title": "america",
-                                                              }
-                                }
-                                examRequest={
-                                                Object {
-                                                                "status": "requested",
-                                                              }
-                                }
-                                goToExam={[Function]}
+                  exam={
+                    Object {
+                      "access_code": "proctored-exam-asdfasdf",
+                      "id": 1,
+                      "title": "america",
+                    }
+                  }
+                  examRequest={
+                    Object {
+                      "status": "requested",
+                    }
+                  }
+                  goToExam={[Function]}
                 />
-</tbody>,
+              </tbody>,
             ],
             "className": "qa-exam-list-table",
             "style": Object {
@@ -717,42 +717,42 @@ ShallowWrapper {
               "props": Object {
                 "children": <tr>
                   <th
-                                    style={
-                                                      Object {
-                                                                        "fontWeight": "normal",
-                                                                        "padding": "15px 20px",
-                                                                        "textAlign": "left",
-                                                                        "width": "50%",
-                                                                      }
-                                    }
+                    style={
+                      Object {
+                        "fontWeight": "normal",
+                        "padding": "15px 20px",
+                        "textAlign": "left",
+                        "width": "50%",
+                      }
+                    }
                   >
-                                    EXAM
+                    EXAM
                   </th>
                   <th
-                                    style={
-                                                      Object {
-                                                                        "fontWeight": "normal",
-                                                                        "padding": "15px 20px",
-                                                                        "textAlign": "left",
-                                                                        "width": "25%",
-                                                                      }
-                                    }
+                    style={
+                      Object {
+                        "fontWeight": "normal",
+                        "padding": "15px 20px",
+                        "textAlign": "left",
+                        "width": "25%",
+                      }
+                    }
                   >
-                                    TESTING CENTER
+                    TESTING CENTER
                   </th>
                   <th
-                                    style={
-                                                      Object {
-                                                                        "fontWeight": "normal",
-                                                                        "padding": "15px 20px",
-                                                                        "textAlign": "left",
-                                                                        "width": "25%",
-                                                                      }
-                                    }
+                    style={
+                      Object {
+                        "fontWeight": "normal",
+                        "padding": "15px 20px",
+                        "textAlign": "left",
+                        "width": "25%",
+                      }
+                    }
                   >
-                                    STATUS
+                    STATUS
                   </th>
-</tr>,
+                </tr>,
                 "style": Object {
                   "backgroundColor": "#f5f5f5",
                   "color": "#aaa",
@@ -767,40 +767,40 @@ ShallowWrapper {
                   "children": Array [
                     <th
                       style={
-                                            Object {
-                                                                  "fontWeight": "normal",
-                                                                  "padding": "15px 20px",
-                                                                  "textAlign": "left",
-                                                                  "width": "50%",
-                                                                }
+                        Object {
+                          "fontWeight": "normal",
+                          "padding": "15px 20px",
+                          "textAlign": "left",
+                          "width": "50%",
+                        }
                       }
->
+                    >
                       EXAM
-</th>,
+                    </th>,
                     <th
                       style={
-                                            Object {
-                                                                  "fontWeight": "normal",
-                                                                  "padding": "15px 20px",
-                                                                  "textAlign": "left",
-                                                                  "width": "25%",
-                                                                }
+                        Object {
+                          "fontWeight": "normal",
+                          "padding": "15px 20px",
+                          "textAlign": "left",
+                          "width": "25%",
+                        }
                       }
->
+                    >
                       TESTING CENTER
-</th>,
+                    </th>,
                     <th
                       style={
-                                            Object {
-                                                                  "fontWeight": "normal",
-                                                                  "padding": "15px 20px",
-                                                                  "textAlign": "left",
-                                                                  "width": "25%",
-                                                                }
+                        Object {
+                          "fontWeight": "normal",
+                          "padding": "15px 20px",
+                          "textAlign": "left",
+                          "width": "25%",
+                        }
                       }
->
+                    >
                       STATUS
-</th>,
+                    </th>,
                   ],
                 },
                 "ref": null,
@@ -869,19 +869,19 @@ ShallowWrapper {
                 "children": Array [
                   <examListItem
                     exam={
-                                        Object {
-                                                            "access_code": "proctored-exam-asdfasdf",
-                                                            "id": 1,
-                                                            "title": "america",
-                                                          }
+                      Object {
+                        "access_code": "proctored-exam-asdfasdf",
+                        "id": 1,
+                        "title": "america",
+                      }
                     }
                     examRequest={
-                                        Object {
-                                                            "status": "requested",
-                                                          }
+                      Object {
+                        "status": "requested",
+                      }
                     }
                     goToExam={[Function]}
-/>,
+                  />,
                 ],
               },
               "ref": null,

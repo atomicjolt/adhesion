@@ -6,15 +6,15 @@ ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <NavButtons
     navButtons={
-        Array [
-            Object {
-              "name": "test application",
-              "stat": "12",
-            },
-          ]
+      Array [
+        Object {
+          "name": "test application",
+          "stat": "12",
+        },
+      ]
     }
     switchChart={[Function]}
-/>,
+  />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
     "getNode": [Function],
@@ -33,8 +33,7 @@ ShallowWrapper {
           label="test application"
           setActive={[Function]}
           stat="12"
-          type={undefined}
-/>,
+        />,
       ],
     },
     "ref": null,
@@ -69,8 +68,7 @@ ShallowWrapper {
             label="test application"
             setActive={[Function]}
             stat="12"
-            type={undefined}
-/>,
+          />,
         ],
       },
       "ref": null,

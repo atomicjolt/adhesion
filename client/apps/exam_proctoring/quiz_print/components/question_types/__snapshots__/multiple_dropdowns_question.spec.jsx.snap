@@ -6,42 +6,42 @@ ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <multipleDropdowns
     answers={
-        Array [
-            Object {
-              "blank_id": "Skyrim",
-              "id": 1,
-              "text": "Bretons",
-            },
-            Object {
-              "blank_id": "Skyrim",
-              "id": 2,
-              "text": "Nords",
-            },
-            Object {
-              "blank_id": "Skyrim",
-              "id": 3,
-              "text": "Argonians",
-            },
-            Object {
-              "blank_id": "Marrowind",
-              "id": 4,
-              "text": "Dunmer",
-            },
-            Object {
-              "blank_id": "Marrowind",
-              "id": 5,
-              "text": "Nords",
-            },
-            Object {
-              "blank_id": "Marrowind",
-              "id": 6,
-              "text": "Falmer",
-            },
-          ]
+      Array [
+        Object {
+          "blank_id": "Skyrim",
+          "id": 1,
+          "text": "Bretons",
+        },
+        Object {
+          "blank_id": "Skyrim",
+          "id": 2,
+          "text": "Nords",
+        },
+        Object {
+          "blank_id": "Skyrim",
+          "id": 3,
+          "text": "Argonians",
+        },
+        Object {
+          "blank_id": "Marrowind",
+          "id": 4,
+          "text": "Dunmer",
+        },
+        Object {
+          "blank_id": "Marrowind",
+          "id": 5,
+          "text": "Nords",
+        },
+        Object {
+          "blank_id": "Marrowind",
+          "id": 6,
+          "text": "Falmer",
+        },
+      ]
     }
     id="7"
     question_text="<p>Skyrim belongs to the [Skyrim], while Marrowind is the homeland of the [Marrowind].</p>"
-/>,
+  />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
     "getNode": [Function],
@@ -57,88 +57,88 @@ ShallowWrapper {
       "children": Array [
         <essayQuestion
           text="<p>Skyrim belongs to the [Skyrim], while Marrowind is the homeland of the [Marrowind].</p>"
-/>,
+        />,
         Array [
           <div
             style={
-                        Object {
-                                    "border": "1px solid darkGrey",
-                                    "display": "inline-block",
-                                    "margin": "5px",
-                                    "padding": "5px",
-                                    "verticalAlign": "top",
-                                  }
+              Object {
+                "border": "1px solid darkGrey",
+                "display": "inline-block",
+                "margin": "5px",
+                "padding": "5px",
+                "verticalAlign": "top",
+              }
             }
->
+          >
             <strong>
-                        Skyrim
+              Skyrim
             </strong>
             <hr />
             <div>
-                        <input
-                                    disabled={true}
-                                    type="radio"
-                        />
-                         
-                        Bretons
+              <input
+                disabled={true}
+                type="radio"
+              />
+               
+              Bretons
             </div>
             <div>
-                        <input
-                                    disabled={true}
-                                    type="radio"
-                        />
-                         
-                        Nords
+              <input
+                disabled={true}
+                type="radio"
+              />
+               
+              Nords
             </div>
             <div>
-                        <input
-                                    disabled={true}
-                                    type="radio"
-                        />
-                         
-                        Argonians
+              <input
+                disabled={true}
+                type="radio"
+              />
+               
+              Argonians
             </div>
-</div>,
+          </div>,
           <div
             style={
-                        Object {
-                                    "border": "1px solid darkGrey",
-                                    "display": "inline-block",
-                                    "margin": "5px",
-                                    "padding": "5px",
-                                    "verticalAlign": "top",
-                                  }
+              Object {
+                "border": "1px solid darkGrey",
+                "display": "inline-block",
+                "margin": "5px",
+                "padding": "5px",
+                "verticalAlign": "top",
+              }
             }
->
+          >
             <strong>
-                        Marrowind
+              Marrowind
             </strong>
             <hr />
             <div>
-                        <input
-                                    disabled={true}
-                                    type="radio"
-                        />
-                         
-                        Dunmer
+              <input
+                disabled={true}
+                type="radio"
+              />
+               
+              Dunmer
             </div>
             <div>
-                        <input
-                                    disabled={true}
-                                    type="radio"
-                        />
-                         
-                        Nords
+              <input
+                disabled={true}
+                type="radio"
+              />
+               
+              Nords
             </div>
             <div>
-                        <input
-                                    disabled={true}
-                                    type="radio"
-                        />
-                         
-                        Falmer
+              <input
+                disabled={true}
+                type="radio"
+              />
+               
+              Falmer
             </div>
-</div>,
+          </div>,
         ],
       ],
     },
@@ -163,33 +163,33 @@ ShallowWrapper {
           "children": Array [
             <strong>
               Skyrim
-</strong>,
+            </strong>,
             <hr />,
             Array [
               <div>
                 <input
-                                disabled={true}
-                                type="radio"
+                  disabled={true}
+                  type="radio"
                 />
                  
                 Bretons
-</div>,
+              </div>,
               <div>
                 <input
-                                disabled={true}
-                                type="radio"
+                  disabled={true}
+                  type="radio"
                 />
                  
                 Nords
-</div>,
+              </div>,
               <div>
                 <input
-                                disabled={true}
-                                type="radio"
+                  disabled={true}
+                  type="radio"
                 />
                  
                 Argonians
-</div>,
+              </div>,
             ],
           ],
           "style": Object {
@@ -231,7 +231,7 @@ ShallowWrapper {
                 <input
                   disabled={true}
                   type="radio"
-/>,
+                />,
                 " ",
                 "Bretons",
               ],
@@ -264,7 +264,7 @@ ShallowWrapper {
                 <input
                   disabled={true}
                   type="radio"
-/>,
+                />,
                 " ",
                 "Nords",
               ],
@@ -297,7 +297,7 @@ ShallowWrapper {
                 <input
                   disabled={true}
                   type="radio"
-/>,
+                />,
                 " ",
                 "Argonians",
               ],
@@ -332,33 +332,33 @@ ShallowWrapper {
           "children": Array [
             <strong>
               Marrowind
-</strong>,
+            </strong>,
             <hr />,
             Array [
               <div>
                 <input
-                                disabled={true}
-                                type="radio"
+                  disabled={true}
+                  type="radio"
                 />
                  
                 Dunmer
-</div>,
+              </div>,
               <div>
                 <input
-                                disabled={true}
-                                type="radio"
+                  disabled={true}
+                  type="radio"
                 />
                  
                 Nords
-</div>,
+              </div>,
               <div>
                 <input
-                                disabled={true}
-                                type="radio"
+                  disabled={true}
+                  type="radio"
                 />
                  
                 Falmer
-</div>,
+              </div>,
             ],
           ],
           "style": Object {
@@ -400,7 +400,7 @@ ShallowWrapper {
                 <input
                   disabled={true}
                   type="radio"
-/>,
+                />,
                 " ",
                 "Dunmer",
               ],
@@ -433,7 +433,7 @@ ShallowWrapper {
                 <input
                   disabled={true}
                   type="radio"
-/>,
+                />,
                 " ",
                 "Nords",
               ],
@@ -466,7 +466,7 @@ ShallowWrapper {
                 <input
                   disabled={true}
                   type="radio"
-/>,
+                />,
                 " ",
                 "Falmer",
               ],
@@ -505,88 +505,88 @@ ShallowWrapper {
         "children": Array [
           <essayQuestion
             text="<p>Skyrim belongs to the [Skyrim], while Marrowind is the homeland of the [Marrowind].</p>"
-/>,
+          />,
           Array [
             <div
               style={
-                            Object {
-                                          "border": "1px solid darkGrey",
-                                          "display": "inline-block",
-                                          "margin": "5px",
-                                          "padding": "5px",
-                                          "verticalAlign": "top",
-                                        }
+                Object {
+                  "border": "1px solid darkGrey",
+                  "display": "inline-block",
+                  "margin": "5px",
+                  "padding": "5px",
+                  "verticalAlign": "top",
+                }
               }
->
+            >
               <strong>
-                            Skyrim
+                Skyrim
               </strong>
               <hr />
               <div>
-                            <input
-                                          disabled={true}
-                                          type="radio"
-                            />
-                             
-                            Bretons
+                <input
+                  disabled={true}
+                  type="radio"
+                />
+                 
+                Bretons
               </div>
               <div>
-                            <input
-                                          disabled={true}
-                                          type="radio"
-                            />
-                             
-                            Nords
+                <input
+                  disabled={true}
+                  type="radio"
+                />
+                 
+                Nords
               </div>
               <div>
-                            <input
-                                          disabled={true}
-                                          type="radio"
-                            />
-                             
-                            Argonians
+                <input
+                  disabled={true}
+                  type="radio"
+                />
+                 
+                Argonians
               </div>
-</div>,
+            </div>,
             <div
               style={
-                            Object {
-                                          "border": "1px solid darkGrey",
-                                          "display": "inline-block",
-                                          "margin": "5px",
-                                          "padding": "5px",
-                                          "verticalAlign": "top",
-                                        }
+                Object {
+                  "border": "1px solid darkGrey",
+                  "display": "inline-block",
+                  "margin": "5px",
+                  "padding": "5px",
+                  "verticalAlign": "top",
+                }
               }
->
+            >
               <strong>
-                            Marrowind
+                Marrowind
               </strong>
               <hr />
               <div>
-                            <input
-                                          disabled={true}
-                                          type="radio"
-                            />
-                             
-                            Dunmer
+                <input
+                  disabled={true}
+                  type="radio"
+                />
+                 
+                Dunmer
               </div>
               <div>
-                            <input
-                                          disabled={true}
-                                          type="radio"
-                            />
-                             
-                            Nords
+                <input
+                  disabled={true}
+                  type="radio"
+                />
+                 
+                Nords
               </div>
               <div>
-                            <input
-                                          disabled={true}
-                                          type="radio"
-                            />
-                             
-                            Falmer
+                <input
+                  disabled={true}
+                  type="radio"
+                />
+                 
+                Falmer
               </div>
-</div>,
+            </div>,
           ],
         ],
       },
@@ -611,33 +611,33 @@ ShallowWrapper {
             "children": Array [
               <strong>
                 Skyrim
-</strong>,
+              </strong>,
               <hr />,
               Array [
                 <div>
                   <input
-                                    disabled={true}
-                                    type="radio"
+                    disabled={true}
+                    type="radio"
                   />
                    
                   Bretons
-</div>,
+                </div>,
                 <div>
                   <input
-                                    disabled={true}
-                                    type="radio"
+                    disabled={true}
+                    type="radio"
                   />
                    
                   Nords
-</div>,
+                </div>,
                 <div>
                   <input
-                                    disabled={true}
-                                    type="radio"
+                    disabled={true}
+                    type="radio"
                   />
                    
                   Argonians
-</div>,
+                </div>,
               ],
             ],
             "style": Object {
@@ -679,7 +679,7 @@ ShallowWrapper {
                   <input
                     disabled={true}
                     type="radio"
-/>,
+                  />,
                   " ",
                   "Bretons",
                 ],
@@ -712,7 +712,7 @@ ShallowWrapper {
                   <input
                     disabled={true}
                     type="radio"
-/>,
+                  />,
                   " ",
                   "Nords",
                 ],
@@ -745,7 +745,7 @@ ShallowWrapper {
                   <input
                     disabled={true}
                     type="radio"
-/>,
+                  />,
                   " ",
                   "Argonians",
                 ],
@@ -780,33 +780,33 @@ ShallowWrapper {
             "children": Array [
               <strong>
                 Marrowind
-</strong>,
+              </strong>,
               <hr />,
               Array [
                 <div>
                   <input
-                                    disabled={true}
-                                    type="radio"
+                    disabled={true}
+                    type="radio"
                   />
                    
                   Dunmer
-</div>,
+                </div>,
                 <div>
                   <input
-                                    disabled={true}
-                                    type="radio"
+                    disabled={true}
+                    type="radio"
                   />
                    
                   Nords
-</div>,
+                </div>,
                 <div>
                   <input
-                                    disabled={true}
-                                    type="radio"
+                    disabled={true}
+                    type="radio"
                   />
                    
                   Falmer
-</div>,
+                </div>,
               ],
             ],
             "style": Object {
@@ -848,7 +848,7 @@ ShallowWrapper {
                   <input
                     disabled={true}
                     type="radio"
-/>,
+                  />,
                   " ",
                   "Dunmer",
                 ],
@@ -881,7 +881,7 @@ ShallowWrapper {
                   <input
                     disabled={true}
                     type="radio"
-/>,
+                  />,
                   " ",
                   "Nords",
                 ],
@@ -914,7 +914,7 @@ ShallowWrapper {
                   <input
                     disabled={true}
                     type="radio"
-/>,
+                  />,
                   " ",
                   "Falmer",
                 ],

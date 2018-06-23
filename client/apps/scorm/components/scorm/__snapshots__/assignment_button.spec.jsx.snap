@@ -8,7 +8,7 @@ ShallowWrapper {
     canvasUrl="canvasorother"
     courseId="12345"
     lms_assignment_id={54321}
-/>,
+  />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
     "getNode": [Function],
@@ -23,29 +23,29 @@ ShallowWrapper {
     "props": Object {
       "children": <ScormHoverButton
         hoveredStyle={
-                Object {
-                        "backgroundColor": "#f5f5f5",
-                      }
+          Object {
+            "backgroundColor": "#f5f5f5",
+          }
         }
         style={
-                Object {
-                        "backgroundColor": "white",
-                        "border": "none",
-                        "cursor": "pointer",
-                        "fontSize": "inherit",
-                        "padding": "20px",
-                        "textAlign": "left",
-                        "verticalAlign": "middle",
-                        "width": "100%",
-                      }
+          Object {
+            "backgroundColor": "white",
+            "border": "none",
+            "cursor": "pointer",
+            "fontSize": "inherit",
+            "padding": "20px",
+            "textAlign": "left",
+            "verticalAlign": "middle",
+            "width": "100%",
+          }
         }
->
+      >
         <commonSVG
-                className="c-icon"
-                type="gradedAssignment"
+          className="c-icon"
+          type="gradedAssignment"
         />
         Go to Assignment
-</ScormHoverButton>,
+      </ScormHoverButton>,
       "href": "https://canvasorother/courses/12345/assignments/54321",
       "target": "_parent",
     },
@@ -59,7 +59,7 @@ ShallowWrapper {
           <commonSVG
             className="c-icon"
             type="gradedAssignment"
-/>,
+          />,
           "Go to Assignment",
         ],
         "hoveredStyle": Object {
@@ -104,29 +104,29 @@ ShallowWrapper {
       "props": Object {
         "children": <ScormHoverButton
           hoveredStyle={
-                    Object {
-                              "backgroundColor": "#f5f5f5",
-                            }
+            Object {
+              "backgroundColor": "#f5f5f5",
+            }
           }
           style={
-                    Object {
-                              "backgroundColor": "white",
-                              "border": "none",
-                              "cursor": "pointer",
-                              "fontSize": "inherit",
-                              "padding": "20px",
-                              "textAlign": "left",
-                              "verticalAlign": "middle",
-                              "width": "100%",
-                            }
+            Object {
+              "backgroundColor": "white",
+              "border": "none",
+              "cursor": "pointer",
+              "fontSize": "inherit",
+              "padding": "20px",
+              "textAlign": "left",
+              "verticalAlign": "middle",
+              "width": "100%",
+            }
           }
->
+        >
           <commonSVG
-                    className="c-icon"
-                    type="gradedAssignment"
+            className="c-icon"
+            type="gradedAssignment"
           />
           Go to Assignment
-</ScormHoverButton>,
+        </ScormHoverButton>,
         "href": "https://canvasorother/courses/12345/assignments/54321",
         "target": "_parent",
       },
@@ -140,7 +140,7 @@ ShallowWrapper {
             <commonSVG
               className="c-icon"
               type="gradedAssignment"
-/>,
+            />,
             "Go to Assignment",
           ],
           "hoveredStyle": Object {

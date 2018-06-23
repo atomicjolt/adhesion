@@ -6,19 +6,19 @@ ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <Graph
     data={
-        Object {
-            "completed": Array [],
-          }
+      Object {
+        "completed": Array [],
+      }
     }
     navButtons={
-        Array [
-            Object {
-              "name": "test application",
-              "stat": "12",
-            },
-          ]
+      Array [
+        Object {
+          "name": "test application",
+          "stat": "12",
+        },
+      ]
     }
-/>,
+  />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
     "getNode": [Function],
@@ -34,31 +34,31 @@ ShallowWrapper {
       "children": Array [
         <div
           className="c-aa-graph-nav"
->
+        >
           <NavButtons
-                    navButtons={
-                              Array [
-                                        Object {
-                                          "name": "test application",
-                                          "stat": "12",
-                                        },
-                                      ]
-                    }
-                    switchChart={[Function]}
+            navButtons={
+              Array [
+                Object {
+                  "name": "test application",
+                  "stat": "12",
+                },
+              ]
+            }
+            switchChart={[Function]}
           />
-</div>,
+        </div>,
         <div
           className="c-aa-graph-container"
->
+        >
           <ChartContainer
-                    data={
-                              Object {
-                                        "completed": Array [],
-                                      }
-                    }
-                    selected="complete"
+            data={
+              Object {
+                "completed": Array [],
+              }
+            }
+            selected="complete"
           />
-</div>,
+        </div>,
       ],
       "className": "c-aa-graph-picker",
     },
@@ -71,15 +71,15 @@ ShallowWrapper {
         "props": Object {
           "children": <NavButtons
             navButtons={
-                        Array [
-                                    Object {
-                                      "name": "test application",
-                                      "stat": "12",
-                                    },
-                                  ]
+              Array [
+                Object {
+                  "name": "test application",
+                  "stat": "12",
+                },
+              ]
             }
             switchChart={[Function]}
-/>,
+          />,
           "className": "c-aa-graph-nav",
         },
         "ref": null,
@@ -109,12 +109,12 @@ ShallowWrapper {
         "props": Object {
           "children": <ChartContainer
             data={
-                        Object {
-                                    "completed": Array [],
-                                  }
+              Object {
+                "completed": Array [],
+              }
             }
             selected="complete"
-/>,
+          />,
           "className": "c-aa-graph-container",
         },
         "ref": null,
@@ -146,31 +146,31 @@ ShallowWrapper {
         "children": Array [
           <div
             className="c-aa-graph-nav"
->
+          >
             <NavButtons
-                        navButtons={
-                                    Array [
-                                                Object {
-                                                  "name": "test application",
-                                                  "stat": "12",
-                                                },
-                                              ]
-                        }
-                        switchChart={[Function]}
+              navButtons={
+                Array [
+                  Object {
+                    "name": "test application",
+                    "stat": "12",
+                  },
+                ]
+              }
+              switchChart={[Function]}
             />
-</div>,
+          </div>,
           <div
             className="c-aa-graph-container"
->
+          >
             <ChartContainer
-                        data={
-                                    Object {
-                                                "completed": Array [],
-                                              }
-                        }
-                        selected="complete"
+              data={
+                Object {
+                  "completed": Array [],
+                }
+              }
+              selected="complete"
             />
-</div>,
+          </div>,
         ],
         "className": "c-aa-graph-picker",
       },
@@ -183,15 +183,15 @@ ShallowWrapper {
           "props": Object {
             "children": <NavButtons
               navButtons={
-                            Array [
-                                          Object {
-                                            "name": "test application",
-                                            "stat": "12",
-                                          },
-                                        ]
+                Array [
+                  Object {
+                    "name": "test application",
+                    "stat": "12",
+                  },
+                ]
               }
               switchChart={[Function]}
-/>,
+            />,
             "className": "c-aa-graph-nav",
           },
           "ref": null,
@@ -221,12 +221,12 @@ ShallowWrapper {
           "props": Object {
             "children": <ChartContainer
               data={
-                            Object {
-                                          "completed": Array [],
-                                        }
+                Object {
+                  "completed": Array [],
+                }
               }
               selected="complete"
-/>,
+            />,
             "className": "c-aa-graph-container",
           },
           "ref": null,

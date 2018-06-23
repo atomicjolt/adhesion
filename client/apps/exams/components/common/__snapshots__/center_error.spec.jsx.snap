@@ -20,23 +20,23 @@ ShallowWrapper {
       "children": Array [
         <h1
           style={
-                    Object {
-                              "color": "red",
-                              "textAlign": "center",
-                            }
+            Object {
+              "color": "red",
+              "textAlign": "center",
+            }
           }
->
+        >
           Error Loading Testing Centers
-</h1>,
+        </h1>,
         <p
           style={
-                    Object {
-                              "textAlign": "center",
-                            }
+            Object {
+              "textAlign": "center",
+            }
           }
->
+        >
           You will need to contact your administrator with this error.
-</p>,
+        </p>,
       ],
       "style": Object {
         "background": "#ededed",
@@ -86,23 +86,23 @@ ShallowWrapper {
         "children": Array [
           <h1
             style={
-                        Object {
-                                    "color": "red",
-                                    "textAlign": "center",
-                                  }
+              Object {
+                "color": "red",
+                "textAlign": "center",
+              }
             }
->
+          >
             Error Loading Testing Centers
-</h1>,
+          </h1>,
           <p
             style={
-                        Object {
-                                    "textAlign": "center",
-                                  }
+              Object {
+                "textAlign": "center",
+              }
             }
->
+          >
             You will need to contact your administrator with this error.
-</p>,
+          </p>,
         ],
         "style": Object {
           "background": "#ededed",

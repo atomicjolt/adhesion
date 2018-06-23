@@ -7,7 +7,7 @@ ShallowWrapper {
   Symbol(enzyme.__unrendered__): <confirmTakeExam
     closeModal={[Function]}
     takeExam={[Function]}
-/>,
+  />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
     "getNode": [Function],
@@ -23,46 +23,46 @@ ShallowWrapper {
       "children": Array [
         <h2>
           Are you sure?
-</h2>,
+        </h2>,
         <div
           style={
-                    Object {
-                              "marginBottom": "20px",
-                            }
+            Object {
+              "marginBottom": "20px",
+            }
           }
->
+        >
           You are about to begin a quiz on the behalf of a student. This action will save the attempt and scores of the quiz attempt to the students account. You will be recorded as the proctor who entered the answers. Time limits, shuffled questions, and other factors will still apply. Only select Begin Quiz if you are prepared to enter answers for this student.
-</div>,
+        </div>,
         <button
           className="qa-cancel-take-exam"
           onClick={[Function]}
           style={
-                    Object {
-                              "backgroundColor": "#ededed",
-                              "border": "none",
-                              "cursor": "pointer",
-                              "padding": "10px 20px",
-                            }
+            Object {
+              "backgroundColor": "#ededed",
+              "border": "none",
+              "cursor": "pointer",
+              "padding": "10px 20px",
+            }
           }
->
+        >
           Cancel
-</button>,
+        </button>,
         <button
           className="qa-begin-take-exam"
           onClick={[Function]}
           style={
-                    Object {
-                              "backgroundColor": "#c1a17a",
-                              "border": "none",
-                              "color": "white",
-                              "cursor": "pointer",
-                              "float": "right",
-                              "padding": "10px 20px",
-                            }
+            Object {
+              "backgroundColor": "#c1a17a",
+              "border": "none",
+              "color": "white",
+              "cursor": "pointer",
+              "float": "right",
+              "padding": "10px 20px",
+            }
           }
->
+        >
           Begin Quiz
-</button>,
+        </button>,
       ],
       "style": Object {
         "backgroundColor": "white",
@@ -155,46 +155,46 @@ ShallowWrapper {
         "children": Array [
           <h2>
             Are you sure?
-</h2>,
+          </h2>,
           <div
             style={
-                        Object {
-                                    "marginBottom": "20px",
-                                  }
+              Object {
+                "marginBottom": "20px",
+              }
             }
->
+          >
             You are about to begin a quiz on the behalf of a student. This action will save the attempt and scores of the quiz attempt to the students account. You will be recorded as the proctor who entered the answers. Time limits, shuffled questions, and other factors will still apply. Only select Begin Quiz if you are prepared to enter answers for this student.
-</div>,
+          </div>,
           <button
             className="qa-cancel-take-exam"
             onClick={[Function]}
             style={
-                        Object {
-                                    "backgroundColor": "#ededed",
-                                    "border": "none",
-                                    "cursor": "pointer",
-                                    "padding": "10px 20px",
-                                  }
+              Object {
+                "backgroundColor": "#ededed",
+                "border": "none",
+                "cursor": "pointer",
+                "padding": "10px 20px",
+              }
             }
->
+          >
             Cancel
-</button>,
+          </button>,
           <button
             className="qa-begin-take-exam"
             onClick={[Function]}
             style={
-                        Object {
-                                    "backgroundColor": "#c1a17a",
-                                    "border": "none",
-                                    "color": "white",
-                                    "cursor": "pointer",
-                                    "float": "right",
-                                    "padding": "10px 20px",
-                                  }
+              Object {
+                "backgroundColor": "#c1a17a",
+                "border": "none",
+                "color": "white",
+                "cursor": "pointer",
+                "float": "right",
+                "padding": "10px 20px",
+              }
             }
->
+          >
             Begin Quiz
-</button>,
+          </button>,
         ],
         "style": Object {
           "backgroundColor": "white",

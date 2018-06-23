@@ -11,7 +11,7 @@ ShallowWrapper {
     startExam={[Function]}
     status="scheduled"
     studentHasExamStarted={false}
-/>,
+  />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
     "getNode": [Function],
@@ -27,124 +27,124 @@ ShallowWrapper {
       "children": Array [
         <div
           style={
-                    Object {
-                              "borderBottom": "1px solid #ededed",
-                            }
+            Object {
+              "borderBottom": "1px solid #ededed",
+            }
           }
->
+        >
           <AdminHoverButton
-                    className="qa-menu-start-btn"
-                    hoveredStyle={
-                              Object {
-                                        "backgroundColor": "#f5f5f5",
-                                      }
-                    }
-                    onClick={[Function]}
-                    style={
-                              Object {
-                                        "backgroundColor": "white",
-                                        "border": "none",
-                                        "cursor": "pointer",
-                                        "fontSize": "inherit",
-                                        "padding": "20px",
-                                        "textAlign": "left",
-                                        "width": "100%",
-                                      }
-                    }
+            className="qa-menu-start-btn"
+            hoveredStyle={
+              Object {
+                "backgroundColor": "#f5f5f5",
+              }
+            }
+            onClick={[Function]}
+            style={
+              Object {
+                "backgroundColor": "white",
+                "border": "none",
+                "cursor": "pointer",
+                "fontSize": "inherit",
+                "padding": "20px",
+                "textAlign": "left",
+                "width": "100%",
+              }
+            }
           >
-                    Start
+            Start
           </AdminHoverButton>
-</div>,
+        </div>,
         <div
           style={
-                    Object {
-                              "borderBottom": "1px solid #ededed",
-                            }
+            Object {
+              "borderBottom": "1px solid #ededed",
+            }
           }
->
+        >
           <AdminHoverButton
-                    className="qa-menu-print-btn"
-                    hoveredStyle={
-                              Object {
-                                        "backgroundColor": "#f5f5f5",
-                                      }
-                    }
-                    onClick={[Function]}
-                    style={
-                              Object {
-                                        "backgroundColor": "white",
-                                        "border": "none",
-                                        "cursor": "pointer",
-                                        "fontSize": "inherit",
-                                        "padding": "20px",
-                                        "textAlign": "left",
-                                        "width": "100%",
-                                      }
-                    }
+            className="qa-menu-print-btn"
+            hoveredStyle={
+              Object {
+                "backgroundColor": "#f5f5f5",
+              }
+            }
+            onClick={[Function]}
+            style={
+              Object {
+                "backgroundColor": "white",
+                "border": "none",
+                "cursor": "pointer",
+                "fontSize": "inherit",
+                "padding": "20px",
+                "textAlign": "left",
+                "width": "100%",
+              }
+            }
           >
-                    Print Test
+            Print Test
           </AdminHoverButton>
-</div>,
+        </div>,
         <div
           style={
-                    Object {
-                              "borderBottom": "1px solid #ededed",
-                            }
+            Object {
+              "borderBottom": "1px solid #ededed",
+            }
           }
->
+        >
           <AdminHoverButton
-                    className="qa-enter-answers-btn"
-                    hoveredStyle={
-                              Object {
-                                        "backgroundColor": "#f5f5f5",
-                                      }
-                    }
-                    onClick={[Function]}
-                    style={
-                              Object {
-                                        "backgroundColor": "white",
-                                        "border": "none",
-                                        "cursor": "pointer",
-                                        "fontSize": "inherit",
-                                        "padding": "20px",
-                                        "textAlign": "left",
-                                        "width": "100%",
-                                      }
-                    }
+            className="qa-enter-answers-btn"
+            hoveredStyle={
+              Object {
+                "backgroundColor": "#f5f5f5",
+              }
+            }
+            onClick={[Function]}
+            style={
+              Object {
+                "backgroundColor": "white",
+                "border": "none",
+                "cursor": "pointer",
+                "fontSize": "inherit",
+                "padding": "20px",
+                "textAlign": "left",
+                "width": "100%",
+              }
+            }
           >
-                    Enter Answers
+            Enter Answers
           </AdminHoverButton>
-</div>,
+        </div>,
         <div
           style={
-                    Object {
-                              "borderBottom": "1px solid #ededed",
-                            }
+            Object {
+              "borderBottom": "1px solid #ededed",
+            }
           }
->
+        >
           <AdminHoverButton
-                    className="qa-menu-message-btn"
-                    hoveredStyle={
-                              Object {
-                                        "backgroundColor": "#f5f5f5",
-                                      }
-                    }
-                    onClick={[Function]}
-                    style={
-                              Object {
-                                        "backgroundColor": "white",
-                                        "border": "none",
-                                        "cursor": "pointer",
-                                        "fontSize": "inherit",
-                                        "padding": "20px",
-                                        "textAlign": "left",
-                                        "width": "100%",
-                                      }
-                    }
+            className="qa-menu-message-btn"
+            hoveredStyle={
+              Object {
+                "backgroundColor": "#f5f5f5",
+              }
+            }
+            onClick={[Function]}
+            style={
+              Object {
+                "backgroundColor": "white",
+                "border": "none",
+                "cursor": "pointer",
+                "fontSize": "inherit",
+                "padding": "20px",
+                "textAlign": "left",
+                "width": "100%",
+              }
+            }
           >
-                    Message Student
+            Message Student
           </AdminHoverButton>
-</div>,
+        </div>,
       ],
       "style": Object {
         "backgroundColor": "white",
@@ -162,25 +162,25 @@ ShallowWrapper {
           "children": <AdminHoverButton
             className="qa-menu-start-btn"
             hoveredStyle={
-                        Object {
-                                    "backgroundColor": "#f5f5f5",
-                                  }
+              Object {
+                "backgroundColor": "#f5f5f5",
+              }
             }
             onClick={[Function]}
             style={
-                        Object {
-                                    "backgroundColor": "white",
-                                    "border": "none",
-                                    "cursor": "pointer",
-                                    "fontSize": "inherit",
-                                    "padding": "20px",
-                                    "textAlign": "left",
-                                    "width": "100%",
-                                  }
+              Object {
+                "backgroundColor": "white",
+                "border": "none",
+                "cursor": "pointer",
+                "fontSize": "inherit",
+                "padding": "20px",
+                "textAlign": "left",
+                "width": "100%",
+              }
             }
->
+          >
             Start
-</AdminHoverButton>,
+          </AdminHoverButton>,
           "style": Object {
             "borderBottom": "1px solid #ededed",
           },
@@ -221,25 +221,25 @@ ShallowWrapper {
           "children": <AdminHoverButton
             className="qa-menu-print-btn"
             hoveredStyle={
-                        Object {
-                                    "backgroundColor": "#f5f5f5",
-                                  }
+              Object {
+                "backgroundColor": "#f5f5f5",
+              }
             }
             onClick={[Function]}
             style={
-                        Object {
-                                    "backgroundColor": "white",
-                                    "border": "none",
-                                    "cursor": "pointer",
-                                    "fontSize": "inherit",
-                                    "padding": "20px",
-                                    "textAlign": "left",
-                                    "width": "100%",
-                                  }
+              Object {
+                "backgroundColor": "white",
+                "border": "none",
+                "cursor": "pointer",
+                "fontSize": "inherit",
+                "padding": "20px",
+                "textAlign": "left",
+                "width": "100%",
+              }
             }
->
+          >
             Print Test
-</AdminHoverButton>,
+          </AdminHoverButton>,
           "style": Object {
             "borderBottom": "1px solid #ededed",
           },
@@ -280,25 +280,25 @@ ShallowWrapper {
           "children": <AdminHoverButton
             className="qa-enter-answers-btn"
             hoveredStyle={
-                        Object {
-                                    "backgroundColor": "#f5f5f5",
-                                  }
+              Object {
+                "backgroundColor": "#f5f5f5",
+              }
             }
             onClick={[Function]}
             style={
-                        Object {
-                                    "backgroundColor": "white",
-                                    "border": "none",
-                                    "cursor": "pointer",
-                                    "fontSize": "inherit",
-                                    "padding": "20px",
-                                    "textAlign": "left",
-                                    "width": "100%",
-                                  }
+              Object {
+                "backgroundColor": "white",
+                "border": "none",
+                "cursor": "pointer",
+                "fontSize": "inherit",
+                "padding": "20px",
+                "textAlign": "left",
+                "width": "100%",
+              }
             }
->
+          >
             Enter Answers
-</AdminHoverButton>,
+          </AdminHoverButton>,
           "style": Object {
             "borderBottom": "1px solid #ededed",
           },
@@ -339,25 +339,25 @@ ShallowWrapper {
           "children": <AdminHoverButton
             className="qa-menu-message-btn"
             hoveredStyle={
-                        Object {
-                                    "backgroundColor": "#f5f5f5",
-                                  }
+              Object {
+                "backgroundColor": "#f5f5f5",
+              }
             }
             onClick={[Function]}
             style={
-                        Object {
-                                    "backgroundColor": "white",
-                                    "border": "none",
-                                    "cursor": "pointer",
-                                    "fontSize": "inherit",
-                                    "padding": "20px",
-                                    "textAlign": "left",
-                                    "width": "100%",
-                                  }
+              Object {
+                "backgroundColor": "white",
+                "border": "none",
+                "cursor": "pointer",
+                "fontSize": "inherit",
+                "padding": "20px",
+                "textAlign": "left",
+                "width": "100%",
+              }
             }
->
+          >
             Message Student
-</AdminHoverButton>,
+          </AdminHoverButton>,
           "style": Object {
             "borderBottom": "1px solid #ededed",
           },
@@ -402,124 +402,124 @@ ShallowWrapper {
         "children": Array [
           <div
             style={
-                        Object {
-                                    "borderBottom": "1px solid #ededed",
-                                  }
+              Object {
+                "borderBottom": "1px solid #ededed",
+              }
             }
->
+          >
             <AdminHoverButton
-                        className="qa-menu-start-btn"
-                        hoveredStyle={
-                                    Object {
-                                                "backgroundColor": "#f5f5f5",
-                                              }
-                        }
-                        onClick={[Function]}
-                        style={
-                                    Object {
-                                                "backgroundColor": "white",
-                                                "border": "none",
-                                                "cursor": "pointer",
-                                                "fontSize": "inherit",
-                                                "padding": "20px",
-                                                "textAlign": "left",
-                                                "width": "100%",
-                                              }
-                        }
+              className="qa-menu-start-btn"
+              hoveredStyle={
+                Object {
+                  "backgroundColor": "#f5f5f5",
+                }
+              }
+              onClick={[Function]}
+              style={
+                Object {
+                  "backgroundColor": "white",
+                  "border": "none",
+                  "cursor": "pointer",
+                  "fontSize": "inherit",
+                  "padding": "20px",
+                  "textAlign": "left",
+                  "width": "100%",
+                }
+              }
             >
-                        Start
+              Start
             </AdminHoverButton>
-</div>,
+          </div>,
           <div
             style={
-                        Object {
-                                    "borderBottom": "1px solid #ededed",
-                                  }
+              Object {
+                "borderBottom": "1px solid #ededed",
+              }
             }
->
+          >
             <AdminHoverButton
-                        className="qa-menu-print-btn"
-                        hoveredStyle={
-                                    Object {
-                                                "backgroundColor": "#f5f5f5",
-                                              }
-                        }
-                        onClick={[Function]}
-                        style={
-                                    Object {
-                                                "backgroundColor": "white",
-                                                "border": "none",
-                                                "cursor": "pointer",
-                                                "fontSize": "inherit",
-                                                "padding": "20px",
-                                                "textAlign": "left",
-                                                "width": "100%",
-                                              }
-                        }
+              className="qa-menu-print-btn"
+              hoveredStyle={
+                Object {
+                  "backgroundColor": "#f5f5f5",
+                }
+              }
+              onClick={[Function]}
+              style={
+                Object {
+                  "backgroundColor": "white",
+                  "border": "none",
+                  "cursor": "pointer",
+                  "fontSize": "inherit",
+                  "padding": "20px",
+                  "textAlign": "left",
+                  "width": "100%",
+                }
+              }
             >
-                        Print Test
+              Print Test
             </AdminHoverButton>
-</div>,
+          </div>,
           <div
             style={
-                        Object {
-                                    "borderBottom": "1px solid #ededed",
-                                  }
+              Object {
+                "borderBottom": "1px solid #ededed",
+              }
             }
->
+          >
             <AdminHoverButton
-                        className="qa-enter-answers-btn"
-                        hoveredStyle={
-                                    Object {
-                                                "backgroundColor": "#f5f5f5",
-                                              }
-                        }
-                        onClick={[Function]}
-                        style={
-                                    Object {
-                                                "backgroundColor": "white",
-                                                "border": "none",
-                                                "cursor": "pointer",
-                                                "fontSize": "inherit",
-                                                "padding": "20px",
-                                                "textAlign": "left",
-                                                "width": "100%",
-                                              }
-                        }
+              className="qa-enter-answers-btn"
+              hoveredStyle={
+                Object {
+                  "backgroundColor": "#f5f5f5",
+                }
+              }
+              onClick={[Function]}
+              style={
+                Object {
+                  "backgroundColor": "white",
+                  "border": "none",
+                  "cursor": "pointer",
+                  "fontSize": "inherit",
+                  "padding": "20px",
+                  "textAlign": "left",
+                  "width": "100%",
+                }
+              }
             >
-                        Enter Answers
+              Enter Answers
             </AdminHoverButton>
-</div>,
+          </div>,
           <div
             style={
-                        Object {
-                                    "borderBottom": "1px solid #ededed",
-                                  }
+              Object {
+                "borderBottom": "1px solid #ededed",
+              }
             }
->
+          >
             <AdminHoverButton
-                        className="qa-menu-message-btn"
-                        hoveredStyle={
-                                    Object {
-                                                "backgroundColor": "#f5f5f5",
-                                              }
-                        }
-                        onClick={[Function]}
-                        style={
-                                    Object {
-                                                "backgroundColor": "white",
-                                                "border": "none",
-                                                "cursor": "pointer",
-                                                "fontSize": "inherit",
-                                                "padding": "20px",
-                                                "textAlign": "left",
-                                                "width": "100%",
-                                              }
-                        }
+              className="qa-menu-message-btn"
+              hoveredStyle={
+                Object {
+                  "backgroundColor": "#f5f5f5",
+                }
+              }
+              onClick={[Function]}
+              style={
+                Object {
+                  "backgroundColor": "white",
+                  "border": "none",
+                  "cursor": "pointer",
+                  "fontSize": "inherit",
+                  "padding": "20px",
+                  "textAlign": "left",
+                  "width": "100%",
+                }
+              }
             >
-                        Message Student
+              Message Student
             </AdminHoverButton>
-</div>,
+          </div>,
         ],
         "style": Object {
           "backgroundColor": "white",
@@ -537,25 +537,25 @@ ShallowWrapper {
             "children": <AdminHoverButton
               className="qa-menu-start-btn"
               hoveredStyle={
-                            Object {
-                                          "backgroundColor": "#f5f5f5",
-                                        }
+                Object {
+                  "backgroundColor": "#f5f5f5",
+                }
               }
               onClick={[Function]}
               style={
-                            Object {
-                                          "backgroundColor": "white",
-                                          "border": "none",
-                                          "cursor": "pointer",
-                                          "fontSize": "inherit",
-                                          "padding": "20px",
-                                          "textAlign": "left",
-                                          "width": "100%",
-                                        }
+                Object {
+                  "backgroundColor": "white",
+                  "border": "none",
+                  "cursor": "pointer",
+                  "fontSize": "inherit",
+                  "padding": "20px",
+                  "textAlign": "left",
+                  "width": "100%",
+                }
               }
->
+            >
               Start
-</AdminHoverButton>,
+            </AdminHoverButton>,
             "style": Object {
               "borderBottom": "1px solid #ededed",
             },
@@ -596,25 +596,25 @@ ShallowWrapper {
             "children": <AdminHoverButton
               className="qa-menu-print-btn"
               hoveredStyle={
-                            Object {
-                                          "backgroundColor": "#f5f5f5",
-                                        }
+                Object {
+                  "backgroundColor": "#f5f5f5",
+                }
               }
               onClick={[Function]}
               style={
-                            Object {
-                                          "backgroundColor": "white",
-                                          "border": "none",
-                                          "cursor": "pointer",
-                                          "fontSize": "inherit",
-                                          "padding": "20px",
-                                          "textAlign": "left",
-                                          "width": "100%",
-                                        }
+                Object {
+                  "backgroundColor": "white",
+                  "border": "none",
+                  "cursor": "pointer",
+                  "fontSize": "inherit",
+                  "padding": "20px",
+                  "textAlign": "left",
+                  "width": "100%",
+                }
               }
->
+            >
               Print Test
-</AdminHoverButton>,
+            </AdminHoverButton>,
             "style": Object {
               "borderBottom": "1px solid #ededed",
             },
@@ -655,25 +655,25 @@ ShallowWrapper {
             "children": <AdminHoverButton
               className="qa-enter-answers-btn"
               hoveredStyle={
-                            Object {
-                                          "backgroundColor": "#f5f5f5",
-                                        }
+                Object {
+                  "backgroundColor": "#f5f5f5",
+                }
               }
               onClick={[Function]}
               style={
-                            Object {
-                                          "backgroundColor": "white",
-                                          "border": "none",
-                                          "cursor": "pointer",
-                                          "fontSize": "inherit",
-                                          "padding": "20px",
-                                          "textAlign": "left",
-                                          "width": "100%",
-                                        }
+                Object {
+                  "backgroundColor": "white",
+                  "border": "none",
+                  "cursor": "pointer",
+                  "fontSize": "inherit",
+                  "padding": "20px",
+                  "textAlign": "left",
+                  "width": "100%",
+                }
               }
->
+            >
               Enter Answers
-</AdminHoverButton>,
+            </AdminHoverButton>,
             "style": Object {
               "borderBottom": "1px solid #ededed",
             },
@@ -714,25 +714,25 @@ ShallowWrapper {
             "children": <AdminHoverButton
               className="qa-menu-message-btn"
               hoveredStyle={
-                            Object {
-                                          "backgroundColor": "#f5f5f5",
-                                        }
+                Object {
+                  "backgroundColor": "#f5f5f5",
+                }
               }
               onClick={[Function]}
               style={
-                            Object {
-                                          "backgroundColor": "white",
-                                          "border": "none",
-                                          "cursor": "pointer",
-                                          "fontSize": "inherit",
-                                          "padding": "20px",
-                                          "textAlign": "left",
-                                          "width": "100%",
-                                        }
+                Object {
+                  "backgroundColor": "white",
+                  "border": "none",
+                  "cursor": "pointer",
+                  "fontSize": "inherit",
+                  "padding": "20px",
+                  "textAlign": "left",
+                  "width": "100%",
+                }
               }
->
+            >
               Message Student
-</AdminHoverButton>,
+            </AdminHoverButton>,
             "style": Object {
               "borderBottom": "1px solid #ededed",
             },
