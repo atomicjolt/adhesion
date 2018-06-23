@@ -5,7 +5,7 @@ SUCCESS=true
 cd ./client && for dir in apps/*
 do
   cd "$dir"
-  yarn test || SUCCESS=false
+  yarn test --passWithNoTests || SUCCESS=false
   cd ../..
 done
 
