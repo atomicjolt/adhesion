@@ -14,7 +14,7 @@ ShallowWrapper {
     show={true}
     tableRowClicked={[Function]}
     time={59}
-/>,
+  />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
     "getNode": [Function],
@@ -30,32 +30,32 @@ ShallowWrapper {
       "children": Array [
         <td
           style={
-                    Object {
-                              "paddingLeft": "8rem",
-                            }
+            Object {
+              "paddingLeft": "8rem",
+            }
           }
->
+        >
           <i
-                    className="material-icons"
-                    style={
-                              Object {
-                                        "left": "5.3rem",
-                                      }
-                    }
+            className="material-icons"
+            style={
+              Object {
+                "left": "5.3rem",
+              }
+            }
           >
-                    arrow_drop_down
+            arrow_drop_down
           </i>
           test application
-</td>,
+        </td>,
         <td>
           Passed
-</td>,
+        </td>,
         <td>
           12%
-</td>,
+        </td>,
         <td>
           59s
-</td>,
+        </td>,
       ],
       "className": "c-aa-row c-aa-accordion is-open",
       "onClick": [Function],
@@ -74,13 +74,13 @@ ShallowWrapper {
             <i
               className="material-icons"
               style={
-                            Object {
-                                          "left": "5.3rem",
-                                        }
+                Object {
+                  "left": "5.3rem",
+                }
               }
->
+            >
               arrow_drop_down
-</i>,
+            </i>,
             "test application",
           ],
           "style": Object {
@@ -153,32 +153,32 @@ ShallowWrapper {
         "children": Array [
           <td
             style={
-                        Object {
-                                    "paddingLeft": "8rem",
-                                  }
+              Object {
+                "paddingLeft": "8rem",
+              }
             }
->
+          >
             <i
-                        className="material-icons"
-                        style={
-                                    Object {
-                                                "left": "5.3rem",
-                                              }
-                        }
+              className="material-icons"
+              style={
+                Object {
+                  "left": "5.3rem",
+                }
+              }
             >
-                        arrow_drop_down
+              arrow_drop_down
             </i>
             test application
-</td>,
+          </td>,
           <td>
             Passed
-</td>,
+          </td>,
           <td>
             12%
-</td>,
+          </td>,
           <td>
             59s
-</td>,
+          </td>,
         ],
         "className": "c-aa-row c-aa-accordion is-open",
         "onClick": [Function],
@@ -197,13 +197,13 @@ ShallowWrapper {
               <i
                 className="material-icons"
                 style={
-                                Object {
-                                                "left": "5.3rem",
-                                              }
+                  Object {
+                    "left": "5.3rem",
+                  }
                 }
->
+              >
                 arrow_drop_down
-</i>,
+              </i>,
               "test application",
             ],
             "style": Object {

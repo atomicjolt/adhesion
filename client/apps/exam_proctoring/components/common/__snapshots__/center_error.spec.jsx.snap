@@ -20,23 +20,23 @@ ShallowWrapper {
       "children": Array [
         <h1
           style={
-                    Object {
-                              "color": "red",
-                              "textAlign": "center",
-                            }
+            Object {
+              "color": "red",
+              "textAlign": "center",
+            }
           }
->
+        >
           Error Saving Testing Center Id
-</h1>,
+        </h1>,
         <p
           style={
-                    Object {
-                              "textAlign": "center",
-                            }
+            Object {
+              "textAlign": "center",
+            }
           }
->
+        >
           Please try again later.
-</p>,
+        </p>,
       ],
       "style": Object {
         "background": "#ededed",
@@ -87,23 +87,23 @@ ShallowWrapper {
         "children": Array [
           <h1
             style={
-                        Object {
-                                    "color": "red",
-                                    "textAlign": "center",
-                                  }
+              Object {
+                "color": "red",
+                "textAlign": "center",
+              }
             }
->
+          >
             Error Saving Testing Center Id
-</h1>,
+          </h1>,
           <p
             style={
-                        Object {
-                                    "textAlign": "center",
-                                  }
+              Object {
+                "textAlign": "center",
+              }
             }
->
+          >
             Please try again later.
-</p>,
+          </p>,
         ],
         "style": Object {
           "background": "#ededed",

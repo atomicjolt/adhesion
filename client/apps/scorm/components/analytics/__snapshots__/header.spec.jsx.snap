@@ -9,7 +9,7 @@ ShallowWrapper {
     switchView={[Function]}
     title="test application"
     view="course"
-/>,
+  />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
     "getNode": [Function],
@@ -28,37 +28,37 @@ ShallowWrapper {
           onlyActiveOnIndex={false}
           style={Object {}}
           to={
-                    Object {
-                              "pathname": "/",
-                              "query": Object {
-                                "noSync": true,
-                              },
-                            }
+            Object {
+              "pathname": "/",
+              "query": Object {
+                "noSync": true,
+              },
+            }
           }
->
+        >
           <i
-                    className="material-icons"
+            className="material-icons"
           >
-                    arrow_back
+            arrow_back
           </i>
-</Link>,
+        </Link>,
         <h1
           className="c-aa-title"
->
+        >
           <span
-                    className="c-aa-title-btn"
-                    onClick={[Function]}
+            className="c-aa-title-btn"
+            onClick={[Function]}
           >
-                    test application Analytics
+            test application Analytics
           </span>
            / Student
-</h1>,
+        </h1>,
         <button
           className="c-aa-btn"
           onClick={[Function]}
->
+        >
           View Course Activities
-</button>,
+        </button>,
       ],
       "className": "c-aa-head",
     },
@@ -71,9 +71,9 @@ ShallowWrapper {
         "props": Object {
           "children": <i
             className="material-icons"
->
+          >
             arrow_back
-</i>,
+          </i>,
           "className": "c-aa-back-btn",
           "onlyActiveOnIndex": false,
           "style": Object {},
@@ -108,9 +108,9 @@ ShallowWrapper {
             <span
               className="c-aa-title-btn"
               onClick={[Function]}
->
+            >
               test application Analytics
-</span>,
+            </span>,
             " / Student",
           ],
           "className": "c-aa-title",
@@ -162,37 +162,37 @@ ShallowWrapper {
             onlyActiveOnIndex={false}
             style={Object {}}
             to={
-                        Object {
-                                    "pathname": "/",
-                                    "query": Object {
-                                      "noSync": true,
-                                    },
-                                  }
+              Object {
+                "pathname": "/",
+                "query": Object {
+                  "noSync": true,
+                },
+              }
             }
->
+          >
             <i
-                        className="material-icons"
+              className="material-icons"
             >
-                        arrow_back
+              arrow_back
             </i>
-</Link>,
+          </Link>,
           <h1
             className="c-aa-title"
->
+          >
             <span
-                        className="c-aa-title-btn"
-                        onClick={[Function]}
+              className="c-aa-title-btn"
+              onClick={[Function]}
             >
-                        test application Analytics
+              test application Analytics
             </span>
              / Student
-</h1>,
+          </h1>,
           <button
             className="c-aa-btn"
             onClick={[Function]}
->
+          >
             View Course Activities
-</button>,
+          </button>,
         ],
         "className": "c-aa-head",
       },
@@ -205,9 +205,9 @@ ShallowWrapper {
           "props": Object {
             "children": <i
               className="material-icons"
->
+            >
               arrow_back
-</i>,
+            </i>,
             "className": "c-aa-back-btn",
             "onlyActiveOnIndex": false,
             "style": Object {},
@@ -242,9 +242,9 @@ ShallowWrapper {
               <span
                 className="c-aa-title-btn"
                 onClick={[Function]}
->
+              >
                 test application Analytics
-</span>,
+              </span>,
               " / Student",
             ],
             "className": "c-aa-title",

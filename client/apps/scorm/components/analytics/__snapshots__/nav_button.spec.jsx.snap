@@ -8,7 +8,7 @@ ShallowWrapper {
     label="test application"
     setActive={[Function]}
     stat="12"
-/>,
+  />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
     "getNode": [Function],
@@ -24,14 +24,14 @@ ShallowWrapper {
       "children": Array [
         <span
           className="c-aa-stat"
->
+        >
           12
-</span>,
+        </span>,
         <span
           className="c-aa-label"
->
+        >
           test application
-</span>,
+        </span>,
       ],
       "className": "c-aa-graph-nav__item ",
       "onClick": [Function],
@@ -74,14 +74,14 @@ ShallowWrapper {
         "children": Array [
           <span
             className="c-aa-stat"
->
+          >
             12
-</span>,
+          </span>,
           <span
             className="c-aa-label"
->
+          >
             test application
-</span>,
+          </span>,
         ],
         "className": "c-aa-graph-nav__item ",
         "onClick": [Function],

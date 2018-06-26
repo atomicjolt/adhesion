@@ -7,7 +7,7 @@ ShallowWrapper {
   Symbol(enzyme.__unrendered__): <Chart
     colors={Array []}
     data={Array []}
-/>,
+  />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
     "getNode": [Function],
@@ -42,24 +42,22 @@ ShallowWrapper {
           startAngle={90}
           stroke="#fff"
           valueKey="value"
->
-          
-</AnimationDecorator(Pie)>,
+        />,
         <Legend
           align="right"
           iconSize={14}
           layout="vertical"
           verticalAlign="top"
-/>,
+        />,
         <Tooltip
           active={false}
           animationDuration={400}
           animationEasing="ease"
           coordinate={
-                    Object {
-                              "x": 0,
-                              "y": 0,
-                            }
+            Object {
+              "x": 0,
+              "y": 0,
+            }
           }
           cursor={true}
           cursorStyle={Object {}}
@@ -70,15 +68,15 @@ ShallowWrapper {
           offset={10}
           separator=" : "
           viewBox={
-                    Object {
-                              "x1": 0,
-                              "x2": 0,
-                              "y1": 0,
-                              "y2": 0,
-                            }
+            Object {
+              "x1": 0,
+              "x2": 0,
+              "y1": 0,
+              "y2": 0,
+            }
           }
           wrapperStyle={Object {}}
-/>,
+        />,
       ],
       "height": 300,
       "margin": Object {
@@ -200,24 +198,22 @@ ShallowWrapper {
             startAngle={90}
             stroke="#fff"
             valueKey="value"
->
-            
-</AnimationDecorator(Pie)>,
+          />,
           <Legend
             align="right"
             iconSize={14}
             layout="vertical"
             verticalAlign="top"
-/>,
+          />,
           <Tooltip
             active={false}
             animationDuration={400}
             animationEasing="ease"
             coordinate={
-                        Object {
-                                    "x": 0,
-                                    "y": 0,
-                                  }
+              Object {
+                "x": 0,
+                "y": 0,
+              }
             }
             cursor={true}
             cursorStyle={Object {}}
@@ -228,15 +224,15 @@ ShallowWrapper {
             offset={10}
             separator=" : "
             viewBox={
-                        Object {
-                                    "x1": 0,
-                                    "x2": 0,
-                                    "y1": 0,
-                                    "y2": 0,
-                                  }
+              Object {
+                "x1": 0,
+                "x2": 0,
+                "y1": 0,
+                "y2": 0,
+              }
             }
             wrapperStyle={Object {}}
-/>,
+          />,
         ],
         "height": 300,
         "margin": Object {

@@ -8,7 +8,7 @@ ShallowWrapper {
     downloadOptions={Object {}}
     onExport={[Function]}
     text=""
-/>,
+  />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
     "getNode": [Function],

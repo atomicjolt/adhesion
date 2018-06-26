@@ -6,40 +6,40 @@ ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <matchingQuestion
     answers={
-        Array [
-            Object {
-              "id": 1,
-              "text": "Bretons",
-            },
-            Object {
-              "id": 2,
-              "text": "Nords",
-            },
-            Object {
-              "id": 3,
-              "text": "Argonians",
-            },
-          ]
+      Array [
+        Object {
+          "id": 1,
+          "text": "Bretons",
+        },
+        Object {
+          "id": 2,
+          "text": "Nords",
+        },
+        Object {
+          "id": 3,
+          "text": "Argonians",
+        },
+      ]
     }
     id={7}
     matches={
-        Array [
-            Object {
-              "match_id": 4,
-              "text": "Black Marsh",
-            },
-            Object {
-              "match_id": 5,
-              "text": "High Rock",
-            },
-            Object {
-              "match_id": 6,
-              "text": "Skyrim",
-            },
-          ]
+      Array [
+        Object {
+          "match_id": 4,
+          "text": "Black Marsh",
+        },
+        Object {
+          "match_id": 5,
+          "text": "High Rock",
+        },
+        Object {
+          "match_id": 6,
+          "text": "Skyrim",
+        },
+      ]
     }
     question_text="<p>Match each race to its homeland</p>"
-/>,
+  />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
     "getNode": [Function],
@@ -55,90 +55,90 @@ ShallowWrapper {
       "children": Array [
         <essayQuestion
           text="<p>Match each race to its homeland</p>"
-/>,
+        />,
         <div
           style={
-                    Object {
-                              "display": "inline-block",
-                            }
+            Object {
+              "display": "inline-block",
+            }
           }
->
+        >
           <div
-                    style={
-                              Object {
-                                        "border": "1px solid darkGray",
-                                        "margin": "5px",
-                                        "padding": "5px",
-                                      }
-                    }
+            style={
+              Object {
+                "border": "1px solid darkGray",
+                "margin": "5px",
+                "padding": "5px",
+              }
+            }
           >
-                    Bretons
+            Bretons
           </div>
           <div
-                    style={
-                              Object {
-                                        "border": "1px solid darkGray",
-                                        "margin": "5px",
-                                        "padding": "5px",
-                                      }
-                    }
+            style={
+              Object {
+                "border": "1px solid darkGray",
+                "margin": "5px",
+                "padding": "5px",
+              }
+            }
           >
-                    Nords
+            Nords
           </div>
           <div
-                    style={
-                              Object {
-                                        "border": "1px solid darkGray",
-                                        "margin": "5px",
-                                        "padding": "5px",
-                                      }
-                    }
+            style={
+              Object {
+                "border": "1px solid darkGray",
+                "margin": "5px",
+                "padding": "5px",
+              }
+            }
           >
-                    Argonians
+            Argonians
           </div>
-</div>,
+        </div>,
         <div
           style={
-                    Object {
-                              "display": "inline-block",
-                              "float": "right",
-                            }
+            Object {
+              "display": "inline-block",
+              "float": "right",
+            }
           }
->
+        >
           <div
-                    style={
-                              Object {
-                                        "border": "1px solid darkGray",
-                                        "margin": "5px",
-                                        "padding": "5px",
-                                      }
-                    }
+            style={
+              Object {
+                "border": "1px solid darkGray",
+                "margin": "5px",
+                "padding": "5px",
+              }
+            }
           >
-                    Black Marsh
+            Black Marsh
           </div>
           <div
-                    style={
-                              Object {
-                                        "border": "1px solid darkGray",
-                                        "margin": "5px",
-                                        "padding": "5px",
-                                      }
-                    }
+            style={
+              Object {
+                "border": "1px solid darkGray",
+                "margin": "5px",
+                "padding": "5px",
+              }
+            }
           >
-                    High Rock
+            High Rock
           </div>
           <div
-                    style={
-                              Object {
-                                        "border": "1px solid darkGray",
-                                        "margin": "5px",
-                                        "padding": "5px",
-                                      }
-                    }
+            style={
+              Object {
+                "border": "1px solid darkGray",
+                "margin": "5px",
+                "padding": "5px",
+              }
+            }
           >
-                    Skyrim
+            Skyrim
           </div>
-</div>,
+        </div>,
       ],
     },
     "ref": null,
@@ -162,37 +162,37 @@ ShallowWrapper {
           "children": Array [
             <div
               style={
-                            Object {
-                                          "border": "1px solid darkGray",
-                                          "margin": "5px",
-                                          "padding": "5px",
-                                        }
+                Object {
+                  "border": "1px solid darkGray",
+                  "margin": "5px",
+                  "padding": "5px",
+                }
               }
->
+            >
               Bretons
-</div>,
+            </div>,
             <div
               style={
-                            Object {
-                                          "border": "1px solid darkGray",
-                                          "margin": "5px",
-                                          "padding": "5px",
-                                        }
+                Object {
+                  "border": "1px solid darkGray",
+                  "margin": "5px",
+                  "padding": "5px",
+                }
               }
->
+            >
               Nords
-</div>,
+            </div>,
             <div
               style={
-                            Object {
-                                          "border": "1px solid darkGray",
-                                          "margin": "5px",
-                                          "padding": "5px",
-                                        }
+                Object {
+                  "border": "1px solid darkGray",
+                  "margin": "5px",
+                  "padding": "5px",
+                }
               }
->
+            >
               Argonians
-</div>,
+            </div>,
           ],
           "style": Object {
             "display": "inline-block",
@@ -259,37 +259,37 @@ ShallowWrapper {
           "children": Array [
             <div
               style={
-                            Object {
-                                          "border": "1px solid darkGray",
-                                          "margin": "5px",
-                                          "padding": "5px",
-                                        }
+                Object {
+                  "border": "1px solid darkGray",
+                  "margin": "5px",
+                  "padding": "5px",
+                }
               }
->
+            >
               Black Marsh
-</div>,
+            </div>,
             <div
               style={
-                            Object {
-                                          "border": "1px solid darkGray",
-                                          "margin": "5px",
-                                          "padding": "5px",
-                                        }
+                Object {
+                  "border": "1px solid darkGray",
+                  "margin": "5px",
+                  "padding": "5px",
+                }
               }
->
+            >
               High Rock
-</div>,
+            </div>,
             <div
               style={
-                            Object {
-                                          "border": "1px solid darkGray",
-                                          "margin": "5px",
-                                          "padding": "5px",
-                                        }
+                Object {
+                  "border": "1px solid darkGray",
+                  "margin": "5px",
+                  "padding": "5px",
+                }
               }
->
+            >
               Skyrim
-</div>,
+            </div>,
           ],
           "style": Object {
             "display": "inline-block",
@@ -361,90 +361,90 @@ ShallowWrapper {
         "children": Array [
           <essayQuestion
             text="<p>Match each race to its homeland</p>"
-/>,
+          />,
           <div
             style={
-                        Object {
-                                    "display": "inline-block",
-                                  }
+              Object {
+                "display": "inline-block",
+              }
             }
->
+          >
             <div
-                        style={
-                                    Object {
-                                                "border": "1px solid darkGray",
-                                                "margin": "5px",
-                                                "padding": "5px",
-                                              }
-                        }
+              style={
+                Object {
+                  "border": "1px solid darkGray",
+                  "margin": "5px",
+                  "padding": "5px",
+                }
+              }
             >
-                        Bretons
+              Bretons
             </div>
             <div
-                        style={
-                                    Object {
-                                                "border": "1px solid darkGray",
-                                                "margin": "5px",
-                                                "padding": "5px",
-                                              }
-                        }
+              style={
+                Object {
+                  "border": "1px solid darkGray",
+                  "margin": "5px",
+                  "padding": "5px",
+                }
+              }
             >
-                        Nords
+              Nords
             </div>
             <div
-                        style={
-                                    Object {
-                                                "border": "1px solid darkGray",
-                                                "margin": "5px",
-                                                "padding": "5px",
-                                              }
-                        }
+              style={
+                Object {
+                  "border": "1px solid darkGray",
+                  "margin": "5px",
+                  "padding": "5px",
+                }
+              }
             >
-                        Argonians
+              Argonians
             </div>
-</div>,
+          </div>,
           <div
             style={
-                        Object {
-                                    "display": "inline-block",
-                                    "float": "right",
-                                  }
+              Object {
+                "display": "inline-block",
+                "float": "right",
+              }
             }
->
+          >
             <div
-                        style={
-                                    Object {
-                                                "border": "1px solid darkGray",
-                                                "margin": "5px",
-                                                "padding": "5px",
-                                              }
-                        }
+              style={
+                Object {
+                  "border": "1px solid darkGray",
+                  "margin": "5px",
+                  "padding": "5px",
+                }
+              }
             >
-                        Black Marsh
+              Black Marsh
             </div>
             <div
-                        style={
-                                    Object {
-                                                "border": "1px solid darkGray",
-                                                "margin": "5px",
-                                                "padding": "5px",
-                                              }
-                        }
+              style={
+                Object {
+                  "border": "1px solid darkGray",
+                  "margin": "5px",
+                  "padding": "5px",
+                }
+              }
             >
-                        High Rock
+              High Rock
             </div>
             <div
-                        style={
-                                    Object {
-                                                "border": "1px solid darkGray",
-                                                "margin": "5px",
-                                                "padding": "5px",
-                                              }
-                        }
+              style={
+                Object {
+                  "border": "1px solid darkGray",
+                  "margin": "5px",
+                  "padding": "5px",
+                }
+              }
             >
-                        Skyrim
+              Skyrim
             </div>
-</div>,
+          </div>,
         ],
       },
       "ref": null,
@@ -468,37 +468,37 @@ ShallowWrapper {
             "children": Array [
               <div
                 style={
-                                Object {
-                                                "border": "1px solid darkGray",
-                                                "margin": "5px",
-                                                "padding": "5px",
-                                              }
+                  Object {
+                    "border": "1px solid darkGray",
+                    "margin": "5px",
+                    "padding": "5px",
+                  }
                 }
->
+              >
                 Bretons
-</div>,
+              </div>,
               <div
                 style={
-                                Object {
-                                                "border": "1px solid darkGray",
-                                                "margin": "5px",
-                                                "padding": "5px",
-                                              }
+                  Object {
+                    "border": "1px solid darkGray",
+                    "margin": "5px",
+                    "padding": "5px",
+                  }
                 }
->
+              >
                 Nords
-</div>,
+              </div>,
               <div
                 style={
-                                Object {
-                                                "border": "1px solid darkGray",
-                                                "margin": "5px",
-                                                "padding": "5px",
-                                              }
+                  Object {
+                    "border": "1px solid darkGray",
+                    "margin": "5px",
+                    "padding": "5px",
+                  }
                 }
->
+              >
                 Argonians
-</div>,
+              </div>,
             ],
             "style": Object {
               "display": "inline-block",
@@ -565,37 +565,37 @@ ShallowWrapper {
             "children": Array [
               <div
                 style={
-                                Object {
-                                                "border": "1px solid darkGray",
-                                                "margin": "5px",
-                                                "padding": "5px",
-                                              }
+                  Object {
+                    "border": "1px solid darkGray",
+                    "margin": "5px",
+                    "padding": "5px",
+                  }
                 }
->
+              >
                 Black Marsh
-</div>,
+              </div>,
               <div
                 style={
-                                Object {
-                                                "border": "1px solid darkGray",
-                                                "margin": "5px",
-                                                "padding": "5px",
-                                              }
+                  Object {
+                    "border": "1px solid darkGray",
+                    "margin": "5px",
+                    "padding": "5px",
+                  }
                 }
->
+              >
                 High Rock
-</div>,
+              </div>,
               <div
                 style={
-                                Object {
-                                                "border": "1px solid darkGray",
-                                                "margin": "5px",
-                                                "padding": "5px",
-                                              }
+                  Object {
+                    "border": "1px solid darkGray",
+                    "margin": "5px",
+                    "padding": "5px",
+                  }
                 }
->
+              >
                 Skyrim
-</div>,
+              </div>,
             ],
             "style": Object {
               "display": "inline-block",

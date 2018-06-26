@@ -8,7 +8,7 @@ ShallowWrapper {
     switchView={[Function]}
     tableData={Array []}
     view="course"
-/>,
+  />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
     "getNode": [Function],
@@ -24,45 +24,43 @@ ShallowWrapper {
       "children": Array [
         <thead>
           <tr>
-                    <th
-                              onClick={[Function]}
-                    >
-                              Student
-                              <i
-                                        className="material-icons"
-                              >
-                                        keyboard_arrow_up
-                              </i>
-                    </th>
-                    <th
-                              onClick={[Function]}
-                    >
-                              Passed
-                              <i
-                                        className="material-icons"
-                              />
-                    </th>
-                    <th
-                              onClick={[Function]}
-                    >
-                              AVG Score
-                              <i
-                                        className="material-icons"
-                              />
-                    </th>
-                    <th
-                              onClick={[Function]}
-                    >
-                              Total Time(mins)
-                              <i
-                                        className="material-icons"
-                              />
-                    </th>
+            <th
+              onClick={[Function]}
+            >
+              Student
+              <i
+                className="material-icons"
+              >
+                keyboard_arrow_up
+              </i>
+            </th>
+            <th
+              onClick={[Function]}
+            >
+              Passed
+              <i
+                className="material-icons"
+              />
+            </th>
+            <th
+              onClick={[Function]}
+            >
+              AVG Score
+              <i
+                className="material-icons"
+              />
+            </th>
+            <th
+              onClick={[Function]}
+            >
+              Total Time(mins)
+              <i
+                className="material-icons"
+              />
+            </th>
           </tr>
-</thead>,
-        <tbody>
-          
-</tbody>,
+        </thead>,
+        <tbody />,
       ],
       "className": "c-aa-table",
     },
@@ -75,40 +73,40 @@ ShallowWrapper {
         "props": Object {
           "children": <tr>
             <th
-                        onClick={[Function]}
+              onClick={[Function]}
             >
-                        Student
-                        <i
-                                    className="material-icons"
-                        >
-                                    keyboard_arrow_up
-                        </i>
+              Student
+              <i
+                className="material-icons"
+              >
+                keyboard_arrow_up
+              </i>
             </th>
             <th
-                        onClick={[Function]}
+              onClick={[Function]}
             >
-                        Passed
-                        <i
-                                    className="material-icons"
-                        />
+              Passed
+              <i
+                className="material-icons"
+              />
             </th>
             <th
-                        onClick={[Function]}
+              onClick={[Function]}
             >
-                        AVG Score
-                        <i
-                                    className="material-icons"
-                        />
+              AVG Score
+              <i
+                className="material-icons"
+              />
             </th>
             <th
-                        onClick={[Function]}
+              onClick={[Function]}
             >
-                        Total Time(mins)
-                        <i
-                                    className="material-icons"
-                        />
+              Total Time(mins)
+              <i
+                className="material-icons"
+              />
             </th>
-</tr>,
+          </tr>,
         },
         "ref": null,
         "rendered": Object {
@@ -119,38 +117,38 @@ ShallowWrapper {
             "children": Array [
               <th
                 onClick={[Function]}
->
+              >
                 Student
                 <i
-                                className="material-icons"
+                  className="material-icons"
                 >
-                                keyboard_arrow_up
+                  keyboard_arrow_up
                 </i>
-</th>,
+              </th>,
               <th
                 onClick={[Function]}
->
+              >
                 Passed
                 <i
-                                className="material-icons"
+                  className="material-icons"
                 />
-</th>,
+              </th>,
               <th
                 onClick={[Function]}
->
+              >
                 AVG Score
                 <i
-                                className="material-icons"
+                  className="material-icons"
                 />
-</th>,
+              </th>,
               <th
                 onClick={[Function]}
->
+              >
                 Total Time(mins)
                 <i
-                                className="material-icons"
+                  className="material-icons"
                 />
-</th>,
+              </th>,
             ],
           },
           "ref": null,
@@ -164,9 +162,9 @@ ShallowWrapper {
                   "Student",
                   <i
                     className="material-icons"
->
+                  >
                     keyboard_arrow_up
-</i>,
+                  </i>,
                 ],
                 "onClick": [Function],
               },
@@ -197,7 +195,7 @@ ShallowWrapper {
                   "Passed",
                   <i
                     className="material-icons"
-/>,
+                  />,
                 ],
                 "onClick": [Function],
               },
@@ -228,7 +226,7 @@ ShallowWrapper {
                   "AVG Score",
                   <i
                     className="material-icons"
-/>,
+                  />,
                 ],
                 "onClick": [Function],
               },
@@ -259,7 +257,7 @@ ShallowWrapper {
                   "Total Time(mins)",
                   <i
                     className="material-icons"
-/>,
+                  />,
                 ],
                 "onClick": [Function],
               },
@@ -309,45 +307,43 @@ ShallowWrapper {
         "children": Array [
           <thead>
             <tr>
-                        <th
-                                    onClick={[Function]}
-                        >
-                                    Student
-                                    <i
-                                                className="material-icons"
-                                    >
-                                                keyboard_arrow_up
-                                    </i>
-                        </th>
-                        <th
-                                    onClick={[Function]}
-                        >
-                                    Passed
-                                    <i
-                                                className="material-icons"
-                                    />
-                        </th>
-                        <th
-                                    onClick={[Function]}
-                        >
-                                    AVG Score
-                                    <i
-                                                className="material-icons"
-                                    />
-                        </th>
-                        <th
-                                    onClick={[Function]}
-                        >
-                                    Total Time(mins)
-                                    <i
-                                                className="material-icons"
-                                    />
-                        </th>
+              <th
+                onClick={[Function]}
+              >
+                Student
+                <i
+                  className="material-icons"
+                >
+                  keyboard_arrow_up
+                </i>
+              </th>
+              <th
+                onClick={[Function]}
+              >
+                Passed
+                <i
+                  className="material-icons"
+                />
+              </th>
+              <th
+                onClick={[Function]}
+              >
+                AVG Score
+                <i
+                  className="material-icons"
+                />
+              </th>
+              <th
+                onClick={[Function]}
+              >
+                Total Time(mins)
+                <i
+                  className="material-icons"
+                />
+              </th>
             </tr>
-</thead>,
-          <tbody>
-            
-</tbody>,
+          </thead>,
+          <tbody />,
         ],
         "className": "c-aa-table",
       },
@@ -360,40 +356,40 @@ ShallowWrapper {
           "props": Object {
             "children": <tr>
               <th
-                            onClick={[Function]}
+                onClick={[Function]}
               >
-                            Student
-                            <i
-                                          className="material-icons"
-                            >
-                                          keyboard_arrow_up
-                            </i>
+                Student
+                <i
+                  className="material-icons"
+                >
+                  keyboard_arrow_up
+                </i>
               </th>
               <th
-                            onClick={[Function]}
+                onClick={[Function]}
               >
-                            Passed
-                            <i
-                                          className="material-icons"
-                            />
+                Passed
+                <i
+                  className="material-icons"
+                />
               </th>
               <th
-                            onClick={[Function]}
+                onClick={[Function]}
               >
-                            AVG Score
-                            <i
-                                          className="material-icons"
-                            />
+                AVG Score
+                <i
+                  className="material-icons"
+                />
               </th>
               <th
-                            onClick={[Function]}
+                onClick={[Function]}
               >
-                            Total Time(mins)
-                            <i
-                                          className="material-icons"
-                            />
+                Total Time(mins)
+                <i
+                  className="material-icons"
+                />
               </th>
-</tr>,
+            </tr>,
           },
           "ref": null,
           "rendered": Object {
@@ -404,38 +400,38 @@ ShallowWrapper {
               "children": Array [
                 <th
                   onClick={[Function]}
->
+                >
                   Student
                   <i
-                                    className="material-icons"
+                    className="material-icons"
                   >
-                                    keyboard_arrow_up
+                    keyboard_arrow_up
                   </i>
-</th>,
+                </th>,
                 <th
                   onClick={[Function]}
->
+                >
                   Passed
                   <i
-                                    className="material-icons"
+                    className="material-icons"
                   />
-</th>,
+                </th>,
                 <th
                   onClick={[Function]}
->
+                >
                   AVG Score
                   <i
-                                    className="material-icons"
+                    className="material-icons"
                   />
-</th>,
+                </th>,
                 <th
                   onClick={[Function]}
->
+                >
                   Total Time(mins)
                   <i
-                                    className="material-icons"
+                    className="material-icons"
                   />
-</th>,
+                </th>,
               ],
             },
             "ref": null,
@@ -449,9 +445,9 @@ ShallowWrapper {
                     "Student",
                     <i
                       className="material-icons"
->
+                    >
                       keyboard_arrow_up
-</i>,
+                    </i>,
                   ],
                   "onClick": [Function],
                 },
@@ -482,7 +478,7 @@ ShallowWrapper {
                     "Passed",
                     <i
                       className="material-icons"
-/>,
+                    />,
                   ],
                   "onClick": [Function],
                 },
@@ -513,7 +509,7 @@ ShallowWrapper {
                     "AVG Score",
                     <i
                       className="material-icons"
-/>,
+                    />,
                   ],
                   "onClick": [Function],
                 },
@@ -544,7 +540,7 @@ ShallowWrapper {
                     "Total Time(mins)",
                     <i
                       className="material-icons"
-/>,
+                    />,
                   ],
                   "onClick": [Function],
                 },

@@ -6,12 +6,12 @@ ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <ChartContainer
     data={
-        Object {
-            "passFail": Array [],
-          }
+      Object {
+        "passFail": Array [],
+      }
     }
     selected="passed"
-/>,
+  />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
     "getNode": [Function],
@@ -26,14 +26,14 @@ ShallowWrapper {
     "props": Object {
       "children": <Chart
         colors={
-                Array [
-                        "#67a9cf",
-                        "#c9c9c9",
-                        "#ef8a62",
-                      ]
+          Array [
+            "#67a9cf",
+            "#c9c9c9",
+            "#ef8a62",
+          ]
         }
         data={Array []}
-/>,
+      />,
     },
     "ref": null,
     "rendered": Object {
@@ -62,14 +62,14 @@ ShallowWrapper {
       "props": Object {
         "children": <Chart
           colors={
-                    Array [
-                              "#67a9cf",
-                              "#c9c9c9",
-                              "#ef8a62",
-                            ]
+            Array [
+              "#67a9cf",
+              "#c9c9c9",
+              "#ef8a62",
+            ]
           }
           data={Array []}
-/>,
+        />,
       },
       "ref": null,
       "rendered": Object {

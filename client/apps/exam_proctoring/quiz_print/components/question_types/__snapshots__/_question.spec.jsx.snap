@@ -8,7 +8,7 @@ ShallowWrapper {
     points_possible={3}
     position={1}
     question_type="multiple_choice_question"
-/>,
+  />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
     "getNode": [Function],
@@ -24,39 +24,39 @@ ShallowWrapper {
       "children": Array [
         <div
           style={
-                    Object {
-                              "backgroundColor": "Gainsboro",
-                              "borderBottom": "solid 1px black",
-                              "padding": "10px",
-                            }
+            Object {
+              "backgroundColor": "Gainsboro",
+              "borderBottom": "solid 1px black",
+              "padding": "10px",
+            }
           }
->
+        >
           Question 
           1
           <span
-                    style={
-                              Object {
-                                        "float": "right",
-                                      }
-                    }
+            style={
+              Object {
+                "float": "right",
+              }
+            }
           >
-                    3
-                     pts
+            3
+             pts
           </span>
-</div>,
+        </div>,
         <div
           style={
-                    Object {
-                              "padding": "10px",
-                            }
+            Object {
+              "padding": "10px",
+            }
           }
->
+        >
           <multipleChoiceQuestion
-                    points_possible={3}
-                    position={1}
-                    question_type="multiple_choice_question"
+            points_possible={3}
+            position={1}
+            question_type="multiple_choice_question"
           />
-</div>,
+        </div>,
       ],
       "style": Object {
         "border": "solid 1px black",
@@ -75,14 +75,14 @@ ShallowWrapper {
             1,
             <span
               style={
-                            Object {
-                                          "float": "right",
-                                        }
+                Object {
+                  "float": "right",
+                }
               }
->
+            >
               3
                pts
-</span>,
+            </span>,
           ],
           "style": Object {
             "backgroundColor": "Gainsboro",
@@ -126,7 +126,7 @@ ShallowWrapper {
             points_possible={3}
             position={1}
             question_type="multiple_choice_question"
-/>,
+          />,
           "style": Object {
             "padding": "10px",
           },
@@ -159,39 +159,39 @@ ShallowWrapper {
         "children": Array [
           <div
             style={
-                        Object {
-                                    "backgroundColor": "Gainsboro",
-                                    "borderBottom": "solid 1px black",
-                                    "padding": "10px",
-                                  }
+              Object {
+                "backgroundColor": "Gainsboro",
+                "borderBottom": "solid 1px black",
+                "padding": "10px",
+              }
             }
->
+          >
             Question 
             1
             <span
-                        style={
-                                    Object {
-                                                "float": "right",
-                                              }
-                        }
+              style={
+                Object {
+                  "float": "right",
+                }
+              }
             >
-                        3
-                         pts
+              3
+               pts
             </span>
-</div>,
+          </div>,
           <div
             style={
-                        Object {
-                                    "padding": "10px",
-                                  }
+              Object {
+                "padding": "10px",
+              }
             }
->
+          >
             <multipleChoiceQuestion
-                        points_possible={3}
-                        position={1}
-                        question_type="multiple_choice_question"
+              points_possible={3}
+              position={1}
+              question_type="multiple_choice_question"
             />
-</div>,
+          </div>,
         ],
         "style": Object {
           "border": "solid 1px black",
@@ -210,14 +210,14 @@ ShallowWrapper {
               1,
               <span
                 style={
-                                Object {
-                                                "float": "right",
-                                              }
+                  Object {
+                    "float": "right",
+                  }
                 }
->
+              >
                 3
                  pts
-</span>,
+              </span>,
             ],
             "style": Object {
               "backgroundColor": "Gainsboro",
@@ -261,7 +261,7 @@ ShallowWrapper {
               points_possible={3}
               position={1}
               question_type="multiple_choice_question"
-/>,
+            />,
             "style": Object {
               "padding": "10px",
             },

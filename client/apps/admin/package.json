@@ -1,7 +1,9 @@
 {
+  "name": "admin",
+  "version": "1.0.0",
   "scripts": {
-    "test": "./node_modules/jest/bin/jest.js --config=config/jest_config.json",
-    "watch": "./node_modules/jest/bin/jest.js --config=config/jest_config.json --watch"
+    "test": "jest --config=config/jest_config.json",
+    "watch": "jest --config=config/jest_config.json --watch"
   },
   "dependencies": {
     "atomic-canvas": "^1.1.3",
@@ -27,6 +29,7 @@
   },
   "devDependencies": {
     "enzyme-adapter-react-16": "^1.1.1",
+    "jest": "^23.1.0",
     "redux-devtools": "^3.4.0"
   }
 }

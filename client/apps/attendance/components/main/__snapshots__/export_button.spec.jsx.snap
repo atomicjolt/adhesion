@@ -7,12 +7,12 @@ ShallowWrapper {
   Symbol(enzyme.__unrendered__): <ExportButton
     ariaPosinset={0}
     downloadOptions={
-        Object {
-            "america": "the beautiful",
-          }
+      Object {
+        "america": "the beautiful",
+      }
     }
     onExport={[Function]}
-/>,
+  />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
     "getNode": [Function],

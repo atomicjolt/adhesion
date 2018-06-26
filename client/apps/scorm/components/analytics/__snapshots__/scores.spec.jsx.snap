@@ -6,14 +6,14 @@ ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <AverageScore
     scores={
-        Array [
-            Object {
-              "name": "test application",
-              "value": "12",
-            },
-          ]
+      Array [
+        Object {
+          "name": "test application",
+          "value": "12",
+        },
+      ]
     }
-/>,
+  />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
     "getNode": [Function],
@@ -30,7 +30,7 @@ ShallowWrapper {
         <ScoreLabel
           name="test application"
           value="12"
-/>,
+        />,
       ],
       "style": Object {
         "position": "absolute",
@@ -65,7 +65,7 @@ ShallowWrapper {
           <ScoreLabel
             name="test application"
             value="12"
-/>,
+          />,
         ],
         "style": Object {
           "position": "absolute",

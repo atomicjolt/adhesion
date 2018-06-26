@@ -21,20 +21,20 @@ ShallowWrapper {
         <button
           className="pure-button"
           onClick={[Function]}
->
+        >
           Back
-</button>,
+        </button>,
         <button
           className="pure-button button-primary"
           onClick={[Function]}
           style={
-                    Object {
-                              "float": "right",
-                            }
+            Object {
+              "float": "right",
+            }
           }
->
+        >
           Print
-</button>,
+        </button>,
       ],
       "className": "no-print",
     },
@@ -82,20 +82,20 @@ ShallowWrapper {
           <button
             className="pure-button"
             onClick={[Function]}
->
+          >
             Back
-</button>,
+          </button>,
           <button
             className="pure-button button-primary"
             onClick={[Function]}
             style={
-                        Object {
-                                    "float": "right",
-                                  }
+              Object {
+                "float": "right",
+              }
             }
->
+          >
             Print
-</button>,
+          </button>,
         ],
         "className": "no-print",
       },

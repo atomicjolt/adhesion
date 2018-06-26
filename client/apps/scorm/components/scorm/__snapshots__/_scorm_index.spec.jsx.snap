@@ -23,7 +23,7 @@ ShallowWrapper {
     showModal={[Function]}
     updateImportType={[Function]}
     uploadPackage={[Function]}
-/>,
+  />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
     "getNode": [Function],
@@ -38,7 +38,7 @@ ShallowWrapper {
     "props": Object {
       "children": <h2>
         Loading...
-</h2>,
+      </h2>,
       "className": "o-main-contain",
     },
     "ref": null,
@@ -63,7 +63,7 @@ ShallowWrapper {
       "props": Object {
         "children": <h2>
           Loading...
-</h2>,
+        </h2>,
         "className": "o-main-contain",
       },
       "ref": null,

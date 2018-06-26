@@ -5,7 +5,7 @@ SUCCESS=true
 cd ./client && for dir in apps/*
 do
   cd "$dir"
-  yarn test --passWithNoTests || SUCCESS=false
+  node inspect jest --runInBand --config=config/jest_config.json || SUCCESS=false
   cd ../..
 done
 

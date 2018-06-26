@@ -8,25 +8,25 @@ ShallowWrapper {
     currentSection={-1}
     filterStudents={[Function]}
     sections={
-        Array [
-            Object {
-              "course_id": 1,
-              "id": 1,
-              "name": "Sec1",
-            },
-            Object {
-              "course_id": 1,
-              "id": 2,
-              "name": "Sec2",
-            },
-            Object {
-              "course_id": 1,
-              "id": 3,
-              "name": "Sec3",
-            },
-          ]
+      Array [
+        Object {
+          "course_id": 1,
+          "id": 1,
+          "name": "Sec1",
+        },
+        Object {
+          "course_id": 1,
+          "id": 2,
+          "name": "Sec2",
+        },
+        Object {
+          "course_id": 1,
+          "id": 3,
+          "name": "Sec3",
+        },
+      ]
     }
-/>,
+  />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
     "getNode": [Function],
@@ -43,23 +43,23 @@ ShallowWrapper {
         baseClassName="Dropdown"
         onChange={[Function]}
         options={
-                Array [
-                        Object {
-                          "label": "Sec1",
-                          "value": 1,
-                        },
-                        Object {
-                          "label": "Sec2",
-                          "value": 2,
-                        },
-                        Object {
-                          "label": "Sec3",
-                          "value": 3,
-                        },
-                      ]
+          Array [
+            Object {
+              "label": "Sec1",
+              "value": 1,
+            },
+            Object {
+              "label": "Sec2",
+              "value": 2,
+            },
+            Object {
+              "label": "Sec3",
+              "value": 3,
+            },
+          ]
         }
         value="All Sections"
-/>,
+      />,
       "className": "c-btn c-btn--sections",
     },
     "ref": null,
@@ -102,23 +102,23 @@ ShallowWrapper {
           baseClassName="Dropdown"
           onChange={[Function]}
           options={
-                    Array [
-                              Object {
-                                "label": "Sec1",
-                                "value": 1,
-                              },
-                              Object {
-                                "label": "Sec2",
-                                "value": 2,
-                              },
-                              Object {
-                                "label": "Sec3",
-                                "value": 3,
-                              },
-                            ]
+            Array [
+              Object {
+                "label": "Sec1",
+                "value": 1,
+              },
+              Object {
+                "label": "Sec2",
+                "value": 2,
+              },
+              Object {
+                "label": "Sec3",
+                "value": 3,
+              },
+            ]
           }
           value="All Sections"
-/>,
+        />,
         "className": "c-btn c-btn--sections",
       },
       "ref": null,
