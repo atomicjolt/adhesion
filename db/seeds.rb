@@ -470,5 +470,8 @@ User.oauth_user.unconfirmed.update_all(confirmed_at: Time.now)
 ## END ONE-OFF CODE
 
 ## Use this to update all the application instances
-# ApplicationInstance.for_tenant(Apartment::Tenant.current).find_each do |ai|
-# end
+ApplicationInstance.for_tenant(Apartment::Tenant.current).find_each do |ai|
+  Apartment::Tenant.switch(ai.tenant) do
+    ScormCourse.where(grading_type: nil).where.not(points_possible: nil).update_all(grading_type: "points")
+  end
+end
