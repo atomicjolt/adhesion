@@ -97,9 +97,12 @@ module ScormCommonService
       reg.store_activities(activity.deep_symbolize_keys, nil, 0, lms_user_id, lms_user_name) if activity
     end
     reg.score = package_score(reg_result["score"])
-    if package_complete?(reg_result) && reg.changed?
+    reg.status = package_complete_status(reg_result)
+    if reg.status_changed? && ["complete", "COMPLETED"].include?(reg.status)
       response = post_results(reg)
       print_response(reg, response)
+    else
+      reg.save
     end
   end
 
@@ -187,7 +190,9 @@ module ScormCommonService
       reg.application_instance.lti_secret,
       tp_params,
     )
-    provider.post_replace_result!(reg.score)
+    score = reg.scorm_course.grading_type == "pass_fail" ? 1 : reg.score
+
+    provider.post_replace_result!(score)
   end
 
   def setup_provider_params(reg)
@@ -210,9 +215,8 @@ module ScormCommonService
     end
   end
 
-  def package_complete?(reg_result)
-    status = reg_result["complete"] || reg_result["registrationCompletion"]
-    status == "complete" || status == "COMPLETED"
+  def package_complete_status(reg_result)
+    reg_result["complete"] || reg_result["registrationCompletion"]
   end
 
   def package_score(score)
