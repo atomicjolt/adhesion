@@ -211,6 +211,6 @@ describe "sync_courses" do
     expect(scorm_course_count).to eq 2
 
     expect(result[0][:lms_assignment_id]).to eq(1)
-    expect(result[0][:is_graded]).to eq("GRADED")
+    expect(result[0][:grading_type]).to eq("GRADED")
   end
 end

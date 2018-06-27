@@ -71,6 +71,7 @@ class Api::ScormCoursesController < ApplicationController
       lms_course_id: token["lms_course_id"],
       name: scorm_course_attrs[:assignment][:name],
       points_possible: scorm_course_attrs[:assignment][:points_possible],
+      grading_type: scorm_course_attrs[:assignment][:grading_type],
     )
 
     lms_assignment_id = lms_assignment["id"]
@@ -78,6 +79,7 @@ class Api::ScormCoursesController < ApplicationController
 
     course.lms_assignment_id = lms_assignment_id
     course.resource_link_id = resource_link_id
+    course.grading_type = scorm_course_attrs[:assignment][:grading_type]
     course.update(course_params)
     render json: { course: course, lms_assignment: lms_assignment }
   end
@@ -144,6 +146,7 @@ class Api::ScormCoursesController < ApplicationController
         assignment: [
           :name,
           :points_possible,
+          :grading_type,
         ],
       )
   end
@@ -156,7 +159,14 @@ class Api::ScormCoursesController < ApplicationController
     )
   end
 
-  def create_canvas_assignment(package_id:, lti_url:, lms_course_id:, name:, points_possible:)
+  def create_canvas_assignment(
+    package_id:,
+    lti_url:,
+    lms_course_id:,
+    name:,
+    points_possible:,
+    grading_type:
+  )
     payload = {
       assignment: {
         name: name,
@@ -167,6 +177,7 @@ class Api::ScormCoursesController < ApplicationController
           url: lti_url,
         },
         points_possible: points_possible,
+        grading_type: grading_type,
       },
     }
 

@@ -15,7 +15,7 @@ describe('course', () => {
       course: {
         title: 'IMASPEC',
         fetching: false,
-        is_graded: 'GRADED',
+        grading_type: 'GRADED',
         lms_assignment_id: 1,
         id: 'id'
       },
@@ -60,7 +60,7 @@ describe('course', () => {
   });
 
   it('renders Ungraded Assignment when assignment exists and is an ungraded assignment', () => {
-    props.course.is_graded = 'UNGRADED';
+    props.course.grading_type = 'UNGRADED';
     result = TestUtils.renderIntoDocument(<Course {...props} />);
     const itemTypeText = TestUtils.findRenderedDOMComponentWithClass(result, 'c-list-item__type');
     const dropDown = TestUtils.scryRenderedDOMComponentsWithClass(result, 'c-dropdown');

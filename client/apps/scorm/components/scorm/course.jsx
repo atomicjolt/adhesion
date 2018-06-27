@@ -12,7 +12,16 @@ export default class Course extends React.Component {
   static ImportTypes = {
     GRADED: 'GRADED',
     UNGRADED: 'UNGRADED',
+    PASS_FAIL: 'pass_fail',
     NOT_SELECTED: 'NOT_SELECTED',
+  };
+
+  static GradingTypes = {
+    PASS_FAIL: 'pass_fail',
+    PERCENT: 'percent',
+    LETTER_GRADE: 'letter_grade',
+    GPA_SCALE: 'gpa_scale',
+    POINTS: 'points',
   };
 
   static DefaultPointValue = 100;
@@ -22,7 +31,7 @@ export default class Course extends React.Component {
       id: React.PropTypes.string.isRequired,
       lms_assignment_id: React.PropTypes.number,
       index: React.PropTypes.number,
-      is_graded: React.PropTypes.string,
+      grading_type: React.PropTypes.string,
       title: React.PropTypes.string,
       fetching: React.PropTypes.bool,
     }).isRequired,
@@ -101,14 +110,20 @@ export default class Course extends React.Component {
 
   handleGoClick() {
     let pointsPossible = 0;
-    if (this.props.course.is_graded === Course.ImportTypes.GRADED) {
+    if (this.props.course.grading_type === Course.ImportTypes.GRADED) {
       pointsPossible = Course.DefaultPointValue;
+    }
+
+    let gradingType = Course.GradingTypes.POINTS;
+    if (this.props.course.grading_type === Course.GradingTypes.PASS_FAIL) {
+      gradingType = Course.GradingTypes.PASS_FAIL;
     }
 
     this.props.importPackage(
       this.props.course.id,
       this.props.course.title,
       this.props.course.index,
+      gradingType,
       pointsPossible,
     );
   }
@@ -140,7 +155,10 @@ export default class Course extends React.Component {
   render() {
     const styles = Course.getStyles();
     const isAssignment = !_.isUndefined(this.props.course.lms_assignment_id);
-    const isGraded = this.props.course.is_graded === Course.ImportTypes.GRADED;
+    const {
+      grading_type:gradingType,
+      points_possible:pointsPossible,
+    } = this.props.course;
     const assignmentButtonProps = {
       canvasUrl: this.props.canvasUrl,
       courseId: this.props.courseId,
@@ -155,24 +173,30 @@ export default class Course extends React.Component {
       />
     );
 
-    let assignmentButton;
+    let assignmentButton = null;
     let analyticsButton = false;
-    let dropDown;
-    let settings;
+    let dropDown = null;
+    let settings = null;
 
     if (this.props.course.fetching) {
       dropDown = <div style={styles.loaderContainer}><Loader /></div>;
-    } else if (isAssignment && isGraded) {
+    } else if (isAssignment && gradingType === 'points') {
+      if (pointsPossible > 0) {
+        assignmentButton = <AssignmentButton {...assignmentButtonProps} />;
+        analyticsButton = true;
+        dropDown = <div className="c-list-item__type" style={styles.dropDown}>Graded Assignment</div>;
+      } else {
+        assignmentButton = <AssignmentButton {...assignmentButtonProps} />;
+        analyticsButton = true;
+        dropDown = <div className="c-list-item__type" style={styles.dropDown}>Ungraded Assignment</div>;
+      }
+    } else if (isAssignment && gradingType === 'pass_fail') {
       assignmentButton = <AssignmentButton {...assignmentButtonProps} />;
       analyticsButton = true;
-      dropDown = <div className="c-list-item__type" style={styles.dropDown}>Graded Assignment</div>;
-    } else if (isAssignment && !isGraded) {
-      assignmentButton = <AssignmentButton {...assignmentButtonProps} />;
-      analyticsButton = true;
-      dropDown = <div className="c-list-item__type" style={styles.dropDown}>Ungraded Assignment</div>;
+      dropDown = <div className="c-list-item__type" style={styles.dropDown}>Pass/Fail Assignment</div>;
     } else {
-      const isUnselected = !_.isUndefined(this.props.course.is_graded)
-        && this.props.course.is_graded !== Course.ImportTypes.NOT_SELECTED;
+      const isUnselected = !_.isUndefined(this.props.course.grading_type)
+        && this.props.course.grading_type !== Course.ImportTypes.NOT_SELECTED;
       dropDown = (
         <ImportTypeSelector
           isGoBtnActive={isUnselected}

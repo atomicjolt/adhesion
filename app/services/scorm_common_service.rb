@@ -2,11 +2,6 @@ module ScormCommonService
 
   require "ajims/lti"
 
-  SCORM_ASSIGNMENT_STATE = {
-    GRADED: "GRADED",
-    UNGRADED: "UNGRADED",
-  }.freeze
-
   def sync_courses(courses, lms_course_id)
     if courses
       course_ids = get_course_ids(courses)
@@ -156,11 +151,8 @@ module ScormCommonService
         }
         if local_course.lms_assignment_id.nil? == false
           resp[:lms_assignment_id] = local_course.lms_assignment_id
-          resp[:is_graded] = if !local_course.points_possible.nil? && local_course.points_possible > 0
-                               SCORM_ASSIGNMENT_STATE[:GRADED]
-                             else
-                               SCORM_ASSIGNMENT_STATE[:UNGRADED]
-                             end
+          resp[:points_possible] = local_course.points_possible || 0
+          resp[:grading_type] = local_course.grading_type
         end
         resp
       end
