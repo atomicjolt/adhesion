@@ -1,4 +1,5 @@
 require "rails_helper"
+require "ajims/lti"
 
 RSpec.describe ScormCoursesController, type: :controller do
   describe "POST#postback" do
@@ -9,14 +10,22 @@ RSpec.describe ScormCoursesController, type: :controller do
       allow(controller).to receive(
         :current_application_instance,
       ).and_return(@application_instance)
+      scorm_course = create(:scorm_course)
+      @reg = create(
+        :registration,
+        application_instance: @application_instance,
+        scorm_course: scorm_course,
+      )
+      response = Object.new
+      allow(response).to receive(:success?).and_return(true)
+      allow_any_instance_of(AJIMS::LTI::ToolProvider).to receive(:post_replace_result!).and_return(response)
     end
     it "should reject bad password" do
-      reg = Registration.create
       params = {
         data:
           "<registrationreport
             format='summary'
-            regid='#{reg.scorm_registration_id}'
+            regid='#{@reg.scorm_registration_id}'
             instanceid='0'>
               <complete>complete</complete>
               <success>failed</success>
@@ -30,19 +39,18 @@ RSpec.describe ScormCoursesController, type: :controller do
     end
 
     it "should accept good password" do
-      reg = Registration.create
       params = {
         data:
           "<registrationreport
             format='summary'
-            regid='#{reg.scorm_registration_id}'
+            regid='#{@reg.scorm_registration_id}'
             instanceid='0'>
               <complete>complete</complete>
               <success>failed</success>
               <totaltime>19</totaltime>
               <score>0</score>
           </registrationreport>",
-        password: reg.scorm_cloud_passback_secret,
+        password: @reg.scorm_cloud_passback_secret,
       }
       post :postback, params: params
       expect(response.status).to equal(200)
