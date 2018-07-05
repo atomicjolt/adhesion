@@ -44,7 +44,7 @@ export class Selector extends React.Component {
     return (
       // TODO: Make loading page or similar
       <div>
-      Please wait
+      Please wait, embedding tool...
       </div>
     );
   }

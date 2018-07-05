@@ -5,15 +5,16 @@ import PropTypes from 'prop-types';
 import canvasRequest from 'atomic-canvas/libs/action';
 import { listEnrollmentsUsers } from 'atomic-canvas/libs/constants/enrollments';
 import { markCourseAsCompleted } from '../actions/course_completion';
+import Loader from './loader';
 
 const select = ({ settings, complete }) => ({
   lmsCourseId: settings.lms_course_id,
   lmsUserId: settings.lms_user_id,
   enrollments: complete.enrollments,
-  processing: complete.processing,
-  completed: complete.completed,
+  processing: complete.processing || false,
+  completed: complete.completed || false,
   error: complete.error || undefined,
-  result: complete.result,
+  result: complete.result || undefined,
 });
 
 export class Complete extends React.Component {
@@ -26,25 +27,7 @@ export class Complete extends React.Component {
   state = {
     valid: false,
     ready: false,
-    msg: 'Cannot complete your enrollment',
-  }
-
-  styles = {
-    completeButton: {
-      fontSize: '3em',
-      color: 'white',
-      padding: '10px 20px',
-      backgroundColor: '#3F51B5',
-      border: 'none',
-      borderRadius: '2px',
-      boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
-      margin: '40px auto',
-    },
-    messageBox: {
-      fontSize: '3em',
-      padding: '10px 10px',
-      margin: '40px auto',
-    }
+    msg: '',
   }
 
   componentWillMount() {
@@ -54,30 +37,38 @@ export class Complete extends React.Component {
   }
 
   componentWillUpdate(nextProps) {
-    // TODO: refactor into fewer cases
+    // If Enrollment has just been returned from Canvas API
     if (_.isEmpty(this.props.enrollments) && !_.isEmpty(nextProps.enrollments)) {
       this.state.ready = true;
       const enrollment = _.find(
         nextProps.enrollments,
         i => i.course_id === parseInt(this.props.lmsCourseId, 10)
       );
-      if (enrollment.type === 'StudentEnrollment' && enrollment.enrollment_state === 'active') {
-        this.setState({ valid: true });
+      if (enrollment.type === 'StudentEnrollment') {
+        if (enrollment.enrollment_state === 'active') {
+          this.setState({ valid: true });
+        } else {
+          this.setState({ msg: 'Already Completed' });
+        }
       }
+      // Couldn't find an enrollment in the course to end
       if (nextProps.enrollments === [] || enrollment === undefined) {
         this.setState({ msg: 'No enrollment to complete' });
       }
-      if (enrollment.enrollment_state === 'completed') {
-        this.setState({ msg: 'Course Completed!' });
+    }
+    // Reducer has recieved response from Canvas API to conclude enrollment
+    if (!this.props.completed && nextProps.completed) {
+      if (nextProps.result && nextProps.result.status === 200) {
+        this.setState({ msg: 'Course Completed!', valid: true });
+      } else {
+        this.setState({
+          msg: 'Unable to complete course at this time.\nPlease try again later.'
+        });
       }
     }
-    if (this.props.processing) {
-      this.setState({ msg: 'Processing...' });
-    }
-    if (this.props.completed && this.props.error !== undefined) {
-      this.setState({
-        msg: 'Unable to complete course at this time.\nPlease try again later.'
-      });
+    // Still in progress of submitting completion to Canvas
+    if (!this.props.processing && nextProps.processing) {
+      this.setState({ msg: 'Submitting', valid: false });
     }
   }
 
@@ -85,27 +76,24 @@ export class Complete extends React.Component {
     if (!this.state.ready) {
       return null;
     }
-    if (this.props.processing) {
-      return (
-        // TODO: Put Processing Component Here instead
-        <h3 style={this.styles.messageBox}>{ this.state.msg }</h3>
-      );
-    }
-    // TODO: Make this button it's own component
     const button = (
       <button
-        style={this.styles.completeButton}
+        id="ajau-button"
         onClick={() => this.props.markCourseAsCompleted(this.props.lmsCourseId)}
       >
         Complete Course
       </button>
     );
     const noButton = (
-      <h3 style={this.styles.messageBox}>{ this.state.msg }</h3>
+      <h3 id="ajau-msgBox">{ this.state.msg }</h3>
+    );
+    const loader = (
+      <Loader />
     );
     return (
-      <div style={this.styles.container}>
+      <div>
         { this.state.valid && !this.props.completed ? button : noButton }
+        { this.props.processing ? loader : null }
       </div>
     );
   }
