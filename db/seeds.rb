@@ -363,7 +363,7 @@ applications = [
       editor_button: {
         text: "Course Completion",
         visibility: "admins",
-        icon_url: "atomicjolt.png",
+        icon_url: "completed-icon.png",
       },
     },
     application_instances: [{
