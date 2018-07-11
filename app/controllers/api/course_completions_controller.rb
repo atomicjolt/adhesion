@@ -1,7 +1,7 @@
 class Api::CourseCompletionsController < Api::ApiApplicationController
   include Concerns::CanvasSupport
 
-  before_filter :check_valid_enrollment
+  before_action :check_valid_enrollment
 
   def check_valid_enrollment
     enrollments = canvas_api.proxy(
@@ -12,6 +12,16 @@ class Api::CourseCompletionsController < Api::ApiApplicationController
     if enrollments.nil? || enrollment["type"] != "StudentEnrollment"
       raise Adhesion::Exceptions::ConcludeEnrollment.new("Can only end student enrollment")
     end
+  end
+
+  def complete_enrollment(enrollment)
+    canvas_api.proxy(
+      "CONCLUDE_DEACTIVATE_OR_DELETE_ENROLLMENT",
+      {
+        course_id: enrollment["course_id"],
+        id: enrollment["id"],
+      },
+    ).parsed_response
   end
 
   def create
@@ -30,15 +40,9 @@ class Api::CourseCompletionsController < Api::ApiApplicationController
       score: enrollment["grades"]["final_score"],
     }]
 
-    complete_enrollment = canvas_api.proxy(
-      "CONCLUDE_DEACTIVATE_OR_DELETE_ENROLLMENT",
-      {
-        course_id: enrollment["course_id"],
-        id: enrollment["id"],
-      },
-    ).parsed_response
+    response = complete_enrollment(enrollment)
 
-    unless complete_enrollment["enrollment_state"] == "completed"
+    unless response["enrollment_state"] == "completed"
       raise Adhesion::Exceptions::ConcludeEnrollment.new
     end
 
