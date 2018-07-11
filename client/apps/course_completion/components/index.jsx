@@ -1,14 +1,28 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Selector from './content_item_select/selector';
 
-export default function Index(props) {
-  return (
-    <div>
-      {props.children}
-    </div>
-  );
+const select = state => ({
+  ltiMessageType: state.settings.lti_message_type,
+});
+
+export class Index extends React.PureComponent {
+  static propTypes = {
+    ltiMessageType: PropTypes.string,
+    children: PropTypes.node,
+  };
+
+  render() {
+    if (this.props.ltiMessageType === 'ContentItemSelectionRequest') {
+      return <Selector />;
+    }
+    return (
+      <div>
+        {this.props.children}
+      </div>
+    );
+  }
 }
 
-Index.propTypes = {
-  children: PropTypes.node
-};
+export default connect(select, {})(Index);

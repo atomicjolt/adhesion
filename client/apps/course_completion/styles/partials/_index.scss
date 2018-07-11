@@ -155,3 +155,56 @@ fieldset{
   background: $blue;
   color: $white;
 }
+
+#ajau-button {
+  font-size: 30px;
+  font-family: "Lato",Helvetica,sans-serif;
+  color: white;
+  padding: 10px 20px;
+  background-color: #3F51B5;
+  transition: all 0.1s ease;
+  border: none;
+  border-radius: 2px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  margin: 40px 0px;
+  overflow: hidden;
+}
+#ajau-button:hover {
+  background-color: #1F2755;
+}
+#ajau-button:active {
+  background-color: #1F2755;
+  transform: scale(0.975);
+}
+#ajau-msgBox {
+  font-size: 30px;
+  font-family: "Lato",Helvetica,sans-serif;
+  color: #444;
+  margin: 0 0;
+  overflow: hidden;
+}
+#ajau-loader {
+}
+#ajau-loader span {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin: 2px;
+  background-color: #3F51B5;
+  animation: dot 1.8s ease-in infinite;
+  animation-fill-mode: both;
+}
+#ajau-loader span:nth-of-type(2) {
+  animation-delay: .2s;
+}
+#ajau-loader span:nth-of-type(3) {
+  animation-delay: .4s;
+}
+@keyframes dot {
+  0% { opacity: 0.1; }
+  10% { opacity: 0.1; }
+  30% { opacity: 1; }
+  90% { opacity: 0.1; }
+  100% { opacity: 0.1; }
+}

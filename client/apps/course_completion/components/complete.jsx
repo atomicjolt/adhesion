@@ -1,48 +1,99 @@
 import React from 'react';
+import _ from 'lodash';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import canvasRequest from 'atomic-canvas/libs/action';
+import { listEnrollmentsUsers } from 'atomic-canvas/libs/constants/enrollments';
 import { markCourseAsCompleted } from '../actions/course_completion';
+import Loader from './loader';
 
-const select = ({ settings }) => ({
-  lmsCourseId: settings.lms_course_id
+const select = ({ settings, complete }) => ({
+  lmsCourseId: settings.lms_course_id,
+  lmsUserId: settings.lms_user_id,
+  enrollments: complete.enrollments,
+  processing: complete.processing || false,
+  completed: complete.completed || false,
+  error: complete.error || undefined,
+  result: complete.result || undefined,
 });
 
 export class Complete extends React.Component {
   static propTypes = {
     markCourseAsCompleted: PropTypes.func.isRequired,
     lmsCourseId: PropTypes.string.isRequired,
+    lmsUserId: PropTypes.string.isRequired,
   }
 
-  styles = {
-    container: {
-      marginTop: '40px',
-      padding: '20px'
-    },
-    completeButton: {
-      fontSize: '3em',
-      color: 'white',
-      padding: '10px 20px',
-      backgroundColor: '#3F51B5',
-      border: 'none',
-      borderRadius: '2px',
-      boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
+  state = {
+    valid: false,
+    ready: false,
+    msg: '',
+  }
+
+  componentWillMount() {
+    const filter = { state: ['active', 'completed'] };
+    const params = { user_id: this.props.lmsUserId, ...filter };
+    this.props.canvasRequest(listEnrollmentsUsers, params, {});
+  }
+
+  componentWillUpdate(nextProps) {
+    // If Enrollment has just been returned from Canvas API
+    if (_.isEmpty(this.props.enrollments) && !_.isEmpty(nextProps.enrollments)) {
+      this.state.ready = true;
+      const enrollment = _.find(
+        nextProps.enrollments,
+        i => i.course_id === parseInt(this.props.lmsCourseId, 10)
+      );
+      if (enrollment.type === 'StudentEnrollment') {
+        if (enrollment.enrollment_state === 'active') {
+          this.setState({ valid: true });
+        } else {
+          this.setState({ msg: 'Already Completed' });
+        }
+      }
+      // Couldn't find an enrollment in the course to end
+      if (nextProps.enrollments === [] || enrollment === undefined) {
+        this.setState({ msg: 'No enrollment to complete' });
+      }
+    }
+    // Reducer has recieved response from Canvas API to conclude enrollment
+    if (!this.props.completed && nextProps.completed) {
+      if (nextProps.result && nextProps.result.status === 200) {
+        this.setState({ msg: 'Course Completed!', valid: true });
+      } else {
+        this.setState({
+          msg: 'Unable to complete course at this time.\nPlease try again later.'
+        });
+      }
+    }
+    // Still in progress of submitting completion to Canvas
+    if (!this.props.processing && nextProps.processing) {
+      this.setState({ msg: 'Submitting', valid: false });
     }
   }
 
   render() {
+    if (!this.state.ready) {
+      return null;
+    }
+    const button = (
+      <button
+        id="ajau-button"
+        onClick={() => this.props.markCourseAsCompleted(this.props.lmsCourseId)}
+      >
+        Complete Course
+      </button>
+    );
+    const noButton = (
+      <h3 id="ajau-msgBox">{ this.state.msg }</h3>
+    );
+    const loader = (
+      <Loader />
+    );
     return (
-      <div style={this.styles.container}>
-        <h2>Mark course as complete</h2>
-        <div>This action will mark that you have completed your self paced course.</div>
-        <div>Be sure you have finished all your work before pushing the complete button.</div>
-        <div>This action cannot be undone.</div>
-        <button
-          style={this.styles.completeButton}
-          onClick={() => this.props.markCourseAsCompleted(this.props.lmsCourseId)}
-        >
-          Complete
-        </button>
+      <div>
+        { this.state.valid && !this.props.completed ? button : noButton }
+        { this.props.processing ? loader : null }
       </div>
     );
   }
@@ -52,5 +103,5 @@ export class Complete extends React.Component {
 export default connect(select,
   {
     canvasRequest,
-    markCourseAsCompleted
+    markCourseAsCompleted,
   })(Complete);
