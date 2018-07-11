@@ -17,5 +17,11 @@ module Adhesion
         super(msg)
       end
     end
+
+    class ConcludeEnrollment < StandardError
+      def initialize(msg = "Unable to conclude Enrollment")
+        super(msg)
+      end
+    end
   end
 end

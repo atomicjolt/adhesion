@@ -10,6 +10,17 @@ RSpec.describe Api::CourseCompletionsController, type: :controller do
     end
   end
 
+  def mock_get_enrollment
+    @enrollments_response ||= JSON.parse(File.read("spec/fixtures/json/fake_enrollment.json"))
+    # byebug
+    parsed_response = Object.new
+    allow(parsed_response).to receive(:parsed_response).and_return(@enrollments_response)
+    canvas_api = Object.new
+    allow(canvas_api).to receive(:proxy).and_return(parsed_response)
+    allow(controller).to receive(:canvas_api).and_return(canvas_api)
+    allow(controller).to receive(:complete_enrollment).and_return(@enrollments_response.first)
+  end
+
   context "valid jwt" do
     before do
       canvas_api_permissions = {
@@ -33,6 +44,7 @@ RSpec.describe Api::CourseCompletionsController, type: :controller do
       @user.save!
       @user_token = AuthToken.issue_token({ user_id: @user.id })
       @user_token_header = "Bearer #{@user_token}"
+      mock_get_enrollment
     end
 
     describe "POST create" do

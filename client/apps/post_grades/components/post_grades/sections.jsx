@@ -69,6 +69,7 @@ export default class Sections extends React.PureComponent {
         </div>
       );
     }
+    const singleSection = _.size(sections) === 1;
 
     return (
       <div className="input-container">
@@ -80,7 +81,7 @@ export default class Sections extends React.PureComponent {
           id="gradeSection"
           aria-describedby="date-posted"
         >
-          <option value={-1}>All Sections</option>
+          { singleSection ? null : <option value={-1}>All Sections</option> }
           {
             _.map(sections, section => (
               <option

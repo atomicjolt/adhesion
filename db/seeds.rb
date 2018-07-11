@@ -339,6 +339,15 @@ applications = [
     canvas_api_permissions: {
       default: [],
       common: [],
+      LIST_ENROLLMENTS_USERS: [
+        "urn:lti:sysrole:ims/lis/SysAdmin",
+        "urn:lti:sysrole:ims/lis/Administrator",
+        "urn:lti:instrole:ims/lis/Administrator",
+        "urn:lti:instrole:ims/lis/Student",
+        "urn:lti:role:ims/lis/Instructor",
+        "urn:lti:role:ims/lis/Learner",
+        "urn:lti:sysrole:ims/lis/User",
+      ],
     },
     kind: Application.kinds[:lti],
     default_config: {},
@@ -351,9 +360,10 @@ applications = [
         canvas_course_id: "$Canvas.course.id",
         external_tool_url: "$Canvas.externalTool.url",
       },
-      course_navigation: {
+      editor_button: {
         text: "Course Completion",
-        visibility: "members",
+        visibility: "admins",
+        icon_url: "completed-icon.png",
       },
     },
     application_instances: [{
@@ -474,4 +484,5 @@ ApplicationInstance.for_tenant(Apartment::Tenant.current).find_each do |ai|
   Apartment::Tenant.switch(ai.tenant) do
     ScormCourse.where(grading_type: nil).where.not(points_possible: nil).update_all(grading_type: "points")
   end
+  ai.update(lti_config: ai.application.lti_config)
 end
