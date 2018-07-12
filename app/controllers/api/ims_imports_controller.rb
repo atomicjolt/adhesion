@@ -2,16 +2,18 @@ class Api::ImsImportsController < ApplicationController
   include Concerns::CanvasImsccSupport
 
   def create
-    lti_launches = lti_launches_params(params[:data])[:lti_launches]
+    if params[:data] && params[:data][:lti_launches].present?
+      lti_launches = lti_launches_params(params[:data])[:lti_launches]
 
-    data = {
-      lti_launches: lti_launches,
-      context_id: params[:context_id],
-      tool_consumer_instance_guid: params[:tool_consumer_instance_guid],
-      canvas_course_id: params[:custom_canvas_course_id],
-    }
+      data = {
+        lti_launches: lti_launches,
+        context_id: params[:context_id],
+        tool_consumer_instance_guid: params[:tool_consumer_instance_guid],
+        canvas_course_id: params[:custom_canvas_course_id],
+      }
 
-    ImsImportJob.perform_later(data.to_json, current_application_instance, current_user)
+      ImsImportJob.perform_later(data.to_json, current_application_instance, current_user)
+    end
 
     render json: { status: "completed" }
   end
