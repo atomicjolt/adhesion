@@ -117,6 +117,7 @@ export default class Course extends React.Component {
     let gradingType = Course.GradingTypes.POINTS;
     if (this.props.course.grading_type === Course.GradingTypes.PASS_FAIL) {
       gradingType = Course.GradingTypes.PASS_FAIL;
+      pointsPossible = Course.DefaultPointValue;
     }
 
     this.props.importPackage(
