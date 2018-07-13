@@ -80,7 +80,7 @@ export class ScormIndex extends React.Component {
           this.props.canvasAssignments,
           assignment => assignment.id === scorm.lms_assignment_id,
         );
-        if (!canvasAssignment && scorm.is_graded != null) {
+        if (!canvasAssignment && scorm.grading_type != null) {
           this.props.removePackage(scorm.id);
         }
       });
@@ -88,11 +88,12 @@ export class ScormIndex extends React.Component {
     this.setState({ synced: true });
   }
 
-  createAssignment(packageId, assignmentName, packageIndex, pointsPossible = 0) {
+  createAssignment(packageId, assignmentName, packageIndex, gradingType, pointsPossible = 0) {
     const data = {
       assignment: {
         name: assignmentName,
         points_possible: pointsPossible,
+        grading_type: gradingType,
       },
     };
 

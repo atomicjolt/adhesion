@@ -36,10 +36,12 @@ describe "Scorm Cloud Service sync score", type: :controller do
     @subject = ScormCloudService.new
     @application_instance = FactoryBot.create(:application_instance)
     @application_instance.update_attributes(config: { "scorm_type" => "cloud" })
+    scorm_course = create(:scorm_course)
     @reg = Registration.create(
       lms_user_id: 2,
       application_instance: @application_instance,
       lis_outcome_service_url: "http://cloud.scorm.com/this?isaspec",
+      scorm_course: scorm_course,
     )
     @registration = { "format" => "summary",
                       "regid" => @reg.scorm_registration_id,
@@ -67,7 +69,6 @@ describe "Scorm Cloud Service sync score", type: :controller do
     allow_any_instance_of(AJIMS::LTI::ToolProvider).to receive(
       :post_replace_result!,
     ).and_return(mock_tool)
-    @subject.sync_registration_score(@registration)
     @registration["score"] = "50"
     expect { @subject.sync_registration_score(@registration) }.to raise_error(
       "A processing error has occurred",
@@ -79,7 +80,6 @@ describe "Scorm Cloud Service sync score", type: :controller do
     allow_any_instance_of(AJIMS::LTI::ToolProvider).to receive(
       :post_replace_result!,
     ).and_return(mock_tool)
-    @subject.sync_registration_score(@registration)
     @registration["score"] = "50"
     expect { @subject.sync_registration_score(@registration) }.to raise_error(
       "Not supported",
@@ -91,7 +91,6 @@ describe "Scorm Cloud Service sync score", type: :controller do
     allow_any_instance_of(AJIMS::LTI::ToolProvider).to receive(
       :post_replace_result!,
     ).and_return(mock_tool)
-    @subject.sync_registration_score(@registration)
     @registration["score"] = "50"
     expect { @subject.sync_registration_score(@registration) }.to raise_error(
       "A failure has occurred. Please try again.",
@@ -145,7 +144,11 @@ describe "sync_courses" do
     lms_course_id = "1234"
     graded_id = "12"
     create(:scorm_course, scorm_service_id: "3_#{lms_course_id}")
-    graded_course = create(:scorm_course, scorm_service_id: "#{graded_id}_#{lms_course_id}")
+    graded_course = create(
+      :scorm_course,
+      scorm_service_id: "#{graded_id}_#{lms_course_id}",
+      grading_type: "pass_fail",
+    )
     graded_course.lms_assignment_id = 1
     graded_course.points_possible = 5
     graded_course.save!
@@ -167,6 +170,6 @@ describe "sync_courses" do
     expect(scorm_course_count).to eq 2
 
     expect(result[0][:lms_assignment_id]).to eq(1)
-    expect(result[0][:is_graded]).to eq("GRADED")
+    expect(result[0][:grading_type]).to eq("pass_fail")
   end
 end

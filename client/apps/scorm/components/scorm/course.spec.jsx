@@ -15,7 +15,8 @@ describe('course', () => {
       course: {
         title: 'IMASPEC',
         fetching: false,
-        is_graded: 'GRADED',
+        grading_type: 'points',
+        points_possible: 100,
         lms_assignment_id: 1,
         id: 'id'
       },
@@ -60,12 +61,23 @@ describe('course', () => {
   });
 
   it('renders Ungraded Assignment when assignment exists and is an ungraded assignment', () => {
-    props.course.is_graded = 'UNGRADED';
+    props.course.grading_type = 'points';
+    props.course.points_possible = 0;
     result = TestUtils.renderIntoDocument(<Course {...props} />);
     const itemTypeText = TestUtils.findRenderedDOMComponentWithClass(result, 'c-list-item__type');
     const dropDown = TestUtils.scryRenderedDOMComponentsWithClass(result, 'c-dropdown');
     expect(dropDown.length).toBe(0);
     expect(itemTypeText.textContent).toContain('Ungraded Assignment');
+  });
+
+  it('renders Pass/Fail Assignment when assignment exists and is a pass_fail assignment', () => {
+    props.course.grading_type = 'pass_fail';
+    result = TestUtils.renderIntoDocument(<Course {...props} />);
+    const itemTypeText = TestUtils.findRenderedDOMComponentWithClass(result, 'c-list-item__type');
+    const dropDown = TestUtils.scryRenderedDOMComponentsWithClass(result, 'c-dropdown');
+
+    expect(dropDown.length).toBe(0);
+    expect(itemTypeText.textContent).toContain('Pass/Fail Assignment');
   });
 
   it('renders ImportTypeSelector component when isAssignment is not true', () => {

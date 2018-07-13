@@ -39,7 +39,7 @@ export default (state = initialState, action) => {
     }
     case PackageConstants.UPDATE_IMPORT_TYPE: {
       const updatedScorm = { ...state.scormList[action.index] };
-      updatedScorm.is_graded = action.importType;
+      updatedScorm.grading_type = action.importType;
       const updatedScormList = state.scormList.slice();
       updatedScormList[action.index] = updatedScorm;
       return { ...state, scormList: updatedScormList };
