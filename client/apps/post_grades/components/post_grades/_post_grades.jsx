@@ -185,12 +185,23 @@ export class PostGradesTool extends React.Component {
       );
     }
 
+    const {
+      gradeType,
+    } = this.state;
+
+    const disabled = !gradeType;
+
+    let buttonClasses = 'btn btn--blue';
+    if (disabled) {
+      buttonClasses = `${buttonClasses} is-disabled`;
+    }
+
     return (
       <div className="post-grades-modal__bottom">
         { this.confirmationText() }
         {this.gradeTypeErrors()}
         {this.renderClose('Cancel')}
-        <button type="submit" className="btn btn--blue">
+        <button type="submit" className={buttonClasses} disabled={disabled}>
           {this.state.confirm ? 'Post Grades' : 'Confirm'}
         </button>
       </div>
@@ -230,6 +241,10 @@ export class PostGradesTool extends React.Component {
     );
   }
 
+  setGradeType(gradeType) {
+    this.setState({ gradeType });
+  }
+
   render() {
     return (
       <div className="post-grades-modal">
@@ -244,6 +259,8 @@ export class PostGradesTool extends React.Component {
           />
           <GradeTypes
             selSection={this.state.selSection}
+            selectGradeType={gradeType => this.setGradeType(gradeType)}
+            gradeType={this.state.gradeType}
           />
           <Assignments
             selSection={this.state.selSection}

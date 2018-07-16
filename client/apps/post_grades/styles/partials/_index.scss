@@ -166,6 +166,11 @@ fieldset{
   &:active{
     @include transform(scale(0.975));
   }
+
+  &.is-disabled{
+    cursor: not-allowed;
+    background-color: $grayA;
+  }
 }
 
 .btn--gray{
