@@ -152,8 +152,9 @@ RSpec.describe Api::ImsImportsController, type: :controller do
             lti_launches: nil,
             context_id: import_params[:context_id],
             tool_consumer_instance_guid: import_params[:tool_consumer_instance_guid],
+            canvas_course_id: import_params[:custom_canvas_course_id],
           }
-          expect(ImsImportJob).to receive(:perform_later).with(data.to_json)
+          expect(ImsImportJob).to receive(:perform_later).with(data.to_json, @application_instance, nil)
           post :create, params: import_params, format: :json
         end
       end
