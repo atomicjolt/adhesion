@@ -119,6 +119,7 @@ class Api::ScormCoursesController < ApplicationController
 
   def replace
     scorm_course = ScormCourse.find_by(scorm_service_id: params[:scorm_course_id])
+    scorm_course.increment(:version)
     scorm_course.update(import_job_status: ScormCourse::CREATED)
 
     process_scorm_import(scorm_course)

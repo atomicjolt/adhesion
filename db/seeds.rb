@@ -483,6 +483,8 @@ User.oauth_user.unconfirmed.update_all(confirmed_at: Time.now)
 ApplicationInstance.for_tenant(Apartment::Tenant.current).find_each do |ai|
   Apartment::Tenant.switch(ai.tenant) do
     ScormCourse.where(grading_type: nil).where.not(points_possible: nil).update_all(grading_type: "points")
+    ScormCourse.where(version: nil).update_all(version: 1)
+    Registration.where(version: nil).update_all(version: 1)
   end
   ai.update(lti_config: ai.application.lti_config)
 end
