@@ -53,12 +53,14 @@ module ScormCommonService
   end
 
   def get_registration(postback_url, result_params = {}, lti_credentials = {})
+    scorm_course = ScormCourse.find_by(scorm_service_id: result_params[:course_id])
     registration = find_registration(
       result_params[:course_id],
       result_params[:custom_canvas_user_id],
+      scorm_course,
     )
     if registration.nil?
-      registration = create_local_registration(result_params, lti_credentials)
+      registration = create_local_registration(result_params, lti_credentials, scorm_course)
       user = {
         first_name: result_params[:lis_person_name_given],
         last_name: result_params[:lis_person_name_family],
@@ -115,8 +117,9 @@ module ScormCommonService
     end
   end
 
-  def create_local_registration(result_params, lti_credentials)
+  def create_local_registration(result_params, lti_credentials, scorm_course)
     registration_params = reg_params(result_params)
+    registration_params[:version] = scorm_course.version
     registration = Registration.new(registration_params)
     registration.application_instance = lti_credentials
     registration.save!
@@ -163,7 +166,8 @@ module ScormCommonService
   end
 
   def registration_result(lms_course_id, lms_user_id)
-    registration = find_registration(lms_course_id, lms_user_id)
+    scorm_course = ScormCourse.find_by(scorm_service_id: lms_course_id)
+    registration = find_registration(lms_course_id, lms_user_id, scorm_course)
     registration_scorm_result(registration.scorm_registration_id) if registration
   end
 
@@ -176,10 +180,11 @@ module ScormCommonService
     resp
   end
 
-  def find_registration(lms_course_id, lms_user_id)
+  def find_registration(scorm_service_id, lms_user_id, scorm_course)
     Registration.find_by(
-      lms_course_id: lms_course_id,
+      lms_course_id: scorm_service_id,
       lms_user_id: lms_user_id,
+      version: scorm_course.version,
     )
   end
 

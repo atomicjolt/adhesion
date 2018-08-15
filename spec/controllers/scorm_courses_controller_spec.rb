@@ -68,12 +68,13 @@ RSpec.describe ScormCoursesController, type: :controller do
       allow(controller).to receive(
         :current_application_instance,
       ).and_return(@application_instance)
-      Registration.create(lms_user_id: 2)
+      scorm_course = FactoryBot.create(:scorm_course)
+      Registration.create(lms_user_id: 2, lms_course_id: scorm_course.scorm_service_id)
       scu = scorm_courses_url
       @params = lti_params(@application_instance.lti_key,
                            @application_instance.lti_secret,
                            "custom_canvas_user_id" => 2,
-                           "course_id" => 1,
+                           "course_id" => scorm_course.scorm_service_id,
                            "launch_url" => scorm_courses_url,
                            "roles" => "Learner",
                            "launch_presentation_return_url" => scu)
@@ -84,12 +85,12 @@ RSpec.describe ScormCoursesController, type: :controller do
       expect(response.status).to eq(302)
     end
     it "should handle the failed launch of a new SCORM course" do
-      obj = ScormEngineService.new("1")
-      allow(controller).to receive(:scorm_connect_service).and_return(obj)
-      meh = Object.new
-      allow(obj).to receive(:get_registration).and_return(meh)
+      service = ScormEngineService.new(@params["course_id"].to_s)
+      allow(controller).to receive(:scorm_connect_service).and_return(service)
+      allow(service).to receive(:get_registration).and_return(double)
       launch_course = { status: 401 }
-      allow(obj).to receive(:launch_course).and_return(launch_course)
+      allow(service).to receive(:launch_course).and_return(launch_course)
+      allow(service).to receive(:registration_scorm_result)
 
       post :create, params: @params
       expect(response.status).to eq(401)

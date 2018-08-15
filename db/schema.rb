@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180627170924) do
+ActiveRecord::Schema.define(version: 20180814230329) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -234,6 +234,7 @@ ActiveRecord::Schema.define(version: 20180627170924) do
     t.text "encrypted_scorm_cloud_passback_secret_iv"
     t.text "encrypted_scorm_cloud_passback_secret"
     t.string "scorm_registration_id"
+    t.integer "version", default: 1
     t.index ["application_instance_id"], name: "index_registrations_on_application_instance_id"
     t.index ["lms_course_id", "lms_user_id"], name: "index_registrations_on_lms_course_id_and_lms_user_id"
     t.index ["lms_course_id"], name: "index_registrations_on_lms_course_id"
@@ -287,6 +288,7 @@ ActiveRecord::Schema.define(version: 20180627170924) do
     t.string "resource_link_id"
     t.string "message", limit: 2048
     t.string "grading_type"
+    t.integer "version", default: 1
     t.index ["lms_assignment_id"], name: "index_scorm_courses_on_lms_assignment_id"
     t.index ["scorm_service_id"], name: "index_scorm_courses_on_scorm_service_id", unique: true
   end
