@@ -51,6 +51,9 @@ export class Complete extends React.Component {
           this.setState({ msg: 'Already Completed' });
         }
       }
+      if (enrollment.type !== 'StudentEnrollment') {
+        this.setState({ msg: 'Cannot complete non-student enrollment' });
+      }
       // Couldn't find an enrollment in the course to end
       if (nextProps.enrollments === [] || enrollment === undefined) {
         this.setState({ msg: 'No enrollment to complete' });
