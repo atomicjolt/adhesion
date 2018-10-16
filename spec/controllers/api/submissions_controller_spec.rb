@@ -59,7 +59,7 @@ RSpec.describe Api::SubmissionsController, type: :controller do
                   sis_course_id: nil,
                 },
               ],
-              type: generate(:gradetype),
+              gradetype: generate(:gradetype),
               assignment_id: "total",
             }
           end
@@ -90,7 +90,7 @@ RSpec.describe Api::SubmissionsController, type: :controller do
                   sis_course_id: nil,
                 },
               ],
-              type: generate(:gradetype),
+              gradetype: generate(:gradetype),
               assignment_id: "16753",
             }
           end
