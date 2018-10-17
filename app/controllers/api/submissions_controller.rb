@@ -9,7 +9,7 @@ class Api::SubmissionsController < Api::ApiApplicationController
       Integrations::SIS.post_grades_to_db(
         section_info[:section][:sis_course_id],
         section_info[:section][:sis_section_id],
-        params[:type],
+        params[:gradetype],
         grades(section_info),
       )
     end

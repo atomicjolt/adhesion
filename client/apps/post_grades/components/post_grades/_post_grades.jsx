@@ -101,8 +101,11 @@ export class PostGradesTool extends React.Component {
     const {
       gradeSection = {},
       gradeColumn = {},
-      gradeType = {},
     } = e.target.elements;
+
+    // Edge browser returns an HtmlCollection instead of the checked radio.
+    // So we have to manually get the checked value.
+    const gradeType = e.target.querySelector('input[name="gradeType"]:checked');
 
     if (this.state.confirm) {
       let sections = [];

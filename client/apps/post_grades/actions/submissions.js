@@ -11,7 +11,7 @@ const requests = [
 
 export const Constants = wrapper(actions, requests);
 
-export const createStudentInfo = (sections, assignmentId, type) => ({
+export const createStudentInfo = (sections, assignmentId, gradeType) => ({
   type: Constants.CREATE_STUDENT_INFO,
   method: Network.POST,
   url: 'api/submissions/',
@@ -20,6 +20,6 @@ export const createStudentInfo = (sections, assignmentId, type) => ({
   },
   body: {
     sections,
-    type,
+    gradetype: gradeType,
   }
 });
