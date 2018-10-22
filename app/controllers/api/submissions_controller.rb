@@ -29,12 +29,16 @@ class Api::SubmissionsController < Api::ApiApplicationController
         section_subs = canvas_api.proxy(
           "LIST_ASSIGNMENT_SUBMISSIONS_SECTIONS",
           sub_params,
+          nil,
+          true,
         )
       end
 
       section_users = canvas_api.proxy(
         "LIST_ENROLLMENTS_SECTIONS",
         { section_id: section["id"] },
+        nil,
+        true,
       )
 
       {
