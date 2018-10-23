@@ -9,7 +9,7 @@ class Api::CourseCompletionsController < Api::ApiApplicationController
       { user_id: current_user.lms_user_id },
     ).parsed_response
     enrollment = enrollments.detect { |enroll| enroll["course_id"] == params[:course_id].to_i } unless enrollments.nil?
-    if enrollments.nil? || enrollment["type"] != "StudentEnrollment"
+    if enrollment.nil? || enrollment["type"] != "StudentEnrollment"
       raise Adhesion::Exceptions::ConcludeEnrollment.new("Can only end student enrollment")
     end
   end
