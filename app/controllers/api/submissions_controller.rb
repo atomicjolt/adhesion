@@ -14,8 +14,10 @@ class Api::SubmissionsController < Api::ApiApplicationController
       )
     end
 
-    render json: {}, status: 200
+    render json: {}
   end
+
+  private
 
   def extract_submissions(sections)
     sections.select do |sec|
@@ -61,7 +63,8 @@ class Api::SubmissionsController < Api::ApiApplicationController
     section_info[:subs].map do |sub|
       {
         sis_user_id: get_user_sis(section_info[:users], sub["user_id"]),
-        grade: sub["grade"].to_f,
+        grade: sub["grade"],
+        score: sub["score"],
       }
     end
   end
@@ -72,7 +75,8 @@ class Api::SubmissionsController < Api::ApiApplicationController
     end.map do |student|
       {
         sis_user_id: student["sis_user_id"],
-        grade: student["grades"]["final_score"],
+        grade: student["grades"]["final_grade"],
+        score: student["grades"]["final_score"],
       }
     end
   end
