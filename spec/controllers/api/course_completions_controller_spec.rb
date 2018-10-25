@@ -12,11 +12,9 @@ RSpec.describe Api::CourseCompletionsController, type: :controller do
 
   def mock_get_enrollment
     @enrollments_response ||= JSON.parse(File.read("spec/fixtures/json/fake_enrollment.json"))
-    # byebug
-    parsed_response = Object.new
-    allow(parsed_response).to receive(:parsed_response).and_return(@enrollments_response)
+
     canvas_api = Object.new
-    allow(canvas_api).to receive(:proxy).and_return(parsed_response)
+    allow(canvas_api).to receive(:proxy).and_return(@enrollments_response)
     allow(controller).to receive(:canvas_api).and_return(canvas_api)
     allow(controller).to receive(:complete_enrollment).and_return(@enrollments_response.first)
   end
