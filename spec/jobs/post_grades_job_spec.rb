@@ -44,8 +44,12 @@ RSpec.describe PostGradesJob, type: :job do
 
   context "Sis Grades" do
     before do
-      allow(canvas_api).to receive(:proxy).with("LIST_ASSIGNMENT_SUBMISSIONS_SECTIONS", { section_id: 1028, assignment_id: "32699" }, nil, true).and_return(fake_assignment_submissions)
-      allow(canvas_api).to receive(:proxy).with("LIST_ENROLLMENTS_SECTIONS", { section_id: 1028 }, nil, true).and_return(fake_enrollments)
+      allow(canvas_api).to receive(:proxy).
+        with("LIST_ASSIGNMENT_SUBMISSIONS_SECTIONS", { section_id: 1028, assignment_id: "32699" }, nil, true).
+        and_return(fake_assignment_submissions)
+      allow(canvas_api).to receive(:proxy).
+        with("LIST_ENROLLMENTS_SECTIONS", { section_id: 1028 }, nil, true).
+        and_return(fake_enrollments)
       allow_any_instance_of(subject).to receive(:canvas_api).and_return(canvas_api)
     end
 
