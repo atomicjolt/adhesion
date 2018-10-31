@@ -1,6 +1,12 @@
 require "rails_helper"
 
 RSpec.describe Api::SubmissionsController, type: :controller do
+  include ActiveJob::TestHelper
+
+  after do
+    clear_enqueued_jobs
+  end
+
   context "no jwt" do
     describe "POST create" do
       it "returns unauthorized" do
@@ -51,12 +57,12 @@ RSpec.describe Api::SubmissionsController, type: :controller do
               lti_key: @application_instance.lti_key,
               sections: [
                 {
-                  id: -1, # section dropdown default value
+                  id: "-1", # section dropdown default value
                 },
                 {
-                  id: 626,
-                  sis_section_id: nil,
-                  sis_course_id: nil,
+                  id: "626",
+                  sis_section_id: "section_a",
+                  sis_course_id: "course_a",
                 },
               ],
               gradetype: generate(:gradetype),
@@ -69,10 +75,19 @@ RSpec.describe Api::SubmissionsController, type: :controller do
             expect(response).to have_http_status(:success)
           end
 
-          it "successfully creates a SisGrade" do
+          it "enqueues PostGradesJob" do
+            data = {
+              gradetype: @params[:gradetype],
+              assignment_id: @params[:assignment_id],
+              sections: @params[:sections],
+            }
             expect do
               post :create, params: @params, format: :json
-            end.to change { SisGrade.count }.by(1)
+            end.to have_enqueued_job(PostGradesJob).with(
+              data.to_json,
+              @application_instance,
+              @user,
+            )
           end
         end
 
@@ -82,12 +97,12 @@ RSpec.describe Api::SubmissionsController, type: :controller do
               lti_key: @application_instance.lti_key,
               sections: [
                 {
-                  id: -1, # section dropdown default value
+                  id: "-1", # section dropdown default value
                 },
                 {
-                  id: 626,
-                  sis_section_id: nil,
-                  sis_course_id: nil,
+                  id: "626",
+                  sis_section_id: "section_b",
+                  sis_course_id: "course_b",
                 },
               ],
               gradetype: generate(:gradetype),
@@ -100,10 +115,19 @@ RSpec.describe Api::SubmissionsController, type: :controller do
             expect(response).to have_http_status(:success)
           end
 
-          it "successfully creates a SisGrade" do
+          it "enqueues PostGradesJob" do
+            data = {
+              gradetype: @params[:gradetype],
+              assignment_id: @params[:assignment_id],
+              sections: @params[:sections],
+            }
             expect do
               post :create, params: @params, format: :json
-            end.to change { SisGrade.count }.by(1)
+            end.to have_enqueued_job(PostGradesJob).with(
+              data.to_json,
+              @application_instance,
+              @user,
+            )
           end
         end
       end
