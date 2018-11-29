@@ -78,7 +78,7 @@ class UploadCanvasJob < ApplicationJob
         canvas_response["upload_params"],
       ) do |response|
         case response.code
-        when 200
+        when 200, 201
           JSON.parse(response.body)["id"]
         when 302, 303
           file_confirm = RestClient.get(response.headers[:location])
