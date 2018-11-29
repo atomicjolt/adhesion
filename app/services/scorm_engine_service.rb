@@ -267,16 +267,17 @@ class ScormEngineService
   end
 
   def send_delete_request(url)
-    response = RestClient::Request.execute(
+    RestClient::Request.execute(
       method: :delete,
       url: url,
       user: @api_username,
       password: @api_password,
-    )
-    {
-      status: response.code,
-      response: [200, 204].include?(response.code),
-    }
+    ) do |response|
+      {
+        status: response.code,
+        response: [200, 204].include?(response.code),
+      }
+    end
   end
 
   def setup_url_response(launch_link)
