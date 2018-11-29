@@ -211,7 +211,7 @@ module ScormCommonService
     elsif response.unsupported?
       raise "Not supported"
     else
-      raise "A failure has occurred. Please try again."
+      raise Adhesion::Exceptions::PostResultsToLms.new(response.to_json)
     end
   end
 

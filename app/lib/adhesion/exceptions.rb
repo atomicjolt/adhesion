@@ -18,6 +18,12 @@ module Adhesion
       end
     end
 
+    class PostResultsToLms < StandardError
+      def initialize(msg = "A failure has occurred. Please try again.")
+        super(msg)
+      end
+    end
+
     class ConcludeEnrollment < StandardError
       def initialize(msg = "Unable to conclude Enrollment")
         super(msg)
