@@ -93,7 +93,7 @@ describe "Scorm Cloud Service sync score", type: :controller do
     ).and_return(mock_tool)
     @registration["score"] = "50"
     expect { @subject.sync_registration_score(@registration) }.to raise_error(
-      "A failure has occurred. Please try again.",
+      Adhesion::Exceptions::PostResultsToLms,
     )
   end
 end
