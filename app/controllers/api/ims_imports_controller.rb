@@ -32,6 +32,7 @@ class Api::ImsImportsController < ApplicationController
           "$canvas_attachment_id",
           :points_possible,
           :title,
+          :grading_type,
         ],
         config: {},
       ],
