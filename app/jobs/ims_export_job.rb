@@ -44,6 +44,7 @@ class ImsExportJob < ApplicationJob
         "$canvas_attachment_id": scorm_course.file_id,
         points_possible: scorm_course.points_possible,
         title: scorm_course.title,
+        grading_type: scorm_course.grading_type,
       },
     }
   end

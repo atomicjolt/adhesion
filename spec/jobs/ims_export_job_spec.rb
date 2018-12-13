@@ -48,6 +48,9 @@ RSpec.describe ImsExportJob, type: :job do
     expect(export.payload["lti_launches"].count).to eq(1)
     ll = export.payload["lti_launches"].first
     expect(ll["token"]).to include(lti_launch.token)
+    expect(ll["scorm_course"]["grading_type"]).to eq(scorm_course.grading_type)
+    expect(ll["scorm_course"]["title"]).to eq(scorm_course.title)
+    expect(ll["scorm_course"]["points_possible"]).to eq(scorm_course.points_possible)
   end
 
   it "Updates the status" do
