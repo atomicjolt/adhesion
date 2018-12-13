@@ -118,4 +118,12 @@ FactoryBot.define do
   sequence :common_grade do
     ["100.0", "97.2", "95.8", "92.1", "90.6", "87.0", "85.1", "82.9", "80.3", "77.0", "75.8", "72.3", "67.2"].sample
   end
+
+  sequence :points_possible do
+    [10, 20, 30, 40, 50, 60, 70, 80, 90, 100].sample
+  end
+
+  sequence :grading_type do
+    ["pass_fail", "percent", "letter_grade", "gpa_scale", "points"].sample
+  end
 end
