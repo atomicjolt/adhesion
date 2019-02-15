@@ -67,7 +67,7 @@ class UploadCanvasJob < ApplicationJob
           name: File.basename(file_path),
           content_type: "application/zip",
           parent_folder_path: "scorm_files/",
-          on_duplicate: "rename",
+          on_duplicate: "overwrite",
         },
       ).parsed_response
       canvas_response["upload_params"]["file"] =
