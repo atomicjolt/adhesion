@@ -56,6 +56,7 @@ module ScormCommonService
     registration = find_registration(
       result_params[:course_id],
       result_params[:custom_canvas_user_id],
+      result_params[:context_id],
     )
     if registration.nil?
       registration = create_local_registration(result_params, lti_credentials)
@@ -82,6 +83,7 @@ module ScormCommonService
     result = registration_result(
       registration_params[:course_id],
       registration_params[:custom_canvas_user_id],
+      registration_params[:context_id],
     )
     if result && result[:response]["rsp"]["stat"] == "fail"
       sync_registration_score(result[:response]["rsp"]["registrationreport"])
@@ -93,12 +95,14 @@ module ScormCommonService
     activity = reg_result["activity"] || reg_result["activityDetails"]
     lms_user_id = reg_result["learner"]["id"] if reg_result["learner"]
     lms_user_name = construct_name(reg_result)
+    user = User.find_by lms_user_id: lms_user_id
+    context_id = reg.context_id
     ScormActivity.transaction do
       reg.store_activities(activity.deep_symbolize_keys, nil, 0, lms_user_id, lms_user_name) if activity
     end
     reg.score = package_score(reg_result["score"])
     reg.status = package_complete_status(reg_result)
-    if reg.status_changed? && ["complete", "COMPLETED"].include?(reg.status)
+    if reg.status_changed? && ["complete", "COMPLETED"].include?(reg.status) && user.student_in_course?(context_id)
       response = post_results(reg)
       print_response(reg, response)
     else
@@ -162,8 +166,8 @@ module ScormCommonService
     end
   end
 
-  def registration_result(lms_course_id, lms_user_id)
-    registration = find_registration(lms_course_id, lms_user_id)
+  def registration_result(lms_course_id, lms_user_id, context_id)
+    registration = find_registration(lms_course_id, lms_user_id, context_id)
     registration_scorm_result(registration.scorm_registration_id) if registration
   end
 
@@ -173,14 +177,27 @@ module ScormCommonService
     resp[:lms_user_id] = params[:custom_canvas_user_id] unless params[:custom_canvas_user_id].nil?
     resp[:lis_result_sourcedid] = params[:lis_result_sourcedid] unless params[:lis_result_sourcedid].nil?
     resp[:lis_outcome_service_url] = params[:lis_outcome_service_url] unless params[:lis_outcome_service_url].nil?
+    resp[:context_id] = params[:context_id] unless params[:context_id].nil?
     resp
   end
 
-  def find_registration(lms_course_id, lms_user_id)
-    Registration.find_by(
+  def find_registration(lms_course_id, lms_user_id, context_id)
+    registration = Registration.find_by(
       lms_course_id: lms_course_id,
       lms_user_id: lms_user_id,
+      context_id: context_id,
     )
+
+    if registration.nil?
+      registration = Registration.find_by(
+        lms_course_id: lms_course_id,
+        lms_user_id: lms_user_id,
+      )
+
+      registration&.update(context_id: context_id)
+    end
+
+    registration
   end
 
   def post_results(reg)

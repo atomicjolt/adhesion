@@ -123,19 +123,28 @@ describe "Scorm Engine Service sync score", type: :controller do
     @application_instance.update_attributes(config: { "scorm_type" => "engine" })
     @lms_course_id = "1234"
     @scorm_course = create(:scorm_course, scorm_service_id: "3_#{@lms_course_id}")
+    @user = create(:user, lms_user_id: 2)
+    @context_id = "123abc"
     @reg = Registration.create(
-      lms_user_id: 2,
+      lms_user_id: @user.lms_user_id,
       application_instance: @application_instance,
       lis_outcome_service_url: Rails.application.secrets.scorm_url,
       lms_course_id: @scorm_course.scorm_service_id,
+      context_id: @context_id,
     )
-    @registration = { "format" => "summary",
-                      "regid" => @reg.scorm_registration_id.to_s,
-                      "instanceid" => "0",
-                      "complete" => "complete",
-                      "success" => "failed",
-                      "totaltime" => "19",
-                      "score" => "0" }
+    @user.add_to_role("urn:lti:role:ims/lis/Learner", @context_id)
+    @registration = {
+      "format" => "summary",
+      "regid" => @reg.scorm_registration_id.to_s,
+      "instanceid" => "0",
+      "complete" => "complete",
+      "success" => "failed",
+      "totaltime" => "19",
+      "score" => "0",
+      "learner" => {
+        "id" => @user.lms_user_id,
+      },
+    }
   end
 
   it "should sync the registration score" do

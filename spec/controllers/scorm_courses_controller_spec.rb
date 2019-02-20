@@ -15,10 +15,12 @@ RSpec.describe ScormCoursesController, type: :controller do
         :registration,
         application_instance: @application_instance,
         scorm_course: scorm_course,
+        context_id: FactoryBot.generate(:context_id),
       )
       response = Object.new
       allow(response).to receive(:success?).and_return(true)
       allow_any_instance_of(AJIMS::LTI::ToolProvider).to receive(:post_replace_result!).and_return(response)
+      @student = FactoryBot.create(:user_canvas, lms_user_id: FactoryBot.generate(:lms_user_id))
     end
     it "should reject bad password" do
       params = {
@@ -49,6 +51,9 @@ RSpec.describe ScormCoursesController, type: :controller do
               <success>failed</success>
               <totaltime>19</totaltime>
               <score>0</score>
+              <learner>
+                <id>#{@student.lms_user_id}</id>
+              </learner>
           </registrationreport>",
         password: @reg.scorm_cloud_passback_secret,
       }
