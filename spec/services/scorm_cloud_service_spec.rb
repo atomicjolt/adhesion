@@ -38,7 +38,7 @@ describe "Scorm Cloud Service sync score", type: :controller do
     @application_instance.update_attributes(config: { "scorm_type" => "cloud" })
     scorm_course = create(:scorm_course)
     @user = create(:user, lms_user_id: 2)
-    @context_id = "123abc"
+    @context_id = generate(:context_id)
     @reg = Registration.create(
       lms_user_id: @user.lms_user_id,
       application_instance: @application_instance,

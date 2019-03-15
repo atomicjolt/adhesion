@@ -124,7 +124,7 @@ describe "Scorm Engine Service sync score", type: :controller do
     @lms_course_id = "1234"
     @scorm_course = create(:scorm_course, scorm_service_id: "3_#{@lms_course_id}")
     @user = create(:user, lms_user_id: 2)
-    @context_id = "123abc"
+    @context_id = generate(:context_id)
     @reg = Registration.create(
       lms_user_id: @user.lms_user_id,
       application_instance: @application_instance,
