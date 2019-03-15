@@ -95,6 +95,8 @@ GEM
       ffi (~> 1.0, >= 1.0.11)
     choice (0.2.0)
     coderay (1.1.2)
+    composite_primary_keys (10.0.3)
+      activerecord (~> 5.1.0, >= 5.1.5)
     concurrent-ruby (1.1.5)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
@@ -412,6 +414,7 @@ DEPENDENCIES
   byebug
   cancancan
   capybara
+  composite_primary_keys (~> 10.0)
   database_cleaner
   devise
   dotenv-rails

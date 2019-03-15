@@ -15,6 +15,7 @@ gem "rails", "5.1.5"
 
 # Database
 gem "apartment"
+gem "composite_primary_keys", "~> 10.0" # For que worker
 gem "pg"
 
 # authentication, authorization, integrations
