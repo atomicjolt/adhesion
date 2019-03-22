@@ -83,9 +83,16 @@ export default (state = initialState, action) => {
     case PackageConstants.POLL_STATUS_DONE: {
       const {
         status,
-        scorm_course_id:scormCourseId,
         message,
       } = action.payload;
+
+      let {
+        scorm_course_id:scormCourseId,
+      } = action.payload;
+
+      if (!scormCourseId) {
+        scormCourseId = state.scormCourseId;
+      }
 
       const shouldPollStatus = !_.includes(['COMPLETE', 'FAILED'], status);
       let shouldRefreshList = !shouldPollStatus;
