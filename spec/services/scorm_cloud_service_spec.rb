@@ -37,19 +37,28 @@ describe "Scorm Cloud Service sync score", type: :controller do
     @application_instance = FactoryBot.create(:application_instance)
     @application_instance.update_attributes(config: { "scorm_type" => "cloud" })
     scorm_course = create(:scorm_course)
+    @user = create(:user, lms_user_id: 2)
+    @context_id = generate(:context_id)
     @reg = Registration.create(
-      lms_user_id: 2,
+      lms_user_id: @user.lms_user_id,
       application_instance: @application_instance,
       lis_outcome_service_url: "http://cloud.scorm.com/this?isaspec",
       scorm_course: scorm_course,
+      context_id: @context_id,
     )
-    @registration = { "format" => "summary",
-                      "regid" => @reg.scorm_registration_id,
-                      "instanceid" => "0",
-                      "complete" => "complete",
-                      "success" => "failed",
-                      "totaltime" => "19",
-                      "score" => "0" }
+    @user.add_to_role("urn:lti:role:ims/lis/Learner", @context_id)
+    @registration = {
+      "format" => "summary",
+      "regid" => @reg.scorm_registration_id,
+      "instanceid" => "0",
+      "complete" => "complete",
+      "success" => "failed",
+      "totaltime" => "19",
+      "score" => "0",
+      "learner" => {
+        "id" => @user.lms_user_id,
+      },
+    }
   end
 
   it "should sync the registration score" do

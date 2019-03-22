@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180627170924) do
+ActiveRecord::Schema.define(version: 20190214164316) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -234,8 +234,9 @@ ActiveRecord::Schema.define(version: 20180627170924) do
     t.text "encrypted_scorm_cloud_passback_secret_iv"
     t.text "encrypted_scorm_cloud_passback_secret"
     t.string "scorm_registration_id"
+    t.string "context_id"
     t.index ["application_instance_id"], name: "index_registrations_on_application_instance_id"
-    t.index ["lms_course_id", "lms_user_id"], name: "index_registrations_on_lms_course_id_and_lms_user_id"
+    t.index ["lms_course_id", "lms_user_id", "context_id"], name: "index_registrations_on_lms_course_id_lms_user_id_context_id"
     t.index ["lms_course_id"], name: "index_registrations_on_lms_course_id"
     t.index ["lms_user_id"], name: "index_registrations_on_lms_user_id"
     t.index ["scorm_registration_id"], name: "index_registrations_on_scorm_registration_id"

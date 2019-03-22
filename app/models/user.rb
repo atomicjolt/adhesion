@@ -179,6 +179,10 @@ class User < ApplicationRecord
     role?("administrator")
   end
 
+  def student_in_course?(context_id = nil)
+    role?("urn:lti:role:ims/lis/Learner", context_id)
+  end
+
   def can_edit?(user)
     return false if user.nil?
     id == user.id || user.admin?
