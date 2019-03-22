@@ -24,6 +24,7 @@ Apartment.configure do |config|
     ApplicationBundle
     ImsExport
     SisGrade
+    QueJob
   }
 
   # In order to migrate all of your Tenants you need to provide a list of Tenant names to Apartment.
