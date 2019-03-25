@@ -1,0 +1,4 @@
+;;; -*- fill-column: 80; -*-
+
+Changes for 1.0.4:
+  * Fix polling for SCORM status if error occurs.
