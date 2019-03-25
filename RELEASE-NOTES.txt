@@ -1,4 +1,10 @@
 ;;; -*- fill-column: 80; -*-
 
+Changes for 1.1.0:
+  * Update misc gems to match deploy.
+  * Update rails for security patch.
+  * Add QueJob model to query database on Que jobs.
+  * Fix scorm packages to not submit to LMS for teachers.
+
 Changes for 1.0.4:
   * Fix polling for SCORM status if error occurs.
