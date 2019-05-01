@@ -25,6 +25,7 @@ Apartment.configure do |config|
     ImsExport
     SisGrade
     QueJob
+    ApiToken
   }
 
   # In order to migrate all of your Tenants you need to provide a list of Tenant names to Apartment.
