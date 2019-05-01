@@ -230,6 +230,7 @@ GEM
       oauth2 (~> 1.1)
       omniauth (~> 1.9)
     orm_adapter (0.5.0)
+    pandoc-ruby (2.0.2)
     parallel (1.17.0)
     parser (2.6.2.1)
       ast (~> 2.4.0)
@@ -430,6 +431,7 @@ DEPENDENCIES
   nuclear_secrets
   omniauth
   omniauth-canvas (~> 1.0.2)
+  pandoc-ruby
   pg
   puma
   que

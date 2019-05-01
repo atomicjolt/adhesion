@@ -50,6 +50,9 @@ gem "rest-client"
 # Paging
 gem "will_paginate"
 
+# Doc Viewer
+gem "pandoc-ruby"
+
 # Application secrets checker
 gem "nuclear_secrets"
 
