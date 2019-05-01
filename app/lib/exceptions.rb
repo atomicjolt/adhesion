@@ -5,4 +5,6 @@ module Exceptions
   end
   class InvalidImsccTokenError < StandardError
   end
+  class InvalidApiTokenError < StandardError
+  end
 end

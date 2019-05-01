@@ -112,6 +112,14 @@ Rails.application.routes.draw do
     resources :ims_imports, only: [:create]
 
     resources :sis_grades, only: [:index]
+
+    resources :atomic_docs, only: [] do
+      collection do
+        post :documents
+        post :sessions
+        get "sessions/:id/view", to: "atomic_docs#view"
+      end
+    end
   end
 
   get "api/canvas" => "api/canvas_proxy#proxy"
