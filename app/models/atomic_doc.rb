@@ -1,0 +1,2 @@
+class AtomicDoc < ApplicationRecord
+end
