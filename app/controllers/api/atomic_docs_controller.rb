@@ -5,11 +5,12 @@ class Api::AtomicDocsController < ApplicationController
   before_action :validate_api_key, only: %i[documents sessions]
 
   def documents
-    render json: { id: 1234, status: "queued" }
+    atomic_doc = AtomicDoc.find_or_create_by(url: params[:url], status: "queued")
+    # render json: { id: atomic_doc.id, status: atomic_doc.status }
   end
 
   def sessions
-    render json: { id: "CFAmd3Qjm_2ehBI7HyndnXKsDrQXJ7jHCuzcRv" }
+    # render json: { id: "CFAmd3Qjm_2ehBI7HyndnXKsDrQXJ7jHCuzcRv" }
   end
 
   def view
