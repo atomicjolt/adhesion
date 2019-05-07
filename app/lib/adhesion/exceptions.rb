@@ -18,6 +18,12 @@ module Adhesion
       end
     end
 
+    class AtomicDocCopyToStorage < StandardError
+      def initialize(msg = "Error with copying to storage")
+        super(msg)
+      end
+    end
+
     class PostResultsToLms < StandardError
       def initialize(msg = "A failure has occurred. Please try again.")
         super(msg)
