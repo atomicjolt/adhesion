@@ -75,6 +75,7 @@ ActiveRecord::Schema.define(version: 20190501225540) do
   create_table "atomic_docs", force: :cascade do |t|
     t.string "url"
     t.string "status"
+    t.string "file_path"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["url"], name: "index_atomic_docs_on_url"
