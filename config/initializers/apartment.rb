@@ -27,6 +27,7 @@ Apartment.configure do |config|
     QueJob
     ApiToken
     AtomicDoc
+    AtomicDocSession
   }
 
   # In order to migrate all of your Tenants you need to provide a list of Tenant names to Apartment.

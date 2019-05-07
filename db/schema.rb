@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190501225540) do
+ActiveRecord::Schema.define(version: 20190507024333) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,6 +70,13 @@ ActiveRecord::Schema.define(version: 20190501225540) do
     t.string "oauth_precedence", default: "global,user,application_instance,course"
     t.boolean "anonymous", default: false
     t.index ["key"], name: "index_applications_on_key"
+  end
+
+  create_table "atomic_doc_sessions", force: :cascade do |t|
+    t.string "session_id"
+    t.bigint "atomic_doc_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "atomic_docs", force: :cascade do |t|
