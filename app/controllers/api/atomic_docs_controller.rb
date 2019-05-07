@@ -5,16 +5,30 @@ class Api::AtomicDocsController < ApplicationController
   before_action :validate_api_key, only: %i[documents sessions]
 
   def documents
-    atomic_doc = AtomicDoc.find_or_create_by(url: params[:url], status: "queued")
+    atomic_doc = AtomicDoc.find_or_create_by(url: params[:url])
+    AtomicDocJob.perform_later(atomic_doc)
+    raise
     # render json: { id: atomic_doc.id, status: atomic_doc.status }
   end
 
   def sessions
-    # render json: { id: "CFAmd3Qjm_2ehBI7HyndnXKsDrQXJ7jHCuzcRv" }
+    atomic_doc = AtomicDoc.find_or_create_by(url: params[:url])
+    session = atomic_doc.atomic_doc_sessions.create
+    render json: { id: session.session_id }
   end
 
   def view
-    render plain: "hi there"
+    session = AtomicDocSession.find_by(session_id: params[:id])
+    atomic_doc = session.atomic_doc
+    if atomic_doc.status == "complete"
+      filename = atomic_doc.file_path.split("/").last
+
+      File.open(atomic_doc.file_path, "rb") do |f|
+        send_data f.read, filename: filename, type: "application/pdf", disposition: :inline
+      end
+    else
+      render plain: "Processing, please try again later"
+    end
   end
 
   private
