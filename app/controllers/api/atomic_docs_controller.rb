@@ -1,6 +1,8 @@
 class Api::AtomicDocsController < ApplicationController
   respond_to :json
 
+  layout "client"
+
   skip_before_action :verify_authenticity_token
   before_action :validate_api_key, only: %i[documents sessions]
 
@@ -17,17 +19,31 @@ class Api::AtomicDocsController < ApplicationController
     render json: { id: session.session_id }
   end
 
-  def view
+  def session_status
     session = AtomicDocSession.find_by(session_id: params[:id])
     atomic_doc = session.atomic_doc
     if atomic_doc.status == "complete"
       filename = atomic_doc.file_path.split("/").last
-
-      File.open(atomic_doc.file_path, "rb") do |f|
-        send_data f.read, filename: filename, type: "application/pdf", disposition: :inline
-      end
+      render json: {
+        pdf_download_url: pdf_file_api_atomic_docs_path(session.session_id),
+        document_name: filename,
+      }
     else
-      render plain: "Processing, please try again later"
+      render json: { error: "document_not_ready", retry_after: 2 }, status: 202
+    end
+  end
+
+  def view
+    @session = AtomicDocSession.find_by(session_id: params[:id])
+  end
+
+  def pdf_file
+    session = AtomicDocSession.find_by(session_id: params[:id])
+    atomic_doc = session.atomic_doc
+    filename = atomic_doc.file_path.split("/").last
+
+    File.open(atomic_doc.file_path, "rb") do |f|
+      send_data f.read, filename: filename, type: "application/pdf", disposition: :inline
     end
   end
 
