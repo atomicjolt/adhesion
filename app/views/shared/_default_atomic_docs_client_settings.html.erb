@@ -1,0 +1,10 @@
+<%-
+  settings = {
+    api_url: application_base_url,
+    csrf_token: form_authenticity_token,
+    status_url: session_status_api_atomic_docs_path(@session.session_id)
+  }
+%>
+<script type="text/javascript">
+  window.DEFAULT_SETTINGS = <%= settings.to_json.html_safe %>;
+</script>
