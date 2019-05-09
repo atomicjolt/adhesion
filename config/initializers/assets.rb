@@ -11,4 +11,4 @@ Rails.application.config.assets.version = "1.2"
 Rails.application.config.assets.precompile += %w(errors.scss)
 Rails.application.config.assets.precompile += %w(client.scss scorm_course.scss)
 
-Rails.application.config.assets.precompile += %w(errors.js)
+Rails.application.config.assets.precompile += %w(errors.js pdf.worker.js)

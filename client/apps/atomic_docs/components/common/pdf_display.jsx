@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Document, Page, pdfjs } from 'react-pdf';
 import PropTypes from 'prop-types';
 
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+import { Document, Page, pdfjs } from 'react-pdf';
+
+pdfjs.GlobalWorkerOptions.workerSrc = window.DEFAULT_SETTINGS.pdf_worker_js_url;
 
 export default class PdfDisplay extends Component {
   static propTypes = {
