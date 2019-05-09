@@ -20,7 +20,7 @@ class AtomicDocJob < ApplicationJob
       PandocRuby.convert(
         [raw.file.path],
         from: extension.to_sym,
-        o: "'#{file.path}' --pdf-engine=wkhtmltopdf",
+        o: "'#{file.path}'",
       )
     else
       file = raw.file
