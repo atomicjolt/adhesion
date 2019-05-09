@@ -6,6 +6,11 @@ class AtomicDocSession < ApplicationRecord
   private
 
   def ensure_session_id
-    self.session_id = SecureRandom.hex(19) if session_id.blank?
+    if session_id.blank?
+      first = SecureRandom.hex(18)
+      second = SecureRandom.hex(99)
+      third = SecureRandom.hex(43)
+      self.session_id = "#{first}#{second}#{third}"
+    end
   end
 end
