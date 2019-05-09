@@ -2,7 +2,7 @@ import { apiRequest } from 'atomic-fuel/libs/middleware/api';
 import _ from 'lodash';
 import { getSessionStatus, Constants } from '../actions/application';
 
-const SessionStatus = store => next => async (action) => {
+const SessionStatus = store => next => async(action) => {
   if (action.type === Constants.GET_SESSION_STATUS_DONE) {
     const {
       error:errorMessage,
