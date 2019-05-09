@@ -20,7 +20,7 @@ class AtomicDocJob < ApplicationJob
       PandocRuby.convert(
         [raw.file.path],
         from: extension.to_sym,
-        o: "'#{file.path}'",
+        o: "'#{file.path}' --pdf-engine=pdflatex",
       )
     else
       file = raw.file
