@@ -10,6 +10,8 @@ import PropTypes from 'prop-types';
 import routes from './routes';
 import configureStore from './store/configure_store';
 
+import './styles/styles.scss';
+
 // Polyfill es6 promises for IE
 es6Promise.polyfill();
 
