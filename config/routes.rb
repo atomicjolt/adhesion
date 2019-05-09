@@ -117,7 +117,9 @@ Rails.application.routes.draw do
       collection do
         post :documents
         post :sessions
-        get "sessions/:id/view", to: "atomic_docs#view"
+        get "sessions/:id", to: "atomic_docs#session_status", as: :session_status
+        get "sessions/:id/view", to: "atomic_docs#view", as: :view
+        get "sessions/:id/file/file.pdf", to: "atomic_docs#pdf_file", as: :pdf_file
       end
     end
   end
