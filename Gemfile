@@ -51,6 +51,7 @@ gem "rest-client"
 gem "will_paginate"
 
 # Doc Viewer
+gem "libreconv", github: "FormAPI/libreconv", branch: "master"
 gem "pandoc-ruby"
 
 # Application secrets checker

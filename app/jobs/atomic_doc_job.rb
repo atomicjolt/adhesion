@@ -1,3 +1,5 @@
+require "libreconv"
+
 class AtomicDocJob < ApplicationJob
   queue_as :atomic_doc
 
@@ -17,11 +19,12 @@ class AtomicDocJob < ApplicationJob
     if extension != "pdf"
       file = Tempfile.new([filename, ".pdf"])
 
-      PandocRuby.convert(
-        [raw.file.path],
-        from: extension.to_sym,
-        o: "'#{file.path}' +RTS -K64m -RTS",
-      )
+      # PandocRuby.convert(
+      #   [raw.file.path],
+      #   from: extension.to_sym,
+      #   o: "'#{file.path}' +RTS -K64m -RTS",
+      # )
+      Libreconv.convert(raw.file.path, file.path)
     else
       file = raw.file
     end
