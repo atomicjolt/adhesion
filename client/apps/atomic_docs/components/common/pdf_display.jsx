@@ -30,14 +30,32 @@ export default class PdfDisplay extends Component {
       pdfDownloadUrl,
     } = this.props;
 
+    const loadingSVG = (
+      <div id="loading-container">
+        <div className="absolute-center">
+          <div title="Loading" className="AJSpinner AJSpinner--medium">
+            <svg className="AJSpinner-svg" role="img" aria-labelledby="AJSpinner-5otot" focusable="false">
+              <title id="AJSpinner-5otot">Loading</title>
+              <g role="presentation">
+                <circle className="AJSpinner-circleShadow" cx="50%" cy="50%" r="1.75em" />
+                <circle className="AJSpinner-circleTrack" cx="50%" cy="50%" r="1.75em" />
+                <circle className="AJSpinner-circleSpin" cx="50%" cy="50%" r="1.75em" />
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+    );
+
     if (!pdfDownloadUrl) {
-      return null;
+      return loadingSVG;
     }
 
     return (
       <Document
         file={pdfDownloadUrl}
         onLoadSuccess={this.onDocumentLoadSuccess}
+        loading={loadingSVG}
       >
         {Array.from(
           new Array(numPages),
@@ -45,6 +63,7 @@ export default class PdfDisplay extends Component {
             <Page
               key={`page_${index + 1}`}
               pageNumber={index + 1}
+              loading={loadingSVG}
             />
           ),
         )}
