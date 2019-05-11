@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 
 import { Document, Page, pdfjs } from 'react-pdf';
 
@@ -12,6 +13,20 @@ export default class PdfDisplay extends Component {
 
   state = {
     numPages: null,
+    width: null,
+  }
+
+  componentDidMount() {
+    this.setDivSize();
+    window.addEventListener('resize', _.throttle(this.setDivSize, 500));
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', _.throttle(this.setDivSize, 500));
+  }
+
+  setDivSize = () => {
+    this.setState({ width: this.pdfWrapper.getBoundingClientRect().width });
   }
 
   onDocumentLoadSuccess = (document) => {
@@ -24,6 +39,7 @@ export default class PdfDisplay extends Component {
   render() {
     const {
       numPages,
+      width,
     } = this.state;
 
     const {
@@ -47,29 +63,32 @@ export default class PdfDisplay extends Component {
       </div>
     );
 
-    if (!pdfDownloadUrl) {
-      return loadingSVG;
-    }
-
     return (
-      <Document
-        file={pdfDownloadUrl}
-        onLoadSuccess={this.onDocumentLoadSuccess}
-        renderMode="svg"
-        loading={loadingSVG}
-      >
-        {Array.from(
-          new Array(numPages),
-          (el, index) => (
-            <Page
-              key={`page_${index + 1}`}
-              pageNumber={index + 1}
-              renderMode="svg"
-              loading=""
-            />
-          ),
-        )}
-      </Document>
+      <div id="pdfWrapper" style={{ width: '90vw' }} ref={ref => this.pdfWrapper = ref}>
+        { pdfDownloadUrl ?
+          <Document
+            file={pdfDownloadUrl}
+            onLoadSuccess={this.onDocumentLoadSuccess}
+            renderMode="svg"
+            loading={loadingSVG}
+          >
+            {Array.from(
+              new Array(numPages),
+              (el, index) => (
+                <Page
+                  key={`page_${index + 1}`}
+                  pageNumber={index + 1}
+                  renderMode="svg"
+                  loading=""
+                  width={width}
+                />
+              ),
+            )}
+          </Document>
+          :
+          loadingSVG
+        }
+      </div>
     );
   }
 }
