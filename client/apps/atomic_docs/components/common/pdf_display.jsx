@@ -6,10 +6,17 @@ import { Document, Page, pdfjs } from 'react-pdf';
 
 pdfjs.GlobalWorkerOptions.workerSrc = window.DEFAULT_SETTINGS.pdf_worker_js_url;
 
+// Some code taken from example:
+// https://github.com/wojtekmaj/react-pdf/issues/129#issuecomment-359136222
 export default class PdfDisplay extends Component {
   static propTypes = {
     pdfDownloadUrl: PropTypes.string,
   };
+
+  constructor(props, context) {
+    super(props, context);
+    this.handleResize = _.throttle(this.setDivSize, 500);
+  }
 
   state = {
     numPages: null,
@@ -18,11 +25,11 @@ export default class PdfDisplay extends Component {
 
   componentDidMount() {
     this.setDivSize();
-    window.addEventListener('resize', _.throttle(this.setDivSize, 500));
+    window.addEventListener('resize', this.handleResize);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', _.throttle(this.setDivSize, 500));
+    window.removeEventListener('resize', this.handleResize);
   }
 
   setDivSize = () => {
