@@ -55,6 +55,7 @@ export default class PdfDisplay extends Component {
       <Document
         file={pdfDownloadUrl}
         onLoadSuccess={this.onDocumentLoadSuccess}
+        renderMode="svg"
         loading={loadingSVG}
       >
         {Array.from(
@@ -63,6 +64,7 @@ export default class PdfDisplay extends Component {
             <Page
               key={`page_${index + 1}`}
               pageNumber={index + 1}
+              renderMode="svg"
               loading={loadingSVG}
             />
           ),
