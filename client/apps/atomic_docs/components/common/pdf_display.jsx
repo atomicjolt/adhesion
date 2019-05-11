@@ -65,7 +65,7 @@ export default class PdfDisplay extends Component {
               key={`page_${index + 1}`}
               pageNumber={index + 1}
               renderMode="svg"
-              loading={loadingSVG}
+              loading=""
             />
           ),
         )}
