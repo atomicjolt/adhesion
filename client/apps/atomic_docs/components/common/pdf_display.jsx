@@ -71,7 +71,7 @@ export default class PdfDisplay extends Component {
     );
 
     return (
-      <div id="pdfWrapper" style={{ width: '90vw' }} ref={ref => this.pdfWrapper = ref}>
+      <div id="pdfWrapper" style={{ width: '100vw' }} ref={ref => this.pdfWrapper = ref}>
         { pdfDownloadUrl ?
           <Document
             file={pdfDownloadUrl}
