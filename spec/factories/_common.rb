@@ -134,4 +134,8 @@ FactoryBot.define do
   sequence :grading_type do
     ["pass_fail", "percent", "letter_grade", "gpa_scale", "points"].sample
   end
+
+  sequence :token do |n|
+    "#{SecureRandom.hex(16)}_#{n}"
+  end
 end
