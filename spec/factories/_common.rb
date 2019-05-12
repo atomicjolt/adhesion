@@ -138,4 +138,8 @@ FactoryBot.define do
   sequence :token do |n|
     "#{SecureRandom.hex(16)}_#{n}"
   end
+
+  sequence :status do
+    ["queued", "complete"].sample
+  end
 end
