@@ -12,7 +12,7 @@ const options = {
   cMapPacked: true,
 };
 
-// Some code taken from example:
+// Some code inspired by example:
 // https://github.com/wojtekmaj/react-pdf/issues/129#issuecomment-359136222
 export default class PdfDisplay extends Component {
   static propTypes = {
