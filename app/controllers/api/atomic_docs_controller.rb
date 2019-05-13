@@ -9,8 +9,7 @@ class Api::AtomicDocsController < ApplicationController
   def documents
     atomic_doc = AtomicDoc.find_or_create_by(url: params[:url])
     AtomicDocJob.perform_later(atomic_doc)
-    raise
-    # render json: { id: atomic_doc.id, status: atomic_doc.status }
+    render json: { id: atomic_doc.id, status: atomic_doc.status }
   end
 
   def sessions
