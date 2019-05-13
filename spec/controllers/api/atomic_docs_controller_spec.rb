@@ -72,6 +72,31 @@ RSpec.describe Api::AtomicDocsController, type: :controller do
     end
 
     describe "POST sessions" do
+      it "returns authorized" do
+        params = {
+          url: @url,
+        }
+        post :sessions, params: params
+        expect(response).to have_http_status(200)
+      end
+
+      it "creates a session" do
+        params = {
+          url: @url,
+        }
+        expect do
+          post :sessions, params: params
+        end.to change { AtomicDocSession.count }.by(1)
+      end
+
+      it "creates a session" do
+        params = {
+          url: @url,
+        }
+        post :sessions, params: params
+        body = JSON.parse(response.body)
+        expect(body["id"]).to be_present
+      end
     end
 
     describe "GET session_status" do
