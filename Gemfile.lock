@@ -1,6 +1,7 @@
 GIT
   remote: https://github.com/FormAPI/libreconv.git
-  revision: afbc03c88b7671048dd0155e319154c4d50b8fc2
+  revision: b3156e2efa7bfd03efac8a826a0516dbfb418202
+  ref: b3156e2
   branch: master
   specs:
     libreconv (0.9.1)
