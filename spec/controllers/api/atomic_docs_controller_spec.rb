@@ -106,7 +106,6 @@ RSpec.describe Api::AtomicDocsController, type: :controller do
 
         params = {
           id: session.session_id,
-          url: @url,
         }
         get :session_status, params: params
         expect(response).to have_http_status(202)
@@ -118,7 +117,6 @@ RSpec.describe Api::AtomicDocsController, type: :controller do
 
         params = {
           id: session.session_id,
-          url: @url,
         }
         get :session_status, params: params
         body = JSON.parse(response.body)
@@ -132,7 +130,6 @@ RSpec.describe Api::AtomicDocsController, type: :controller do
 
         params = {
           id: session.session_id,
-          url: @url,
         }
         get :session_status, params: params
         body = JSON.parse(response.body)
