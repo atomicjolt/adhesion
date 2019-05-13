@@ -161,6 +161,20 @@ RSpec.describe Api::AtomicDocsController, type: :controller do
     end
 
     describe "GET pdf_file" do
+      it "returns authorized" do
+        filename = "test.pdf"
+        file_path = file_fixture(filename).realpath.to_s
+        atomic_doc = create(:atomic_doc, status: "complete", file_path: file_path)
+        session = create(:atomic_doc_session, atomic_doc: atomic_doc)
+
+        params = {
+          id: session.session_id,
+        }
+        get :pdf_file, params: params
+        expect(response).to have_http_status(200)
+        expect(response.headers["Content-Type"]).to eq("application/pdf")
+        expect(response.headers["Content-Disposition"]).to eq("inline; filename=\"test.pdf\"")
+      end
     end
   end
 end
