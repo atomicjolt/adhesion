@@ -2,7 +2,7 @@
   "globals": {
     "__DEV__": true
   },
-  "setupFiles": ["./config/shim.js","./config/setup_tests.js"],
+  "setupFiles": ["./config/shim.js","./config/setup_tests.js", "./config/setup_env.js"],
   "rootDir": "../",
   "modulePaths": [
     "<rootDir>/node_modules",
