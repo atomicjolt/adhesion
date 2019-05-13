@@ -51,6 +51,8 @@ class Api::AtomicDocsController < ApplicationController
 
   def validate_api_key
     raise Exceptions::InvalidApiTokenError, "Invalid API token" unless authorized?
+  rescue Exceptions::InvalidApiTokenError
+    render json: { error: "Unauthorized: Invalid token." }, status: :unauthorized
   end
 
   def authorized?
