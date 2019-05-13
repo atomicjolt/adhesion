@@ -100,6 +100,45 @@ RSpec.describe Api::AtomicDocsController, type: :controller do
     end
 
     describe "GET session_status" do
+      it "returns authorized" do
+        atomic_doc = create(:atomic_doc, status: "queued")
+        session = create(:atomic_doc_session, atomic_doc: atomic_doc)
+
+        params = {
+          id: session.session_id,
+          url: @url,
+        }
+        get :session_status, params: params
+        expect(response).to have_http_status(202)
+      end
+
+      it "returns document_not_ready" do
+        atomic_doc = create(:atomic_doc, status: "queued")
+        session = create(:atomic_doc_session, atomic_doc: atomic_doc)
+
+        params = {
+          id: session.session_id,
+          url: @url,
+        }
+        get :session_status, params: params
+        body = JSON.parse(response.body)
+        expect(body["error"]).to eq("document_not_ready")
+      end
+
+      it "returns a file path" do
+        filename = "file.pdf"
+        atomic_doc = create(:atomic_doc, status: "complete", file_path: "/tmp/#{filename}")
+        session = create(:atomic_doc_session, atomic_doc: atomic_doc)
+
+        params = {
+          id: session.session_id,
+          url: @url,
+        }
+        get :session_status, params: params
+        body = JSON.parse(response.body)
+        expect(body["pdf_download_url"]).to eq("/api/atomic_docs/sessions/#{session.session_id}/file/#{filename}")
+        expect(body["document_name"]).to eq(filename)
+      end
     end
 
     describe "GET view" do
