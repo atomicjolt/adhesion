@@ -139,6 +139,25 @@ RSpec.describe Api::AtomicDocsController, type: :controller do
     end
 
     describe "GET view" do
+      it "returns authorized" do
+        session = create(:atomic_doc_session)
+
+        params = {
+          id: session.session_id,
+        }
+        get :view, params: params
+        expect(response).to have_http_status(200)
+      end
+
+      it "sets the session" do
+        session = create(:atomic_doc_session)
+
+        params = {
+          id: session.session_id,
+        }
+        get :view, params: params
+        expect(assigns(:session)).to eq(session)
+      end
     end
 
     describe "GET pdf_file" do
