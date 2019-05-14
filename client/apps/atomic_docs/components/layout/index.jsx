@@ -14,16 +14,13 @@ const select = state => ({
 export class Index extends React.Component {
 
   static propTypes = {
-    children: PropTypes.node,
     getSessionStatus: PropTypes.func.isRequired,
     statusUrl: PropTypes.string.isRequired,
     pdfDownloadUrl: PropTypes.string,
     sessionError: PropTypes.bool,
   };
 
-  static defaultProps = {
-    children: '',
-  }
+  static defaultProps = {}
 
   componentDidMount() {
     const {
@@ -45,7 +42,6 @@ export class Index extends React.Component {
           pdfDownloadUrl={pdfDownloadUrl}
           sessionError={sessionError}
         />
-        {this.props.children}
       </div>
     );
   }
