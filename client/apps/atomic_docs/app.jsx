@@ -7,7 +7,7 @@ import DevTools from 'atomic-fuel/libs/dev/dev_tools';
 import jwt from 'atomic-fuel/libs/loaders/jwt';
 import { getInitialSettings } from 'atomic-fuel/libs/reducers/settings';
 import PropTypes from 'prop-types';
-import routes from './routes';
+import Index from './components/layout/index';
 import configureStore from './store/configure_store';
 
 import './styles/styles.scss';
@@ -26,7 +26,7 @@ class Root extends React.PureComponent {
     return (
       <Provider store={store}>
         <div>
-          {routes}
+          <Index />
           {devTools}
         </div>
       </Provider>
