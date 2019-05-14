@@ -20,6 +20,12 @@ class Api::AtomicDocsController < ApplicationController
 
   def session_status
     session = AtomicDocSession.find_by(session_id: params[:id])
+
+    if session.nil?
+      render json: { error: "invalid_session" }, status: 403
+      return
+    end
+
     atomic_doc = session.atomic_doc
     if atomic_doc.status == "complete"
       filename = atomic_doc.file_path.split("/").last
@@ -32,12 +38,16 @@ class Api::AtomicDocsController < ApplicationController
     end
   end
 
-  def view
-    @session = AtomicDocSession.find_by(session_id: params[:id])
-  end
+  def view; end
 
   def pdf_file
     session = AtomicDocSession.find_by(session_id: params[:id])
+
+    if session.nil?
+      render json: { error: "invalid_session" }, status: 403
+      return
+    end
+
     atomic_doc = session.atomic_doc
     filename = atomic_doc.file_path.split("/").last
 

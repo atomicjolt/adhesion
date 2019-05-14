@@ -136,6 +136,16 @@ RSpec.describe Api::AtomicDocsController, type: :controller do
         expect(body["pdf_download_url"]).to eq("/api/atomic_docs/sessions/#{session.session_id}/file/#{filename}")
         expect(body["document_name"]).to eq(filename)
       end
+
+      it "returns invalid session" do
+        params = {
+          id: "fake",
+        }
+        get :session_status, params: params
+        expect(response).to have_http_status(403)
+        body = JSON.parse(response.body)
+        expect(body["error"]).to eq("invalid_session")
+      end
     end
 
     describe "GET view" do
@@ -147,16 +157,6 @@ RSpec.describe Api::AtomicDocsController, type: :controller do
         }
         get :view, params: params
         expect(response).to have_http_status(200)
-      end
-
-      it "sets the session" do
-        session = create(:atomic_doc_session)
-
-        params = {
-          id: session.session_id,
-        }
-        get :view, params: params
-        expect(assigns(:session)).to eq(session)
       end
     end
 
@@ -174,6 +174,16 @@ RSpec.describe Api::AtomicDocsController, type: :controller do
         expect(response).to have_http_status(200)
         expect(response.headers["Content-Type"]).to eq("application/pdf")
         expect(response.headers["Content-Disposition"]).to eq("inline; filename=\"test.pdf\"")
+      end
+
+      it "returns invalid session" do
+        params = {
+          id: "fake",
+        }
+        get :pdf_file, params: params
+        expect(response).to have_http_status(403)
+        body = JSON.parse(response.body)
+        expect(body["error"]).to eq("invalid_session")
       end
     end
   end
