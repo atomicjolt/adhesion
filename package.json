@@ -44,5 +44,8 @@
     "atomic-reactor": "^2.0.2"
   },
   "private": true,
-  "workspaces": ["client", "client/apps/*"]
+  "workspaces": [
+    "client",
+    "client/apps/*"
+  ]
 }
