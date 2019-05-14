@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getSessionStatus } from '../../actions/application';
-// import Errors from './errors';
 
 import PdfDisplay from '../common/pdf_display';
 
