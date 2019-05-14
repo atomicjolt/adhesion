@@ -12,6 +12,39 @@ export default class PdfDisplay extends Component {
     sessionError: PropTypes.string,
   };
 
+  static get errorContainer() {
+    return (
+      <div id="error-container">
+        <div className="absolute-center panel panel-default">
+          <div className="panel-body">
+            <div style={{ margin: 'auto', fontSize: '1.8rem' }}>
+              <span className="error-message">error fetching session</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  static get loadingSVG() {
+    return (
+      <div id="loading-container">
+        <div className="absolute-center">
+          <div title="Loading" className="AJSpinner AJSpinner--medium">
+            <svg className="AJSpinner-svg" role="img" aria-labelledby="AJSpinner-5otot" focusable="false">
+              <title id="AJSpinner-5otot">Loading</title>
+              <g role="presentation">
+                <circle className="AJSpinner-circleShadow" cx="50%" cy="50%" r="1.75em" />
+                <circle className="AJSpinner-circleTrack" cx="50%" cy="50%" r="1.75em" />
+                <circle className="AJSpinner-circleSpin" cx="50%" cy="50%" r="1.75em" />
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   constructor(props, context) {
     super(props, context);
     this.handleResize = _.throttle(this.setDivSize, 500);
@@ -55,37 +88,8 @@ export default class PdfDisplay extends Component {
     } = this.props;
 
     if (sessionError) {
-      const errorContainer = (
-        <div id="error-container">
-          <div className="absolute-center panel panel-default">
-            <div className="panel-body">
-              <div style={{ margin: 'auto', fontSize: '1.8rem' }}>
-                <span className="error-message">error fetching session</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-
-      return errorContainer;
+      return PdfDisplay.errorContainer;
     }
-
-    const loadingSVG = (
-      <div id="loading-container">
-        <div className="absolute-center">
-          <div title="Loading" className="AJSpinner AJSpinner--medium">
-            <svg className="AJSpinner-svg" role="img" aria-labelledby="AJSpinner-5otot" focusable="false">
-              <title id="AJSpinner-5otot">Loading</title>
-              <g role="presentation">
-                <circle className="AJSpinner-circleShadow" cx="50%" cy="50%" r="1.75em" />
-                <circle className="AJSpinner-circleTrack" cx="50%" cy="50%" r="1.75em" />
-                <circle className="AJSpinner-circleSpin" cx="50%" cy="50%" r="1.75em" />
-              </g>
-            </svg>
-          </div>
-        </div>
-      </div>
-    );
 
     return (
       <div id="pdfWrapper" style={{ width: '100vw' }} ref={ref => this.pdfWrapper = ref}>
@@ -94,7 +98,7 @@ export default class PdfDisplay extends Component {
             file={pdfDownloadUrl}
             onLoadSuccess={this.onDocumentLoadSuccess}
             renderMode="svg"
-            loading={loadingSVG}
+            loading={PdfDisplay.loadingSVG}
           >
             {Array.from(
               new Array(numPages),
@@ -110,7 +114,7 @@ export default class PdfDisplay extends Component {
             )}
           </Document>
           :
-          loadingSVG
+          PdfDisplay.loadingSVG
         }
       </div>
     );
