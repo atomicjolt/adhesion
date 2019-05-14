@@ -6,11 +6,6 @@ import { Document, Page, pdfjs } from 'react-pdf';
 
 pdfjs.GlobalWorkerOptions.workerSrc = window.DEFAULT_SETTINGS.pdf_worker_js_url;
 
-const options = {
-  cMapUrl: 'cmaps/',
-  cMapPacked: true,
-};
-
 // Some code inspired by example:
 // https://github.com/wojtekmaj/react-pdf/issues/129#issuecomment-359136222
 export default class PdfDisplay extends Component {
@@ -83,7 +78,6 @@ export default class PdfDisplay extends Component {
             onLoadSuccess={this.onDocumentLoadSuccess}
             renderMode="svg"
             loading={loadingSVG}
-            options={options}
           >
             {Array.from(
               new Array(numPages),
