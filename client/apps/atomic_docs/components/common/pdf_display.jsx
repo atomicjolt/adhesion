@@ -11,6 +11,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = window.DEFAULT_SETTINGS.pdf_worker_js_url;
 export default class PdfDisplay extends Component {
   static propTypes = {
     pdfDownloadUrl: PropTypes.string,
+    sessionError: PropTypes.string,
   };
 
   constructor(props, context) {
@@ -51,7 +52,24 @@ export default class PdfDisplay extends Component {
 
     const {
       pdfDownloadUrl,
+      sessionError,
     } = this.props;
+
+    if (sessionError) {
+      const errorContainer = (
+        <div id="error-container">
+          <div className="absolute-center panel panel-default">
+            <div className="panel-body">
+              <div style={{ margin: 'auto', fontSize: '1.8rem' }}>
+                <span className="error-message">error fetching session</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+
+      return errorContainer;
+    }
 
     const loadingSVG = (
       <div id="loading-container">

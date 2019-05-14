@@ -3,6 +3,7 @@ import { Constants } from '../actions/application';
 const initialState = {
   pdfDownloadUrl: null,
   documentName: null,
+  sessionError: false,
 };
 
 export default (state = initialState, action) => {
@@ -14,10 +15,17 @@ export default (state = initialState, action) => {
         document_name:documentName,
       } = action.payload;
 
+      let sessionError = false;
+
+      if (action.error && action.error.status === 403) {
+        sessionError = true;
+      }
+
       return {
         ...state,
         ...(pdfDownloadUrl ? { pdfDownloadUrl } : {}),
         ...(documentName ? { documentName } : {}),
+        sessionError,
       };
     }
 
