@@ -15,11 +15,9 @@ export default class PdfDisplay extends Component {
   static get errorContainer() {
     return (
       <div id="error-container">
-        <div className="absolute-center panel panel-default">
-          <div className="panel-body">
-            <div style={{ margin: 'auto', fontSize: '1.8rem' }}>
-              <span className="error-message">error fetching session</span>
-            </div>
+        <div className="absolute-center">
+          <div style={{ margin: 'auto', fontSize: '1.8rem' }}>
+            <span>error fetching session</span>
           </div>
         </div>
       </div>
@@ -28,19 +26,8 @@ export default class PdfDisplay extends Component {
 
   static get loadingSVG() {
     return (
-      <div id="loading-container">
-        <div className="absolute-center">
-          <div title="Loading" className="AJSpinner AJSpinner--medium">
-            <svg className="AJSpinner-svg" role="img" aria-labelledby="AJSpinner-5otot" focusable="false">
-              <title id="AJSpinner-5otot">Loading</title>
-              <g role="presentation">
-                <circle className="AJSpinner-circleShadow" cx="50%" cy="50%" r="1.75em" />
-                <circle className="AJSpinner-circleTrack" cx="50%" cy="50%" r="1.75em" />
-                <circle className="AJSpinner-circleSpin" cx="50%" cy="50%" r="1.75em" />
-              </g>
-            </svg>
-          </div>
-        </div>
+      <div className="absolute-center">
+        <div className="aj-loader">Loading</div>
       </div>
     );
   }
