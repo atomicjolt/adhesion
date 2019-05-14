@@ -8,6 +8,6 @@ class CreateAtomicDocs < ActiveRecord::Migration[5.1]
       t.timestamps
     end
 
-    add_index :atomic_docs, :url
+    add_index :atomic_docs, :url, unique: true
   end
 end

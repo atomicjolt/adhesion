@@ -86,7 +86,7 @@ ActiveRecord::Schema.define(version: 20190507024333) do
     t.string "file_path"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["url"], name: "index_atomic_docs_on_url"
+    t.index ["url"], name: "index_atomic_docs_on_url", unique: true
   end
 
   create_table "attendances", force: :cascade do |t|
