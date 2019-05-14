@@ -9,7 +9,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = window.DEFAULT_SETTINGS.pdf_worker_js_url;
 export default class PdfDisplay extends Component {
   static propTypes = {
     pdfDownloadUrl: PropTypes.string,
-    sessionError: PropTypes.string,
+    sessionError: PropTypes.bool,
   };
 
   static get errorContainer() {

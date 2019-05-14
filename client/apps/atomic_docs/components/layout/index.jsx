@@ -18,7 +18,7 @@ export class Index extends React.Component {
     getSessionStatus: PropTypes.func.isRequired,
     statusUrl: PropTypes.string.isRequired,
     pdfDownloadUrl: PropTypes.string,
-    sessionError: PropTypes.string,
+    sessionError: PropTypes.bool,
   };
 
   static defaultProps = {
