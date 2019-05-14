@@ -6,8 +6,6 @@ import { Document, Page, pdfjs } from 'react-pdf';
 
 pdfjs.GlobalWorkerOptions.workerSrc = window.DEFAULT_SETTINGS.pdf_worker_js_url;
 
-// Some code inspired by example:
-// https://github.com/wojtekmaj/react-pdf/issues/129#issuecomment-359136222
 export default class PdfDisplay extends Component {
   static propTypes = {
     pdfDownloadUrl: PropTypes.string,
@@ -34,6 +32,7 @@ export default class PdfDisplay extends Component {
   }
 
   setDivSize = () => {
+    // https://github.com/wojtekmaj/react-pdf/issues/129#issuecomment-359136222
     this.setState({ width: this.pdfWrapper.getBoundingClientRect().width });
   }
 
