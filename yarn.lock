@@ -473,8 +473,9 @@ atomic-reactor@^1.1.9:
     webpack-hot-middleware "^2.18.0"
 
 atomic-reactor@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/atomic-reactor/-/atomic-reactor-2.0.2.tgz#65a39ed46c07d803f60e066fae1dbf56aed6f18b"
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/atomic-reactor/-/atomic-reactor-2.1.0.tgz#fc85950be892aa2322676309d00d504d47222788"
+  integrity sha1-/IWVC+iSqiMiZ2MJ0A1QTUciJ4g=
   dependencies:
     assets-webpack-plugin "^3.5.1"
     autoprefixer "^7.1.1"
@@ -5694,6 +5695,7 @@ lodash.uniq@^4.5.0:
 lodash@>=4.17.11:
   version "4.17.11"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
+  integrity sha512-cQKh8igo5QUhZ7lg38DYWAxMvjSAKG0A8wGSVimP07SIUEK2UO+arSRKbRZWtelMtN5V0Hkwh5ryOto/SshYIg==
 
 lodash@^4.0.0, lodash@^4.13.1, lodash@^4.15.0, lodash@^4.16.4, lodash@^4.17.10, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0, lodash@~4.17.10, lodash@~4.17.4:
   version "4.17.10"
