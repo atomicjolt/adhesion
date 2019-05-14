@@ -7,6 +7,6 @@ class CreateAtomicDocSessions < ActiveRecord::Migration[5.1]
       t.timestamps
     end
 
-    add_index :atomic_doc_sessions, :session_id
+    add_index :atomic_doc_sessions, :session_id, unique: true
   end
 end

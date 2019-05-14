@@ -77,7 +77,7 @@ ActiveRecord::Schema.define(version: 20190507024333) do
     t.bigint "atomic_doc_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["session_id"], name: "index_atomic_doc_sessions_on_session_id"
+    t.index ["session_id"], name: "index_atomic_doc_sessions_on_session_id", unique: true
   end
 
   create_table "atomic_docs", force: :cascade do |t|
