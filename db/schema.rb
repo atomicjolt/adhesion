@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190214164316) do
+ActiveRecord::Schema.define(version: 20190507024333) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "api_tokens", force: :cascade do |t|
+    t.string "name"
+    t.string "encrypted_token"
+    t.string "encrypted_token_salt"
+    t.string "encrypted_token_iv"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_api_tokens_on_name"
+  end
 
   create_table "application_bundles", force: :cascade do |t|
     t.bigint "application_id"
@@ -60,6 +70,23 @@ ActiveRecord::Schema.define(version: 20190214164316) do
     t.string "oauth_precedence", default: "global,user,application_instance,course"
     t.boolean "anonymous", default: false
     t.index ["key"], name: "index_applications_on_key"
+  end
+
+  create_table "atomic_doc_sessions", force: :cascade do |t|
+    t.string "session_id"
+    t.bigint "atomic_doc_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["session_id"], name: "index_atomic_doc_sessions_on_session_id", unique: true
+  end
+
+  create_table "atomic_docs", force: :cascade do |t|
+    t.string "url"
+    t.string "status"
+    t.string "file_path"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["url"], name: "index_atomic_docs_on_url", unique: true
   end
 
   create_table "attendances", force: :cascade do |t|

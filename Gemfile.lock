@@ -1,4 +1,12 @@
 GIT
+  remote: https://github.com/FormAPI/libreconv.git
+  revision: b3156e2efa7bfd03efac8a826a0516dbfb418202
+  ref: b3156e2
+  branch: master
+  specs:
+    libreconv (0.9.1)
+
+GIT
   remote: https://github.com/atomicjolt/aj_lms_lti
   revision: 3b8a790dd10ff98f383e7ec212bdd6a33cf24b87
   specs:
@@ -423,6 +431,7 @@ DEPENDENCIES
   ims-lti (~> 2.1.5)
   jwt (~> 1.5.0)
   launchy
+  libreconv!
   listen
   lms-api (~> 1.3.15)
   mail_view

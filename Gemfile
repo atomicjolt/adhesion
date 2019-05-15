@@ -50,6 +50,9 @@ gem "rest-client"
 # Paging
 gem "will_paginate"
 
+# Doc Viewer
+gem "libreconv", github: "FormAPI/libreconv", branch: "master", ref: "b3156e2"
+
 # Application secrets checker
 gem "nuclear_secrets"
 
