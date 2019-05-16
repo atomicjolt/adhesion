@@ -21,7 +21,7 @@ class Api::AtomicDocsController < ApplicationController
   def session_status
     session = AtomicDocSession.find_by(session_id: params[:id])
 
-    if session.nil?
+    if session.nil? || session.expired?
       render json: { error: "invalid_session" }, status: 403
       return
     end
@@ -43,7 +43,7 @@ class Api::AtomicDocsController < ApplicationController
   def pdf_file
     session = AtomicDocSession.find_by(session_id: params[:id])
 
-    if session.nil?
+    if session.nil? || session.expired?
       render json: { error: "invalid_session" }, status: 403
       return
     end
