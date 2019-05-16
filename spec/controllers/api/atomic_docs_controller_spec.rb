@@ -101,6 +101,16 @@ RSpec.describe Api::AtomicDocsController, type: :controller do
         body = JSON.parse(response.body)
         expect(body["id"]).to be_present
       end
+
+      it "returns invalid_session" do
+        params = {
+          url: "fake",
+        }
+        post :sessions, params: params
+        expect(response).to have_http_status(403)
+        body = JSON.parse(response.body)
+        expect(body["error"]).to eq("invalid_session")
+      end
     end
 
     describe "GET session_status" do
