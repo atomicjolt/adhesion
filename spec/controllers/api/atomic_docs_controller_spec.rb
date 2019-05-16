@@ -72,6 +72,10 @@ RSpec.describe Api::AtomicDocsController, type: :controller do
     end
 
     describe "POST sessions" do
+      before do
+        @atomic_doc = create(:atomic_doc, url: @url, status: "queued")
+      end
+
       it "returns authorized" do
         params = {
           url: @url,

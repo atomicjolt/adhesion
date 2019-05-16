@@ -13,7 +13,13 @@ class Api::AtomicDocsController < ApplicationController
   end
 
   def sessions
-    atomic_doc = AtomicDoc.find_or_create_by(url: params[:url])
+    atomic_doc = AtomicDoc.find_by(url: params[:url])
+
+    if atomic_doc.nil?
+      render json: { error: "invalid_session" }, status: 403
+      return
+    end
+
     session = atomic_doc.atomic_doc_sessions.create
     render json: { id: session.session_id }
   end
