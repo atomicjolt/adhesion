@@ -12,4 +12,18 @@ RSpec.describe AtomicDoc, type: :model do
       expect(atomic_doc.status).to eq("complete")
     end
   end
+
+  describe "old" do
+    it "finds old atomic docs" do
+      @atomic_doc1 = create(:atomic_doc)
+      @atomic_doc2 = create(:atomic_doc, created_at: 4.days.ago)
+      @atomic_doc3 = create(:atomic_doc)
+      @atomic_doc4 = create(:atomic_doc, created_at: 9.days.ago)
+      @atomic_doc1 = create(:atomic_doc, created_at: 1.days.ago)
+
+      atomic_docs = AtomicDoc.old
+      expect(atomic_docs.count).to eq(1)
+      expect(atomic_docs).to include(@atomic_doc4)
+    end
+  end
 end
