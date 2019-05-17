@@ -21,6 +21,17 @@ RSpec.describe Api::AtomicDocsController, type: :controller do
         expect(response).to have_http_status(401)
       end
     end
+
+    describe "DELETE documents" do
+      it "returns unauthorized" do
+        atomic_doc = create(:atomic_doc, url: @url)
+        params = {
+          id: atomic_doc.id,
+        }
+        delete :destroy, params: params
+        expect(response).to have_http_status(401)
+      end
+    end
   end
 
   context "with api token" do
@@ -198,6 +209,20 @@ RSpec.describe Api::AtomicDocsController, type: :controller do
         expect(response).to have_http_status(403)
         body = JSON.parse(response.body)
         expect(body["error"]).to eq("invalid_session")
+      end
+    end
+
+    describe "DELETE destroy" do
+      it "Deletes the atomic doc" do
+        atomic_doc = create(:atomic_doc, url: @url)
+        params = {
+          id: atomic_doc.id,
+        }
+        delete :destroy, params: params
+        expect(response).to have_http_status(200)
+        expect do
+          AtomicDoc.find(atomic_doc.id)
+        end.to raise_error
       end
     end
   end
