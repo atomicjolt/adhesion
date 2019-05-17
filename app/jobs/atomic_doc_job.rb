@@ -33,9 +33,13 @@ class AtomicDocJob < ApplicationJob
 
   def copy_to_storage(file, filename, atomic_doc)
     storage_mount = Rails.env.production? ? Rails.application.secrets.storage_mount : Dir.tmpdir
-    duplicate_dir_path = File.join(storage_mount, "atomic_doc", atomic_doc.id.to_s)
-    FileUtils.mkdir_p(duplicate_dir_path)
+    path_segments = URI(atomic_doc.url).path.split("/")
+    lms_course_id = path_segments[2] || "unknown"
+    lms_file_id = path_segments[4] || "unknown"
+    duplicate_dir_path = File.join(storage_mount, "atomic_docs", lms_course_id, lms_file_id, atomic_doc.id.to_s)
     duplicate_file_path = File.join(duplicate_dir_path, "#{filename}.pdf")
+
+    FileUtils.mkdir_p(duplicate_dir_path)
 
     pid = spawn("/bin/mv", file.path, duplicate_file_path)
     success = Process.wait(pid)
