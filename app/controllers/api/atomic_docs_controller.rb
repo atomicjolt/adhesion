@@ -4,12 +4,21 @@ class Api::AtomicDocsController < ApplicationController
   layout "client"
 
   skip_before_action :verify_authenticity_token
-  before_action :validate_api_key, only: %i[documents sessions]
+  before_action :validate_api_key, only: %i[documents sessions destroy]
 
   def documents
     atomic_doc = AtomicDoc.find_or_create_by(url: params[:url])
     AtomicDocJob.perform_later(atomic_doc)
     render json: { id: atomic_doc.id, status: atomic_doc.status }
+  end
+
+  def destroy
+    atomic_doc = AtomicDoc.find(params[:id])
+    if atomic_doc&.destroy
+      render json: { head: :ok }
+    else
+      render json: { error: "invalid_document" }, status: 403
+    end
   end
 
   def sessions
