@@ -75,18 +75,16 @@ class ScormEngineService
     }.to_query
     url = "#{@scorm_tenant_url}/courses/importJobs?#{params}"
 
-    File.open(file) do |zip|
-      response = RestClient::Request.execute(
-        method: :post,
-        url: url,
-        user: @api_username,
-        password: @api_password,
-        payload: {
-          file: UploadIO.new(zip, "zip/zip", File.basename(file)),
-        },
-      )
-      JSON.parse(response.body)["result"]
-    end
+    response = RestClient::Request.execute(
+      method: :post,
+      url: url,
+      user: @api_username,
+      password: @api_password,
+      payload: {
+        file: File.new(file),
+      },
+    )
+    JSON.parse(response.body)["result"]
   end
 
   def upload_scorm_course_url(file_url, course_id, _cleanup)
