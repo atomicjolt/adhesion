@@ -70,8 +70,7 @@ class UploadCanvasJob < ApplicationJob
           on_duplicate: "overwrite",
         },
       ).parsed_response
-      canvas_response["upload_params"]["file"] =
-        UploadIO.new(File.new(file_path), "application/zip", File.basename(file_path))
+      canvas_response["upload_params"]["file"] = File.new(file_path)
 
       RestClient.post(
         canvas_response["upload_url"],
