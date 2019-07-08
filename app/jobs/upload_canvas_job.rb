@@ -58,13 +58,14 @@ class UploadCanvasJob < ApplicationJob
 
   def upload_canvas_file(file_path, lms_course_id)
     if file_path.present?
+      filename = File.basename(file_path)
       canvas_response = @canvas_api.proxy(
         "COURSES_UPLOAD_FILE",
         {
           course_id: lms_course_id,
         },
         {
-          name: File.basename(file_path),
+          name: filename,
           content_type: "application/zip",
           parent_folder_path: "scorm_files/",
           on_duplicate: "overwrite",
@@ -84,6 +85,30 @@ class UploadCanvasJob < ApplicationJob
           JSON.parse(file_confirm.body)["id"]
         end
       end
+    end
+  rescue RestClient::GatewayTimeout => e
+    handle_timeout(e, lms_course_id, filename, 0)
+  end
+
+  # Query the canvas api every minute for 30 minutes
+  # waiting for the file to be put into place.
+  def handle_timeout(err, lms_course_id, filename, iteration)
+    course_files = @canvas_api.proxy(
+      "LIST_FILES_COURSES",
+      {
+        course_id: lms_course_id,
+        search_term: filename,
+      },
+      {},
+      true,
+    )
+    if course_files.present?
+      course_files.first["id"]
+    elsif iteration < 30
+      sleep 60
+      handle_timeout(err, lms_course_id, filename, iteration + 1)
+    else
+      raise err
     end
   end
 
