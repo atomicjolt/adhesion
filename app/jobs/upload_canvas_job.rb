@@ -73,21 +73,23 @@ class UploadCanvasJob < ApplicationJob
       ).parsed_response
       canvas_response["upload_params"]["file"] = File.new(file_path)
 
-      RestClient.post(
-        canvas_response["upload_url"],
-        canvas_response["upload_params"],
-      ) do |response|
-        case response.code
-        when 200, 201
-          JSON.parse(response.body)["id"]
-        when 302, 303
-          file_confirm = RestClient.get(response.headers[:location])
-          JSON.parse(file_confirm.body)["id"]
+      begin
+        RestClient.post(
+          canvas_response["upload_url"],
+          canvas_response["upload_params"],
+        ) do |response|
+          case response.code
+          when 200, 201
+            JSON.parse(response.body)["id"]
+          when 302, 303
+            file_confirm = RestClient.get(response.headers[:location])
+            JSON.parse(file_confirm.body)["id"]
+          end
         end
+      rescue RestClient::GatewayTimeout => e
+        handle_timeout(e, lms_course_id, filename, 0)
       end
     end
-  rescue RestClient::GatewayTimeout => e
-    handle_timeout(e, lms_course_id, filename, 0)
   end
 
   # Query the canvas api every minute for 30 minutes
