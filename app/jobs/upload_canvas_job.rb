@@ -104,8 +104,9 @@ class UploadCanvasJob < ApplicationJob
       {},
       true,
     )
-    if course_files.present?
-      course_files.first["id"]
+    course_file = course_files.detect { |cf| cf["display_name"] == filename }
+    if course_file.present?
+      course_file["id"]
     elsif iteration < 30
       sleep 60
       handle_timeout(err, lms_course_id, filename, iteration + 1)
