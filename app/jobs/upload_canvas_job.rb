@@ -133,29 +133,6 @@ class UploadCanvasJob < ApplicationJob
     end
   end
 
-  # Query the canvas api every minute for 30 minutes
-  # waiting for the file to be put into place.
-  def handle_timeout(err, lms_course_id, filename, iteration)
-    course_files = @canvas_api.proxy(
-      "LIST_FILES_COURSES",
-      {
-        course_id: lms_course_id,
-        search_term: filename,
-      },
-      {},
-      true,
-    )
-    course_file = course_files.detect { |cf| cf["display_name"] == filename }
-    if course_file.present?
-      course_file["id"]
-    elsif iteration < 30
-      sleep 60
-      handle_timeout(err, lms_course_id, filename, iteration + 1)
-    else
-      raise err
-    end
-  end
-
   def hide_scorm_file(file_id)
     @canvas_api.proxy("UPDATE_FILE", { id: file_id }, { hidden: true })
   end
