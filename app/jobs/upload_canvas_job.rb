@@ -3,6 +3,8 @@ class UploadCanvasJob < ApplicationJob
   include ScormCourseHelper
   queue_as :default
 
+  discard_on Adhesion::Exceptions::CanvasUploadGatewayTimeout
+
   def perform(
     application_instance,
     current_user,
@@ -25,7 +27,14 @@ class UploadCanvasJob < ApplicationJob
         import_job_status: ScormCourse::COMPLETE,
       )
     else
-      process_canvas_file(scorm_course, file_path, lms_course_id)
+      process_canvas_file(
+        application_instance,
+        current_user,
+        lms_course_id,
+        scorm_course,
+        file_path,
+        skip_canvas_upload,
+      )
     end
 
     if scorm_course.lms_assignment_id.present?
@@ -42,9 +51,23 @@ class UploadCanvasJob < ApplicationJob
     raise e
   end
 
-  def process_canvas_file(scorm_course, file_path, lms_course_id)
+  def process_canvas_file(
+    application_instance,
+    current_user,
+    lms_course_id,
+    scorm_course,
+    file_path,
+    skip_canvas_upload
+  )
     delete_canvas_file(scorm_course.file_id) if scorm_course&.file_id
-    file_id = upload_canvas_file(file_path, lms_course_id)
+    file_id = upload_canvas_file(
+      application_instance,
+      current_user,
+      lms_course_id,
+      scorm_course,
+      file_path,
+      skip_canvas_upload,
+    )
     if file_id
       hide_scorm_file(file_id)
       scorm_course.update(
@@ -56,7 +79,14 @@ class UploadCanvasJob < ApplicationJob
     end
   end
 
-  def upload_canvas_file(file_path, lms_course_id)
+  def upload_canvas_file(
+    application_instance,
+    current_user,
+    lms_course_id,
+    scorm_course,
+    file_path,
+    skip_canvas_upload
+  )
     if file_path.present?
       filename = File.basename(file_path)
       canvas_response = @canvas_api.proxy(
@@ -86,8 +116,19 @@ class UploadCanvasJob < ApplicationJob
             JSON.parse(file_confirm.body)["id"]
           end
         end
-      rescue RestClient::GatewayTimeout => e
-        handle_timeout(e, lms_course_id, filename, 0)
+      rescue RestClient::GatewayTimeout
+        PollCanvasUploadJob.
+          perform_later(
+            application_instance,
+            current_user,
+            lms_course_id,
+            scorm_course,
+            file_path,
+            skip_canvas_upload,
+            filename,
+            0,
+          )
+        raise Adhesion::Exceptions::CanvasUploadGatewayTimeout.new
       end
     end
   end
