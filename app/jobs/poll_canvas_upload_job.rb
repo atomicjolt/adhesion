@@ -1,6 +1,6 @@
 class PollCanvasUploadJob < ApplicationJob
   include Concerns::CanvasSupport
-  include ScormCourseHelper
+
   queue_as :default
 
   POLL_INTERVAL = 60.seconds
