@@ -42,7 +42,9 @@ class UploadCanvasJob < ApplicationJob
         file_path,
       )
   rescue StandardError => e
-    scorm_course.update(import_job_status: ScormCourse::FAILED)
+    if e.class != Adhesion::Exceptions::CanvasUploadGatewayTimeout
+      scorm_course.update(import_job_status: ScormCourse::FAILED)
+    end
     raise e
   end
 
