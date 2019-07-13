@@ -34,11 +34,17 @@ class PollCanvasUploadJob < ApplicationJob
 
     course_file = course_files.detect { |cf| cf["display_name"] == filename }
     if course_file.present?
+      hide_scorm_file(course_file["id"])
       scorm_course.update(file_id: course_file["id"])
-      skip_canvas_upload = true
-    end
-
-    if iteration < 30 && course_file.nil?
+      WrapupUploadCanvasJob.
+        perform_later(
+          application_instance,
+          current_user,
+          lms_course_id,
+          scorm_course,
+          file_path,
+        )
+    elsif iteration < 30
       PollCanvasUploadJob.
         set(wait: POLL_INTERVAL).
         perform_later(
@@ -62,5 +68,9 @@ class PollCanvasUploadJob < ApplicationJob
           skip_canvas_upload,
         )
     end
+  end
+
+  def hide_scorm_file(file_id)
+    @canvas_api.proxy("UPDATE_FILE", { id: file_id }, { hidden: true })
   end
 end
