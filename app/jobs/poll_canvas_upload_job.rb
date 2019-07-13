@@ -34,7 +34,6 @@ class PollCanvasUploadJob < ApplicationJob
 
     course_file = course_files.detect { |cf| cf["display_name"] == filename }
     if course_file.present?
-      hide_scorm_file(course_file["id"])
       scorm_course.update(file_id: course_file["id"])
       WrapupUploadCanvasJob.
         perform_later(
@@ -68,9 +67,5 @@ class PollCanvasUploadJob < ApplicationJob
           skip_canvas_upload,
         )
     end
-  end
-
-  def hide_scorm_file(file_id)
-    @canvas_api.proxy("UPDATE_FILE", { id: file_id }, { hidden: true })
   end
 end

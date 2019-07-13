@@ -23,6 +23,8 @@ class WrapupUploadCanvasJob < ApplicationJob
       import_job_status: ScormCourse::COMPLETE,
     )
 
+    hide_scorm_file(scorm_course.file_id)
+
     if scorm_course.lms_assignment_id.present?
       update_canvas_assignment(
         lms_course_id,
@@ -35,6 +37,10 @@ class WrapupUploadCanvasJob < ApplicationJob
   rescue StandardError => e
     scorm_course.update(import_job_status: ScormCourse::FAILED)
     raise e
+  end
+
+  def hide_scorm_file(file_id)
+    @canvas_api.proxy("UPDATE_FILE", { id: file_id }, { hidden: true })
   end
 
   def update_canvas_assignment(lms_course_id, assignment_id, name)

@@ -64,7 +64,6 @@ class UploadCanvasJob < ApplicationJob
       skip_canvas_upload,
     )
     if file_id
-      hide_scorm_file(file_id)
       scorm_course.update(file_id: file_id)
     else
       raise Adhesion::Exceptions::ScormCanvasUpload.new
@@ -123,10 +122,6 @@ class UploadCanvasJob < ApplicationJob
         raise Adhesion::Exceptions::CanvasUploadGatewayTimeout.new
       end
     end
-  end
-
-  def hide_scorm_file(file_id)
-    @canvas_api.proxy("UPDATE_FILE", { id: file_id }, { hidden: true })
   end
 
   def delete_canvas_file(file_id)
