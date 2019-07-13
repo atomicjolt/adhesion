@@ -132,17 +132,4 @@ class UploadCanvasJob < ApplicationJob
   def delete_canvas_file(file_id)
     @canvas_api.proxy("DELETE_FILE", { id: file_id })
   end
-
-  def update_canvas_assignment(lms_course_id, assignment_id, name)
-    @canvas_api.proxy(
-      "EDIT_ASSIGNMENT",
-      {
-        course_id: lms_course_id,
-        id: assignment_id,
-      },
-      {
-        assignment: { name: name },
-      },
-    )
-  end
 end

@@ -36,4 +36,17 @@ class WrapupUploadCanvasJob < ApplicationJob
     scorm_course.update(import_job_status: ScormCourse::FAILED)
     raise e
   end
+
+  def update_canvas_assignment(lms_course_id, assignment_id, name)
+    @canvas_api.proxy(
+      "EDIT_ASSIGNMENT",
+      {
+        course_id: lms_course_id,
+        id: assignment_id,
+      },
+      {
+        assignment: { name: name },
+      },
+    )
+  end
 end
