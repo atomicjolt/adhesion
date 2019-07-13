@@ -19,10 +19,6 @@ class WrapupUploadCanvasJob < ApplicationJob
       course: current_course,
     )
 
-    scorm_course.update(
-      import_job_status: ScormCourse::COMPLETE,
-    )
-
     hide_scorm_file(scorm_course.file_id)
 
     if scorm_course.lms_assignment_id.present?
@@ -32,6 +28,10 @@ class WrapupUploadCanvasJob < ApplicationJob
         scorm_course.title,
       )
     end
+
+    scorm_course.update(
+      import_job_status: ScormCourse::COMPLETE,
+    )
 
     FileUtils.remove_entry_secure(file_path) if file_path.present?
   rescue StandardError => e
