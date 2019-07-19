@@ -19,7 +19,11 @@ class WrapupUploadCanvasJob < ApplicationJob
       course: current_course,
     )
 
-    hide_scorm_file(scorm_course.file_id)
+    begin
+      hide_scorm_file(scorm_course.file_id)
+    rescue RestClient::GatewayTimeout
+      # ignore it, nobody cares
+    end
 
     if scorm_course.lms_assignment_id.present?
       update_canvas_assignment(
