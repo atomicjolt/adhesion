@@ -57,15 +57,19 @@ class PollCanvasUploadJob < ApplicationJob
           iteration + 1,
         )
     else
-      UploadCanvasJob.
-        perform_later(
-          application_instance,
-          current_user,
-          lms_course_id,
-          scorm_course,
-          file_path,
-          skip_canvas_upload,
-        )
+      retry_with = "UploadCanvasJob.perform_later(ApplicationInstance.find_by(id: #{application_instance&.id}), User.find_by(id: '#{current_user&.id}'), '#{lms_course_id}', ScormCourse.find_by(id: #{scorm_course&.id}), '#{file_path}', #{skip_canvas_upload})"
+
+      retry_info = {
+        user_id: current_user&.id,
+        user_email: current_user&.email,
+        user_name: current_user&.name,
+        lti_user_id: current_user&.lti_user_id,
+        lms_user_id: current_user&.lms_user_id,
+        timestamp: Time.zone.now.to_s,
+        retry_with: retry_with,
+      }
+
+      RetryMailer.retry_email("UploadCanvasJob", retry_info.to_json).deliver_later
     end
   end
 end
