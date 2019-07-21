@@ -61,7 +61,12 @@ class UploadCanvasJob < ApplicationJob
     scorm_course,
     file_path
   )
-    delete_canvas_file(scorm_course.file_id) if scorm_course&.file_id
+    begin
+      delete_canvas_file(scorm_course.file_id) if scorm_course&.file_id
+    rescue LMS::Canvas::InvalidAPIRequestFailedException => e
+      # ignore it, nobody cares if it is a gateway timeout
+      raise e if e.status != 504
+    end
     file_id = upload_canvas_file(
       lms_course_id,
       file_path,
