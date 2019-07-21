@@ -12,9 +12,9 @@ class PollCanvasUploadJob < ApplicationJob
     scorm_course,
     file_path,
     skip_canvas_upload,
-    filename,
     iteration
   )
+    filename = File.basename(file_path)
     current_course = Course.find_by(lms_course_id: lms_course_id)
     @canvas_api = canvas_api(
       application_instance: application_instance,
@@ -53,7 +53,6 @@ class PollCanvasUploadJob < ApplicationJob
           scorm_course,
           file_path,
           skip_canvas_upload,
-          filename,
           iteration + 1,
         )
     else
