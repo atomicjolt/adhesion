@@ -21,8 +21,9 @@ class WrapupUploadCanvasJob < ApplicationJob
 
     begin
       hide_scorm_file(scorm_course.file_id)
-    rescue RestClient::GatewayTimeout
-      # ignore it, nobody cares
+    rescue LMS::Canvas::InvalidAPIRequestFailedException => e
+      # ignore it, nobody cares if it is a gateway timeout
+      raise e if e.status != 504
     end
 
     if scorm_course.lms_assignment_id.present?
