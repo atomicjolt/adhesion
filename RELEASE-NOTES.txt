@@ -1,5 +1,14 @@
 ;;; -*- fill-column: 80; -*-
 
+Changes for 1.1.1:
+  * Handle gateway timeout better.
+  * Fix limited message size for storing errors.
+  * Improve file upload code to not use UploadIO.
+  * Match ruby version to what is deployed.
+  * Match node version to what is deployed.
+  * Gem upgrades to match what is deployed.
+
+
 Changes for 1.1.0:
   * Update misc gems to match deploy.
   * Update rails for security patch.
