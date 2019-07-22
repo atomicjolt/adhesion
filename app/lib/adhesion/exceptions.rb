@@ -12,6 +12,12 @@ module Adhesion
       end
     end
 
+    class CanvasUploadGatewayTimeout < StandardError
+      def initialize(msg = "Canvas gateway timeout occurred.")
+        super(msg)
+      end
+    end
+
     class ScormCopyToStorage < StandardError
       def initialize(msg = "Error with copying to storage")
         super(msg)
