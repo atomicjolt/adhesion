@@ -104,6 +104,8 @@ class UploadCanvasJob < ApplicationJob
           canvas_response["upload_params"],
         ) do |response|
           case response.code
+          when 504
+            raise Adhesion::Exceptions::CanvasUploadGatewayTimeout.new
           when 200, 201
             JSON.parse(response.body)["id"]
           when 302, 303
