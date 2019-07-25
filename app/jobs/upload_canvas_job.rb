@@ -107,8 +107,13 @@ class UploadCanvasJob < ApplicationJob
           when 200, 201
             JSON.parse(response.body)["id"]
           when 302, 303
-            file_confirm = RestClient.get(response.headers[:location])
-            JSON.parse(file_confirm.body)["id"]
+            RestClient.get(response.headers[:location]) do |get_response|
+              if get_response.code == 504
+                raise Adhesion::Exceptions::CanvasUploadGatewayTimeout.new
+              else
+                JSON.parse(get_response.body)["id"]
+              end
+            end
           end
         end
       rescue RestClient::GatewayTimeout
