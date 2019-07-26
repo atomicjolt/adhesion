@@ -1,5 +1,10 @@
 ;;; -*- fill-column: 80; -*-
 
+Changes for 1.1.4:
+  * Uniquely name scorm files.
+    * This ensures a 1 to 1 mapping of scorm uploads to scorm courses.
+
+
 Changes for 1.1.3:
   * Handle another gateway timeout when upload a file upload.
 
