@@ -194,36 +194,65 @@ describe "Scorm Engine Service sync score", type: :controller do
 end
 
 describe "sync_courses" do
-  it "should sync courses table" do
-    lms_course_id = "1234"
-    graded_id = "12"
-    create(:scorm_course, scorm_service_id: "3_#{lms_course_id}")
-    graded_course = create(
+  before do
+    @lms_course_id = "1234"
+    @course1 = create(
       :scorm_course,
-      scorm_service_id: "#{graded_id}_#{lms_course_id}",
-      grading_type: "pass_fail",
+      scorm_service_id: "3_#{@lms_course_id}",
+      import_job_status: ScormCourse::COMPLETE,
     )
-    graded_course.lms_assignment_id = 1
-    graded_course.points_possible = 5
-    graded_course.save!
+    @course2 = create(
+      :scorm_course,
+      scorm_service_id: "4_#{@lms_course_id}",
+      import_job_status: ScormCourse::COMPLETE,
+    )
+    @graded_course = create(
+      :scorm_course,
+      scorm_service_id: "12_#{@lms_course_id}",
+      grading_type: "pass_fail",
+      import_job_status: ScormCourse::COMPLETE,
+    )
+    @graded_course.lms_assignment_id = 1
+    @graded_course.points_possible = 5
+    @graded_course.save!
+
+    @missing_course_service_id = "35_#{@lms_course_id}"
 
     subject = ScormEngineService.new
-    result = subject.sync_courses(
+    @result = subject.sync_courses(
       [
-        { "id" => graded_course.scorm_service_id, "title" => "The Title" },
-        { "id" => "3_#{lms_course_id}", "title" => "The New Title" },
-        { "id" => "35_#{68000}", "title" => "meh" },
+        { "id" => @graded_course.scorm_service_id, "title" => "The Title" },
+        { "id" => @course1.scorm_service_id, "title" => "The New Title" },
+        { "id" => @missing_course_service_id, "title" => "meh" },
       ],
-      lms_course_id,
+      @lms_course_id,
     )
+  end
 
+  it "should sync courses table" do
     scorm_course_count = ScormCourse.
       where(
-        scorm_service_id: ["3_#{lms_course_id}", graded_course.scorm_service_id],
+        scorm_service_id: [@course1.scorm_service_id, @graded_course.scorm_service_id],
       ).count
     expect(scorm_course_count).to eq 2
 
-    expect(result[0][:lms_assignment_id]).to eq(1)
-    expect(result[0][:grading_type]).to eq("pass_fail")
+    expect(@result[0][:lms_assignment_id]).to eq(1)
+    expect(@result[0][:grading_type]).to eq("pass_fail")
+  end
+
+  it "should create missing courses" do
+    new_scorm_course_count = ScormCourse.
+      where(
+        scorm_service_id: @missing_course_service_id,
+      ).count
+    expect(new_scorm_course_count).to eq 1
+  end
+
+  it "should delete extra courses" do
+    deleted_courses_count = ScormCourse.
+      where(
+        scorm_service_id: @course2.scorm_service_id,
+      ).count
+    expect(deleted_courses_count).to eq(0)
   end
 end
