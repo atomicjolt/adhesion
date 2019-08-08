@@ -1,5 +1,11 @@
 ;;; -*- fill-column: 80; -*-
 
+Changes for 1.1.5:
+  * Retry import scorm to rustici if rustici encounters a read timeout.
+    * Also fix handling error messages properly.
+  * Only sync/cleanup courses that are complete.
+
+
 Changes for 1.1.4:
   * Uniquely name scorm files.
     * This ensures a 1 to 1 mapping of scorm uploads to scorm courses.
