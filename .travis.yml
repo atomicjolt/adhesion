@@ -25,12 +25,6 @@ cache:
     - client/apps/scorm/node_modules
     - client/apps/survey_tool/node_modules
 
-branches:
-  only:
-  - master
-  - staging
-  - stable
-
 services:
   - postgresql
 
