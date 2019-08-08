@@ -51,6 +51,12 @@ class ScormStatusCheckJob < ApplicationJob
           file_url,
         )
     else
+      if message != "RUNNING"
+        scorm_course.update(
+          import_job_status: ScormCourse::FAILED,
+          message: message,
+        )
+      end
       raise e
     end
   rescue StandardError => e
