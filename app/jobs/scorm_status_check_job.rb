@@ -31,11 +31,29 @@ class ScormStatusCheckJob < ApplicationJob
         file_path,
         skip_canvas_upload,
       )
-  rescue Adhesion::Exceptions::ScormImport => e
+  rescue Adhesion::Exceptions::ScormImport, StandardError => e
+    handle_error(
+      e,
+      application_instance,
+      user,
+      lms_course_id,
+      scorm_course,
+      file_url,
+    )
+  end
+
+  def handle_error(
+    err,
+    application_instance,
+    user,
+    lms_course_id,
+    scorm_course,
+    file_url
+  )
     message = begin
-                JSON.parse(e.message)["message"]
+                JSON.parse(err.message)["message"]
               rescue JSON::ParserError
-                e.message
+                err.message
               end
 
     if message == "Read timed out" && file_url.present?
@@ -57,19 +75,7 @@ class ScormStatusCheckJob < ApplicationJob
           message: message,
         )
       end
-      raise e
+      raise err
     end
-  rescue StandardError => e
-    message = begin
-                JSON.parse(e.message)["message"]
-              rescue JSON::ParserError
-                e.message
-              end
-
-    scorm_course.update(
-      import_job_status: ScormCourse::FAILED,
-      message: message,
-    )
-    raise e
   end
 end
