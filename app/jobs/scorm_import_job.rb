@@ -29,6 +29,7 @@ class ScormImportJob < ApplicationJob
         file_path,
         response,
         skip_canvas_upload,
+        file_url,
       )
   rescue StandardError => e
     scorm_course.update(import_job_status: ScormCourse::FAILED)

@@ -9,7 +9,8 @@ class ScormStatusCheckJob < ApplicationJob
     scorm_course,
     file_path,
     response,
-    skip_canvas_upload
+    skip_canvas_upload,
+    file_url
   )
     scorm_course.update(import_job_status: ScormCourse::RUNNING)
 
@@ -30,11 +31,51 @@ class ScormStatusCheckJob < ApplicationJob
         file_path,
         skip_canvas_upload,
       )
-  rescue StandardError => e
-    scorm_course.update(
-      import_job_status: ScormCourse::FAILED,
-      message: JSON.parse(e.message)["message"],
+  rescue Adhesion::Exceptions::ScormImport, StandardError => e
+    handle_error(
+      e,
+      application_instance,
+      user,
+      lms_course_id,
+      scorm_course,
+      file_url,
     )
-    raise e
+  end
+
+  def handle_error(
+    err,
+    application_instance,
+    user,
+    lms_course_id,
+    scorm_course,
+    file_url
+  )
+    message = begin
+                JSON.parse(err.message)["message"]
+              rescue JSON::ParserError
+                err.message
+              end
+
+    if message == "Read timed out" && file_url.present?
+      # Send to rustici again.
+      ScormImportJob.
+        perform_later(
+          application_instance,
+          user,
+          lms_course_id,
+          scorm_course,
+          nil,
+          true,
+          file_url,
+        )
+    else
+      if message != "RUNNING"
+        scorm_course.update(
+          import_job_status: ScormCourse::FAILED,
+          message: message,
+        )
+      end
+      raise err
+    end
   end
 end
