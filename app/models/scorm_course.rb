@@ -51,6 +51,10 @@ class ScormCourse < ActiveRecord::Base
     summary
   end
 
+  def importing?
+    [ScormCourse::CREATED, ScormCourse::RUNNING].include? import_job_status
+  end
+
   private
 
   def get_course_activities
