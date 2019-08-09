@@ -1,5 +1,10 @@
 ;;; -*- fill-column: 80; -*-
 
+Changes for 1.1.6:
+  * Display loader while scorm package is importing.
+    * Also fixes an issue where if the scorm tool is loaded before importing is complete, it would error.
+
+
 Changes for 1.1.5:
   * Retry import scorm to rustici if rustici encounters a read timeout.
     * Also fix handling error messages properly.
