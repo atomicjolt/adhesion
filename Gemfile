@@ -57,7 +57,7 @@ group :development do
   # UI
   gem "autoprefixer-rails"
   gem "non-stupid-digest-assets" # also compile assets without digest (fixes font problem)
-  gem "sass-rails"
+  gem "sass-rails", "~> 5.0.7"
   gem "uglifier"
 
   gem "better_errors"
