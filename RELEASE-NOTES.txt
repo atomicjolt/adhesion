@@ -1,5 +1,44 @@
 ;;; -*- fill-column: 80; -*-
 
+Changes for 1.1.7:
+  * Fix ims import to update scorm courses
+    * Allow ims import to update a scorm course. This will update the scorm course with the new data(title, score, etc) and also send the file to Rustici to be processed if it has changed or is new.
+  * Lock sass-rails to ~> 5.0.7
+
+
+Changes for 1.1.6:
+  * Display loader while scorm package is importing.
+    * Also fixes an issue where if the scorm tool is loaded before importing is complete, it would error.
+
+
+Changes for 1.1.5:
+  * Retry import scorm to rustici if rustici encounters a read timeout.
+    * Also fix handling error messages properly.
+  * Only sync/cleanup courses that are complete.
+
+
+Changes for 1.1.4:
+  * Uniquely name scorm files.
+    * This ensures a 1 to 1 mapping of scorm uploads to scorm courses.
+
+
+Changes for 1.1.3:
+  * Handle another gateway timeout when upload a file upload.
+
+
+Changes for 1.1.2:
+  * Handle another gateway timeout when finalizing a file upload.
+
+
+Changes for 1.1.1:
+  * Handle gateway timeout better.
+  * Fix limited message size for storing errors.
+  * Improve file upload code to not use UploadIO.
+  * Match ruby version to what is deployed.
+  * Match node version to what is deployed.
+  * Gem upgrades to match what is deployed.
+
+
 Changes for 1.1.0:
   * Update misc gems to match deploy.
   * Update rails for security patch.

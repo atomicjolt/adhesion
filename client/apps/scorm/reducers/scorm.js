@@ -50,7 +50,13 @@ export default (state = initialState, action) => {
       }
       return {
         ...state,
-        scormList: _.map(action.payload.response, (item, index) => ({ ...item, index })),
+        scormList: _.map(action.payload.response, (item, index) => (
+          {
+            ...item,
+            fetching: item.importing === true,
+            index,
+          }
+        )),
         shouldRefreshList: false,
         file: null,
       };

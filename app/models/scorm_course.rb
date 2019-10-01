@@ -4,6 +4,8 @@ class ScormCourse < ActiveRecord::Base
            primary_key: :scorm_service_id
   has_one :lti_launch, dependent: :destroy
 
+  scope :complete, -> { where(import_job_status: ScormCourse::COMPLETE) }
+
   after_commit :set_scorm_service_id, on: [:create]
 
   attr_accessor :lms_course_id
@@ -47,6 +49,10 @@ class ScormCourse < ActiveRecord::Base
     summary[:title] = title
     summary[:analytics_table] = get_course_activities
     summary
+  end
+
+  def importing?
+    [ScormCourse::CREATED, ScormCourse::RUNNING].include? import_job_status
   end
 
   private

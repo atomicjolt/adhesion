@@ -211,7 +211,8 @@ class Api::ScormCoursesController < ApplicationController
     storage_mount = Rails.env.production? ? Rails.application.secrets.storage_mount : Dir.tmpdir
     duplicate_dir_path = File.join(storage_mount, "job", scorm_course_id.to_s)
     FileUtils.mkdir_p(duplicate_dir_path)
-    duplicate_file_path = File.join(duplicate_dir_path, file.original_filename)
+    new_file_name = "#{Time.now.strftime('%Y%m%dT%H%M%S')}_#{file.original_filename}"
+    duplicate_file_path = File.join(duplicate_dir_path, new_file_name)
     pid = spawn("/bin/mv", file.tempfile.path, duplicate_file_path)
     success = Process.wait(pid)
     raise Adhesion::Exceptions::ScormCopyToStorage unless success

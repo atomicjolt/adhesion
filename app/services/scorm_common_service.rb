@@ -5,11 +5,15 @@ module ScormCommonService
   def sync_courses(courses, lms_course_id)
     if courses
       course_ids = get_course_ids(courses)
-      existing_course_ids = ScormCourse.
-        where("scorm_service_id LIKE '%_?'", lms_course_id.to_i).
+      service_id_arel = ScormCourse.arel_table[:scorm_service_id]
+      scorm_courses = ScormCourse.
+        where(service_id_arel.matches("%_#{lms_course_id.to_i}"))
+      existing_complete_course_ids = scorm_courses.
+        complete.
         pluck(:scorm_service_id)
-      extra = existing_course_ids - course_ids
+      extra = existing_complete_course_ids - course_ids
       remove_extras(extra)
+      existing_course_ids = scorm_courses.pluck(:scorm_service_id)
       needed = course_ids - existing_course_ids
       update_scorm_courses(courses, needed)
       get_sync_result(courses)
@@ -155,6 +159,7 @@ module ScormCommonService
         resp = {
           title: get_course_title(course),
           id: local_course.scorm_service_id,
+          importing: local_course.importing?,
         }
         if local_course.lms_assignment_id.nil? == false
           resp[:lms_assignment_id] = local_course.lms_assignment_id

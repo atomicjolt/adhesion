@@ -37,12 +37,26 @@ class ImsImportJob < ApplicationJob
       lti_launch = LtiLaunch.find_by(token: lti_launch_attrs[:token], context_id: context_id)
 
       if lti_launch.blank?
-        create_lti_launch(
+        lti_launch = create_lti_launch(
           scorm_course_attrs,
           lti_launch_attrs,
           context_id,
           tool_consumer_instance_guid,
-          file_id,
+        )
+        new_scorm_course = true
+      end
+
+      scorm_course = lti_launch.scorm_course
+      old_file_id = scorm_course.file_id
+      scorm_course.update(scorm_course_attrs)
+
+      if file_id.present? && (file_id.to_i != old_file_id || new_scorm_course)
+        scorm_course.update(import_job_status: ScormCourse::CREATED)
+        public_file_url = file_url(file_id)
+        process_scorm_import_url(
+          scorm_course,
+          scorm_course_attrs[:lms_course_id],
+          public_file_url,
           application_instance,
           user,
         )
@@ -54,10 +68,7 @@ class ImsImportJob < ApplicationJob
     scorm_course_attrs,
     lti_launch_attrs,
     context_id,
-    tool_consumer_instance_guid,
-    file_id,
-    application_instance,
-    user
+    tool_consumer_instance_guid
   )
     scorm_course = ScormCourse.new(scorm_course_attrs)
     scorm_course.update(import_job_status: ScormCourse::CREATED)
@@ -73,17 +84,7 @@ class ImsImportJob < ApplicationJob
     lti_launch.context_id = context_id
     lti_launch.tool_consumer_instance_guid = tool_consumer_instance_guid
     lti_launch.save!
-
-    if file_id.present?
-      public_file_url = file_url(file_id)
-      process_scorm_import_url(
-        scorm_course,
-        scorm_course_attrs[:lms_course_id],
-        public_file_url,
-        application_instance,
-        user,
-      )
-    end
+    lti_launch
   end
 
   def merge_lti_launch_attrs(attrs, context_id, tool_consumer_instance_guid, scorm_course)
