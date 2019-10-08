@@ -56,7 +56,12 @@ class ScormStatusCheckJob < ApplicationJob
                 err.message
               end
 
-    if message == "Read timed out" && file_url.present?
+    queue_again = (
+      message == "Read timed out" ||
+        message.include?("403 Forbidden (Rate Limit Exceeded)")
+    ) && file_url.present?
+
+    if queue_again
       # Send to rustici again.
       ScormImportJob.
         perform_later(
