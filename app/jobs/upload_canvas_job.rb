@@ -66,6 +66,8 @@ class UploadCanvasJob < ApplicationJob
     rescue LMS::Canvas::InvalidAPIRequestFailedException => e
       # ignore it, nobody cares if it is a gateway timeout
       raise e if e.status != 504
+    rescue Net::ReadTimeout
+      # ignore it, nobody cares
     end
     file_id = upload_canvas_file(
       lms_course_id,
