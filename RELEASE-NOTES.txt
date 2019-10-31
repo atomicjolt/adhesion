@@ -7,6 +7,8 @@ Changes for 1.1.9:
 
 Changes for 1.1.8:
   * Retry import scorm to rustici if rustici is throttled by canvas.
+  * Accidentally included AtomicDocs.
+    * Will not currently work as libreoffice is not installed on the machines.
 
 
 Changes for 1.1.7:
