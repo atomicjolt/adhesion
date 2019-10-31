@@ -106,7 +106,10 @@ module ScormCommonService
     end
     reg.score = package_score(reg_result["score"])
     reg.status = package_complete_status(reg_result)
-    if reg.status_changed? && ["complete", "COMPLETED"].include?(reg.status) && user.student_in_course?(context_id)
+    should_post_to_lms = (reg.status_changed? || reg.score_changed?) &&
+      ["complete", "COMPLETED"].include?(reg.status) &&
+      user.student_in_course?(context_id)
+    if should_post_to_lms
       response = post_results(reg)
       print_response(reg, response)
     else
