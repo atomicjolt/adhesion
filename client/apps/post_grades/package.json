@@ -14,7 +14,7 @@
     "dangerously-atomic-html": "^1.1.1",
     "es6-promise": "^4.1.0",
     "fuse.js": "^3.0.5",
-    "lodash": ">=4.17.11",
+    "lodash": ">=4.17.13",
     "moment": "^2.18.1",
     "prop-types": "^15.5.9",
     "react": "^15.5.4",
