@@ -1,8 +1,12 @@
 ;;; -*- fill-column: 80; -*-
 
-Changes for 1.1.8:
+Changes for 1.1.9:
   * Fix scorm score passback to work with new rustici engine.
   * Update gems to match deploy.
+
+
+Changes for 1.1.8:
+  * Retry import scorm to rustici if rustici is throttled by canvas.
 
 
 Changes for 1.1.7:
