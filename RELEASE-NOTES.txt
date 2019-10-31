@@ -3,6 +3,7 @@
 Changes for 1.1.9:
   * Fix scorm score passback to work with new rustici engine.
   * Update gems to match deploy.
+  * Handle Net::ReadTimeout errors while deleting/hiding files during jobs.
 
 
 Changes for 1.1.8:
