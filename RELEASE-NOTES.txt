@@ -1,5 +1,10 @@
 ;;; -*- fill-column: 80; -*-
 
+Changes for 1.1.8:
+  * Fix scorm score passback to work with new rustici engine.
+  * Update gems to match deploy.
+
+
 Changes for 1.1.7:
   * Fix ims import to update scorm courses
     * Allow ims import to update a scorm course. This will update the scorm course with the new data(title, score, etc) and also send the file to Rustici to be processed if it has changed or is new.
