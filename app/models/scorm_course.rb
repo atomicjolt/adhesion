@@ -94,12 +94,12 @@ class ScormCourse < ActiveRecord::Base
   end
 
   def correlation_data
-    score_time = []
-    regs.each do |reg|
-      score_time << { time: (reg.registration_time_tracked / 60.0).round(2),
-                      score: reg.mean_registration_score }
+    regs.map do |reg|
+      {
+        time: (reg.registration_time_tracked / 60.0).round(2),
+        score: reg.mean_registration_score || 0,
+      }
     end
-    score_time
   end
 
   def course_time_spent
