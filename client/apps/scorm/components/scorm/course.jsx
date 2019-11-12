@@ -223,6 +223,26 @@ export default class Course extends React.Component {
       );
     }
 
+    let isAssignmentButton = null;
+
+    if (isAssignment) {
+      isAssignmentButton = (
+        <HoverButton
+          style={styles.button}
+          onClick={() => this.publishAssignment()}
+          hoveredStyle={styles.hoveredStyle}
+        >
+          { do {
+            if (this.props.canvasAssignment.published) {
+              <i className="material-icons" style={{ color: '#51B548' }}>cloud_done</i>;
+            } else {
+              <i className="material-icons">cloud_off</i>;
+            }
+          }}
+        </HoverButton>
+      );
+    }
+
     return (
       <li className="c-list__item c-list__item--choose">
         <div className="c-list-item__main">
@@ -238,21 +258,7 @@ export default class Course extends React.Component {
             >
               <i className="material-icons">settings</i>
             </HoverButton>
-            { isAssignment && do {
-              <HoverButton
-                style={styles.button}
-                onClick={() => this.publishAssignment()}
-                hoveredStyle={styles.hoveredStyle}
-              >
-                { do {
-                  if (this.props.canvasAssignment.published) {
-                    <i className="material-icons" style={{ color: '#51B548' }}>cloud_done</i>;
-                  } else {
-                    <i className="material-icons">cloud_off</i>;
-                  }
-                }}
-              </HoverButton>;
-            }}
+            { isAssignmentButton }
           </div>
         </div>
         {settings}
