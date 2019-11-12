@@ -1,4 +1,5 @@
 import React             from 'react';
+import PropTypes from 'prop-types';
 import _                 from 'lodash';
 import ClickableTableRow from '../common/clickable_table_row';
 import Defines           from '../../defines';
@@ -68,15 +69,15 @@ export default function examListItem(props) {
 }
 
 examListItem.propTypes = {
-  exam: React.PropTypes.shape({
-    title: React.PropTypes.string.isRequired,
-    id: React.PropTypes.number.isRequired,
+  exam: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
   }),
-  examRequest: React.PropTypes.shape({
-    status: React.PropTypes.string,
-    scheduled_date: React.PropTypes.string,
-    scheduled_time: React.PropTypes.string,
-    testing_center_name: React.PropTypes.string,
+  examRequest: PropTypes.shape({
+    status: PropTypes.string,
+    scheduled_date: PropTypes.string,
+    scheduled_time: PropTypes.string,
+    testing_center_name: PropTypes.string,
   }),
-  goToExam: React.PropTypes.func.isRequired,
+  goToExam: PropTypes.func.isRequired,
 };

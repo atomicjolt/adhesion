@@ -1,4 +1,5 @@
 import React        from 'react';
+import PropTypes from 'prop-types';
 import moment       from 'moment';
 import DateSelector from '../common/date_selector';
 import HoverButton  from '../common/hover_button';
@@ -6,9 +7,9 @@ import Defines      from '../../defines';
 
 export default class DateFilter extends React.Component {
   static propTypes = {
-    onChange: React.PropTypes.func.isRequired,
-    date: React.PropTypes.shape({}),
-    style: React.PropTypes.shape({}),
+    onChange: PropTypes.func.isRequired,
+    date: PropTypes.shape({}),
+    style: PropTypes.shape({}),
   };
 
   static getStyles() {

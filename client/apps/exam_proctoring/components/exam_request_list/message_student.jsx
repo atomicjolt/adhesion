@@ -1,11 +1,12 @@
 import React        from 'react';
+import PropTypes from 'prop-types';
 import Defines      from '../../defines';
 import HoverButton  from '../common/hover_button';
 
 export default class MessageStudent extends React.Component {
   static propTypes = {
-    sendMessage: React.PropTypes.func.isRequired,
-    closeMessageModal: React.PropTypes.func.isRequired,
+    sendMessage: PropTypes.func.isRequired,
+    closeMessageModal: PropTypes.func.isRequired,
   };
 
   static getStyles() {

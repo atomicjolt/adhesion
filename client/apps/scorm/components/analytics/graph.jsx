@@ -1,12 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ChartContainer from './chart_container';
 import NavContainer from './nav_container';
 
 export default class Graph extends React.Component {
 
   static propTypes = {
-    data: React.PropTypes.shape({}),
-    navButtons: React.PropTypes.array,
+    data: PropTypes.shape({}),
+    navButtons: PropTypes.array,
   }
 
   constructor() {

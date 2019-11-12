@@ -1,4 +1,5 @@
 import React                    from 'react';
+import PropTypes from 'prop-types';
 import moment                   from 'moment';
 import Defines                  from '../../defines';
 import DateSelector             from '../common/date_selector';
@@ -6,8 +7,8 @@ import DateSelector             from '../common/date_selector';
 export default class ReportWindow extends React.Component {
 
   static propTypes = {
-    onCancel: React.PropTypes.func.isRequired,
-    onDownload: React.PropTypes.func.isRequired
+    onCancel: PropTypes.func.isRequired,
+    onDownload: PropTypes.func.isRequired
   };
 
   static getStyles() {

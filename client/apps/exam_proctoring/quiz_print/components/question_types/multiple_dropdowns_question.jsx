@@ -1,4 +1,5 @@
 import React    from 'react';
+import PropTypes from 'prop-types';
 import _        from 'lodash';
 import Text     from './question_text';
 
@@ -49,6 +50,6 @@ export default function multipleDropdowns(props) {
 }
 
 multipleDropdowns.propTypes = {
-  question_text: React.PropTypes.string,
-  answers: React.PropTypes.arrayOf(React.PropTypes.shape({})),
+  question_text: PropTypes.string,
+  answers: PropTypes.arrayOf(PropTypes.shape({})),
 };

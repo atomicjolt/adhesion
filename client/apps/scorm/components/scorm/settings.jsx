@@ -1,4 +1,5 @@
 import React             from 'react';
+import PropTypes from 'prop-types';
 import HoverButton       from '../common/hover_button';
 import Defines           from '../../../../libs/defines';
 import CommonSvg         from '../../../../libs/components/common_svg';
@@ -109,13 +110,13 @@ export default function settings(props) {
 }
 
 settings.propTypes = {
-  assignmentButton: React.PropTypes.shape({}),
-  analyticsButton: React.PropTypes.bool.isRequired,
-  handlePreview: React.PropTypes.func.isRequired,
-  handleAnalytics: React.PropTypes.func.isRequired,
-  handleUpdate: React.PropTypes.func.isRequired,
-  handleRemove: React.PropTypes.func.isRequired,
-  updateInput: React.PropTypes.shape({}),
-  hideModal: React.PropTypes.func.isRequired,
-  showModal: React.PropTypes.func.isRequired,
+  assignmentButton: PropTypes.shape({}),
+  analyticsButton: PropTypes.bool.isRequired,
+  handlePreview: PropTypes.func.isRequired,
+  handleAnalytics: PropTypes.func.isRequired,
+  handleUpdate: PropTypes.func.isRequired,
+  handleRemove: PropTypes.func.isRequired,
+  updateInput: PropTypes.shape({}),
+  hideModal: PropTypes.func.isRequired,
+  showModal: PropTypes.func.isRequired,
 };

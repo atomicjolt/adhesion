@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Defines from '../defines';
 import HoverButton from './hover_button';
 
@@ -55,8 +56,8 @@ const confirmDelete = (props) => {
 };
 
 confirmDelete.propTypes = {
-  closeModal: React.PropTypes.func.isRequired,
-  handleRemove: React.PropTypes.func.isRequired,
+  closeModal: PropTypes.func.isRequired,
+  handleRemove: PropTypes.func.isRequired,
 };
 
 export default confirmDelete;

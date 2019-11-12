@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Chart from './pie_chart';
 import ScatterChart from './scatter_chart';
 import Scores from './scores';
@@ -70,6 +71,6 @@ export default function ChartContainer(props) {
 }
 
 ChartContainer.propTypes = {
-  data: React.PropTypes.shape({}),
-  selected: React.PropTypes.string.isRequired,
+  data: PropTypes.shape({}),
+  selected: PropTypes.string.isRequired,
 };

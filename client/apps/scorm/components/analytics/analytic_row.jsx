@@ -1,18 +1,19 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 export class AnalyticRow extends React.Component {
 
   static propTypes = {
-    id: React.PropTypes.number,
-    name: React.PropTypes.string,
-    passed: React.PropTypes.string,
-    score: React.PropTypes.number,
-    time: React.PropTypes.number,
-    isParent: React.PropTypes.bool,
-    show: React.PropTypes.bool,
-    depth: React.PropTypes.number,
-    tableRowClicked: React.PropTypes.func.isRequired,
+    id: PropTypes.number,
+    name: PropTypes.string,
+    passed: PropTypes.string,
+    score: PropTypes.number,
+    time: PropTypes.number,
+    isParent: PropTypes.bool,
+    show: PropTypes.bool,
+    depth: PropTypes.number,
+    tableRowClicked: PropTypes.func.isRequired,
   };
 
   constructor() {

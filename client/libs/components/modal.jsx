@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class Modal extends React.Component {
   static propTypes = {
-    children: React.PropTypes.node,
-    visible: React.PropTypes.bool
+    children: PropTypes.node,
+    visible: PropTypes.bool
   }
   render() {
     const overlayStyle = {

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import {
-  createAssignment, deleteAssignment, listAssignments, editAssignment
+  deleteAssignment, listAssignmentsAssignments, editAssignment
 } from 'atomic-canvas/libs/constants/assignments';
 import canvasRequest from 'atomic-canvas/libs/action';
 import * as ScormActions  from '../../actions/scorm';
@@ -53,7 +53,7 @@ export class ScormIndex extends React.Component {
   componentWillMount() {
     this.props.loadPackages(this.props.lmsCourseId);
     this.props.canvasRequest(
-      listAssignments,
+      listAssignmentsAssignments,
       { course_id: this.props.lmsCourseId },
     );
   }

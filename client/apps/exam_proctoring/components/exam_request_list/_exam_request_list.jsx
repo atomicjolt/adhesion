@@ -1,4 +1,5 @@
 import React                                    from 'react';
+import PropTypes from 'prop-types';
 import { connect }                              from 'react-redux';
 import _                                        from 'lodash';
 import Fuse                                     from 'fuse.js';
@@ -27,25 +28,25 @@ const select = state => ({
 
 export class BaseExamRequestList extends React.Component {
   static propTypes = {
-    loadExamRequests: React.PropTypes.func.isRequired,
-    scheduleExam: React.PropTypes.func.isRequired,
-    testingCentersAccountSetup: React.PropTypes.func.isRequired,
-    toolConsumerInstanceName: React.PropTypes.string.isRequired,
-    currentAccountId: React.PropTypes.string.isRequired,
-    examRequestList: React.PropTypes.arrayOf(
-      React.PropTypes.shape({})
+    loadExamRequests: PropTypes.func.isRequired,
+    scheduleExam: PropTypes.func.isRequired,
+    testingCentersAccountSetup: PropTypes.func.isRequired,
+    toolConsumerInstanceName: PropTypes.string.isRequired,
+    currentAccountId: PropTypes.string.isRequired,
+    examRequestList: PropTypes.arrayOf(
+      PropTypes.shape({})
     ).isRequired,
-    hideModal: React.PropTypes.func.isRequired,
-    showModal: React.PropTypes.func.isRequired,
-    canvasRequest: React.PropTypes.func.isRequired,
-    startExam: React.PropTypes.func.isRequired,
-    enterAnswers: React.PropTypes.func.isRequired,
-    finishExam: React.PropTypes.func.isRequired,
-    lmsUserId: React.PropTypes.string,
-    needProctorCode: React.PropTypes.bool.isRequired,
-    exportExamsAsCSV: React.PropTypes.func.isRequired,
-    getSignedUrl: React.PropTypes.func.isRequired,
-    createProctorConversation: React.PropTypes.func.isRequired,
+    hideModal: PropTypes.func.isRequired,
+    showModal: PropTypes.func.isRequired,
+    canvasRequest: PropTypes.func.isRequired,
+    startExam: PropTypes.func.isRequired,
+    enterAnswers: PropTypes.func.isRequired,
+    finishExam: PropTypes.func.isRequired,
+    lmsUserId: PropTypes.string,
+    needProctorCode: PropTypes.bool.isRequired,
+    exportExamsAsCSV: PropTypes.func.isRequired,
+    getSignedUrl: PropTypes.func.isRequired,
+    createProctorConversation: PropTypes.func.isRequired,
   };
 
   static tableHeader(styles) {

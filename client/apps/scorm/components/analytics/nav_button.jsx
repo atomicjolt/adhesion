@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function NavButton(props) {
   const active = props.activeBtn === props.label ? 'is-active' : '';
@@ -14,12 +15,12 @@ export default function NavButton(props) {
 }
 
 NavButton.propTypes = {
-  activeBtn: React.PropTypes.string,
-  label: React.PropTypes.string,
-  type: React.PropTypes.string,
-  setActive: React.PropTypes.func.isRequired,
-  stat: React.PropTypes.oneOfType([
-    React.PropTypes.number,
-    React.PropTypes.string,
+  activeBtn: PropTypes.string,
+  label: PropTypes.string,
+  type: PropTypes.string,
+  setActive: PropTypes.func.isRequired,
+  stat: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string,
   ]),
 };

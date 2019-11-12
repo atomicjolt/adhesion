@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function ReportButton(props) {
 
@@ -22,7 +23,7 @@ export default function ReportButton(props) {
 }
 
 ReportButton.propTypes = {
-  text: React.PropTypes.string,
-  onExport: React.PropTypes.func.isRequired,
-  downloadOptions: React.PropTypes.shape({}),
+  text: PropTypes.string,
+  onExport: PropTypes.func.isRequired,
+  downloadOptions: PropTypes.shape({}),
 };

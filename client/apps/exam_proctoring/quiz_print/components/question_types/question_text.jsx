@@ -1,4 +1,5 @@
 import React    from 'react';
+import PropTypes from 'prop-types';
 
 export default function essayQuestion(props) {
   const text = props.text || props.question_text;
@@ -7,6 +8,6 @@ export default function essayQuestion(props) {
 }
 
 essayQuestion.propTypes = {
-  text: React.PropTypes.string,
-  question_text: React.PropTypes.string,
+  text: PropTypes.string,
+  question_text: PropTypes.string,
 };

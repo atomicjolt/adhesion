@@ -1,13 +1,14 @@
 import React    from 'react';
+import PropTypes from 'prop-types';
 import Dropdown from 'react-accessible-dropdown';
 import _        from 'lodash';
 
 export default class TimeSelector extends React.Component {
   static propTypes = {
-    onChange: React.PropTypes.func,
-    value: React.PropTypes.shape({}),
-    style: React.PropTypes.shape({}),
-    header: React.PropTypes.node,
+    onChange: PropTypes.func,
+    value: PropTypes.shape({}),
+    style: PropTypes.shape({}),
+    header: PropTypes.node,
   }
 
   static getTimes() {

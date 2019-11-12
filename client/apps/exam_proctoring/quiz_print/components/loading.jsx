@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Loader from '../../../../libs/components/loader';
 
 export default function loading(props) {
@@ -17,5 +18,5 @@ export default function loading(props) {
 }
 
 loading.propTypes = {
-  loadingQuiz: React.PropTypes.bool.isRequired
+  loadingQuiz: PropTypes.bool.isRequired
 };

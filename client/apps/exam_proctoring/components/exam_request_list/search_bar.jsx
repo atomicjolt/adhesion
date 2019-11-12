@@ -1,12 +1,13 @@
 import React       from 'react';
+import PropTypes from 'prop-types';
 import Defines     from '../../defines';
 
 export default class SearchBar extends React.Component {
   // TODO: we need to load test this to see if automatic updates will work with
   // a bunch of items
   static propTypes = {
-    searchChange: React.PropTypes.func.isRequired,
-    style: React.PropTypes.shape({}),
+    searchChange: PropTypes.func.isRequired,
+    style: PropTypes.shape({}),
   }
 
   static getStyles() {

@@ -1,4 +1,5 @@
 import React    from 'react';
+import PropTypes from 'prop-types';
 import Defines  from '../../defines';
 
 export default function confirmTakeExam(props) {
@@ -59,5 +60,5 @@ export default function confirmTakeExam(props) {
 }
 
 confirmTakeExam.propTypes = {
-  takeExam: React.PropTypes.func.isRequired,
+  takeExam: PropTypes.func.isRequired,
 };

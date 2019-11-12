@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
 
 const Chart = (props) => {
@@ -19,6 +20,6 @@ const Chart = (props) => {
 export default Chart;
 
 Chart.propTypes = {
-  data: React.PropTypes.array,
-  colors: React.PropTypes.arrayOf(React.PropTypes.string),
+  data: PropTypes.array,
+  colors: PropTypes.arrayOf(PropTypes.string),
 };

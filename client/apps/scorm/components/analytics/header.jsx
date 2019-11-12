@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router3';
 import { switchView } from '../../actions/analytics';
@@ -6,10 +7,10 @@ import { switchView } from '../../actions/analytics';
 export class Header extends React.Component {
 
   static propTypes = {
-    title: React.PropTypes.string,
-    studentName: React.PropTypes.string,
-    view: React.PropTypes.string,
-    switchView: React.PropTypes.func.isRequired,
+    title: PropTypes.string,
+    studentName: PropTypes.string,
+    view: PropTypes.string,
+    switchView: PropTypes.func.isRequired,
   }
 
   switchTable(view) {

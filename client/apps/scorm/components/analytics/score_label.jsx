@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function ScoreLabel(props) {
   return (
@@ -9,9 +10,9 @@ export default function ScoreLabel(props) {
 }
 
 ScoreLabel.propTypes = {
-  name: React.PropTypes.string,
-  value: React.PropTypes.oneOfType([
-    React.PropTypes.number,
-    React.PropTypes.string,
+  name: PropTypes.string,
+  value: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string,
   ]),
 };

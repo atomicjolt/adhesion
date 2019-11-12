@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class ExportButton extends React.Component {
 
@@ -25,8 +26,8 @@ export default class ExportButton extends React.Component {
 }
 
 ExportButton.propTypes = {
-  text: React.PropTypes.string,
-  onExport: React.PropTypes.func.isRequired,
-  downloadOptions: React.PropTypes.shape({}),
-  ariaPosinset: React.PropTypes.number.isRequired,
+  text: PropTypes.string,
+  onExport: PropTypes.func.isRequired,
+  downloadOptions: PropTypes.shape({}),
+  ariaPosinset: PropTypes.number.isRequired,
 };

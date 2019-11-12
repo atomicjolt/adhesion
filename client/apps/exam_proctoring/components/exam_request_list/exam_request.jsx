@@ -1,4 +1,5 @@
 import React             from 'react';
+import PropTypes from 'prop-types';
 import moment            from 'moment';
 import _                 from 'lodash';
 import Defines           from '../../defines';
@@ -10,25 +11,25 @@ import ScheduleForm      from './schedule_form';
 
 export default class ExamRequest extends React.Component {
   static propTypes = {
-    examRequest: React.PropTypes.shape({
-      student_id: React.PropTypes.number.isRequired,
-      exam_name: React.PropTypes.string.isRequired,
-      id: React.PropTypes.number.isRequired,
-      status: React.PropTypes.string.isRequired
+    examRequest: PropTypes.shape({
+      student_id: PropTypes.number.isRequired,
+      exam_name: PropTypes.string.isRequired,
+      id: PropTypes.number.isRequired,
+      status: PropTypes.string.isRequired
     }),
-    examRequestList: React.PropTypes.arrayOf(
-      React.PropTypes.shape({})
+    examRequestList: PropTypes.arrayOf(
+      PropTypes.shape({})
     ).isRequired,
-    sendMessage: React.PropTypes.func.isRequired,
-    showModal: React.PropTypes.func.isRequired,
-    hideModal: React.PropTypes.func.isRequired,
-    scheduleExam: React.PropTypes.func.isRequired,
-    openSettings: React.PropTypes.func.isRequired,
-    startExam: React.PropTypes.func.isRequired,
-    enterAnswers: React.PropTypes.func.isRequired,
-    finishExam: React.PropTypes.func.isRequired,
-    getSignedUrl: React.PropTypes.func.isRequired,
-    settingsOpen: React.PropTypes.bool,
+    sendMessage: PropTypes.func.isRequired,
+    showModal: PropTypes.func.isRequired,
+    hideModal: PropTypes.func.isRequired,
+    scheduleExam: PropTypes.func.isRequired,
+    openSettings: PropTypes.func.isRequired,
+    startExam: PropTypes.func.isRequired,
+    enterAnswers: PropTypes.func.isRequired,
+    finishExam: PropTypes.func.isRequired,
+    getSignedUrl: PropTypes.func.isRequired,
+    settingsOpen: PropTypes.bool,
   };
 
   constructor() {

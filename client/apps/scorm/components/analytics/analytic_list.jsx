@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import AnalyticRow from './analytic_row';
@@ -7,9 +8,9 @@ import { switchView } from '../../actions/analytics';
 export class AnalyticList extends React.Component {
 
   static propTypes = {
-    switchView: React.PropTypes.func.isRequired,
-    tableData: React.PropTypes.array,
-    view: React.PropTypes.string.isRequired,
+    switchView: PropTypes.func.isRequired,
+    tableData: PropTypes.array,
+    view: PropTypes.string.isRequired,
   }
 
   constructor() {

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import _ from 'lodash';
 import ScoreLabel from './score_label';
 
@@ -26,8 +27,8 @@ export default function AverageScore(props) {
 }
 
 AverageScore.propTypes = {
-  meanScore: React.PropTypes.number,
-  medScore: React.PropTypes.number,
-  lowScore: React.PropTypes.number,
-  highScore: React.PropTypes.number,
+  meanScore: PropTypes.number,
+  medScore: PropTypes.number,
+  lowScore: PropTypes.number,
+  highScore: PropTypes.number,
 };

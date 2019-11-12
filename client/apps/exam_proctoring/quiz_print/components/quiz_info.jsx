@@ -1,4 +1,5 @@
 import React    from 'react';
+import PropTypes from 'prop-types';
 
 export default function quizInfo(props) {
   // TODO: we may want more of the quiz info displayed
@@ -9,5 +10,5 @@ export default function quizInfo(props) {
 }
 
 quizInfo.propTypes = {
-  title: React.PropTypes.string,
+  title: PropTypes.string,
 };

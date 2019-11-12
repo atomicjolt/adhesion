@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import NavButton from './nav_button';
 
 export default class NavButtons extends React.Component {
 
   static propTypes = {
-    navButtons: React.PropTypes.array,
-    switchChart: React.PropTypes.func,
+    navButtons: PropTypes.array,
+    switchChart: PropTypes.func,
   }
 
   constructor() {

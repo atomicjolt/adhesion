@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import CommonSvg from '../../../../libs/components/common_svg';
 
 export default function importTypeSelector(props) {
@@ -24,7 +25,7 @@ export default function importTypeSelector(props) {
 }
 
 importTypeSelector.propTypes = {
-  isGoBtnActive: React.PropTypes.bool,
-  handleGoClick: React.PropTypes.func.isRequired,
-  handleSelectChange: React.PropTypes.func.isRequired,
+  isGoBtnActive: PropTypes.bool,
+  handleGoClick: PropTypes.func.isRequired,
+  handleSelectChange: PropTypes.func.isRequired,
 };

@@ -1,14 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 import Datepicker from 'react-datepicker';
 import SvgButton from '../../../../libs/components/svg_button';
 
 export default class RangePicker extends React.Component {
   static propTypes = {
-    onStartChange: React.PropTypes.func.isRequired,
-    onEndChange: React.PropTypes.func.isRequired,
-    startDate: React.PropTypes.instanceOf(Date).isRequired,
-    endDate: React.PropTypes.instanceOf(Date).isRequired,
+    onStartChange: PropTypes.func.isRequired,
+    onEndChange: PropTypes.func.isRequired,
+    startDate: PropTypes.instanceOf(Date).isRequired,
+    endDate: PropTypes.instanceOf(Date).isRequired,
   };
 
   static visualDate(date) {
