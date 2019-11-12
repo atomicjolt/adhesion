@@ -7,6 +7,8 @@ class ImsImportJob < ApplicationJob
 
   def perform(job_data, application_instance, user)
     data = JSON.parse(job_data).with_indifferent_access
+    ims_import = ImsImport.find(data[:ims_import_id])
+    ims_import.update(status: "started")
 
     @canvas_api = canvas_api(
       application_instance: application_instance,
@@ -62,6 +64,15 @@ class ImsImportJob < ApplicationJob
         )
       end
     end
+
+    ims_import.update(status: "finished")
+  rescue StandardError => e
+    ims_import&.update(
+      status: "failed",
+      error_message: e.message,
+      error_trace: e.backtrace,
+    )
+    raise e
   end
 
   def create_lti_launch(

@@ -1,12 +1,19 @@
+import _ from 'lodash';
 import * as ApplicationInstancesActions from '../actions/application_instances';
 import applicationInstances from './application_instances';
 
 describe('application_instances reducer', () => {
   describe('initial state', () => {
     it('returns empty state', () => {
-      const initialState = {};
-      const state = applicationInstances(initialState, {});
-      expect(state).toEqual({});
+      const initialState = {
+        applicationInstances: [],
+        totalPages: 1,
+      };
+      const state = applicationInstances(initialState, []);
+      expect(state).toEqual({
+        applicationInstances: [],
+        totalPages: 1,
+      });
     });
   });
 
@@ -23,10 +30,13 @@ describe('application_instances reducer', () => {
 
       const results = applicationInstances(state, {
         type: 'GET_APPLICATION_INSTANCES_DONE',
-        payload: [{ config, id: payloadId }]
+        payload: { application_instances: [{ config, id: payloadId }], total_pages: 1 }
       });
-      expect(results[payloadId].config).toBe(`${config}`);
-      expect(results[payloadId].id).toBe(payloadId);
+      const applicationInstance = _.find(results.applicationInstances, ai => (
+        `${ai.id}` === `${payloadId}`
+      ));
+      expect(applicationInstance.config).toBe(`${config}`);
+      expect(applicationInstance.id).toBe(payloadId);
     });
   });
 
@@ -47,8 +57,11 @@ describe('application_instances reducer', () => {
         type: 'GET_APPLICATION_INSTANCE_DONE',
         payload: { config, id: payloadId }
       });
-      expect(results[payloadId].config).toBe(`${config}`);
-      expect(results[payloadId].id).toBe(payloadId);
+      const applicationInstance = _.find(results.applicationInstances, ai => (
+        `${ai.id}` === `${payloadId}`
+      ));
+      expect(applicationInstance.config).toBe(`${config}`);
+      expect(applicationInstance.id).toBe(payloadId);
     });
   });
 
@@ -67,7 +80,10 @@ describe('application_instances reducer', () => {
         type: 'DELETE_APPLICATION_INSTANCE_DONE',
         original: { applicationInstanceId }
       });
-      expect(results[applicationInstanceId]).not.toBeDefined();
+      const applicationInstance = _.find(results.applicationInstances, ai => (
+        `${ai.id}` === `${applicationInstanceId}`
+      ));
+      expect(applicationInstance).not.toBeDefined();
     });
   });
 });

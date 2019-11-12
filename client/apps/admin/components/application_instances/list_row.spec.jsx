@@ -22,6 +22,20 @@ describe('application instances list row', () => {
         id: 2,
         application_id: 23,
         authentications: [],
+        request_stats: {
+          day_1_requests: 1,
+          day_7_requests: 1,
+          day_30_requests: 1,
+          day_1_launches: 1,
+          day_7_launches: 1,
+          day_30_launches: 1,
+          day_1_users: 1,
+          day_7_users: 1,
+          day_30_users: 1,
+          day_1_errors: 1,
+          day_7_errors: 1,
+          day_30_errors: 1,
+        },
       },
       settings: {
         lti_key: 'lti-key',
@@ -35,12 +49,6 @@ describe('application instances list row', () => {
 
   it('matches the snapshot', () => {
     expect(result).toMatchSnapshot();
-  });
-
-  it('deletes the application instance', () => {
-    expect(deleted).toBeFalsy();
-    result.find('.c-delete').simulate('click');
-    expect(deleted).toBeTruthy();
   });
 
   // the following tests will break if the order of the buttopns is changed

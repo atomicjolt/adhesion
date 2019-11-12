@@ -9,8 +9,11 @@ RSpec.describe ImsImportJob, type: :job do
 
   subject { ImsImportJob }
 
+  let(:ims_import) { FactoryBot.create(:ims_import) }
+
   let(:data) do
     {
+      ims_import_id: ims_import.id,
       lti_launches: lti_launches,
       context_id: context_id,
       tool_consumer_instance_guid: tool_consumer_instance_guid,
@@ -143,6 +146,13 @@ RSpec.describe ImsImportJob, type: :job do
           end.to change(enqueued_jobs, :size).by(2)
         end
       end
+    end
+  end
+
+  context "import status" do
+    it "finishes" do
+      subject.perform_now(data.to_json)
+      expect(ims_import.reload.status).to eq "finished"
     end
   end
 end

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'react-router3';
 import _ from 'lodash';
 
 import Modal from './modal';
@@ -9,6 +9,7 @@ import SettingsInputs from '../common/settings_inputs';
 import ConfigXmlModal from './config_xml_modal';
 import EnabledButton from '../common/enabled';
 import DisabledButton from '../common/disabled';
+import DeleteModal from '../common/delete_modal';
 
 export default class ListRow extends React.Component {
   static propTypes = {
@@ -58,6 +59,7 @@ export default class ListRow extends React.Component {
       modalOpen: false,
       authenticationModalOpen: false,
       modalConfigXmlOpen: false,
+      confirmDeleteModalOpen: false,
     };
   }
 
@@ -74,10 +76,19 @@ export default class ListRow extends React.Component {
     return null;
   }
 
+  closeDeleteModal() {
+    this.setState({
+      confirmDeleteModalOpen: false,
+    });
+  }
+
   checkAuthentication(e) {
-    if (!_.find(this.props.settings.user_canvas_domains, canvasUrl =>
-      canvasUrl === this.props.applicationInstance.site.url
-    )) {
+    const found = _.find(
+      this.props.settings.user_canvas_domains,
+      (canvasUrl) => canvasUrl === this.props.applicationInstance.site.url
+    );
+
+    if (!found) {
       e.stopPropagation();
       e.preventDefault();
       this.settingsForm.submit();
@@ -87,8 +98,8 @@ export default class ListRow extends React.Component {
   renderAuthentications() {
     const styles = ListRow.getStyles();
     const { applicationInstance } = this.props;
-    const numberAuthentications = applicationInstance.authentications ?
-      applicationInstance.authentications.length : 0;
+    const numberAuthentications = applicationInstance.authentications
+      ? applicationInstance.authentications.length : 0;
 
     if (numberAuthentications <= 0) {
       return (
@@ -114,6 +125,13 @@ export default class ListRow extends React.Component {
         />
       </td>
     );
+  }
+
+  deleteAppInstance(appId, appInstId) {
+    this.setState({
+      confirmDeleteModalOpen: false,
+    });
+    this.props.delete(appId, appInstId);
   }
 
   render() {
@@ -149,7 +167,6 @@ export default class ListRow extends React.Component {
           </Link>
           <div>{_.replace(applicationInstance.site.url, 'https://', '')}</div>
         </td>
-        <td><span>{applicationInstance.domain}</span></td>
         <td>
           <button
             style={styles.buttonIcon}
@@ -183,22 +200,55 @@ export default class ListRow extends React.Component {
             }
           </button>
         </td>
-        <td>
-          {applicationInstance.canvas_token_preview}
-        </td>
         { this.renderAuthentications() }
         <td>
-          {createdAt.toLocaleDateString()} {createdAt.toLocaleTimeString()}
+          {createdAt.toLocaleDateString()}
+          {' '}
+          {createdAt.toLocaleTimeString()}
+        </td>
+        <td>
+          <div>1 day</div>
+          <div>7 days</div>
+          <div>30 days</div>
+        </td>
+        <td>
+          <div>{applicationInstance.request_stats.day_1_requests}</div>
+          <div>{applicationInstance.request_stats.day_7_requests}</div>
+          <div>{applicationInstance.request_stats.day_30_requests}</div>
+        </td>
+        <td>
+          <div>{applicationInstance.request_stats.day_1_launches}</div>
+          <div>{applicationInstance.request_stats.day_7_launches}</div>
+          <div>{applicationInstance.request_stats.day_30_launches}</div>
+        </td>
+        <td>
+          <div>{applicationInstance.request_stats.day_1_users}</div>
+          <div>{applicationInstance.request_stats.day_7_users}</div>
+          <div>{applicationInstance.request_stats.day_30_users}</div>
+        </td>
+        <td>
+          <div>{applicationInstance.request_stats.day_1_errors}</div>
+          <div>{applicationInstance.request_stats.day_7_errors}</div>
+          <div>{applicationInstance.request_stats.day_30_errors}</div>
         </td>
         <td>
           <button
             className="c-delete"
-            onClick={() => {
-              this.props.delete(applicationInstance.application_id, applicationInstance.id);
-            }}
+            style={styles.buttonIcon}
+            onClick={() => this.setState({ confirmDeleteModalOpen: true })}
           >
             <i className="i-delete" />
           </button>
+          <DeleteModal
+            isOpen={this.state.confirmDeleteModalOpen}
+            closeModal={() => this.closeDeleteModal()}
+            deleteRecord={
+              () => this.deleteAppInstance(
+                applicationInstance.application_id,
+                applicationInstance.id,
+              )
+            }
+          />
         </td>
       </tr>
     );

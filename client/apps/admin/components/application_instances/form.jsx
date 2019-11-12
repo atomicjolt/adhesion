@@ -10,8 +10,14 @@ function prettyJSON(str) {
   if (_.isEmpty(str)) {
     return str;
   }
-  const obj = JSON.parse(str);
-  return JSON.stringify(obj, null, 2);
+
+  try {
+    const obj = JSON.parse(str);
+    return JSON.stringify(obj, null, 2);
+  } catch (e) {
+    // Invalid json. Warn the user and just output the string
+    return str;
+  }
 }
 
 export default class Form extends React.Component {
@@ -33,6 +39,7 @@ export default class Form extends React.Component {
     ltiConfigParseError: PropTypes.string,
     canvas_token_preview: PropTypes.string,
     anonymous: PropTypes.bool,
+    rollbar_enabled: PropTypes.bool,
   };
 
   selectSite(option) {
@@ -61,6 +68,8 @@ export default class Form extends React.Component {
       onSelect: () => this.props.newSite()
     });
 
+    const selectedOption = _.find(options, opt => opt.value === this.props.site_id);
+
     let erroneousConfigWarning = null;
     if (this.props.configParseError) {
       erroneousConfigWarning = (
@@ -83,13 +92,11 @@ export default class Form extends React.Component {
               <span>Canvas Url</span>
               <ReactSelect
                 options={options}
-                value={this.props.site_id}
+                value={selectedOption}
                 name="site_id"
                 placeholder="Select a Canvas Domain"
                 onChange={option => this.selectSite(option)}
-                searchable={false}
-                arrowRenderer={() => null}
-                clearable={false}
+                isClearable={false}
               />
             </div>
           </div>
@@ -164,6 +171,21 @@ export default class Form extends React.Component {
             />
           </div>
           <div className="o-grid__item u-full">
+            <Input
+              className="c-checkbox"
+              labelText="Rollbar Enabled"
+              helperText="Indicates whether or not rollbar is enabled for this app instance"
+              inputProps={{
+                id: 'rollbar_enabled_input',
+                name: 'rollbar_enabled',
+                type: 'checkbox',
+                value: 'true',
+                checked: this.props.rollbar_enabled,
+                onChange
+              }}
+            />
+          </div>
+          <div className="o-grid__item u-full">
             <Textarea
               className="c-input"
               labelText="Custom Application Instance Configuration"
@@ -172,7 +194,7 @@ export default class Form extends React.Component {
                 name: 'config',
                 placeholder: 'ex: { "foo": "bar" }',
                 rows: 3,
-                value: this.props.config || '',
+                value: prettyJSON(this.props.config || '{}'),
                 onChange: this.props.onChange,
               }}
               warning={erroneousConfigWarning}
@@ -186,7 +208,7 @@ export default class Form extends React.Component {
                 id: 'application_instance_lti_config',
                 name: 'lti_config',
                 rows: 8,
-                value: prettyJSON(this.props.lti_config || ''),
+                value: prettyJSON(this.props.lti_config || '{}'),
                 onChange: this.props.onChange,
               }}
               warning={erroneousLtiConfigWarning}

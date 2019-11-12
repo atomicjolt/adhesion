@@ -1,6 +1,10 @@
 require "rails_helper"
 
 describe ApplicationController, type: :controller do
+  before do
+    setup_application_instance
+  end
+
   describe "valid application instance api token" do
     before do
       admin_api_permissions = {
@@ -12,9 +16,7 @@ describe ApplicationController, type: :controller do
         common: [],
         LIST_ACCOUNTS: [],
       }
-      @application = FactoryBot.create(:application, canvas_api_permissions: admin_api_permissions)
-      @application_instance = FactoryBot.create(:application_instance, application: @application)
-      allow(controller).to receive(:current_application_instance).and_return(@application_instance)
+      @application_instance.application.update(canvas_api_permissions: admin_api_permissions)
 
       @user = FactoryBot.create(:user)
       allow(controller).to receive(:current_user).and_return(@user)
@@ -62,25 +64,24 @@ describe ApplicationController, type: :controller do
         lti_key: @application_instance.lti_key,
         lms_proxy_call_type: "LIST_ACCOUNTS",
       }, format: :json
-      expect(response).to have_http_status(:unauthorized)
+      expect(response).to have_http_status(:forbidden)
     end
 
-    it "doesn't allow access to unauthorized API endpoints" do
+    it "doesn't allow access to forbidden API endpoints" do
       get :index, params: {
         lti_key: @application_instance.lti_key,
         lms_proxy_call_type: "LIST_ACCOUNTS_FOR_COURSE_ADMINS",
       }, format: :json
-      expect(response).to have_http_status(:unauthorized)
+      expect(response).to have_http_status(:forbidden)
     end
 
-    it "doesn't allow access to unauthorized API endpoints when application instances doesn't have an API token" do
-      application_instance = FactoryBot.create(:application_instance, application: @application, canvas_token: nil)
-      allow(controller).to receive(:current_application_instance).and_return(application_instance)
+    it "doesn't allow access to forbidden API endpoints when application instances doesn't have an API token" do
+      @application_instance.update(canvas_token: nil)
       get :index, params: {
         lti_key: @application_instance.lti_key,
         lms_proxy_call_type: "LIST_ACCOUNTS_FOR_COURSE_ADMINS",
       }, format: :json
-      expect(response).to have_http_status(:unauthorized)
+      expect(response).to have_http_status(:forbidden)
     end
   end
 
@@ -99,10 +100,8 @@ describe ApplicationController, type: :controller do
         common: [],
         LIST_ACCOUNTS: [],
       }
-      @application = FactoryBot.create(:application, canvas_api_permissions: canvas_api_permissions)
-
-      @application_instance = FactoryBot.create(:application_instance, canvas_token: nil, application: @application)
-      allow(controller).to receive(:current_application_instance).and_return(@application_instance)
+      @application_instance.application.update(canvas_api_permissions: canvas_api_permissions)
+      @application_instance.update(canvas_token: nil)
 
       @authentication = FactoryBot.create(
         :authentication,
@@ -118,22 +117,72 @@ describe ApplicationController, type: :controller do
       @user_token_header = "Bearer #{@user_token}"
       request.headers["Authorization"] = @user_token_header
     end
-    controller do
-      include Concerns::CanvasSupport
 
-      before_action :protect_canvas_api
+    describe "use application_instance.auth_precedence" do
+      controller do
+        include Concerns::CanvasSupport
 
-      def index
-        result = canvas_api.proxy(params[:lms_proxy_call_type], params.to_unsafe_h, request.body.read)
-        response.status = result.code
+        before_action :protect_canvas_api
 
-        render plain: result.body
+        def index
+          result = canvas_api.proxy(params[:lms_proxy_call_type], params.to_unsafe_h, request.body.read)
+          response.status = result.code
+
+          render plain: result.body
+        end
+      end
+
+      it "provides access to the canvas api" do
+        get :index, params: { lti_key: @application_instance.lti_key, lms_proxy_call_type: "LIST_ACCOUNTS" }, format: :json
+        expect(response).to have_http_status(:success)
       end
     end
 
-    it "provides access to the canvas api" do
-      get :index, params: { lti_key: @application_instance.lti_key, lms_proxy_call_type: "LIST_ACCOUNTS" }, format: :json
-      expect(response).to have_http_status(:success)
+    describe "prefer user authentication" do
+      before do
+        canvas_api_permissions = {
+          default: [
+            "administrator", # Internal (non-LTI) role
+            "urn:lti:sysrole:ims/lis/SysAdmin",
+            "urn:lti:sysrole:ims/lis/Administrator",
+            "urn:lti:role:ims/lis/Learner",
+          ],
+          common: [],
+          LIST_ACCOUNTS: [],
+        }
+
+        @application_instance.application.update(
+          canvas_api_permissions: canvas_api_permissions,
+          oauth_precedence: "global,application_instance,course,user",
+        )
+        @application_instance.update(canvas_token: "afaketoken")
+
+        @authentication = FactoryBot.create(
+          :authentication,
+          provider_url: UrlHelper.scheme_host_port(@application_instance.site.url),
+          refresh_token: "qwerty",
+        )
+        @user.authentications << @authentication
+        @application_instance.authentications << @authentication
+        @application_instance.save!
+      end
+      controller do
+        include Concerns::CanvasSupport
+
+        before_action :protect_canvas_api
+
+        def index
+          api = canvas_api(prefer_user: true)
+          render json: api
+        end
+      end
+
+      it "provides access to the canvas api using the user's authentication" do
+        get :index, params: { lti_key: @application_instance.lti_key, lms_proxy_call_type: "LIST_ACCOUNTS" }, format: :json
+        expect(response).to have_http_status(:success)
+        json = JSON.parse(response.body)
+        expect(@user.authentications.pluck(:id).include?(json["authentication"]["id"])).to be true
+      end
     end
   end
 
@@ -147,10 +196,8 @@ describe ApplicationController, type: :controller do
         common: [],
         LIST_ACCOUNTS: ["canvas_oauth_user"],
       }
-      @application = FactoryBot.create(:application, canvas_api_permissions: canvas_api_permissions)
-
-      @application_instance = FactoryBot.create(:application_instance, canvas_token: nil, application: @application)
-      allow(controller).to receive(:current_application_instance).and_return(@application_instance)
+      @application_instance.application.update(canvas_api_permissions: canvas_api_permissions)
+      @application_instance.update(canvas_token: nil)
 
       @authentication = FactoryBot.create(
         :authentication,
@@ -191,12 +238,11 @@ describe ApplicationController, type: :controller do
       @application.oauth_precedence = "user"
       @application.save!
       @application_instance.authentications << @authentication
-      expect do
-        get :index, params: {
-          lti_key: @application_instance.lti_key,
-          lms_proxy_call_type: "LIST_ACCOUNTS",
-        }, format: :json
-      end.to raise_error(Concerns::CanvasSupport::CanvasApiTokenRequired)
+      get :index, params: {
+        lti_key: @application_instance.lti_key,
+        lms_proxy_call_type: "LIST_ACCOUNTS",
+      }, format: :json
+      expect(response).to have_http_status(:unauthorized)
     end
   end
 
@@ -212,10 +258,9 @@ describe ApplicationController, type: :controller do
         common: [],
         LIST_ACCOUNTS: [],
       }
-      @application = FactoryBot.create(:application, canvas_api_permissions: canvas_api_permissions)
 
-      @application_instance = FactoryBot.create(:application_instance, canvas_token: nil, application: @application)
-      allow(controller).to receive(:current_application_instance).and_return(@application_instance)
+      @application_instance.application.update(canvas_api_permissions: canvas_api_permissions)
+      @application_instance.update(canvas_token: nil)
 
       @authentication = FactoryBot.create(
         :authentication,
@@ -272,9 +317,9 @@ describe ApplicationController, type: :controller do
         common: [],
         LIST_ACCOUNTS: [],
       }
-      @application = FactoryBot.create(:application, canvas_api_permissions: canvas_api_permissions)
-      @application_instance = FactoryBot.create(:application_instance, canvas_token: nil, application: @application)
-      allow(controller).to receive(:current_application_instance).and_return(@application_instance)
+
+      @application_instance.application.update(canvas_api_permissions: canvas_api_permissions)
+      @application_instance.update(canvas_token: nil)
 
       @user_token = AuthToken.issue_token({ user_id: @user.id })
       @user_token_header = "Bearer #{@user_token}"
@@ -293,14 +338,15 @@ describe ApplicationController, type: :controller do
       end
     end
 
-    it "throws an exception if it can't find a canvas api token" do
+    it "returns an authorization required if it can't find a canvas api token" do
       request.headers["Authorization"] = @user_token_header
-      expect do
-        get :index, params: {
-          lti_key: @application_instance.lti_key,
-          lms_proxy_call_type: "LIST_ACCOUNTS",
-        }, format: :json
-      end.to raise_error(Concerns::CanvasSupport::CanvasApiTokenRequired)
+      get :index, params: {
+        lti_key: @application_instance.lti_key,
+        lms_proxy_call_type: "LIST_ACCOUNTS",
+      }, format: :json
+      result = JSON.parse(response.body)
+      expect(result["message"]).to eq("Unable to find valid Canvas API Token.")
+      expect(result["canvas_authorization_required"]).to eq(true)
     end
   end
 end

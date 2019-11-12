@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe Api::SitesController, type: :controller do
   before do
     setup_lti_users
-    setup_application_and_instance
+    setup_application_instance
   end
 
   context "no jwt" do
@@ -23,14 +23,14 @@ RSpec.describe Api::SitesController, type: :controller do
     describe "GET index" do
       it "returns unauthorized" do
         get :index, format: :json
-        expect(response).to have_http_status(401)
+        expect(response).to have_http_status(403)
       end
     end
 
     describe "POST create" do
       it "returns unauthorized" do
         post :create, params: { site: FactoryBot.attributes_for(:site) }, format: :json
-        expect(response).to have_http_status(401)
+        expect(response).to have_http_status(403)
       end
     end
 
@@ -38,7 +38,7 @@ RSpec.describe Api::SitesController, type: :controller do
       it "returns unauthorized" do
         site = FactoryBot.create(:site)
         put :update, params: { id: site.id, site: site }, format: :json
-        expect(response).to have_http_status(401)
+        expect(response).to have_http_status(403)
       end
     end
 
@@ -46,7 +46,7 @@ RSpec.describe Api::SitesController, type: :controller do
       it "returns unauthorized" do
         site = FactoryBot.create(:site)
         delete :destroy, params: { id: site.id, site: site }, format: :json
-        expect(response).to have_http_status(401)
+        expect(response).to have_http_status(403)
       end
     end
   end
@@ -62,8 +62,8 @@ RSpec.describe Api::SitesController, type: :controller do
           get :index, format: :json
           expect(response).to have_http_status(200)
           sites = JSON.parse(response.body)
-          expect(sites.count).to be > 0
-          expect(sites[0]["url"]).to eq @application_instance.site.url
+          expect(sites.count).to eq Site.count
+          expect(sites.pluck("url")).to include @application_instance.site.url
         end
       end
     end

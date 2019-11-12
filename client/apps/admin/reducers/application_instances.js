@@ -1,19 +1,27 @@
 import _ from 'lodash';
 import { Constants as ApplicationInstancesConstants } from '../actions/application_instances';
 
-const initialState = {};
+const initialState = {
+  applicationInstances: [],
+  totalPages: 1,
+};
 
 export default function instances(state = initialState, action) {
   switch (action.type) {
 
     case ApplicationInstancesConstants.GET_APPLICATION_INSTANCES_DONE: {
-      const newState = _.cloneDeep(state);
-      _.forEach(action.payload, (instance) => {
+      const newState = _.cloneDeep(initialState);
+      const {
+        application_instances:applicationInstances,
+        total_pages:totalPages,
+      } = action.payload;
+      _.forEach(applicationInstances, (instance) => {
         const instanceClone = _.cloneDeep(instance);
         instanceClone.config = JSON.stringify(instance.config);
         instanceClone.lti_config = JSON.stringify(instance.lti_config);
-        newState[instance.id] = instanceClone;
+        newState.applicationInstances.push(instanceClone);
       });
+      newState.totalPages = totalPages;
       return newState;
     }
 
@@ -25,13 +33,18 @@ export default function instances(state = initialState, action) {
       const instanceClone = _.cloneDeep(action.payload);
       instanceClone.config = JSON.stringify(action.payload.config);
       instanceClone.lti_config = JSON.stringify(action.payload.lti_config);
-      newState[action.payload.id] = instanceClone;
+      _.remove(newState.applicationInstances, ai => (
+        ai.id === action.payload.id
+      ));
+      newState.applicationInstances.push(instanceClone);
       return newState;
     }
 
     case ApplicationInstancesConstants.DELETE_APPLICATION_INSTANCE_DONE: {
       const newState = _.cloneDeep(state);
-      delete newState[action.original.applicationInstanceId];
+      _.remove(newState.applicationInstances, ai => (
+        ai.id === action.original.applicationInstanceId
+      ));
       return newState;
     }
 

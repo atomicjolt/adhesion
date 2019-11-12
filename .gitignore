@@ -66,10 +66,13 @@ rerun.txt
 /spec/tmp
 erd.pdf
 
-# Because ben is weird
 /.idea/
 adhesion.iml
-
-.vscode/
-
+/public/packs
+/public/packs-test
+/node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity
+.vscode
 dump.sql

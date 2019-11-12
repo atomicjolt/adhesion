@@ -1,14 +1,16 @@
-import 'babel-polyfill';
+import 'core-js';
+import 'regenerator-runtime/runtime';
 import es6Promise from 'es6-promise';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import DevTools from 'atomic-fuel/libs/dev/dev_tools';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { getInitialSettings } from 'atomic-fuel/libs/reducers/settings';
 import jwt from 'atomic-fuel/libs/loaders/jwt';
 import { getInitialSettings } from 'atomic-fuel/libs/reducers/settings';
 import PropTypes from 'prop-types';
 import Index from './components/layout/index';
-import configureStore from './store/configure_store';
+import initResizeHandler from '../../common/libs/resize_iframe';
 
 import './styles/styles.scss';
 
@@ -21,14 +23,14 @@ class Root extends React.PureComponent {
   };
 
   render() {
-    const devTools = __DEV__ ? <DevTools /> : null;
     const { store } = this.props;
     return (
       <Provider store={store}>
-        <div>
-          <Index />
-          {devTools}
-        </div>
+        <Router>
+          <div>
+            <Route path="/" exact component={Index} />
+          </div>
+        </Router>
       </Provider>
     );
   }
@@ -40,7 +42,10 @@ if (window.DEFAULT_JWT) { // Setup JWT refresh
   jwt(store.dispatch, settings.user_id);
 }
 
+const mainApp =  document.getElementById('main-app');
+initResizeHandler(mainApp);
+
 ReactDOM.render(
   <Root store={store} />,
-  document.getElementById('main-app'),
+  mainApp,
 );

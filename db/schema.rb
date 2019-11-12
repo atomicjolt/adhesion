@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190719163219) do
+ActiveRecord::Schema.define(version: 2019_09_11_015015) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(version: 20190719163219) do
     t.datetime "disabled_at"
     t.bigint "bundle_instance_id"
     t.boolean "anonymous", default: false
+    t.boolean "rollbar_enabled", default: true
     t.index ["application_id"], name: "index_application_instances_on_application_id"
     t.index ["lti_key"], name: "index_application_instances_on_lti_key"
     t.index ["site_id"], name: "index_application_instances_on_site_id"
@@ -69,6 +70,8 @@ ActiveRecord::Schema.define(version: 20190719163219) do
     t.string "key"
     t.string "oauth_precedence", default: "global,user,application_instance,course"
     t.boolean "anonymous", default: false
+    t.jsonb "lti_advantage_config", default: {}
+    t.boolean "rollbar_enabled", default: true
     t.index ["key"], name: "index_applications_on_key"
   end
 
@@ -106,7 +109,6 @@ ActiveRecord::Schema.define(version: 20190719163219) do
     t.string "provider"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "json_response"
     t.string "uid"
     t.string "provider_avatar"
     t.string "username"
@@ -191,6 +193,57 @@ ActiveRecord::Schema.define(version: 20190719163219) do
     t.index ["token"], name: "index_ims_exports_on_token"
   end
 
+  create_table "ims_imports", force: :cascade do |t|
+    t.string "status", default: "initialized", null: false
+    t.string "error_message"
+    t.text "error_trace"
+    t.string "export_token"
+    t.string "context_id", null: false
+    t.string "tci_guid", null: false
+    t.string "lms_course_id", null: false
+    t.string "source_context_id", null: false
+    t.string "source_tci_guid", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.jsonb "payload"
+  end
+
+  create_table "jwks", force: :cascade do |t|
+    t.string "kid"
+    t.string "pem"
+    t.bigint "application_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["application_id"], name: "index_jwks_on_application_id"
+    t.index ["kid"], name: "index_jwks_on_kid"
+  end
+
+  create_table "lti_deployments", force: :cascade do |t|
+    t.bigint "application_instance_id"
+    t.string "deployment_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["application_instance_id"], name: "index_lti_deployments_on_application_instance_id"
+    t.index ["deployment_id", "application_instance_id"], name: "index_lti_deployments_on_d_id_and_ai_id", unique: true
+    t.index ["deployment_id"], name: "index_lti_deployments_on_deployment_id"
+  end
+
+  create_table "lti_installs", force: :cascade do |t|
+    t.string "iss"
+    t.bigint "application_id"
+    t.string "client_id"
+    t.string "jwks_url"
+    t.string "token_url"
+    t.string "oidc_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["application_id", "iss"], name: "index_lti_installs_on_application_id_and_iss"
+    t.index ["application_id"], name: "index_lti_installs_on_application_id"
+    t.index ["client_id", "iss"], name: "index_lti_installs_on_client_id_and_iss", unique: true
+    t.index ["client_id"], name: "index_lti_installs_on_client_id"
+    t.index ["iss"], name: "index_lti_installs_on_iss"
+  end
+
   create_table "lti_launches", force: :cascade do |t|
     t.jsonb "config"
     t.datetime "created_at", null: false
@@ -219,6 +272,13 @@ ActiveRecord::Schema.define(version: 20190719163219) do
     t.index ["state"], name: "index_oauth_states_on_state"
   end
 
+  create_table "open_id_states", force: :cascade do |t|
+    t.string "nonce"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["nonce"], name: "index_open_id_states_on_nonce", unique: true
+  end
+
   create_table "permissions", force: :cascade do |t|
     t.bigint "role_id"
     t.bigint "user_id"
@@ -226,8 +286,8 @@ ActiveRecord::Schema.define(version: 20190719163219) do
     t.datetime "updated_at"
     t.string "context_id"
     t.index ["context_id"], name: "index_permissions_on_context_id"
-    t.index ["role_id", "user_id", "context_id"], name: "index_permissions_on_role_id_and_user_id_and_context_id"
-    t.index ["role_id", "user_id"], name: "index_permissions_on_role_id_and_user_id"
+    t.index ["role_id", "user_id", "context_id"], name: "index_permissions_on_role_id_and_user_id_and_context_id", unique: true
+    t.index ["role_id", "user_id"], name: "index_permissions_on_role_id_and_user_id", unique: true, where: "(context_id IS NULL)"
   end
 
   create_table "proctor_codes", force: :cascade do |t|
@@ -268,6 +328,20 @@ ActiveRecord::Schema.define(version: 20190719163219) do
     t.index ["lms_course_id"], name: "index_registrations_on_lms_course_id"
     t.index ["lms_user_id"], name: "index_registrations_on_lms_user_id"
     t.index ["scorm_registration_id"], name: "index_registrations_on_scorm_registration_id"
+  end
+
+  create_table "request_statistics", primary_key: ["truncated_time", "tenant"], force: :cascade do |t|
+    t.datetime "truncated_time", null: false
+    t.string "tenant", null: false
+    t.integer "number_of_hits", default: 1
+    t.integer "number_of_lti_launches", default: 0
+    t.integer "number_of_errors", default: 0
+  end
+
+  create_table "request_user_statistics", primary_key: ["truncated_time", "tenant", "user_id"], force: :cascade do |t|
+    t.datetime "truncated_time", null: false
+    t.string "tenant", null: false
+    t.bigint "user_id", null: false
   end
 
   create_table "roles", force: :cascade do |t|
@@ -411,13 +485,13 @@ ActiveRecord::Schema.define(version: 20190719163219) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
-    t.string "time_zone", default: "UTC"
     t.string "password_salt"
     t.string "lti_user_id"
     t.string "lti_provider"
     t.string "lms_user_id"
     t.bigint "create_method", default: 0
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["lms_user_id", "lti_user_id"], name: "index_users_on_lms_user_id_and_lti_user_id"
     t.index ["lti_user_id"], name: "index_users_on_lti_user_id", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

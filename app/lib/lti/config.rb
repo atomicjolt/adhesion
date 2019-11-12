@@ -13,6 +13,8 @@
 # assignment_selection
 # user_navigation
 # assignment_configuration
+# assignment_edit
+# assignment_view
 # assignment_menu
 # collaboration
 # course_home_sub_navigation
@@ -57,6 +59,8 @@ module Lti
       canvas_ext_config = global_navigation_from_args(canvas_ext_config, args)
       canvas_ext_config = post_grades_from_args(canvas_ext_config, args)
       canvas_ext_config = assignment_configuration_from_args(canvas_ext_config, args)
+      canvas_ext_config = assignment_edit_from_args(canvas_ext_config, args)
+      canvas_ext_config = assignment_view_from_args(canvas_ext_config, args)
       canvas_ext_config = assignment_menu_from_args(canvas_ext_config, args)
       canvas_ext_config = collaboration_from_args(canvas_ext_config, args)
       canvas_ext_config = course_home_sub_navigation_from_args(canvas_ext_config, args)
@@ -81,8 +85,16 @@ module Lti
         launch_url: args[:launch_url],
         secure_launch_url: args[:secure_launch_url],
         description: args[:description],
-        icon: "https://#{args[:domain]}/#{args[:icon]}",
+        icon: icon(args),
       )
+    end
+
+    def self.icon(args)
+      if args[:icon].present?
+        args[:icon].include?("http") ? args[:icon] : "https://#{args[:domain]}/#{args[:icon]}"
+      else
+        nil
+      end
     end
 
     def self.default_config(args = {})
@@ -93,9 +105,14 @@ module Lti
     end
 
     def self.custom_fields_from_args(config = {}, args = {})
-      if args[:custom_fields].present?
-        config["custom_fields"] = args[:custom_fields]
-      end
+      custom_fields = {
+        custom_canvas_api_domain: "$Canvas.api.domain",
+      }
+      config["custom_fields"] = if args[:custom_fields].present?
+                                  custom_fields.merge(args[:custom_fields]).stringify_keys
+                                else
+                                  custom_fields.stringify_keys
+                                end
       config
     end
 
@@ -175,6 +192,21 @@ module Lti
     def self.assignment_configuration_from_args(config = {}, args = {})
       if args[:assignment_configuration].present?
         default_configs_from_args!(args, config, :assignment_configuration)
+      end
+      config
+    end
+
+    def self.assignment_edit_from_args(config = {}, args = {})
+      if args[:assignment_edit].present?
+        assignment_configs_from_args!(args, config, :assignment_edit)
+      end
+      config
+    end
+
+    def self.assignment_view_from_args(config = {}, args = {})
+      if args[:assignment_view].present?
+        assignment_configs_from_args!(args, config, :assignment_view)
+        config[:assignment_view]["visibility"] ||= "admins"
       end
       config
     end
@@ -289,6 +321,12 @@ module Lti
       config[key]["message_type"] ||= "ContentItemSelectionRequest"
       config[key]["url"] ||= args[:launch_url]
       config
+    end
+
+    def self.assignment_configs_from_args!(args, config, key)
+      config[key] = args[key].stringify_keys
+      config[key]["url"] ||= args[:launch_url]
+      # launch_height and launch_width are optional. Include them in the LTI config to set to a specific value
     end
 
     def self.default_configs_from_args!(args, config, key)

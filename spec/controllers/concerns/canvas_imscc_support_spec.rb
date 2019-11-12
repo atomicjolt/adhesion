@@ -2,7 +2,7 @@ require "rails_helper"
 
 describe ApplicationController, type: :controller do
   before do
-    setup_application_and_instance
+    setup_application_instance
     # For authentication a JWT will be included in the Authorization header using the Bearer scheme,
     # it is signed using the shared secret for the tool and will include the stored consumer key in the
     # kid field of the token's header object.
@@ -72,5 +72,11 @@ describe ApplicationController, type: :controller do
     expect(response).to have_http_status(:success)
     json = JSON.parse(response.body)
     expect(json["message"]).to eq("all is well")
+  end
+
+  it "sets @application_instance" do
+    request.headers["Authorization"] = "Bearer #{@token}"
+    post :create, params: {}, format: :json
+    expect(assigns(:application_instance)).to eq(@application_instance)
   end
 end
