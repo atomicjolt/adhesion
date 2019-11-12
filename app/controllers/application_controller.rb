@@ -45,13 +45,6 @@ class ApplicationController < ActionController::Base
 
   # NOTE: Exceptions are specified in order of most general at the top with more specific at the bottom
 
-  # Exceptions defined in order of increasing specificity.
-  rescue_from Exception, with: :internal_error
-  def internal_error(exception)
-    record_exception(exception)
-    render_error 500, "Internal error: #{exception.message}"
-  end
-
   rescue_from ActiveRecord::RecordNotFound, with: :not_found
   def not_found
     render_error 404, "Unable to find the requested record"
