@@ -298,7 +298,7 @@ ActiveRecord::Schema.define(version: 2019_09_11_015015) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "que_jobs", primary_key: ["queue", "priority", "run_at", "job_id"], force: :cascade, comment: "3" do |t|
+  create_table "que_jobs", primary_key: ["queue", "priority", "run_at", "job_id"], comment: "3", force: :cascade do |t|
     t.integer "priority", limit: 2, default: 100, null: false
     t.datetime "run_at", default: -> { "now()" }, null: false
     t.bigserial "job_id", null: false
