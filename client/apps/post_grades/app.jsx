@@ -1,8 +1,8 @@
 import 'core-js';
 import 'regenerator-runtime/runtime';
 import es6Promise from 'es6-promise';
-import React from 'react15';
-import ReactDOM from 'react-dom15';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import jwt from 'atomic-fuel/libs/loaders/jwt';
 import { getInitialSettings } from 'atomic-fuel/libs/reducers/settings';
