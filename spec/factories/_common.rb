@@ -1,8 +1,4 @@
 FactoryBot.define do
-  sequence :token do |n|
-    "token_#{n}"
-  end
-
   sequence :lti_key do |n|
     "lti_key_#{n}"
   end
@@ -185,10 +181,6 @@ FactoryBot.define do
 
   sequence :uuid do
     SecureRandom.uuid
-  end
-
-  sequence :context_id do |n|
-    "123aba321_#{n}"
   end
 
   sequence :user_id do |n|
