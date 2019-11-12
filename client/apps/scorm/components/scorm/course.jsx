@@ -226,19 +226,19 @@ export default class Course extends React.Component {
     let isAssignmentButton = null;
 
     if (isAssignment) {
+      let cloudIcon = <i className="material-icons">cloud_off</i>;
+
+      if (this.props.canvasAssignment.published) {
+        cloudIcon = <i className="material-icons" style={{ color: '#51B548' }}>cloud_done</i>;
+      }
+
       isAssignmentButton = (
         <HoverButton
           style={styles.button}
           onClick={() => this.publishAssignment()}
           hoveredStyle={styles.hoveredStyle}
         >
-          { do {
-            if (this.props.canvasAssignment.published) {
-              <i className="material-icons" style={{ color: '#51B548' }}>cloud_done</i>;
-            } else {
-              <i className="material-icons">cloud_off</i>;
-            }
-          }}
+          { cloudIcon }
         </HoverButton>
       );
     }
