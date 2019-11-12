@@ -90,7 +90,7 @@ applications = [
         "urn:lti:role:ims/lis/TeachingAssistant",
         "urn:lti:role:ims/lis/ContentDeveloper",
       ],
-      LIST_ASSIGNMENTS: [
+      LIST_ASSIGNMENTS_ASSIGNMENTS: [
         "urn:lti:role:ims/lis/Learner",
         "urn:lti:sysrole:ims/lis/User",
       ],
@@ -312,7 +312,7 @@ applications = [
         "urn:lti:role:ims/lis/TeachingAssistant",
         "urn:lti:role:ims/lis/ContentDeveloper",
       ],
-      LIST_ASSIGNMENTS: [],
+      LIST_ASSIGNMENTS_ASSIGNMENTS: [],
       LIST_ASSIGNMENT_SUBMISSIONS_SECTIONS: [],
       LIST_COURSE_SECTIONS: [],
       LIST_ENROLLMENTS_SECTIONS: [],
