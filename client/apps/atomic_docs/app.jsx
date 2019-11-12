@@ -7,7 +7,6 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { getInitialSettings } from 'atomic-fuel/libs/reducers/settings';
 import jwt from 'atomic-fuel/libs/loaders/jwt';
-import { getInitialSettings } from 'atomic-fuel/libs/reducers/settings';
 import PropTypes from 'prop-types';
 import Index from './components/layout/index';
 import initResizeHandler from '../../common/libs/resize_iframe';
