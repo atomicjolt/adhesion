@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link } from 'react-router3';
 import { switchView } from '../../actions/analytics';
 
 export class Header extends React.Component {

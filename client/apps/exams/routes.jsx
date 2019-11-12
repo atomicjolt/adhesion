@@ -1,5 +1,5 @@
 import React from 'react'; // if you use jsx, you have to have React imported
-import { Router, Route, IndexRoute } from 'react-router';
+import { Router, Route, IndexRoute } from 'react-router3';
 
 import appHistory from './history';
 import ExamList from './components/exam_list/_exam_list';
