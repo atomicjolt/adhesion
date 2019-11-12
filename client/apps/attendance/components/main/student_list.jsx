@@ -53,7 +53,7 @@ export class StudentList extends React.Component {
   constructor() {
     super();
 
-    this.handleKeyPress = ::this.handleKeyPress;
+    this.handleKeyPress = this.handleKeyPress.bind(this);
     this.state = {
       showExportModal: false,
       currentSection: -1,

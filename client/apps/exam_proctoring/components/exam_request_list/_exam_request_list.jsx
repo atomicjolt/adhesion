@@ -109,7 +109,7 @@ export class BaseExamRequestList extends React.Component {
       toggleReportWindow: false,
     };
 
-    this.closeSettings = ::this.closeSettings;
+    this.closeSettings = this.closeSettings.bind(this);
   }
 
   componentWillMount() {
