@@ -10,6 +10,7 @@ import jwt from 'atomic-fuel/libs/loaders/jwt';
 import PropTypes from 'prop-types';
 import Index from './components/layout/index';
 import initResizeHandler from '../../common/libs/resize_iframe';
+import configureStore from './store/configure_store';
 
 import './styles/styles.scss';
 
