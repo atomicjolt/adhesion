@@ -15,6 +15,7 @@ module Lti
         end
       end
       key
+    rescue JWT::DecodeError
     end
   end
 end
