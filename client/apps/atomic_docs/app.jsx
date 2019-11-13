@@ -4,7 +4,6 @@ import es6Promise from 'es6-promise';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { getInitialSettings } from 'atomic-fuel/libs/reducers/settings';
 import jwt from 'atomic-fuel/libs/loaders/jwt';
 import PropTypes from 'prop-types';
@@ -26,11 +25,9 @@ class Root extends React.PureComponent {
     const { store } = this.props;
     return (
       <Provider store={store}>
-        <Router>
-          <div>
-            <Route path="/" exact component={Index} />
-          </div>
-        </Router>
+        <div>
+          <Index />
+        </div>
       </Provider>
     );
   }
