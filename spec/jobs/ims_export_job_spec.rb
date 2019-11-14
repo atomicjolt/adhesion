@@ -42,7 +42,7 @@ RSpec.describe ImsExportJob, type: :job do
     }
   end
 
-  let(:lti_launch) { create(:lti_launch, context_id: "123", config: config) }
+  let(:lti_launch) { create(:lti_launch, context_id: "123", config: config, scorm_course: scorm_course) }
 
   it "Collects the lti launches" do
     expect(export.payload["lti_launches"]).to_not include(lti_launch)
