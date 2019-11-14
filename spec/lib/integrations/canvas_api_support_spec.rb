@@ -4,7 +4,7 @@ describe Integrations::CanvasApiSupport do
   before do
     setup_application_instance
     @user = FactoryBot.create(:user)
-    @canvas_course = FactoryBot.create(:canvas_course)
+    @canvas_course = FactoryBot.create(:course)
     @application_instance.update(canvas_token: nil)
     @authentication = FactoryBot.create(
       :authentication,
