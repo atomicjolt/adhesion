@@ -38,7 +38,7 @@ module ApplicationInstanceHelper
     application = FactoryBot.create(
       :application,
       canvas_api_permissions: canvas_api_permissions,
-      client_application_name: "hello_world",
+      client_application_name: "scorm",
     )
 
     default_config = {}
