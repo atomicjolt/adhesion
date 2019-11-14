@@ -12,7 +12,14 @@ RSpec.describe ScormCourse, type: :model do
     end
 
     it "sets registration" do
-      registration = Registration.create(lms_course_id: @scorm_course.scorm_service_id)
+      @application_instance = FactoryBot.create(:application_instance)
+      @user = FactoryBot.create(:user_canvas)
+      registration = FactoryBot.create(
+        :registration,
+        lms_course_id: @scorm_course.scorm_service_id,
+        user: @user,
+        application_instance: @application_instance,
+      )
       report = JSON.parse(File.read("spec/fixtures/json/report.json"))
       report = report.deep_symbolize_keys
       registration.store_activities(report[:registrationreport][:activity])
@@ -81,7 +88,14 @@ RSpec.describe ScormCourse, type: :model do
 
     describe "with registration code" do
       before do
-        registration = Registration.create(lms_course_id: @scorm_course.scorm_service_id)
+        @application_instance = FactoryBot.create(:application_instance)
+        @user = FactoryBot.create(:user_canvas)
+        registration = FactoryBot.create(
+          :registration,
+          lms_course_id: @scorm_course.scorm_service_id,
+          user: @user,
+          application_instance: @application_instance,
+        )
         report = JSON.parse(File.read("spec/fixtures/json/report.json"))
         report = report.deep_symbolize_keys
         registration.store_activities(report[:registrationreport][:activity])
@@ -143,7 +157,14 @@ RSpec.describe ScormCourse, type: :model do
     end
 
     it "should return the course activities with analytics table" do
-      registration = Registration.create(lms_course_id: @scorm_course.scorm_service_id)
+      @application_instance = FactoryBot.create(:application_instance)
+      @user = FactoryBot.create(:user_canvas)
+      registration = FactoryBot.create(
+        :registration,
+        lms_course_id: @scorm_course.scorm_service_id,
+        user: @user,
+        application_instance: @application_instance,
+      )
       report = JSON.parse(File.read("spec/fixtures/json/report.json"))
       report = report.deep_symbolize_keys
       registration.store_activities(report[:registrationreport][:activity])
@@ -153,7 +174,14 @@ RSpec.describe ScormCourse, type: :model do
     end
 
     it "should contain correct analytics table" do
-      registration = Registration.create(lms_course_id: @scorm_course.scorm_service_id)
+      @application_instance = FactoryBot.create(:application_instance)
+      @user = FactoryBot.create(:user_canvas)
+      registration = FactoryBot.create(
+        :registration,
+        lms_course_id: @scorm_course.scorm_service_id,
+        user: @user,
+        application_instance: @application_instance,
+      )
       report = JSON.parse(File.read("spec/fixtures/json/report.json"))
       report = report.deep_symbolize_keys
       registration.store_activities(report[:registrationreport][:activity])
