@@ -85,23 +85,6 @@ RSpec.describe ApplicationController, type: :controller do
         end
       end
 
-      describe "Exception" do
-        controller do
-          def index
-            raise Exception
-          end
-        end
-        it "renders an error page" do
-          get :index
-          expect(response).to have_http_status(500)
-        end
-        it "renders error json" do
-          get :index, format: :json
-          expect(response).to have_http_status(500)
-          expect(JSON.parse(response.body)["message"]).to eq("Internal error: Exception")
-        end
-      end
-
       describe "LMS::Canvas::CanvasException" do
         controller do
           def index
