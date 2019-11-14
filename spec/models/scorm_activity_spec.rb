@@ -3,6 +3,15 @@ require "rails_helper"
 RSpec.describe ScormActivity, type: :model do
   before do
     @scorm_activity = ScormActivity.create
+    @application_instance = FactoryBot.create(:application_instance)
+    @scorm_course = FactoryBot.create(:scorm_course)
+    @user = FactoryBot.create(:user_canvas)
+    @registration = FactoryBot.create(
+      :registration,
+      scorm_course: @scorm_course,
+      user: @user,
+      application_instance: @application_instance,
+    )
   end
   describe "#set_to_latest" do
     it "sets the last scorm activity to the latest attempt" do
@@ -42,7 +51,6 @@ RSpec.describe ScormActivity, type: :model do
 
   describe "#activity_data" do
     before do
-      @registration = Registration.create
       @report = JSON.parse(File.read("spec/fixtures/json/report.json"))
       @report = @report.deep_symbolize_keys
       @registration.store_activities(@report[:registrationreport][:activity])
@@ -67,7 +75,6 @@ RSpec.describe ScormActivity, type: :model do
 
   describe "#score_with_children" do
     before do
-      @registration = Registration.create
       @report = JSON.parse(File.read("spec/fixtures/json/report.json"))
       @report = @report.deep_symbolize_keys
       @registration.store_activities(@report[:registrationreport][:activity])
@@ -83,7 +90,6 @@ RSpec.describe ScormActivity, type: :model do
 
   describe "#all_attempts_time_tracked_children" do
     before do
-      @registration = Registration.create
       @report = JSON.parse(File.read("spec/fixtures/json/report.json"))
       @report = @report.deep_symbolize_keys
       @registration.store_activities(@report[:registrationreport][:activity])
