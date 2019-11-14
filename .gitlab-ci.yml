@@ -3,9 +3,6 @@ cache:
   paths:
     - vendor/ruby
     - node_modules
-    - client/node_modules
-    - client/apps/admin/node_modules
-    - client/apps/hello_world/node_modules
 
 variables:
   RAILS_ENV: test
