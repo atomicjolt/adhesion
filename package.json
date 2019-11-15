@@ -46,6 +46,7 @@
     },
     "setupFilesAfterEnv": [
       "./client/testing/shim.js",
+      "./client/testing/setup_env.js",
       "./client/testing/setup_tests.js"
     ]
   },
