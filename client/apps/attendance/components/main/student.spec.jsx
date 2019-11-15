@@ -1,5 +1,5 @@
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
+import ReactTestUtils from 'react-dom/test-utils';
 import { ATTENDANCE_STATES } from '../../reducers/student';
 import Student from './student';
 
@@ -15,7 +15,7 @@ describe('Student', () => {
       student,
       updateStudentAttendance: () => {},
     };
-    const result = TestUtils.renderIntoDocument(<Student {...props} />);
+    const result = ReactTestUtils.renderIntoDocument(<Student {...props} />);
     expect(result).toBeDefined();
   });
 
@@ -26,11 +26,11 @@ describe('Student', () => {
     };
 
     spyOn(props, 'updateStudentAttendance');
-    const result = TestUtils.renderIntoDocument(<Student {...props} />);
-    const subjects = TestUtils.scryRenderedDOMComponentsWithTag(result, 'input');
-    TestUtils.Simulate.change(subjects[0]);
-    TestUtils.Simulate.change(subjects[1]);
-    TestUtils.Simulate.change(subjects[2]);
+    const result = ReactTestUtils.renderIntoDocument(<Student {...props} />);
+    const subjects = ReactTestUtils.scryRenderedDOMComponentsWithTag(result, 'input');
+    ReactTestUtils.Simulate.change(subjects[0]);
+    ReactTestUtils.Simulate.change(subjects[1]);
+    ReactTestUtils.Simulate.change(subjects[2]);
 
     expect(props.updateStudentAttendance).toHaveBeenCalledTimes(3);
   });
@@ -42,8 +42,8 @@ describe('Student', () => {
       status: ATTENDANCE_STATES.PRESENT,
     };
 
-    const result = TestUtils.renderIntoDocument(<Student {...props} />);
-    const subjects = TestUtils.scryRenderedDOMComponentsWithTag(result, 'input');
+    const result = ReactTestUtils.renderIntoDocument(<Student {...props} />);
+    const subjects = ReactTestUtils.scryRenderedDOMComponentsWithTag(result, 'input');
 
     expect(subjects[0].checked).toEqual(true);
     expect(subjects[1].checked).toEqual(false);

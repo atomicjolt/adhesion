@@ -1,5 +1,5 @@
 import React                      from 'react';
-import TestUtils                  from 'react-addons-test-utils';
+import ReactTestUtils                  from 'react-dom/test-utils';
 import ExamRequest                from './exam_request';
 
 describe('Exam list', () => {
@@ -47,12 +47,12 @@ describe('Exam list', () => {
         examStatus = 'start';
       },
     };
-    result = TestUtils.renderIntoDocument(<ExamRequest {...props} />);
+    result = ReactTestUtils.renderIntoDocument(<ExamRequest {...props} />);
   });
 
   it('opens the menu when you click', () => {
-    const button = TestUtils.findRenderedDOMComponentWithTag(result, 'button');
-    TestUtils.Simulate.click(button);
+    const button = ReactTestUtils.findRenderedDOMComponentWithTag(result, 'button');
+    ReactTestUtils.Simulate.click(button);
     expect(props.settingsOpen).toBe(true);
   });
 

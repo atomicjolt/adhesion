@@ -1,5 +1,5 @@
 import React       from 'react';
-import TestUtils   from 'react-addons-test-utils';
+import ReactTestUtils   from 'react-dom/test-utils';
 import Modal       from './modal';
 
 describe('modal', () => {
@@ -10,11 +10,11 @@ describe('modal', () => {
       visible: true,
       children: <h1>Hello World</h1>
     };
-    result = TestUtils.renderIntoDocument(<Modal {...props} />);
+    result = ReactTestUtils.renderIntoDocument(<Modal {...props} />);
   });
 
   it('applies the correct styles when you hover', () => {
-    const element = TestUtils.findRenderedDOMComponentWithTag(result, 'h1');
+    const element = ReactTestUtils.findRenderedDOMComponentWithTag(result, 'h1');
     expect(element.textContent).toContain('Hello World');
   });
 });

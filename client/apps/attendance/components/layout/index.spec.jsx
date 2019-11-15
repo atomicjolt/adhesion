@@ -1,6 +1,6 @@
 import React        from 'react';
 import ReactDOM     from 'react-dom';
-import TestUtils    from 'react-addons-test-utils';
+import ReactTestUtils    from 'react-dom/test-utils';
 import Index        from './index';
 
 describe('index', () => {
@@ -9,7 +9,7 @@ describe('index', () => {
 
   beforeEach(() => {
     props = {};
-    result = TestUtils.renderIntoDocument(<Index {...props} />);
+    result = ReactTestUtils.renderIntoDocument(<Index {...props} />);
   });
 
   it('renders the index', () => {

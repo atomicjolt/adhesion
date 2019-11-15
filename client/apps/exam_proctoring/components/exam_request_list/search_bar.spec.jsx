@@ -1,5 +1,5 @@
 import React                      from 'react';
-import TestUtils                  from 'react-addons-test-utils';
+import ReactTestUtils                  from 'react-dom/test-utils';
 import SearchBar                  from './search_bar';
 
 describe('search bar', () => {
@@ -9,12 +9,12 @@ describe('search bar', () => {
     const props = {
       searchChange: () => { changed = true; }
     };
-    result = TestUtils.renderIntoDocument(<SearchBar {...props} />);
+    result = ReactTestUtils.renderIntoDocument(<SearchBar {...props} />);
   });
 
   it('typing calls the change callback', () => {
-    const textField = TestUtils.findRenderedDOMComponentWithTag(result, 'input');
-    TestUtils.Simulate.change(textField);
+    const textField = ReactTestUtils.findRenderedDOMComponentWithTag(result, 'input');
+    ReactTestUtils.Simulate.change(textField);
     expect(changed).toBe(true);
   });
 });
