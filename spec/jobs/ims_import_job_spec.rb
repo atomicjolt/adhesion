@@ -151,7 +151,7 @@ RSpec.describe ImsImportJob, type: :job do
 
   context "import status" do
     it "finishes" do
-      subject.perform_now(data.to_json)
+      subject.perform_now(data.to_json, application_instance, user)
       expect(ims_import.reload.status).to eq "finished"
     end
   end
