@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Javascript for the Adhesion.",
   "engines": {
-    "node": ">=8.16.0"
+    "node": ">=10.17.0"
   },
   "scripts": {
     "test": "jest --config package.json",
