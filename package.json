@@ -38,16 +38,16 @@
     ],
     "transform": {
       "\\.(gql|graphql)$": "jest-transform-graphql",
-      ".*": "babel-jest"
+      "^.+\\.jsx?$": "babel-jest"
     },
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "./client/testing/__mocks__/file_mock.js",
-      "\\.(sass|scss|css|less)$": "./client/testing/__mocks__/style_mock.js"
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/client/testing/__mocks__/file_mock.js",
+      "\\.(sass|scss|css|less)$": "<rootDir>/client/testing/__mocks__/style_mock.js"
     },
     "setupFilesAfterEnv": [
-      "./client/testing/shim.js",
-      "./client/testing/setup_env.js",
-      "./client/testing/setup_tests.js"
+      "<rootDir>/client/testing/shim.js",
+      "<rootDir>/client/testing/setup_env.js",
+      "<rootDir>/client/testing/setup_tests.js"
     ]
   },
   "dependencies": {
@@ -61,8 +61,8 @@
     "@babel/plugin-transform-regenerator": "^7.4.5",
     "@babel/plugin-transform-runtime": "^7.6.2",
     "@babel/preset-env": "^7.6.2",
-    "@babel/preset-react": "^7.0.0",
-    "@rails/webpacker": "^4.0.7",
+    "@babel/preset-react": "^7.7.4",
+    "@rails/webpacker": "^4.2.2",
     "apollo-cache-inmemory": "^1.6.2",
     "apollo-client": "^2.6.4",
     "apollo-link": "^1.2.13",
@@ -89,7 +89,7 @@
     "moment": "^2.22.2",
     "moment-timezone": "^0.5.27",
     "prop-types": "^15.7.2",
-    "react": "^16.10.2",
+    "react": "^16.12.0",
     "react-accessible-dropdown": "^1.0.2",
     "react-addons-css-transition-group": "^15.6.0",
     "react-apollo": "^3.1.2",
@@ -99,7 +99,7 @@
     "react-datepicker": "^0.55.0",
     "react-dnd": "^2.3.0",
     "react-dnd-html5-backend": "^2.3.0",
-    "react-dom": "^16.10.2",
+    "react-dom": "^16.12.0",
     "react-dropzone-s3-uploader": "^1.0.0-rc.3",
     "react-modal": "^3.10.1",
     "react-modal1": "npm:react-modal@1.9.7",
@@ -143,6 +143,6 @@
     "nock": "^11.3.6",
     "react-test-renderer": "^16.10.2",
     "wait-for-expect": "^3.0.0",
-    "webpack-dev-server": "^3.8.2"
+    "webpack-dev-server": "^3.10.1"
   }
 }
