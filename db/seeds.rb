@@ -1,5 +1,7 @@
-admin = CreateAdminService.new.call
-puts "CREATED ADMIN USER: " << admin.email
+if Rails.env.development?
+  admin = CreateAdminService.new.call
+  puts "CREATED ADMIN USER: " << admin.email
+end
 
 secrets = Rails.application.secrets
 
