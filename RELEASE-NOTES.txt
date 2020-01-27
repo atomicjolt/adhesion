@@ -1,5 +1,10 @@
 ;;; -*- fill-column: 80; -*-
 
+Changes for 1.1.10:
+  * Node upgrade 8->10 to match deployed version.
+  * Fix analytics to handle nil scores
+
+
 Changes for 1.1.9:
   * Fix scorm score passback to work with new rustici engine.
   * Update gems to match deploy.
