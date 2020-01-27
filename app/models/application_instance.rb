@@ -18,6 +18,7 @@ class ApplicationInstance < ApplicationRecord
 
   before_validation :set_lti
   before_validation :set_domain
+  before_validation :compact_scopes
 
   before_validation on: [:update] do
     errors.add(:lti_key, "cannot be changed after creation") if lti_key_changed?
@@ -164,4 +165,7 @@ class ApplicationInstance < ApplicationRecord
   end
   private :destroy_schema
 
+  def compact_scopes
+    oauth_scopes.compact!
+  end
 end
