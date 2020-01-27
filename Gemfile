@@ -96,6 +96,12 @@ group :development do
   gem "web-console", "~>3.7.0"
 end
 
+group :development, :linter do
+  gem "rubocop"
+  gem "rubocop-performance"
+  gem "rubocop-rails"
+end
+
 group :development, :test do
   gem "byebug", platform: :mri
   gem "debase"
@@ -106,7 +112,6 @@ group :development, :test do
   gem "rails-controller-testing"
   gem "rspec-rails"
   gem "ruby-debug-ide"
-  gem "rubocop"
 end
 
 group :test do
