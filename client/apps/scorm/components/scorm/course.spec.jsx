@@ -1,7 +1,7 @@
 /* global describe beforeEach it expect */
 
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
+import ReactTestUtils from 'react-dom/test-utils';
 import Course from './course';
 import Settings from './settings';
 
@@ -34,28 +34,28 @@ describe('course', () => {
       canvasAssignment: {},
     };
     remove = false;
-    result = TestUtils.renderIntoDocument(<Course {...props} />);
+    result = ReactTestUtils.renderIntoDocument(<Course {...props} />);
   });
 
   it('should check the course title', () => {
-    const title = TestUtils.findRenderedDOMComponentWithClass(result, 'c-list-item__title');
+    const title = ReactTestUtils.findRenderedDOMComponentWithClass(result, 'c-list-item__title');
     expect(title.textContent).toContain('IMASPEC');
   });
 
   it('should verify that Loader is rendered when course.fetching is true', () => {
-    let loader = TestUtils.scryRenderedDOMComponentsWithClass(result, 'loader');
+    let loader = ReactTestUtils.scryRenderedDOMComponentsWithClass(result, 'loader');
     expect(loader.length).toBe(0);
     props.course.fetching = true;
-    result = TestUtils.renderIntoDocument(<Course {...props} />);
-    loader = TestUtils.scryRenderedDOMComponentsWithClass(result, 'loader');
+    result = ReactTestUtils.renderIntoDocument(<Course {...props} />);
+    loader = ReactTestUtils.scryRenderedDOMComponentsWithClass(result, 'loader');
     expect(loader.length).toBe(1);
   });
 
   it('renders Graded Assigment when assignment exists and is a graded assignment', () => {
-    const itemType = TestUtils.scryRenderedDOMComponentsWithClass(result, 'c-list-item__type');
+    const itemType = ReactTestUtils.scryRenderedDOMComponentsWithClass(result, 'c-list-item__type');
     expect(itemType.length).toBe(1);
-    const itemTypeText = TestUtils.findRenderedDOMComponentWithClass(result, 'c-list-item__type');
-    const dropDown = TestUtils.scryRenderedDOMComponentsWithClass(result, 'c-dropdown');
+    const itemTypeText = ReactTestUtils.findRenderedDOMComponentWithClass(result, 'c-list-item__type');
+    const dropDown = ReactTestUtils.scryRenderedDOMComponentsWithClass(result, 'c-dropdown');
     expect(dropDown.length).toBe(0);
     expect(itemTypeText.textContent).toContain('Graded Assignment');
   });
@@ -63,18 +63,18 @@ describe('course', () => {
   it('renders Ungraded Assignment when assignment exists and is an ungraded assignment', () => {
     props.course.grading_type = 'points';
     props.course.points_possible = 0;
-    result = TestUtils.renderIntoDocument(<Course {...props} />);
-    const itemTypeText = TestUtils.findRenderedDOMComponentWithClass(result, 'c-list-item__type');
-    const dropDown = TestUtils.scryRenderedDOMComponentsWithClass(result, 'c-dropdown');
+    result = ReactTestUtils.renderIntoDocument(<Course {...props} />);
+    const itemTypeText = ReactTestUtils.findRenderedDOMComponentWithClass(result, 'c-list-item__type');
+    const dropDown = ReactTestUtils.scryRenderedDOMComponentsWithClass(result, 'c-dropdown');
     expect(dropDown.length).toBe(0);
     expect(itemTypeText.textContent).toContain('Ungraded Assignment');
   });
 
   it('renders Pass/Fail Assignment when assignment exists and is a pass_fail assignment', () => {
     props.course.grading_type = 'pass_fail';
-    result = TestUtils.renderIntoDocument(<Course {...props} />);
-    const itemTypeText = TestUtils.findRenderedDOMComponentWithClass(result, 'c-list-item__type');
-    const dropDown = TestUtils.scryRenderedDOMComponentsWithClass(result, 'c-dropdown');
+    result = ReactTestUtils.renderIntoDocument(<Course {...props} />);
+    const itemTypeText = ReactTestUtils.findRenderedDOMComponentWithClass(result, 'c-list-item__type');
+    const dropDown = ReactTestUtils.scryRenderedDOMComponentsWithClass(result, 'c-dropdown');
 
     expect(dropDown.length).toBe(0);
     expect(itemTypeText.textContent).toContain('Pass/Fail Assignment');
@@ -82,33 +82,33 @@ describe('course', () => {
 
   it('renders ImportTypeSelector component when isAssignment is not true', () => {
     props.course.lms_assignment_id = undefined;
-    result = TestUtils.renderIntoDocument(<Course {...props} />);
-    const dropDown = TestUtils.scryRenderedDOMComponentsWithClass(result, 'c-dropdown');
+    result = ReactTestUtils.renderIntoDocument(<Course {...props} />);
+    const dropDown = ReactTestUtils.scryRenderedDOMComponentsWithClass(result, 'c-dropdown');
     expect(dropDown.length).toBe(1);
   });
 
   it('should render Settings component', () => {
     result.setState({ opened: true });
-    const settings = TestUtils.scryRenderedComponentsWithType(result, Settings);
+    const settings = ReactTestUtils.scryRenderedComponentsWithType(result, Settings);
     expect(settings).toBeDefined();
   });
 
   it('verifies that ImportTypeSelector handleGoClick calls handleGoClick function', () => {
     props.course.lms_assignment_id = undefined;
-    result = TestUtils.renderIntoDocument(<Course {...props} />);
+    result = ReactTestUtils.renderIntoDocument(<Course {...props} />);
     expect(remove).toBeFalsy();
-    const btn = TestUtils.scryRenderedDOMComponentsWithClass(result, 'c-btn--go');
-    TestUtils.Simulate.click(btn[0]);
+    const btn = ReactTestUtils.scryRenderedDOMComponentsWithClass(result, 'c-btn--go');
+    ReactTestUtils.Simulate.click(btn[0]);
     expect(remove).toBeTruthy();
   });
 
   it('verifies that ImportTypeSelector handleImportType function is called by handleImportType with proper select value', () => {
     props.course.lms_assignment_id = undefined;
-    result = TestUtils.renderIntoDocument(<Course {...props} />);
-    const selector = TestUtils.findRenderedDOMComponentWithTag(result, 'select');
-    TestUtils.Simulate.change(selector, { target: { value: 'Graded Assignment' } });
+    result = ReactTestUtils.renderIntoDocument(<Course {...props} />);
+    const selector = ReactTestUtils.findRenderedDOMComponentWithTag(result, 'select');
+    ReactTestUtils.Simulate.change(selector, { target: { value: 'Graded Assignment' } });
     expect(remove).toBeTruthy();
-    TestUtils.Simulate.change(selector, { target: { value: 'Ungraded Assignment' } });
+    ReactTestUtils.Simulate.change(selector, { target: { value: 'Ungraded Assignment' } });
     expect(remove).toBeTruthy();
   });
 });

@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import CommonSvg from '../../../../libs/components/common_svg';
 
 export default class FileUpload extends React.Component {
 
   static propTypes = {
-    uploadPackage: React.PropTypes.func.isRequired,
+    uploadPackage: PropTypes.func.isRequired,
   };
 
   constructor() {

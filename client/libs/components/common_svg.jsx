@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function commonSVG(props) {
   const d = {
@@ -23,6 +24,6 @@ export default function commonSVG(props) {
 }
 
 commonSVG.propTypes = {
-  className: React.PropTypes.string,
-  type: React.PropTypes.string.isRequired,
+  className: PropTypes.string,
+  type: PropTypes.string.isRequired,
 };

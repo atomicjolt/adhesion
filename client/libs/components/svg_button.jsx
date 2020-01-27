@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import CommonSvg from './common_svg';
 
 export default function svgButton(props) {
@@ -18,11 +19,11 @@ export default function svgButton(props) {
 }
 
 svgButton.propTypes = {
-  type: React.PropTypes.string.isRequired,
-  onClick: React.PropTypes.func,
-  className: React.PropTypes.string,
-  ariaLabel: React.PropTypes.string,
-  noIconClass: React.PropTypes.bool,
-  children: React.PropTypes.node,
-  onBlur: React.PropTypes.func,
+  type: PropTypes.string.isRequired,
+  onClick: PropTypes.func,
+  className: PropTypes.string,
+  ariaLabel: PropTypes.string,
+  noIconClass: PropTypes.bool,
+  children: PropTypes.node,
+  onBlur: PropTypes.func,
 };

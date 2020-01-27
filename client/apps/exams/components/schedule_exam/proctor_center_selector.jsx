@@ -1,11 +1,12 @@
 import React        from 'react';
+import PropTypes from 'prop-types';
 import SelectSearch from 'react-select-search';
 import _            from 'lodash';
 
 export default class ProctorCenterSelector extends React.Component {
   static propTypes = {
-    testingCenterList: React.PropTypes.arrayOf(React.PropTypes.shape({})),
-    onChange: React.PropTypes.func,
+    testingCenterList: PropTypes.arrayOf(PropTypes.shape({})),
+    onChange: PropTypes.func,
   }
   constructor(props) {
     super(props);

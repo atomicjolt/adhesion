@@ -17,8 +17,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     if @user.lti_provider.blank?
       auth = @user.authentications.find_by(provider_url: canvas_url, provider: "canvas")
-      json = Yajl::Parser.parse(auth["json_response"])
-      @user.lti_provider = UrlHelper.host(json["info"]["url"])
+      @user.lti_provider = UrlHelper.host(auth["provider_url"])
       @user.lms_user_id = auth.uid
     end
 
@@ -157,7 +156,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     kind = params[:action].titleize # Should give us Facebook, Twitter, Linked In, etc
     @user = User.new
     @user.skip_confirmation!
-    @user.password = SecureRandom.hex(15)
+    @user.password = Devise.friendly_token(20)
     @user.password_confirmation = @user.password
     @user.create_method = User.create_methods[:oauth]
     @user.lti_user_id = auth["extra"]["raw_info"]["lti_user_id"]

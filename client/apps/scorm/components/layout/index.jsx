@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Modal from '../common/modal';
 
 export default function Index(props) {
@@ -11,5 +12,5 @@ export default function Index(props) {
 }
 
 Index.propTypes = {
-  children: React.PropTypes.node,
+  children: PropTypes.node,
 };

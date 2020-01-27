@@ -1,13 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class HoverButton extends React.Component {
 
   static propTypes = {
-    onClick: React.PropTypes.func,
-    style: React.PropTypes.shape({}),
-    className: React.PropTypes.string,
-    children: React.PropTypes.node,
-    hoveredStyle: React.PropTypes.shape({}),
+    onClick: PropTypes.func,
+    style: PropTypes.shape({}),
+    className: PropTypes.string,
+    children: PropTypes.node,
+    hoveredStyle: PropTypes.shape({}),
   }
 
   constructor() {

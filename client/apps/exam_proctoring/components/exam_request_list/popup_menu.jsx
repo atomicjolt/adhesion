@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import _ from 'lodash';
 import hashHistory from '../../history';
 import HoverButton from '../common/hover_button';
@@ -108,11 +109,11 @@ export default function popupMenu(props) {
 }
 
 popupMenu.propTypes = {
-  style: React.PropTypes.shape({}),
-  status: React.PropTypes.string.isRequired,
-  openMessageModal: React.PropTypes.func.isRequired,
-  startExam: React.PropTypes.func.isRequired,
-  finishExam: React.PropTypes.func.isRequired,
-  openExamModal: React.PropTypes.func.isRequired,
-  studentHasExamStarted: React.PropTypes.bool.isRequired
+  style: PropTypes.shape({}),
+  status: PropTypes.string.isRequired,
+  openMessageModal: PropTypes.func.isRequired,
+  startExam: PropTypes.func.isRequired,
+  finishExam: PropTypes.func.isRequired,
+  openExamModal: PropTypes.func.isRequired,
+  studentHasExamStarted: PropTypes.bool.isRequired
 };

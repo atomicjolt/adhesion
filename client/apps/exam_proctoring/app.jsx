@@ -1,27 +1,21 @@
-import 'babel-polyfill';
+import 'core-js';
+import 'regenerator-runtime/runtime';
 import es6Promise from 'es6-promise';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
-import injectTapEventPlugin from 'react-tap-event-plugin';
-import DevTools from 'atomic-fuel/libs/dev/dev_tools';
-import { getInitialSettings } from 'atomic-fuel/libs/reducers/settings';
 import jwt from 'atomic-fuel/libs/loaders/jwt';
-import configureStore from './store/configure_store';
+import { getInitialSettings } from 'atomic-fuel/libs/reducers/settings';
+import PropTypes from 'prop-types';
+import ReactModal from 'react-modal';
 import routes from './routes';
+import configureStore from './store/configure_store';
 
-import './styles/styles';
+
+import './styles/styles.scss';
 
 // Polyfill es6 promises for IE
 es6Promise.polyfill();
-
-// Needed for onTouchTap
-// Can go away when react 1.0 release
-// Check this repo:
-// https://github.com/zilverline/react-tap-event-plugin
-injectTapEventPlugin();
-
 
 class Root extends React.PureComponent {
   static propTypes = {
@@ -29,13 +23,11 @@ class Root extends React.PureComponent {
   };
 
   render() {
-    const devTools = __DEV__ ? <DevTools /> : null;
     const { store } = this.props;
     return (
       <Provider store={store}>
         <div>
           {routes}
-          {devTools}
         </div>
       </Provider>
     );
@@ -47,6 +39,8 @@ const store = configureStore({ settings, jwt: window.DEFAULT_JWT });
 if (window.DEFAULT_JWT) { // Setup JWT refresh
   jwt(store.dispatch, settings.user_id);
 }
+
+ReactModal.setAppElement('#main-app');
 
 ReactDOM.render(
   <Root store={store} />,

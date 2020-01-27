@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { getSubAccountsOfAccount } from 'atomic-canvas/libs/constants/accounts';
@@ -26,17 +27,17 @@ const select = (state, props) => {
 export class BaseScheduleExam extends React.Component {
 
   static propTypes = {
-    canvasRequest: React.PropTypes.func.isRequired,
-    lmsCourseId: React.PropTypes.string.isRequired,
-    lmsUserId: React.PropTypes.string.isRequired,
-    lmsCourseName: React.PropTypes.string.isRequired,
-    exam: React.PropTypes.shape({ title: React.PropTypes.string }),
-    testingCenterList: React.PropTypes.shape({}),
-    params: React.PropTypes.shape({ id: React.PropTypes.string.isRequired }),
-    requestExam: React.PropTypes.func.isRequired,
-    testingCentersAccountId: React.PropTypes.number.isRequired,
-    studentName: React.PropTypes.string.isRequired,
-    clearState: React.PropTypes.func.isRequired,
+    canvasRequest: PropTypes.func.isRequired,
+    lmsCourseId: PropTypes.string.isRequired,
+    lmsUserId: PropTypes.string.isRequired,
+    lmsCourseName: PropTypes.string.isRequired,
+    exam: PropTypes.shape({ title: PropTypes.string }),
+    testingCenterList: PropTypes.shape({}),
+    params: PropTypes.shape({ id: PropTypes.string.isRequired }),
+    requestExam: PropTypes.func.isRequired,
+    testingCentersAccountId: PropTypes.number.isRequired,
+    studentName: PropTypes.string.isRequired,
+    clearState: PropTypes.func.isRequired,
   };
 
   static getStyles() {

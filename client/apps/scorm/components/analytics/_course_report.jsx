@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Header from './header';
 import Graph from './graph';
@@ -8,13 +9,13 @@ import * as AnalyticsActions from '../../actions/analytics';
 export class CourseReport extends React.Component {
 
   static propTypes = {
-    data: React.PropTypes.shape({
-      studentName: React.PropTypes.string,
-      title: React.PropTypes.string,
-      navButtons: React.PropTypes.array,
-      analyticsTable: React.PropTypes.array,
+    data: PropTypes.shape({
+      studentName: PropTypes.string,
+      title: PropTypes.string,
+      navButtons: PropTypes.array,
+      analyticsTable: PropTypes.array,
     }).isRequired,
-    view: React.PropTypes.string.isRequired,
+    view: PropTypes.string.isRequired,
   }
 
   constructor() {

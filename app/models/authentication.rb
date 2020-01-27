@@ -14,8 +14,8 @@ class Authentication < ApplicationRecord
                  mode: :per_attribute_iv_and_salt
 
   belongs_to :user, inverse_of: :authentications
-  belongs_to :application_instance, inverse_of: :authentications
-  belongs_to :course, inverse_of: :authentications
+  belongs_to :application_instance, inverse_of: :authentications, required: false
+  belongs_to :course, inverse_of: :authentications, required: false
 
   validates :provider,
             presence: true,
@@ -73,7 +73,6 @@ class Authentication < ApplicationRecord
       provider: auth["provider"],
       provider_url: provider_url,
       lti_user_id: raw_info["lti_user_id"],
-      json_response: auth.to_json,
     }
     if credentials = auth["credentials"]
       attributes[:token] = credentials["token"]

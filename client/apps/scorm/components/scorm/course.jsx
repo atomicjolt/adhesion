@@ -1,4 +1,5 @@
 import React              from 'react';
+import PropTypes from 'prop-types';
 import _                  from 'lodash';
 import Settings           from './settings';
 import ImportTypeSelector from './import_type_selector';
@@ -27,25 +28,25 @@ export default class Course extends React.Component {
   static DefaultPointValue = 100;
 
   static propTypes = {
-    course: React.PropTypes.shape({
-      id: React.PropTypes.string.isRequired,
-      lms_assignment_id: React.PropTypes.number,
-      index: React.PropTypes.number,
-      grading_type: React.PropTypes.string,
-      title: React.PropTypes.string,
-      fetching: React.PropTypes.bool,
+    course: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      lms_assignment_id: PropTypes.number,
+      index: PropTypes.number,
+      grading_type: PropTypes.string,
+      title: PropTypes.string,
+      fetching: PropTypes.bool,
     }).isRequired,
-    removePackage: React.PropTypes.func.isRequired,
-    importPackage: React.PropTypes.func.isRequired,
-    previewPackage: React.PropTypes.func.isRequired,
-    replacePackage: React.PropTypes.func.isRequired,
-    updateImportType: React.PropTypes.func.isRequired,
-    canvasUrl: React.PropTypes.string.isRequired,
-    courseId: React.PropTypes.string.isRequired,
-    hideModal: React.PropTypes.func.isRequired,
-    showModal: React.PropTypes.func.isRequired,
-    canvasAssignment: React.PropTypes.shape({}),
-    publishPackage: React.PropTypes.func.isRequired,
+    removePackage: PropTypes.func.isRequired,
+    importPackage: PropTypes.func.isRequired,
+    previewPackage: PropTypes.func.isRequired,
+    replacePackage: PropTypes.func.isRequired,
+    updateImportType: PropTypes.func.isRequired,
+    canvasUrl: PropTypes.string.isRequired,
+    courseId: PropTypes.string.isRequired,
+    hideModal: PropTypes.func.isRequired,
+    showModal: PropTypes.func.isRequired,
+    canvasAssignment: PropTypes.shape({}),
+    publishPackage: PropTypes.func.isRequired,
   };
 
   static getStyles() {
@@ -223,6 +224,26 @@ export default class Course extends React.Component {
       );
     }
 
+    let isAssignmentButton = null;
+
+    if (isAssignment) {
+      let cloudIcon = <i className="material-icons">cloud_off</i>;
+
+      if (this.props.canvasAssignment.published) {
+        cloudIcon = <i className="material-icons" style={{ color: '#51B548' }}>cloud_done</i>;
+      }
+
+      isAssignmentButton = (
+        <HoverButton
+          style={styles.button}
+          onClick={() => this.publishAssignment()}
+          hoveredStyle={styles.hoveredStyle}
+        >
+          { cloudIcon }
+        </HoverButton>
+      );
+    }
+
     return (
       <li className="c-list__item c-list__item--choose">
         <div className="c-list-item__main">
@@ -238,21 +259,7 @@ export default class Course extends React.Component {
             >
               <i className="material-icons">settings</i>
             </HoverButton>
-            { isAssignment && do {
-              <HoverButton
-                style={styles.button}
-                onClick={() => this.publishAssignment()}
-                hoveredStyle={styles.hoveredStyle}
-              >
-                { do {
-                  if (this.props.canvasAssignment.published) {
-                    <i className="material-icons" style={{ color: '#51B548' }}>cloud_done</i>;
-                  } else {
-                    <i className="material-icons">cloud_off</i>;
-                  }
-                }}
-              </HoverButton>;
-            }}
+            { isAssignmentButton }
           </div>
         </div>
         {settings}

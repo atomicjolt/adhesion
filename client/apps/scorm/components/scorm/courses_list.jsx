@@ -1,5 +1,6 @@
 import _        from 'lodash';
 import React    from 'react';
+import PropTypes from 'prop-types';
 import Course from './course';
 
 export default function courseList(props) {
@@ -31,9 +32,9 @@ export default function courseList(props) {
 }
 
 courseList.propTypes = {
-  list: React.PropTypes.arrayOf(React.PropTypes.shape({})).isRequired,
-  updateImportType: React.PropTypes.func,
-  hideModal: React.PropTypes.func.isRequired,
-  showModal: React.PropTypes.func.isRequired,
-  canvasList: React.PropTypes.shape({}).isRequired,
+  list: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  updateImportType: PropTypes.func,
+  hideModal: PropTypes.func.isRequired,
+  showModal: PropTypes.func.isRequired,
+  canvasList: PropTypes.shape({}).isRequired,
 };

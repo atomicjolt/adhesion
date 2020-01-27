@@ -1,3 +1,5 @@
+require "jwt"
+
 module Concerns
   module LtiSupport
     extend ActiveSupport::Concern
@@ -9,7 +11,15 @@ module Concerns
     protected
 
     def do_lti
-      if valid_lti_request?(current_application_instance.lti_secret)
+      if token = params["id_token"]
+        # Validate the state by checking the database for the nonce
+        return user_not_authorized if !LtiAdvantage::OpenId.validate_open_id_state(params["state"])
+
+        @lti_token = LtiAdvantage::Authorization.validate_token(current_application_instance, token)
+        user = LtiAdvantage::LtiUser.new(@lti_token, current_application_instance).user
+        sign_in(user, event: :authentication)
+        return
+      elsif valid_lti_request?(current_application_instance.lti_secret)
         if user = user_from_lti
           # until the code to fix the valid lti request is up
           # then we will confirm emails here to use it on the course nav
@@ -42,18 +52,31 @@ module Concerns
 
     def user_from_lti
       lti_user_id = params[:user_id]
-      if user = User.find_by(lms_user_id: lms_user_id)
-        if user.lti_user_id != lti_user_id
-          user.update!(lti_user_id: lti_user_id)
+
+      # Match on both fields if possible
+      user = User.find_by(lms_user_id: lms_user_id, lti_user_id: lti_user_id)
+
+      # Match on only lms_user_id. This happens when a user uses OAuth to create and
+      # account before they ever do an LTI launch.
+      if user.blank? && lms_user_id.present?
+        if user = User.find_by(lms_user_id: lms_user_id)
+          if user.lti_user_id != lti_user_id
+            user.update!(lti_user_id: lti_user_id)
+          end
         end
       end
 
+      # Find the user with just the lti_user_id
       user ||= User.find_by(lti_user_id: lti_user_id)
 
       if user.blank?
         user = _generate_new_lti_user(params)
         _attempt_uniq_email(user)
       else
+        if user.lms_user_id.blank? && lms_user_id.present?
+          user.lms_user_id = lms_user_id
+          user.save
+        end
         _update_roles(user, params)
       end
 
@@ -133,6 +156,20 @@ module Concerns
       all_roles = lti_roles.split(",")
       # Only store roles that start with urn:lti:role to prevent using local roles
       roles = all_roles.select { |role| role.start_with?("urn:lti:") }
+
+      # Check to see if we’re dealing with Canvas and the LTI launch claims
+      # the user is "urn:lti:instrole:ims/lis/Administrator"
+      if params["ext_roles"].present? &&
+          params["roles"].present? &&
+          roles.include?("urn:lti:instrole:ims/lis/Administrator")
+        # Make sure that roles also includes “urn:lti:instrole:ims/lis/Administrator”
+        # so we know for certain that the user has that role in the current context
+        context_roles = params["roles"].split(",")
+        if !context_roles.include?("urn:lti:instrole:ims/lis/Administrator")
+          roles.delete("urn:lti:instrole:ims/lis/Administrator")
+        end
+      end
+
       roles.each do |role|
         user.add_to_role(role, params["context_id"])
       end
@@ -174,7 +211,7 @@ module Concerns
     end
 
     def lms_user_id
-      params[:custom_canvas_user_id] || params[:user_id]
+      params[:custom_canvas_user_id]
     end
 
   end

@@ -1,4 +1,5 @@
 import React    from 'react';
+import PropTypes from 'prop-types';
 import _        from 'lodash';
 import Text     from './question_text';
 
@@ -10,5 +11,5 @@ export default function fillInMultipleBlanks(props) {
 }
 
 fillInMultipleBlanks.propTypes = {
-  question_text: React.PropTypes.string,
+  question_text: PropTypes.string,
 };

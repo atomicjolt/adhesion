@@ -1,5 +1,8 @@
 import React from 'react';
-import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
+import PropTypes from 'prop-types';
+import {
+  PieChart, Pie, Cell, Tooltip, Legend
+} from 'recharts';
 
 const Chart = (props) => {
   const pieFilling = props.data.map((key, index) => (
@@ -7,7 +10,14 @@ const Chart = (props) => {
   );
   return (
     <PieChart width={400} height={300}>
-      <Pie data={props.data} startAngle={90} endAngle={450} label labelLine>
+      <Pie
+        data={props.data}
+        dataKey="value"
+        startAngle={90}
+        endAngle={450}
+        label
+        labelLine
+      >
         {pieFilling}
       </Pie>
       <Legend layout="vertical" verticalAlign="top" align="right" />
@@ -19,6 +29,6 @@ const Chart = (props) => {
 export default Chart;
 
 Chart.propTypes = {
-  data: React.PropTypes.array,
-  colors: React.PropTypes.arrayOf(React.PropTypes.string),
+  data: PropTypes.array,
+  colors: PropTypes.arrayOf(PropTypes.string),
 };

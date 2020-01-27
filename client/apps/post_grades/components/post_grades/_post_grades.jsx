@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { listAssignments } from 'atomic-canvas/libs/constants/assignments';
+import { listAssignmentsAssignments } from 'atomic-canvas/libs/constants/assignments';
 import { listCourseSections } from 'atomic-canvas/libs/constants/sections';
 import canvasRequest from 'atomic-canvas/libs/action';
 import { createStudentInfo } from '../../actions/submissions';
@@ -53,7 +53,7 @@ export class PostGradesTool extends React.Component {
 
   componentWillMount() {
     this.props.canvasRequest(
-      listAssignments,
+      listAssignmentsAssignments,
       { course_id: this.props.lmsCourseId, get_all: true },
     );
     this.props.canvasRequest(

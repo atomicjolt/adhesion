@@ -1,12 +1,13 @@
 import React   from 'react';
+import PropTypes from 'prop-types';
 import Defines from '../../defines';
 
 export default class FilterTabs extends React.Component {
 
   static propTypes = {
-    changeTab: React.PropTypes.func.isRequired,
-    selectedTab: React.PropTypes.string,
-    unscheduledCount: React.PropTypes.number.isRequired,
+    changeTab: PropTypes.func.isRequired,
+    selectedTab: PropTypes.string,
+    unscheduledCount: PropTypes.number.isRequired,
   };
 
   getStyles() {

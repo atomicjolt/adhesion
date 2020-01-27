@@ -19,8 +19,8 @@ FactoryBot.define do
     "user_#{n}@example.com"
   end
 
-  sequence :password do |n|
-    "password_#{n}"
+  sequence :password do
+    Devise.friendly_token(20)
   end
 
   sequence :title do |n|
@@ -49,6 +49,10 @@ FactoryBot.define do
 
   sequence :address do |n|
     "#{n} West #{n} South"
+  end
+
+  sequence :position do |n|
+    n
   end
 
   sequence :lms_course_id do |n|
@@ -141,5 +145,69 @@ FactoryBot.define do
 
   sequence :status do
     ["queued", "complete"].sample
+  end
+
+  sequence :parent_id do |n|
+    n + 64
+  end
+
+  sequence :canvas_module_id do |n|
+    n + 128
+  end
+
+  sequence :external_tool_id do |n|
+    n + 256
+  end
+
+  sequence :account_id do |n|
+    n + 512
+  end
+
+  sequence :module_type do |n|
+    "module_type_#{n}"
+  end
+
+  sequence :filter_type do |n|
+    "filter_type_#{n}"
+  end
+
+  sequence :workflow_state do
+    ["active", "unpublished", "deleted"].sample
+  end
+
+  sequence :available_until do |n|
+    n.days.from_now
+  end
+
+  sequence :uuid do
+    SecureRandom.uuid
+  end
+
+  sequence :user_id do |n|
+    n
+  end
+
+  sequence :truncated_time do |n|
+    Time.zone.now - n.hours
+  end
+
+  sequence :number_of_hits do |n|
+    (n % 50) * 100
+  end
+
+  sequence :number_of_lti_launches do |n|
+    (n % 30) * 100
+  end
+
+  sequence :number_of_errors do |n|
+    (n % 10) * 100
+  end
+
+  sequence :is_lti_launch do
+    [true, true, true, true, true, false].sample
+  end
+
+  sequence :is_error do
+    [true, false, false, false, false, false].sample
   end
 end

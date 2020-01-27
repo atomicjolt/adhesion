@@ -1,4 +1,5 @@
 import React    from 'react';
+import PropTypes from 'prop-types';
 
 import MultipleChoice   from './multiple_choice_question';
 import MultipleAnswer   from './multiple_answers_question';
@@ -77,7 +78,7 @@ export default function question(props) {
 }
 
 question.propTypes = {
-  question_type: React.PropTypes.string,
-  position: React.PropTypes.number,
-  points_possible: React.PropTypes.number,
+  question_type: PropTypes.string,
+  position: PropTypes.number,
+  points_possible: PropTypes.number,
 };

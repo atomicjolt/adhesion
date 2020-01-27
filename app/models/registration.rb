@@ -3,7 +3,7 @@ class Registration < ActiveRecord::Base
 
   attr_encrypted :scorm_cloud_passback_secret,
                  key: decode_hex(Rails.application.secrets.encryption_key)
-  belongs_to :course
+  belongs_to :course, required: false
   belongs_to :user, foreign_key: :lms_user_id, primary_key: :lms_user_id
   belongs_to :scorm_course,
              foreign_key: :lms_course_id,

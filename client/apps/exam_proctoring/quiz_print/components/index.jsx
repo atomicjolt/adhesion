@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import canvasRequest from 'atomic-canvas/libs/action';
@@ -21,16 +22,16 @@ const select = (state, props) => {
 
 export class Index extends React.Component {
   static propTypes = {
-    location: React.PropTypes.shape({
-      query: React.PropTypes.shape({
-        courseId: React.PropTypes.string.isRequired,
-        quizId: React.PropTypes.string.isRequired,
+    location: PropTypes.shape({
+      query: PropTypes.shape({
+        courseId: PropTypes.string.isRequired,
+        quizId: PropTypes.string.isRequired,
       }),
     }).isRequired,
-    canvasRequest: React.PropTypes.func.isRequired,
-    quiz: React.PropTypes.shape({}),
-    loadingQuiz: React.PropTypes.bool.isRequired,
-    questions: React.PropTypes.shape({}),
+    canvasRequest: PropTypes.func.isRequired,
+    quiz: PropTypes.shape({}),
+    loadingQuiz: PropTypes.bool.isRequired,
+    questions: PropTypes.shape({}),
   };
 
   componentWillMount() {

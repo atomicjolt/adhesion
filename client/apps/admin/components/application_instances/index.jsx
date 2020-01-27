@@ -6,12 +6,14 @@ import Header from './header';
 import List from './list';
 import Modal from './modal';
 import Heading from '../common/heading';
+import Pagination from '../common/pagination';
 import * as ApplicationInstanceActions from '../../actions/application_instances';
 
 const select = (state, props) => ({
-  applicationInstances: _.filter(state.applicationInstances,
+  applicationInstances: _.filter(state.applicationInstances.applicationInstances,
     { application_id: parseInt(props.params.applicationId, 10) }),
   applications: state.applications,
+  totalPages: state.applicationInstances.totalPages,
   userName: state.settings.display_name,
   settings: state.settings,
   sites: state.sites,
@@ -35,11 +37,17 @@ export class Index extends React.Component {
     }).isRequired,
     canvasOauthURL: PropTypes.string.isRequired,
     disableApplicationInstance: PropTypes.func.isRequired,
+    totalPages: PropTypes.number,
   };
 
   constructor() {
     super();
-    this.state = { modalOpen: false };
+    this.state = {
+      modalOpen: false,
+      currentPage: null,
+      sortColumn: 'created_at',
+      sortDirection: 'desc',
+    };
   }
 
   get application() {
@@ -59,11 +67,61 @@ export class Index extends React.Component {
   }
 
   componentWillMount() {
-    this.props.getApplicationInstances(this.props.params.applicationId);
+    const {
+      currentPage,
+      sortColumn,
+      sortDirection,
+    } = this.state;
+
+    this.props.getApplicationInstances(
+      this.props.params.applicationId,
+      currentPage,
+      sortColumn,
+      sortDirection,
+    );
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const {
+      currentPage,
+      sortColumn,
+      sortDirection,
+    } = this.state;
+
+    const propsChanged = (
+      prevState.currentPage !== currentPage ||
+      prevState.sortColumn !== sortColumn ||
+      prevState.sortDirection !== sortDirection
+    );
+
+    if (propsChanged) {
+      this.props.getApplicationInstances(
+        this.props.params.applicationId,
+        currentPage,
+        sortColumn,
+        sortDirection,
+      );
+    }
+  }
+
+  setPage(change) {
+    this.setState({ currentPage: change.selected + 1 });
+  }
+
+  setSort(sortColumn, sortDirection) {
+    this.setState({
+      sortColumn,
+      sortDirection,
+    });
   }
 
   render() {
     const { application } = this;
+
+    const {
+      sortColumn:currentSortColumn,
+      sortDirection:currentSortDirection,
+    } = this.state;
 
     return (
       <div>
@@ -84,6 +142,15 @@ export class Index extends React.Component {
             deleteApplicationInstance={this.props.deleteApplicationInstance}
             disableApplicationInstance={this.props.disableApplicationInstance}
             canvasOauthURL={this.props.canvasOauthURL}
+            setSort={(sortColumn, sortDirection) => this.setSort(sortColumn, sortDirection)}
+            currentSortColumn={currentSortColumn}
+            currentSortDirection={currentSortDirection}
+          />
+          <Pagination
+            setPage={change => this.setPage(change)}
+            pageCount={this.props.totalPages}
+            currentPage={this.state.currentPage}
+            disableInitialCallback
           />
         </div>
       </div>

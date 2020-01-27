@@ -1,4 +1,5 @@
 import React    from 'react';
+import PropTypes from 'prop-types';
 import Text     from './question_text';
 
 export default function shortAnswerQuestion(props) {
@@ -11,5 +12,5 @@ export default function shortAnswerQuestion(props) {
 }
 
 shortAnswerQuestion.propTypes = {
-  question_text: React.PropTypes.string,
+  question_text: PropTypes.string,
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { hashHistory } from 'react-router';
+import { hashHistory } from 'react-router3';
 import Buttons from './action_buttons';
 
 describe('Action Buttons', () => {

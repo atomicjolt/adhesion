@@ -13,7 +13,7 @@ describe('application instances index', () => {
 
   beforeEach(() => {
     props = {
-      applicationInstances: [{}],
+      applicationInstances: [{ applicationInstances: {} }],
       getApplicationInstances: () => { applicationInstances = true; },
       createApplicationInstance: () => {},
       saveApplicationInstance: () => {},
@@ -28,12 +28,9 @@ describe('application instances index', () => {
       },
       canvasOauthURL: 'https://www.example.com',
       disableApplicationInstance: () => {},
+      totalPages: 10,
     };
     result = shallow(<Index {...props} />);
-  });
-
-  it('matches the snapshot', () => {
-    expect(result).toMatchSnapshot();
   });
 
   it('loads the assessments', () => {

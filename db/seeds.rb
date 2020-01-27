@@ -1,5 +1,7 @@
-admin = CreateAdminService.new.call
-puts "CREATED ADMIN USER: " << admin.email
+if Rails.env.development?
+  admin = CreateAdminService.new.call
+  puts "CREATED ADMIN USER: " << admin.email
+end
 
 secrets = Rails.application.secrets
 
@@ -9,6 +11,15 @@ sites = [
     url: secrets.canvas_url,
     oauth_key: secrets.canvas_developer_id,
     oauth_secret: secrets.canvas_developer_key,
+  },
+  {
+    url: "https://lti-ri.imsglobal.org",
+  },
+  {
+    url: "https://dev1.sakaicloud.com",
+  },
+  {
+    url: "https://blackboard.com",
   },
 ]
 
@@ -81,7 +92,7 @@ applications = [
         "urn:lti:role:ims/lis/TeachingAssistant",
         "urn:lti:role:ims/lis/ContentDeveloper",
       ],
-      LIST_ASSIGNMENTS: [
+      LIST_ASSIGNMENTS_ASSIGNMENTS: [
         "urn:lti:role:ims/lis/Learner",
         "urn:lti:sysrole:ims/lis/User",
       ],
@@ -303,7 +314,7 @@ applications = [
         "urn:lti:role:ims/lis/TeachingAssistant",
         "urn:lti:role:ims/lis/ContentDeveloper",
       ],
-      LIST_ASSIGNMENTS: [],
+      LIST_ASSIGNMENTS_ASSIGNMENTS: [],
       LIST_ASSIGNMENT_SUBMISSIONS_SECTIONS: [],
       LIST_COURSE_SECTIONS: [],
       LIST_ENROLLMENTS_SECTIONS: [],
@@ -381,6 +392,7 @@ def setup_application_instances(application, application_instances)
     site = Site.find_by(url: attrs.delete(:site_url))
     attrs = attrs.merge(site_id: site.id)
     share_instance = attrs.delete(:share_instance)
+    lti_deployment_attrs = attrs.delete(:lti_deployments)
 
     app_inst = application.application_instances.new(attrs)
     if application_instance = application.application_instances.find_by(lti_key: app_inst.key)
@@ -403,6 +415,14 @@ def setup_application_instances(application, application_instances)
     else
       puts "Creating new application instance for site: #{site.url}"
       application_instance = application.application_instances.create!(attrs)
+    end
+
+    lti_deployment_attrs&.each do |lti_deployment_attr|
+      if found = application_instance.lti_deployments.find_by(deployment_id: lti_deployment_attr[:deployment_id])
+        found.update_attributes!(lti_deployment_attr)
+      else
+        application_instance.lti_deployments.create!(lti_deployment_attr)
+      end
     end
 
     # Check to see if the application instance needs to share a tenant with another
@@ -433,6 +453,7 @@ if Apartment::Tenant.current == "public"
   puts "*** Seeding Applications ***"
   applications.each do |attrs|
     application_instances = attrs.delete(:application_instances)
+    lti_installs_attrs = attrs.delete(:lti_installs)
     if application = Application.find_by(key: attrs[:key])
       puts "Updating application: #{application.name}"
       application.update_attributes!(attrs)
@@ -441,6 +462,17 @@ if Apartment::Tenant.current == "public"
       application = Application.create!(attrs)
     end
     setup_application_instances(application, application_instances)
+
+    lti_installs_attrs&.each do |lti_install_attrs|
+      if lti_install = application.lti_installs.find_by(
+        iss: lti_install_attrs[:iss],
+        client_id: lti_install_attrs[:client_id],
+      )
+        lti_install.update_attributes!(lti_install_attrs)
+      else
+        application.lti_installs.create!(lti_install_attrs)
+      end
+    end
   end
 
   bundles.each do |attrs|

@@ -8,7 +8,7 @@ RSpec.describe Api::ImsImportsController, type: :controller do
   end
 
   before do
-    setup_application_and_instance
+    setup_application_instance
     tool_consumer_instance_guid = "4MRcxnx6vQbFXxhLb8005m5WXFM2Z2i8lQwhJ1QT:canvas-lms"
     initial_context_id = "a07291ea2fa1315059ed3bf0135a336d1eebe057"
     @import_context_id = "3155b3a04eba69bc0e52b987d3ffc465156daded"
@@ -31,6 +31,7 @@ RSpec.describe Api::ImsImportsController, type: :controller do
     @import_params = {
       context_id: @import_context_id,
       data: {
+        tool_consumer_instance_guid: tool_consumer_instance_guid,
         context_id: initial_context_id,
         lti_launches: [
           {
@@ -96,8 +97,8 @@ RSpec.describe Api::ImsImportsController, type: :controller do
             tool_consumer_instance_guid: nil,
           },
         ],
-        application_instance_id: "3",
-        ims_export_id: @ims_export.token,
+        "application_instance_id" => "3",
+        "export_token" => @ims_export.token,
       },
       tool_consumer_instance_guid: tool_consumer_instance_guid,
       custom_canvas_course_id: "2123",
@@ -106,7 +107,7 @@ RSpec.describe Api::ImsImportsController, type: :controller do
 
   context "without jwt token" do
     it "should not be authorized" do
-      post :create, params: @import_params, format: :json
+      post :create, params: @import_params, as: :json
       expect(response).to have_http_status(:unauthorized)
     end
   end
@@ -131,7 +132,7 @@ RSpec.describe Api::ImsImportsController, type: :controller do
       context "background jobs" do
         it "enqueues processing" do
           expect do
-            post :create, params: @import_params, format: :json
+            post :create, params: @import_params, as: :json
           end.to have_enqueued_job(ImsImportJob)
         end
       end
@@ -141,7 +142,7 @@ RSpec.describe Api::ImsImportsController, type: :controller do
           import_params = @import_params.with_indifferent_access
           import_params[:data].delete(:lti_launches)
           expect do
-            post :create, params: import_params, format: :json
+            post :create, params: import_params, as: :json
           end.to have_enqueued_job(ImsImportJob)
         end
 
@@ -154,8 +155,20 @@ RSpec.describe Api::ImsImportsController, type: :controller do
             tool_consumer_instance_guid: import_params[:tool_consumer_instance_guid],
             canvas_course_id: import_params[:custom_canvas_course_id],
           }
-          expect(ImsImportJob).to receive(:perform_later).with(data.to_json, @application_instance, nil)
-          post :create, params: import_params, format: :json
+
+          # We assign the args to this external variable because failing
+          # expects inside the block just get caught by the controller's error
+          # handling.
+          received_args = nil
+          expect(ImsImportJob).to receive(:perform_later) do |args|
+            received_args = JSON.parse(args)
+          end
+
+          post :create, params: import_params, as: :json
+
+          expect(received_args).to be_present
+          expect(received_args.without("ims_import_id")).to eq data.as_json
+          expect(received_args["ims_import_id"]).to be_present
         end
       end
     end

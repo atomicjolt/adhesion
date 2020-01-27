@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe Api::ApplicationInstancesController, type: :controller do
   before do
     setup_lti_users
-    setup_application_and_instance
+    setup_application_instance
   end
 
   context "no jwt" do
@@ -57,6 +57,42 @@ RSpec.describe Api::ApplicationInstancesController, type: :controller do
         get :index, params: { application_id: @application.id }, format: :json
         expect(response).to have_http_status(200)
       end
+
+      it "renders all application instances by oldest" do
+        app = create(:application)
+        ai1 = create(:application_instance, application: app, created_at: 1.week.ago)
+        ai2 = create(:application_instance, application: app, created_at: 2.week.ago)
+        ai3 = create(:application_instance, application: app, created_at: 1.day.ago)
+        ai4 = create(:application_instance, application: app, created_at: 3.days.ago)
+        params = {
+          application_id: app.id,
+          column: :created_at,
+          direction: :asc,
+        }
+        get :index, params: params, format: :json
+        result = JSON.parse(response.body)
+        expected_instance_ids = [ai2.id, ai1.id, ai4.id, ai3.id]
+        returned_instance_ids = result["application_instances"].map { |ai| ai["id"] }
+        expect(returned_instance_ids).to eq(expected_instance_ids)
+      end
+
+      it "renders all application instances by lti_key" do
+        app = create(:application)
+        ai1 = create(:application_instance, application: app, lti_key: "c")
+        ai2 = create(:application_instance, application: app, lti_key: "g")
+        ai3 = create(:application_instance, application: app, lti_key: "a")
+        ai4 = create(:application_instance, application: app, lti_key: "z")
+        params = {
+          application_id: app.id,
+          column: :lti_key,
+          direction: :asc,
+        }
+        get :index, params: params, format: :json
+        result = JSON.parse(response.body)
+        expected_instance_ids = [ai3.id, ai1.id, ai2.id, ai4.id]
+        returned_instance_ids = result["application_instances"].map { |ai| ai["id"] }
+        expect(returned_instance_ids).to eq(expected_instance_ids)
+      end
     end
 
     describe "GET show" do
@@ -85,7 +121,7 @@ RSpec.describe Api::ApplicationInstancesController, type: :controller do
       end
     end
 
-    describe "GET create" do
+    describe "POST create" do
       it "creates a new application instances and returns json" do
         site = FactoryBot.create(:site)
         attrs = {
@@ -93,11 +129,11 @@ RSpec.describe Api::ApplicationInstancesController, type: :controller do
           site_id: site.id,
         }
         post :create,
-             params: {
-               application_id: @application.id,
-               application_instance: attrs,
-             },
-             format: :json
+          params: {
+            application_id: @application.id,
+            application_instance: attrs,
+          },
+          format: :json
         expect(response).to have_http_status(200)
       end
     end
@@ -142,14 +178,35 @@ RSpec.describe Api::ApplicationInstancesController, type: :controller do
     end
 
     describe "DEL destroy" do
+      before do
+        @params = {
+          application_id: @application.id,
+          id: @application_instance.id,
+        }
+      end
+
       it "Deletes the application instance" do
-        delete :destroy,
-               params: {
-                 application_id: @application.id,
-                 id: @application_instance.id,
-               },
-               format: :json
-        expect(response).to have_http_status(200)
+        delete :destroy, params: @params, format: :json
+        ai = ApplicationInstance.find_by(id: @application_instance.id)
+        expect(ai).to be(nil)
+      end
+
+      it "Deletes the tenant" do
+        delete :destroy, params: @params, format: :json
+        expect do
+          Apartment::Tenant.switch!(@application_instance.tenant)
+        end.to raise_error(Apartment::TenantNotFound)
+      end
+
+      it "Deletes the request statistics" do
+        tenant = @application_instance.tenant
+        FactoryBot.create(:request_statistic, tenant: tenant)
+        FactoryBot.create(:request_user_statistic, tenant: tenant)
+        delete :destroy, params: @params, format: :json
+        request_statistics_count = RequestStatistic.where(tenant: tenant).count
+        request_user_statistics_count = RequestUserStatistic.where(tenant: tenant).count
+        expect(request_statistics_count).to eq(0)
+        expect(request_user_statistics_count).to eq(0)
       end
     end
   end

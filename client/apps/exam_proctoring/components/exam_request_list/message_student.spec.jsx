@@ -1,5 +1,5 @@
 import React              from 'react';
-import TestUtils          from 'react-addons-test-utils';
+import ReactTestUtils          from 'react-dom/test-utils';
 import MessageStudent  from './message_student';
 
 describe('message student', () => {
@@ -14,27 +14,27 @@ describe('message student', () => {
     };
     changed = false;
     sent = false;
-    result = TestUtils.renderIntoDocument(<MessageStudent {...props} />);
+    result = ReactTestUtils.renderIntoDocument(<MessageStudent {...props} />);
   });
 
   it('renders a textarea and two buttons', () => {
-    const button = TestUtils.scryRenderedDOMComponentsWithTag(result, 'button');
-    const element = TestUtils.findRenderedDOMComponentWithTag(result, 'textarea');
+    const button = ReactTestUtils.scryRenderedDOMComponentsWithTag(result, 'button');
+    const element = ReactTestUtils.findRenderedDOMComponentWithTag(result, 'textarea');
     expect(button.length).toBe(2);
     expect(element).not.toBeNull();
   });
 
   it('goes cancels message upon press of x button', () => {
     expect(changed).toBeFalsy();
-    const button = TestUtils.findRenderedDOMComponentWithClass(result, 'spec_clear_button');
-    TestUtils.Simulate.click(button);
+    const button = ReactTestUtils.findRenderedDOMComponentWithClass(result, 'spec_clear_button');
+    ReactTestUtils.Simulate.click(button);
     expect(changed).toBeTruthy();
   });
 
   it('sends the message upon send button click', () => {
     expect(sent).toBeFalsy();
-    const button = TestUtils.findRenderedDOMComponentWithClass(result, 'send_btn_spec');
-    TestUtils.Simulate.click(button);
+    const button = ReactTestUtils.findRenderedDOMComponentWithClass(result, 'send_btn_spec');
+    ReactTestUtils.Simulate.click(button);
     expect(sent).toBeTruthy();
   });
 });

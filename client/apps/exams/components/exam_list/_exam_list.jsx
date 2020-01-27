@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import moment from 'moment';
@@ -21,14 +22,14 @@ const select = state => ({
 export class BaseExamList extends React.Component {
 
   static propTypes = {
-    canvasRequest: React.PropTypes.func.isRequired,
-    getTestingCentersAccount: React.PropTypes.func.isRequired,
-    loadExamRequests: React.PropTypes.func.isRequired,
-    lmsCourseId: React.PropTypes.string.isRequired,
-    examList: React.PropTypes.arrayOf(React.PropTypes.shape({})),
-    toolConsumerInstanceName: React.PropTypes.string.isRequired,
-    lmsUserId: React.PropTypes.string.isRequired,
-    examRequests: React.PropTypes.shape({}),
+    canvasRequest: PropTypes.func.isRequired,
+    getTestingCentersAccount: PropTypes.func.isRequired,
+    loadExamRequests: PropTypes.func.isRequired,
+    lmsCourseId: PropTypes.string.isRequired,
+    examList: PropTypes.arrayOf(PropTypes.shape({})),
+    toolConsumerInstanceName: PropTypes.string.isRequired,
+    lmsUserId: PropTypes.string.isRequired,
+    examRequests: PropTypes.shape({}),
   };
 
   static goToExam(id) {

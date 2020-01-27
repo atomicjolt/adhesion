@@ -1,4 +1,5 @@
 import React        from 'react';
+import PropTypes from 'prop-types';
 import { connect }  from 'react-redux';
 
 const select = state => ({
@@ -7,7 +8,7 @@ const select = state => ({
 
 export class SurveyTool extends React.Component {
   static propTypes = {
-    state: React.PropTypes.node,
+    state: PropTypes.node,
   };
 
   constructor() {

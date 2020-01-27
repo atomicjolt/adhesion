@@ -4,7 +4,15 @@ RSpec.describe Registration, type: :model do
   before do
     @report = JSON.parse(File.read("spec/fixtures/json/report.json"))
     @report = @report.deep_symbolize_keys
-    @registration = Registration.create
+    @application_instance = FactoryBot.create(:application_instance)
+    @scorm_course = FactoryBot.create(:scorm_course)
+    @user = FactoryBot.create(:user_canvas)
+    @registration = FactoryBot.create(
+      :registration,
+      scorm_course: @scorm_course,
+      user: @user,
+      application_instance: @application_instance,
+    )
   end
 
   describe "#store_activities" do
@@ -92,10 +100,9 @@ RSpec.describe Registration, type: :model do
 
   describe "#scores_statistics" do
     it "gets the scores statistics" do
-      scorm_course = ScormCourse.create
-      @registration.update_attributes(lms_course_id: scorm_course.id)
+      @registration.update_attributes(lms_course_id: @scorm_course.id)
       @registration.store_activities(@report[:registrationreport][:activity])
-      course_analytics = scorm_course.course_analytics
+      course_analytics = @scorm_course.course_analytics
       course_scores = @registration.scores_statistics(course_analytics[:scores])
       expect(course_scores.count).to eq(7)
     end

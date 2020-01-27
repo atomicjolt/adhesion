@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
 const Chart = (props) => {
@@ -33,5 +34,5 @@ const Chart = (props) => {
 export default Chart;
 
 Chart.propTypes = {
-  data: React.PropTypes.array,
+  data: PropTypes.array,
 };

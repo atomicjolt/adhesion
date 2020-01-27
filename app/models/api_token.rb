@@ -8,6 +8,6 @@ class ApiToken < ApplicationRecord
   private
 
   def ensure_token
-    self.token = SecureRandom.hex(16) if token.blank?
+    self.token = Devise.friendly_token(64) if token.blank?
   end
 end

@@ -11,21 +11,26 @@ git_source(:github) do |repo_name|
 end
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails"
-gem "rails", "5.1.7"
+gem "rails", "5.2.3"
+
+# Improve boot time
+gem "bootsnap", require: false
 
 # Database
 gem "apartment"
-gem "composite_primary_keys", "~> 10.0" # For que worker
+gem "composite_primary_keys"
 gem "pg"
 
 # authentication, authorization, integrations
 gem "attr_encrypted"
 gem "cancancan"
 gem "devise"
+gem "strong_password"
 gem "ims-lti", "~> 2.1.5" # IMS LTI tool consumers and providers
 gem "aj-ims-lti", git: "https://github.com/atomicjolt/aj_lms_lti"
-gem "jwt", "~> 1.5.0" # json web token
-gem "lms-api", "~> 1.3.15"
+gem "json-jwt"
+gem "jwt"
+gem "lms-api", "~>1.9.0"
 gem "omniauth"
 gem "omniauth-canvas", "~>1.0.2"
 gem "rolify"
@@ -53,14 +58,22 @@ gem "will_paginate"
 # Doc Viewer
 gem "libreconv"
 
+# Javascript
+gem "webpacker"
+
+# Assets
+gem "sassc-rails"
+
 # Application secrets checker
 gem "nuclear_secrets"
+
+# This is only here because we are on ruby 2.4. When we upgrade ruby we can remove this
+gem "sprockets", "~>3.7.2"
 
 group :development do
   # UI
   gem "autoprefixer-rails"
   gem "non-stupid-digest-assets" # also compile assets without digest (fixes font problem)
-  gem "sass-rails", "~> 5.0.7"
   gem "uglifier"
 
   gem "better_errors"
@@ -80,17 +93,19 @@ group :development do
   gem "spring"
   gem "spring-commands-rspec"
   gem "spring-watcher-listen"
-  gem "web-console"
+  gem "web-console", "~>3.7.0"
 end
 
 group :development, :test do
   gem "byebug", platform: :mri
+  gem "debase"
   gem "dotenv-rails"
   gem "factory_bot_rails"
   gem "faker"
   gem "guard-rspec", require: false
   gem "rails-controller-testing"
   gem "rspec-rails"
+  gem "ruby-debug-ide"
   gem "rubocop"
 end
 

@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class ClickableTableRow extends React.Component {
   static propTypes = {
-    style: React.PropTypes.shape({}),
-    hoveredStyle: React.PropTypes.shape({}),
-    children: React.PropTypes.node,
-    onClick: React.PropTypes.func,
+    style: PropTypes.shape({}),
+    hoveredStyle: PropTypes.shape({}),
+    children: PropTypes.node,
+    onClick: PropTypes.func,
   };
 
   constructor() {

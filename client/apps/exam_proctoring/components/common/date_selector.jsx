@@ -1,15 +1,16 @@
 import React      from 'react';
+import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 import moment     from 'moment';
 import Defines    from '../../defines';
 
 export default class DateSelector extends React.Component {
   static propTypes = {
-    onChange: React.PropTypes.func,
-    date: React.PropTypes.shape({}),
-    style: React.PropTypes.shape({}),
-    header: React.PropTypes.node,
-    format: React.PropTypes.string,
+    onChange: PropTypes.func,
+    date: PropTypes.shape({}),
+    style: PropTypes.shape({}),
+    header: PropTypes.node,
+    format: PropTypes.string,
   };
 
   static getStyles() {

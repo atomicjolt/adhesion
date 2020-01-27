@@ -1,5 +1,5 @@
 class ScormActivity < ActiveRecord::Base
-  belongs_to :parent_activity, class_name: "ScormActivity"
+  belongs_to :parent_activity, class_name: "ScormActivity", required: false
   belongs_to :registration
   has_many :scorm_objectives
   has_many :child_activities, class_name: "ScormActivity",

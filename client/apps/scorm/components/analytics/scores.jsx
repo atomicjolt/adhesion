@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ScoreLabel from './score_label';
 
 export default function AverageScore(props) {
@@ -27,5 +28,5 @@ export default function AverageScore(props) {
 }
 
 AverageScore.propTypes = {
-  scores: React.PropTypes.array,
+  scores: PropTypes.array,
 };

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as ScormActions from '../../actions/scorm';
 import CommonSvg from '../../../../libs/components/common_svg';
@@ -71,12 +72,12 @@ export class Uploader extends React.Component {
 }
 
 Uploader.propTypes = {
-  error: React.PropTypes.bool,
-  errorText: React.PropTypes.string,
-  errorHandle: React.PropTypes.string.isRequired,
-  removeError: React.PropTypes.func.isRequired,
-  scormFile: React.PropTypes.shape({
-    name: React.PropTypes.string,
+  error: PropTypes.bool,
+  errorText: PropTypes.string,
+  errorHandle: PropTypes.string.isRequired,
+  removeError: PropTypes.func.isRequired,
+  scormFile: PropTypes.shape({
+    name: PropTypes.string,
   }),
 };
 

@@ -1,7 +1,7 @@
 class UserCourse < ActiveRecord::Base
   belongs_to :user
   belongs_to :course
-  belongs_to :section
+  belongs_to :section, required: false
 
   INSTRUCTOR        = 1
   STUDENT           = 2

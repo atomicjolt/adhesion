@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function Index(props) {
   return (
@@ -8,4 +9,4 @@ export default function Index(props) {
   );
 }
 
-Index.propTypes = { children: React.PropTypes.node };
+Index.propTypes = { children: PropTypes.node };

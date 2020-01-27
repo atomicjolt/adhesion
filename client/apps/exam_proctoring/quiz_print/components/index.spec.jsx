@@ -1,5 +1,5 @@
 import React            from 'react';
-import TestUtils        from 'react-addons-test-utils';
+import ReactTestUtils        from 'react-dom/test-utils';
 import { Index }        from './index';
 
 
@@ -14,7 +14,7 @@ describe('index', () => {
       loadingQuiz: true,
       questions: {},
     };
-    result = TestUtils.renderIntoDocument(<Index {...props} />);
+    result = ReactTestUtils.renderIntoDocument(<Index {...props} />);
   });
 
   it('renders', () => {

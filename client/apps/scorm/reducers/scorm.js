@@ -28,7 +28,7 @@ export default (state = initialState, action) => {
       updatedAssignments[action.payload.lms_assignment.id] = action.payload.lms_assignment;
       return { ...state, scormList: updatedScormList, canvasAssignments: updatedAssignments };
     }
-    case 'LIST_ASSIGNMENTS_DONE': {
+    case 'LIST_ASSIGNMENTS_ASSIGNMENTS_DONE': {
       const newState = _.cloneDeep(state);
       const updatedAssignments = newState.canvasAssignments;
       if (!updatedAssignments) newState.canvasAssignments = {};

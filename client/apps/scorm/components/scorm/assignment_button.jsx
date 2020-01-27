@@ -1,4 +1,5 @@
 import React        from 'react';
+import PropTypes from 'prop-types';
 import HoverButton  from '../common/hover_button';
 import Defines      from '../../../../libs/defines';
 import CommonSvg    from '../../../../libs/components/common_svg';
@@ -34,7 +35,7 @@ export default function assignmentButton(props) {
 }
 
 assignmentButton.propTypes = {
-  canvasUrl: React.PropTypes.string.isRequired,
-  courseId: React.PropTypes.string.isRequired,
-  lms_assignment_id: React.PropTypes.number.isRequired,
+  canvasUrl: PropTypes.string.isRequired,
+  courseId: PropTypes.string.isRequired,
+  lms_assignment_id: PropTypes.number.isRequired,
 };

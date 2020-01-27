@@ -32,6 +32,9 @@ RSpec.describe Lti::Config do
           <blti:secure_launch_url>#{@launch_url}</blti:secure_launch_url>
           <blti:icon>#{@icon_url}</blti:icon>
           <blti:extensions platform="canvas.instructure.com">
+            <lticm:options name="custom_fields">
+              <lticm:property name="custom_canvas_api_domain">$Canvas.api.domain</lticm:property>
+            </lticm:options>
             <lticm:property name="domain">#{@domain}</lticm:property>
             <lticm:property name="privacy_level">public</lticm:property>
           </blti:extensions>
@@ -42,8 +45,7 @@ RSpec.describe Lti::Config do
 
     it "generates basic configuration with custom fields xml for an LTI tool" do
       custom_fields = {
-         canvas_api_domain: "$Canvas.api.domain",
-         canvas_user_id: "$Canvas.user.id",
+        canvas_user_id: "$Canvas.user.id",
       }
       args = @basic_config.merge({ custom_fields: custom_fields })
       xml = described_class.xml(args)
@@ -58,8 +60,8 @@ RSpec.describe Lti::Config do
           <blti:icon>#{@icon_url}</blti:icon>
           <blti:extensions platform="canvas.instructure.com">
             <lticm:options name="custom_fields">
-              <lticm:property name="canvas_api_domain">$Canvas.api.domain</lticm:property>
               <lticm:property name="canvas_user_id">$Canvas.user.id</lticm:property>
+              <lticm:property name="custom_canvas_api_domain">$Canvas.api.domain</lticm:property>
             </lticm:options>
             <lticm:property name="domain">#{@domain}</lticm:property>
             <lticm:property name="privacy_level">public</lticm:property>
@@ -96,6 +98,9 @@ RSpec.describe Lti::Config do
               <lticm:property name="selection_width">50</lticm:property>
               <lticm:property name="url">#{@launch_url}</lticm:property>
             </lticm:options>
+            <lticm:options name="custom_fields">
+              <lticm:property name="custom_canvas_api_domain">$Canvas.api.domain</lticm:property>
+            </lticm:options>
             <lticm:property name="domain">#{@domain}</lticm:property>
             <lticm:property name="privacy_level">public</lticm:property>
           </blti:extensions>
@@ -124,6 +129,9 @@ RSpec.describe Lti::Config do
           <blti:secure_launch_url>#{@launch_url}</blti:secure_launch_url>
           <blti:icon>#{@icon_url}</blti:icon>
           <blti:extensions platform="canvas.instructure.com">
+            <lticm:options name="custom_fields">
+              <lticm:property name="custom_canvas_api_domain">$Canvas.api.domain</lticm:property>
+            </lticm:options>
             <lticm:property name="domain">#{@domain}</lticm:property>
             <lticm:options name="link_selection">
               <lticm:property name="canvas_icon_class">icon-lti</lticm:property>
@@ -163,6 +171,9 @@ RSpec.describe Lti::Config do
           <blti:secure_launch_url>#{@launch_url}</blti:secure_launch_url>
           <blti:icon>#{@icon_url}</blti:icon>
           <blti:extensions platform="canvas.instructure.com">
+            <lticm:options name="custom_fields">
+              <lticm:property name="custom_canvas_api_domain">$Canvas.api.domain</lticm:property>
+            </lticm:options>
             <lticm:property name="domain">#{@domain}</lticm:property>
             <lticm:options name="editor_button">
               <lticm:property name="canvas_icon_class">icon-lti</lticm:property>
@@ -205,6 +216,9 @@ RSpec.describe Lti::Config do
           <blti:secure_launch_url>#{@launch_url}</blti:secure_launch_url>
           <blti:icon>#{@icon_url}</blti:icon>
           <blti:extensions platform="canvas.instructure.com">
+            <lticm:options name="custom_fields">
+              <lticm:property name="custom_canvas_api_domain">$Canvas.api.domain</lticm:property>
+            </lticm:options>
             <lticm:property name="domain">www.example.com</lticm:property>
             <lticm:options name="global_navigation">
               <lticm:property name="canvas_icon_class">icon-lti</lticm:property>
@@ -247,6 +261,9 @@ RSpec.describe Lti::Config do
           <blti:secure_launch_url>#{@launch_url}</blti:secure_launch_url>
           <blti:icon>#{@icon_url}</blti:icon>
           <blti:extensions platform="canvas.instructure.com">
+            <lticm:options name="custom_fields">
+              <lticm:property name="custom_canvas_api_domain">$Canvas.api.domain</lticm:property>
+            </lticm:options>
             <lticm:property name="domain">www.example.com</lticm:property>
             <lticm:property name="privacy_level">public</lticm:property>
             <lticm:options name="user_navigation">
@@ -299,6 +316,9 @@ RSpec.describe Lti::Config do
               <lticm:property name="visibility">admins</lticm:property>
               <lticm:property name="windowTarget">_blank</lticm:property>
             </lticm:options>
+            <lticm:options name="custom_fields">
+              <lticm:property name="custom_canvas_api_domain">$Canvas.api.domain</lticm:property>
+            </lticm:options>
             <lticm:property name="domain">www.example.com</lticm:property>
             <lticm:property name="privacy_level">public</lticm:property>
           </blti:extensions>
@@ -341,6 +361,9 @@ RSpec.describe Lti::Config do
               <lticm:property name="url">#{@launch_url}</lticm:property>
               <lticm:property name="visibility">admins</lticm:property>
             </lticm:options>
+            <lticm:options name="custom_fields">
+              <lticm:property name="custom_canvas_api_domain">$Canvas.api.domain</lticm:property>
+            </lticm:options>
             <lticm:property name="domain">www.example.com</lticm:property>
             <lticm:property name="privacy_level">public</lticm:property>
           </blti:extensions>
@@ -373,6 +396,9 @@ RSpec.describe Lti::Config do
           <blti:secure_launch_url>#{@launch_url}</blti:secure_launch_url>
           <blti:icon>#{@icon_url}</blti:icon>
           <blti:extensions platform="canvas.instructure.com">
+            <lticm:options name="custom_fields">
+              <lticm:property name="custom_canvas_api_domain">$Canvas.api.domain</lticm:property>
+            </lticm:options>
             <lticm:property name="domain">www.example.com</lticm:property>
             <lticm:options name="post_grades">
               <lticm:property name="canvas_icon_class">icon-lti</lticm:property>
@@ -425,12 +451,78 @@ RSpec.describe Lti::Config do
               <lticm:property name="visibility">members</lticm:property>
               <lticm:property name="windowTarget">_blank</lticm:property>
             </lticm:options>
+            <lticm:options name="custom_fields">
+              <lticm:property name="custom_canvas_api_domain">$Canvas.api.domain</lticm:property>
+            </lticm:options>
             <lticm:property name="domain">www.example.com</lticm:property>
             <lticm:property name="privacy_level">public</lticm:property>
           </blti:extensions>
         </cartridge_basiclti_link>
       XML
       expect(xml).to eq(assignment_configuration_xml)
+    end
+
+    it "generates extended configuration xml for an LTI tool with a assignment_edit placement" do
+      assignment_edit = {
+        url: @launch_url,
+      }
+      args = @basic_config.merge({ assignment_edit: assignment_edit })
+      xml = described_class.xml(args)
+      expect(xml).to be_present
+      assignment_edit_xml = <<~XML
+        <?xml version="1.0" encoding="UTF-8"?>
+        <cartridge_basiclti_link xmlns="http://www.imsglobal.org/xsd/imslticc_v1p0" xmlns:blti="http://www.imsglobal.org/xsd/imsbasiclti_v1p0" xmlns:lticm="http://www.imsglobal.org/xsd/imslticm_v1p0" xmlns:lticp="http://www.imsglobal.org/xsd/imslticp_v1p0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imslticc_v1p0 http://www.imsglobal.org/xsd/lti/ltiv1p0/imslticc_v1p0.xsd http://www.imsglobal.org/xsd/imsbasiclti_v1p0 http://www.imsglobal.org/xsd/lti/ltiv1p0/imsbasiclti_v1p0p1.xsd http://www.imsglobal.org/xsd/imslticm_v1p0 http://www.imsglobal.org/xsd/lti/ltiv1p0/imslticm_v1p0.xsd http://www.imsglobal.org/xsd/imslticp_v1p0 http://www.imsglobal.org/xsd/lti/ltiv1p0/imslticp_v1p0.xsd">
+          <blti:title>#{@basic_config[:title]}</blti:title>
+          <blti:description>#{@basic_config[:description]}</blti:description>
+          <blti:launch_url>#{@launch_url}</blti:launch_url>
+          <blti:secure_launch_url>#{@launch_url}</blti:secure_launch_url>
+          <blti:icon>#{@icon_url}</blti:icon>
+          <blti:extensions platform="canvas.instructure.com">
+            <lticm:options name="assignment_edit">
+              <lticm:property name="url">#{@launch_url}</lticm:property>
+            </lticm:options>
+            <lticm:options name="custom_fields">
+              <lticm:property name="custom_canvas_api_domain">$Canvas.api.domain</lticm:property>
+            </lticm:options>
+            <lticm:property name="domain">www.example.com</lticm:property>
+            <lticm:property name="privacy_level">public</lticm:property>
+          </blti:extensions>
+        </cartridge_basiclti_link>
+      XML
+      expect(xml).to eq(assignment_edit_xml)
+    end
+
+    it "generates extended configuration xml for an LTI tool with a assignment_view placement" do
+      visibility_role = "admins"
+      assignment_view = {
+        url: @launch_url,
+        visibility: visibility_role,
+      }
+      args = @basic_config.merge({ assignment_view: assignment_view })
+      xml = described_class.xml(args)
+      expect(xml).to be_present
+      assignment_view_xml = <<~XML
+        <?xml version="1.0" encoding="UTF-8"?>
+        <cartridge_basiclti_link xmlns="http://www.imsglobal.org/xsd/imslticc_v1p0" xmlns:blti="http://www.imsglobal.org/xsd/imsbasiclti_v1p0" xmlns:lticm="http://www.imsglobal.org/xsd/imslticm_v1p0" xmlns:lticp="http://www.imsglobal.org/xsd/imslticp_v1p0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imslticc_v1p0 http://www.imsglobal.org/xsd/lti/ltiv1p0/imslticc_v1p0.xsd http://www.imsglobal.org/xsd/imsbasiclti_v1p0 http://www.imsglobal.org/xsd/lti/ltiv1p0/imsbasiclti_v1p0p1.xsd http://www.imsglobal.org/xsd/imslticm_v1p0 http://www.imsglobal.org/xsd/lti/ltiv1p0/imslticm_v1p0.xsd http://www.imsglobal.org/xsd/imslticp_v1p0 http://www.imsglobal.org/xsd/lti/ltiv1p0/imslticp_v1p0.xsd">
+          <blti:title>#{@basic_config[:title]}</blti:title>
+          <blti:description>#{@basic_config[:description]}</blti:description>
+          <blti:launch_url>#{@launch_url}</blti:launch_url>
+          <blti:secure_launch_url>#{@launch_url}</blti:secure_launch_url>
+          <blti:icon>#{@icon_url}</blti:icon>
+          <blti:extensions platform="canvas.instructure.com">
+            <lticm:options name="assignment_view">
+              <lticm:property name="url">#{@launch_url}</lticm:property>
+              <lticm:property name="visibility">#{visibility_role}</lticm:property>
+            </lticm:options>
+            <lticm:options name="custom_fields">
+              <lticm:property name="custom_canvas_api_domain">$Canvas.api.domain</lticm:property>
+            </lticm:options>
+            <lticm:property name="domain">www.example.com</lticm:property>
+            <lticm:property name="privacy_level">public</lticm:property>
+          </blti:extensions>
+        </cartridge_basiclti_link>
+      XML
+      expect(xml).to eq(assignment_view_xml)
     end
 
     it "generates extended configuration xml for an LTI tool with a assignment_menu placement" do
@@ -466,6 +558,9 @@ RSpec.describe Lti::Config do
               <lticm:property name="url">#{@launch_url}</lticm:property>
               <lticm:property name="visibility">members</lticm:property>
               <lticm:property name="windowTarget">_blank</lticm:property>
+            </lticm:options>
+            <lticm:options name="custom_fields">
+              <lticm:property name="custom_canvas_api_domain">$Canvas.api.domain</lticm:property>
             </lticm:options>
             <lticm:property name="domain">www.example.com</lticm:property>
             <lticm:property name="privacy_level">public</lticm:property>
@@ -509,6 +604,9 @@ RSpec.describe Lti::Config do
               <lticm:property name="visibility">members</lticm:property>
               <lticm:property name="windowTarget">_blank</lticm:property>
             </lticm:options>
+            <lticm:options name="custom_fields">
+              <lticm:property name="custom_canvas_api_domain">$Canvas.api.domain</lticm:property>
+            </lticm:options>
             <lticm:property name="domain">www.example.com</lticm:property>
             <lticm:property name="privacy_level">public</lticm:property>
           </blti:extensions>
@@ -550,6 +648,9 @@ RSpec.describe Lti::Config do
               <lticm:property name="url">#{@launch_url}</lticm:property>
               <lticm:property name="visibility">members</lticm:property>
               <lticm:property name="windowTarget">_blank</lticm:property>
+            </lticm:options>
+            <lticm:options name="custom_fields">
+              <lticm:property name="custom_canvas_api_domain">$Canvas.api.domain</lticm:property>
             </lticm:options>
             <lticm:property name="domain">www.example.com</lticm:property>
             <lticm:property name="privacy_level">public</lticm:property>
@@ -593,6 +694,9 @@ RSpec.describe Lti::Config do
               <lticm:property name="visibility">members</lticm:property>
               <lticm:property name="windowTarget">_blank</lticm:property>
             </lticm:options>
+            <lticm:options name="custom_fields">
+              <lticm:property name="custom_canvas_api_domain">$Canvas.api.domain</lticm:property>
+            </lticm:options>
             <lticm:property name="domain">www.example.com</lticm:property>
             <lticm:property name="privacy_level">public</lticm:property>
           </blti:extensions>
@@ -625,6 +729,9 @@ RSpec.describe Lti::Config do
           <blti:secure_launch_url>#{@launch_url}</blti:secure_launch_url>
           <blti:icon>#{@icon_url}</blti:icon>
           <blti:extensions platform="canvas.instructure.com">
+            <lticm:options name="custom_fields">
+              <lticm:property name="custom_canvas_api_domain">$Canvas.api.domain</lticm:property>
+            </lticm:options>
             <lticm:options name="discussion_topic_menu">
               <lticm:property name="canvas_icon_class">icon-lti</lticm:property>
               <lticm:property name="default">enabled</lticm:property>
@@ -667,6 +774,9 @@ RSpec.describe Lti::Config do
           <blti:secure_launch_url>#{@launch_url}</blti:secure_launch_url>
           <blti:icon>#{@icon_url}</blti:icon>
           <blti:extensions platform="canvas.instructure.com">
+            <lticm:options name="custom_fields">
+              <lticm:property name="custom_canvas_api_domain">$Canvas.api.domain</lticm:property>
+            </lticm:options>
             <lticm:property name="domain">www.example.com</lticm:property>
             <lticm:options name="file_menu">
               <lticm:property name="canvas_icon_class">icon-lti</lticm:property>
@@ -709,6 +819,9 @@ RSpec.describe Lti::Config do
           <blti:secure_launch_url>#{@launch_url}</blti:secure_launch_url>
           <blti:icon>#{@icon_url}</blti:icon>
           <blti:extensions platform="canvas.instructure.com">
+            <lticm:options name="custom_fields">
+              <lticm:property name="custom_canvas_api_domain">$Canvas.api.domain</lticm:property>
+            </lticm:options>
             <lticm:property name="domain">www.example.com</lticm:property>
             <lticm:options name="homework_submission">
               <lticm:property name="canvas_icon_class">icon-lti</lticm:property>
@@ -751,6 +864,9 @@ RSpec.describe Lti::Config do
           <blti:secure_launch_url>#{@launch_url}</blti:secure_launch_url>
           <blti:icon>#{@icon_url}</blti:icon>
           <blti:extensions platform="canvas.instructure.com">
+            <lticm:options name="custom_fields">
+              <lticm:property name="custom_canvas_api_domain">$Canvas.api.domain</lticm:property>
+            </lticm:options>
             <lticm:property name="domain">www.example.com</lticm:property>
             <lticm:options name="migration_selection">
               <lticm:property name="canvas_icon_class">icon-lti</lticm:property>
@@ -793,6 +909,9 @@ RSpec.describe Lti::Config do
           <blti:secure_launch_url>#{@launch_url}</blti:secure_launch_url>
           <blti:icon>#{@icon_url}</blti:icon>
           <blti:extensions platform="canvas.instructure.com">
+            <lticm:options name="custom_fields">
+              <lticm:property name="custom_canvas_api_domain">$Canvas.api.domain</lticm:property>
+            </lticm:options>
             <lticm:property name="domain">www.example.com</lticm:property>
             <lticm:options name="module_menu">
               <lticm:property name="canvas_icon_class">icon-lti</lticm:property>
@@ -835,6 +954,9 @@ RSpec.describe Lti::Config do
           <blti:secure_launch_url>#{@launch_url}</blti:secure_launch_url>
           <blti:icon>#{@icon_url}</blti:icon>
           <blti:extensions platform="canvas.instructure.com">
+            <lticm:options name="custom_fields">
+              <lticm:property name="custom_canvas_api_domain">$Canvas.api.domain</lticm:property>
+            </lticm:options>
             <lticm:property name="domain">www.example.com</lticm:property>
             <lticm:property name="privacy_level">public</lticm:property>
             <lticm:options name="quiz_menu">
@@ -877,6 +999,9 @@ RSpec.describe Lti::Config do
           <blti:secure_launch_url>#{@launch_url}</blti:secure_launch_url>
           <blti:icon>#{@icon_url}</blti:icon>
           <blti:extensions platform="canvas.instructure.com">
+            <lticm:options name="custom_fields">
+              <lticm:property name="custom_canvas_api_domain">$Canvas.api.domain</lticm:property>
+            </lticm:options>
             <lticm:property name="domain">www.example.com</lticm:property>
             <lticm:property name="privacy_level">public</lticm:property>
             <lticm:options name="tool_configuration">
@@ -919,6 +1044,9 @@ RSpec.describe Lti::Config do
           <blti:secure_launch_url>#{@launch_url}</blti:secure_launch_url>
           <blti:icon>#{@icon_url}</blti:icon>
           <blti:extensions platform="canvas.instructure.com">
+            <lticm:options name="custom_fields">
+              <lticm:property name="custom_canvas_api_domain">$Canvas.api.domain</lticm:property>
+            </lticm:options>
             <lticm:property name="domain">www.example.com</lticm:property>
             <lticm:property name="privacy_level">public</lticm:property>
             <lticm:options name="wiki_page_menu">
@@ -953,6 +1081,9 @@ RSpec.describe Lti::Config do
             <lticm:options name="content_migration">
               <lticm:property name="export_start_url">#{@export_url}</lticm:property>
               <lticm:property name="import_start_url">#{@import_url}</lticm:property>
+            </lticm:options>
+            <lticm:options name="custom_fields">
+              <lticm:property name="custom_canvas_api_domain">$Canvas.api.domain</lticm:property>
             </lticm:options>
             <lticm:property name="domain">www.example.com</lticm:property>
             <lticm:property name="privacy_level">public</lticm:property>

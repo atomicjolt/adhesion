@@ -1,11 +1,12 @@
 import React        from 'react';
+import PropTypes from 'prop-types';
 import Defines      from '../../defines';
 import HoverButton  from '../common/hover_button';
 
 export default class NewProctorCode extends React.Component {
   static propTypes = {
-    hideModal: React.PropTypes.func.isRequired,
-    code: React.PropTypes.string.isRequired,
+    hideModal: PropTypes.func.isRequired,
+    code: PropTypes.string.isRequired,
   };
 
   static getStyles() {

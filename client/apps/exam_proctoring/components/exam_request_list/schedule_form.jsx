@@ -1,4 +1,5 @@
 import React        from 'react';
+import PropTypes from 'prop-types';
 import _            from 'lodash';
 import moment       from 'moment-timezone';
 import Defines      from '../../defines';
@@ -8,14 +9,14 @@ import TimeSelector from '../common/time_selector';
 
 export default class ScheduleForm extends React.Component {
   static propTypes = {
-    studentName: React.PropTypes.string.isRequired,
-    studentId: React.PropTypes.number.isRequired,
-    examName: React.PropTypes.string.isRequired,
-    courseName: React.PropTypes.string.isRequired,
-    testingCenterName: React.PropTypes.string.isRequired,
-    message: React.PropTypes.string.isRequired,
-    closeModal:  React.PropTypes.func.isRequired,
-    scheduleExam:  React.PropTypes.func.isRequired,
+    studentName: PropTypes.string.isRequired,
+    studentId: PropTypes.number.isRequired,
+    examName: PropTypes.string.isRequired,
+    courseName: PropTypes.string.isRequired,
+    testingCenterName: PropTypes.string.isRequired,
+    message: PropTypes.string.isRequired,
+    closeModal:  PropTypes.func.isRequired,
+    scheduleExam:  PropTypes.func.isRequired,
   };
 
   static getStyles() {

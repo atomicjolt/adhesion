@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import ListRow from './list_row';
+import Sortable from '../common/sortable';
 
 export default function List(props) {
   const {
@@ -11,21 +12,39 @@ export default function List(props) {
     saveApplicationInstance,
     deleteApplicationInstance,
     canvasOauthURL,
-    disableApplicationInstance
+    disableApplicationInstance,
+    setSort,
+    currentSortColumn,
+    currentSortDirection,
   } = props;
 
   return (
     <table className="c-table c-table--instances">
       <thead>
         <tr>
-          <th><span>LTI KEY</span></th>
-          <th><span>DOMAIN</span></th>
+          <Sortable
+            title="LTI KEY"
+            column="lti_key"
+            currentColumn={currentSortColumn}
+            currentDirection={currentSortDirection}
+            setSort={setSort}
+          />
           <th><span>SETTINGS</span></th>
           <th><span>CONFIG XML</span></th>
           <th><span>ENABLED</span></th>
-          <th><span>TOKEN</span></th>
-          <th><span>AUTHENTICATIONS</span></th>
-          <th><span>CREATED</span></th>
+          <th><span>AUTHS</span></th>
+          <Sortable
+            title="CREATED"
+            column="created_at"
+            currentColumn={currentSortColumn}
+            currentDirection={currentSortDirection}
+            setSort={setSort}
+          />
+          <th>________</th>
+          <th><span>REQUESTS</span></th>
+          <th><span>LTI LAUNCHES</span></th>
+          <th><span>USERS</span></th>
+          <th><span>ERRORS</span></th>
           <th />
         </tr>
       </thead>
@@ -64,4 +83,7 @@ List.propTypes = {
   deleteApplicationInstance: PropTypes.func.isRequired,
   canvasOauthURL: PropTypes.string.isRequired,
   disableApplicationInstance: PropTypes.func.isRequired,
+  currentSortColumn: PropTypes.string.isRequired,
+  currentSortDirection: PropTypes.string.isRequired,
+  setSort: PropTypes.func.isRequired,
 };

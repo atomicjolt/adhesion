@@ -38,6 +38,8 @@ module Adhesion
     # Middleware that can restore state after an OAuth request
     config.middleware.insert_before 0, OauthStateMiddleware
 
+    config.active_job.queue_adapter = :que
+
     config.webpack = {
       use_manifest: false,
       asset_manifest: {},
@@ -64,5 +66,12 @@ module Adhesion
       )
     end
 
+    # Initialize configuration defaults for originally generated Rails version.
+    config.load_defaults 5.0
+
+    # Settings in config/environments/* take precedence over those specified here.
+    # Application configuration can go into files in config/initializers
+    # -- all .rb files in that directory are automatically loaded after loading
+    # the framework and any gems in your application.
   end
 end

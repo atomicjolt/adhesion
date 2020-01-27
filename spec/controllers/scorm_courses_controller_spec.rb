@@ -11,16 +11,17 @@ RSpec.describe ScormCoursesController, type: :controller do
         :current_application_instance,
       ).and_return(@application_instance)
       scorm_course = create(:scorm_course)
+      @student = FactoryBot.create(:user_canvas, lms_user_id: FactoryBot.generate(:lms_user_id))
       @reg = create(
         :registration,
         application_instance: @application_instance,
         scorm_course: scorm_course,
         context_id: FactoryBot.generate(:context_id),
+        user: @student,
       )
       response = Object.new
       allow(response).to receive(:success?).and_return(true)
       allow_any_instance_of(AJIMS::LTI::ToolProvider).to receive(:post_replace_result!).and_return(response)
-      @student = FactoryBot.create(:user_canvas, lms_user_id: FactoryBot.generate(:lms_user_id))
     end
     it "should reject bad password" do
       params = {
@@ -75,10 +76,11 @@ RSpec.describe ScormCoursesController, type: :controller do
       ).and_return(@application_instance)
       Registration.create(lms_user_id: 2)
       scu = scorm_courses_url
+      @scorm_course = FactoryBot.create(:scorm_course)
       @params = lti_params(@application_instance.lti_key,
                            @application_instance.lti_secret,
                            "custom_canvas_user_id" => 2,
-                           "course_id" => 1,
+                           "course_id" => @scorm_course.scorm_service_id,
                            "launch_url" => scorm_courses_url,
                            "roles" => "Learner",
                            "launch_presentation_return_url" => scu)
