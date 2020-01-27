@@ -1,3 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`loading matches the snapshot 1`] = `ShallowWrapper {}`;
+exports[`loading matches the snapshot 1`] = `
+<div
+  style={
+    Object {
+      "textAlign": "center",
+    }
+  }
+>
+  <_default />
+  <h3>
+    Loading 
+    Quiz
+  </h3>
+</div>
+`;

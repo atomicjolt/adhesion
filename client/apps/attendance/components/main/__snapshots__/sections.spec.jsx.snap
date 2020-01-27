@@ -1,3 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Sections matches the snapshot 1`] = `ShallowWrapper {}`;
+exports[`Sections matches the snapshot 1`] = `
+<div
+  className="c-btn c-btn--sections"
+>
+  <Dropdown
+    baseClassName="Dropdown"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "Sec1",
+          "value": 1,
+        },
+        Object {
+          "label": "Sec2",
+          "value": 2,
+        },
+        Object {
+          "label": "Sec3",
+          "value": 3,
+        },
+      ]
+    }
+    value="All Sections"
+  />
+</div>
+`;

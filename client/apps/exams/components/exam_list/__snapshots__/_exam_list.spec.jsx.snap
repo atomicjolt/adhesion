@@ -1,3 +1,109 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Exam list matches the snapshot 1`] = `ShallowWrapper {}`;
+exports[`Exam list matches the snapshot 1`] = `
+<div>
+  <h1
+    style={
+      Object {
+        "color": "#555555",
+        "padding": "10px 20px 0px 20px",
+      }
+    }
+  >
+    Request an Exam
+  </h1>
+  <div
+    style={
+      Object {
+        "marginBottom": "20px",
+        "padding": "0px 20px",
+      }
+    }
+  >
+    If you need to change where you take an exam, create a new request.
+  </div>
+  <hr
+    style={
+      Object {
+        "borderTop": "2px solid #ededed",
+        "margin": "0px",
+      }
+    }
+  />
+  <table
+    className="qa-exam-list-table"
+    style={
+      Object {
+        "borderCollapse": "collapse",
+        "width": "100%",
+      }
+    }
+  >
+    <thead
+      style={
+        Object {
+          "backgroundColor": "#f5f5f5",
+          "color": "#aaa",
+        }
+      }
+    >
+      <tr>
+        <th
+          style={
+            Object {
+              "fontWeight": "normal",
+              "padding": "15px 20px",
+              "textAlign": "left",
+              "width": "50%",
+            }
+          }
+        >
+          EXAM
+        </th>
+        <th
+          style={
+            Object {
+              "fontWeight": "normal",
+              "padding": "15px 20px",
+              "textAlign": "left",
+              "width": "25%",
+            }
+          }
+        >
+          TESTING CENTER
+        </th>
+        <th
+          style={
+            Object {
+              "fontWeight": "normal",
+              "padding": "15px 20px",
+              "textAlign": "left",
+              "width": "25%",
+            }
+          }
+        >
+          STATUS
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <examListItem
+        exam={
+          Object {
+            "access_code": "proctored-exam-asdfasdf",
+            "id": 1,
+            "title": "america",
+          }
+        }
+        examRequest={
+          Object {
+            "status": "requested",
+          }
+        }
+        goToExam={[Function]}
+        key="exam_1"
+      />
+    </tbody>
+  </table>
+</div>
+`;

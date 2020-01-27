@@ -1,3 +1,48 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`question renders the question position 1`] = `ShallowWrapper {}`;
+exports[`question renders the question position 1`] = `
+<div
+  style={
+    Object {
+      "border": "solid 1px black",
+      "margin": "20px 5px",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "backgroundColor": "Gainsboro",
+        "borderBottom": "solid 1px black",
+        "padding": "10px",
+      }
+    }
+  >
+    Question 
+    1
+    <span
+      style={
+        Object {
+          "float": "right",
+        }
+      }
+    >
+      3
+       pts
+    </span>
+  </div>
+  <div
+    style={
+      Object {
+        "padding": "10px",
+      }
+    }
+  >
+    <multipleChoiceQuestion
+      points_possible={3}
+      position={1}
+      question_type="multiple_choice_question"
+    />
+  </div>
+</div>
+`;

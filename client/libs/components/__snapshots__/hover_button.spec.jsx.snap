@@ -1,3 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`hover button matches the snapshot 1`] = `ShallowWrapper {}`;
+exports[`hover button matches the snapshot 1`] = `
+<button
+  onClick={[Function]}
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  style={
+    Object {
+      "color": "white",
+    }
+  }
+/>
+`;

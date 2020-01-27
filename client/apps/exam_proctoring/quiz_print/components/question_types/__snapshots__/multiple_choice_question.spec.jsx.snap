@@ -1,3 +1,42 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Multiple Choice matches the snapshot 1`] = `ShallowWrapper {}`;
+exports[`Multiple Choice matches the snapshot 1`] = `
+<div>
+  <essayQuestion
+    text="<p>I am the title</p>"
+  />
+  <div
+    key="question7_answer1"
+  >
+    <hr />
+    <input
+      disabled={true}
+      type="radio"
+    />
+     
+    yes
+  </div>
+  <div
+    key="question7_answer2"
+  >
+    <hr />
+    <input
+      disabled={true}
+      type="radio"
+    />
+     
+    no
+  </div>
+  <div
+    key="question7_answer3"
+  >
+    <hr />
+    <input
+      disabled={true}
+      type="radio"
+    />
+     
+    maybe
+  </div>
+</div>
+`;

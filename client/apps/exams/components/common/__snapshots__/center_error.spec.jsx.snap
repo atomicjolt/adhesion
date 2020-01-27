@@ -1,3 +1,32 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Center Error renders a "Error Message" message 1`] = `ShallowWrapper {}`;
+exports[`Center Error renders a "Error Message" message 1`] = `
+<div
+  style={
+    Object {
+      "background": "#ededed",
+      "border": "1px solid",
+    }
+  }
+>
+  <h1
+    style={
+      Object {
+        "color": "red",
+        "textAlign": "center",
+      }
+    }
+  >
+    Error Loading Testing Centers
+  </h1>
+  <p
+    style={
+      Object {
+        "textAlign": "center",
+      }
+    }
+  >
+    You will need to contact your administrator with this error.
+  </p>
+</div>
+`;
