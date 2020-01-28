@@ -163,5 +163,4 @@ class ApplicationInstance < ApplicationRecord
     Apartment::Tenant.drop tenant
   end
   private :destroy_schema
-
 end

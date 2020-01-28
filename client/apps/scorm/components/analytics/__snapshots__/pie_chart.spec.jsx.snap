@@ -1,3 +1,94 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Scorm Analytics Chart pie chart matches the snapshot 1`] = `ShallowWrapper {}`;
+exports[`Scorm Analytics Chart pie chart matches the snapshot 1`] = `
+<PieChart
+  barCategoryGap="10%"
+  barGap={4}
+  cx="50%"
+  cy="50%"
+  endAngle={360}
+  height={300}
+  innerRadius={0}
+  layout="centric"
+  margin={
+    Object {
+      "bottom": 5,
+      "left": 5,
+      "right": 5,
+      "top": 5,
+    }
+  }
+  outerRadius="80%"
+  reverseStackOrder={false}
+  stackOffset="none"
+  startAngle={0}
+  width={400}
+>
+  <Pie
+    animationBegin={400}
+    animationDuration={1500}
+    animationEasing="ease"
+    blendStroke={false}
+    cx="50%"
+    cy="50%"
+    data={Array []}
+    dataKey="value"
+    endAngle={450}
+    fill="#808080"
+    hide={false}
+    innerRadius={0}
+    isAnimationActive={true}
+    label={true}
+    labelLine={true}
+    legendType="rect"
+    minAngle={0}
+    nameKey="name"
+    outerRadius="80%"
+    paddingAngle={0}
+    startAngle={90}
+    stroke="#fff"
+  />
+  <Legend
+    align="right"
+    iconSize={14}
+    layout="vertical"
+    verticalAlign="top"
+  />
+  <Tooltip
+    active={false}
+    allowEscapeViewBox={
+      Object {
+        "x": false,
+        "y": false,
+      }
+    }
+    animationDuration={400}
+    animationEasing="ease"
+    contentStyle={Object {}}
+    coordinate={
+      Object {
+        "x": 0,
+        "y": 0,
+      }
+    }
+    cursor={true}
+    cursorStyle={Object {}}
+    filterNull={true}
+    isAnimationActive={true}
+    itemStyle={Object {}}
+    labelStyle={Object {}}
+    offset={10}
+    separator=" : "
+    useTranslate3d={false}
+    viewBox={
+      Object {
+        "x1": 0,
+        "x2": 0,
+        "y1": 0,
+        "y2": 0,
+      }
+    }
+    wrapperStyle={Object {}}
+  />
+</PieChart>
+`;

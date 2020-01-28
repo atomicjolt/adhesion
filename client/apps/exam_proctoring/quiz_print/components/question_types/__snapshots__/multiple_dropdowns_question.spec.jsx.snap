@@ -1,3 +1,103 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Multiple DropDown matches the snapshot 1`] = `ShallowWrapper {}`;
+exports[`Multiple DropDown matches the snapshot 1`] = `
+<div>
+  <essayQuestion
+    text="<p>Skyrim belongs to the [Skyrim], while Marrowind is the homeland of the [Marrowind].</p>"
+  />
+  <div
+    key="answer_bank_Skyrim"
+    style={
+      Object {
+        "border": "1px solid darkGrey",
+        "display": "inline-block",
+        "margin": "5px",
+        "padding": "5px",
+        "verticalAlign": "top",
+      }
+    }
+  >
+    <strong>
+      Skyrim
+    </strong>
+    <hr />
+    <div
+      key="dropdown_answer_1"
+    >
+      <input
+        disabled={true}
+        type="radio"
+      />
+       
+      Bretons
+    </div>
+    <div
+      key="dropdown_answer_2"
+    >
+      <input
+        disabled={true}
+        type="radio"
+      />
+       
+      Nords
+    </div>
+    <div
+      key="dropdown_answer_3"
+    >
+      <input
+        disabled={true}
+        type="radio"
+      />
+       
+      Argonians
+    </div>
+  </div>
+  <div
+    key="answer_bank_Marrowind"
+    style={
+      Object {
+        "border": "1px solid darkGrey",
+        "display": "inline-block",
+        "margin": "5px",
+        "padding": "5px",
+        "verticalAlign": "top",
+      }
+    }
+  >
+    <strong>
+      Marrowind
+    </strong>
+    <hr />
+    <div
+      key="dropdown_answer_4"
+    >
+      <input
+        disabled={true}
+        type="radio"
+      />
+       
+      Dunmer
+    </div>
+    <div
+      key="dropdown_answer_5"
+    >
+      <input
+        disabled={true}
+        type="radio"
+      />
+       
+      Nords
+    </div>
+    <div
+      key="dropdown_answer_6"
+    >
+      <input
+        disabled={true}
+        type="radio"
+      />
+       
+      Falmer
+    </div>
+  </div>
+</div>
+`;

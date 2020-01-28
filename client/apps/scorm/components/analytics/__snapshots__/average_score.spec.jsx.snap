@@ -1,3 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Scorm Analytics Average Score matches the snapshot 1`] = `ShallowWrapper {}`;
+exports[`Scorm Analytics Average Score matches the snapshot 1`] = `
+<div>
+  <ScoreLabel
+    name="Mean Score"
+    value={12}
+  />
+  <ScoreLabel
+    name="Median Score"
+    value={15}
+  />
+  <ScoreLabel
+    name="Lowest Score"
+    value={18}
+  />
+  <ScoreLabel
+    name="Highest Score"
+    value={20}
+  />
+</div>
+`;

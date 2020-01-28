@@ -1,3 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Scorm Analytics ScoreLabel matches the snapshot 1`] = `ShallowWrapper {}`;
+exports[`Scorm Analytics ScoreLabel matches the snapshot 1`] = `
+<div
+  className="c-aa-label"
+>
+  test application
+  : 
+  12
+</div>
+`;

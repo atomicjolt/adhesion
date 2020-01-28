@@ -1,3 +1,35 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Scorm Analytics Graph matches the snapshot 1`] = `ShallowWrapper {}`;
+exports[`Scorm Analytics Graph matches the snapshot 1`] = `
+<div
+  className="c-aa-graph-picker"
+>
+  <div
+    className="c-aa-graph-nav"
+  >
+    <NavButtons
+      navButtons={
+        Array [
+          Object {
+            "name": "test application",
+            "stat": "12",
+          },
+        ]
+      }
+      switchChart={[Function]}
+    />
+  </div>
+  <div
+    className="c-aa-graph-container"
+  >
+    <ChartContainer
+      data={
+        Object {
+          "completed": Array [],
+        }
+      }
+      selected="complete"
+    />
+  </div>
+</div>
+`;

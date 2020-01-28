@@ -1,3 +1,44 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Scorm Analytics Header Scorm Analytics Header renders 1`] = `ShallowWrapper {}`;
+exports[`Scorm Analytics Header Scorm Analytics Header renders 1`] = `
+<header
+  className="c-aa-head"
+>
+  <Link
+    className="c-aa-back-btn"
+    onlyActiveOnIndex={false}
+    style={Object {}}
+    to={
+      Object {
+        "pathname": "/",
+        "query": Object {
+          "noSync": true,
+        },
+      }
+    }
+  >
+    <i
+      className="material-icons"
+    >
+      arrow_back
+    </i>
+  </Link>
+  <h1
+    className="c-aa-title"
+  >
+    <span
+      className="c-aa-title-btn"
+      onClick={[Function]}
+    >
+      test application Analytics
+    </span>
+     / Student
+  </h1>
+  <button
+    className="c-aa-btn"
+    onClick={[Function]}
+  >
+    View Course Activities
+  </button>
+</header>
+`;

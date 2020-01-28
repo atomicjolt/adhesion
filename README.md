@@ -348,6 +348,11 @@ yarn upgrade-interactive
 
 This application uses PostgreSQL with ActiveRecord.
 
+If you run into an error while installing the pg gem try including the path to pg_config. For an example see
+the command below. Be sure to use the correct version for the pg gem and the correct path to pg_config.
+
+  `gem install pg -v '1.2.2' --source 'https://rubygems.org/' -- --with-pg-config=/Users/jbasdf/.asdf/installs/postgres/9.5.19/bin/pg_config`
+
 ## Tests
 
 You may need to install chromedriver if you haven't already.

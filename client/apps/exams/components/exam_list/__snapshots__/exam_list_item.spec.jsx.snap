@@ -1,3 +1,58 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Exam list item matches the snapshot 1`] = `ShallowWrapper {}`;
+exports[`Exam list item matches the snapshot 1`] = `
+<ClickableTableRow
+  hoveredStyle={
+    Object {
+      "backgroundColor": "#f5f5f5",
+      "color": "#000085",
+    }
+  }
+  onClick={[Function]}
+  style={
+    Object {
+      "backgroundColor": "white",
+      "border": "none",
+      "borderBottom": "1px solid #ededed",
+      "color": "#555555",
+      "cursor": "pointer",
+      "padding": "0px 20px",
+      "textAlign": "left",
+      "width": "100%",
+    }
+  }
+>
+  <td
+    style={
+      Object {
+        "borderBottom": "1px solid #ededed",
+        "fontWeight": "bold",
+        "padding": "20px 20px",
+        "textAlign": "left",
+      }
+    }
+  >
+    america
+  </td>
+  <td
+    style={
+      Object {
+        "borderBottom": "1px solid #ededed",
+        "color": "#555555",
+        "padding": "20px 20px",
+        "textAlign": "left",
+      }
+    }
+  />
+  <td
+    style={
+      Object {
+        "borderBottom": "1px solid #ededed",
+        "color": "#555555",
+        "padding": "20px 20px",
+        "textAlign": "left",
+      }
+    }
+  />
+</ClickableTableRow>
+`;

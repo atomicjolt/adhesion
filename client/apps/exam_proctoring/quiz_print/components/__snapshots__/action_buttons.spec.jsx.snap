@@ -1,3 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Action Buttons matches the snapshot 1`] = `ShallowWrapper {}`;
+exports[`Action Buttons matches the snapshot 1`] = `
+<div
+  className="no-print"
+>
+  <button
+    className="pure-button"
+    onClick={[Function]}
+  >
+    Back
+  </button>
+  <button
+    className="pure-button button-primary"
+    onClick={[Function]}
+    style={
+      Object {
+        "float": "right",
+      }
+    }
+  >
+    Print
+  </button>
+</div>
+`;

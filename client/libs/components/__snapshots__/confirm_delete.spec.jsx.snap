@@ -1,3 +1,62 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`confirm delete matches the snapshot 1`] = `ShallowWrapper {}`;
+exports[`confirm delete matches the snapshot 1`] = `
+<div
+  style={
+    Object {
+      "backgroundColor": "white",
+      "boxShadow": "0px 0px 5px #555555",
+      "color": "#555555",
+      "left": "25vw",
+      "padding": "25px",
+      "position": "fixed",
+      "right": "25vw",
+      "top": "5vh",
+      "zIndex": "2",
+    }
+  }
+>
+  <h2>
+    Are you sure?
+  </h2>
+  <div
+    style={
+      Object {
+        "marginTop": "20px",
+      }
+    }
+  >
+    <HoverButton
+      onClick={[Function]}
+      style={
+        Object {
+          "backgroundColor": "#c1a17a",
+          "border": "none",
+          "color": "white",
+          "cursor": "pointer",
+          "float": "right",
+          "padding": "10px 20px",
+        }
+      }
+    >
+      DELETE
+    </HoverButton>
+    <HoverButton
+      onClick={[Function]}
+      style={
+        Object {
+          "backgroundColor": "#f5f5f5",
+          "border": "none",
+          "color": "#555555",
+          "cursor": "pointer",
+          "float": "right",
+          "marginRight": "20px",
+          "padding": "10px 20px",
+        }
+      }
+    >
+      CANCEL
+    </HoverButton>
+  </div>
+</div>
+`;

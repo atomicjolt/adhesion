@@ -1,3 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Scorm Analytics ChartContainer passed charts matches the snapshot 1`] = `ShallowWrapper {}`;
+exports[`Scorm Analytics ChartContainer passed charts matches the snapshot 1`] = `
+<div>
+  <Chart
+    colors={
+      Array [
+        "#67a9cf",
+        "#c9c9c9",
+        "#ef8a62",
+      ]
+    }
+    data={Array []}
+  />
+</div>
+`;

@@ -1,3 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`export button matches the snapshot 1`] = `ShallowWrapper {}`;
+exports[`export button matches the snapshot 1`] = `
+<button
+  aria-checked="false"
+  aria-posinset={0}
+  aria-setsize="2"
+  className="c-btn  c-btn--export"
+  onClick={[Function]}
+  role="radio"
+/>
+`;

@@ -1,3 +1,34 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Assignment Button matches the snapshot 1`] = `ShallowWrapper {}`;
+exports[`Assignment Button matches the snapshot 1`] = `
+<a
+  href="https://canvasorother/courses/12345/assignments/54321"
+  target="_parent"
+>
+  <ScormHoverButton
+    hoveredStyle={
+      Object {
+        "backgroundColor": "#f5f5f5",
+      }
+    }
+    style={
+      Object {
+        "backgroundColor": "white",
+        "border": "none",
+        "cursor": "pointer",
+        "fontSize": "inherit",
+        "padding": "20px",
+        "textAlign": "left",
+        "verticalAlign": "middle",
+        "width": "100%",
+      }
+    }
+  >
+    <commonSVG
+      className="c-icon"
+      type="gradedAssignment"
+    />
+    Go to Assignment
+  </ScormHoverButton>
+</a>
+`;

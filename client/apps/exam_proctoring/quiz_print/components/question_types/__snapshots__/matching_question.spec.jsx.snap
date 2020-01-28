@@ -1,3 +1,98 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Matching matches the snapshot 1`] = `ShallowWrapper {}`;
+exports[`Matching matches the snapshot 1`] = `
+<div>
+  <essayQuestion
+    text="<p>Match each race to its homeland</p>"
+  />
+  <div
+    style={
+      Object {
+        "display": "inline-block",
+      }
+    }
+  >
+    <div
+      key="question7_answer1"
+      style={
+        Object {
+          "border": "1px solid darkGray",
+          "margin": "5px",
+          "padding": "5px",
+        }
+      }
+    >
+      Bretons
+    </div>
+    <div
+      key="question7_answer2"
+      style={
+        Object {
+          "border": "1px solid darkGray",
+          "margin": "5px",
+          "padding": "5px",
+        }
+      }
+    >
+      Nords
+    </div>
+    <div
+      key="question7_answer3"
+      style={
+        Object {
+          "border": "1px solid darkGray",
+          "margin": "5px",
+          "padding": "5px",
+        }
+      }
+    >
+      Argonians
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "display": "inline-block",
+        "float": "right",
+      }
+    }
+  >
+    <div
+      key="question7_match4"
+      style={
+        Object {
+          "border": "1px solid darkGray",
+          "margin": "5px",
+          "padding": "5px",
+        }
+      }
+    >
+      Black Marsh
+    </div>
+    <div
+      key="question7_match5"
+      style={
+        Object {
+          "border": "1px solid darkGray",
+          "margin": "5px",
+          "padding": "5px",
+        }
+      }
+    >
+      High Rock
+    </div>
+    <div
+      key="question7_match6"
+      style={
+        Object {
+          "border": "1px solid darkGray",
+          "margin": "5px",
+          "padding": "5px",
+        }
+      }
+    >
+      Skyrim
+    </div>
+  </div>
+</div>
+`;

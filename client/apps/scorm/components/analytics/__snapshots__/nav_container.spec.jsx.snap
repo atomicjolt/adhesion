@@ -1,3 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Scorm Analytics NavContainer match the snapshot 1`] = `ShallowWrapper {}`;
+exports[`Scorm Analytics NavContainer match the snapshot 1`] = `
+<div>
+  <NavButton
+    activeBtn="complete"
+    key="nav_button_test application"
+    label="test application"
+    setActive={[Function]}
+    stat="12"
+  />
+</div>
+`;

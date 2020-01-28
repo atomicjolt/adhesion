@@ -1,3 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`scorm index matches the snapshot 1`] = `ShallowWrapper {}`;
+exports[`scorm index matches the snapshot 1`] = `
+<div
+  className="o-main-contain"
+>
+  <h2>
+    Loading...
+  </h2>
+</div>
+`;

@@ -1,3 +1,33 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Center Error matches the snapshot 1`] = `ShallowWrapper {}`;
+exports[`Center Error matches the snapshot 1`] = `
+<div
+  style={
+    Object {
+      "background": "#ededed",
+      "border": "1px solid",
+      "marginBottom": "10px",
+    }
+  }
+>
+  <h1
+    style={
+      Object {
+        "color": "red",
+        "textAlign": "center",
+      }
+    }
+  >
+    Error Saving Testing Center Id
+  </h1>
+  <p
+    style={
+      Object {
+        "textAlign": "center",
+      }
+    }
+  >
+    Please try again later.
+  </p>
+</div>
+`;

@@ -1,3 +1,134 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`popup menu matches the snapshot 1`] = `ShallowWrapper {}`;
+exports[`popup menu matches the snapshot 1`] = `
+<div
+  style={
+    Object {
+      "backgroundColor": "white",
+      "boxShadow": "0px 0px 5px #555555",
+      "width": "200px",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "borderBottom": "1px solid #ededed",
+      }
+    }
+  >
+    <AdminHoverButton
+      className="qa-menu-start-btn"
+      hoveredStyle={
+        Object {
+          "backgroundColor": "#f5f5f5",
+        }
+      }
+      onClick={[Function]}
+      style={
+        Object {
+          "backgroundColor": "white",
+          "border": "none",
+          "cursor": "pointer",
+          "fontSize": "inherit",
+          "padding": "20px",
+          "textAlign": "left",
+          "width": "100%",
+        }
+      }
+    >
+      Start
+    </AdminHoverButton>
+  </div>
+  <div
+    style={
+      Object {
+        "borderBottom": "1px solid #ededed",
+      }
+    }
+  >
+    <AdminHoverButton
+      className="qa-menu-print-btn"
+      hoveredStyle={
+        Object {
+          "backgroundColor": "#f5f5f5",
+        }
+      }
+      onClick={[Function]}
+      style={
+        Object {
+          "backgroundColor": "white",
+          "border": "none",
+          "cursor": "pointer",
+          "fontSize": "inherit",
+          "padding": "20px",
+          "textAlign": "left",
+          "width": "100%",
+        }
+      }
+    >
+      Print Test
+    </AdminHoverButton>
+  </div>
+  <div
+    style={
+      Object {
+        "borderBottom": "1px solid #ededed",
+      }
+    }
+  >
+    <AdminHoverButton
+      className="qa-enter-answers-btn"
+      hoveredStyle={
+        Object {
+          "backgroundColor": "#f5f5f5",
+        }
+      }
+      onClick={[Function]}
+      style={
+        Object {
+          "backgroundColor": "white",
+          "border": "none",
+          "cursor": "pointer",
+          "fontSize": "inherit",
+          "padding": "20px",
+          "textAlign": "left",
+          "width": "100%",
+        }
+      }
+    >
+      Enter Answers
+    </AdminHoverButton>
+  </div>
+  <div
+    style={
+      Object {
+        "borderBottom": "1px solid #ededed",
+      }
+    }
+  >
+    <AdminHoverButton
+      className="qa-menu-message-btn"
+      hoveredStyle={
+        Object {
+          "backgroundColor": "#f5f5f5",
+        }
+      }
+      onClick={[Function]}
+      style={
+        Object {
+          "backgroundColor": "white",
+          "border": "none",
+          "cursor": "pointer",
+          "fontSize": "inherit",
+          "padding": "20px",
+          "textAlign": "left",
+          "width": "100%",
+        }
+      }
+    >
+      Message Student
+    </AdminHoverButton>
+  </div>
+</div>
+`;
