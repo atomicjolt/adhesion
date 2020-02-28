@@ -399,6 +399,7 @@ applications = [
       GET_SUB_ACCOUNTS_OF_ACCOUNT: [],
       LIST_USERS_IN_ACCOUNT: [],
       EDIT_USER: [],
+      EDIT_USER_LOGIN: [],
     },
     kind: Application.kinds[:lti],
     default_config: {},
