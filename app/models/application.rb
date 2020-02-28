@@ -36,6 +36,7 @@ class Application < ApplicationRecord
   SURVEYAGGREGATION = "surveys".freeze
   POSTGRADES = "postgrades".freeze
   COURSECOMPLETION = "coursecompletion".freeze
+  USERTOOL = "usertool".freeze
 
   def create_instance(site: nil, bundle_instance: nil, tenant: nil, lti_key: nil)
     application_instance = application_instances.find_or_create_by(
