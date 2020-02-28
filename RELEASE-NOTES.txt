@@ -1,5 +1,8 @@
 ;;; -*- fill-column: 80; -*-
 
+Changes for 1.2.0
+  * Add tool for managing users.
+
 Changes for 1.1.10:
   * Node upgrade 8->10 to match deployed version.
   * Fix analytics to handle nil scores
