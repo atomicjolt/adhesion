@@ -421,7 +421,7 @@ applications = [
       lti_key: Application::USERTOOL,
       site_url: secrets.canvas_url,
       canvas_token: secrets.canvas_token,
-      domain: "#{Application::USERTOOL}.#{secrets.application_root_domain}",
+      domain: "#{secrets.user_tool_subdomain || Application::USERTOOL}.#{secrets.application_root_domain}",
     }],
   },
 ]
