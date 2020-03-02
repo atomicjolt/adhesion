@@ -13,6 +13,7 @@ describe('index', () => {
   });
 
   it('renders the index', () => {
+    // eslint-disable-next-line react/no-find-dom-node
     expect(ReactDOM.findDOMNode(result)).toBeDefined();
   });
 });
