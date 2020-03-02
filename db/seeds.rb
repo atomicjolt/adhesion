@@ -74,7 +74,7 @@ applications = [
     application_instances: [{
       lti_key: Application::ADMIN,
       site_url: secrets.canvas_url,
-      domain: "#{Application::ADMIN}.#{Rails.application.secrets.application_root_domain}",
+      domain: "#{secrets.admin_subdomain.presence || Application::ADMIN}.#{Rails.application.secrets.application_root_domain}",
     }],
   },
   {
@@ -121,7 +121,7 @@ applications = [
       lti_key: Application::SCORM,
       site_url: secrets.canvas_url,
       canvas_token: secrets.canvas_token,
-      domain: "#{Application::SCORM}.#{secrets.application_root_domain}",
+      domain: "#{secrets.scorm_subdomain.presence || Application::SCORM}.#{secrets.application_root_domain}",
     }],
   },
   {
@@ -162,7 +162,7 @@ applications = [
       lti_key: Application::ATTENDANCE,
       site_url: secrets.canvas_url,
       canvas_token: secrets.canvas_token,
-      domain: "#{Application::ATTENDANCE}.#{secrets.application_root_domain}",
+      domain: "#{secrets.attendance_subdomain.presence || Application::ATTENDANCE}.#{secrets.application_root_domain}",
     }],
   },
   {
@@ -209,7 +209,7 @@ applications = [
       lti_key: Application::EXAMS,
       site_url: secrets.canvas_url,
       canvas_token: secrets.canvas_token,
-      domain: "#{Application::EXAMS}.#{secrets.application_root_domain}",
+      domain: "#{secrets.exams_subdomain.presence || Application::EXAMS}.#{secrets.application_root_domain}",
     }],
   },
   {
@@ -256,7 +256,7 @@ applications = [
       lti_key: Application::EXAMPROCTOR,
       site_url: secrets.canvas_url,
       canvas_token: secrets.canvas_token,
-      domain: "#{Application::EXAMPROCTOR}.#{secrets.application_root_domain}",
+      domain: "#{secrets.exam_proctor_subdomain.presence || Application::EXAMPROCTOR}.#{secrets.application_root_domain}",
     }],
   },
   {
@@ -296,7 +296,7 @@ applications = [
       lti_key: Application::SURVEYAGGREGATION,
       site_url: secrets.canvas_url,
       canvas_token: secrets.canvas_token,
-      domain: "#{Application::SURVEYAGGREGATION}.#{secrets.application_root_domain}",
+      domain: "#{secrets.survey_aggregation_subdomain.presence || Application::SURVEYAGGREGATION}.#{secrets.application_root_domain}",
     }],
   },
   {
@@ -339,7 +339,7 @@ applications = [
       lti_key: Application::POSTGRADES,
       site_url: secrets.canvas_url,
       canvas_token: secrets.canvas_token,
-      domain: "#{Application::POSTGRADES}.#{secrets.application_root_domain}",
+      domain: "#{secrets.post_grades_subdomain.presence || Application::POSTGRADES}.#{secrets.application_root_domain}",
     }],
   },
   {
@@ -381,7 +381,7 @@ applications = [
       lti_key: Application::COURSECOMPLETION,
       site_url: secrets.canvas_url,
       canvas_token: secrets.canvas_token,
-      domain: "#{Application::COURSECOMPLETION}.#{secrets.application_root_domain}",
+      domain: "#{secrets.course_completion_subdomain.presence || Application::COURSECOMPLETION}.#{secrets.application_root_domain}",
     }],
   },
   {
