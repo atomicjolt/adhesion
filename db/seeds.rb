@@ -384,6 +384,46 @@ applications = [
       domain: "#{Application::COURSECOMPLETION}.#{secrets.application_root_domain}",
     }],
   },
+  {
+    key: Application::USERTOOL,
+    name: "User Tool",
+    description: "Tool for managing Canvas users.",
+    client_application_name: "user_tool",
+    canvas_api_permissions: {
+      default: [],
+      common: [
+        "urn:lti:sysrole:ims/lis/SysAdmin",
+        "urn:lti:sysrole:ims/lis/Administrator",
+        "urn:lti:instrole:ims/lis/Administrator",
+      ],
+      GET_SUB_ACCOUNTS_OF_ACCOUNT: [],
+      LIST_USERS_IN_ACCOUNT: [],
+      EDIT_USER: [],
+      EDIT_USER_LOGIN: [],
+    },
+    kind: Application.kinds[:lti],
+    default_config: {},
+    lti_config: {
+      title: "User Tool",
+      description: "User Tool Application",
+      privacy_level: "public",
+      icon: "oauth_icon.png",
+      custom_fields: {
+        canvas_course_id: "$Canvas.course.id",
+        external_tool_url: "$Canvas.externalTool.url",
+      },
+      account_navigation: {
+        text: "Manage Users",
+        visibility: "admins",
+      },
+    },
+    application_instances: [{
+      lti_key: Application::USERTOOL,
+      site_url: secrets.canvas_url,
+      canvas_token: secrets.canvas_token,
+      domain: "#{Application::USERTOOL}.#{secrets.application_root_domain}",
+    }],
+  },
 ]
 
 def setup_application_instances(application, application_instances)
