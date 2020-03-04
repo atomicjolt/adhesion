@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserSearchResult renders the user as a search result 1`] = `
+<tr>
+  <td>
+    Washington, George
+  </td>
+  <td>
+    countryfather@revolution.com
+  </td>
+  <td>
+    admin
+    teacher
+  </td>
+  <td>
+    countryfather@revolution.com
+  </td>
+  <td>
+    george_123
+  </td>
+</tr>
+`;
