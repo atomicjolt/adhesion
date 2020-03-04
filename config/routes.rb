@@ -62,7 +62,9 @@ Rails.application.routes.draw do
     resources :proctored_exams, only: [:update]
     post "proctor_conversations" => "proctor_conversations#initiate_conversation"
     resources :jwts
-    resources :canvas_accounts
+    resources :canvas_accounts do
+      resources :canvas_users, only: [:index]
+    end
     resources :oauths
     resources :courses, only: [] do
       resources :students, only: [:index]
