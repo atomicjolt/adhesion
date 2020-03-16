@@ -413,7 +413,7 @@ applications = [
         external_tool_url: "$Canvas.externalTool.url",
       },
       account_navigation: {
-        text: "Manage Users",
+        text: "User Management",
         visibility: "admins",
       },
     },
