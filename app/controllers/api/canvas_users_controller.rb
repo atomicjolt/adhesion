@@ -1,5 +1,7 @@
-class Api::CanvasUsersController < ApplicationController
+class Api::CanvasUsersController < Api::ApiApplicationController
   include Concerns::CanvasSupport
+
+  before_action :validate_token
 
   def index
     canvas_response = canvas_api.proxy(
