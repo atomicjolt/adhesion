@@ -43,5 +43,22 @@ module Concerns
       # Add custom logic to protect specific api calls
       true
     end
+
+    def previous_page_number(canvas_response)
+      page_number_from_link_header(canvas_response, "prev")
+    end
+
+    def next_page_number(canvas_response)
+      page_number_from_link_header(canvas_response, "next")
+    end
+
+    def page_number_from_link_header(canvas_response, rel)
+      links = canvas_response.headers["Link"].split(",")
+      matching_link = links.find { |link| link.match?(/rel=['"]#{rel}['"]/) }
+
+      return unless matching_link
+
+      matching_link.match(/page=(\d+)/)[1]
+    end
   end
 end

@@ -13,7 +13,7 @@ describe('application reducer', () => {
   });
 
   describe('SEARCH_FOR_ACCOUNT_USERS_DONE', () => {
-    it('updates matchingUsers with the response payload', () => {
+    it('updates matchingUsers', () => {
       const matchingUsers = [
         { id: 1, name: 'Student 1' },
         { id: 2, name: 'Student 2' },
@@ -21,7 +21,7 @@ describe('application reducer', () => {
       ];
       const action = {
         type: ApplicationConstants.SEARCH_FOR_ACCOUNT_USERS_DONE,
-        payload: matchingUsers,
+        payload: { matching_users: matchingUsers },
       };
 
       const state = applicationReducer(initialState, action);
@@ -29,18 +29,28 @@ describe('application reducer', () => {
       expect(state.matchingUsers).toEqual(matchingUsers);
     });
 
-    describe('if there are no matching users', () => {
-      it('updates matchingUsers to an empty list', () => {
-        initialState = () => ({ matchingUsers: [{ id: 1, name: 'Student 1' }] });
-        const action = {
-          type: ApplicationConstants.SEARCH_FOR_ACCOUNT_USERS_DONE,
-          payload: [],
-        };
+    it('updates previousPage', () => {
+      const previousPage = '2'
+      const action = {
+        type: ApplicationConstants.SEARCH_FOR_ACCOUNT_USERS_DONE,
+        payload: { previous_page: previousPage },
+      };
 
-        const state = applicationReducer(initialState, action);
+      const state = applicationReducer(initialState, action);
 
-        expect(state.matchingUsers).toEqual([]);
-      });
+      expect(state.previousPage).toEqual(previousPage);
+    });
+
+    it('updates nextPage', () => {
+      const nextPage = '4';
+      const action = {
+        type: ApplicationConstants.SEARCH_FOR_ACCOUNT_USERS_DONE,
+        payload: { next_page: nextPage },
+      };
+
+      const state = applicationReducer(initialState, action);
+
+      expect(state.nextPage).toEqual(nextPage);
     });
   });
 });

@@ -25,6 +25,8 @@ describe('SearchPage', () => {
       }
     ],
     lmsAccountId: '1',
+    previousPage: '2',
+    nextPage: '4',
   };
 
   it('renders the search page', () => {
@@ -32,6 +34,8 @@ describe('SearchPage', () => {
       matchingUsers={props.matchingUsers}
       searchForAccountUsers={props.searchForAccountUsers}
       lmsAccountId={props.lmsAccountId}
+      previousPage={props.previousPage}
+      nextPage={props.nextPage}
     />);
 
     expect(result).toMatchSnapshot();

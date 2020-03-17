@@ -7,6 +7,8 @@ import UserSearchResult from './user_search_result';
 const select = state => ({
   matchingUsers: state.application.matchingUsers,
   lmsAccountId: state.settings.custom_canvas_account_id,
+  previousPage: state.application.previousPage,
+  nextPage: state.application.nextPage,
 });
 
 export class SearchPage extends React.Component {
@@ -14,6 +16,8 @@ export class SearchPage extends React.Component {
     searchForAccountUsers: PropTypes.func.isRequired,
     matchingUsers: PropTypes.array.isRequired,
     lmsAccountId: PropTypes.string.isRequired,
+    previousPage: PropTypes.string,
+    nextPage: PropTypes.string,
   };
 
   constructor() {
@@ -37,7 +41,13 @@ export class SearchPage extends React.Component {
   }
 
   render() {
-    const { matchingUsers } = this.props;
+    const {
+      searchForAccountUsers:search,
+      lmsAccountId,
+      matchingUsers,
+      previousPage,
+      nextPage
+    } = this.props;
     const { searchTerm } = this.state;
     const renderedUsers = matchingUsers.map(user => (
       <UserSearchResult key={user.id} user={user} />
@@ -70,6 +80,9 @@ export class SearchPage extends React.Component {
             {renderedUsers}
           </tbody>
         </table>
+        <a href="#" onClick={() => search(lmsAccountId, searchTerm, previousPage)}>Previous</a>
+        ...
+        <a href="#" onClick={() => search(lmsAccountId, searchTerm, nextPage)}>Next</a>
       </div>
     );
   }
