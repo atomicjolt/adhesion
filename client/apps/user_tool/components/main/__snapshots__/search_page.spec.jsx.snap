@@ -1,0 +1,87 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SearchPage renders the search page 1`] = `
+<div>
+  <form>
+    <input
+      onChange={[Function]}
+      placeholder="Search for students..."
+      type="search"
+      value=""
+    />
+    <button
+      onClick={[Function]}
+      type="submit"
+    >
+      Search
+    </button>
+  </form>
+  <p>
+    Search Results:
+  </p>
+  <table>
+    <thead>
+      <tr>
+        <th
+          scope="col"
+        >
+          Name
+        </th>
+        <th
+          scope="col"
+        >
+          Email Address
+        </th>
+        <th
+          scope="col"
+        >
+          Roles
+        </th>
+        <th
+          scope="col"
+        >
+          Login ID
+        </th>
+        <th
+          scope="col"
+        >
+          SIS ID
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <UserSearchResult
+        key="1"
+        user={
+          Object {
+            "email": "countryfather@revolution.com",
+            "id": 1,
+            "login_id": "countryfather@revolution.com",
+            "roles": Array [
+              "admin",
+              "teacher",
+            ],
+            "sis_user_id": "george_123",
+            "sortable_name": "Washington, George",
+          }
+        }
+      />
+      <UserSearchResult
+        key="2"
+        user={
+          Object {
+            "email": "idodeclare@revolution.com",
+            "id": 2,
+            "login_id": "idodeclare@revolution.com",
+            "roles": Array [
+              "teacher",
+            ],
+            "sis_user_id": "thomas_123",
+            "sortable_name": "Jefferson, Thomas",
+          }
+        }
+      />
+    </tbody>
+  </table>
+</div>
+`;
