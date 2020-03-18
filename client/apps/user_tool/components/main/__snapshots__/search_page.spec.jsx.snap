@@ -4,6 +4,7 @@ exports[`SearchPage renders the search page 1`] = `
 <div>
   <form>
     <input
+      minLength={3}
       onChange={[Function]}
       placeholder="Search for students..."
       type="search"
