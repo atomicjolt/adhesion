@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { searchForAccountUsers } from '../../actions/application';
 import UserSearchResult from './user_search_result';
+import Pagination from '../../../../common/components/common/pagination';
 
 const select = state => ({
   matchingUsers: state.application.matchingUsers,
   lmsAccountId: state.settings.custom_canvas_account_id,
-  previousPage: state.application.previousPage,
-  nextPage: state.application.nextPage,
+  currentPage: state.application.currentPage,
+  previousPageAvailable: state.application.previousPageAvailable,
+  nextPageAvailable: state.application.nextPageAvailable,
 });
 
 export class SearchPage extends React.Component {
@@ -16,8 +18,9 @@ export class SearchPage extends React.Component {
     searchForAccountUsers: PropTypes.func.isRequired,
     matchingUsers: PropTypes.array.isRequired,
     lmsAccountId: PropTypes.string.isRequired,
-    previousPage: PropTypes.string,
-    nextPage: PropTypes.string,
+    currentPage: PropTypes.number.isRequired,
+    previousPageAvailable: PropTypes.bool,
+    nextPageAvailable: PropTypes.bool,
   };
 
   constructor() {
@@ -45,8 +48,9 @@ export class SearchPage extends React.Component {
       searchForAccountUsers:search,
       lmsAccountId,
       matchingUsers,
-      previousPage,
-      nextPage
+      currentPage,
+      previousPageAvailable,
+      nextPageAvailable
     } = this.props;
     const { searchTerm } = this.state;
     const renderedUsers = matchingUsers.map(user => (
@@ -80,9 +84,12 @@ export class SearchPage extends React.Component {
             {renderedUsers}
           </tbody>
         </table>
-        <a href="#" onClick={() => search(lmsAccountId, searchTerm, previousPage)}>Previous</a>
-        ...
-        <a href="#" onClick={() => search(lmsAccountId, searchTerm, nextPage)}>Next</a>
+        <Pagination
+          changePageTo={page => search(lmsAccountId, searchTerm, page)}
+          currentPage={currentPage}
+          previousPageAvailable={previousPageAvailable}
+          nextPageAvailable={nextPageAvailable}
+        />
       </div>
     );
   }

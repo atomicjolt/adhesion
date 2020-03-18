@@ -16,8 +16,8 @@ class Api::CanvasUsersController < Api::ApiApplicationController
     render(
       json: {
         matching_users: canvas_response.parsed_response,
-        previous_page: previous_page_number(canvas_response),
-        next_page: next_page_number(canvas_response)
+        previous_page_available: previous_page_available?(canvas_response),
+        next_page_available: next_page_available?(canvas_response),
       },
       status: :ok,
     )

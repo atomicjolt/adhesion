@@ -84,18 +84,11 @@ exports[`SearchPage renders the search page 1`] = `
       />
     </tbody>
   </table>
-  <a
-    href="#"
-    onClick={[Function]}
-  >
-    Previous
-  </a>
-  ...
-  <a
-    href="#"
-    onClick={[Function]}
-  >
-    Next
-  </a>
+  <Pagination
+    changePageTo={[Function]}
+    currentPage={2}
+    nextPageAvailable={true}
+    previousPageAvailable={true}
+  />
 </div>
 `;

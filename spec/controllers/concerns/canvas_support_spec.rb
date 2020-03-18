@@ -350,16 +350,16 @@ describe ApplicationController, type: :controller do
     end
   end
 
-  describe "page number methods" do
+  describe "page methods" do
     class WrapperClass
       include Concerns::CanvasSupport
 
-      def get_previous_page_number(canvas_response)
-        previous_page_number(canvas_response)
+      def get_previous_page_available?(canvas_response)
+        previous_page_available?(canvas_response)
       end
 
-      def get_next_page_number(canvas_response)
-        next_page_number(canvas_response)
+      def get_next_page_available?(canvas_response)
+        next_page_available?(canvas_response)
       end
     end
 
@@ -367,52 +367,50 @@ describe ApplicationController, type: :controller do
       @wrapper_class ||= WrapperClass.new
     end
 
-    describe "#previous_page_number" do
+    describe "#previous_page_available?" do
       context "when there is a 'prev' link" do
-        it "returns the page number of the 'prev' link" do
-          page_number = "2"
+        it "returns true" do
           canvas_response = OpenStruct.new(
-            headers: { "Link" => "<www.example.com?page=3&per_page=10>; rel=\"current\"," \
-                      "<www.example.com?page=#{page_number}&per_page=10>; rel=\"prev\"" }
+            headers: { "link" => "<www.example.com?opaque_current>; rel=\"current\"," \
+                      "<www.example.com?opaque_prev>; rel=\"prev\"" },
           )
 
-          expect(wrapper_class.get_previous_page_number(canvas_response)).to eq(page_number)
+          expect(wrapper_class.get_previous_page_available?(canvas_response)).to be true
         end
       end
 
       context "when there is not a 'prev' link" do
-        it "returns nil" do
+        it "returns false" do
           canvas_response = OpenStruct.new(
-            headers: { "Link" => "<www.example.com?page=3&per_page=10>; rel=\"current\"," \
-                      "<www.example.com?page=4&per_page=10>; rel=\"next\"" }
+            headers: { "link" => "<www.example.com?opaque_current>; rel=\"current\"," \
+                      "<www.example.com?opaque_next>; rel=\"next\"" },
           )
 
-          expect(wrapper_class.get_previous_page_number(canvas_response)).to be nil
+          expect(wrapper_class.get_previous_page_available?(canvas_response)).to be false
         end
       end
     end
 
-    describe "#next_page_number" do
+    describe "#next_page_available?" do
       context "when there is a 'next' link" do
-        it "returns the page number of the 'next' link" do
-          page = "4"
+        it "returns true" do
           canvas_response = OpenStruct.new(
-            headers: { "Link" => "<www.example.com?page=3&per_page=10>; rel=\"current\"," \
-                      "<www.example.com?page=#{page}&per_page=10>; rel=\"next\"" }
+            headers: { "link" => "<www.example.com?opaque_current>; rel=\"current\"," \
+                      "<www.example.com?opaque_next>; rel=\"next\"" },
           )
 
-          expect(wrapper_class.get_next_page_number(canvas_response)).to eq(page)
+          expect(wrapper_class.get_next_page_available?(canvas_response)).to eq true
         end
       end
 
       context "when there is not a 'next' link" do
-        it "returns nil" do
+        it "returns false" do
           canvas_response = OpenStruct.new(
-            headers: { "Link" => "<www.example.com?page=3&per_page=10>; rel=\"current\"," \
-                      "<www.example.com?page=2&per_page=10>; rel=\"prev\"" }
+            headers: { "link" => "<www.example.com?opaque_current>; rel=\"current\"," \
+                      "<www.example.com?opaque_prev>; rel=\"prev\"" },
           )
 
-          expect(wrapper_class.get_next_page_number(canvas_response)).to be nil
+          expect(wrapper_class.get_next_page_available?(canvas_response)).to be false
         end
       end
     end

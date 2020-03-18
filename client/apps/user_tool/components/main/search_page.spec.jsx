@@ -25,8 +25,9 @@ describe('SearchPage', () => {
       }
     ],
     lmsAccountId: '1',
-    previousPage: '2',
-    nextPage: '4',
+    currentPage: 2,
+    previousPageAvailable: true,
+    nextPageAvailable: true,
   };
 
   it('renders the search page', () => {
@@ -34,8 +35,9 @@ describe('SearchPage', () => {
       matchingUsers={props.matchingUsers}
       searchForAccountUsers={props.searchForAccountUsers}
       lmsAccountId={props.lmsAccountId}
-      previousPage={props.previousPage}
-      nextPage={props.nextPage}
+      currentPage={props.currentPage}
+      previousPageAvailable={props.previousPageAvailable}
+      nextPageAvailable={props.nextPageAvailable}
     />);
 
     expect(result).toMatchSnapshot();
@@ -49,6 +51,7 @@ describe('SearchPage', () => {
         matchingUsers={props.matchingUsers}
         searchForAccountUsers={props.searchForAccountUsers}
         lmsAccountId={props.lmsAccountId}
+        currentPage={props.currentPage}
       />);
 
       result.find('input').simulate('change', { target: { value: searchTerm } });
@@ -68,6 +71,7 @@ describe('SearchPage', () => {
           matchingUsers={props.matchingUsers}
           searchForAccountUsers={props.searchForAccountUsers}
           lmsAccountId={props.lmsAccountId}
+          currentPage={props.currentPage}
         />);
 
         result.find('input').simulate('change', { target: { value: searchTerm } });

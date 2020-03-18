@@ -25,16 +25,16 @@ RSpec.describe Api::CanvasUsersController, type: :controller do
       expect(parsed_response["matching_users"].last["name"]).to eq("Thomas Jefferson")
     end
 
-    it "returns the previous page number" do
+    it "returns the availability of a previous page" do
       response = get(:index, params: params)
 
-      expect(JSON.parse(response.body)["previous_page"]).to eq("2")
+      expect(JSON.parse(response.body)["previous_page_available"]).to eq(true)
     end
 
-    it "returns the next page number" do
+    it "returns the availability of a next page" do
       response = get(:index, params: params)
 
-      expect(JSON.parse(response.body)["next_page"]).to eq("4")
+      expect(JSON.parse(response.body)["next_page_available"]).to eq(true)
     end
   end
 end
