@@ -21,7 +21,6 @@ export class SearchPage extends React.Component {
 
     this.state = { searchTerm: '' };
     this.minSearchTermLength = 3;
-    this.updateSearchTerm = this.updateSearchTerm.bind(this);
   }
 
   updateSearchTerm(event) {
@@ -51,7 +50,7 @@ export class SearchPage extends React.Component {
             type="search"
             minLength={this.minSearchTermLength}
             value={searchTerm}
-            onChange={this.updateSearchTerm}
+            onChange={event => this.updateSearchTerm(event)}
             placeholder="Search for students..."
           />
           <button type="submit" onClick={() => this.handleSearch()}>Search</button>
