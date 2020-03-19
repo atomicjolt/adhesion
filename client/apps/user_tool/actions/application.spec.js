@@ -11,7 +11,6 @@ describe('application actions', () => {
         url: `api/canvas_accounts/${lmsAccountId}/canvas_users`,
         params: {
           search_term: searchTerm,
-          include_sub_accounts: true,
         },
       };
 
@@ -28,7 +27,6 @@ describe('application actions', () => {
           url: `api/canvas_accounts/${lmsAccountId}/canvas_users`,
           params: {
             search_term: searchTerm,
-            include_sub_accounts: true,
           },
         };
 
