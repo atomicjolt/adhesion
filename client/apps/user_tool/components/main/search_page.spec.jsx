@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 
 import { SearchPage } from './search_page';
 
@@ -80,6 +80,41 @@ describe('SearchPage', () => {
         expect(props.searchForAccountUsers).not.toHaveBeenCalledWith(
           props.lmsAccountId,
           searchTerm,
+        );
+      });
+    });
+
+    describe('when the user updates the value in the search input field', () => {
+      it('does not affect the paged results', () => {
+        spyOn(props, 'searchForAccountUsers');
+        const firstSearchTerm = 'john';
+        const secondSearchTerm = 'jones';
+        const result = mount(<SearchPage
+          matchingUsers={props.matchingUsers}
+          searchForAccountUsers={props.searchForAccountUsers}
+          lmsAccountId={props.lmsAccountId}
+          currentPage={props.currentPage}
+          previousPageAvailable={props.previousPageAvailable}
+          nextPageAvailable={props.nextPageAvailable}
+        />);
+
+        result.find('input').simulate('change', { target: { value: firstSearchTerm } });
+        result.find('button[type="submit"]').simulate('click');
+
+        expect(props.searchForAccountUsers).toHaveBeenCalledWith(
+          props.lmsAccountId,
+          firstSearchTerm,
+        );
+
+        result.find('input').simulate('change', { target: { value: secondSearchTerm } });
+
+        const previousButton = result.find('button').at(1);
+        previousButton.simulate('click');
+
+        expect(props.searchForAccountUsers).toHaveBeenCalledWith(
+          props.lmsAccountId,
+          firstSearchTerm,
+          props.currentPage - 1,
         );
       });
     });
