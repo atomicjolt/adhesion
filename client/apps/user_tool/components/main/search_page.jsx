@@ -20,16 +20,24 @@ export class SearchPage extends React.Component {
     super();
 
     this.state = { searchTerm: '' };
-
-    this.updateSearchTerm = this.updateSearchTerm.bind(this);
+    this.minSearchTermLength = 3;
   }
 
   updateSearchTerm(event) {
     this.setState({ searchTerm: event.target.value });
   }
 
+  handleSearch() {
+    const { lmsAccountId, searchForAccountUsers:search } = this.props;
+    const { searchTerm } = this.state;
+
+    if (searchTerm.length >= this.minSearchTermLength) {
+      search(lmsAccountId, searchTerm);
+    }
+  }
+
   render() {
-    const { searchForAccountUsers:search, matchingUsers, lmsAccountId } = this.props;
+    const { matchingUsers } = this.props;
     const { searchTerm } = this.state;
     const renderedUsers = matchingUsers.map(user => (
       <UserSearchResult key={user.id} user={user} />
@@ -38,8 +46,14 @@ export class SearchPage extends React.Component {
     return (
       <div>
         <form>
-          <input type="search" value={searchTerm} onChange={this.updateSearchTerm} placeholder="Search for students..." />
-          <button type="submit" onClick={() => search(lmsAccountId, searchTerm)}>Search</button>
+          <input
+            type="search"
+            minLength={this.minSearchTermLength}
+            value={searchTerm}
+            onChange={event => this.updateSearchTerm(event)}
+            placeholder="Search for students..."
+          />
+          <button type="submit" onClick={() => this.handleSearch()}>Search</button>
         </form>
         <p>Search Results:</p>
         <table>
