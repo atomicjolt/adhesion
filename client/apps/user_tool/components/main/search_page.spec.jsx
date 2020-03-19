@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 
 import { SearchPage } from './search_page';
 
@@ -41,7 +41,7 @@ describe('SearchPage', () => {
     it('submits a search request', () => {
       spyOn(props, 'searchForAccountUsers');
       const searchTerm = 'student name';
-      const result = shallow(<SearchPage
+      const result = mount(<SearchPage
         matchingUsers={props.matchingUsers}
         searchForAccountUsers={props.searchForAccountUsers}
         lmsAccountId={props.lmsAccountId}
@@ -60,7 +60,7 @@ describe('SearchPage', () => {
       it('does not submit the search', () => {
         spyOn(props, 'searchForAccountUsers');
         const searchTerm = 'jo';
-        const result = shallow(<SearchPage
+        const result = mount(<SearchPage
           matchingUsers={props.matchingUsers}
           searchForAccountUsers={props.searchForAccountUsers}
           lmsAccountId={props.lmsAccountId}
