@@ -15,6 +15,5 @@ export const searchForAccountUsers = (lmsAccountId, searchTerm) => ({
   url: `api/canvas_accounts/${lmsAccountId}/canvas_users`,
   params: {
     search_term: searchTerm,
-    include_sub_accounts: true,
   },
 });
