@@ -97,7 +97,7 @@ group :development do
 end
 
 group :development, :linter do
-  gem "rubocop"
+  gem "rubocop", "=0.75.0"
   gem "rubocop-performance"
   gem "rubocop-rails"
 end

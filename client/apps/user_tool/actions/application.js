@@ -16,6 +16,5 @@ export const searchForAccountUsers = (lmsAccountId, searchTerm, page) => ({
   params: {
     search_term: searchTerm,
     page,
-    include_sub_accounts: true,
   },
 });

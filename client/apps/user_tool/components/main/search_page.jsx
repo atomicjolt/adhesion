@@ -37,7 +37,10 @@ export class SearchPage extends React.Component {
     this.setState({ inputSearchTerm: event.target.value });
   }
 
-  handleSearch() {
+  handleSearch(event) {
+    event.preventDefault();
+    event.target.form.reportValidity();
+
     const { lmsAccountId, searchForAccountUsers:search } = this.props;
     const { inputSearchTerm } = this.state;
 
@@ -72,7 +75,7 @@ export class SearchPage extends React.Component {
             onChange={event => this.updateInputSearchTerm(event)}
             placeholder="Search for students..."
           />
-          <button type="submit" onClick={() => this.handleSearch()}>Search</button>
+          <button type="submit" onClick={event => this.handleSearch(event)}>Search</button>
         </form>
         <p>Search Results:</p>
         <table>

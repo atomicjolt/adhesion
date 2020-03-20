@@ -13,7 +13,6 @@ describe('application actions', () => {
         params: {
           search_term: searchTerm,
           page,
-          include_sub_accounts: true,
         },
       };
 
@@ -32,7 +31,6 @@ describe('application actions', () => {
           params: {
             search_term: searchTerm,
             page,
-            include_sub_accounts: true,
           },
         };
 
