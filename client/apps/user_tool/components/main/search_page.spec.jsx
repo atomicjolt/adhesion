@@ -108,13 +108,14 @@ describe('SearchPage', () => {
 
         result.find('input').simulate('change', { target: { value: secondSearchTerm } });
 
-        const previousButton = result.find('button').at(1);
-        previousButton.simulate('click');
+        const buttons = result.find('button');
+        const nextButton = buttons.at(buttons.length - 1);
+        nextButton.simulate('click');
 
         expect(props.searchForAccountUsers).toHaveBeenCalledWith(
           props.lmsAccountId,
           firstSearchTerm,
-          props.currentPage - 1,
+          props.currentPage + 1,
         );
       });
     });
