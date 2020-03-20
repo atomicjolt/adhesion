@@ -17,4 +17,18 @@ describe('UserSearchResult', () => {
 
     expect(result).toMatchSnapshot();
   });
+
+  describe('when the edit user button is clicked', () => {
+    it('opens the edit user modal', () => {
+      const userSearchResult = shallow(<UserSearchResult user={user} />);
+
+      let modalComponent = userSearchResult.find('EditUserModal');
+      expect(modalComponent.prop('isOpen')).toBe(false);
+
+      userSearchResult.find('button').simulate('click');
+
+      modalComponent = userSearchResult.find('EditUserModal');
+      expect(modalComponent.prop('isOpen')).toBe(true);
+    });
+  });
 });
