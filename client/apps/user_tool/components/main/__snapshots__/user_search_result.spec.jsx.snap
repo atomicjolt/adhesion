@@ -1,22 +1,45 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`UserSearchResult renders the user as a search result 1`] = `
-<tr>
-  <td>
-    Washington, George
-  </td>
-  <td>
-    countryfather@revolution.com
-  </td>
-  <td>
-    admin
-    teacher
-  </td>
-  <td>
-    countryfather@revolution.com
-  </td>
-  <td>
-    george_123
-  </td>
-</tr>
+<Fragment>
+  <tr>
+    <td>
+      <button
+        onClick={[Function]}
+        type="button"
+      >
+        Washington, George
+      </button>
+    </td>
+    <td>
+      countryfather@revolution.com
+    </td>
+    <td>
+      admin
+      teacher
+    </td>
+    <td>
+      countryfather@revolution.com
+    </td>
+    <td>
+      george_123
+    </td>
+  </tr>
+  <EditUserModal
+    closeModal={[Function]}
+    isOpen={false}
+    userToEdit={
+      Object {
+        "email": "countryfather@revolution.com",
+        "login_id": "countryfather@revolution.com",
+        "roles": Array [
+          "admin",
+          "teacher",
+        ],
+        "sis_user_id": "george_123",
+        "sortable_name": "Washington, George",
+      }
+    }
+  />
+</Fragment>
 `;
