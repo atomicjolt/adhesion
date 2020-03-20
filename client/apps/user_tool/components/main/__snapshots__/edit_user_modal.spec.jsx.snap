@@ -19,6 +19,16 @@ exports[`EditUserModal renders the edit user modal 1`] = `
   <h2>
     Edit User
   </h2>
+  <button
+    onClick={[Function]}
+    type="button"
+  >
+    <i
+      className="material-icons"
+    >
+      close
+    </i>
+  </button>
   <p>
     Editing
     Washington, George

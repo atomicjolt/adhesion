@@ -19,6 +19,9 @@ export default class EditUserModal extends React.Component {
         onRequestClose={closeModal}
       >
         <h2>Edit User</h2>
+        <button type="button" onClick={closeModal}>
+          <i className="material-icons">close</i>
+        </button>
         <p>
           Editing
           {user.sortable_name}
