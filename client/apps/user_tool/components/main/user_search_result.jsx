@@ -22,7 +22,7 @@ export default class UserSearchResult extends React.Component {
     const { editUserModalIsOpen } = this.state;
 
     return (
-      <>
+      <React.Fragment>
         <tr>
           <td>
             <button type="button" onClick={() => this.showEditUserModal(true)}>
@@ -40,7 +40,7 @@ export default class UserSearchResult extends React.Component {
           closeModal={() => this.showEditUserModal(false)}
           userToEdit={user}
         />
-      </>
+      </React.Fragment>
     );
   }
 }
