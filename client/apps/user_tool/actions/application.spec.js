@@ -1,4 +1,4 @@
-import { searchForAccountUsers } from './application';
+import { searchForAccountUsers, updateUser } from './application';
 
 describe('application actions', () => {
   describe('searchForAccountUsers', () => {
@@ -36,6 +36,30 @@ describe('application actions', () => {
 
         expect(searchForAccountUsers(lmsAccountId, searchTerm, page)).toEqual(expectedAction);
       });
+    });
+  });
+
+  describe('updateUser', () => {
+    it('generates the correct action', () => {
+      const lmsAccountId = 123;
+      const userId = 45;
+      const userAttributes = {
+        name: 'John Adams',
+        loginId: '',
+        password: '',
+        sisId: 'john_123',
+        email: ''
+      };
+      const expectedAction = {
+        type: 'UPDATE_USER',
+        method: 'put',
+        url: `api/canvas_accounts/${lmsAccountId}/canvas_users/${userId}`,
+        params: {
+          userAttributes
+        }
+      };
+
+      expect(updateUser(lmsAccountId, userId, userAttributes)).toEqual(expectedAction);
     });
   });
 });
