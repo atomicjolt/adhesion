@@ -2,7 +2,7 @@ import applicationReducer from './application';
 import { Constants as ApplicationConstants } from '../actions/application';
 
 describe('application reducer', () => {
-  let initialState = () => ({ matchingUsers: [] });
+  const initialState = () => ({ matchingUsers: [], currentPage: 1 });
 
   describe('initial state', () => {
     it('returns empty state', () => {
@@ -12,8 +12,35 @@ describe('application reducer', () => {
     });
   });
 
+  describe('SEARCH_FOR_ACCOUNT_USERS', () => {
+    it('updates the currentPage', () => {
+      const page = 2;
+      const action = {
+        type: ApplicationConstants.SEARCH_FOR_ACCOUNT_USERS,
+        params: { page }
+      };
+
+      const state = applicationReducer(initialState, action);
+
+      expect(state.currentPage).toEqual(page);
+    });
+
+    describe('when no page is given', () => {
+      it('defaults the currentPage to 1', () => {
+        const action = {
+          type: ApplicationConstants.SEARCH_FOR_ACCOUNT_USERS,
+          params: {}
+        };
+
+        const state = applicationReducer(initialState, action);
+
+        expect(state.currentPage).toEqual(1);
+      });
+    });
+  });
+
   describe('SEARCH_FOR_ACCOUNT_USERS_DONE', () => {
-    it('updates matchingUsers with the response payload', () => {
+    it('updates matchingUsers', () => {
       const matchingUsers = [
         { id: 1, name: 'Student 1' },
         { id: 2, name: 'Student 2' },
@@ -21,7 +48,7 @@ describe('application reducer', () => {
       ];
       const action = {
         type: ApplicationConstants.SEARCH_FOR_ACCOUNT_USERS_DONE,
-        payload: matchingUsers,
+        payload: { matching_users: matchingUsers },
       };
 
       const state = applicationReducer(initialState, action);
@@ -29,18 +56,28 @@ describe('application reducer', () => {
       expect(state.matchingUsers).toEqual(matchingUsers);
     });
 
-    describe('if there are no matching users', () => {
-      it('updates matchingUsers to an empty list', () => {
-        initialState = () => ({ matchingUsers: [{ id: 1, name: 'Student 1' }] });
-        const action = {
-          type: ApplicationConstants.SEARCH_FOR_ACCOUNT_USERS_DONE,
-          payload: [],
-        };
+    it('updates previousPageAvailable', () => {
+      const previousPageAvailable = true;
+      const action = {
+        type: ApplicationConstants.SEARCH_FOR_ACCOUNT_USERS_DONE,
+        payload: { previous_page_available: previousPageAvailable },
+      };
 
-        const state = applicationReducer(initialState, action);
+      const state = applicationReducer(initialState, action);
 
-        expect(state.matchingUsers).toEqual([]);
-      });
+      expect(state.previousPageAvailable).toEqual(previousPageAvailable);
+    });
+
+    it('updates nextPage', () => {
+      const nextPageAvailable = true;
+      const action = {
+        type: ApplicationConstants.SEARCH_FOR_ACCOUNT_USERS_DONE,
+        payload: { next_page_available: nextPageAvailable },
+      };
+
+      const state = applicationReducer(initialState, action);
+
+      expect(state.nextPageAvailable).toEqual(nextPageAvailable);
     });
   });
 });

@@ -25,6 +25,9 @@ describe('SearchPage', () => {
       }
     ],
     lmsAccountId: '1',
+    currentPage: 2,
+    previousPageAvailable: true,
+    nextPageAvailable: true,
   };
 
   it('renders the search page', () => {
@@ -32,6 +35,9 @@ describe('SearchPage', () => {
       matchingUsers={props.matchingUsers}
       searchForAccountUsers={props.searchForAccountUsers}
       lmsAccountId={props.lmsAccountId}
+      currentPage={props.currentPage}
+      previousPageAvailable={props.previousPageAvailable}
+      nextPageAvailable={props.nextPageAvailable}
     />);
 
     expect(result).toMatchSnapshot();
@@ -45,6 +51,7 @@ describe('SearchPage', () => {
         matchingUsers={props.matchingUsers}
         searchForAccountUsers={props.searchForAccountUsers}
         lmsAccountId={props.lmsAccountId}
+        currentPage={props.currentPage}
       />);
 
       result.find('input').simulate('change', { target: { value: searchTerm } });
@@ -64,6 +71,7 @@ describe('SearchPage', () => {
           matchingUsers={props.matchingUsers}
           searchForAccountUsers={props.searchForAccountUsers}
           lmsAccountId={props.lmsAccountId}
+          currentPage={props.currentPage}
         />);
 
         result.find('input').simulate('change', { target: { value: searchTerm } });
@@ -72,6 +80,42 @@ describe('SearchPage', () => {
         expect(props.searchForAccountUsers).not.toHaveBeenCalledWith(
           props.lmsAccountId,
           searchTerm,
+        );
+      });
+    });
+
+    describe('when the user updates the value in the search input field', () => {
+      it('does not affect the paged results', () => {
+        spyOn(props, 'searchForAccountUsers');
+        const firstSearchTerm = 'john';
+        const secondSearchTerm = 'jones';
+        const result = mount(<SearchPage
+          matchingUsers={props.matchingUsers}
+          searchForAccountUsers={props.searchForAccountUsers}
+          lmsAccountId={props.lmsAccountId}
+          currentPage={props.currentPage}
+          previousPageAvailable={props.previousPageAvailable}
+          nextPageAvailable={props.nextPageAvailable}
+        />);
+
+        result.find('input').simulate('change', { target: { value: firstSearchTerm } });
+        result.find('button[type="submit"]').simulate('click');
+
+        expect(props.searchForAccountUsers).toHaveBeenCalledWith(
+          props.lmsAccountId,
+          firstSearchTerm,
+        );
+
+        result.find('input').simulate('change', { target: { value: secondSearchTerm } });
+
+        const buttons = result.find('button');
+        const nextButton = buttons.at(buttons.length - 1);
+        nextButton.simulate('click');
+
+        expect(props.searchForAccountUsers).toHaveBeenCalledWith(
+          props.lmsAccountId,
+          firstSearchTerm,
+          props.currentPage + 1,
         );
       });
     });

@@ -6,9 +6,20 @@ class Api::CanvasUsersController < Api::ApiApplicationController
   def index
     canvas_response = canvas_api.proxy(
       "LIST_USERS_IN_ACCOUNT",
-      { account_id: params[:canvas_account_id], search_term: params[:search_term] },
+      {
+        account_id: params[:canvas_account_id],
+        search_term: params[:search_term],
+        page: params[:page],
+      },
     )
 
-    render json: canvas_response.parsed_response, status: :ok
+    render(
+      json: {
+        matching_users: canvas_response.parsed_response,
+        previous_page_available: previous_page_available?(canvas_response),
+        next_page_available: next_page_available?(canvas_response),
+      },
+      status: :ok,
+    )
   end
 end

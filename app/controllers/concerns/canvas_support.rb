@@ -43,5 +43,13 @@ module Concerns
       # Add custom logic to protect specific api calls
       true
     end
+
+    def previous_page_available?(canvas_response)
+      canvas_response.headers["link"].match?(/rel=['"]prev['"]/)
+    end
+
+    def next_page_available?(canvas_response)
+      canvas_response.headers["link"].match?(/rel=['"]next['"]/)
+    end
   end
 end

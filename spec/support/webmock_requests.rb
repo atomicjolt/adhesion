@@ -47,6 +47,29 @@ canvas_assignment_submissions_sections = '[{"assignment_id": 23,"assignment": "A
 canvas_course_assignment = "{\"id\":4,\"name\":\"some assignment\",\"description\":\"\\u003cp\\u003eDo the following:\\u003c/p\\u003e...\",\"created_at\":\"2012-07-01T23:59:00-06:00\",\"updated_at\":\"2012-07-01T23:59:00-06:00\",\"due_at\":\"2012-07-01T23:59:00-06:00\",\"lock_at\":\"2012-07-01T23:59:00-06:00\",\"unlock_at\":\"2012-07-01T23:59:00-06:00\",\"has_overrides\":true,\"all_dates\":null,\"course_id\":123,\"html_url\":\"https://...\",\"submissions_download_url\":\"https://example.com/courses/:course_id/assignments/:id/submissions?zip=1\",\"assignment_group_id\":2,\"due_date_required\":true,\"allowed_extensions\":[\"docx\",\"ppt\"],\"max_name_length\":15,\"turnitin_enabled\":true,\"vericite_enabled\":true,\"turnitin_settings\":null,\"grade_group_students_individually\":false,\"external_tool_tag_attributes\":{\"resource_link_id\":\"123abc\"},\"peer_reviews\":false,\"automatic_peer_reviews\":false,\"peer_review_count\":0,\"peer_reviews_assign_at\":\"2012-07-01T23:59:00-06:00\",\"intra_group_peer_reviews\":false,\"group_category_id\":1,\"needs_grading_count\":17,\"needs_grading_count_by_section\":[{\"section_id\":\"123456\",\"needs_grading_count\":5},{\"section_id\":\"654321\",\"needs_grading_count\":0}],\"position\":1,\"post_to_sis\":true,\"integration_id\":\"12341234\",\"integration_data\":\"12341234\",\"muted\":null,\"points_possible\":12,\"submission_types\":[\"online_text_entry\"],\"has_submitted_submissions\":true,\"grading_type\":\"points\",\"grading_standard_id\":null,\"published\":true,\"unpublishable\":false,\"only_visible_to_overrides\":false,\"locked_for_user\":false,\"lock_info\":null,\"lock_explanation\":\"This assignment is locked until September 1 at 12:00am\",\"quiz_id\":620,\"anonymous_submissions\":false,\"discussion_topic\":null,\"freeze_on_copy\":false,\"frozen\":false,\"frozen_attributes\":[\"title\"],\"submission\":null,\"use_rubric_for_grading\":true,\"rubric_settings\":\"{'points_possible'=\\u003e12}\",\"rubric\":null,\"assignment_visibility\":[137,381,572],\"overrides\":null,\"omit_from_final_grade\":true}"
 canvas_course_attachment = "{\"public_url\":\"https://example-bucket.s3.amazonaws.com/example-namespace/attachments/1/example-filename?AWSAccessKeyId=example-key\\u0026Expires=1400000000\\u0026Signature=example-signature\"}"
 
+canvas_account_users = "[{
+  \"id\":1,
+  \"name\":\"George Washington\",
+  \"created_at\":\"2020-03-06T15:51:28-07:00\",
+  \"sortable_name\":\"Washington, George\",
+  \"short_name\":\"Goerge Washington\",
+  \"sis_user_id\":\"george_123\",
+  \"integration_id\":null,
+  \"sis_import_id\":null,
+  \"login_id\":\"countryfather@revolution.com\"
+},
+{
+  \"id\":2,
+  \"name\":\"Thomas Jefferson\",
+  \"created_at\":\"2020-03-06T15:49:48-07:00\",
+  \"sortable_name\":\"Jefferson, Thomas\",
+  \"short_name\":\"Thomas Jefferson\",
+  \"sis_user_id\":\"thomas_123\",
+  \"integration_id\":null,
+  \"sis_import_id\":null,
+  \"login_id\":\"idodeclare@revolution.com\"
+}]"
+
 RSpec.configure do |config|
   config.before(:each) do
     # #######################################################################################
@@ -208,6 +231,17 @@ RSpec.configure do |config|
         status: 200,
         body: canvas_account,
         headers: canvas_headers,
+      )
+
+    stub_request(:get, %r|http[s]*://[a-zA-Z0-9]+\.[a-zA-Z0-9]+.*com/api/v1/accounts/\d+/users|).
+      to_return(
+        status: 200,
+        body: canvas_account_users,
+        headers: canvas_headers(
+          "Link" => "<www.example.com?page=3&per_page=10>; rel=\"current\"," \
+                    "<www.example.com?page=2&per_page=10>; rel=\"prev\"," \
+                    "<www.example.com?page=4&per_page=10>; rel=\"next\"",
+        ),
       )
 
     stub_request(:get, %r|http[s]*://[a-zA-Z0-9]+\.[a-zA-Z0-9]+.*com/api/v1/course_accounts|).

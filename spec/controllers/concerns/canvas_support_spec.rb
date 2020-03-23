@@ -349,4 +349,70 @@ describe ApplicationController, type: :controller do
       expect(result["canvas_authorization_required"]).to eq(true)
     end
   end
+
+  describe "page methods" do
+    class WrapperClass
+      include Concerns::CanvasSupport
+
+      def get_previous_page_available?(canvas_response)
+        previous_page_available?(canvas_response)
+      end
+
+      def get_next_page_available?(canvas_response)
+        next_page_available?(canvas_response)
+      end
+    end
+
+    def wrapper_class
+      @wrapper_class ||= WrapperClass.new
+    end
+
+    describe "#previous_page_available?" do
+      context "when there is a 'prev' link" do
+        it "returns true" do
+          canvas_response = OpenStruct.new(
+            headers: { "link" => "<www.example.com?opaque_current>; rel=\"current\"," \
+                      "<www.example.com?opaque_prev>; rel=\"prev\"" },
+          )
+
+          expect(wrapper_class.get_previous_page_available?(canvas_response)).to be true
+        end
+      end
+
+      context "when there is not a 'prev' link" do
+        it "returns false" do
+          canvas_response = OpenStruct.new(
+            headers: { "link" => "<www.example.com?opaque_current>; rel=\"current\"," \
+                      "<www.example.com?opaque_next>; rel=\"next\"" },
+          )
+
+          expect(wrapper_class.get_previous_page_available?(canvas_response)).to be false
+        end
+      end
+    end
+
+    describe "#next_page_available?" do
+      context "when there is a 'next' link" do
+        it "returns true" do
+          canvas_response = OpenStruct.new(
+            headers: { "link" => "<www.example.com?opaque_current>; rel=\"current\"," \
+                      "<www.example.com?opaque_next>; rel=\"next\"" },
+          )
+
+          expect(wrapper_class.get_next_page_available?(canvas_response)).to eq true
+        end
+      end
+
+      context "when there is not a 'next' link" do
+        it "returns false" do
+          canvas_response = OpenStruct.new(
+            headers: { "link" => "<www.example.com?opaque_current>; rel=\"current\"," \
+                      "<www.example.com?opaque_prev>; rel=\"prev\"" },
+          )
+
+          expect(wrapper_class.get_next_page_available?(canvas_response)).to be false
+        end
+      end
+    end
+  end
 end
