@@ -29,9 +29,66 @@ exports[`EditUserModal renders the edit user modal 1`] = `
       close
     </i>
   </button>
-  <p>
-    Editing
-    Washington, George
-  </p>
+  <form>
+    <label
+      htmlFor="user_name"
+    >
+      Name
+    </label>
+    <input
+      id="user_name"
+      name="userName"
+      onChange={[Function]}
+      type="text"
+    />
+    <label
+      htmlFor="user_login_id"
+    >
+      Login ID
+    </label>
+    <input
+      defaultValue="countryfather@revolution.com"
+      id="user_login_id"
+      name="userLoginId"
+      onChange={[Function]}
+      type="text"
+    />
+    <label
+      htmlFor="user_password"
+    >
+      Password
+    </label>
+    <input
+      defaultValue="************"
+      id="user_password"
+      name="userPassword"
+      onChange={[Function]}
+      type="password"
+    />
+    <label
+      htmlFor="user_sis_id"
+    >
+      SIS ID
+    </label>
+    <input
+      defaultValue="george_123"
+      id="user_sis_id"
+      name="userSisId"
+      onChange={[Function]}
+      type="text"
+    />
+    <label
+      htmlFor="user_email"
+    >
+      Email
+    </label>
+    <input
+      defaultValue="countryfather@revolution.com"
+      id="user_email"
+      name="userEmail"
+      onChange={[Function]}
+      type="email"
+    />
+  </form>
 </Modal>
 `;
