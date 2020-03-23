@@ -70,6 +70,31 @@ canvas_account_users = "[{
   \"login_id\":\"idodeclare@revolution.com\"
 }]"
 
+canvas_account_users_with_emails = "[{
+  \"id\":1,
+  \"name\":\"George Washington\",
+  \"created_at\":\"2020-03-06T15:51:28-07:00\",
+  \"sortable_name\":\"Washington, George\",
+  \"short_name\":\"Goerge Washington\",
+  \"sis_user_id\":\"george_123\",
+  \"integration_id\":null,
+  \"sis_import_id\":null,
+  \"login_id\":\"countryfather@revolution.com\",
+  \"email\":\"countryfather@revolution.com\"
+},
+{
+  \"id\":2,
+  \"name\":\"Thomas Jefferson\",
+  \"created_at\":\"2020-03-06T15:49:48-07:00\",
+  \"sortable_name\":\"Jefferson, Thomas\",
+  \"short_name\":\"Thomas Jefferson\",
+  \"sis_user_id\":\"thomas_123\",
+  \"integration_id\":null,
+  \"sis_import_id\":null,
+  \"login_id\":\"idodeclare@revolution.com\",
+  \"email\":\"idodeclare@revolution.com\"
+}]"
+
 RSpec.configure do |config|
   config.before(:each) do
     # #######################################################################################
@@ -237,6 +262,17 @@ RSpec.configure do |config|
       to_return(
         status: 200,
         body: canvas_account_users,
+        headers: canvas_headers(
+          "Link" => "<www.example.com?page=3&per_page=10>; rel=\"current\"," \
+                    "<www.example.com?page=2&per_page=10>; rel=\"prev\"," \
+                    "<www.example.com?page=4&per_page=10>; rel=\"next\"",
+        ),
+      )
+
+    stub_request(:get, %r|http[s]*://[a-zA-Z0-9]+\.[a-zA-Z0-9]+.*com/api/v1/accounts/\d+/users.*include\[\]=email|).
+      to_return(
+        status: 200,
+        body: canvas_account_users_with_emails,
         headers: canvas_headers(
           "Link" => "<www.example.com?page=3&per_page=10>; rel=\"current\"," \
                     "<www.example.com?page=2&per_page=10>; rel=\"prev\"," \
