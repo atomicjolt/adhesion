@@ -4,14 +4,14 @@ class Api::CanvasUsersController < Api::ApiApplicationController
   before_action :validate_token
 
   def index
-    canvas_response = canvas_api.proxy(
-      "LIST_USERS_IN_ACCOUNT",
-      {
-        account_id: params[:canvas_account_id],
-        search_term: params[:search_term],
-        page: params[:page],
-      },
-    )
+    # We're manually constructing the URL here and using `api_get_request` instead of
+    # `canvas_api.proxy("LIST_USERS_IN_ACCOUNT", params)` because `proxy("LIST_USERS_IN_ACCOUNT")`
+    # doesn't support the `include` param since it's undocumented.
+    canvas_url = "accounts/#{params[:canvas_account_id]}/users" \
+      "?search_term=#{params[:search_term]}&include[]=email"
+    canvas_url += "&page=#{params[:page]}" if params[:page] # You get a 404 if you pass `&page=`
+
+    canvas_response = canvas_api.api_get_request(canvas_url)
 
     render(
       json: {

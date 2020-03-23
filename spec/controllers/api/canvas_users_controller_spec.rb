@@ -25,6 +25,14 @@ RSpec.describe Api::CanvasUsersController, type: :controller do
       expect(parsed_response["matching_users"].last["name"]).to eq("Thomas Jefferson")
     end
 
+    it "includes emails in user data" do
+      response = get(:index, params: params)
+      parsed_response = JSON.parse(response.body)
+
+      expect(parsed_response["matching_users"].first["email"]).to eq("countryfather@revolution.com")
+      expect(parsed_response["matching_users"].last["email"]).to eq("idodeclare@revolution.com")
+    end
+
     it "returns the availability of a previous page" do
       response = get(:index, params: params)
 
