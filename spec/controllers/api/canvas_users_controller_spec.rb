@@ -45,4 +45,88 @@ RSpec.describe Api::CanvasUsersController, type: :controller do
       expect(JSON.parse(response.body)["next_page_available"]).to eq(true)
     end
   end
+
+  describe "PUT update" do
+    let(:params) do
+      {
+        canvas_account_id: "308",
+        id: "412",
+        original_user_login_id: "adamsforindepence@greatbritain.com",
+        user: {
+          name: "John Adams",
+          login_id: "adamsforindependence@revolution.com",
+          sis_user_id: "john_123",
+          email: "adamsforindependence@revolution.com",
+          password: "new_password",
+        },
+      }
+    end
+    let(:numeric_login_id) { 4989 }
+
+    before do
+      allow_any_instance_of(LMS::Canvas).to receive(:api_put_request).
+        with("users/#{params[:id]}", anything).
+        and_return(
+          { "name" => params[:user][:name], "email" => params[:user][:email] },
+        )
+
+      allow_any_instance_of(LMS::Canvas).to receive(:proxy).
+        with("LIST_USER_LOGINS_USERS", anything).
+        and_return(
+          [{
+            "id" => numeric_login_id,
+            "user_id" => params[:id],
+            "unique_id" => params[:original_user_login_id],
+            "sis_user_id" => "#{params[:user][:sis_user_id]}(old)",
+          }],
+        )
+
+      allow_any_instance_of(LMS::Canvas).to receive(:api_put_request).
+        with("accounts/#{params[:canvas_account_id]}/logins/#{numeric_login_id}", anything).
+        and_return(
+          {
+            "id" => numeric_login_id,
+            "user_id" => params[:id],
+            "unique_id" => params[:user][:login_id],
+            "sis_user_id" => params[:user][:sis_user_id],
+          },
+        )
+    end
+
+    it "returns a 200 OK" do
+      response = put(:update, params: params)
+
+      expect(response.status).to eq(200)
+    end
+
+    it "returns the user ID" do
+      response = put(:update, params: params)
+
+      expect(JSON.parse(response.body)["id"]).to eq(params[:id])
+    end
+
+    it "returns the user name" do
+      response = put(:update, params: params)
+
+      expect(JSON.parse(response.body)["name"]).to eq(params[:user][:name])
+    end
+
+    it "returns the user login_id" do
+      response = put(:update, params: params)
+
+      expect(JSON.parse(response.body)["login_id"]).to eq(params[:user][:login_id])
+    end
+
+    it "returns the user sis_user_id" do
+      response = put(:update, params: params)
+
+      expect(JSON.parse(response.body)["sis_user_id"]).to eq(params[:user][:sis_user_id])
+    end
+
+    it "returns the user email" do
+      response = put(:update, params: params)
+
+      expect(JSON.parse(response.body)["email"]).to eq(params[:user][:email])
+    end
+  end
 end

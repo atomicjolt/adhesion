@@ -22,4 +22,54 @@ class Api::CanvasUsersController < Api::ApiApplicationController
       status: :ok,
     )
   end
+
+  def update
+    edit_user_response = edit_user_on_canvas
+
+    # This ID is the ID of the login record; it's different from the user's login ID.
+    numeric_login_id = find_canvas_user_login["id"]
+
+    edit_user_login_response = edit_user_login_on_canvas(numeric_login_id)
+
+    render(
+      json: {
+        id: params[:id],
+        name: edit_user_response["name"],
+        login_id: edit_user_login_response["unique_id"],
+        sis_user_id: edit_user_login_response["sis_user_id"],
+        email: edit_user_response["email"],
+      },
+      status: :ok,
+    )
+  end
+
+  private
+
+  def edit_user_on_canvas
+    canvas_api.api_put_request(
+      "users/#{params[:id]}",
+      "user[name]" => params[:user][:name],
+      "user[email]" => params[:user][:email],
+    )
+  end
+
+  def find_canvas_user_login
+    list_user_logins_response = canvas_api.proxy(
+      "LIST_USER_LOGINS_USERS",
+      user_id: params[:id],
+    )
+
+    list_user_logins_response.detect do |login|
+      login["unique_id"] == params[:original_user_login_id]
+    end
+  end
+
+  def edit_user_login_on_canvas(numeric_login_id)
+    canvas_api.api_put_request(
+      "accounts/#{params[:canvas_account_id]}/logins/#{numeric_login_id}",
+      "login[unique_id]" => params[:user][:login_id],
+      "login[sis_user_id]" => params[:user][:sis_user_id],
+      "login[password]" => params[:user][:password],
+    )
+  end
 end
