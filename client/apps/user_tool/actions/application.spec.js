@@ -40,26 +40,60 @@ describe('application actions', () => {
   });
 
   describe('updateUser', () => {
+    const lmsAccountId = 123;
+    const userId = 45;
+    const originalUserLoginId = 'adamsforindepence@greatbritain.com';
+    const userAttributes = {
+      name: 'John Adams',
+      loginId: 'adamsforindependence@revolution.com',
+      password: 'new_password',
+      sisUserId: 'john_123',
+      email: 'adamsforindependence@revolution.com'
+    };
+
     it('generates the correct action', () => {
-      const lmsAccountId = 123;
-      const userId = 45;
-      const userAttributes = {
-        name: 'John Adams',
-        loginId: '',
-        password: '',
-        sisId: 'john_123',
-        email: ''
-      };
       const expectedAction = {
         type: 'UPDATE_USER',
         method: 'put',
         url: `api/canvas_accounts/${lmsAccountId}/canvas_users/${userId}`,
-        params: {
-          userAttributes
+        body: {
+          original_user_login_id: originalUserLoginId,
+          user: {
+            name: userAttributes.name,
+            login_id: userAttributes.loginId,
+            sis_user_id: userAttributes.sisUserId,
+            email: userAttributes.email,
+            password: userAttributes.password,
+          }
         }
       };
 
-      expect(updateUser(lmsAccountId, userId, userAttributes)).toEqual(expectedAction);
+      expect(updateUser(lmsAccountId, userId, originalUserLoginId, userAttributes))
+        .toEqual(expectedAction);
+    });
+
+    describe('when no password is given', () => {
+      it('does not send a password property', () => {
+        delete userAttributes.password;
+
+        const expectedAction = {
+          type: 'UPDATE_USER',
+          method: 'put',
+          url: `api/canvas_accounts/${lmsAccountId}/canvas_users/${userId}`,
+          body: {
+            original_user_login_id: originalUserLoginId,
+            user: {
+              name: userAttributes.name,
+              login_id: userAttributes.loginId,
+              sis_user_id: userAttributes.sisUserId,
+              email: userAttributes.email,
+            }
+          }
+        };
+
+        expect(updateUser(lmsAccountId, userId, originalUserLoginId, userAttributes))
+          .toEqual(expectedAction);
+      });
     });
   });
 });

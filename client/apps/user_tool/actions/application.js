@@ -19,11 +19,25 @@ export const searchForAccountUsers = (lmsAccountId, searchTerm, page) => ({
   },
 });
 
-export const updateUser = (lmsAccountId, userId, userAttributes) => ({
-  type: Constants.UPDATE_USER,
-  method: Network.PUT,
-  url: `api/canvas_accounts/${lmsAccountId}/canvas_users/${userId}`,
-  params: {
-    userAttributes
+export const updateUser = (lmsAccountId, userId, originalUserLoginId, userAttributes) => {
+  const body = {
+    original_user_login_id: originalUserLoginId,
+    user: {
+      name: userAttributes.name,
+      login_id: userAttributes.loginId,
+      sis_user_id: userAttributes.sisUserId,
+      email: userAttributes.email,
+    }
+  };
+
+  if (userAttributes.password !== '') {
+    body.user.password = userAttributes.password;
   }
-});
+
+  return {
+    type: Constants.UPDATE_USER,
+    method: Network.PUT,
+    url: `api/canvas_accounts/${lmsAccountId}/canvas_users/${userId}`,
+    body,
+  };
+};
