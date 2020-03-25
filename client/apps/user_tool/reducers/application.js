@@ -27,6 +27,32 @@ export default (state = initialState(), action) => {
       };
     }
 
+    case ApplicationConstants.UPDATE_USER_DONE: {
+      const {
+        id,
+        name,
+        login_id,
+        sis_user_id,
+        email
+      } = action.payload;
+
+      const matchingUsers = state.matchingUsers.map((user) => {
+        if (user.id === Number(id)) {
+          return {
+            ...user,
+            name,
+            login_id,
+            sis_user_id,
+            email
+          };
+        }
+
+        return user;
+      });
+
+      return { ...state, matchingUsers };
+    }
+
     default:
       return state;
   }
