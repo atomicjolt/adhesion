@@ -9,19 +9,19 @@ describe('SearchPage', () => {
     matchingUsers: [
       {
         id: 1,
-        sortable_name: 'Washington, George',
-        email: 'countryfather@revolution.com',
-        roles: ['admin', 'teacher'],
+        name: 'George Washington',
         login_id: 'countryfather@revolution.com',
         sis_user_id: 'george_123',
+        roles: ['admin', 'teacher'],
+        email: 'countryfather@revolution.com',
       },
       {
         id: 2,
-        sortable_name: 'Jefferson, Thomas',
-        email: 'idodeclare@revolution.com',
-        roles: ['teacher'],
+        name: 'Thomas Jefferson',
         login_id: 'idodeclare@revolution.com',
         sis_user_id: 'thomas_123',
+        roles: ['teacher'],
+        email: 'idodeclare@revolution.com',
       }
     ],
     lmsAccountId: '1',

@@ -26,13 +26,13 @@ export default class UserSearchResult extends React.Component {
         <tr>
           <td>
             <button type="button" onClick={() => this.showEditUserModal(true)}>
-              {user.sortable_name}
+              {user.name}
             </button>
           </td>
-          <td>{user.email}</td>
-          <td>{user.roles}</td>
           <td>{user.login_id}</td>
           <td>{user.sis_user_id}</td>
+          <td>{user.roles}</td>
+          <td>{user.email}</td>
         </tr>
 
         <EditUserModal

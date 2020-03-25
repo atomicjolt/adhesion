@@ -5,11 +5,11 @@ import UserSearchResult from './user_search_result';
 
 describe('UserSearchResult', () => {
   const user = {
-    sortable_name: 'Washington, George',
-    email: 'countryfather@revolution.com',
-    roles: ['admin', 'teacher'],
+    name: 'George Washington',
     login_id: 'countryfather@revolution.com',
     sis_user_id: 'george_123',
+    roles: ['admin', 'teacher'],
+    email: 'countryfather@revolution.com',
   };
 
   it('renders the user as a search result', () => {

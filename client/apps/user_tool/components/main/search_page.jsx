@@ -82,10 +82,10 @@ export class SearchPage extends React.Component {
           <thead>
             <tr>
               <th scope="col">Name</th>
-              <th scope="col">Email Address</th>
-              <th scope="col">Roles</th>
               <th scope="col">Login ID</th>
               <th scope="col">SIS ID</th>
+              <th scope="col">Roles</th>
+              <th scope="col">Email Address</th>
             </tr>
           </thead>
           <tbody>
