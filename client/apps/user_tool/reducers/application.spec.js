@@ -6,9 +6,9 @@ describe('application reducer', () => {
 
   describe('initial state', () => {
     it('returns empty state', () => {
-      const state = applicationReducer(initialState, {});
+      const state = applicationReducer(initialState(), {});
 
-      expect(state).toEqual(initialState);
+      expect(state).toEqual(initialState());
     });
   });
 
@@ -20,7 +20,7 @@ describe('application reducer', () => {
         params: { page }
       };
 
-      const state = applicationReducer(initialState, action);
+      const state = applicationReducer(initialState(), action);
 
       expect(state.currentPage).toEqual(page);
     });
@@ -32,7 +32,7 @@ describe('application reducer', () => {
           params: {}
         };
 
-        const state = applicationReducer(initialState, action);
+        const state = applicationReducer(initialState(), action);
 
         expect(state.currentPage).toEqual(1);
       });
@@ -51,7 +51,7 @@ describe('application reducer', () => {
         payload: { matching_users: matchingUsers },
       };
 
-      const state = applicationReducer(initialState, action);
+      const state = applicationReducer(initialState(), action);
 
       expect(state.matchingUsers).toEqual(matchingUsers);
     });
@@ -63,7 +63,7 @@ describe('application reducer', () => {
         payload: { previous_page_available: previousPageAvailable },
       };
 
-      const state = applicationReducer(initialState, action);
+      const state = applicationReducer(initialState(), action);
 
       expect(state.previousPageAvailable).toEqual(previousPageAvailable);
     });
@@ -75,7 +75,7 @@ describe('application reducer', () => {
         payload: { next_page_available: nextPageAvailable },
       };
 
-      const state = applicationReducer(initialState, action);
+      const state = applicationReducer(initialState(), action);
 
       expect(state.nextPageAvailable).toEqual(nextPageAvailable);
     });
