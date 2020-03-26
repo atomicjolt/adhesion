@@ -25,10 +25,10 @@ exports[`UserSearchResult renders the user as a search result 1`] = `
       countryfather@revolution.com
     </td>
   </tr>
-  <EditUserModal
+  <Connect(EditUserModal)
     closeModal={[Function]}
     isOpen={false}
-    userToEdit={
+    user={
       Object {
         "email": "countryfather@revolution.com",
         "login_id": "countryfather@revolution.com",

@@ -22,12 +22,12 @@ describe('UserSearchResult', () => {
     it('opens the edit user modal', () => {
       const userSearchResult = shallow(<UserSearchResult user={user} />);
 
-      let modalComponent = userSearchResult.find('EditUserModal');
+      let modalComponent = userSearchResult.find('Connect(EditUserModal)');
       expect(modalComponent.prop('isOpen')).toBe(false);
 
       userSearchResult.find('button').simulate('click');
 
-      modalComponent = userSearchResult.find('EditUserModal');
+      modalComponent = userSearchResult.find('Connect(EditUserModal)');
       expect(modalComponent.prop('isOpen')).toBe(true);
     });
   });

@@ -38,7 +38,7 @@ export default class UserSearchResult extends React.Component {
         <EditUserModal
           isOpen={editUserModalIsOpen}
           closeModal={() => this.showEditUserModal(false)}
-          userToEdit={user}
+          user={user}
         />
       </React.Fragment>
     );

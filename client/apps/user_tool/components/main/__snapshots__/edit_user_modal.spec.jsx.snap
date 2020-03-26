@@ -34,61 +34,68 @@ exports[`EditUserModal renders the edit user modal 1`] = `
       htmlFor="user_name"
     >
       Name
+      <input
+        id="user_name"
+        name="name"
+        onChange={[Function]}
+        type="text"
+        value="George Washington"
+      />
     </label>
-    <input
-      id="user_name"
-      name="userName"
-      onChange={[Function]}
-      type="text"
-    />
     <label
       htmlFor="user_login_id"
     >
       Login ID
+      <input
+        id="user_login_id"
+        name="loginId"
+        onChange={[Function]}
+        type="text"
+        value="countryfather@revolution.com"
+      />
     </label>
-    <input
-      defaultValue="countryfather@revolution.com"
-      id="user_login_id"
-      name="userLoginId"
-      onChange={[Function]}
-      type="text"
-    />
     <label
       htmlFor="user_password"
     >
       Password
+      <input
+        id="user_password"
+        name="password"
+        onChange={[Function]}
+        type="password"
+        value=""
+      />
     </label>
-    <input
-      defaultValue="************"
-      id="user_password"
-      name="userPassword"
-      onChange={[Function]}
-      type="password"
-    />
     <label
-      htmlFor="user_sis_id"
+      htmlFor="user_sis_user_id"
     >
       SIS ID
+      <input
+        id="user_sis_user_id"
+        name="sisUserId"
+        onChange={[Function]}
+        type="text"
+        value="george_123"
+      />
     </label>
-    <input
-      defaultValue="george_123"
-      id="user_sis_id"
-      name="userSisId"
-      onChange={[Function]}
-      type="text"
-    />
     <label
       htmlFor="user_email"
     >
       Email
+      <input
+        id="user_email"
+        name="email"
+        onChange={[Function]}
+        type="email"
+        value="countryfather@revolution.com"
+      />
     </label>
-    <input
-      defaultValue="countryfather@revolution.com"
-      id="user_email"
-      name="userEmail"
-      onChange={[Function]}
-      type="email"
-    />
+    <button
+      onClick={[Function]}
+      type="submit"
+    >
+      Update User
+    </button>
   </form>
 </Modal>
 `;
