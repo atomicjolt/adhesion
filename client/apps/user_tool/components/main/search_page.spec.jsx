@@ -3,6 +3,8 @@ import { shallow, mount } from 'enzyme';
 
 import { SearchPage } from './search_page';
 
+jest.mock('./edit_user_modal');
+
 describe('SearchPage', () => {
   const props = {
     searchForAccountUsers: () => {},
@@ -30,8 +32,15 @@ describe('SearchPage', () => {
     nextPageAvailable: true,
   };
 
+  const submitSearch = (searchPage) => {
+    searchPage.find('button[type="submit"]').simulate('click', {
+      preventDefault: () => {},
+      target: { form: { reportValidity: () => {} } },
+    });
+  };
+
   it('renders the search page', () => {
-    const result = shallow(<SearchPage
+    const searchPage = shallow(<SearchPage
       matchingUsers={props.matchingUsers}
       searchForAccountUsers={props.searchForAccountUsers}
       lmsAccountId={props.lmsAccountId}
@@ -40,22 +49,22 @@ describe('SearchPage', () => {
       nextPageAvailable={props.nextPageAvailable}
     />);
 
-    expect(result).toMatchSnapshot();
+    expect(searchPage).toMatchSnapshot();
   });
 
   describe('when the user submits a search', () => {
     it('submits a search request', () => {
       spyOn(props, 'searchForAccountUsers');
       const searchTerm = 'student name';
-      const result = mount(<SearchPage
+      const searchPage = shallow(<SearchPage
         matchingUsers={props.matchingUsers}
         searchForAccountUsers={props.searchForAccountUsers}
         lmsAccountId={props.lmsAccountId}
         currentPage={props.currentPage}
       />);
 
-      result.find('input').simulate('change', { target: { value: searchTerm } });
-      result.find('button[type="submit"]').simulate('click');
+      searchPage.find('input').simulate('change', { target: { value: searchTerm } });
+      submitSearch(searchPage);
 
       expect(props.searchForAccountUsers).toHaveBeenCalledWith(
         props.lmsAccountId,
@@ -67,20 +76,17 @@ describe('SearchPage', () => {
       it('does not submit the search', () => {
         spyOn(props, 'searchForAccountUsers');
         const searchTerm = 'jo';
-        const result = mount(<SearchPage
+        const searchPage = shallow(<SearchPage
           matchingUsers={props.matchingUsers}
           searchForAccountUsers={props.searchForAccountUsers}
           lmsAccountId={props.lmsAccountId}
           currentPage={props.currentPage}
         />);
 
-        result.find('input').simulate('change', { target: { value: searchTerm } });
-        result.find('button[type="submit"]').simulate('click');
+        searchPage.find('input').simulate('change', { target: { value: searchTerm } });
+        submitSearch(searchPage);
 
-        expect(props.searchForAccountUsers).not.toHaveBeenCalledWith(
-          props.lmsAccountId,
-          searchTerm,
-        );
+        expect(props.searchForAccountUsers).not.toHaveBeenCalled();
       });
     });
 
@@ -89,7 +95,7 @@ describe('SearchPage', () => {
         spyOn(props, 'searchForAccountUsers');
         const firstSearchTerm = 'john';
         const secondSearchTerm = 'jones';
-        const result = mount(<SearchPage
+        const searchPage = mount(<SearchPage
           matchingUsers={props.matchingUsers}
           searchForAccountUsers={props.searchForAccountUsers}
           lmsAccountId={props.lmsAccountId}
@@ -98,17 +104,17 @@ describe('SearchPage', () => {
           nextPageAvailable={props.nextPageAvailable}
         />);
 
-        result.find('input').simulate('change', { target: { value: firstSearchTerm } });
-        result.find('button[type="submit"]').simulate('click');
+        searchPage.find('input').simulate('change', { target: { value: firstSearchTerm } });
+        submitSearch(searchPage);
 
         expect(props.searchForAccountUsers).toHaveBeenCalledWith(
           props.lmsAccountId,
           firstSearchTerm,
         );
 
-        result.find('input').simulate('change', { target: { value: secondSearchTerm } });
+        searchPage.find('input').simulate('change', { target: { value: secondSearchTerm } });
 
-        const buttons = result.find('button');
+        const buttons = searchPage.find('button');
         const nextButton = buttons.at(buttons.length - 1);
         nextButton.simulate('click');
 
