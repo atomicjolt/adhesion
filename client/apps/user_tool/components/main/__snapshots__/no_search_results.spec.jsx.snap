@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NoSearchResults renders the no search results section 1`] = `
+<section>
+  <p>
+    Your search - 
+    <strong>
+      some search
+    </strong>
+     - did not match any users.
+  </p>
+  <p>
+    Suggestions:
+  </p>
+  <ul>
+    <li>
+      Double check your spelling.
+    </li>
+    <li>
+      Try more general keywords.
+    </li>
+    <li>
+      Try different keywords.
+    </li>
+  </ul>
+</section>
+`;

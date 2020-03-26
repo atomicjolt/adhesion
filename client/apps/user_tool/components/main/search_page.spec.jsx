@@ -73,6 +73,24 @@ describe('SearchPage', () => {
     });
   });
 
+  describe('when the user submits a search that returns no results', () => {
+    it('displays the no search results section', () => {
+      const searchPage = shallow(<SearchPage
+        matchingUsers={[]}
+        searchForAccountUsers={props.searchForAccountUsers}
+        lmsAccountId={props.lmsAccountId}
+        currentPage={props.currentPage}
+        previousPageAvailable={props.previousPageAvailable}
+        nextPageAvailable={props.nextPageAvailable}
+      />);
+
+      searchPage.find('input').simulate('change', { target: { value: 'student name' } });
+      submitSearch(searchPage);
+
+      expect(searchPage).toMatchSnapshot();
+    });
+  });
+
   describe('when the user submits a search with less than 3 characters', () => {
     it('does not submit the search', () => {
       spyOn(props, 'searchForAccountUsers');

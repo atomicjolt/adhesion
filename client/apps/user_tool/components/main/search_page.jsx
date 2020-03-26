@@ -1,9 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import _ from 'lodash';
+
 import { searchForAccountUsers } from '../../actions/application';
 import UserSearchResult from './user_search_result';
 import StartSearching from './start_searching';
+import NoSearchResults from './no_search_results';
 import Pagination from '../../../../common/components/common/pagination';
 
 const select = state => ({
@@ -47,7 +50,7 @@ export class SearchPage extends React.Component {
     const { inputSearchTerm } = this.state;
 
     if (inputSearchTerm.length >= this.minSearchTermLength) {
-      this.setState({ resultsSearchTerm: inputSearchTerm
+      this.setState({ resultsSearchTerm: inputSearchTerm, hasSearched: true });
 
       search(lmsAccountId, inputSearchTerm);
     }
@@ -95,6 +98,12 @@ export class SearchPage extends React.Component {
         </table>
 
         { !hasSearched && <StartSearching /> }
+
+        {
+          hasSearched
+          && _.isEmpty(matchingUsers)
+          && <NoSearchResults searchTerm={resultsSearchTerm} />
+        }
 
         <Pagination
           changePageTo={page => search(lmsAccountId, resultsSearchTerm, page)}

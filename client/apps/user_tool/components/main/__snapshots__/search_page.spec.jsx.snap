@@ -90,3 +90,64 @@ exports[`SearchPage renders the search page 1`] = `
   />
 </div>
 `;
+
+exports[`SearchPage when the user submits a search that returns no results displays the no search results section 1`] = `
+<div>
+  <form>
+    <input
+      minLength={3}
+      onChange={[Function]}
+      placeholder="Search for students..."
+      type="search"
+      value="student name"
+    />
+    <button
+      onClick={[Function]}
+      type="submit"
+    >
+      Search
+    </button>
+  </form>
+  <table>
+    <thead>
+      <tr>
+        <th
+          scope="col"
+        >
+          Name
+        </th>
+        <th
+          scope="col"
+        >
+          Login ID
+        </th>
+        <th
+          scope="col"
+        >
+          SIS ID
+        </th>
+        <th
+          scope="col"
+        >
+          Roles
+        </th>
+        <th
+          scope="col"
+        >
+          Email Address
+        </th>
+      </tr>
+    </thead>
+    <tbody />
+  </table>
+  <NoSearchResults
+    searchTerm="student name"
+  />
+  <Pagination
+    changePageTo={[Function]}
+    currentPage={2}
+    nextPageAvailable={true}
+    previousPageAvailable={true}
+  />
+</div>
+`;
