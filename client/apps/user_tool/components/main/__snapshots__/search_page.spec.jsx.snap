@@ -81,6 +81,7 @@ exports[`SearchPage renders the search page 1`] = `
       />
     </tbody>
   </table>
+  <StartSearching />
   <Pagination
     changePageTo={[Function]}
     currentPage={2}

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { searchForAccountUsers } from '../../actions/application';
 import UserSearchResult from './user_search_result';
+import StartSearching from './start_searching';
 import Pagination from '../../../../common/components/common/pagination';
 
 const select = state => ({
@@ -29,6 +30,7 @@ export class SearchPage extends React.Component {
     this.state = {
       inputSearchTerm: '', // The search term currently in the input field.
       resultsSearchTerm: '', // The search term associated with the currently displayed results.
+      hasSearched: false,
     };
     this.minSearchTermLength = 3;
   }
@@ -60,7 +62,7 @@ export class SearchPage extends React.Component {
       previousPageAvailable,
       nextPageAvailable
     } = this.props;
-    const { inputSearchTerm, resultsSearchTerm } = this.state;
+    const { inputSearchTerm, resultsSearchTerm, hasSearched } = this.state;
     const renderedUsers = matchingUsers.map(user => (
       <UserSearchResult key={user.id} user={user} />
     ));
@@ -91,6 +93,9 @@ export class SearchPage extends React.Component {
             {renderedUsers}
           </tbody>
         </table>
+
+        { !hasSearched && <StartSearching /> }
+
         <Pagination
           changePageTo={page => search(lmsAccountId, resultsSearchTerm, page)}
           currentPage={currentPage}
