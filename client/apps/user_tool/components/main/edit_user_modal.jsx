@@ -108,6 +108,7 @@ export class EditUserModal extends React.Component {
               name="password"
               type="password"
               value={userForm.password}
+              placeholder="****************"
               onChange={this.handleInputChange}
             />
           </label>

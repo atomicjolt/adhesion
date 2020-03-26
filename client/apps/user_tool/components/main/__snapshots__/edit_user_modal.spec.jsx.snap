@@ -62,6 +62,7 @@ exports[`EditUserModal renders the edit user modal 1`] = `
         id="user_password"
         name="password"
         onChange={[Function]}
+        placeholder="****************"
         type="password"
         value=""
       />
