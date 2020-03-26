@@ -17,9 +17,6 @@ exports[`SearchPage renders the search page 1`] = `
       Search
     </button>
   </form>
-  <p>
-    Search Results:
-  </p>
   <table>
     <thead>
       <tr>

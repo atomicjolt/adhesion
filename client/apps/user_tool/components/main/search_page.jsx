@@ -77,7 +77,6 @@ export class SearchPage extends React.Component {
           />
           <button type="submit" onClick={event => this.handleSearch(event)}>Search</button>
         </form>
-        <p>Search Results:</p>
         <table>
           <thead>
             <tr>
