@@ -44,9 +44,9 @@ export class SearchPage extends React.Component {
     const { lmsAccountId, searchForAccountUsers:search } = this.props;
     const { inputSearchTerm } = this.state;
 
-    this.setState({ resultsSearchTerm: inputSearchTerm });
-
     if (inputSearchTerm.length >= this.minSearchTermLength) {
+      this.setState({ resultsSearchTerm: inputSearchTerm
+
       search(lmsAccountId, inputSearchTerm);
     }
   }

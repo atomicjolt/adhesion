@@ -88,6 +88,41 @@ describe('SearchPage', () => {
 
         expect(props.searchForAccountUsers).not.toHaveBeenCalled();
       });
+
+      it('does not affect the paged results', () => {
+        spyOn(props, 'searchForAccountUsers');
+        const firstSearchTerm = 'john';
+        const shortSearchTerm = 'sa';
+        const searchPage = mount(<SearchPage
+          matchingUsers={props.matchingUsers}
+          searchForAccountUsers={props.searchForAccountUsers}
+          lmsAccountId={props.lmsAccountId}
+          currentPage={props.currentPage}
+          previousPageAvailable={props.previousPageAvailable}
+          nextPageAvailable={props.nextPageAvailable}
+        />);
+
+        searchPage.find('input').simulate('change', { target: { value: firstSearchTerm } });
+        submitSearch(searchPage);
+
+        expect(props.searchForAccountUsers).toHaveBeenCalledWith(
+          props.lmsAccountId,
+          firstSearchTerm,
+        );
+
+        searchPage.find('input').simulate('change', { target: { value: shortSearchTerm } });
+        submitSearch(searchPage);
+
+        const buttons = searchPage.find('button');
+        const nextButton = buttons.at(buttons.length - 1);
+        nextButton.simulate('click');
+
+        expect(props.searchForAccountUsers).toHaveBeenCalledWith(
+          props.lmsAccountId,
+          firstSearchTerm,
+          props.currentPage + 1,
+        );
+      });
     });
 
     describe('when the user updates the value in the search input field', () => {
