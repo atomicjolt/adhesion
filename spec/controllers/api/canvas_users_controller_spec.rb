@@ -160,5 +160,26 @@ RSpec.describe Api::CanvasUsersController, type: :controller do
 
       expect(JSON.parse(response.body)["email"]).to eq(params[:user][:email])
     end
+
+    context "when the user is not in the admin's account or sub-account" do
+      before do
+        allow_any_instance_of(LMS::Canvas).to receive(:api_get_request).
+          with(a_string_including("accounts/#{params[:canvas_account_id]}/users")).
+          and_return(OpenStruct.new({ parsed_response: [] }))
+      end
+
+      it "returns a 401 unauthorized" do
+        response = put(:update, params: params)
+
+        expect(response.status).to eq(401)
+      end
+
+      it "returns an error message" do
+        response = put(:update, format: :json, params: params)
+
+        expect(JSON.parse(response.body)["message"]).
+          to match(/modify users from the account/i)
+      end
+    end
   end
 end

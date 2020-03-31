@@ -3,16 +3,10 @@ class Api::CanvasUsersController < Api::ApiApplicationController
 
   before_action :validate_token
   before_action :validate_current_user_lti_admin
+  before_action :validate_user_is_in_account, only: [:update]
 
   def index
-    # We're manually constructing the URL here and using `api_get_request` instead of
-    # `canvas_api.proxy("LIST_USERS_IN_ACCOUNT", params)` because `proxy("LIST_USERS_IN_ACCOUNT")`
-    # doesn't support the `include` param since it's undocumented.
-    canvas_url = "accounts/#{params[:canvas_account_id]}/users" \
-      "?search_term=#{params[:search_term]}&include[]=email"
-    canvas_url += "&page=#{params[:page]}" if params[:page] # You get a 404 if you pass `&page=`
-
-    canvas_response = canvas_api.api_get_request(canvas_url)
+    canvas_response = search_for_users_on_canvas(params[:search_term], params[:page])
 
     render(
       json: {
@@ -50,6 +44,29 @@ class Api::CanvasUsersController < Api::ApiApplicationController
     unless current_user.lti_admin?(jwt_context_id)
       user_not_authorized "Only account admins are authorized to use this application."
     end
+  end
+
+  def validate_user_is_in_account
+    user_is_in_account = search_for_users_on_canvas(params[:id]).
+      parsed_response.
+      present?
+
+    unless user_is_in_account
+      user_not_authorized(
+        "You are only authorized to modify users from the account or sub-accounts you administer.",
+      )
+    end
+  end
+
+  def search_for_users_on_canvas(search_term, page = nil)
+    # We're manually constructing the URL here and using `api_get_request` instead of
+    # `canvas_api.proxy("LIST_USERS_IN_ACCOUNT", params)` because `proxy("LIST_USERS_IN_ACCOUNT")`
+    # doesn't support the `include` param since it's undocumented.
+    canvas_url = "accounts/#{params[:canvas_account_id]}/users" \
+      "?search_term=#{search_term}&include[]=email"
+    canvas_url += "&page=#{page}" if page # You get a 404 if you pass `&page=`
+
+    canvas_api.api_get_request(canvas_url)
   end
 
   def edit_user_on_canvas
