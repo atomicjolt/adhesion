@@ -2,6 +2,7 @@ class Api::CanvasUsersController < Api::ApiApplicationController
   include Concerns::CanvasSupport
 
   before_action :validate_token
+  before_action :validate_current_user_lti_admin
 
   def index
     # We're manually constructing the URL here and using `api_get_request` instead of
@@ -44,6 +45,12 @@ class Api::CanvasUsersController < Api::ApiApplicationController
   end
 
   private
+
+  def validate_current_user_lti_admin
+    unless current_user.lti_admin?(jwt_context_id)
+      user_not_authorized "Only account admins are authorized to use this application."
+    end
+  end
 
   def edit_user_on_canvas
     canvas_api.api_put_request(

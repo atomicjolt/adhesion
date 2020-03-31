@@ -7,6 +7,38 @@ RSpec.describe Api::CanvasUsersController, type: :controller do
     user = create(:user)
     user.confirm
     request.headers["Authorization"] = AuthToken.issue_token(user_id: user.id)
+
+    allow_any_instance_of(User).to receive(:lti_admin?).and_return(true)
+  end
+
+  describe "#validate_current_user_lti_admin" do
+    context "when the user is an lti admin" do
+      it "allows the request to continue" do
+        allow_any_instance_of(User).to receive(:lti_admin?).and_return(true)
+
+        response = get(:index, format: :json, params: { canvas_account_id: 308 })
+
+        expect(response.status).to eq(200)
+      end
+    end
+
+    context "when the user is not an lti admin" do
+      before do
+        allow_any_instance_of(User).to receive(:lti_admin?).and_return(false)
+      end
+
+      it "returns a 401 unauthorized" do
+        response = get(:index, format: :json, params: { canvas_account_id: 308 })
+
+        expect(response.status).to eq(401)
+      end
+
+      it "returns an error message" do
+        response = get(:index, format: :json, params: { canvas_account_id: 308 })
+
+        expect(JSON.parse(response.body)["message"]).to match(/only account admins/i)
+      end
+    end
   end
 
   describe "GET #index" do
