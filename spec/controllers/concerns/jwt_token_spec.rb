@@ -104,4 +104,15 @@ describe ApplicationController, type: :controller do
       expect(controller.lti_admin?).to eq(true)
     end
   end
+
+  describe "jwt_lms_account_id" do
+    it "returns the lms_account_id" do
+      lms_account_id = "739"
+      token = AuthToken.issue_token({ lms_account_id: lms_account_id })
+
+      request.headers["Authorization"] = "Bearer #{token}"
+
+      expect(controller.jwt_lms_account_id).to eq(lms_account_id)
+    end
+  end
 end

@@ -81,6 +81,11 @@ module Concerns
       token["lms_course_id"]
     end
 
+    def jwt_lms_account_id
+      token = decoded_jwt_token(request)
+      token["lms_account_id"]
+    end
+
     def jwt_lti_roles_string
       jwt_lti_roles.join(",")
     end
