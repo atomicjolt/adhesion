@@ -31,7 +31,12 @@ exports[`SearchPage renders the search page 1`] = `
         <th
           scope="col"
         >
-          Email Address
+          Login ID
+        </th>
+        <th
+          scope="col"
+        >
+          SIS ID
         </th>
         <th
           scope="col"
@@ -41,12 +46,7 @@ exports[`SearchPage renders the search page 1`] = `
         <th
           scope="col"
         >
-          Login ID
-        </th>
-        <th
-          scope="col"
-        >
-          SIS ID
+          Email Address
         </th>
       </tr>
     </thead>
@@ -58,12 +58,12 @@ exports[`SearchPage renders the search page 1`] = `
             "email": "countryfather@revolution.com",
             "id": 1,
             "login_id": "countryfather@revolution.com",
+            "name": "George Washington",
             "roles": Array [
               "admin",
               "teacher",
             ],
             "sis_user_id": "george_123",
-            "sortable_name": "Washington, George",
           }
         }
       />
@@ -74,11 +74,11 @@ exports[`SearchPage renders the search page 1`] = `
             "email": "idodeclare@revolution.com",
             "id": 2,
             "login_id": "idodeclare@revolution.com",
+            "name": "Thomas Jefferson",
             "roles": Array [
               "teacher",
             ],
             "sis_user_id": "thomas_123",
-            "sortable_name": "Jefferson, Thomas",
           }
         }
       />

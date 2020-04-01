@@ -9,7 +9,7 @@ export default (state = initialState(), action) => {
     case ApplicationConstants.SEARCH_FOR_ACCOUNT_USERS: {
       const currentPage = action.params.page || defaultPage;
 
-      return { ...state, ...{ currentPage } };
+      return { ...state, currentPage };
     }
 
     case ApplicationConstants.SEARCH_FOR_ACCOUNT_USERS_DONE: {
@@ -19,7 +19,38 @@ export default (state = initialState(), action) => {
         next_page_available:nextPageAvailable,
       } = action.payload;
 
-      return { ...state, ...{ matchingUsers, previousPageAvailable, nextPageAvailable } };
+      return {
+        ...state,
+        matchingUsers,
+        previousPageAvailable,
+        nextPageAvailable
+      };
+    }
+
+    case ApplicationConstants.UPDATE_USER_DONE: {
+      const {
+        id,
+        name,
+        login_id,
+        sis_user_id,
+        email
+      } = action.payload;
+
+      const matchingUsers = state.matchingUsers.map((user) => {
+        if (user.id === Number(id)) {
+          return {
+            ...user,
+            name,
+            login_id,
+            sis_user_id,
+            email
+          };
+        }
+
+        return user;
+      });
+
+      return { ...state, matchingUsers };
     }
 
     default:

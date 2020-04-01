@@ -63,7 +63,7 @@ Rails.application.routes.draw do
     post "proctor_conversations" => "proctor_conversations#initiate_conversation"
     resources :jwts
     resources :canvas_accounts do
-      resources :canvas_users, only: [:index]
+      resources :canvas_users, only: [:index, :update]
     end
     resources :oauths
     resources :courses, only: [] do

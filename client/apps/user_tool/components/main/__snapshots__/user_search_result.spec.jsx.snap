@@ -8,11 +8,14 @@ exports[`UserSearchResult renders the user as a search result 1`] = `
         onClick={[Function]}
         type="button"
       >
-        Washington, George
+        George Washington
       </button>
     </td>
     <td>
       countryfather@revolution.com
+    </td>
+    <td>
+      george_123
     </td>
     <td>
       admin
@@ -21,23 +24,20 @@ exports[`UserSearchResult renders the user as a search result 1`] = `
     <td>
       countryfather@revolution.com
     </td>
-    <td>
-      george_123
-    </td>
   </tr>
-  <EditUserModal
+  <Connect(EditUserModal)
     closeModal={[Function]}
     isOpen={false}
-    userToEdit={
+    user={
       Object {
         "email": "countryfather@revolution.com",
         "login_id": "countryfather@revolution.com",
+        "name": "George Washington",
         "roles": Array [
           "admin",
           "teacher",
         ],
         "sis_user_id": "george_123",
-        "sortable_name": "Washington, George",
       }
     }
   />

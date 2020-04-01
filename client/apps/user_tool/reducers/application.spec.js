@@ -6,9 +6,9 @@ describe('application reducer', () => {
 
   describe('initial state', () => {
     it('returns empty state', () => {
-      const state = applicationReducer(initialState, {});
+      const state = applicationReducer(initialState(), {});
 
-      expect(state).toEqual(initialState);
+      expect(state).toEqual(initialState());
     });
   });
 
@@ -20,7 +20,7 @@ describe('application reducer', () => {
         params: { page }
       };
 
-      const state = applicationReducer(initialState, action);
+      const state = applicationReducer(initialState(), action);
 
       expect(state.currentPage).toEqual(page);
     });
@@ -32,7 +32,7 @@ describe('application reducer', () => {
           params: {}
         };
 
-        const state = applicationReducer(initialState, action);
+        const state = applicationReducer(initialState(), action);
 
         expect(state.currentPage).toEqual(1);
       });
@@ -51,7 +51,7 @@ describe('application reducer', () => {
         payload: { matching_users: matchingUsers },
       };
 
-      const state = applicationReducer(initialState, action);
+      const state = applicationReducer(initialState(), action);
 
       expect(state.matchingUsers).toEqual(matchingUsers);
     });
@@ -63,7 +63,7 @@ describe('application reducer', () => {
         payload: { previous_page_available: previousPageAvailable },
       };
 
-      const state = applicationReducer(initialState, action);
+      const state = applicationReducer(initialState(), action);
 
       expect(state.previousPageAvailable).toEqual(previousPageAvailable);
     });
@@ -75,9 +75,52 @@ describe('application reducer', () => {
         payload: { next_page_available: nextPageAvailable },
       };
 
-      const state = applicationReducer(initialState, action);
+      const state = applicationReducer(initialState(), action);
 
       expect(state.nextPageAvailable).toEqual(nextPageAvailable);
+    });
+  });
+
+  describe('UPDATE_USER_DONE', () => {
+    it('updates the user in matchingUsers', () => {
+      const matchingUsers = [
+        {
+          id: 1,
+          name: 'George Washington',
+          login_id: 'countryfather@revolution.com',
+          sis_user_id: 'george_123',
+          email: 'countryfather@revolution.com',
+        },
+        {
+          id: 2,
+          name: 'John Adams',
+          login_id: 'adamsforindependence@greatbritain.com',
+          sis_user_id: 'john_123',
+          email: 'adamsforindependence@greatbritain.com',
+        },
+        {
+          id: 3,
+          name: 'Thomas Jefferson',
+          login_id: 'idodeclare@revolution.com',
+          sis_user_id: 'thomas_123',
+          email: 'idodeclare@revolution.com',
+        },
+      ];
+      const updatedUser = {
+        id: 2,
+        name: 'John Adams',
+        login_id: 'adamsforindependence@revolution.com',
+        sis_user_id: 'john_123',
+        email: 'adamsforindependence@revolution.com'
+      };
+      const action = {
+        type: ApplicationConstants.UPDATE_USER_DONE,
+        payload: updatedUser,
+      };
+
+      const state = applicationReducer({ ...initialState(), matchingUsers }, action);
+
+      expect(state.matchingUsers[1]).toEqual(updatedUser);
     });
   });
 });
