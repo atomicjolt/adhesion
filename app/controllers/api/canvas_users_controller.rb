@@ -62,9 +62,12 @@ class Api::CanvasUsersController < Api::ApiApplicationController
     # We're manually constructing the URL here and using `api_get_request` instead of
     # `canvas_api.proxy("LIST_USERS_IN_ACCOUNT", params)` because `proxy("LIST_USERS_IN_ACCOUNT")`
     # doesn't support the `include` param since it's undocumented.
-    canvas_url = "accounts/#{params[:canvas_account_id]}/users" \
-      "?search_term=#{search_term}&include[]=email"
-    canvas_url += "&page=#{page}" if page # You get a 404 if you pass `&page=`
+    query_params = {
+      search_term: search_term,
+      include: [:email],
+    }
+    query_params[:page] = page if page.present? # You get a 404 if you pass an empty `page` param.
+    canvas_url = "accounts/#{params[:canvas_account_id]}/users?#{query_params.to_query}"
 
     canvas_api.api_get_request(canvas_url)
   end
