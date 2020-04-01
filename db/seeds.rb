@@ -199,6 +199,7 @@ applications = [
       custom_fields: {
         canvas_course_id: "$Canvas.course.id",
         external_tool_url: "$Canvas.externalTool.url",
+        canvas_user_id: "$Canvas.user.id",
       },
       course_navigation: {
         text: "Exams",
@@ -245,6 +246,7 @@ applications = [
       custom_fields: {
         canvas_course_id: "$Canvas.course.id",
         external_tool_url: "$Canvas.externalTool.url",
+        canvas_user_id: "$Canvas.user.id",
       },
       account_navigation: {
         text: "Exam Proctoring",
@@ -370,6 +372,7 @@ applications = [
       custom_fields: {
         canvas_course_id: "$Canvas.course.id",
         external_tool_url: "$Canvas.externalTool.url",
+        canvas_user_id: "$Canvas.user.id",
       },
       editor_button: {
         text: "Course Completion",
