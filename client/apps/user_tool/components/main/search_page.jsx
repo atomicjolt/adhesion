@@ -11,7 +11,6 @@ import Pagination from '../../../../common/components/common/pagination';
 
 const select = state => ({
   matchingUsers: state.application.matchingUsers,
-  lmsAccountId: state.settings.custom_canvas_account_id,
   currentPage: state.application.currentPage,
   previousPageAvailable: state.application.previousPageAvailable,
   nextPageAvailable: state.application.nextPageAvailable,
@@ -21,7 +20,6 @@ export class SearchPage extends React.Component {
   static propTypes = {
     searchForAccountUsers: PropTypes.func.isRequired,
     matchingUsers: PropTypes.array.isRequired,
-    lmsAccountId: PropTypes.string.isRequired,
     currentPage: PropTypes.number.isRequired,
     previousPageAvailable: PropTypes.bool,
     nextPageAvailable: PropTypes.bool,
@@ -46,20 +44,19 @@ export class SearchPage extends React.Component {
     event.preventDefault();
     event.target.form.reportValidity();
 
-    const { lmsAccountId, searchForAccountUsers:search } = this.props;
+    const { searchForAccountUsers:search } = this.props;
     const { inputSearchTerm } = this.state;
 
     if (inputSearchTerm.length >= this.minSearchTermLength) {
       this.setState({ resultsSearchTerm: inputSearchTerm, hasSearched: true });
 
-      search(lmsAccountId, inputSearchTerm);
+      search(inputSearchTerm);
     }
   }
 
   render() {
     const {
       searchForAccountUsers:search,
-      lmsAccountId,
       matchingUsers,
       currentPage,
       previousPageAvailable,
@@ -106,7 +103,7 @@ export class SearchPage extends React.Component {
         }
 
         <Pagination
-          changePageTo={page => search(lmsAccountId, resultsSearchTerm, page)}
+          changePageTo={page => search(resultsSearchTerm, page)}
           currentPage={currentPage}
           previousPageAvailable={previousPageAvailable}
           nextPageAvailable={nextPageAvailable}

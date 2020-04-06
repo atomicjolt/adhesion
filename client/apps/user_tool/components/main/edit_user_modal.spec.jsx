@@ -14,7 +14,6 @@ describe('EditUserModal', () => {
       login_id: 'countryfather@revolution.com',
       sis_user_id: 'george_123',
     },
-    lmsAccountId: '1',
   };
 
   it('renders the edit user modal', () => {
@@ -24,7 +23,6 @@ describe('EditUserModal', () => {
         isOpen
         closeModal={props.closeModal}
         user={props.user}
-        lmsAccountId={props.lmsAccountId}
       />
     );
 
@@ -40,7 +38,6 @@ describe('EditUserModal', () => {
           isOpen
           closeModal={props.closeModal}
           user={props.user}
-          lmsAccountId={props.lmsAccountId}
         />
       );
 
@@ -59,7 +56,6 @@ describe('EditUserModal', () => {
           isOpen
           closeModal={props.closeModal}
           user={props.user}
-          lmsAccountId={props.lmsAccountId}
         />
       );
       const nameInput = modal.find('#user_name');
@@ -88,7 +84,6 @@ describe('EditUserModal', () => {
       modal.find('button[type="submit"]').simulate('click', { preventDefault: () => {} });
 
       expect(props.updateUser).toHaveBeenCalledWith(
-        props.lmsAccountId,
         props.user.id,
         props.user.login_id,
         {

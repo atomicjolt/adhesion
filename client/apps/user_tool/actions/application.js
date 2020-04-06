@@ -9,17 +9,17 @@ const requests = ['SEARCH_FOR_ACCOUNT_USERS', 'UPDATE_USER'];
 
 export const Constants = wrapper(actions, requests);
 
-export const searchForAccountUsers = (lmsAccountId, searchTerm, page) => ({
+export const searchForAccountUsers = (searchTerm, page) => ({
   type: Constants.SEARCH_FOR_ACCOUNT_USERS,
   method: Network.GET,
-  url: `api/canvas_accounts/${lmsAccountId}/canvas_users`,
+  url: 'api/canvas_account_users',
   params: {
     search_term: searchTerm,
     page,
   },
 });
 
-export const updateUser = (lmsAccountId, userId, originalUserLoginId, userAttributes) => {
+export const updateUser = (userId, originalUserLoginId, userAttributes) => {
   const body = {
     original_user_login_id: originalUserLoginId,
     user: {
@@ -37,7 +37,7 @@ export const updateUser = (lmsAccountId, userId, originalUserLoginId, userAttrib
   return {
     type: Constants.UPDATE_USER,
     method: Network.PUT,
-    url: `api/canvas_accounts/${lmsAccountId}/canvas_users/${userId}`,
+    url: `api/canvas_account_users/${userId}`,
     body,
   };
 };
