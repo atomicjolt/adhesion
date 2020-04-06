@@ -62,9 +62,6 @@ Rails.application.routes.draw do
     resources :proctored_exams, only: [:update]
     post "proctor_conversations" => "proctor_conversations#initiate_conversation"
     resources :jwts
-    resources :canvas_accounts do
-      resources :canvas_users, only: [:index, :update]
-    end
     resources :oauths
     resources :courses, only: [] do
       resources :students, only: [:index]
@@ -82,6 +79,8 @@ Rails.application.routes.draw do
     end
 
     resources :canvas_accounts, only: [:index]
+    # This endpoint provides access to users belonging to the Canvas account associated with the LTI launch.
+    resources :canvas_account_users, only: [:index, :update]
 
     resources :testing_centers_accounts
     resources :scorm_courses do
