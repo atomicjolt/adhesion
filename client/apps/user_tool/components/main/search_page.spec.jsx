@@ -71,59 +71,112 @@ describe('SearchPage', () => {
         searchTerm,
       );
     });
+  });
 
-    describe('when the user submits a search with less than 3 characters', () => {
-      it('does not submit the search', () => {
-        spyOn(props, 'searchForAccountUsers');
-        const searchTerm = 'jo';
-        const searchPage = shallow(<SearchPage
-          matchingUsers={props.matchingUsers}
-          searchForAccountUsers={props.searchForAccountUsers}
-          lmsAccountId={props.lmsAccountId}
-          currentPage={props.currentPage}
-        />);
+  describe('when the user submits a search that returns no results', () => {
+    it('displays the no search results section', () => {
+      const searchPage = shallow(<SearchPage
+        matchingUsers={[]}
+        searchForAccountUsers={props.searchForAccountUsers}
+        lmsAccountId={props.lmsAccountId}
+        currentPage={props.currentPage}
+        previousPageAvailable={props.previousPageAvailable}
+        nextPageAvailable={props.nextPageAvailable}
+      />);
 
-        searchPage.find('input').simulate('change', { target: { value: searchTerm } });
-        submitSearch(searchPage);
+      searchPage.find('input').simulate('change', { target: { value: 'student name' } });
+      submitSearch(searchPage);
 
-        expect(props.searchForAccountUsers).not.toHaveBeenCalled();
-      });
+      expect(searchPage).toMatchSnapshot();
+    });
+  });
+
+  describe('when the user submits a search with less than 3 characters', () => {
+    it('does not submit the search', () => {
+      spyOn(props, 'searchForAccountUsers');
+      const searchTerm = 'jo';
+      const searchPage = shallow(<SearchPage
+        matchingUsers={props.matchingUsers}
+        searchForAccountUsers={props.searchForAccountUsers}
+        lmsAccountId={props.lmsAccountId}
+        currentPage={props.currentPage}
+      />);
+
+      searchPage.find('input').simulate('change', { target: { value: searchTerm } });
+      submitSearch(searchPage);
+
+      expect(props.searchForAccountUsers).not.toHaveBeenCalled();
     });
 
-    describe('when the user updates the value in the search input field', () => {
-      it('does not affect the paged results', () => {
-        spyOn(props, 'searchForAccountUsers');
-        const firstSearchTerm = 'john';
-        const secondSearchTerm = 'jones';
-        const searchPage = mount(<SearchPage
-          matchingUsers={props.matchingUsers}
-          searchForAccountUsers={props.searchForAccountUsers}
-          lmsAccountId={props.lmsAccountId}
-          currentPage={props.currentPage}
-          previousPageAvailable={props.previousPageAvailable}
-          nextPageAvailable={props.nextPageAvailable}
-        />);
+    it('does not affect the paged results', () => {
+      spyOn(props, 'searchForAccountUsers');
+      const firstSearchTerm = 'john';
+      const shortSearchTerm = 'sa';
+      const searchPage = mount(<SearchPage
+        matchingUsers={props.matchingUsers}
+        searchForAccountUsers={props.searchForAccountUsers}
+        lmsAccountId={props.lmsAccountId}
+        currentPage={props.currentPage}
+        previousPageAvailable={props.previousPageAvailable}
+        nextPageAvailable={props.nextPageAvailable}
+      />);
 
-        searchPage.find('input').simulate('change', { target: { value: firstSearchTerm } });
-        submitSearch(searchPage);
+      searchPage.find('input').simulate('change', { target: { value: firstSearchTerm } });
+      submitSearch(searchPage);
 
-        expect(props.searchForAccountUsers).toHaveBeenCalledWith(
-          props.lmsAccountId,
-          firstSearchTerm,
-        );
+      expect(props.searchForAccountUsers).toHaveBeenCalledWith(
+        props.lmsAccountId,
+        firstSearchTerm,
+      );
 
-        searchPage.find('input').simulate('change', { target: { value: secondSearchTerm } });
+      searchPage.find('input').simulate('change', { target: { value: shortSearchTerm } });
+      submitSearch(searchPage);
 
-        const buttons = searchPage.find('button');
-        const nextButton = buttons.at(buttons.length - 1);
-        nextButton.simulate('click');
+      const buttons = searchPage.find('button');
+      const nextButton = buttons.at(buttons.length - 1);
+      nextButton.simulate('click');
 
-        expect(props.searchForAccountUsers).toHaveBeenCalledWith(
-          props.lmsAccountId,
-          firstSearchTerm,
-          props.currentPage + 1,
-        );
-      });
+      expect(props.searchForAccountUsers).toHaveBeenCalledWith(
+        props.lmsAccountId,
+        firstSearchTerm,
+        props.currentPage + 1,
+      );
+    });
+  });
+
+  describe('when the user updates the value in the search input field', () => {
+    it('does not affect the paged results', () => {
+      spyOn(props, 'searchForAccountUsers');
+      const firstSearchTerm = 'john';
+      const secondSearchTerm = 'jones';
+      const searchPage = mount(<SearchPage
+        matchingUsers={props.matchingUsers}
+        searchForAccountUsers={props.searchForAccountUsers}
+        lmsAccountId={props.lmsAccountId}
+        currentPage={props.currentPage}
+        previousPageAvailable={props.previousPageAvailable}
+        nextPageAvailable={props.nextPageAvailable}
+      />);
+
+      searchPage.find('input').simulate('change', { target: { value: firstSearchTerm } });
+      submitSearch(searchPage);
+
+      expect(props.searchForAccountUsers).toHaveBeenCalledWith(
+        props.lmsAccountId,
+        firstSearchTerm,
+      );
+
+      searchPage.find('input').simulate('change', { target: { value: secondSearchTerm } });
+
+      const buttons = searchPage.find('button');
+      const nextButton = buttons.at(buttons.length - 1);
+      nextButton.simulate('click');
+
+      expect(props.searchForAccountUsers).toHaveBeenCalledWith(
+        props.lmsAccountId,
+        firstSearchTerm,
+        props.currentPage + 1,
+      );
     });
   });
 });

@@ -1,8 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import _ from 'lodash';
+
 import { searchForAccountUsers } from '../../actions/application';
 import UserSearchResult from './user_search_result';
+import StartSearching from './start_searching';
+import NoSearchResults from './no_search_results';
 import Pagination from '../../../../common/components/common/pagination';
 
 const select = state => ({
@@ -29,6 +33,7 @@ export class SearchPage extends React.Component {
     this.state = {
       inputSearchTerm: '', // The search term currently in the input field.
       resultsSearchTerm: '', // The search term associated with the currently displayed results.
+      hasSearched: false,
     };
     this.minSearchTermLength = 3;
   }
@@ -44,9 +49,9 @@ export class SearchPage extends React.Component {
     const { lmsAccountId, searchForAccountUsers:search } = this.props;
     const { inputSearchTerm } = this.state;
 
-    this.setState({ resultsSearchTerm: inputSearchTerm });
-
     if (inputSearchTerm.length >= this.minSearchTermLength) {
+      this.setState({ resultsSearchTerm: inputSearchTerm, hasSearched: true });
+
       search(lmsAccountId, inputSearchTerm);
     }
   }
@@ -60,7 +65,7 @@ export class SearchPage extends React.Component {
       previousPageAvailable,
       nextPageAvailable
     } = this.props;
-    const { inputSearchTerm, resultsSearchTerm } = this.state;
+    const { inputSearchTerm, resultsSearchTerm, hasSearched } = this.state;
     const renderedUsers = matchingUsers.map(user => (
       <UserSearchResult key={user.id} user={user} />
     ));
@@ -77,7 +82,6 @@ export class SearchPage extends React.Component {
           />
           <button type="submit" onClick={event => this.handleSearch(event)}>Search</button>
         </form>
-        <p>Search Results:</p>
         <table>
           <thead>
             <tr>
@@ -92,6 +96,15 @@ export class SearchPage extends React.Component {
             {renderedUsers}
           </tbody>
         </table>
+
+        { !hasSearched && <StartSearching /> }
+
+        {
+          hasSearched
+          && _.isEmpty(matchingUsers)
+          && <NoSearchResults searchTerm={resultsSearchTerm} />
+        }
+
         <Pagination
           changePageTo={page => search(lmsAccountId, resultsSearchTerm, page)}
           currentPage={currentPage}
