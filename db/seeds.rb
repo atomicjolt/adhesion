@@ -412,6 +412,7 @@ applications = [
       privacy_level: "public",
       icon: "oauth_icon.png",
       custom_fields: {
+        canvas_account_id: "$Canvas.account.id",
         external_tool_url: "$Canvas.externalTool.url",
       },
       account_navigation: {
