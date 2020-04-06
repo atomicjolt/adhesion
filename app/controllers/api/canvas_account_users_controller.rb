@@ -1,10 +1,12 @@
-class Api::CanvasUsersController < Api::ApiApplicationController
+class Api::CanvasAccountUsersController < Api::ApiApplicationController
   include Concerns::CanvasSupport
 
   before_action :validate_token
   before_action :validate_current_user_lti_admin
   before_action :validate_user_is_in_account, only: [:update]
 
+  # This action only lists users who are members of the Canvas account given in the LTI launch.
+  # Users from sub-accounts of that account are also included.
   def index
     canvas_response = search_for_users_on_canvas(params[:search_term], params[:page])
 
@@ -18,6 +20,8 @@ class Api::CanvasUsersController < Api::ApiApplicationController
     )
   end
 
+  # This action can only update users who are members of the Canvas account given in the LTI launch.
+  # Users from sub-accounts of that account can also be updated.
   def update
     edit_user_response = edit_user_on_canvas
 
@@ -67,7 +71,7 @@ class Api::CanvasUsersController < Api::ApiApplicationController
       include: [:email],
     }
     query_params[:page] = page if page.present? # You get a 404 if you pass an empty `page` param.
-    canvas_url = "accounts/#{params[:canvas_account_id]}/users?#{query_params.to_query}"
+    canvas_url = "accounts/#{jwt_lms_account_id}/users?#{query_params.to_query}"
 
     canvas_api.api_get_request(canvas_url)
   end
@@ -93,7 +97,7 @@ class Api::CanvasUsersController < Api::ApiApplicationController
 
   def edit_user_login_on_canvas(numeric_login_id)
     canvas_api.api_put_request(
-      "accounts/#{params[:canvas_account_id]}/logins/#{numeric_login_id}",
+      "accounts/#{jwt_lms_account_id}/logins/#{numeric_login_id}",
       "login[unique_id]" => params[:user][:login_id],
       "login[sis_user_id]" => params[:user][:sis_user_id],
       "login[password]" => params[:user][:password],
