@@ -12,6 +12,14 @@ export class Errors extends React.Component {
     errors: PropTypes.array.isRequired,
   }
 
+  handleClearKeyPress(event) {
+    const { clearErrors:clear } = this.props;
+
+    if (event.key === 'enter' || event.key === 'space') {
+      clear();
+    }
+  }
+
   render() {
     const { clearErrors:clear, errors } = this.props;
 
@@ -23,7 +31,9 @@ export class Errors extends React.Component {
 
     return (
       <div className="errors">
-        <span onClick={clear}><i className="material-icons">clear</i></span>
+        <button type="button" onClick={clear} onKeyPress={event => this.handleClearKeyPress(event)}>
+          <i className="material-icons">clear</i>
+        </button>
         <ul>{errorMessages}</ul>
       </div>
     );
