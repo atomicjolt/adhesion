@@ -79,6 +79,20 @@ describe('application reducer', () => {
 
       expect(state.nextPageAvailable).toEqual(nextPageAvailable);
     });
+
+    describe('when the action payload contains a falsey value for matching_users', () => {
+      it('sets matchingUsers to an empty array', () => {
+        const matchingUsers = undefined;
+        const action = {
+          type: ApplicationConstants.SEARCH_FOR_ACCOUNT_USERS_DONE,
+          payload: { matching_users: matchingUsers },
+        };
+
+        const state = applicationReducer(initialState(), action);
+
+        expect(state.matchingUsers).toEqual([]);
+      });
+    });
   });
 
   describe('UPDATE_USER_DONE', () => {
