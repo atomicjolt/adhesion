@@ -48,6 +48,61 @@ describe('EditUserModal', () => {
   });
 
   describe('when the cancel button is clicked', () => {
+    it('resets the form to default values', () => {
+      const modal = shallow(
+        <EditUserModal
+          updateUser={props.updateUser}
+          isOpen
+          closeModal={props.closeModal}
+          user={props.user}
+        />
+      );
+      const nameInput = modal.find('#user_name');
+      const loginIdInput = modal.find('#user_login_id');
+      const newName = 'Updated Name';
+      const newLoginId = 'Update Login Id';
+      const cancelButton = modal.find('button').at(1);
+
+      expect(nameInput.prop('value')).toEqual(props.user.name);
+      expect(loginIdInput.prop('value')).toEqual(props.user.login_id);
+
+      nameInput.simulate('change', { target: { name: 'name', value: newName } });
+      loginIdInput.simulate('change', { target: { name: 'loginId', value: newLoginId } });
+
+      expect(modal.find('#user_name').prop('value')).toEqual(newName);
+      expect(modal.find('#user_login_id').prop('value')).toEqual(newLoginId);
+
+      cancelButton.simulate('click');
+
+      expect(modal.find('#user_name').prop('value')).toEqual(props.user.name);
+      expect(modal.find('#user_login_id').prop('value')).toEqual(props.user.login_id);
+    });
+
+    it('resets the submission button to "Update"', () => {
+      const modal = shallow(
+        <EditUserModal
+          updateUser={props.updateUser}
+          isOpen
+          closeModal={props.closeModal}
+          user={props.user}
+        />
+      );
+      let submitButton = modal.find('button[type="submit"]');
+      const cancelButton = modal.find('button').at(1);
+
+      expect(submitButton.text()).toEqual('Update');
+
+      submitButton.simulate('click', { preventDefault: () => {} });
+
+      submitButton = modal.find('button[type="submit"]');
+      expect(submitButton.text()).toEqual('Confirm');
+
+      cancelButton.simulate('click');
+
+      submitButton = modal.find('button[type="submit"]');
+      expect(submitButton.text()).toEqual('Update');
+    });
+
     it('closes the modal', () => {
       spyOn(props, 'closeModal');
       const modal = shallow(

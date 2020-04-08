@@ -14,12 +14,10 @@ export class EditUserModal extends React.Component {
     user: PropTypes.object.isRequired,
   };
 
-  constructor(props) {
-    super();
-
+  static initialState(props) {
     const { user } = props;
 
-    this.state = {
+    return ({
       confirmingUpdates: false,
       userForm: {
         name: user.name,
@@ -28,7 +26,13 @@ export class EditUserModal extends React.Component {
         sisUserId: user.sis_user_id,
         email: user.email
       },
-    };
+    });
+  }
+
+  constructor(props) {
+    super();
+
+    this.state = EditUserModal.initialState(props);
 
     this.handleInputChange = this.handleInputChange.bind(this);
   }
@@ -58,14 +62,21 @@ export class EditUserModal extends React.Component {
     if (confirmingUpdates) {
       update(user.id, user.login_id, userForm);
 
-      closeModal(); // TODO: Change this to handleClose function.
+      closeModal();
     } else {
       this.setState({ confirmingUpdates: true });
     }
   }
 
-  renderButtons() {
+  handleCancel() {
     const { closeModal } = this.props;
+
+    this.setState(EditUserModal.initialState(this.props));
+
+    closeModal();
+  }
+
+  renderButtons() {
     const { confirmingUpdates } = this.state;
 
     // TODO: Update these CSS classes with real classes.
@@ -81,7 +92,7 @@ export class EditUserModal extends React.Component {
 
     return (
       <React.Fragment>
-        <button type="button" className={cancelButtonClass} onClick={closeModal}>
+        <button type="button" className={cancelButtonClass} onClick={() => this.handleCancel()}>
           Cancel
         </button>
         <button
