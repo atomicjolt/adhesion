@@ -47,6 +47,24 @@ describe('EditUserModal', () => {
     });
   });
 
+  describe('when the cancel button is clicked', () => {
+    it('closes the modal', () => {
+      spyOn(props, 'closeModal');
+      const modal = shallow(
+        <EditUserModal
+          updateUser={props.updateUser}
+          isOpen
+          closeModal={props.closeModal}
+          user={props.user}
+        />
+      );
+
+      modal.find('button').at(1).simulate('click');
+
+      expect(props.closeModal).toHaveBeenCalled();
+    });
+  });
+
   describe('when the user updates and submits the form', () => {
     it('submits an update request', () => {
       spyOn(props, 'updateUser');
