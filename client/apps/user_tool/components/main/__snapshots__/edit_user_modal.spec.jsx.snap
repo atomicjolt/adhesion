@@ -101,7 +101,7 @@ exports[`EditUserModal renders the edit user modal 1`] = `
       onClick={[Function]}
       type="submit"
     >
-      Update User
+      Update
     </button>
   </form>
 </Modal>

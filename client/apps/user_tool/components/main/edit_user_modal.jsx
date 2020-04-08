@@ -132,7 +132,7 @@ export class EditUserModal extends React.Component {
           </label>
 
           <button type="button" onClick={closeModal}>Cancel</button>
-          <button type="submit" onClick={event => this.handleSubmit(event)}>Update User</button>
+          <button type="submit" onClick={event => this.handleSubmit(event)}>Update</button>
         </form>
       </ReactModal>
     );
