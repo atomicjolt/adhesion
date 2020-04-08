@@ -102,7 +102,7 @@ export class EditUserModal extends React.Component {
           </label>
 
           <label htmlFor="user_password">
-            Password
+            New Password
             <input
               id="user_password"
               name="password"

@@ -57,7 +57,7 @@ exports[`EditUserModal renders the edit user modal 1`] = `
     <label
       htmlFor="user_password"
     >
-      Password
+      New Password
       <input
         id="user_password"
         name="password"
