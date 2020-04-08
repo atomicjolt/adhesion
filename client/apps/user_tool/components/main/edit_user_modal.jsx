@@ -72,70 +72,78 @@ export class EditUserModal extends React.Component {
         contentLabel="Edit User Modal"
         isOpen={isOpen}
         onRequestClose={closeModal}
+        overlayClassName="modal__background"
+        className="modal"
       >
-        <h2>Edit User</h2>
-        <button type="button" onClick={closeModal}>
-          <i className="material-icons">close</i>
-        </button>
+        <div className="modal__top">
+          <h2>Edit User</h2>
+          <button type="button" onClick={closeModal}>
+            <i className="material-icons">close</i>
+          </button>
+        </div>
 
         <form>
-          <label htmlFor="user_name">
-            Name
-            <input
-              id="user_name"
-              name="name"
-              type="text"
-              value={userForm.name}
-              onChange={this.handleInputChange}
-            />
-          </label>
+          <div className="modal__main">
+            <label htmlFor="user_name">
+              Name
+              <input
+                id="user_name"
+                name="name"
+                type="text"
+                value={userForm.name}
+                onChange={this.handleInputChange}
+              />
+            </label>
 
-          <label htmlFor="user_login_id">
-            Login ID
-            <input
-              id="user_login_id"
-              name="loginId"
-              type="text"
-              value={userForm.loginId}
-              onChange={this.handleInputChange}
-            />
-          </label>
+            <label htmlFor="user_login_id">
+              Login ID
+              <input
+                id="user_login_id"
+                name="loginId"
+                type="text"
+                value={userForm.loginId}
+                onChange={this.handleInputChange}
+              />
+            </label>
 
-          <label htmlFor="user_password">
-            Password
-            <input
-              id="user_password"
-              name="password"
-              type="password"
-              value={userForm.password}
-              placeholder="****************"
-              onChange={this.handleInputChange}
-            />
-          </label>
+            <label htmlFor="user_password">
+              Password
+              <input
+                id="user_password"
+                name="password"
+                type="password"
+                value={userForm.password}
+                placeholder="****************"
+                onChange={this.handleInputChange}
+              />
+            </label>
 
-          <label htmlFor="user_sis_user_id">
-            SIS ID
-            <input
-              id="user_sis_user_id"
-              name="sisUserId"
-              type="text"
-              value={userForm.sisUserId}
-              onChange={this.handleInputChange}
-            />
-          </label>
+            <label htmlFor="user_sis_user_id">
+              SIS ID
+              <input
+                id="user_sis_user_id"
+                name="sisUserId"
+                type="text"
+                value={userForm.sisUserId}
+                onChange={this.handleInputChange}
+              />
+            </label>
 
-          <label htmlFor="user_email">
-            Email
-            <input
-              id="user_email"
-              name="email"
-              type="email"
-              value={userForm.email}
-              onChange={this.handleInputChange}
-            />
-          </label>
-
-          <button type="submit" onClick={event => this.handleSubmit(event)}>Update User</button>
+            <label htmlFor="user_email">
+              Email
+              <input
+                id="user_email"
+                name="email"
+                type="email"
+                value={userForm.email}
+                onChange={this.handleInputChange}
+              />
+            </label>
+          </div>
+          <div className="modal__bottom">
+            <button className="btn btn--outline">Cancel</button>
+            <button className="btn btn--primary" type="submit" onClick={event => this.handleSubmit(event)}>Update</button>
+          </div>
         </form>
       </ReactModal>
     );

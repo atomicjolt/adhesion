@@ -18,15 +18,11 @@
           transform: $transform;
 }
 
-@mixin semi-bold{
-  font-family: 'Roboto', sans-serif;
+@mixin regular{
+  font-family: 'Lato', sans-serif;
   font-weight: 400;
 }
-@mixin regular{
-  font-family: 'Roboto', sans-serif;
-  font-weight: 300;
-}
 @mixin bold{
-  font-family: 'Roboto', sans-serif;
-  font-weight: 500;
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
 }

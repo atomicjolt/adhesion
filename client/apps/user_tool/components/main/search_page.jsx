@@ -66,19 +66,22 @@ export class SearchPage extends React.Component {
     ));
 
     return (
-      <div>
-        <form>
+      <div class="main">
+        <form role="search" className="search">
+          <label htmlFor="search" class="hidden">Search</label>
           <input
             type="search"
+            name="search"
+            id="search"
             minLength={this.minSearchTermLength}
             value={inputSearchTerm}
             onChange={event => this.updateInputSearchTerm(event)}
             placeholder="Search for students..."
           />
-          <button type="submit" onClick={event => this.handleSearch(event)}>Search</button>
+          <button type="submit" class="search__btn" onClick={event => this.handleSearch(event)}>Search</button>
         </form>
-        <p>Search Results:</p>
-        <table>
+        <table className="search-results">
+          <caption className="hidden">Search Results</caption>
           <thead>
             <tr>
               <th scope="col">Name</th>
@@ -92,6 +95,18 @@ export class SearchPage extends React.Component {
             {renderedUsers}
           </tbody>
         </table>
+        <div className="no-search">
+          <h2>Search for a student by: Name, Login ID, SIS ID, or Email.</h2>
+        </div>
+        <div className="no-results">
+          <h2>Your search - <strong>UserSearch</strong> - did not match any of the available students.</h2>
+          <h3>Suggestions:</h3>
+          <ul>
+            <li>Double check your spelling</li>
+            <li>Try more general keywords</li>
+            <li>Try different keywords</li>
+          </ul>
+        </div>
         <Pagination
           changePageTo={page => search(lmsAccountId, resultsSearchTerm, page)}
           currentPage={currentPage}
