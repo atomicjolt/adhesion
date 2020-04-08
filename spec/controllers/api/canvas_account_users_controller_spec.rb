@@ -212,6 +212,34 @@ RSpec.describe Api::CanvasAccountUsersController, type: :controller do
       end
     end
 
+    context "when no matching login is found for the user on Canvas" do
+      before do
+        allow_any_instance_of(LMS::Canvas).to receive(:proxy).
+          with("LIST_USER_LOGINS_USERS", anything).
+          and_return([])
+      end
+
+      it "returns a 500 internal server error" do
+        response = put(:update, format: :json, params: params)
+
+        expect(response.status).to eq(500)
+      end
+
+      it "returns an error message" do
+        response = put(:update, format: :json, params: params)
+
+        expect(JSON.parse(response.body)["message"]).
+          to match(/something went wrong.* failed to find matching login/i)
+      end
+
+      it "returns the exception" do
+        response = put(:update, format: :json, params: params)
+
+        expect(JSON.parse(response.body)["exception"]).
+          to match(/failed to find matching login.* #{params[:original_user_login_id]}/i)
+      end
+    end
+
     context "when the edit user login on Canvas request fails" do
       let(:exception_message) { "A very bad thing occurred." }
 

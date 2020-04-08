@@ -100,9 +100,17 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
       user_id: params[:id],
     )
 
-    list_user_logins_response.detect do |login|
+    matching_login = list_user_logins_response.detect do |login|
       login["unique_id"] == params[:original_user_login_id]
     end
+
+    unless matching_login
+      raise LMS::Canvas::CanvasException.new(
+        "Failed to find matching login for user with login ID: #{params[:original_user_login_id]}",
+      )
+    end
+
+    matching_login
   end
 
   def edit_user_login_on_canvas(numeric_login_id)
