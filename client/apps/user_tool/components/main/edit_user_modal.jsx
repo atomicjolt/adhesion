@@ -62,6 +62,8 @@ export class EditUserModal extends React.Component {
     if (confirmingUpdates) {
       update(user.id, user.login_id, userForm);
 
+      this.setState({ confirmingUpdates: false });
+
       closeModal();
     } else {
       this.setState({ confirmingUpdates: true });

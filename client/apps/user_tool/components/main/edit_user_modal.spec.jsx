@@ -170,6 +170,27 @@ describe('EditUserModal', () => {
         },
       );
     });
+
+    it('resets the submission button to "Update"', () => {
+      const modal = shallow(
+        <EditUserModal
+          updateUser={props.updateUser}
+          isOpen
+          closeModal={props.closeModal}
+          user={props.user}
+        />
+      );
+      let submitButton = modal.find('button[type="submit"]');
+
+      expect(submitButton.text()).toEqual('Update');
+
+      submitButton.simulate('click', { preventDefault: () => {} });
+      // Click again to confirm.
+      submitButton.simulate('click', { preventDefault: () => {} });
+
+      submitButton = modal.find('button[type="submit"]');
+      expect(submitButton.text()).toEqual('Update');
+    });
   });
 
   describe('when the user clicks the Update button', () => {
