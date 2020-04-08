@@ -182,5 +182,63 @@ RSpec.describe Api::CanvasAccountUsersController, type: :controller do
           to match(/modify users from the account/i)
       end
     end
+
+    context "when the edit user on Canvas request fails" do
+      let(:exception_message) { "Something terrible happened." }
+
+      before do
+        allow_any_instance_of(LMS::Canvas).to receive(:api_put_request).
+          with("users/#{params[:id]}", anything).
+          and_raise(LMS::Canvas::CanvasException, exception_message)
+      end
+
+      it "returns a 500 internal server error" do
+        response = put(:update, format: :json, params: params)
+
+        expect(response.status).to eq(500)
+      end
+
+      it "returns an error message" do
+        response = put(:update, format: :json, params: params)
+
+        expect(JSON.parse(response.body)["message"]).
+          to match(/something went wrong.* updates were not persisted/i)
+      end
+
+      it "returns the exception" do
+        response = put(:update, format: :json, params: params)
+
+        expect(JSON.parse(response.body)["exception"]).to eq(exception_message)
+      end
+    end
+
+    context "when the edit user login on Canvas request fails" do
+      let(:exception_message) { "A very bad thing occurred." }
+
+      before do
+        allow_any_instance_of(LMS::Canvas).to receive(:api_put_request).
+          with("accounts/#{lms_account_id}/logins/#{numeric_login_id}", anything).
+          and_raise(LMS::Canvas::CanvasException, exception_message)
+      end
+
+      it "returns a 500 internal server error" do
+        response = put(:update, format: :json, params: params)
+
+        expect(response.status).to eq(500)
+      end
+
+      it "returns an error message" do
+        response = put(:update, format: :json, params: params)
+
+        expect(JSON.parse(response.body)["message"]).
+          to match(/something went wrong.* those attributes were not updated/i)
+      end
+
+      it "returns the exception" do
+        response = put(:update, format: :json, params: params)
+
+        expect(JSON.parse(response.body)["exception"]).to eq(exception_message)
+      end
+    end
   end
 end
