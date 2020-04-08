@@ -92,12 +92,14 @@ exports[`EditUserModal renders the edit user modal 1`] = `
       />
     </label>
     <button
+      className="white"
       onClick={[Function]}
       type="button"
     >
       Cancel
     </button>
     <button
+      className="black"
       onClick={[Function]}
       type="submit"
     >

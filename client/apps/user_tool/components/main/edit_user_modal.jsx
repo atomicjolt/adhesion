@@ -20,13 +20,14 @@ export class EditUserModal extends React.Component {
     const { user } = props;
 
     this.state = {
+      confirmingUpdates: false,
       userForm: {
         name: user.name,
         loginId: user.login_id,
         password: '',
         sisUserId: user.sis_user_id,
         email: user.email
-      }
+      },
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -52,11 +53,46 @@ export class EditUserModal extends React.Component {
       updateUser:update,
       closeModal
     } = this.props;
-    const { userForm } = this.state;
+    const { confirmingUpdates, userForm } = this.state;
 
-    update(user.id, user.login_id, userForm);
+    if (confirmingUpdates) {
+      update(user.id, user.login_id, userForm);
 
-    closeModal();
+      closeModal(); // TODO: Change this to handleClose function.
+    } else {
+      this.setState({ confirmingUpdates: true });
+    }
+  }
+
+  renderButtons() {
+    const { closeModal } = this.props;
+    const { confirmingUpdates } = this.state;
+
+    // TODO: Update these CSS classes with real classes.
+    let submitButtonText = 'Update';
+    let cancelButtonClass = 'white';
+    let submitButtonClass = 'black';
+
+    if (confirmingUpdates) {
+      submitButtonText = 'Confirm';
+      cancelButtonClass = 'red';
+      submitButtonClass = 'green';
+    }
+
+    return (
+      <React.Fragment>
+        <button type="button" className={cancelButtonClass} onClick={closeModal}>
+          Cancel
+        </button>
+        <button
+          type="submit"
+          className={submitButtonClass}
+          onClick={event => this.handleSubmit(event)}
+        >
+          {submitButtonText}
+        </button>
+      </React.Fragment>
+    );
   }
 
   render() {
@@ -131,8 +167,7 @@ export class EditUserModal extends React.Component {
             />
           </label>
 
-          <button type="button" onClick={closeModal}>Cancel</button>
-          <button type="submit" onClick={event => this.handleSubmit(event)}>Update</button>
+          {this.renderButtons()}
         </form>
       </ReactModal>
     );

@@ -65,7 +65,7 @@ describe('EditUserModal', () => {
     });
   });
 
-  describe('when the user updates and submits the form', () => {
+  describe('when the user updates, confirms and submits the form', () => {
     it('submits an update request', () => {
       spyOn(props, 'updateUser');
       const modal = shallow(
@@ -100,6 +100,8 @@ describe('EditUserModal', () => {
       emailInput.simulate('change', { target: { name: 'email', value: newEmail } });
 
       modal.find('button[type="submit"]').simulate('click', { preventDefault: () => {} });
+      // Click again to confirm.
+      modal.find('button[type="submit"]').simulate('click', { preventDefault: () => {} });
 
       expect(props.updateUser).toHaveBeenCalledWith(
         props.user.id,
@@ -112,6 +114,26 @@ describe('EditUserModal', () => {
           email: newEmail,
         },
       );
+    });
+  });
+
+  describe('when the user clicks the Update button', () => {
+    it('the button text changes to "Confirm"', () => {
+      const modal = shallow(
+        <EditUserModal
+          updateUser={props.updateUser}
+          isOpen
+          closeModal={props.closeModal}
+          user={props.user}
+        />
+      );
+      const submitButton = modal.find('button[type="submit"]');
+
+      expect(submitButton.text()).toEqual('Update');
+
+      submitButton.simulate('click', { preventDefault: () => {} });
+
+      expect(modal.find('button[type="submit"]').text()).toEqual('Confirm');
     });
   });
 });
