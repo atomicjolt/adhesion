@@ -108,3 +108,88 @@ exports[`EditUserModal renders the edit user modal 1`] = `
   </form>
 </Modal>
 `;
+
+exports[`EditUserModal when the user clicks the Update button renders changed attributes 1`] = `
+<form>
+  <label
+    htmlFor="user_name"
+  >
+    Name
+    <input
+      id="user_name"
+      name="name"
+      onChange={[Function]}
+      type="text"
+      value="Updated Name"
+    />
+    Was: George Washington
+  </label>
+  <label
+    htmlFor="user_login_id"
+  >
+    Login ID
+    <input
+      id="user_login_id"
+      name="loginId"
+      onChange={[Function]}
+      type="text"
+      value="Updated Login Id"
+    />
+    Was: countryfather@revolution.com
+  </label>
+  <label
+    htmlFor="user_password"
+  >
+    Password
+    <input
+      id="user_password"
+      name="password"
+      onChange={[Function]}
+      placeholder="****************"
+      type="password"
+      value="Updated Password"
+    />
+    Changed
+  </label>
+  <label
+    htmlFor="user_sis_user_id"
+  >
+    SIS ID
+    <input
+      id="user_sis_user_id"
+      name="sisUserId"
+      onChange={[Function]}
+      type="text"
+      value="Updated SIS ID"
+    />
+    Was: george_123
+  </label>
+  <label
+    htmlFor="user_email"
+  >
+    Email
+    <input
+      id="user_email"
+      name="email"
+      onChange={[Function]}
+      type="email"
+      value="Updated Email"
+    />
+    Was: countryfather@revolution.com
+  </label>
+  <button
+    className="red"
+    onClick={[Function]}
+    type="button"
+  >
+    Cancel
+  </button>
+  <button
+    className="green"
+    onClick={[Function]}
+    type="submit"
+  >
+    Confirm
+  </button>
+</form>
+`;

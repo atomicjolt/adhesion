@@ -211,5 +211,32 @@ describe('EditUserModal', () => {
 
       expect(modal.find('button[type="submit"]').text()).toEqual('Confirm');
     });
+
+    it('renders the changed attributes', () => {
+      const modal = shallow(
+        <EditUserModal
+          updateUser={props.updateUser}
+          isOpen
+          closeModal={props.closeModal}
+          user={props.user}
+        />
+      );
+      const submitButton = modal.find('button[type="submit"]');
+      const nameInput = modal.find('#user_name');
+      const loginIdInput = modal.find('#user_login_id');
+      const passwordInput = modal.find('#user_password');
+      const sisUserIdInput = modal.find('#user_sis_user_id');
+      const emailInput = modal.find('#user_email');
+
+      nameInput.simulate('change', { target: { name: 'name', value: 'Updated Name' } });
+      loginIdInput.simulate('change', { target: { name: 'loginId', value: 'Updated Login Id' } });
+      passwordInput.simulate('change', { target: { name: 'password', value: 'Updated Password' } });
+      sisUserIdInput.simulate('change', { target: { name: 'sisUserId', value: 'Updated SIS ID' } });
+      emailInput.simulate('change', { target: { name: 'email', value: 'Updated Email' } });
+
+      submitButton.simulate('click', { preventDefault: () => {} });
+
+      expect(modal.find('form')).toMatchSnapshot();
+    });
   });
 });

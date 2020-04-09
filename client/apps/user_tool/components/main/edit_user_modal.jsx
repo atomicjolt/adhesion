@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactModal from 'react-modal';
+import _ from 'lodash';
 import { connect } from 'react-redux';
 import { updateUser } from '../../actions/application';
 
@@ -78,6 +79,25 @@ export class EditUserModal extends React.Component {
     closeModal();
   }
 
+  renderAttributeChange(attribute) {
+    const { user } = this.props;
+    const { confirmingUpdates, userForm } = this.state;
+
+    if (!confirmingUpdates || userForm[_.camelCase(attribute)] === user[attribute]) {
+      return false;
+    }
+
+    if (attribute === 'password') {
+      if (_.isEmpty(userForm.password)) {
+        return false;
+      }
+
+      return 'Changed';
+    }
+
+    return `Was: ${user[attribute]}`;
+  }
+
   renderButtons() {
     const { confirmingUpdates } = this.state;
 
@@ -133,6 +153,7 @@ export class EditUserModal extends React.Component {
               value={userForm.name}
               onChange={this.handleInputChange}
             />
+            { this.renderAttributeChange('name') }
           </label>
 
           <label htmlFor="user_login_id">
@@ -144,6 +165,7 @@ export class EditUserModal extends React.Component {
               value={userForm.loginId}
               onChange={this.handleInputChange}
             />
+            { this.renderAttributeChange('login_id') }
           </label>
 
           <label htmlFor="user_password">
@@ -156,6 +178,7 @@ export class EditUserModal extends React.Component {
               placeholder="****************"
               onChange={this.handleInputChange}
             />
+            { this.renderAttributeChange('password') }
           </label>
 
           <label htmlFor="user_sis_user_id">
@@ -167,6 +190,7 @@ export class EditUserModal extends React.Component {
               value={userForm.sisUserId}
               onChange={this.handleInputChange}
             />
+            { this.renderAttributeChange('sis_user_id') }
           </label>
 
           <label htmlFor="user_email">
@@ -178,6 +202,7 @@ export class EditUserModal extends React.Component {
               value={userForm.email}
               onChange={this.handleInputChange}
             />
+            { this.renderAttributeChange('email') }
           </label>
 
           {this.renderButtons()}
