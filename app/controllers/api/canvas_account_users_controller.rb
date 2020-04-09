@@ -23,12 +23,22 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
   # This action can only update users who are members of the Canvas account given in the LTI launch.
   # Users from sub-accounts of that account can also be updated.
   def update
-    edit_user_response = edit_user_on_canvas
+    begin
+      edit_user_response = edit_user_on_canvas
+    rescue LMS::Canvas::CanvasException => e
+      render_update_user_exception(:edit_user, e)
+      return
+    end
 
-    # This ID is the ID of the login record; it's different from the user's login ID.
-    numeric_login_id = find_canvas_user_login["id"]
+    begin
+      # This ID is the ID of the login record; it's different from the user's login ID.
+      numeric_login_id = find_canvas_user_login["id"]
 
-    edit_user_login_response = edit_user_login_on_canvas(numeric_login_id)
+      edit_user_login_response = edit_user_login_on_canvas(numeric_login_id)
+    rescue LMS::Canvas::CanvasException => e
+      render_update_user_exception(:edit_user_login, e)
+      return
+    end
 
     render(
       json: {
@@ -90,9 +100,17 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
       user_id: params[:id],
     )
 
-    list_user_logins_response.detect do |login|
+    matching_login = list_user_logins_response.detect do |login|
       login["unique_id"] == params[:original_user_login_id]
     end
+
+    unless matching_login
+      raise LMS::Canvas::CanvasException.new(
+        "Failed to find matching login for user with login ID: #{params[:original_user_login_id]}",
+      )
+    end
+
+    matching_login
   end
 
   def edit_user_login_on_canvas(numeric_login_id)
@@ -101,6 +119,25 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
       "login[unique_id]" => params[:user][:login_id],
       "login[sis_user_id]" => params[:user][:sis_user_id],
       "login[password]" => params[:user][:password],
+    )
+  end
+
+  def render_update_user_exception(request_type, exception)
+    record_exception(exception)
+
+    message = case request_type
+              when :edit_user
+                "Something went wrong updating the user. The updates were not " \
+                "persisted to Canvas. Please try again."
+              when :edit_user_login # The user name and email were updated.
+                "Something went wrong updating the user's login ID, password and/or " \
+                "SIS ID. Those attributes were not updated on Canvas. Please reload and try again."
+              end
+
+    render_error(
+      :internal_server_error,
+      "#{message} Canvas API Error: #{exception.message}",
+      { exception: exception },
     )
   end
 end

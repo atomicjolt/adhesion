@@ -14,10 +14,10 @@ export default (state = initialState(), action) => {
 
     case ApplicationConstants.SEARCH_FOR_ACCOUNT_USERS_DONE: {
       const {
-        matching_users:matchingUsers,
         previous_page_available:previousPageAvailable,
         next_page_available:nextPageAvailable,
       } = action.payload;
+      const matchingUsers = action.payload.matching_users || [];
 
       return {
         ...state,

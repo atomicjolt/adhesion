@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 import Index from './index';
 
+jest.mock('./errors');
+
 describe('index', () => {
   let result;
   let props;
