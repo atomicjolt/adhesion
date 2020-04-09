@@ -1,12 +1,17 @@
 require "rails_helper"
 
-RSpec.describe Api::CanvasUsersController, type: :controller do
+RSpec.describe Api::CanvasAccountUsersController, type: :controller do
+  let(:lms_account_id) { "308" }
+
   before do
     setup_application_instance
 
     user = create(:user)
     user.confirm
-    request.headers["Authorization"] = AuthToken.issue_token(user_id: user.id)
+    request.headers["Authorization"] = AuthToken.issue_token(
+      user_id: user.id,
+      lms_account_id: lms_account_id,
+    )
 
     allow_any_instance_of(User).to receive(:lti_admin?).and_return(true)
   end
@@ -16,7 +21,7 @@ RSpec.describe Api::CanvasUsersController, type: :controller do
       it "allows the request to continue" do
         allow_any_instance_of(User).to receive(:lti_admin?).and_return(true)
 
-        response = get(:index, format: :json, params: { canvas_account_id: 308 })
+        response = get(:index, format: :json)
 
         expect(response.status).to eq(200)
       end
@@ -28,13 +33,13 @@ RSpec.describe Api::CanvasUsersController, type: :controller do
       end
 
       it "returns a 401 unauthorized" do
-        response = get(:index, format: :json, params: { canvas_account_id: 308 })
+        response = get(:index, format: :json)
 
         expect(response.status).to eq(401)
       end
 
       it "returns an error message" do
-        response = get(:index, format: :json, params: { canvas_account_id: 308 })
+        response = get(:index, format: :json)
 
         expect(JSON.parse(response.body)["message"]).to match(/only account admins/i)
       end
@@ -43,10 +48,7 @@ RSpec.describe Api::CanvasUsersController, type: :controller do
 
   describe "GET #index" do
     let(:params) do
-      {
-        canvas_account_id: 308,
-        search_term: "johnson",
-      }
+      { search_term: "johnson" }
     end
 
     it "returns matching users" do
@@ -81,7 +83,6 @@ RSpec.describe Api::CanvasUsersController, type: :controller do
   describe "PUT update" do
     let(:params) do
       {
-        canvas_account_id: "308",
         id: "412",
         original_user_login_id: "adamsforindepence@greatbritain.com",
         user: {
@@ -114,7 +115,7 @@ RSpec.describe Api::CanvasUsersController, type: :controller do
         )
 
       allow_any_instance_of(LMS::Canvas).to receive(:api_put_request).
-        with("accounts/#{params[:canvas_account_id]}/logins/#{numeric_login_id}", anything).
+        with("accounts/#{lms_account_id}/logins/#{numeric_login_id}", anything).
         and_return(
           {
             "id" => numeric_login_id,
@@ -164,7 +165,7 @@ RSpec.describe Api::CanvasUsersController, type: :controller do
     context "when the user is not in the admin's account or sub-account" do
       before do
         allow_any_instance_of(LMS::Canvas).to receive(:api_get_request).
-          with(a_string_including("accounts/#{params[:canvas_account_id]}/users")).
+          with(a_string_including("accounts/#{lms_account_id}/users")).
           and_return(OpenStruct.new({ parsed_response: [] }))
       end
 

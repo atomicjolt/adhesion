@@ -26,7 +26,6 @@ describe('SearchPage', () => {
         email: 'idodeclare@revolution.com',
       }
     ],
-    lmsAccountId: '1',
     currentPage: 2,
     previousPageAvailable: true,
     nextPageAvailable: true,
@@ -43,7 +42,6 @@ describe('SearchPage', () => {
     const searchPage = shallow(<SearchPage
       matchingUsers={props.matchingUsers}
       searchForAccountUsers={props.searchForAccountUsers}
-      lmsAccountId={props.lmsAccountId}
       currentPage={props.currentPage}
       previousPageAvailable={props.previousPageAvailable}
       nextPageAvailable={props.nextPageAvailable}
@@ -59,7 +57,6 @@ describe('SearchPage', () => {
       const searchPage = shallow(<SearchPage
         matchingUsers={props.matchingUsers}
         searchForAccountUsers={props.searchForAccountUsers}
-        lmsAccountId={props.lmsAccountId}
         currentPage={props.currentPage}
       />);
 
@@ -67,7 +64,6 @@ describe('SearchPage', () => {
       submitSearch(searchPage);
 
       expect(props.searchForAccountUsers).toHaveBeenCalledWith(
-        props.lmsAccountId,
         searchTerm,
       );
     });
@@ -78,7 +74,6 @@ describe('SearchPage', () => {
       const searchPage = shallow(<SearchPage
         matchingUsers={[]}
         searchForAccountUsers={props.searchForAccountUsers}
-        lmsAccountId={props.lmsAccountId}
         currentPage={props.currentPage}
         previousPageAvailable={props.previousPageAvailable}
         nextPageAvailable={props.nextPageAvailable}
@@ -98,7 +93,6 @@ describe('SearchPage', () => {
       const searchPage = shallow(<SearchPage
         matchingUsers={props.matchingUsers}
         searchForAccountUsers={props.searchForAccountUsers}
-        lmsAccountId={props.lmsAccountId}
         currentPage={props.currentPage}
       />);
 
@@ -115,7 +109,6 @@ describe('SearchPage', () => {
       const searchPage = mount(<SearchPage
         matchingUsers={props.matchingUsers}
         searchForAccountUsers={props.searchForAccountUsers}
-        lmsAccountId={props.lmsAccountId}
         currentPage={props.currentPage}
         previousPageAvailable={props.previousPageAvailable}
         nextPageAvailable={props.nextPageAvailable}
@@ -125,7 +118,6 @@ describe('SearchPage', () => {
       submitSearch(searchPage);
 
       expect(props.searchForAccountUsers).toHaveBeenCalledWith(
-        props.lmsAccountId,
         firstSearchTerm,
       );
 
@@ -137,7 +129,6 @@ describe('SearchPage', () => {
       nextButton.simulate('click');
 
       expect(props.searchForAccountUsers).toHaveBeenCalledWith(
-        props.lmsAccountId,
         firstSearchTerm,
         props.currentPage + 1,
       );
@@ -152,7 +143,6 @@ describe('SearchPage', () => {
       const searchPage = mount(<SearchPage
         matchingUsers={props.matchingUsers}
         searchForAccountUsers={props.searchForAccountUsers}
-        lmsAccountId={props.lmsAccountId}
         currentPage={props.currentPage}
         previousPageAvailable={props.previousPageAvailable}
         nextPageAvailable={props.nextPageAvailable}
@@ -162,7 +152,6 @@ describe('SearchPage', () => {
       submitSearch(searchPage);
 
       expect(props.searchForAccountUsers).toHaveBeenCalledWith(
-        props.lmsAccountId,
         firstSearchTerm,
       );
 
@@ -173,7 +162,6 @@ describe('SearchPage', () => {
       nextButton.simulate('click');
 
       expect(props.searchForAccountUsers).toHaveBeenCalledWith(
-        props.lmsAccountId,
         firstSearchTerm,
         props.currentPage + 1,
       );
