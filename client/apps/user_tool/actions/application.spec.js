@@ -3,44 +3,41 @@ import { searchForAccountUsers, updateUser } from './application';
 describe('application actions', () => {
   describe('searchForAccountUsers', () => {
     it('generates the correct action', () => {
-      const lmsAccountId = 123;
       const searchTerm = 'student name';
       const page = '2';
       const expectedAction = {
         type: 'SEARCH_FOR_ACCOUNT_USERS',
         method: 'get',
-        url: `api/canvas_accounts/${lmsAccountId}/canvas_users`,
+        url: 'api/canvas_account_users',
         params: {
           search_term: searchTerm,
           page,
         },
       };
 
-      expect(searchForAccountUsers(lmsAccountId, searchTerm, page)).toEqual(expectedAction);
+      expect(searchForAccountUsers(searchTerm, page)).toEqual(expectedAction);
     });
 
     describe('when no search term is given', () => {
       it('generates the correct action', () => {
-        const lmsAccountId = 123;
         const searchTerm = '';
         const page = '2';
         const expectedAction = {
           type: 'SEARCH_FOR_ACCOUNT_USERS',
           method: 'get',
-          url: `api/canvas_accounts/${lmsAccountId}/canvas_users`,
+          url: 'api/canvas_account_users',
           params: {
             search_term: searchTerm,
             page,
           },
         };
 
-        expect(searchForAccountUsers(lmsAccountId, searchTerm, page)).toEqual(expectedAction);
+        expect(searchForAccountUsers(searchTerm, page)).toEqual(expectedAction);
       });
     });
   });
 
   describe('updateUser', () => {
-    const lmsAccountId = 123;
     const userId = 45;
     const originalUserLoginId = 'adamsforindepence@greatbritain.com';
     const userAttributes = {
@@ -55,7 +52,7 @@ describe('application actions', () => {
       const expectedAction = {
         type: 'UPDATE_USER',
         method: 'put',
-        url: `api/canvas_accounts/${lmsAccountId}/canvas_users/${userId}`,
+        url: `api/canvas_account_users/${userId}`,
         body: {
           original_user_login_id: originalUserLoginId,
           user: {
@@ -68,7 +65,7 @@ describe('application actions', () => {
         }
       };
 
-      expect(updateUser(lmsAccountId, userId, originalUserLoginId, userAttributes))
+      expect(updateUser(userId, originalUserLoginId, userAttributes))
         .toEqual(expectedAction);
     });
 
@@ -79,7 +76,7 @@ describe('application actions', () => {
         const expectedAction = {
           type: 'UPDATE_USER',
           method: 'put',
-          url: `api/canvas_accounts/${lmsAccountId}/canvas_users/${userId}`,
+          url: `api/canvas_account_users/${userId}`,
           body: {
             original_user_login_id: originalUserLoginId,
             user: {
@@ -91,7 +88,7 @@ describe('application actions', () => {
           }
         };
 
-        expect(updateUser(lmsAccountId, userId, originalUserLoginId, userAttributes))
+        expect(updateUser(userId, originalUserLoginId, userAttributes))
           .toEqual(expectedAction);
       });
     });

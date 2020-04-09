@@ -1,13 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import _ from 'lodash';
+
 import { searchForAccountUsers } from '../../actions/application';
 import UserSearchResult from './user_search_result';
+import StartSearching from './start_searching';
+import NoSearchResults from './no_search_results';
 import Pagination from '../../../../common/components/common/pagination';
 
 const select = state => ({
   matchingUsers: state.application.matchingUsers,
-  lmsAccountId: state.settings.custom_canvas_account_id,
   currentPage: state.application.currentPage,
   previousPageAvailable: state.application.previousPageAvailable,
   nextPageAvailable: state.application.nextPageAvailable,
@@ -17,7 +20,6 @@ export class SearchPage extends React.Component {
   static propTypes = {
     searchForAccountUsers: PropTypes.func.isRequired,
     matchingUsers: PropTypes.array.isRequired,
-    lmsAccountId: PropTypes.string.isRequired,
     currentPage: PropTypes.number.isRequired,
     previousPageAvailable: PropTypes.bool,
     nextPageAvailable: PropTypes.bool,
@@ -29,6 +31,7 @@ export class SearchPage extends React.Component {
     this.state = {
       inputSearchTerm: '', // The search term currently in the input field.
       resultsSearchTerm: '', // The search term associated with the currently displayed results.
+      hasSearched: false,
     };
     this.minSearchTermLength = 3;
   }
@@ -41,26 +44,25 @@ export class SearchPage extends React.Component {
     event.preventDefault();
     event.target.form.reportValidity();
 
-    const { lmsAccountId, searchForAccountUsers:search } = this.props;
+    const { searchForAccountUsers:search } = this.props;
     const { inputSearchTerm } = this.state;
 
-    this.setState({ resultsSearchTerm: inputSearchTerm });
-
     if (inputSearchTerm.length >= this.minSearchTermLength) {
-      search(lmsAccountId, inputSearchTerm);
+      this.setState({ resultsSearchTerm: inputSearchTerm, hasSearched: true });
+
+      search(inputSearchTerm);
     }
   }
 
   render() {
     const {
       searchForAccountUsers:search,
-      lmsAccountId,
       matchingUsers,
       currentPage,
       previousPageAvailable,
       nextPageAvailable
     } = this.props;
-    const { inputSearchTerm, resultsSearchTerm } = this.state;
+    const { inputSearchTerm, resultsSearchTerm, hasSearched } = this.state;
     const renderedUsers = matchingUsers.map(user => (
       <UserSearchResult key={user.id} user={user} />
     ));
@@ -95,6 +97,15 @@ export class SearchPage extends React.Component {
             {renderedUsers}
           </tbody>
         </table>
+
+        { !hasSearched && <StartSearching /> }
+
+        {
+          hasSearched
+          && _.isEmpty(matchingUsers)
+          && <NoSearchResults searchTerm={resultsSearchTerm} />
+        }
+
         <div className="no-search">
           <h2>Search for a student by: Name, Login ID, SIS ID, or Email.</h2>
         </div>
@@ -107,8 +118,9 @@ export class SearchPage extends React.Component {
             <li>Try different keywords</li>
           </ul>
         </div>
+
         <Pagination
-          changePageTo={page => search(lmsAccountId, resultsSearchTerm, page)}
+          changePageTo={page => search(resultsSearchTerm, page)}
           currentPage={currentPage}
           previousPageAvailable={previousPageAvailable}
           nextPageAvailable={nextPageAvailable}

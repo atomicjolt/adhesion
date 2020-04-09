@@ -22,6 +22,7 @@ module JwtHelper
       attrs[:tool_consumer_instance_guid] = params[:tool_consumer_instance_guid]
       attrs[:context_id] = params[:context_id]
       attrs[:lms_course_id] = params[:custom_canvas_course_id]
+      attrs[:lms_account_id] = params[:custom_canvas_account_id]
       attrs[:kid] = params[:oauth_consumer_key]
     end
 

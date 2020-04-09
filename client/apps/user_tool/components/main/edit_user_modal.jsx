@@ -4,9 +4,7 @@ import ReactModal from 'react-modal';
 import { connect } from 'react-redux';
 import { updateUser } from '../../actions/application';
 
-const select = state => ({
-  lmsAccountId: state.settings.custom_canvas_account_id,
-});
+const select = () => ({});
 
 export class EditUserModal extends React.Component {
   static propTypes = {
@@ -14,7 +12,6 @@ export class EditUserModal extends React.Component {
     isOpen: PropTypes.bool.isRequired,
     closeModal: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
-    lmsAccountId: PropTypes.string.isRequired,
   };
 
   constructor(props) {
@@ -51,14 +48,13 @@ export class EditUserModal extends React.Component {
     event.preventDefault();
 
     const {
-      lmsAccountId,
       user,
       updateUser:update,
       closeModal
     } = this.props;
     const { userForm } = this.state;
 
-    update(lmsAccountId, user.id, user.login_id, userForm);
+    update(user.id, user.login_id, userForm);
 
     closeModal();
   }
@@ -107,7 +103,7 @@ export class EditUserModal extends React.Component {
             </label>
 
             <label htmlFor="user_password">
-              Password
+              New Password
               <input
                 id="user_password"
                 name="password"
