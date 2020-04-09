@@ -1,0 +1,43 @@
+.errors{
+  width: 100%;
+  background: $red;
+  padding: 0.4rem 1.6rem;
+  display: flex;
+  align-items: stretch;
+  border-radius: 0.3rem;
+
+  button{
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 2.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $white;
+    background: none;
+    border: none;
+
+    &:hover, &:focus{
+      background: rgba(255,255,255,0.2);
+    }
+  }
+
+  ul{
+    flex: 1;
+    margin: 0 1.2rem 0 0;
+    padding: 0.8rem 0;
+    list-style-type: none;
+
+    li{
+      padding-bottom: 1.2rem;
+      color: $white;
+      @include bold;
+      font-size: 1.4rem;
+
+      &:last-of-type{
+        padding: 0;
+      }
+    }
+  }
+}
