@@ -106,19 +106,6 @@ export class SearchPage extends React.Component {
           && <NoSearchResults searchTerm={resultsSearchTerm} />
         }
 
-        <div className="no-search">
-          <h2>Search for a student by: Name, Login ID, SIS ID, or Email.</h2>
-        </div>
-        <div className="no-results">
-          <h2>Your search - <strong>UserSearch</strong> - did not match any of the available students.</h2>
-          <h3>Suggestions:</h3>
-          <ul>
-            <li>Double check your spelling</li>
-            <li>Try more general keywords</li>
-            <li>Try different keywords</li>
-          </ul>
-        </div>
-
         <Pagination
           changePageTo={page => search(resultsSearchTerm, page)}
           currentPage={currentPage}
