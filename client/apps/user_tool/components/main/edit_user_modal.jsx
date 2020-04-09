@@ -91,7 +91,7 @@ export class EditUserModal extends React.Component {
                     value={userForm.name}
                     onChange={this.handleInputChange}
                   />
-                <span>Was: Jeffery Danish</span>
+                  <span>Was: Jeffery Danish</span>
                 </div>
                 <div className="input">
                   <label htmlFor="user_sis_user_id">SIS ID</label>
