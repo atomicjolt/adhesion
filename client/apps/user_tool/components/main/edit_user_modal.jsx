@@ -140,6 +140,7 @@ export class EditUserModal extends React.Component {
             </div>
           </div>
           <div className="modal__bottom">
+            <p>Are you sure you want to make the current changes to this user?</p>
             <button className="btn btn--outline">Cancel</button>
             <button className="btn btn--primary" type="submit" onClick={event => this.handleSubmit(event)}>Update</button>
           </div>

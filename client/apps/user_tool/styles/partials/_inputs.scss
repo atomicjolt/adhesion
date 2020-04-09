@@ -31,8 +31,12 @@
     font-size: 1.4rem;
     display: flex;
     align-items: center;
-    cursor: pointer;
+    transition: all 0.1s ease;
 
+    &:hover{
+      cursor: pointer;
+      background: lighten($blue, 5%);
+    }
     &:focus{
       outline: thin dotted $blue;
     }
@@ -101,7 +105,7 @@
     }
   }
   input, textarea, select {
-    &:focus{border-color: #333 !important; outline: none;}
+    &:focus{border-color: $blue !important; outline: thin dotted $blue;}
   }
   span{
     display: block;
@@ -109,5 +113,80 @@
     @include regular;
     color: $blue;
     margin-top: 0.2rem;
+  }
+}
+
+.btn{
+  font-size: 1.4rem;
+  @include regular;
+  border: none;
+  background: none;
+  min-height: 3.8rem;
+  display: flex;
+  align-items: center;
+  padding: 0 1.6rem;
+  border-radius: 0.3rem;
+  transition: all 0.1s ease;
+
+  &:hover{
+    cursor: pointer;
+  }
+  &:focus{
+    outline: thin dotted $blue;
+  }
+}
+
+.btn--primary{
+  background: $blue;
+  color: $white;
+
+  &.is-green{
+    background: $green;
+    opacity: 0;
+    animation-name: drop-in;
+    animation-duration: 0.2s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease;
+    animation-delay: 0.1s;
+
+    &:hover{
+      background: lighten($green, 5%);
+    }
+  }
+  &.is-red{
+    background: $red;
+    opacity: 0;
+    animation-name: drop-in;
+    animation-duration: 0.2s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease;
+
+    &:hover{
+      background: lighten($red, 5%);
+    }
+  }
+
+  &:hover{
+    background: lighten($blue, 5%);
+  }
+}
+
+@keyframes drop-in{
+  0%{
+    opacity: 0;
+    transform: scale(1.15);
+  }
+  100%{
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.btn--outline{
+  color: $blue;
+  border: 0.1rem solid $gray7;
+
+  &:hover, &:focus{
+    background: $white;
   }
 }

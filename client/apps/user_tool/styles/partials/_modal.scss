@@ -19,7 +19,7 @@
   top: 4.8rem;
   left: 50%;
   transform: translateX(-50%);
-  width: 100%;
+  width: 96%;
   max-width: 56rem;
 
   &:focus{
@@ -73,4 +73,30 @@
   padding: 1.2rem 1.6rem;
   background: $grayF;
   border-top: 0.1rem solid $blue4;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+
+  .btn--outline{
+    margin-right: 0.6rem;
+  }
+
+  p{
+    @include regular;
+    font-size: 1.4rem;
+    color: $blue;
+    flex: 1;
+    width: 100%;
+    margin: 0 0 0.8rem;
+  }
+}
+
+@media (min-width: 670px){
+  .modal__bottom {
+    p{
+      width: auto;
+      margin: 0 1.2rem 0 0;
+    }
+  }
 }

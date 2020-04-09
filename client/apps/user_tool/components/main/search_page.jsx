@@ -82,21 +82,23 @@ export class SearchPage extends React.Component {
           />
           <button type="submit" class="search__btn" onClick={event => this.handleSearch(event)}>Search</button>
         </form>
-        <table className="search-results">
-          <caption className="hidden">Search Results</caption>
-          <thead>
-            <tr>
-              <th scope="col">Name</th>
-              <th scope="col">Login ID</th>
-              <th scope="col">SIS ID</th>
-              <th scope="col">Roles</th>
-              <th scope="col">Email Address</th>
-            </tr>
-          </thead>
-          <tbody>
-            {renderedUsers}
-          </tbody>
-        </table>
+        <div className="table-scroll">
+          <table className="search-results">
+            <caption className="hidden">Search Results</caption>
+            <thead>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Login ID</th>
+                <th scope="col">SIS ID</th>
+                <th scope="col">Roles</th>
+                <th scope="col">Email Address</th>
+              </tr>
+            </thead>
+            <tbody>
+              {renderedUsers}
+            </tbody>
+          </table>
+        </div>
 
         { !hasSearched && <StartSearching /> }
 

@@ -7,6 +7,7 @@
   border-collapse: collapse;
   margin-top: 2rem;
   width: 100%;
+  min-width: 70rem;
   thead{
     th{
       white-space: nowrap;
@@ -133,7 +134,7 @@
 
 
 //max-width equal to the min-width of the table
-@media (max-width: 670px){
+@media (max-width: 700px){
   .table-scroll{
     overflow: auto;
   }
