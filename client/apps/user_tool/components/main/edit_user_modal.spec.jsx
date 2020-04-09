@@ -212,6 +212,27 @@ describe('EditUserModal', () => {
       expect(modal.find('button[type="submit"]').text()).toEqual('Confirm');
     });
 
+    it('displays the confirmation message', () => {
+      const modal = shallow(
+        <EditUserModal
+          updateUser={props.updateUser}
+          isOpen
+          closeModal={props.closeModal}
+          user={props.user}
+        />
+      );
+      const submitButton = modal.find('button[type="submit"]');
+      let form = modal.find('form');
+
+      expect(form.text()).toEqual(expect.not.stringContaining('Are you sure you'));
+
+      submitButton.simulate('click', { preventDefault: () => {} });
+
+      form = modal.find('form');
+
+      expect(form.text()).toEqual(expect.stringContaining('Are you sure you'));
+    });
+
     it('renders the changed attributes', () => {
       const modal = shallow(
         <EditUserModal

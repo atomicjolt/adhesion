@@ -130,7 +130,7 @@ export class EditUserModal extends React.Component {
 
   render() {
     const { isOpen, closeModal } = this.props;
-    const { userForm } = this.state;
+    const { confirmingUpdates, userForm } = this.state;
 
     return (
       <ReactModal
@@ -205,6 +205,11 @@ export class EditUserModal extends React.Component {
             { this.renderAttributeChange('email') }
           </label>
 
+          { confirmingUpdates && (
+            <span>
+              Are you sure you want to apply the current changes to this user?
+            </span>
+          )}
           {this.renderButtons()}
         </form>
       </ReactModal>

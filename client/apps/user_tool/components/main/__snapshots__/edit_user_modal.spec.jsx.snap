@@ -109,7 +109,7 @@ exports[`EditUserModal renders the edit user modal 1`] = `
 </Modal>
 `;
 
-exports[`EditUserModal when the user clicks the Update button renders changed attributes 1`] = `
+exports[`EditUserModal when the user clicks the Update button renders the changed attributes 1`] = `
 <form>
   <label
     htmlFor="user_name"
@@ -177,6 +177,9 @@ exports[`EditUserModal when the user clicks the Update button renders changed at
     />
     Was: countryfather@revolution.com
   </label>
+  <span>
+    Are you sure you want to apply the current changes to this user?
+  </span>
   <button
     className="red"
     onClick={[Function]}
