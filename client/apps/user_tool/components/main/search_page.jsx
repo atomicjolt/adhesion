@@ -80,7 +80,7 @@ export class SearchPage extends React.Component {
             onChange={event => this.updateInputSearchTerm(event)}
             placeholder="Search for students..."
           />
-          <button type="submit" class="search__btn" onClick={event => this.handleSearch(event)}>Search</button>
+        <button type="submit" className="search__btn" onClick={event => this.handleSearch(event)}>Search</button>
         </form>
         <div className="table-scroll">
           <table className="search-results">
