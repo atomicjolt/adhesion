@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Errors renders the errors 1`] = `
+<div
+  className="errors"
+>
+  <button
+    onClick={[Function]}
+    onKeyPress={[Function]}
+    type="button"
+  >
+    <i
+      className="material-icons"
+    >
+      clear
+    </i>
+  </button>
+  <ul>
+    <li
+      key="0"
+    >
+      Something went wrong.
+    </li>
+    <li
+      key="1"
+    >
+      A terrible thing happened.
+    </li>
+  </ul>
+</div>
+`;
