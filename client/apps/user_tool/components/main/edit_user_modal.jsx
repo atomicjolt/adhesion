@@ -73,8 +73,8 @@ export class EditUserModal extends React.Component {
       >
         <div className="modal__top">
           <h2>Edit User</h2>
-          <button type="button" onClick={closeModal}>
-            <i className="material-icons">close</i>
+          <button type="button" onClick={closeModal} aria-label="close modal">
+            <i className="material-icons" aria-hidden="true">close</i>
           </button>
         </div>
 
