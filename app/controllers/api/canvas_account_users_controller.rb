@@ -81,7 +81,7 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
       include: [:email],
     }
     query_params[:page] = page if page.present? # You get a 404 if you pass an empty `page` param.
-    canvas_url = "acccounts/#{jwt_lms_account_id}/users?#{query_params.to_query}"
+    canvas_url = "accounts/#{jwt_lms_account_id}/users?#{query_params.to_query}"
 
     canvas_api.api_get_request(canvas_url)
   end
