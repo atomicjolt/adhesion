@@ -59,8 +59,8 @@ describe('application actions', () => {
             sis_user_id: userAttributes.sisUserId,
             email: userAttributes.email,
             password: userAttributes.password,
-          }
-        }
+          },
+        },
       };
 
       expect(updateUser(userId, userAttributes))
@@ -81,8 +81,8 @@ describe('application actions', () => {
               login_id: userAttributes.loginId,
               sis_user_id: userAttributes.sisUserId,
               email: userAttributes.email,
-            }
-          }
+            },
+          },
         };
 
         expect(updateUser(userId, userAttributes))

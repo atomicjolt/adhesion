@@ -26,7 +26,7 @@ export const updateUser = (userId, userAttributes) => {
       login_id: userAttributes.loginId,
       sis_user_id: userAttributes.sisUserId,
       email: userAttributes.email,
-    }
+    },
   };
 
   if (userAttributes.password !== '') {
