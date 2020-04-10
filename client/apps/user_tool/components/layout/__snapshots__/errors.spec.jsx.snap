@@ -4,17 +4,6 @@ exports[`Errors renders the errors 1`] = `
 <div
   className="errors"
 >
-  <button
-    onClick={[Function]}
-    onKeyPress={[Function]}
-    type="button"
-  >
-    <i
-      className="material-icons"
-    >
-      clear
-    </i>
-  </button>
   <ul>
     <li
       key="0"
@@ -27,5 +16,18 @@ exports[`Errors renders the errors 1`] = `
       A terrible thing happened.
     </li>
   </ul>
+  <button
+    aria-label="clear errors"
+    onClick={[Function]}
+    onKeyPress={[Function]}
+    type="button"
+  >
+    <i
+      aria-hidden="true"
+      className="material-icons"
+    >
+      clear
+    </i>
+  </button>
 </div>
 `;

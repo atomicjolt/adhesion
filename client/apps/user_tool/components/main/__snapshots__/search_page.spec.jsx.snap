@@ -1,86 +1,111 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SearchPage renders the search page 1`] = `
-<div>
-  <form>
+<div
+  className="main"
+>
+  <form
+    className="search"
+    role="search"
+  >
+    <label
+      class="hidden"
+      htmlFor="search"
+    >
+      Search
+    </label>
     <input
+      id="search"
       minLength={3}
+      name="search"
       onChange={[Function]}
       placeholder="Search for students..."
       type="search"
       value=""
     />
     <button
+      className="search__btn"
       onClick={[Function]}
       type="submit"
     >
       Search
     </button>
   </form>
-  <table>
-    <thead>
-      <tr>
-        <th
-          scope="col"
-        >
-          Name
-        </th>
-        <th
-          scope="col"
-        >
-          Login ID
-        </th>
-        <th
-          scope="col"
-        >
-          SIS ID
-        </th>
-        <th
-          scope="col"
-        >
-          Roles
-        </th>
-        <th
-          scope="col"
-        >
-          Email Address
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <UserSearchResult
-        key="1"
-        user={
-          Object {
-            "email": "countryfather@revolution.com",
-            "id": 1,
-            "login_id": "countryfather@revolution.com",
-            "name": "George Washington",
-            "roles": Array [
-              "admin",
-              "teacher",
-            ],
-            "sis_user_id": "george_123",
+  <div
+    className="table-scroll"
+  >
+    <table
+      className="search-results"
+    >
+      <caption
+        className="hidden"
+      >
+        Search Results
+      </caption>
+      <thead>
+        <tr>
+          <th
+            scope="col"
+          >
+            Name
+          </th>
+          <th
+            scope="col"
+          >
+            Login ID
+          </th>
+          <th
+            scope="col"
+          >
+            SIS ID
+          </th>
+          <th
+            scope="col"
+          >
+            Roles
+          </th>
+          <th
+            scope="col"
+          >
+            Email Address
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <UserSearchResult
+          key="1"
+          user={
+            Object {
+              "email": "countryfather@revolution.com",
+              "id": 1,
+              "login_id": "countryfather@revolution.com",
+              "name": "George Washington",
+              "roles": Array [
+                "admin",
+                "teacher",
+              ],
+              "sis_user_id": "george_123",
+            }
           }
-        }
-      />
-      <UserSearchResult
-        key="2"
-        user={
-          Object {
-            "email": "idodeclare@revolution.com",
-            "id": 2,
-            "login_id": "idodeclare@revolution.com",
-            "name": "Thomas Jefferson",
-            "roles": Array [
-              "teacher",
-            ],
-            "sis_user_id": "thomas_123",
+        />
+        <UserSearchResult
+          key="2"
+          user={
+            Object {
+              "email": "idodeclare@revolution.com",
+              "id": 2,
+              "login_id": "idodeclare@revolution.com",
+              "name": "Thomas Jefferson",
+              "roles": Array [
+                "teacher",
+              ],
+              "sis_user_id": "thomas_123",
+            }
           }
-        }
-      />
-    </tbody>
-  </table>
+        />
+      </tbody>
+    </table>
+  </div>
   <StartSearching />
   <Pagination
     changePageTo={[Function]}
@@ -92,54 +117,79 @@ exports[`SearchPage renders the search page 1`] = `
 `;
 
 exports[`SearchPage when the user submits a search that returns no results displays the no search results section 1`] = `
-<div>
-  <form>
+<div
+  className="main"
+>
+  <form
+    className="search"
+    role="search"
+  >
+    <label
+      class="hidden"
+      htmlFor="search"
+    >
+      Search
+    </label>
     <input
+      id="search"
       minLength={3}
+      name="search"
       onChange={[Function]}
       placeholder="Search for students..."
       type="search"
       value="student name"
     />
     <button
+      className="search__btn"
       onClick={[Function]}
       type="submit"
     >
       Search
     </button>
   </form>
-  <table>
-    <thead>
-      <tr>
-        <th
-          scope="col"
-        >
-          Name
-        </th>
-        <th
-          scope="col"
-        >
-          Login ID
-        </th>
-        <th
-          scope="col"
-        >
-          SIS ID
-        </th>
-        <th
-          scope="col"
-        >
-          Roles
-        </th>
-        <th
-          scope="col"
-        >
-          Email Address
-        </th>
-      </tr>
-    </thead>
-    <tbody />
-  </table>
+  <div
+    className="table-scroll"
+  >
+    <table
+      className="search-results"
+    >
+      <caption
+        className="hidden"
+      >
+        Search Results
+      </caption>
+      <thead>
+        <tr>
+          <th
+            scope="col"
+          >
+            Name
+          </th>
+          <th
+            scope="col"
+          >
+            Login ID
+          </th>
+          <th
+            scope="col"
+          >
+            SIS ID
+          </th>
+          <th
+            scope="col"
+          >
+            Roles
+          </th>
+          <th
+            scope="col"
+          >
+            Email Address
+          </th>
+        </tr>
+      </thead>
+      <tbody />
+    </table>
+  </div>
   <NoSearchResults
     searchTerm="student name"
   />

@@ -70,7 +70,7 @@ export class SearchPage extends React.Component {
     return (
       <div className="main">
         <form role="search" className="search">
-          <label htmlFor="search" class="hidden">Search</label>
+          <label htmlFor="search" className="hidden">Search</label>
           <input
             type="search"
             name="search"
