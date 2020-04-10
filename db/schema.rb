@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_26_194920) do
+ActiveRecord::Schema.define(version: 2020_04_09_204253) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -153,6 +153,18 @@ ActiveRecord::Schema.define(version: 2020_02_26_194920) do
     t.string "key"
     t.boolean "shared_tenant", default: false
     t.index ["key"], name: "index_bundles_on_key"
+  end
+
+  create_table "canvas_user_changes", force: :cascade do |t|
+    t.bigint "admin_making_changes_lms_id", null: false
+    t.bigint "user_being_changed_lms_id", null: false
+    t.json "name"
+    t.json "login_id"
+    t.json "password"
+    t.json "sis_user_id"
+    t.json "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "courses", force: :cascade do |t|
