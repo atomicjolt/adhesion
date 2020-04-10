@@ -19,9 +19,8 @@ export const searchForAccountUsers = (searchTerm, page) => ({
   },
 });
 
-export const updateUser = (userId, originalUserLoginId, userAttributes) => {
+export const updateUser = (userId, userAttributes) => {
   const body = {
-    original_user_login_id: originalUserLoginId,
     user: {
       name: userAttributes.name,
       login_id: userAttributes.loginId,

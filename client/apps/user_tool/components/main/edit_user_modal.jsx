@@ -54,7 +54,7 @@ export class EditUserModal extends React.Component {
     } = this.props;
     const { userForm } = this.state;
 
-    update(user.id, user.login_id, userForm);
+    update(user.id, userForm);
 
     closeModal();
   }
