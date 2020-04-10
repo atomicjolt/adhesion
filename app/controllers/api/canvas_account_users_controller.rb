@@ -3,6 +3,7 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
 
   before_action :validate_token
   before_action :validate_current_user_lti_admin
+  before_action :fetch_original_user, only: [:update]
   before_action :validate_user_is_in_account, only: [:update]
 
   # This action only lists users who are members of the Canvas account given in the LTI launch.
@@ -60,10 +61,12 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
     end
   end
 
+  def fetch_original_user
+    @original_user = search_for_users_on_canvas(params[:id]).first
+  end
+
   def validate_user_is_in_account
-    user_is_in_account = search_for_users_on_canvas(params[:id]).
-      parsed_response.
-      present?
+    user_is_in_account = @original_user.present?
 
     unless user_is_in_account
       user_not_authorized(
@@ -101,12 +104,12 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
     )
 
     matching_login = list_user_logins_response.detect do |login|
-      login["unique_id"] == params[:original_user_login_id]
+      login["unique_id"] == @original_user[:login_id]
     end
 
     unless matching_login
       raise LMS::Canvas::CanvasException.new(
-        "Failed to find matching login for user with login ID: #{params[:original_user_login_id]}",
+        "Failed to find matching login for user with login ID: #{@original_user[:login_id]}",
       )
     end
 
