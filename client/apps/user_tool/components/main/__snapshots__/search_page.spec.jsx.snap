@@ -9,7 +9,7 @@ exports[`SearchPage renders the search page 1`] = `
     role="search"
   >
     <label
-      class="hidden"
+      className="hidden"
       htmlFor="search"
     >
       Search
@@ -125,7 +125,7 @@ exports[`SearchPage when the user submits a search that returns no results displ
     role="search"
   >
     <label
-      class="hidden"
+      className="hidden"
       htmlFor="search"
     >
       Search
