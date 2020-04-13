@@ -31,10 +31,10 @@ export class Errors extends React.Component {
 
     return (
       <div className="errors">
-        <button type="button" onClick={clear} onKeyPress={event => this.handleClearKeyPress(event)}>
-          <i className="material-icons">clear</i>
-        </button>
         <ul>{errorMessages}</ul>
+        <button type="button" onClick={clear} onKeyPress={event => this.handleClearKeyPress(event)} aria-label="clear errors">
+          <i className="material-icons" aria-hidden="true">clear</i>
+        </button>
       </div>
     );
   }

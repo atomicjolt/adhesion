@@ -1,27 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`NoSearchResults renders the no search results section 1`] = `
-<section>
-  <p>
-    Your search - 
+<div
+  className="no-results"
+>
+  <h2>
+    Your search -
     <strong>
-      some search
+       UserSearch 
     </strong>
-     - did not match any users.
-  </p>
-  <p>
+    - did not match any of the available students.
+  </h2>
+  <h3>
     Suggestions:
-  </p>
+  </h3>
   <ul>
     <li>
-      Double check your spelling.
+      Double check your spelling
     </li>
     <li>
-      Try more general keywords.
+      Try more general keywords
     </li>
     <li>
-      Try different keywords.
+      Try different keywords
     </li>
   </ul>
-</section>
+</div>
 `;

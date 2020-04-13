@@ -1,0 +1,102 @@
+.modal__background{
+  background: rgba(255,255,255,.75);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 998;
+}
+
+.modal{
+  border-radius: 0.3rem;
+  overflow: hidden;
+  background-color: white;
+  box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.4);
+  position: absolute;
+  top: 4.8rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 96%;
+  max-width: 56rem;
+
+  &:focus{
+    outline: none;
+  }
+}
+
+.modal__top{
+  min-height: 6rem;
+  padding: 1rem 1.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 0.1rem solid $blue4;
+
+  h2{
+    margin: 0;
+    font-size: 1.8rem;
+    color: $gray3;
+    @include regular;
+  }
+  button{
+    border: none;
+    background: none;
+    height: 3.2rem;
+    width: 3.2rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover, &:focus{
+      outline: none;
+      background: $grayF;
+      cursor: pointer;
+    }
+  }
+}
+
+.modal__main{
+  padding: 1.6rem 1.6rem 0.8rem;
+
+  .column{
+    .input{
+      padding-bottom: 1.6rem;
+    }
+  }
+}
+
+.modal__bottom{
+  padding: 1.2rem 1.6rem;
+  background: $grayF;
+  border-top: 0.1rem solid $blue4;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+
+  .btn--outline, .is-red{
+    margin-right: 0.6rem;
+  }
+
+  p{
+    @include regular;
+    font-size: 1.4rem;
+    color: $blue;
+    flex: 1;
+    width: 100%;
+    margin: 0 0 0.8rem;
+  }
+}
+
+@media (min-width: 670px){
+  .modal__bottom {
+    p{
+      width: auto;
+      margin: 0 1.2rem 0 0;
+    }
+  }
+}

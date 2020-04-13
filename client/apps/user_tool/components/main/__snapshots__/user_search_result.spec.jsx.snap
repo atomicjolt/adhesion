@@ -3,14 +3,16 @@
 exports[`UserSearchResult renders the user as a search result 1`] = `
 <Fragment>
   <tr>
-    <td>
+    <th
+      scope="row"
+    >
       <button
         onClick={[Function]}
         type="button"
       >
         George Washington
       </button>
-    </td>
+    </th>
     <td>
       countryfather@revolution.com
     </td>
