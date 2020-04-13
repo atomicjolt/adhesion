@@ -113,8 +113,9 @@ describe('EditUserModal', () => {
           user={props.user}
         />
       );
+      const cancelButton = modal.find('button').at(1);
 
-      modal.find('button').at(1).simulate('click');
+      cancelButton.simulate('click');
 
       expect(props.closeModal).toHaveBeenCalled();
     });
@@ -203,13 +204,14 @@ describe('EditUserModal', () => {
           user={props.user}
         />
       );
-      const submitButton = modal.find('button[type="submit"]');
+      let submitButton = modal.find('button[type="submit"]');
 
       expect(submitButton.text()).toEqual('Update');
 
       submitButton.simulate('click', { preventDefault: () => {} });
 
-      expect(modal.find('button[type="submit"]').text()).toEqual('Confirm');
+      submitButton = modal.find('button[type="submit"]');
+      expect(submitButton.text()).toEqual('Confirm');
     });
 
     it('displays the confirmation message', () => {
