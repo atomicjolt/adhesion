@@ -95,11 +95,11 @@ RSpec.describe Api::CanvasAccountUsersController, type: :controller do
     end
     let(:original_user) do
       {
-        id: "412",
-        name: "John Adams",
-        login_id: "adamsforindependence@greatbritain.com",
-        sis_user_id: "old_john_123",
-        email: "adamsforindependence@greatbritain.com",
+        "id" => "412",
+        "name" => "John Adams",
+        "login_id" => "adamsforindependence@greatbritain.com",
+        "sis_user_id" => "old_john_123",
+        "email" => "adamsforindependence@greatbritain.com",
       }
     end
     let(:numeric_login_id) { 4989 }
@@ -120,9 +120,9 @@ RSpec.describe Api::CanvasAccountUsersController, type: :controller do
         and_return(
           [{
             "id" => numeric_login_id,
-            "user_id" => original_user[:id],
-            "unique_id" => original_user[:login_id],
-            "sis_user_id" => original_user[:sis_user_id],
+            "user_id" => original_user["id"],
+            "unique_id" => original_user["login_id"],
+            "sis_user_id" => original_user["sis_user_id"],
           }],
         )
 
