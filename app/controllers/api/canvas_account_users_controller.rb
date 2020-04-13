@@ -27,6 +27,7 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
     begin
       edit_user_response = edit_user_on_canvas
     rescue LMS::Canvas::CanvasException => e
+      log_user_change(failed_attrs: [:name, :email, :login_id, :password, :sis_user_id])
       render_update_user_exception(:edit_user, e)
       return
     end
@@ -37,9 +38,12 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
 
       edit_user_login_response = edit_user_login_on_canvas(numeric_login_id)
     rescue LMS::Canvas::CanvasException => e
+      log_user_change(failed_attrs: [:login_id, :password, :sis_user_id])
       render_update_user_exception(:edit_user_login, e)
       return
     end
+
+    log_user_change
 
     render(
       json: {
@@ -124,6 +128,16 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
       "login[unique_id]" => params[:user][:login_id],
       "login[sis_user_id]" => params[:user][:sis_user_id],
       "login[password]" => params[:user][:password],
+    )
+  end
+
+  def log_user_change(failed_attrs: [])
+    CanvasUserChange.create_by_diffing_attrs!(
+      admin_making_changes_lms_id: current_user.lms_user_id,
+      user_being_changed_lms_id: params[:id],
+      original_attrs: @original_user,
+      new_attrs: params[:user].permit([:name, :login_id, :sis_user_id, :email, :password]).to_h,
+      failed_attrs: failed_attrs,
     )
   end
 
