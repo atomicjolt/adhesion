@@ -53,11 +53,7 @@ export class EditUserModal extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    const {
-      user,
-      updateUser:update,
-      closeModal
-    } = this.props;
+    const { user, updateUser:update, closeModal } = this.props;
     const { confirmingUpdates, userForm } = this.state;
 
     if (confirmingUpdates) {
