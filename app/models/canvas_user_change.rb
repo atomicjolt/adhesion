@@ -1,7 +1,7 @@
 class CanvasUserChange < ApplicationRecord
   validates :admin_making_changes_lms_id, :user_being_changed_lms_id, presence: true
 
-  def self.create_by_diffing_attrs(
+  def self.create_by_diffing_attrs!(
     admin_making_changes_lms_id:,
     user_being_changed_lms_id:,
     original_attrs:,
@@ -31,6 +31,6 @@ class CanvasUserChange < ApplicationRecord
       }
     end
 
-    create(record_attrs)
+    create!(record_attrs)
   end
 end

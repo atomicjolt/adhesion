@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe CanvasUserChange, type: :model do
-  describe ".create_by_diffing_attrs" do
+  describe ".create_by_diffing_attrs!" do
     let(:admin_id) { 123 }
     let(:user_id) { 456 }
     let(:original_attrs) do
@@ -23,7 +23,7 @@ RSpec.describe CanvasUserChange, type: :model do
     end
 
     before do
-      @canvas_user_change = described_class.create_by_diffing_attrs(
+      @canvas_user_change = described_class.create_by_diffing_attrs!(
         admin_making_changes_lms_id: admin_id,
         user_being_changed_lms_id: user_id,
         original_attrs: original_attrs,
@@ -33,7 +33,7 @@ RSpec.describe CanvasUserChange, type: :model do
 
     it "creates a record in the database" do
       expect do
-        described_class.create_by_diffing_attrs(
+        described_class.create_by_diffing_attrs!(
           admin_making_changes_lms_id: admin_id,
           user_being_changed_lms_id: user_id,
           original_attrs: original_attrs,
@@ -94,7 +94,7 @@ RSpec.describe CanvasUserChange, type: :model do
       before do
         new_attrs.delete(:email)
 
-        @canvas_user_change = described_class.create_by_diffing_attrs(
+        @canvas_user_change = described_class.create_by_diffing_attrs!(
           admin_making_changes_lms_id: admin_id,
           user_being_changed_lms_id: user_id,
           original_attrs: original_attrs,
@@ -111,7 +111,7 @@ RSpec.describe CanvasUserChange, type: :model do
       before do
         new_attrs[:email] = original_attrs[:email]
 
-        @canvas_user_change = described_class.create_by_diffing_attrs(
+        @canvas_user_change = described_class.create_by_diffing_attrs!(
           admin_making_changes_lms_id: admin_id,
           user_being_changed_lms_id: user_id,
           original_attrs: original_attrs,
@@ -126,7 +126,7 @@ RSpec.describe CanvasUserChange, type: :model do
 
     context "when the attribute is in the failed_attrs list" do
       before do
-        @canvas_user_change = described_class.create_by_diffing_attrs(
+        @canvas_user_change = described_class.create_by_diffing_attrs!(
           admin_making_changes_lms_id: admin_id,
           user_being_changed_lms_id: user_id,
           original_attrs: original_attrs,
@@ -137,6 +137,20 @@ RSpec.describe CanvasUserChange, type: :model do
 
       it "marks the attribute with success: false" do
         expect(@canvas_user_change.email["success"]).to be false
+      end
+    end
+
+    context "when the record is invalid" do
+      it "raises an exception" do
+        expect do
+          described_class.create_by_diffing_attrs!(
+            admin_making_changes_lms_id: nil,
+            user_being_changed_lms_id: nil,
+            original_attrs: original_attrs,
+            new_attrs: new_attrs,
+            failed_attrs: [:email],
+          )
+        end.to raise_error(ActiveRecord::RecordInvalid)
       end
     end
   end
