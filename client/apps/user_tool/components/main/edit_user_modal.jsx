@@ -92,34 +92,37 @@ export class EditUserModal extends React.Component {
         return false;
       }
 
-      return 'Changed';
+      return <span>Changed</span>;
     }
 
-    return `Was: ${user[attribute]}`;
+    return <span>Was: {user[attribute]}</span>;
   }
 
   renderButtons() {
     const { confirmingUpdates } = this.state;
 
-    // TODO: Update these CSS classes with real classes.
     let submitButtonText = 'Update';
-    let cancelButtonClass = 'white';
-    let submitButtonClass = 'black';
+    let cancelButtonClasses = 'btn--outline';
+    let submitButtonClasses = 'btn--primary';
 
     if (confirmingUpdates) {
       submitButtonText = 'Confirm';
-      cancelButtonClass = 'red';
-      submitButtonClass = 'green';
+      cancelButtonClasses = 'btn--primary is-red';
+      submitButtonClasses = 'btn--primary is-green';
     }
 
     return (
       <React.Fragment>
-        <button type="button" className={cancelButtonClass} onClick={() => this.handleCancel()}>
+        <button
+          className={`btn ${cancelButtonClasses}`}
+          type="button"
+          onClick={() => this.handleCancel()}
+        >
           Cancel
         </button>
         <button
+          className={`btn ${submitButtonClasses}`}
           type="submit"
-          className={submitButtonClass}
           onClick={event => this.handleSubmit(event)}
         >
           {submitButtonText}
@@ -160,7 +163,7 @@ export class EditUserModal extends React.Component {
                     value={userForm.name}
                     onChange={this.handleInputChange}
                   />
-                  <span>Was: Jeffery Danish</span>
+                  { this.renderAttributeChange('name') }
                 </div>
                 <div className="input">
                   <label htmlFor="user_sis_user_id">SIS ID</label>
@@ -171,6 +174,7 @@ export class EditUserModal extends React.Component {
                     value={userForm.sisUserId}
                     onChange={this.handleInputChange}
                   />
+                  { this.renderAttributeChange('sis_user_id') }
                 </div>
                 <div className="input">
                   <label htmlFor="user_email">Email</label>
@@ -181,6 +185,7 @@ export class EditUserModal extends React.Component {
                     value={userForm.email}
                     onChange={this.handleInputChange}
                   />
+                  { this.renderAttributeChange('email') }
                 </div>
               </div>
               <div className="column u-half">
@@ -193,6 +198,7 @@ export class EditUserModal extends React.Component {
                     value={userForm.loginId}
                     onChange={this.handleInputChange}
                   />
+                  { this.renderAttributeChange('login_id') }
                 </div>
                 <div className="input">
                   <label htmlFor="user_password">New Password</label>
@@ -204,23 +210,18 @@ export class EditUserModal extends React.Component {
                     placeholder="****************"
                     onChange={this.handleInputChange}
                   />
+                  { this.renderAttributeChange('password') }
                 </div>
               </div>
             </div>
           </div>
           <div className="modal__bottom">
-            <p>Are you sure you want to make the current changes to this user?</p>
-            <button className="btn btn--outline">Cancel</button>
-            <button className="btn btn--primary" type="submit" onClick={event => this.handleSubmit(event)}>Update</button>
-          </div>
+            { confirmingUpdates && (
+              <p>Are you sure you want to apply the current changes to this user?</p>
+            )}
 
-          { confirmingUpdates && (
-            <span>
-              Are you sure you want to apply the current changes to this user?
-            </span>
-          )}
-          {this.renderButtons()}
-            { this.renderAttributeChange('email') }
+            {this.renderButtons()}
+          </div>
         </form>
       </ReactModal>
     );
