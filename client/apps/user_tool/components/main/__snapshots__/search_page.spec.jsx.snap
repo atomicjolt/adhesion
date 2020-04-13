@@ -62,11 +62,6 @@ exports[`SearchPage renders the search page 1`] = `
           <th
             scope="col"
           >
-            Roles
-          </th>
-          <th
-            scope="col"
-          >
             Email Address
           </th>
         </tr>
@@ -80,10 +75,6 @@ exports[`SearchPage renders the search page 1`] = `
               "id": 1,
               "login_id": "countryfather@revolution.com",
               "name": "George Washington",
-              "roles": Array [
-                "admin",
-                "teacher",
-              ],
               "sis_user_id": "george_123",
             }
           }
@@ -96,9 +87,6 @@ exports[`SearchPage renders the search page 1`] = `
               "id": 2,
               "login_id": "idodeclare@revolution.com",
               "name": "Thomas Jefferson",
-              "roles": Array [
-                "teacher",
-              ],
               "sis_user_id": "thomas_123",
             }
           }
@@ -174,11 +162,6 @@ exports[`SearchPage when the user submits a search that returns no results displ
             scope="col"
           >
             SIS ID
-          </th>
-          <th
-            scope="col"
-          >
-            Roles
           </th>
           <th
             scope="col"
