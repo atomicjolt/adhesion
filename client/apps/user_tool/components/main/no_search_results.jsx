@@ -14,7 +14,7 @@ export default class NoSearchResults extends React.Component {
         <h2>
           Your search -
           <strong> {searchTerm} </strong>
-          - did not match any of the available students.
+          - did not match any of the available users.
         </h2>
         <h3>Suggestions:</h3>
         <ul>

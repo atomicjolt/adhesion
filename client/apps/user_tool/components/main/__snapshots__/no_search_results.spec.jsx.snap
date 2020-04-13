@@ -11,7 +11,7 @@ exports[`NoSearchResults renders the no search results section 1`] = `
       some search
        
     </strong>
-    - did not match any of the available students.
+    - did not match any of the available users.
   </h2>
   <h3>
     Suggestions:
