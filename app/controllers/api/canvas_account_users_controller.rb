@@ -62,7 +62,9 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
   end
 
   def fetch_original_user
-    @original_user = search_for_users_on_canvas(params[:id]).first
+    original_user = search_for_users_on_canvas(params[:id]).first
+
+    @original_user = HashWithIndifferentAccess.new(original_user)
   end
 
   def validate_user_is_in_account
