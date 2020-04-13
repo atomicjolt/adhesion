@@ -7,7 +7,9 @@ exports[`NoSearchResults renders the no search results section 1`] = `
   <h2>
     Your search -
     <strong>
-       UserSearch 
+       
+      some search
+       
     </strong>
     - did not match any of the available students.
   </h2>
