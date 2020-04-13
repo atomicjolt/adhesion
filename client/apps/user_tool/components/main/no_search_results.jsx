@@ -10,17 +10,19 @@ export default class NoSearchResults extends React.Component {
     const { searchTerm } = this.props;
 
     return (
-      <section>
-        <p>
-          Your search - <strong>{searchTerm}</strong> - did not match any users.
-        </p>
-        <p>Suggestions:</p>
+      <div className="no-results">
+        <h2>
+          Your search -
+          <strong> UserSearch </strong>
+          - did not match any of the available students.
+        </h2>
+        <h3>Suggestions:</h3>
         <ul>
-          <li>Double check your spelling.</li>
-          <li>Try more general keywords.</li>
-          <li>Try different keywords.</li>
+          <li>Double check your spelling</li>
+          <li>Try more general keywords</li>
+          <li>Try different keywords</li>
         </ul>
-      </section>
+      </div>
     );
   }
 }

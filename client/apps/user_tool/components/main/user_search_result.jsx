@@ -24,11 +24,11 @@ export default class UserSearchResult extends React.Component {
     return (
       <React.Fragment>
         <tr>
-          <td>
+          <th scope="row">
             <button type="button" onClick={() => this.showEditUserModal(true)}>
               {user.name}
             </button>
-          </td>
+          </th>
           <td>{user.login_id}</td>
           <td>{user.sis_user_id}</td>
           <td>{user.roles}</td>

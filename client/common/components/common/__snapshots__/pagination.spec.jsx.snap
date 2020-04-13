@@ -1,22 +1,28 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Pagination renders the pagination UI 1`] = `
-<nav>
-  <ul>
-    <button
-      disabled={false}
-      onClick={[Function]}
-      type="button"
-    >
-      &lt;
-    </button>
-    <button
-      disabled={false}
-      onClick={[Function]}
-      type="button"
-    >
-      &gt;
-    </button>
-  </ul>
+<nav
+  className="pagination"
+>
+  <button
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    &lt;
+    <span>
+      Prev
+    </span>
+  </button>
+  <button
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    <span>
+      Next
+    </span>
+    &gt;
+  </button>
 </nav>
 `;

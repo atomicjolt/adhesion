@@ -68,31 +68,37 @@ export class SearchPage extends React.Component {
     ));
 
     return (
-      <div>
-        <form>
+      <div className="main">
+        <form role="search" className="search">
+          <label htmlFor="search" className="hidden">Search</label>
           <input
             type="search"
+            name="search"
+            id="search"
             minLength={this.minSearchTermLength}
             value={inputSearchTerm}
             onChange={event => this.updateInputSearchTerm(event)}
             placeholder="Search for students..."
           />
-          <button type="submit" onClick={event => this.handleSearch(event)}>Search</button>
+          <button type="submit" className="search__btn" onClick={event => this.handleSearch(event)}>Search</button>
         </form>
-        <table>
-          <thead>
-            <tr>
-              <th scope="col">Name</th>
-              <th scope="col">Login ID</th>
-              <th scope="col">SIS ID</th>
-              <th scope="col">Roles</th>
-              <th scope="col">Email Address</th>
-            </tr>
-          </thead>
-          <tbody>
-            {renderedUsers}
-          </tbody>
-        </table>
+        <div className="table-scroll">
+          <table className="search-results">
+            <caption className="hidden">Search Results</caption>
+            <thead>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Login ID</th>
+                <th scope="col">SIS ID</th>
+                <th scope="col">Roles</th>
+                <th scope="col">Email Address</th>
+              </tr>
+            </thead>
+            <tbody>
+              {renderedUsers}
+            </tbody>
+          </table>
+        </div>
 
         { !hasSearched && <StartSearching /> }
 

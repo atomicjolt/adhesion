@@ -1,0 +1,141 @@
+.table-scroll{
+  width: 100%;
+  position: relative;
+}
+
+.search-results{
+  border-collapse: collapse;
+  margin-top: 2rem;
+  width: 100%;
+  min-width: 70rem;
+  thead{
+    th{
+      white-space: nowrap;
+      font-size: 1.4rem;
+      @include bold;
+      color: $blue;
+      vertical-align: middle;
+      text-align: left;
+      border-bottom: 0.1rem solid $blue2;
+      padding: 0.6rem 0.5rem;
+
+      &:nth-of-type(1){
+        padding-left: 1rem;
+      }
+    }
+  }
+  tbody{
+    tr{
+      &:nth-of-type(odd){
+        td, th{
+          background: $grayF;
+        }
+      }
+    }
+    td, th{
+      @include regular;
+      font-size: 1.4rem;
+      color: $gray3;
+      vertical-align: middle;
+      border-bottom: 0.1rem solid $grayD;
+      padding: 0 0.5rem;
+      height: 4.5rem;
+      line-height: 1;
+    }
+    th{
+      button{
+        border: none;
+        background: none;
+        box-shadow: none;
+        color: $blue3;
+        font-size: 1.4rem;
+        text-align: left;
+        display: block;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.no-search{
+  margin-top: 1rem;
+  background: $grayF;
+  min-height: 10rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  h2{
+    margin: 0;
+    padding: 0;
+    @include regular;
+    font-size: 1.6rem;
+    color: $blue;
+  }
+}
+
+.no-results{
+  margin-top: 1rem;
+  background: $grayF;
+  padding: 2.4rem 2.4rem 3.2rem;
+
+  h2{
+    margin: 0 0 2rem;
+    padding: 0;
+    @include regular;
+    font-size: 1.6rem;
+    color: $blue;
+  }
+  h3{
+    margin: 0;
+    padding: 0;
+    @include regular;
+    font-size: 1.6rem;
+    color: $gray5;
+  }
+  ul{
+    padding-left: 2.4rem;
+    list-style-type: disc;
+
+    li{
+      @include regular;
+      font-size: 1.6rem;
+      color: $blue;
+      margin-top: 1.2rem;
+    }
+  }
+}
+
+.pagination{
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  button{
+    border: none;
+    background: none;
+    box-shadow: none;
+    color: $blue;
+    font-size: 1.4rem;
+    cursor: pointer;
+
+    &[disabled]{
+      visibility: hidden;
+    }
+
+    span{
+      text-decoration: underline;
+      display: inline-block;
+      margin: 0 0.6rem;
+    }
+  }
+}
+
+
+//max-width equal to the min-width of the table
+@media (max-width: 700px){
+  .table-scroll{
+    overflow: auto;
+  }
+}

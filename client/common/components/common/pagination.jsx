@@ -19,6 +19,7 @@ class Pagination extends React.Component {
         onClick={() => { this.handlePreviousPageClick(); }}
       >
         &lt;
+        <span>Prev</span>
       </button>
     );
   }
@@ -32,6 +33,7 @@ class Pagination extends React.Component {
         disabled={!nextPageAvailable}
         onClick={() => { this.handleNextPageClick(); }}
       >
+        <span>Next</span>
         &gt;
       </button>
     );
@@ -51,11 +53,9 @@ class Pagination extends React.Component {
 
   render() {
     return (
-      <nav>
-        <ul>
-          {this.renderPreviousButton()}
-          {this.renderNextButton()}
-        </ul>
+      <nav className="pagination">
+        {this.renderPreviousButton()}
+        {this.renderNextButton()}
       </nav>
     );
   }
