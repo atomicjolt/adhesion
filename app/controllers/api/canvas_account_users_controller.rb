@@ -4,7 +4,7 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
   before_action :validate_token
   before_action :validate_current_user_lti_admin
   before_action :fetch_original_user, only: [:update]
-  before_action :validate_user_is_in_account, only: [:update]
+  before_action :validate_user_being_changed_is_in_account, only: [:update]
 
   # This action only lists users who are members of the Canvas account given in the LTI launch.
   # Users from sub-accounts of that account are also included.
@@ -72,7 +72,7 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
     @original_user = HashWithIndifferentAccess.new(original_user)
   end
 
-  def validate_user_is_in_account
+  def validate_user_being_changed_is_in_account
     user_is_in_account = @original_user.present?
 
     unless user_is_in_account
