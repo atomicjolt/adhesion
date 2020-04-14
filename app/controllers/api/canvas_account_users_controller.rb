@@ -24,10 +24,12 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
   # This action can only update users who are members of the Canvas account given in the LTI launch.
   # Users from sub-accounts of that account can also be updated.
   def update
+    pending_attrs = [:name, :email, :login_id, :password, :sis_user_id]
+
     begin
       edit_user_response = edit_user_on_canvas
+      pending_attrs = [:login_id, :password, :sis_user_id] # We updated name and email.
     rescue LMS::Canvas::CanvasException => e
-      log_user_change(failed_attrs: [:name, :email, :login_id, :password, :sis_user_id])
       render_update_user_exception(:edit_user, e)
       return
     end
@@ -35,15 +37,12 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
     begin
       # This ID is the ID of the login record; it's different from the user's login ID.
       numeric_login_id = find_canvas_user_login["id"]
-
       edit_user_login_response = edit_user_login_on_canvas(numeric_login_id)
+      pending_attrs = [] # We updated login_id, password and sis_user_id.
     rescue LMS::Canvas::CanvasException => e
-      log_user_change(failed_attrs: [:login_id, :password, :sis_user_id])
       render_update_user_exception(:edit_user_login, e)
       return
     end
-
-    log_user_change
 
     render(
       json: {
@@ -55,6 +54,8 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
       },
       status: :ok,
     )
+  ensure
+    log_user_change(failed_attrs: pending_attrs)
   end
 
   private
