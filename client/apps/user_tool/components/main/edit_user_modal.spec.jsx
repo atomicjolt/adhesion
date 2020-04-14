@@ -85,7 +85,6 @@ describe('EditUserModal', () => {
 
       expect(props.updateUser).toHaveBeenCalledWith(
         props.user.id,
-        props.user.login_id,
         {
           name: newName,
           loginId: newLoginId,
