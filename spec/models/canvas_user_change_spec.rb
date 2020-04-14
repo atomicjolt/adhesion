@@ -138,6 +138,10 @@ RSpec.describe CanvasUserChange, type: :model do
       it "marks the attribute with success: false" do
         expect(@canvas_user_change.email["success"]).to be false
       end
+
+      it "populates the failed_attributes field" do
+        expect(@canvas_user_change.failed_attributes).to eq(["email"])
+      end
     end
 
     context "when the record is invalid" do

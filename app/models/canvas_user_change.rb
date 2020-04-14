@@ -11,6 +11,7 @@ class CanvasUserChange < ApplicationRecord
     record_attrs = {
       admin_making_changes_lms_id: admin_making_changes_lms_id,
       user_being_changed_lms_id: user_being_changed_lms_id,
+      failed_attributes: failed_attrs,
     }
 
     [:name, :login_id, :sis_user_id, :email].each do |attr|
