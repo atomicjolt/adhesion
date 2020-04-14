@@ -159,14 +159,14 @@ RSpec.describe CanvasUserChange, type: :model do
     end
   end
 
-  describe ".has_failed_attributes?" do
+  describe ".failed_attributes?" do
     context "when the failed_attributes field is nil" do
       let(:canvas_user_change) do
         FactoryBot.create(:canvas_user_change, failed_attributes: nil)
       end
 
       it "returns false" do
-        expect(canvas_user_change.has_failed_attributes?).to be false
+        expect(canvas_user_change.failed_attributes?).to be false
       end
     end
 
@@ -176,7 +176,7 @@ RSpec.describe CanvasUserChange, type: :model do
       end
 
       it "returns false" do
-        expect(canvas_user_change.has_failed_attributes?).to be false
+        expect(canvas_user_change.failed_attributes?).to be false
       end
     end
 
@@ -186,7 +186,7 @@ RSpec.describe CanvasUserChange, type: :model do
       end
 
       it "returns true" do
-        expect(canvas_user_change.has_failed_attributes?).to be true
+        expect(canvas_user_change.failed_attributes?).to be true
       end
     end
   end
