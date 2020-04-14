@@ -34,4 +34,9 @@ class CanvasUserChange < ApplicationRecord
 
     create!(record_attrs)
   end
+
+  def has_failed_attributes?
+    failed_attributes.present?
+  end
+  alias_method :has_failed_attrs?, :has_failed_attributes?
 end

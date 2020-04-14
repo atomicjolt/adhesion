@@ -158,4 +158,36 @@ RSpec.describe CanvasUserChange, type: :model do
       end
     end
   end
+
+  describe ".has_failed_attributes?" do
+    context "when the failed_attributes field is nil" do
+      let(:canvas_user_change) do
+        FactoryBot.create(:canvas_user_change, failed_attributes: nil)
+      end
+
+      it "returns false" do
+        expect(canvas_user_change.has_failed_attributes?).to be false
+      end
+    end
+
+    context "when the failed_attributes field is an empty array" do
+      let(:canvas_user_change) do
+        FactoryBot.create(:canvas_user_change, failed_attributes: [])
+      end
+
+      it "returns false" do
+        expect(canvas_user_change.has_failed_attributes?).to be false
+      end
+    end
+
+    context "when the failed_attributes field is not empty" do
+      let(:canvas_user_change) do
+        FactoryBot.create(:canvas_user_change, failed_attributes: [:email])
+      end
+
+      it "returns true" do
+        expect(canvas_user_change.has_failed_attributes?).to be true
+      end
+    end
+  end
 end
