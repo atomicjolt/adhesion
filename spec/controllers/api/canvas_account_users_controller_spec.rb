@@ -110,6 +110,10 @@ RSpec.describe Api::CanvasAccountUsersController, type: :controller do
         with(a_string_matching(/users\?.*search_term=#{params[:id]}/i)).
         and_return([original_user])
 
+      allow_any_instance_of(LMS::Canvas).to receive(:proxy).
+        with("LIST_ACCOUNTS", anything).
+        and_return([])
+
       allow_any_instance_of(LMS::Canvas).to receive(:api_put_request).
         with("users/#{params[:id]}", anything).
         and_return(
@@ -208,6 +212,27 @@ RSpec.describe Api::CanvasAccountUsersController, type: :controller do
 
         expect(JSON.parse(response.body)["message"]).
           to match(/modify users from the account/i)
+      end
+    end
+
+    context "when the user is an admin in an account (any account)" do
+      before do
+        allow_any_instance_of(LMS::Canvas).to receive(:proxy).
+          with("LIST_ACCOUNTS", anything).
+          and_return([{ "id" => 123, "name" => "Some Account" }])
+      end
+
+      it "returns a 401 unauthorized" do
+        response = put(:update, params: params)
+
+        expect(response.status).to eq(401)
+      end
+
+      it "returns an error message" do
+        response = put(:update, format: :json, params: params)
+
+        expect(JSON.parse(response.body)["message"]).
+          to match(/has an admin role.* does not support updating admin users/i)
       end
     end
 

@@ -5,6 +5,7 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
   before_action :validate_current_user_lti_admin
   before_action :fetch_original_user, only: [:update]
   before_action :validate_user_being_changed_is_in_account, only: [:update]
+  before_action :validate_user_being_changed_is_not_admin, only: [:update]
 
   # This action only lists users who are members of the Canvas account given in the LTI launch.
   # Users from sub-accounts of that account are also included.
@@ -78,6 +79,26 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
     unless user_is_in_account
       user_not_authorized(
         "You are only authorized to modify users from the account or sub-accounts you administer.",
+      )
+    end
+  end
+
+  def validate_user_being_changed_is_not_admin
+    list_accounts_response = canvas_api.proxy(
+      "LIST_ACCOUNTS",
+      { as_user_id: params[:id] },
+    )
+
+    # The [Canvas API docs](https://canvas.instructure.com/doc/api/accounts.html#method.accounts.index)
+    # state that "only account admins can view the accounts that they are in."
+    # Thus, we are assuming that a non-empty response means the user is an account admin somewhere.
+    user_is_account_admin = list_accounts_response.present?
+
+    if user_is_account_admin
+      user_not_authorized(
+        "The user you are trying to update has an admin role in one or more " \
+        "accounts. This tool does not support updating admin users. Please contact " \
+        "a higher-level administrator to edit this user.",
       )
     end
   end
