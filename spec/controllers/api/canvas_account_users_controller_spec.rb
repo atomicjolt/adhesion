@@ -2,14 +2,15 @@ require "rails_helper"
 
 RSpec.describe Api::CanvasAccountUsersController, type: :controller do
   let(:lms_account_id) { "308" }
+  let(:admin_lms_user_id) { "4567" }
 
   before do
     setup_application_instance
 
-    user = create(:user)
-    user.confirm
+    admin = create(:user, lms_user_id: admin_lms_user_id)
+    admin.confirm
     request.headers["Authorization"] = AuthToken.issue_token(
-      user_id: user.id,
+      user_id: admin.id,
       lms_account_id: lms_account_id,
     )
 
@@ -84,7 +85,6 @@ RSpec.describe Api::CanvasAccountUsersController, type: :controller do
     let(:params) do
       {
         id: "412",
-        original_user_login_id: "adamsforindepence@greatbritain.com",
         user: {
           name: "John Adams",
           login_id: "adamsforindependence@revolution.com",
@@ -94,9 +94,22 @@ RSpec.describe Api::CanvasAccountUsersController, type: :controller do
         },
       }
     end
+    let(:original_user) do
+      {
+        "id" => "412",
+        "name" => "John Adams",
+        "login_id" => "adamsforindependence@greatbritain.com",
+        "sis_user_id" => "old_john_123",
+        "email" => "adamsforindependence@greatbritain.com",
+      }
+    end
     let(:numeric_login_id) { 4989 }
 
     before do
+      allow_any_instance_of(LMS::Canvas).to receive(:api_get_request).
+        with(a_string_matching(/users\?.*search_term=#{params[:id]}/i)).
+        and_return([original_user])
+
       allow_any_instance_of(LMS::Canvas).to receive(:api_put_request).
         with("users/#{params[:id]}", anything).
         and_return(
@@ -108,9 +121,9 @@ RSpec.describe Api::CanvasAccountUsersController, type: :controller do
         and_return(
           [{
             "id" => numeric_login_id,
-            "user_id" => params[:id],
-            "unique_id" => params[:original_user_login_id],
-            "sis_user_id" => "#{params[:user][:sis_user_id]}(old)",
+            "user_id" => original_user["id"],
+            "unique_id" => original_user["login_id"],
+            "sis_user_id" => original_user["sis_user_id"],
           }],
         )
 
@@ -162,6 +175,21 @@ RSpec.describe Api::CanvasAccountUsersController, type: :controller do
       expect(JSON.parse(response.body)["email"]).to eq(params[:user][:email])
     end
 
+    it "creates a CanvasUserChange with the no failed attributes" do
+      allow(CanvasUserChange).to receive(:create_by_diffing_attrs!)
+
+      put(:update, format: :json, params: params)
+
+      expect(CanvasUserChange).to have_received(:create_by_diffing_attrs!).
+        with(
+          admin_making_changes_lms_id: admin_lms_user_id,
+          user_being_changed_lms_id: params[:id],
+          original_attrs: original_user,
+          new_attrs: params[:user],
+          failed_attrs: [],
+        )
+    end
+
     context "when the user is not in the admin's account or sub-account" do
       before do
         allow_any_instance_of(LMS::Canvas).to receive(:api_get_request).
@@ -210,6 +238,21 @@ RSpec.describe Api::CanvasAccountUsersController, type: :controller do
 
         expect(JSON.parse(response.body)["exception"]).to eq(exception_message)
       end
+
+      it "creates a CanvasUserChange with the correct failed attributes" do
+        allow(CanvasUserChange).to receive(:create_by_diffing_attrs!)
+
+        put(:update, format: :json, params: params)
+
+        expect(CanvasUserChange).to have_received(:create_by_diffing_attrs!).
+          with(
+            admin_making_changes_lms_id: admin_lms_user_id,
+            user_being_changed_lms_id: params[:id],
+            original_attrs: original_user,
+            new_attrs: params[:user],
+            failed_attrs: [:name, :email, :login_id, :password, :sis_user_id],
+          )
+      end
     end
 
     context "when no matching login is found for the user on Canvas" do
@@ -237,6 +280,21 @@ RSpec.describe Api::CanvasAccountUsersController, type: :controller do
 
         expect(JSON.parse(response.body)["exception"]).
           to match(/failed to find matching login.* #{params[:original_user_login_id]}/i)
+      end
+
+      it "creates a CanvasUserChange with the correct failed attributes" do
+        allow(CanvasUserChange).to receive(:create_by_diffing_attrs!)
+
+        put(:update, format: :json, params: params)
+
+        expect(CanvasUserChange).to have_received(:create_by_diffing_attrs!).
+          with(
+            admin_making_changes_lms_id: admin_lms_user_id,
+            user_being_changed_lms_id: params[:id],
+            original_attrs: original_user,
+            new_attrs: params[:user],
+            failed_attrs: [:login_id, :password, :sis_user_id],
+          )
       end
     end
 
@@ -266,6 +324,21 @@ RSpec.describe Api::CanvasAccountUsersController, type: :controller do
         response = put(:update, format: :json, params: params)
 
         expect(JSON.parse(response.body)["exception"]).to eq(exception_message)
+      end
+
+      it "creates a CanvasUserChange with the correct failed attributes" do
+        allow(CanvasUserChange).to receive(:create_by_diffing_attrs!)
+
+        put(:update, format: :json, params: params)
+
+        expect(CanvasUserChange).to have_received(:create_by_diffing_attrs!).
+          with(
+            admin_making_changes_lms_id: admin_lms_user_id,
+            user_being_changed_lms_id: params[:id],
+            original_attrs: original_user,
+            new_attrs: params[:user],
+            failed_attrs: [:login_id, :password, :sis_user_id],
+          )
       end
     end
   end

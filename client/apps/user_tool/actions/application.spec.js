@@ -39,7 +39,6 @@ describe('application actions', () => {
 
   describe('updateUser', () => {
     const userId = 45;
-    const originalUserLoginId = 'adamsforindepence@greatbritain.com';
     const userAttributes = {
       name: 'John Adams',
       loginId: 'adamsforindependence@revolution.com',
@@ -54,18 +53,17 @@ describe('application actions', () => {
         method: 'put',
         url: `api/canvas_account_users/${userId}`,
         body: {
-          original_user_login_id: originalUserLoginId,
           user: {
             name: userAttributes.name,
             login_id: userAttributes.loginId,
             sis_user_id: userAttributes.sisUserId,
             email: userAttributes.email,
             password: userAttributes.password,
-          }
-        }
+          },
+        },
       };
 
-      expect(updateUser(userId, originalUserLoginId, userAttributes))
+      expect(updateUser(userId, userAttributes))
         .toEqual(expectedAction);
     });
 
@@ -78,17 +76,16 @@ describe('application actions', () => {
           method: 'put',
           url: `api/canvas_account_users/${userId}`,
           body: {
-            original_user_login_id: originalUserLoginId,
             user: {
               name: userAttributes.name,
               login_id: userAttributes.loginId,
               sis_user_id: userAttributes.sisUserId,
               email: userAttributes.email,
-            }
-          }
+            },
+          },
         };
 
-        expect(updateUser(userId, originalUserLoginId, userAttributes))
+        expect(updateUser(userId, userAttributes))
           .toEqual(expectedAction);
       });
     });

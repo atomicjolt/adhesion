@@ -3,6 +3,7 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
 
   before_action :validate_token
   before_action :validate_current_user_lti_admin
+  before_action :fetch_original_user, only: [:update]
   before_action :validate_user_is_in_account, only: [:update]
 
   # This action only lists users who are members of the Canvas account given in the LTI launch.
@@ -23,8 +24,11 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
   # This action can only update users who are members of the Canvas account given in the LTI launch.
   # Users from sub-accounts of that account can also be updated.
   def update
+    pending_attrs = [:name, :email, :login_id, :password, :sis_user_id]
+
     begin
       edit_user_response = edit_user_on_canvas
+      pending_attrs = [:login_id, :password, :sis_user_id] # We updated name and email.
     rescue LMS::Canvas::CanvasException => e
       render_update_user_exception(:edit_user, e)
       return
@@ -33,8 +37,8 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
     begin
       # This ID is the ID of the login record; it's different from the user's login ID.
       numeric_login_id = find_canvas_user_login["id"]
-
       edit_user_login_response = edit_user_login_on_canvas(numeric_login_id)
+      pending_attrs = [] # We updated login_id, password and sis_user_id.
     rescue LMS::Canvas::CanvasException => e
       render_update_user_exception(:edit_user_login, e)
       return
@@ -50,6 +54,8 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
       },
       status: :ok,
     )
+  ensure
+    log_user_change(failed_attrs: pending_attrs)
   end
 
   private
@@ -60,10 +66,14 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
     end
   end
 
+  def fetch_original_user
+    original_user = search_for_users_on_canvas(params[:id]).first
+
+    @original_user = HashWithIndifferentAccess.new(original_user)
+  end
+
   def validate_user_is_in_account
-    user_is_in_account = search_for_users_on_canvas(params[:id]).
-      parsed_response.
-      present?
+    user_is_in_account = @original_user.present?
 
     unless user_is_in_account
       user_not_authorized(
@@ -101,12 +111,12 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
     )
 
     matching_login = list_user_logins_response.detect do |login|
-      login["unique_id"] == params[:original_user_login_id]
+      login["unique_id"] == @original_user[:login_id]
     end
 
     unless matching_login
       raise LMS::Canvas::CanvasException.new(
-        "Failed to find matching login for user with login ID: #{params[:original_user_login_id]}",
+        "Failed to find matching login for user with login ID: #{@original_user[:login_id]}",
       )
     end
 
@@ -119,6 +129,16 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
       "login[unique_id]" => params[:user][:login_id],
       "login[sis_user_id]" => params[:user][:sis_user_id],
       "login[password]" => params[:user][:password],
+    )
+  end
+
+  def log_user_change(failed_attrs: [])
+    CanvasUserChange.create_by_diffing_attrs!(
+      admin_making_changes_lms_id: current_user.lms_user_id,
+      user_being_changed_lms_id: params[:id],
+      original_attrs: @original_user,
+      new_attrs: params[:user].permit([:name, :login_id, :sis_user_id, :email, :password]).to_h,
+      failed_attrs: failed_attrs,
     )
   end
 

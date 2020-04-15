@@ -14,7 +14,6 @@ describe('SearchPage', () => {
         name: 'George Washington',
         login_id: 'countryfather@revolution.com',
         sis_user_id: 'george_123',
-        roles: ['admin', 'teacher'],
         email: 'countryfather@revolution.com',
       },
       {
@@ -22,7 +21,6 @@ describe('SearchPage', () => {
         name: 'Thomas Jefferson',
         login_id: 'idodeclare@revolution.com',
         sis_user_id: 'thomas_123',
-        roles: ['teacher'],
         email: 'idodeclare@revolution.com',
       }
     ],
