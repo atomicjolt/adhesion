@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactModal from 'react-modal';
+import _ from 'lodash';
 import { connect } from 'react-redux';
 import { updateUser } from '../../actions/application';
 
@@ -14,20 +15,25 @@ export class EditUserModal extends React.Component {
     user: PropTypes.object.isRequired,
   };
 
-  constructor(props) {
-    super();
-
+  static initialState(props) {
     const { user } = props;
 
-    this.state = {
+    return ({
+      confirmingUpdates: false,
       userForm: {
         name: user.name,
         loginId: user.login_id,
         password: '',
         sisUserId: user.sis_user_id,
         email: user.email
-      }
-    };
+      },
+    });
+  }
+
+  constructor(props) {
+    super();
+
+    this.state = EditUserModal.initialState(props);
 
     this.handleInputChange = this.handleInputChange.bind(this);
   }
@@ -47,21 +53,83 @@ export class EditUserModal extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    const {
-      user,
-      updateUser:update,
-      closeModal
-    } = this.props;
-    const { userForm } = this.state;
+    const { user, updateUser:update, closeModal } = this.props;
+    const { confirmingUpdates, userForm } = this.state;
 
-    update(user.id, userForm);
+    if (confirmingUpdates) {
+      update(user.id, userForm);
+
+      this.setState({ confirmingUpdates: false });
+
+      closeModal();
+    } else {
+      this.setState({ confirmingUpdates: true });
+    }
+  }
+
+  handleCancel() {
+    const { closeModal } = this.props;
+
+    this.setState(EditUserModal.initialState(this.props));
 
     closeModal();
   }
 
+  renderAttributeChange(attribute) {
+    const { user } = this.props;
+    const { confirmingUpdates, userForm } = this.state;
+
+    if (!confirmingUpdates || userForm[_.camelCase(attribute)] === user[attribute]) {
+      return false;
+    }
+
+    if (attribute === 'password') {
+      if (_.isEmpty(userForm.password)) {
+        return false;
+      }
+
+      return <span>Changed</span>;
+    }
+
+    return <span>Was: {user[attribute]}</span>;
+  }
+
+  renderButtons() {
+    const { confirmingUpdates } = this.state;
+
+    let submitButtonText = 'Update';
+    let cancelButtonClasses = 'btn--outline';
+    let submitButtonClasses = 'btn--primary';
+
+    if (confirmingUpdates) {
+      submitButtonText = 'Confirm';
+      cancelButtonClasses = 'btn--primary is-red';
+      submitButtonClasses = 'btn--primary is-green';
+    }
+
+    return (
+      <React.Fragment>
+        <button
+          className={`btn ${cancelButtonClasses}`}
+          type="button"
+          onClick={() => this.handleCancel()}
+        >
+          Cancel
+        </button>
+        <button
+          className={`btn ${submitButtonClasses}`}
+          type="submit"
+          onClick={event => this.handleSubmit(event)}
+        >
+          {submitButtonText}
+        </button>
+      </React.Fragment>
+    );
+  }
+
   render() {
     const { isOpen, closeModal } = this.props;
-    const { userForm } = this.state;
+    const { confirmingUpdates, userForm } = this.state;
 
     return (
       <ReactModal
@@ -91,7 +159,7 @@ export class EditUserModal extends React.Component {
                     value={userForm.name}
                     onChange={this.handleInputChange}
                   />
-                  <span>Was: Jeffery Danish</span>
+                  { this.renderAttributeChange('name') }
                 </div>
                 <div className="input">
                   <label htmlFor="user_sis_user_id">SIS ID</label>
@@ -102,6 +170,7 @@ export class EditUserModal extends React.Component {
                     value={userForm.sisUserId}
                     onChange={this.handleInputChange}
                   />
+                  { this.renderAttributeChange('sis_user_id') }
                 </div>
                 <div className="input">
                   <label htmlFor="user_email">Email</label>
@@ -112,6 +181,7 @@ export class EditUserModal extends React.Component {
                     value={userForm.email}
                     onChange={this.handleInputChange}
                   />
+                  { this.renderAttributeChange('email') }
                 </div>
               </div>
               <div className="column u-half">
@@ -124,6 +194,7 @@ export class EditUserModal extends React.Component {
                     value={userForm.loginId}
                     onChange={this.handleInputChange}
                   />
+                  { this.renderAttributeChange('login_id') }
                 </div>
                 <div className="input">
                   <label htmlFor="user_password">New Password</label>
@@ -135,14 +206,17 @@ export class EditUserModal extends React.Component {
                     placeholder="****************"
                     onChange={this.handleInputChange}
                   />
+                  { this.renderAttributeChange('password') }
                 </div>
               </div>
             </div>
           </div>
           <div className="modal__bottom">
-            <p>Are you sure you want to make the current changes to this user?</p>
-            <button className="btn btn--outline">Cancel</button>
-            <button className="btn btn--primary" type="submit" onClick={event => this.handleSubmit(event)}>Update</button>
+            { confirmingUpdates && (
+              <p>Are you sure you want to apply the current changes to this user?</p>
+            )}
+
+            {this.renderButtons()}
           </div>
         </form>
       </ReactModal>
