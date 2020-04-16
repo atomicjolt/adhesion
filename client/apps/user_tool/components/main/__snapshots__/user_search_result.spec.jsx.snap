@@ -20,10 +20,6 @@ exports[`UserSearchResult renders the user as a search result 1`] = `
       george_123
     </td>
     <td>
-      admin
-      teacher
-    </td>
-    <td>
       countryfather@revolution.com
     </td>
   </tr>
@@ -35,10 +31,6 @@ exports[`UserSearchResult renders the user as a search result 1`] = `
         "email": "countryfather@revolution.com",
         "login_id": "countryfather@revolution.com",
         "name": "George Washington",
-        "roles": Array [
-          "admin",
-          "teacher",
-        ],
         "sis_user_id": "george_123",
       }
     }

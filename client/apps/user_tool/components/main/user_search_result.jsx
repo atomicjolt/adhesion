@@ -31,7 +31,6 @@ export default class UserSearchResult extends React.Component {
           </th>
           <td>{user.login_id}</td>
           <td>{user.sis_user_id}</td>
-          <td>{user.roles}</td>
           <td>{user.email}</td>
         </tr>
 
