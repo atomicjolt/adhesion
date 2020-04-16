@@ -8,7 +8,6 @@ describe('UserSearchResult', () => {
     name: 'George Washington',
     login_id: 'countryfather@revolution.com',
     sis_user_id: 'george_123',
-    roles: ['admin', 'teacher'],
     email: 'countryfather@revolution.com',
   };
 
