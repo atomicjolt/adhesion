@@ -45,7 +45,7 @@ exports[`EditUserModal renders the edit user modal 1`] = `
         className="row"
       >
         <div
-          className="column u-half"
+          className="column"
         >
           <div
             className="input"
@@ -95,10 +95,6 @@ exports[`EditUserModal renders the edit user modal 1`] = `
               value="countryfather@revolution.com"
             />
           </div>
-        </div>
-        <div
-          className="column u-half"
-        >
           <div
             className="input"
           >
@@ -149,7 +145,7 @@ exports[`EditUserModal when the user clicks the Update button renders the change
       className="row"
     >
       <div
-        className="column u-half"
+        className="column"
       >
         <div
           className="input"
@@ -211,10 +207,6 @@ exports[`EditUserModal when the user clicks the Update button renders the change
             countryfather@revolution.com
           </span>
         </div>
-      </div>
-      <div
-        className="column u-half"
-      >
         <div
           className="input"
         >
