@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_14_192353) do
+ActiveRecord::Schema.define(version: 2020_04_17_204937) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -160,7 +160,6 @@ ActiveRecord::Schema.define(version: 2020_04_14_192353) do
     t.bigint "user_being_changed_lms_id", null: false
     t.json "name"
     t.json "login_id"
-    t.json "password"
     t.json "sis_user_id"
     t.json "email"
     t.datetime "created_at", null: false

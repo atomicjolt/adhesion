@@ -18,7 +18,6 @@ RSpec.describe CanvasUserChange, type: :model do
         login_id: "adamsforindependence@revolution.com",
         sis_user_id: "john_123",
         email: "adamsforindependence@revolution.com",
-        password: "new_password",
       }
     end
 
@@ -62,14 +61,6 @@ RSpec.describe CanvasUserChange, type: :model do
       expect(@canvas_user_change.login_id).to eq(
         "previous_value" => original_attrs[:login_id],
         "new_value" => new_attrs[:login_id],
-        "success" => true,
-      )
-    end
-
-    it "populates the password field" do
-      expect(@canvas_user_change.password).to eq(
-        "previous_value" => "[FILTERED]",
-        "new_value" => "[FILTERED]",
         "success" => true,
       )
     end

@@ -1,6 +1,7 @@
 class CanvasUserChange < ApplicationRecord
   validates :admin_making_changes_lms_id, :user_being_changed_lms_id, presence: true
 
+  # Accepted attrs are :name, :login_id, :sis_user_id and :email.
   def self.create_by_diffing_attrs!(
     admin_making_changes_lms_id:,
     user_being_changed_lms_id:,
@@ -21,14 +22,6 @@ class CanvasUserChange < ApplicationRecord
         previous_value: original_attrs[attr],
         new_value: new_attrs[attr],
         success: failed_attrs.exclude?(attr),
-      }
-    end
-
-    if new_attrs[:password].present?
-      record_attrs[:password] = {
-        previous_value: "[FILTERED]",
-        new_value: "[FILTERED]",
-        success: failed_attrs.exclude?(:password),
       }
     end
 
