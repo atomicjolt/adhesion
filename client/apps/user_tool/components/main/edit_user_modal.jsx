@@ -23,7 +23,6 @@ export class EditUserModal extends React.Component {
       userForm: {
         name: user.name,
         loginId: user.login_id,
-        password: '',
         sisUserId: user.sis_user_id,
         email: user.email
       },
@@ -81,14 +80,6 @@ export class EditUserModal extends React.Component {
 
     if (!confirmingUpdates || userForm[_.camelCase(attribute)] === user[attribute]) {
       return false;
-    }
-
-    if (attribute === 'password') {
-      if (_.isEmpty(userForm.password)) {
-        return false;
-      }
-
-      return <span>Changed</span>;
     }
 
     return <span>Was: {user[attribute]}</span>;
@@ -195,18 +186,6 @@ export class EditUserModal extends React.Component {
                     onChange={this.handleInputChange}
                   />
                   { this.renderAttributeChange('login_id') }
-                </div>
-                <div className="input">
-                  <label htmlFor="user_password">New Password</label>
-                  <input
-                    id="user_password"
-                    name="password"
-                    type="password"
-                    value={userForm.password}
-                    placeholder="****************"
-                    onChange={this.handleInputChange}
-                  />
-                  { this.renderAttributeChange('password') }
                 </div>
               </div>
             </div>

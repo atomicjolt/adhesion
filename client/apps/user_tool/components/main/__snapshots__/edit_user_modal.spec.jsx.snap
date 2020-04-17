@@ -115,23 +115,6 @@ exports[`EditUserModal renders the edit user modal 1`] = `
               value="countryfather@revolution.com"
             />
           </div>
-          <div
-            className="input"
-          >
-            <label
-              htmlFor="user_password"
-            >
-              New Password
-            </label>
-            <input
-              id="user_password"
-              name="password"
-              onChange={[Function]}
-              placeholder="****************"
-              type="password"
-              value=""
-            />
-          </div>
         </div>
       </div>
     </div>
@@ -250,26 +233,6 @@ exports[`EditUserModal when the user clicks the Update button renders the change
           <span>
             Was: 
             countryfather@revolution.com
-          </span>
-        </div>
-        <div
-          className="input"
-        >
-          <label
-            htmlFor="user_password"
-          >
-            New Password
-          </label>
-          <input
-            id="user_password"
-            name="password"
-            onChange={[Function]}
-            placeholder="****************"
-            type="password"
-            value="Updated Password"
-          />
-          <span>
-            Changed
           </span>
         </div>
       </div>
