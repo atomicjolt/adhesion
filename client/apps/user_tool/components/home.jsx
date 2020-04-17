@@ -10,6 +10,7 @@ const select = state => ({
 
 const Home = ({ canvasAuthRequired }) => (
   <div>
+    <h1 className="app-title">User Management</h1>
     { canvasAuthRequired ? <Auth autoSubmit hideButton /> : <SearchPage /> }
   </div>
 );
