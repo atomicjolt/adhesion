@@ -163,6 +163,8 @@ export class EditUserModal extends React.Component {
                   />
                   { this.renderAttributeChange('sis_user_id') }
                 </div>
+              </div>
+              <div className="column u-half">
                 <div className="input">
                   <label htmlFor="user_email">Email</label>
                   <input
@@ -174,8 +176,6 @@ export class EditUserModal extends React.Component {
                   />
                   { this.renderAttributeChange('email') }
                 </div>
-              </div>
-              <div className="column u-half">
                 <div className="input">
                   <label htmlFor="user_login_id">Login ID</label>
                   <input
