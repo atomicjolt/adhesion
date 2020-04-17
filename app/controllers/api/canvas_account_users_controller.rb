@@ -25,11 +25,11 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
   # This action can only update users who are members of the Canvas account given in the LTI launch.
   # Users from sub-accounts of that account can also be updated.
   def update
-    pending_attrs = [:name, :email, :login_id, :password, :sis_user_id]
+    pending_attrs = [:name, :email, :login_id, :sis_user_id]
 
     begin
       edit_user_response = edit_user_on_canvas
-      pending_attrs = [:login_id, :password, :sis_user_id] # We updated name and email.
+      pending_attrs = [:login_id, :sis_user_id] # We updated name and email.
     rescue LMS::Canvas::CanvasException => e
       render_update_user_exception(:edit_user, e)
       return
@@ -39,7 +39,7 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
       # This ID is the ID of the login record; it's different from the user's login ID.
       numeric_login_id = find_canvas_user_login["id"]
       edit_user_login_response = edit_user_login_on_canvas(numeric_login_id)
-      pending_attrs = [] # We updated login_id, password and sis_user_id.
+      pending_attrs = [] # We updated login_id and sis_user_id.
     rescue LMS::Canvas::CanvasException => e
       render_update_user_exception(:edit_user_login, e)
       return
@@ -149,7 +149,6 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
       "accounts/#{jwt_lms_account_id}/logins/#{numeric_login_id}",
       "login[unique_id]" => params[:user][:login_id],
       "login[sis_user_id]" => params[:user][:sis_user_id],
-      "login[password]" => params[:user][:password],
     )
   end
 
@@ -158,7 +157,7 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
       admin_making_changes_lms_id: current_user.lms_user_id,
       user_being_changed_lms_id: params[:id],
       original_attrs: @original_user,
-      new_attrs: params[:user].permit([:name, :login_id, :sis_user_id, :email, :password]).to_h,
+      new_attrs: params[:user].permit([:name, :login_id, :sis_user_id, :email]).to_h,
       failed_attrs: failed_attrs,
     )
   end
@@ -171,8 +170,8 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
                 "Something went wrong updating the user. The updates were not " \
                 "persisted to Canvas. Please try again."
               when :edit_user_login # The user name and email were updated.
-                "Something went wrong updating the user's login ID, password and/or " \
-                "SIS ID. Those attributes were not updated on Canvas. Please reload and try again."
+                "Something went wrong updating the user's login ID and/or SIS ID. " \
+                "Those attributes were not updated on Canvas. Please reload and try again."
               end
 
     render_error(

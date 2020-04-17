@@ -90,7 +90,6 @@ RSpec.describe Api::CanvasAccountUsersController, type: :controller do
           login_id: "adamsforindependence@revolution.com",
           sis_user_id: "john_123",
           email: "adamsforindependence@revolution.com",
-          password: "new_password",
         },
       }
     end
@@ -275,7 +274,7 @@ RSpec.describe Api::CanvasAccountUsersController, type: :controller do
             user_being_changed_lms_id: params[:id],
             original_attrs: original_user,
             new_attrs: params[:user],
-            failed_attrs: [:name, :email, :login_id, :password, :sis_user_id],
+            failed_attrs: [:name, :email, :login_id, :sis_user_id],
           )
       end
     end
@@ -318,7 +317,7 @@ RSpec.describe Api::CanvasAccountUsersController, type: :controller do
             user_being_changed_lms_id: params[:id],
             original_attrs: original_user,
             new_attrs: params[:user],
-            failed_attrs: [:login_id, :password, :sis_user_id],
+            failed_attrs: [:login_id, :sis_user_id],
           )
       end
     end
@@ -362,7 +361,7 @@ RSpec.describe Api::CanvasAccountUsersController, type: :controller do
             user_being_changed_lms_id: params[:id],
             original_attrs: original_user,
             new_attrs: params[:user],
-            failed_attrs: [:login_id, :password, :sis_user_id],
+            failed_attrs: [:login_id, :sis_user_id],
           )
       end
     end
