@@ -140,7 +140,7 @@ export class EditUserModal extends React.Component {
         <form>
           <div className="modal__main">
             <div className="row">
-              <div className="column">
+              <div className="column u-half">
                 <div className="input">
                   <label htmlFor="user_name">Name</label>
                   <input
@@ -174,6 +174,8 @@ export class EditUserModal extends React.Component {
                   />
                   { this.renderAttributeChange('email') }
                 </div>
+              </div>
+              <div className="column u-half">
                 <div className="input">
                   <label htmlFor="user_login_id">Login ID</label>
                   <input
