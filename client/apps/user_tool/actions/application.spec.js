@@ -42,7 +42,6 @@ describe('application actions', () => {
     const userAttributes = {
       name: 'John Adams',
       loginId: 'adamsforindependence@revolution.com',
-      password: 'new_password',
       sisUserId: 'john_123',
       email: 'adamsforindependence@revolution.com'
     };
@@ -58,36 +57,12 @@ describe('application actions', () => {
             login_id: userAttributes.loginId,
             sis_user_id: userAttributes.sisUserId,
             email: userAttributes.email,
-            password: userAttributes.password,
           },
         },
       };
 
       expect(updateUser(userId, userAttributes))
         .toEqual(expectedAction);
-    });
-
-    describe('when no password is given', () => {
-      it('does not send a password property', () => {
-        delete userAttributes.password;
-
-        const expectedAction = {
-          type: 'UPDATE_USER',
-          method: 'put',
-          url: `api/canvas_account_users/${userId}`,
-          body: {
-            user: {
-              name: userAttributes.name,
-              login_id: userAttributes.loginId,
-              sis_user_id: userAttributes.sisUserId,
-              email: userAttributes.email,
-            },
-          },
-        };
-
-        expect(updateUser(userId, userAttributes))
-          .toEqual(expectedAction);
-      });
     });
   });
 });

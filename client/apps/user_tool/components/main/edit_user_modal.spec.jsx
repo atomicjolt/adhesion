@@ -134,24 +134,20 @@ describe('EditUserModal', () => {
       );
       const nameInput = modal.find('#user_name');
       const loginIdInput = modal.find('#user_login_id');
-      const passwordInput = modal.find('#user_password');
       const sisUserIdInput = modal.find('#user_sis_user_id');
       const emailInput = modal.find('#user_email');
       const newName = 'Updated Name';
       const newLoginId = 'Update Login Id';
-      const newPassword = 'Updated Password';
       const newSisUserId = 'Updated SIS ID';
       const newEmail = 'Updated Email';
 
       expect(nameInput.prop('value')).toEqual(props.user.name);
       expect(loginIdInput.prop('value')).toEqual(props.user.login_id);
-      expect(passwordInput.prop('value')).toEqual('');
       expect(sisUserIdInput.prop('value')).toEqual(props.user.sis_user_id);
       expect(emailInput.prop('value')).toEqual(props.user.email);
 
       nameInput.simulate('change', { target: { name: 'name', value: newName } });
       loginIdInput.simulate('change', { target: { name: 'loginId', value: newLoginId } });
-      passwordInput.simulate('change', { target: { name: 'password', value: newPassword } });
       sisUserIdInput.simulate('change', { target: { name: 'sisUserId', value: newSisUserId } });
       emailInput.simulate('change', { target: { name: 'email', value: newEmail } });
 
@@ -164,7 +160,6 @@ describe('EditUserModal', () => {
         {
           name: newName,
           loginId: newLoginId,
-          password: newPassword,
           sisUserId: newSisUserId,
           email: newEmail,
         },
@@ -246,13 +241,11 @@ describe('EditUserModal', () => {
       const submitButton = modal.find('button[type="submit"]');
       const nameInput = modal.find('#user_name');
       const loginIdInput = modal.find('#user_login_id');
-      const passwordInput = modal.find('#user_password');
       const sisUserIdInput = modal.find('#user_sis_user_id');
       const emailInput = modal.find('#user_email');
 
       nameInput.simulate('change', { target: { name: 'name', value: 'Updated Name' } });
       loginIdInput.simulate('change', { target: { name: 'loginId', value: 'Updated Login Id' } });
-      passwordInput.simulate('change', { target: { name: 'password', value: 'Updated Password' } });
       sisUserIdInput.simulate('change', { target: { name: 'sisUserId', value: 'Updated SIS ID' } });
       emailInput.simulate('change', { target: { name: 'email', value: 'Updated Email' } });
 
