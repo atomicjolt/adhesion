@@ -16,6 +16,7 @@ const select = state => ({
   previousPageAvailable: state.application.previousPageAvailable,
   nextPageAvailable: state.application.nextPageAvailable,
   isSearching: state.application.isSearching,
+  isUpdatingUser: state.application.isUpdatingUser,
 });
 
 export class SearchPage extends React.Component {
@@ -26,6 +27,7 @@ export class SearchPage extends React.Component {
     previousPageAvailable: PropTypes.bool,
     nextPageAvailable: PropTypes.bool,
     isSearching: PropTypes.bool,
+    isUpdatingUser: PropTypes.bool,
   };
 
   constructor() {
@@ -65,6 +67,7 @@ export class SearchPage extends React.Component {
       previousPageAvailable,
       nextPageAvailable,
       isSearching,
+      isUpdatingUser,
     } = this.props;
     const { inputSearchTerm, resultsSearchTerm, hasSearched } = this.state;
     const renderedUsers = matchingUsers.map(user => (
@@ -98,12 +101,12 @@ export class SearchPage extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {isSearching ? null : renderedUsers}
+              {(isSearching || isUpdatingUser) ? null : renderedUsers}
             </tbody>
           </table>
         </div>
 
-        { isSearching && <Loader /> }
+        { (isSearching || isUpdatingUser) && <Loader /> }
 
         { !hasSearched && <StartSearching /> }
 

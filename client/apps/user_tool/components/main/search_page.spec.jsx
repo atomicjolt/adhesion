@@ -177,4 +177,17 @@ describe('SearchPage', () => {
       );
     });
   });
+
+  describe('when a user is being updated', () => {
+    it('displays the loading indicator', () => {
+      const searchPage = shallow(<SearchPage
+        matchingUsers={props.matchingUsers}
+        searchForAccountUsers={props.searchForAccountUsers}
+        currentPage={props.currentPage}
+        isUpdatingUser
+      />);
+
+      expect(searchPage.contains(<Loader />)).toEqual(true);
+    });
+  });
 });
