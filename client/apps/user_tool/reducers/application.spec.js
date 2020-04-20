@@ -2,7 +2,12 @@ import applicationReducer from './application';
 import { Constants as ApplicationConstants } from '../actions/application';
 
 describe('application reducer', () => {
-  const initialState = () => ({ matchingUsers: [], currentPage: 1 });
+  const initialState = opts => ({
+    matchingUsers: (opts && opts.matchingUsers) || [],
+    currentPage: (opts && opts.currentPage) || 1,
+    isSearching: (opts && opts.isSearching) || false,
+    isUpdatingUser: (opts && opts.isUpdatingUser) || false,
+  });
 
   describe('initial state', () => {
     it('returns empty state', () => {
@@ -23,6 +28,17 @@ describe('application reducer', () => {
       const state = applicationReducer(initialState(), action);
 
       expect(state.currentPage).toEqual(page);
+    });
+
+    it('sets isSearching to true', () => {
+      const action = {
+        type: ApplicationConstants.SEARCH_FOR_ACCOUNT_USERS,
+        params: {},
+      };
+
+      const state = applicationReducer(initialState(), action);
+
+      expect(state.isSearching).toEqual(true);
     });
 
     describe('when no page is given', () => {
@@ -80,6 +96,17 @@ describe('application reducer', () => {
       expect(state.nextPageAvailable).toEqual(nextPageAvailable);
     });
 
+    it('sets isSearching to false', () => {
+      const action = {
+        type: ApplicationConstants.SEARCH_FOR_ACCOUNT_USERS_DONE,
+        payload: {},
+      };
+
+      const state = applicationReducer(initialState({ isSearching: true }), action);
+
+      expect(state.isSearching).toEqual(false);
+    });
+
     describe('when the action payload contains a falsey value for matching_users', () => {
       it('sets matchingUsers to an empty array', () => {
         const matchingUsers = undefined;
@@ -92,6 +119,19 @@ describe('application reducer', () => {
 
         expect(state.matchingUsers).toEqual([]);
       });
+    });
+  });
+
+  describe('UPDATE_USER', () => {
+    it('sets isUpdatingUser to true', () => {
+      const action = {
+        type: ApplicationConstants.UPDATE_USER,
+        params: {},
+      };
+
+      const state = applicationReducer(initialState(), action);
+
+      expect(state.isUpdatingUser).toEqual(true);
     });
   });
 
@@ -135,6 +175,20 @@ describe('application reducer', () => {
       const state = applicationReducer({ ...initialState(), matchingUsers }, action);
 
       expect(state.matchingUsers[1]).toEqual(updatedUser);
+    });
+
+    it('sets isUpdatingUser to false', () => {
+      const action = {
+        type: ApplicationConstants.UPDATE_USER_DONE,
+        payload: {},
+      };
+
+      const state = applicationReducer(
+        initialState({ isUpdatingUser: true }),
+        action,
+      );
+
+      expect(state.isUpdatingUser).toEqual(false);
     });
   });
 });

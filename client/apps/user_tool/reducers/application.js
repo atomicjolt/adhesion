@@ -1,7 +1,12 @@
 import { Constants as ApplicationConstants } from '../actions/application';
 
 const defaultPage = 1;
-const initialState = () => ({ matchingUsers: [], currentPage: defaultPage });
+const initialState = () => ({
+  matchingUsers: [],
+  currentPage: defaultPage,
+  isSearching: false,
+  isUpdatingUser: false
+});
 
 export default (state = initialState(), action) => {
   switch (action.type) {
@@ -9,7 +14,7 @@ export default (state = initialState(), action) => {
     case ApplicationConstants.SEARCH_FOR_ACCOUNT_USERS: {
       const currentPage = action.params.page || defaultPage;
 
-      return { ...state, currentPage };
+      return { ...state, currentPage, isSearching: true };
     }
 
     case ApplicationConstants.SEARCH_FOR_ACCOUNT_USERS_DONE: {
@@ -23,8 +28,13 @@ export default (state = initialState(), action) => {
         ...state,
         matchingUsers,
         previousPageAvailable,
-        nextPageAvailable
+        nextPageAvailable,
+        isSearching: false,
       };
+    }
+
+    case ApplicationConstants.UPDATE_USER: {
+      return { ...state, isUpdatingUser: true };
     }
 
     case ApplicationConstants.UPDATE_USER_DONE: {
@@ -50,7 +60,7 @@ export default (state = initialState(), action) => {
         return user;
       });
 
-      return { ...state, matchingUsers };
+      return { ...state, matchingUsers, isUpdatingUser: false };
     }
 
     default:

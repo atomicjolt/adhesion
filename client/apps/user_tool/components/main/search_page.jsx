@@ -8,12 +8,15 @@ import UserSearchResult from './user_search_result';
 import StartSearching from './start_searching';
 import NoSearchResults from './no_search_results';
 import Pagination from '../../../../common/components/common/pagination';
+import Loader from '../../../../libs/components/loader';
 
 const select = state => ({
   matchingUsers: state.application.matchingUsers,
   currentPage: state.application.currentPage,
   previousPageAvailable: state.application.previousPageAvailable,
   nextPageAvailable: state.application.nextPageAvailable,
+  isSearching: state.application.isSearching,
+  isUpdatingUser: state.application.isUpdatingUser,
 });
 
 export class SearchPage extends React.Component {
@@ -23,6 +26,8 @@ export class SearchPage extends React.Component {
     currentPage: PropTypes.number.isRequired,
     previousPageAvailable: PropTypes.bool,
     nextPageAvailable: PropTypes.bool,
+    isSearching: PropTypes.bool,
+    isUpdatingUser: PropTypes.bool,
   };
 
   constructor() {
@@ -34,6 +39,12 @@ export class SearchPage extends React.Component {
       hasSearched: false,
     };
     this.minSearchTermLength = 3;
+  }
+
+  isLoading() {
+    const { isSearching, isUpdatingUser } = this.props;
+
+    return isSearching || isUpdatingUser;
   }
 
   updateInputSearchTerm(event) {
@@ -60,7 +71,7 @@ export class SearchPage extends React.Component {
       matchingUsers,
       currentPage,
       previousPageAvailable,
-      nextPageAvailable
+      nextPageAvailable,
     } = this.props;
     const { inputSearchTerm, resultsSearchTerm, hasSearched } = this.state;
     const renderedUsers = matchingUsers.map(user => (
@@ -94,15 +105,18 @@ export class SearchPage extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {renderedUsers}
+              {this.isLoading() ? null : renderedUsers}
             </tbody>
           </table>
         </div>
 
+        { this.isLoading() && <Loader /> }
+
         { !hasSearched && <StartSearching /> }
 
         {
-          hasSearched
+          !this.isLoading()
+          && hasSearched
           && _.isEmpty(matchingUsers)
           && <NoSearchResults searchTerm={resultsSearchTerm} />
         }
