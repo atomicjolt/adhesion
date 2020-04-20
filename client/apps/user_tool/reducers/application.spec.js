@@ -6,6 +6,7 @@ describe('application reducer', () => {
     matchingUsers: (opts && opts.matchingUsers) || [],
     currentPage: (opts && opts.currentPage) || 1,
     isSearching: (opts && opts.isSearching) || false,
+    isUpdatingUser: (opts && opts.isUpdatingUser) || false,
   });
 
   describe('initial state', () => {
@@ -121,6 +122,19 @@ describe('application reducer', () => {
     });
   });
 
+  describe('UPDATE_USER', () => {
+    it('sets isUpdatingUser to true', () => {
+      const action = {
+        type: ApplicationConstants.UPDATE_USER,
+        params: {},
+      };
+
+      const state = applicationReducer(initialState(), action);
+
+      expect(state.isUpdatingUser).toEqual(true);
+    });
+  });
+
   describe('UPDATE_USER_DONE', () => {
     it('updates the user in matchingUsers', () => {
       const matchingUsers = [
@@ -161,6 +175,20 @@ describe('application reducer', () => {
       const state = applicationReducer({ ...initialState(), matchingUsers }, action);
 
       expect(state.matchingUsers[1]).toEqual(updatedUser);
+    });
+
+    it('sets isUpdatingUser to false', () => {
+      const action = {
+        type: ApplicationConstants.UPDATE_USER_DONE,
+        payload: {},
+      };
+
+      const state = applicationReducer(
+        initialState({ isUpdatingUser: true }),
+        action,
+      );
+
+      expect(state.isUpdatingUser).toEqual(false);
     });
   });
 });

@@ -5,6 +5,7 @@ const initialState = () => ({
   matchingUsers: [],
   currentPage: defaultPage,
   isSearching: false,
+  isUpdatingUser: false
 });
 
 export default (state = initialState(), action) => {
@@ -32,6 +33,10 @@ export default (state = initialState(), action) => {
       };
     }
 
+    case ApplicationConstants.UPDATE_USER: {
+      return { ...state, isUpdatingUser: true };
+    }
+
     case ApplicationConstants.UPDATE_USER_DONE: {
       const {
         id,
@@ -55,7 +60,7 @@ export default (state = initialState(), action) => {
         return user;
       });
 
-      return { ...state, matchingUsers };
+      return { ...state, matchingUsers, isUpdatingUser: false };
     }
 
     default:
