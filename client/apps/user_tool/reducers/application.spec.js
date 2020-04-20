@@ -2,7 +2,11 @@ import applicationReducer from './application';
 import { Constants as ApplicationConstants } from '../actions/application';
 
 describe('application reducer', () => {
-  const initialState = () => ({ matchingUsers: [], currentPage: 1 });
+  const initialState = opts => ({
+    matchingUsers: (opts && opts.matchingUsers) || [],
+    currentPage: (opts && opts.currentPage) || 1,
+    isSearching: (opts && opts.isSearching) || false,
+  });
 
   describe('initial state', () => {
     it('returns empty state', () => {
@@ -23,6 +27,17 @@ describe('application reducer', () => {
       const state = applicationReducer(initialState(), action);
 
       expect(state.currentPage).toEqual(page);
+    });
+
+    it('sets isSearching to true', () => {
+      const action = {
+        type: ApplicationConstants.SEARCH_FOR_ACCOUNT_USERS,
+        params: {},
+      };
+
+      const state = applicationReducer(initialState(), action);
+
+      expect(state.isSearching).toEqual(true);
     });
 
     describe('when no page is given', () => {
@@ -78,6 +93,17 @@ describe('application reducer', () => {
       const state = applicationReducer(initialState(), action);
 
       expect(state.nextPageAvailable).toEqual(nextPageAvailable);
+    });
+
+    it('sets isSearching to false', () => {
+      const action = {
+        type: ApplicationConstants.SEARCH_FOR_ACCOUNT_USERS_DONE,
+        payload: {},
+      };
+
+      const state = applicationReducer(initialState({ isSearching: true }), action);
+
+      expect(state.isSearching).toEqual(false);
     });
 
     describe('when the action payload contains a falsey value for matching_users', () => {
