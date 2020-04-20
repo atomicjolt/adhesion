@@ -2,6 +2,7 @@ import React from 'react';
 import { shallow, mount } from 'enzyme';
 
 import { SearchPage } from './search_page';
+import Loader from '../../../../libs/components/loader';
 
 jest.mock('./edit_user_modal');
 
@@ -64,6 +65,17 @@ describe('SearchPage', () => {
       expect(props.searchForAccountUsers).toHaveBeenCalledWith(
         searchTerm,
       );
+    });
+
+    it('displays the loading indicator', () => {
+      const searchPage = shallow(<SearchPage
+        matchingUsers={props.matchingUsers}
+        searchForAccountUsers={props.searchForAccountUsers}
+        currentPage={props.currentPage}
+        isSearching
+      />);
+
+      expect(searchPage.contains(<Loader />)).toEqual(true);
     });
   });
 

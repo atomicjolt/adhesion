@@ -8,12 +8,14 @@ import UserSearchResult from './user_search_result';
 import StartSearching from './start_searching';
 import NoSearchResults from './no_search_results';
 import Pagination from '../../../../common/components/common/pagination';
+import Loader from '../../../../libs/components/loader';
 
 const select = state => ({
   matchingUsers: state.application.matchingUsers,
   currentPage: state.application.currentPage,
   previousPageAvailable: state.application.previousPageAvailable,
   nextPageAvailable: state.application.nextPageAvailable,
+  isSearching: state.application.isSearching,
 });
 
 export class SearchPage extends React.Component {
@@ -23,6 +25,7 @@ export class SearchPage extends React.Component {
     currentPage: PropTypes.number.isRequired,
     previousPageAvailable: PropTypes.bool,
     nextPageAvailable: PropTypes.bool,
+    isSearching: PropTypes.bool,
   };
 
   constructor() {
@@ -60,7 +63,8 @@ export class SearchPage extends React.Component {
       matchingUsers,
       currentPage,
       previousPageAvailable,
-      nextPageAvailable
+      nextPageAvailable,
+      isSearching,
     } = this.props;
     const { inputSearchTerm, resultsSearchTerm, hasSearched } = this.state;
     const renderedUsers = matchingUsers.map(user => (
@@ -94,15 +98,18 @@ export class SearchPage extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {renderedUsers}
+              {isSearching ? null : renderedUsers}
             </tbody>
           </table>
         </div>
 
+        { isSearching && <Loader /> }
+
         { !hasSearched && <StartSearching /> }
 
         {
-          hasSearched
+          !isSearching
+          && hasSearched
           && _.isEmpty(matchingUsers)
           && <NoSearchResults searchTerm={resultsSearchTerm} />
         }
