@@ -41,6 +41,12 @@ export class SearchPage extends React.Component {
     this.minSearchTermLength = 3;
   }
 
+  isLoading() {
+    const { isSearching, isUpdatingUser } = this.props;
+
+    return isSearching || isUpdatingUser;
+  }
+
   updateInputSearchTerm(event) {
     this.setState({ inputSearchTerm: event.target.value });
   }
@@ -66,8 +72,6 @@ export class SearchPage extends React.Component {
       currentPage,
       previousPageAvailable,
       nextPageAvailable,
-      isSearching,
-      isUpdatingUser,
     } = this.props;
     const { inputSearchTerm, resultsSearchTerm, hasSearched } = this.state;
     const renderedUsers = matchingUsers.map(user => (
@@ -101,17 +105,17 @@ export class SearchPage extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {(isSearching || isUpdatingUser) ? null : renderedUsers}
+              {this.isLoading() ? null : renderedUsers}
             </tbody>
           </table>
         </div>
 
-        { (isSearching || isUpdatingUser) && <Loader /> }
+        { this.isLoading() && <Loader /> }
 
         { !hasSearched && <StartSearching /> }
 
         {
-          !isSearching
+          !this.isLoading()
           && hasSearched
           && _.isEmpty(matchingUsers)
           && <NoSearchResults searchTerm={resultsSearchTerm} />
