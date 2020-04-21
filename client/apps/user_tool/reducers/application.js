@@ -6,15 +6,10 @@ const initialState = () => ({
   currentPage: defaultPage,
   isSearching: false,
   isUpdatingUser: false,
-  success_messages: [],
 });
 
 export default (state = initialState(), action) => {
   switch (action.type) {
-
-    case ApplicationConstants.CLEAR_SUCCESS_MESSAGES: {
-      return { ...state, success_messages: [] };
-    }
 
     case ApplicationConstants.SEARCH_FOR_ACCOUNT_USERS: {
       const currentPage = action.params.page || defaultPage;
@@ -65,13 +60,7 @@ export default (state = initialState(), action) => {
         return user;
       });
 
-      const newState = { ...state, matchingUsers, isUpdatingUser: false };
-
-      if (!action.error) {
-        newState.success_messages = [...state.success_messages, 'User updated successfully.'];
-      }
-
-      return newState;
+      return { ...state, matchingUsers, isUpdatingUser: false };
     }
 
     default:

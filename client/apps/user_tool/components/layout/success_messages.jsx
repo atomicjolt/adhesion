@@ -3,9 +3,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { clearSuccessMessages } from '../../actions/application';
+import { clearSuccessMessages } from '../../actions/success_messages';
 
-const select = state => ({ messages: state.application.success_messages });
+const select = state => ({ messages: state.successMessages });
 
 export class SuccessMessages extends React.Component {
   static propTypes = {
