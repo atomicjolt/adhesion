@@ -18,6 +18,18 @@ describe('application reducer', () => {
     });
   });
 
+  describe('CLEAR_SUCCESS_MESSAGES', () => {
+    it('clears the success messages', () => {
+      const action = {
+        type: ApplicationConstants.CLEAR_SUCCESS_MESSAGES,
+      };
+
+      const state = applicationReducer(initialState({ success_messages: ['Message'] }), action);
+
+      expect(state.success_messages).toEqual([]);
+    });
+  });
+
   describe('SEARCH_FOR_ACCOUNT_USERS', () => {
     it('updates the currentPage', () => {
       const page = 2;

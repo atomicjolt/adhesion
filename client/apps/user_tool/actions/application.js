@@ -2,12 +2,16 @@ import wrapper from 'atomic-fuel/libs/constants/wrapper';
 import Network from 'atomic-fuel/libs/constants/network';
 
 // Local actions
-const actions = [];
+const actions = ['CLEAR_SUCCESS_MESSAGES'];
 
 // Actions that make an api request
 const requests = ['SEARCH_FOR_ACCOUNT_USERS', 'UPDATE_USER'];
 
 export const Constants = wrapper(actions, requests);
+
+export const clearSuccessMessages = () => ({
+  type: Constants.CLEAR_SUCCESS_MESSAGES,
+});
 
 export const searchForAccountUsers = (searchTerm, page) => ({
   type: Constants.SEARCH_FOR_ACCOUNT_USERS,

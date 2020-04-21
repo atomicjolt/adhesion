@@ -12,6 +12,10 @@ const initialState = () => ({
 export default (state = initialState(), action) => {
   switch (action.type) {
 
+    case ApplicationConstants.CLEAR_SUCCESS_MESSAGES: {
+      return { ...state, success_messages: [] };
+    }
+
     case ApplicationConstants.SEARCH_FOR_ACCOUNT_USERS: {
       const currentPage = action.params.page || defaultPage;
 

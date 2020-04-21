@@ -1,6 +1,17 @@
-import { searchForAccountUsers, updateUser } from './application';
+import { clearSuccessMessages, searchForAccountUsers, updateUser } from './application';
 
 describe('application actions', () => {
+  describe('clearSuccessMessages', () => {
+    it('generates the correct action', () => {
+      const expectedAction = {
+        type: 'CLEAR_SUCCESS_MESSAGES',
+      };
+
+      expect(clearSuccessMessages())
+        .toEqual(expectedAction);
+    });
+  });
+
   describe('searchForAccountUsers', () => {
     it('generates the correct action', () => {
       const searchTerm = 'student name';
