@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import ReactModal from 'react-modal';
 import _ from 'lodash';
 import { connect } from 'react-redux';
-import { updateUser } from '../../actions/application';
+import { updateAccountUser } from '../../actions/application';
 
 const select = () => ({});
 
 export class EditUserModal extends React.Component {
   static propTypes = {
-    updateUser: PropTypes.func.isRequired,
+    updateAccountUser: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
     closeModal: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
@@ -52,7 +52,7 @@ export class EditUserModal extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    const { user, updateUser:update, closeModal } = this.props;
+    const { user, updateAccountUser:update, closeModal } = this.props;
     const { confirmingUpdates, userForm } = this.state;
 
     if (confirmingUpdates) {
@@ -203,4 +203,4 @@ export class EditUserModal extends React.Component {
   }
 }
 
-export default connect(select, { updateUser })(EditUserModal);
+export default connect(select, { updateAccountUser })(EditUserModal);

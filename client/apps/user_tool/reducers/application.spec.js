@@ -122,10 +122,10 @@ describe('application reducer', () => {
     });
   });
 
-  describe('UPDATE_USER', () => {
+  describe('UPDATE_ACCOUNT_USER', () => {
     it('sets isUpdatingUser to true', () => {
       const action = {
-        type: ApplicationConstants.UPDATE_USER,
+        type: ApplicationConstants.UPDATE_ACCOUNT_USER,
         params: {},
       };
 
@@ -135,7 +135,7 @@ describe('application reducer', () => {
     });
   });
 
-  describe('UPDATE_USER_DONE', () => {
+  describe('UPDATE_ACCOUNT_USER_DONE', () => {
     it('updates the user in matchingUsers', () => {
       const matchingUsers = [
         {
@@ -168,7 +168,7 @@ describe('application reducer', () => {
         email: 'adamsforindependence@revolution.com'
       };
       const action = {
-        type: ApplicationConstants.UPDATE_USER_DONE,
+        type: ApplicationConstants.UPDATE_ACCOUNT_USER_DONE,
         payload: updatedUser,
       };
 
@@ -179,7 +179,7 @@ describe('application reducer', () => {
 
     it('sets isUpdatingUser to false', () => {
       const action = {
-        type: ApplicationConstants.UPDATE_USER_DONE,
+        type: ApplicationConstants.UPDATE_ACCOUNT_USER_DONE,
         payload: {},
       };
 

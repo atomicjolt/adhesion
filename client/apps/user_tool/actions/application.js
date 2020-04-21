@@ -5,7 +5,7 @@ import Network from 'atomic-fuel/libs/constants/network';
 const actions = [];
 
 // Actions that make an api request
-const requests = ['SEARCH_FOR_ACCOUNT_USERS', 'GET_ACCOUNT_USER', 'UPDATE_USER'];
+const requests = ['SEARCH_FOR_ACCOUNT_USERS', 'GET_ACCOUNT_USER', 'UPDATE_ACCOUNT_USER'];
 
 export const Constants = wrapper(actions, requests);
 
@@ -25,8 +25,8 @@ export const getAccountUser = (userId) => ({
   url: `api/canvas_account_users/${userId}`,
 });
 
-export const updateUser = (userId, userAttributes) => ({
-  type: Constants.UPDATE_USER,
+export const updateAccountUser = (userId, userAttributes) => ({
+  type: Constants.UPDATE_ACCOUNT_USER,
   method: Network.PUT,
   url: `api/canvas_account_users/${userId}`,
   body: {

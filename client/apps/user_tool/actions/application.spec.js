@@ -1,4 +1,4 @@
-import { searchForAccountUsers, getAccountUser, updateUser } from './application';
+import { searchForAccountUsers, getAccountUser, updateAccountUser } from './application';
 
 describe('application actions', () => {
   describe('searchForAccountUsers', () => {
@@ -50,7 +50,7 @@ describe('application actions', () => {
     });
   });
 
-  describe('updateUser', () => {
+  describe('updateAccountUser', () => {
     const userId = 45;
     const userAttributes = {
       name: 'John Adams',
@@ -61,7 +61,7 @@ describe('application actions', () => {
 
     it('generates the correct action', () => {
       const expectedAction = {
-        type: 'UPDATE_USER',
+        type: 'UPDATE_ACCOUNT_USER',
         method: 'put',
         url: `api/canvas_account_users/${userId}`,
         body: {
@@ -74,7 +74,7 @@ describe('application actions', () => {
         },
       };
 
-      expect(updateUser(userId, userAttributes))
+      expect(updateAccountUser(userId, userAttributes))
         .toEqual(expectedAction);
     });
   });

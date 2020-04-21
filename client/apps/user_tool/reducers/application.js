@@ -33,11 +33,11 @@ export default (state = initialState(), action) => {
       };
     }
 
-    case ApplicationConstants.UPDATE_USER: {
+    case ApplicationConstants.UPDATE_ACCOUNT_USER: {
       return { ...state, isUpdatingUser: true };
     }
 
-    case ApplicationConstants.UPDATE_USER_DONE: {
+    case ApplicationConstants.UPDATE_ACCOUNT_USER_DONE: {
       const {
         id,
         name,

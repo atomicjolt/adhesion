@@ -5,7 +5,7 @@ import { EditUserModal } from './edit_user_modal';
 
 describe('EditUserModal', () => {
   const props = {
-    updateUser: () => {},
+    updateAccountUser: () => {},
     closeModal: () => {},
     user: {
       name: 'George Washington',
@@ -19,7 +19,7 @@ describe('EditUserModal', () => {
   it('renders the edit user modal', () => {
     const modal = shallow(
       <EditUserModal
-        updateUser={props.updateUser}
+        updateAccountUser={props.updateAccountUser}
         isOpen
         closeModal={props.closeModal}
         user={props.user}
@@ -34,7 +34,7 @@ describe('EditUserModal', () => {
       spyOn(props, 'closeModal');
       const modal = shallow(
         <EditUserModal
-          updateUser={props.updateUser}
+          updateAccountUser={props.updateAccountUser}
           isOpen
           closeModal={props.closeModal}
           user={props.user}
@@ -51,7 +51,7 @@ describe('EditUserModal', () => {
     it('resets the form to default values', () => {
       const modal = shallow(
         <EditUserModal
-          updateUser={props.updateUser}
+          updateAccountUser={props.updateAccountUser}
           isOpen
           closeModal={props.closeModal}
           user={props.user}
@@ -81,7 +81,7 @@ describe('EditUserModal', () => {
     it('resets the submission button to "Update"', () => {
       const modal = shallow(
         <EditUserModal
-          updateUser={props.updateUser}
+          updateAccountUser={props.updateAccountUser}
           isOpen
           closeModal={props.closeModal}
           user={props.user}
@@ -107,7 +107,7 @@ describe('EditUserModal', () => {
       spyOn(props, 'closeModal');
       const modal = shallow(
         <EditUserModal
-          updateUser={props.updateUser}
+          updateAccountUser={props.updateAccountUser}
           isOpen
           closeModal={props.closeModal}
           user={props.user}
@@ -123,10 +123,10 @@ describe('EditUserModal', () => {
 
   describe('when the user updates, confirms and submits the form', () => {
     it('submits an update request', () => {
-      spyOn(props, 'updateUser');
+      spyOn(props, 'updateAccountUser');
       const modal = shallow(
         <EditUserModal
-          updateUser={props.updateUser}
+          updateAccountUser={props.updateAccountUser}
           isOpen
           closeModal={props.closeModal}
           user={props.user}
@@ -155,7 +155,7 @@ describe('EditUserModal', () => {
       // Click again to confirm.
       modal.find('button[type="submit"]').simulate('click', { preventDefault: () => {} });
 
-      expect(props.updateUser).toHaveBeenCalledWith(
+      expect(props.updateAccountUser).toHaveBeenCalledWith(
         props.user.id,
         {
           name: newName,
@@ -169,7 +169,7 @@ describe('EditUserModal', () => {
     it('resets the submission button to "Update"', () => {
       const modal = shallow(
         <EditUserModal
-          updateUser={props.updateUser}
+          updateAccountUser={props.updateAccountUser}
           isOpen
           closeModal={props.closeModal}
           user={props.user}
@@ -192,7 +192,7 @@ describe('EditUserModal', () => {
     it('the button text changes to "Confirm"', () => {
       const modal = shallow(
         <EditUserModal
-          updateUser={props.updateUser}
+          updateAccountUser={props.updateAccountUser}
           isOpen
           closeModal={props.closeModal}
           user={props.user}
@@ -211,7 +211,7 @@ describe('EditUserModal', () => {
     it('displays the confirmation message', () => {
       const modal = shallow(
         <EditUserModal
-          updateUser={props.updateUser}
+          updateAccountUser={props.updateAccountUser}
           isOpen
           closeModal={props.closeModal}
           user={props.user}
@@ -232,7 +232,7 @@ describe('EditUserModal', () => {
     it('renders the changed attributes', () => {
       const modal = shallow(
         <EditUserModal
-          updateUser={props.updateUser}
+          updateAccountUser={props.updateAccountUser}
           isOpen
           closeModal={props.closeModal}
           user={props.user}
