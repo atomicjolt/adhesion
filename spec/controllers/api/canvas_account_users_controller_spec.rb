@@ -81,6 +81,63 @@ RSpec.describe Api::CanvasAccountUsersController, type: :controller do
     end
   end
 
+  describe "GET show" do
+    let(:params) do
+      { id: "412" }
+    end
+    let(:user) do
+      {
+        "id" => "412",
+        "name" => "John Adams",
+        "login_id" => "adamsforindependence@greatbritain.com",
+        "sis_user_id" => "old_john_123",
+        "email" => "adamsforindependence@greatbritain.com",
+      }
+    end
+
+    before do
+      allow_any_instance_of(LMS::Canvas).to receive(:api_get_request).
+        with(a_string_matching(/users\?.*search_term=#{params[:id]}/i)).
+        and_return([user.clone])
+
+      allow_any_instance_of(LMS::Canvas).to receive(:proxy).
+        with("LIST_ACCOUNTS", anything).
+        and_return([])
+    end
+
+    it "returns a 200 OK" do
+      response = get(:show, params: params)
+
+      expect(response.status).to eq(200)
+    end
+
+    it "returns the user attributes" do
+      response = get(:show, params: params)
+
+      expect(JSON.parse(response.body)).to include(user)
+    end
+
+    it "returns whether or not the user is an account admin" do
+      response = get(:show, params: params)
+
+      expect(JSON.parse(response.body)["is_account_admin"]).to eq(false)
+    end
+
+    context "when the user is an account admin" do
+      before do
+        allow_any_instance_of(LMS::Canvas).to receive(:proxy).
+          with("LIST_ACCOUNTS", anything).
+          and_return([{ "id" => 123, "name" => "Some Account" }])
+      end
+
+      it "returns true for is_account_admin" do
+        response = get(:show, params: params)
+
+        expect(JSON.parse(response.body)["is_account_admin"]).to eq(true)
+      end
+    end
+  end
+
   describe "PUT update" do
     let(:params) do
       {
