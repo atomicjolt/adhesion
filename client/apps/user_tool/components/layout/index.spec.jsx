@@ -4,6 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import Index from './index';
 
 jest.mock('./errors');
+jest.mock('./success_messages');
 
 describe('index', () => {
   let result;
