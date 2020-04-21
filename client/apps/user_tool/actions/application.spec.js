@@ -1,4 +1,4 @@
-import { searchForAccountUsers, updateUser } from './application';
+import { searchForAccountUsers, getAccountUser, updateUser } from './application';
 
 describe('application actions', () => {
   describe('searchForAccountUsers', () => {
@@ -34,6 +34,19 @@ describe('application actions', () => {
 
         expect(searchForAccountUsers(searchTerm, page)).toEqual(expectedAction);
       });
+    });
+  });
+
+  describe('getAccountUser', () => {
+    it('generates the correct action', () => {
+      const userId = 123;
+      const expectedAction = {
+        type: 'GET_ACCOUNT_USER',
+        method: 'get',
+        url: `api/canvas_account_users/${userId}`,
+      };
+
+      expect(getAccountUser(userId)).toEqual(expectedAction);
     });
   });
 
