@@ -2,7 +2,7 @@
 
 exports[`Errors renders the errors 1`] = `
 <div
-  className="errors"
+  className="messages error"
 >
   <ul>
     <li

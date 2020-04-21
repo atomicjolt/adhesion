@@ -1,6 +1,5 @@
-.errors{
+.messages{
   width: 100%;
-  background: $red;
   padding: 0.4rem 1.6rem;
   display: flex;
   align-items: stretch;
@@ -39,5 +38,14 @@
         padding: 0;
       }
     }
+  }
+
+  &.error {
+    background: $red;
+  }
+
+  &.success {
+    background: $green;
+    margin-top: 0.5rem;
   }
 }
