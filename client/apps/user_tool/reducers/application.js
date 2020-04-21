@@ -5,7 +5,8 @@ const initialState = () => ({
   matchingUsers: [],
   currentPage: defaultPage,
   isSearching: false,
-  isUpdatingUser: false
+  isUpdatingUser: false,
+  success_messages: [],
 });
 
 export default (state = initialState(), action) => {
@@ -60,7 +61,13 @@ export default (state = initialState(), action) => {
         return user;
       });
 
-      return { ...state, matchingUsers, isUpdatingUser: false };
+      const newState = { ...state, matchingUsers, isUpdatingUser: false };
+
+      if (!action.error) {
+        newState.success_messages = [...state.success_messages, 'User updated successfully.'];
+      }
+
+      return newState;
     }
 
     default:

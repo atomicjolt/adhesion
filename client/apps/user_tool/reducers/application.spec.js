@@ -7,6 +7,7 @@ describe('application reducer', () => {
     currentPage: (opts && opts.currentPage) || 1,
     isSearching: (opts && opts.isSearching) || false,
     isUpdatingUser: (opts && opts.isUpdatingUser) || false,
+    success_messages: (opts && opts.success_messages) || [],
   });
 
   describe('initial state', () => {
@@ -189,6 +190,33 @@ describe('application reducer', () => {
       );
 
       expect(state.isUpdatingUser).toEqual(false);
+    });
+
+    describe('when the action has no errors', () => {
+      it('adds a success message to state', () => {
+        const action = {
+          type: ApplicationConstants.UPDATE_USER_DONE,
+          payload: {},
+        };
+
+        const state = applicationReducer(initialState(), action);
+
+        expect(state.success_messages).toEqual(['User updated successfully.']);
+      });
+    });
+
+    describe('when the action has an error', () => {
+      it('does not add a success message to state', () => {
+        const action = {
+          type: ApplicationConstants.UPDATE_USER_DONE,
+          payload: {},
+          error: { message: 'Something went wrong.' },
+        };
+
+        const state = applicationReducer(initialState(), action);
+
+        expect(state.success_messages).toEqual([]);
+      });
     });
   });
 });
