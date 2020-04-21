@@ -3,11 +3,24 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import { clearSuccessMessages } from '../../actions/application';
+
 const select = state => ({ messages: state.application.success_messages });
 
 export class SuccessMessages extends React.Component {
   static propTypes = {
+    clearSuccessMessages: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
+  }
+
+  componentDidUpdate() {
+    const { clearSuccessMessages:clear, messages } = this.props;
+
+    if (_.isEmpty(messages)) { return; }
+
+    setTimeout(() => {
+      clear();
+    }, 4000);
   }
 
   render() {
@@ -27,4 +40,4 @@ export class SuccessMessages extends React.Component {
   }
 }
 
-export default connect(select, {})(SuccessMessages);
+export default connect(select, { clearSuccessMessages })(SuccessMessages);
