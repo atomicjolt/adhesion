@@ -63,6 +63,7 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
         login_id: edit_user_login_response["unique_id"],
         sis_user_id: edit_user_login_response["sis_user_id"],
         email: edit_user_response["email"],
+        is_account_admin: user_being_edited_is_account_admin?,
       },
       status: :ok,
     )

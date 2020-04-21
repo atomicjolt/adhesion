@@ -235,6 +235,12 @@ RSpec.describe Api::CanvasAccountUsersController, type: :controller do
       expect(JSON.parse(response.body)["email"]).to eq(params[:user][:email])
     end
 
+    it "returns whether the user is an account admin" do
+      response = put(:update, params: params)
+
+      expect(JSON.parse(response.body)["is_account_admin"]).to eq(false)
+    end
+
     it "creates a CanvasUserChange with the no failed attributes" do
       allow(CanvasUserChange).to receive(:create_by_diffing_attrs!)
 
@@ -248,6 +254,20 @@ RSpec.describe Api::CanvasAccountUsersController, type: :controller do
           new_attrs: params[:user],
           failed_attrs: [],
         )
+    end
+
+    context "when the user is an account admin" do
+      before do
+        allow_any_instance_of(LMS::Canvas).to receive(:proxy).
+          with("LIST_ACCOUNTS", anything).
+          and_return([{ "id" => 123, "name" => "Some Account" }])
+      end
+
+      it "returns true for is_account_admin" do
+        response = get(:show, params: params)
+
+        expect(JSON.parse(response.body)["is_account_admin"]).to eq(true)
+      end
     end
 
     context "when the user is not in the admin's account or sub-account" do
