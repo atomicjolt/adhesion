@@ -28,7 +28,7 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
   def show
     user = search_for_users_on_canvas(params[:id]).first
 
-    user[:is_account_admin] = user_being_edited_is_account_admin?
+    user[:is_account_admin] = user_being_changed_is_account_admin?
 
     render(json: user, status: :ok)
   end
@@ -63,7 +63,7 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
         login_id: edit_user_login_response["unique_id"],
         sis_user_id: edit_user_login_response["sis_user_id"],
         email: edit_user_response["email"],
-        is_account_admin: user_being_edited_is_account_admin?,
+        is_account_admin: user_being_changed_is_account_admin?,
       },
       status: :ok,
     )
@@ -96,7 +96,7 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
   end
 
   def validate_user_being_changed_is_not_admin
-    if user_being_edited_is_account_admin?
+    if user_being_changed_is_account_admin?
       user_not_authorized(
         "The user you are trying to update has an admin role in one or more " \
         "accounts. This tool does not support updating admin users. Please contact " \
@@ -119,7 +119,7 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
     canvas_api.api_get_request(canvas_url)
   end
 
-  def user_being_edited_is_account_admin?
+  def user_being_changed_is_account_admin?
     @list_accounts_response ||= canvas_api.proxy(
       "LIST_ACCOUNTS",
       { as_user_id: params[:id] },
