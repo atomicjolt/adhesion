@@ -9,7 +9,7 @@ export default (state = initialState(), action) => {
       return [];
     }
 
-    case ApplicationConstants.UPDATE_USER_DONE: {
+    case ApplicationConstants.UPDATE_ACCOUNT_USER_DONE: {
       if (!action.error) {
         return [...state, 'User updated successfully.'];
       }

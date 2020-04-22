@@ -25,11 +25,11 @@ describe('success messages reducer', () => {
     });
   });
 
-  describe('UPDATE_USER_DONE', () => {
+  describe('UPDATE_ACCOUNT_USER_DONE', () => {
     describe('when the action has no errors', () => {
       it('adds a success message to state', () => {
         const action = {
-          type: ApplicationConstants.UPDATE_USER_DONE,
+          type: ApplicationConstants.UPDATE_ACCOUNT_USER_DONE,
           payload: {},
         };
 
@@ -42,7 +42,7 @@ describe('success messages reducer', () => {
     describe('when the action has an error', () => {
       it('does not add a success message to state', () => {
         const action = {
-          type: ApplicationConstants.UPDATE_USER_DONE,
+          type: ApplicationConstants.UPDATE_ACCOUNT_USER_DONE,
           payload: {},
           error: { message: 'Something went wrong.' },
         };
