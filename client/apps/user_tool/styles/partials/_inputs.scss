@@ -142,6 +142,13 @@
   &:focus{
     outline: thin dotted $blue;
   }
+  &:disabled{
+    opacity: 0.65;
+
+    &:hover{
+      cursor: not-allowed;
+    }
+  }
 }
 
 .btn--primary{

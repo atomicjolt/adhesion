@@ -38,8 +38,9 @@ exports[`EditUserModal renders the edit user modal 1`] = `
     </button>
   </div>
   <form>
-    <div
+    <fieldset
       className="modal__main"
+      disabled={false}
     >
       <div
         className="row"
@@ -117,7 +118,7 @@ exports[`EditUserModal renders the edit user modal 1`] = `
           </div>
         </div>
       </div>
-    </div>
+    </fieldset>
     <div
       className="modal__bottom"
     >
@@ -130,6 +131,7 @@ exports[`EditUserModal renders the edit user modal 1`] = `
       </button>
       <button
         className="btn btn--primary"
+        disabled={false}
         onClick={[Function]}
         type="submit"
       >
@@ -142,8 +144,9 @@ exports[`EditUserModal renders the edit user modal 1`] = `
 
 exports[`EditUserModal when the user clicks the Update button renders the changed attributes 1`] = `
 <form>
-  <div
+  <fieldset
     className="modal__main"
+    disabled={false}
   >
     <div
       className="row"
@@ -237,7 +240,7 @@ exports[`EditUserModal when the user clicks the Update button renders the change
         </div>
       </div>
     </div>
-  </div>
+  </fieldset>
   <div
     className="modal__bottom"
   >
@@ -253,6 +256,7 @@ exports[`EditUserModal when the user clicks the Update button renders the change
     </button>
     <button
       className="btn btn--primary is-green"
+      disabled={false}
       onClick={[Function]}
       type="submit"
     >
