@@ -28,7 +28,7 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
   def show
     user = search_for_users_on_canvas(params[:id]).first
 
-    user.merge!(is_account_admin: user_being_edited_is_account_admin?)
+    user[:is_account_admin] = user_being_edited_is_account_admin?
 
     render(json: user, status: :ok)
   end
