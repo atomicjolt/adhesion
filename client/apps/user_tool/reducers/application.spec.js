@@ -122,6 +122,50 @@ describe('application reducer', () => {
     });
   });
 
+  describe('GET_ACCOUNT_USER_DONE', () => {
+    it('updates the user in matchingUsers', () => {
+      const matchingUsers = [
+        {
+          id: 1,
+          name: 'George Washington',
+          login_id: 'countryfather@revolution.com',
+          sis_user_id: 'george_123',
+          email: 'countryfather@revolution.com',
+        },
+        {
+          id: 2,
+          name: 'John Adams',
+          login_id: 'adamsforindependence@revolution.com',
+          sis_user_id: 'john_123',
+          email: 'adamsforindependence@revolution.com',
+        },
+        {
+          id: 3,
+          name: 'Thomas Jefferson',
+          login_id: 'idodeclare@revolution.com',
+          sis_user_id: 'thomas_123',
+          email: 'idodeclare@revolution.com',
+        },
+      ];
+      const fetchedUser = {
+        id: 2,
+        name: 'John Adams',
+        login_id: 'adamsforindependence@revolution.com',
+        sis_user_id: 'john_123',
+        email: 'adamsforindependence@revolution.com',
+        is_account_admin: true,
+      };
+      const action = {
+        type: ApplicationConstants.GET_ACCOUNT_USER_DONE,
+        payload: fetchedUser,
+      };
+
+      const state = applicationReducer({ ...initialState(), matchingUsers }, action);
+
+      expect(state.matchingUsers[1]).toEqual(fetchedUser);
+    });
+  });
+
   describe('UPDATE_ACCOUNT_USER', () => {
     it('sets isUpdatingUser to true', () => {
       const action = {
