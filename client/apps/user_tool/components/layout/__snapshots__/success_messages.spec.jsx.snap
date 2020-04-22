@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SuccessMessages renders the messages 1`] = `
+<div
+  className="messages success"
+>
+  <ul>
+    <li
+      key="0"
+    >
+      User updated successfully.
+    </li>
+  </ul>
+</div>
+`;
