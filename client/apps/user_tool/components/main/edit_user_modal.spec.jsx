@@ -78,7 +78,7 @@ describe('EditUserModal', () => {
     );
 
     it('displays an error message', () => {
-      const errorMessage = modal.find('.errors').text();
+      const errorMessage = modal.find('.error').text();
 
       expect(errorMessage)
         .toEqual(expect.stringContaining('user you are trying to update has an admin role'));

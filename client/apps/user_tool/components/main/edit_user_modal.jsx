@@ -32,7 +32,7 @@ export class EditUserModal extends React.Component {
 
   static accountAdminErrorHTML() {
     return (
-      <div className="errors">
+      <div className="messages error">
         <p>
           The user you are trying to update has an admin role in one or more
           accounts. This tool does not support updating admin users. Please contact
