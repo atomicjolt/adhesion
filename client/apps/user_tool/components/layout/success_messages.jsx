@@ -26,15 +26,17 @@ export class SuccessMessages extends React.Component {
   render() {
     const { messages } = this.props;
 
-    if (_.isEmpty(messages)) { return false; }
-
     const renderedMessages = _.map(messages,
       (message, index) => <li key={index}>{message}</li>
     );
 
     return (
-      <div className="messages success">
-        <ul>{renderedMessages}</ul>
+      <div id="success-messages" aria-live="polite">
+        { !_.isEmpty(renderedMessages) && (
+          <div className="messages success">
+            <ul>{renderedMessages}</ul>
+          </div>
+        )}
       </div>
     );
   }
