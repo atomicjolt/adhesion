@@ -5,6 +5,8 @@ describe('application reducer', () => {
   const initialState = opts => ({
     matchingUsers: (opts && opts.matchingUsers) || [],
     currentPage: (opts && opts.currentPage) || 1,
+    previousPageAvailable: (opts && opts.previousPageAvailable) || false,
+    nextPageAvailable: (opts && opts.nextPageAvailable) || false,
     isSearching: (opts && opts.isSearching) || false,
     isUpdatingUser: (opts && opts.isUpdatingUser) || false,
   });

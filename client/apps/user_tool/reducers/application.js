@@ -4,6 +4,8 @@ const defaultPage = 1;
 const initialState = () => ({
   matchingUsers: [],
   currentPage: defaultPage,
+  previousPageAvailable: false,
+  nextPageAvailable: false,
   isSearching: false,
   isUpdatingUser: false
 });
