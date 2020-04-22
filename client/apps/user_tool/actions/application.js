@@ -19,7 +19,7 @@ export const searchForAccountUsers = (searchTerm, page) => ({
   },
 });
 
-export const getAccountUser = (userId) => ({
+export const getAccountUser = userId => ({
   type: Constants.GET_ACCOUNT_USER,
   method: Network.GET,
   url: `api/canvas_account_users/${userId}`,
