@@ -162,7 +162,7 @@ describe('application reducer', () => {
         payload: fetchedUser,
       };
 
-      const state = applicationReducer({ ...initialState(), matchingUsers }, action);
+      const state = applicationReducer(initialState({ matchingUsers }), action);
 
       expect(state.matchingUsers[1]).toEqual(fetchedUser);
     });
@@ -218,7 +218,7 @@ describe('application reducer', () => {
         payload: updatedUser,
       };
 
-      const state = applicationReducer({ ...initialState(), matchingUsers }, action);
+      const state = applicationReducer(initialState({ matchingUsers }), action);
 
       expect(state.matchingUsers[1]).toEqual(updatedUser);
     });
