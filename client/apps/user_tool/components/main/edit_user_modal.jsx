@@ -191,9 +191,11 @@ export class EditUserModal extends React.Component {
             </div>
           </div>
           <div className="modal__bottom">
-            { confirmingUpdates && (
-              <p>Are you sure you want to apply the current changes to this user?</p>
-            )}
+            <p aria-live="assertive">
+              { confirmingUpdates && (
+                'Are you sure you want to apply the current changes to this user?'
+              )}
+            </p>
 
             {this.renderButtons()}
           </div>

@@ -121,6 +121,9 @@ exports[`EditUserModal renders the edit user modal 1`] = `
     <div
       className="modal__bottom"
     >
+      <p
+        aria-live="assertive"
+      />
       <button
         className="btn btn--outline"
         onClick={[Function]}
@@ -241,7 +244,9 @@ exports[`EditUserModal when the user clicks the Update button renders the change
   <div
     className="modal__bottom"
   >
-    <p>
+    <p
+      aria-live="assertive"
+    >
       Are you sure you want to apply the current changes to this user?
     </p>
     <button
