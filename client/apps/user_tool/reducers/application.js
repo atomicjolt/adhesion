@@ -7,7 +7,7 @@ const initialState = () => ({
   previousPageAvailable: false,
   nextPageAvailable: false,
   isSearching: false,
-  isUpdatingUser: false
+  isUpdatingUser: false,
 });
 
 export default (state = initialState(), action) => {
