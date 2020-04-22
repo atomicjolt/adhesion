@@ -23,18 +23,20 @@ export class Errors extends React.Component {
   render() {
     const { clearErrors:clear, errors } = this.props;
 
-    if (_.isEmpty(errors)) { return false; }
-
     const errorMessages = _.map(errors,
       (error, index) => <li key={index}>{error.message}</li>
     );
 
     return (
-      <div className="messages error">
-        <ul>{errorMessages}</ul>
-        <button type="button" onClick={clear} onKeyPress={event => this.handleClearKeyPress(event)} aria-label="clear errors">
-          <i className="material-icons" aria-hidden="true">clear</i>
-        </button>
+      <div id="errors" aria-live="assertive">
+        { !_.isEmpty(errors) && (
+          <div className="messages error">
+            <ul>{errorMessages}</ul>
+            <button type="button" onClick={clear} onKeyPress={event => this.handleClearKeyPress(event)} aria-label="clear errors">
+              <i className="material-icons" aria-hidden="true">clear</i>
+            </button>
+          </div>
+        )}
       </div>
     );
   }
