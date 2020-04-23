@@ -5,9 +5,11 @@ import { EditUserModal } from './edit_user_modal';
 
 describe('EditUserModal', () => {
   const props = {
-    updateUser: () => {},
+    getAccountUser: () => {},
+    updateAccountUser: () => {},
     closeModal: () => {},
     user: {
+      id: '123',
       name: 'George Washington',
       email: 'countryfather@revolution.com',
       roles: ['admin', 'teacher'],
@@ -19,7 +21,8 @@ describe('EditUserModal', () => {
   it('renders the edit user modal', () => {
     const modal = shallow(
       <EditUserModal
-        updateUser={props.updateUser}
+        getAccountUser={props.getAccountUser}
+        updateAccountUser={props.updateAccountUser}
         isOpen
         closeModal={props.closeModal}
         user={props.user}
@@ -29,12 +32,78 @@ describe('EditUserModal', () => {
     expect(modal).toMatchSnapshot();
   });
 
+  describe('when the user has no is_account_admin attribute', () => {
+    it('calls the getAccountUser action', () => {
+      spyOn(props, 'getAccountUser');
+      shallow(
+        <EditUserModal
+          getAccountUser={props.getAccountUser}
+          updateAccountUser={props.updateAccountUser}
+          isOpen
+          closeModal={props.closeModal}
+          user={props.user}
+        />
+      );
+
+      expect(props.getAccountUser).toHaveBeenCalledWith(props.user.id);
+    });
+  });
+
+  describe('when the user has an is_account_admin attribute', () => {
+    it('does not call the getAccountUser action', () => {
+      spyOn(props, 'getAccountUser');
+      shallow(
+        <EditUserModal
+          getAccountUser={props.getAccountUser}
+          updateAccountUser={props.updateAccountUser}
+          isOpen
+          closeModal={props.closeModal}
+          user={{ ...props.user, is_account_admin: true }}
+        />
+      );
+
+      expect(props.getAccountUser).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('when the user is an account admin', () => {
+    const modal = shallow(
+      <EditUserModal
+        getAccountUser={props.getAccountUser}
+        updateAccountUser={props.updateAccountUser}
+        isOpen
+        closeModal={props.closeModal}
+        user={{ ...props.user, is_account_admin: true }}
+      />
+    );
+
+    it('displays an error message', () => {
+      const errorMessage = modal.find('.error').text();
+
+      expect(errorMessage)
+        .toEqual(expect.stringContaining('user you are trying to update has an admin role'));
+    });
+
+    it('disables the submit button', () => {
+      const submitButton = modal.find('button[type="submit"]');
+
+      expect(submitButton.prop('disabled')).toBe(true);
+    });
+
+    it('disables the input fields', () => {
+      const fieldset = modal.find('fieldset');
+
+      expect(fieldset.prop('disabled')).toBe(true);
+    });
+  });
+
   describe('when the close/x button is clicked', () => {
     it('closes the modal', () => {
       spyOn(props, 'closeModal');
       const modal = shallow(
         <EditUserModal
-          updateUser={props.updateUser}
+          getAccountUser={props.getAccountUser}
+          updateAccountUser={props.updateAccountUser}
           isOpen
           closeModal={props.closeModal}
           user={props.user}
@@ -51,7 +120,8 @@ describe('EditUserModal', () => {
     it('resets the form to default values', () => {
       const modal = shallow(
         <EditUserModal
-          updateUser={props.updateUser}
+          getAccountUser={props.getAccountUser}
+          updateAccountUser={props.updateAccountUser}
           isOpen
           closeModal={props.closeModal}
           user={props.user}
@@ -81,7 +151,8 @@ describe('EditUserModal', () => {
     it('resets the submission button to "Update"', () => {
       const modal = shallow(
         <EditUserModal
-          updateUser={props.updateUser}
+          getAccountUser={props.getAccountUser}
+          updateAccountUser={props.updateAccountUser}
           isOpen
           closeModal={props.closeModal}
           user={props.user}
@@ -107,7 +178,8 @@ describe('EditUserModal', () => {
       spyOn(props, 'closeModal');
       const modal = shallow(
         <EditUserModal
-          updateUser={props.updateUser}
+          getAccountUser={props.getAccountUser}
+          updateAccountUser={props.updateAccountUser}
           isOpen
           closeModal={props.closeModal}
           user={props.user}
@@ -123,10 +195,11 @@ describe('EditUserModal', () => {
 
   describe('when the user updates, confirms and submits the form', () => {
     it('submits an update request', () => {
-      spyOn(props, 'updateUser');
+      spyOn(props, 'updateAccountUser');
       const modal = shallow(
         <EditUserModal
-          updateUser={props.updateUser}
+          getAccountUser={props.getAccountUser}
+          updateAccountUser={props.updateAccountUser}
           isOpen
           closeModal={props.closeModal}
           user={props.user}
@@ -155,7 +228,7 @@ describe('EditUserModal', () => {
       // Click again to confirm.
       modal.find('button[type="submit"]').simulate('click', { preventDefault: () => {} });
 
-      expect(props.updateUser).toHaveBeenCalledWith(
+      expect(props.updateAccountUser).toHaveBeenCalledWith(
         props.user.id,
         {
           name: newName,
@@ -169,7 +242,8 @@ describe('EditUserModal', () => {
     it('resets the submission button to "Update"', () => {
       const modal = shallow(
         <EditUserModal
-          updateUser={props.updateUser}
+          getAccountUser={props.getAccountUser}
+          updateAccountUser={props.updateAccountUser}
           isOpen
           closeModal={props.closeModal}
           user={props.user}
@@ -192,7 +266,8 @@ describe('EditUserModal', () => {
     it('the button text changes to "Confirm"', () => {
       const modal = shallow(
         <EditUserModal
-          updateUser={props.updateUser}
+          getAccountUser={props.getAccountUser}
+          updateAccountUser={props.updateAccountUser}
           isOpen
           closeModal={props.closeModal}
           user={props.user}
@@ -211,7 +286,8 @@ describe('EditUserModal', () => {
     it('displays the confirmation message', () => {
       const modal = shallow(
         <EditUserModal
-          updateUser={props.updateUser}
+          getAccountUser={props.getAccountUser}
+          updateAccountUser={props.updateAccountUser}
           isOpen
           closeModal={props.closeModal}
           user={props.user}
@@ -232,7 +308,8 @@ describe('EditUserModal', () => {
     it('renders the changed attributes', () => {
       const modal = shallow(
         <EditUserModal
-          updateUser={props.updateUser}
+          getAccountUser={props.getAccountUser}
+          updateAccountUser={props.updateAccountUser}
           isOpen
           closeModal={props.closeModal}
           user={props.user}

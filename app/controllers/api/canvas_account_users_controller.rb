@@ -22,6 +22,17 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
     )
   end
 
+  # This action only shows users who are members of the Canvas account given in the LTI launch.
+  # Users from sub-accounts of that account are also shown.
+  # This action shows additional user information that is not included in the index action response.
+  def show
+    user = search_for_users_on_canvas(params[:id]).first
+
+    user[:is_account_admin] = user_being_changed_is_account_admin?
+
+    render(json: user, status: :ok)
+  end
+
   # This action can only update users who are members of the Canvas account given in the LTI launch.
   # Users from sub-accounts of that account can also be updated.
   def update
@@ -52,6 +63,7 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
         login_id: edit_user_login_response["unique_id"],
         sis_user_id: edit_user_login_response["sis_user_id"],
         email: edit_user_response["email"],
+        is_account_admin: user_being_changed_is_account_admin?,
       },
       status: :ok,
     )
@@ -84,17 +96,7 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
   end
 
   def validate_user_being_changed_is_not_admin
-    list_accounts_response = canvas_api.proxy(
-      "LIST_ACCOUNTS",
-      { as_user_id: params[:id] },
-    )
-
-    # The [Canvas API docs](https://canvas.instructure.com/doc/api/accounts.html#method.accounts.index)
-    # state that "only account admins can view the accounts that they are in."
-    # Thus, we are assuming that a non-empty response means the user is an account admin somewhere.
-    user_is_account_admin = list_accounts_response.present?
-
-    if user_is_account_admin
+    if user_being_changed_is_account_admin?
       user_not_authorized(
         "The user you are trying to update has an admin role in one or more " \
         "accounts. This tool does not support updating admin users. Please contact " \
@@ -115,6 +117,18 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
     canvas_url = "accounts/#{jwt_lms_account_id}/users?#{query_params.to_query}"
 
     canvas_api.api_get_request(canvas_url)
+  end
+
+  def user_being_changed_is_account_admin?
+    @list_accounts_response ||= canvas_api.proxy(
+      "LIST_ACCOUNTS",
+      { as_user_id: params[:id] },
+    )
+
+    # The [Canvas API docs](https://canvas.instructure.com/doc/api/accounts.html#method.accounts.index)
+    # state that "only account admins can view the accounts that they are in."
+    # Thus, we are assuming that a non-empty response means the user is an account admin somewhere.
+    @list_accounts_response.present?
   end
 
   def edit_user_on_canvas

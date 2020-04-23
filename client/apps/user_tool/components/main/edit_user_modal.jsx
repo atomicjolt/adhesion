@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import ReactModal from 'react-modal';
 import _ from 'lodash';
 import { connect } from 'react-redux';
-import { updateUser } from '../../actions/application';
+import { getAccountUser, updateAccountUser } from '../../actions/application';
 
 const select = () => ({});
 
 export class EditUserModal extends React.Component {
   static propTypes = {
-    updateUser: PropTypes.func.isRequired,
+    getAccountUser: PropTypes.func.isRequired,
+    updateAccountUser: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
     closeModal: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
@@ -29,12 +30,38 @@ export class EditUserModal extends React.Component {
     });
   }
 
+  static accountAdminErrorHTML() {
+    return (
+      <div className="messages error">
+        <p>
+          The user you are trying to update has an admin role in one or more
+          accounts. This tool does not support updating admin users. Please contact
+          a higher-level administrator to edit this user.
+        </p>
+      </div>
+    );
+  }
+
   constructor(props) {
     super();
 
     this.state = EditUserModal.initialState(props);
 
     this.handleInputChange = this.handleInputChange.bind(this);
+  }
+
+  componentDidMount() {
+    const { getAccountUser:getUser, user } = this.props;
+
+    if (user.is_account_admin === undefined) {
+      getUser(user.id);
+    }
+  }
+
+  canEditUser() {
+    const { user } = this.props;
+
+    return !user.is_account_admin;
   }
 
   handleInputChange(event) {
@@ -52,7 +79,7 @@ export class EditUserModal extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    const { user, updateUser:update, closeModal } = this.props;
+    const { user, updateAccountUser:update, closeModal } = this.props;
     const { confirmingUpdates, userForm } = this.state;
 
     if (confirmingUpdates) {
@@ -111,6 +138,7 @@ export class EditUserModal extends React.Component {
           className={`btn ${submitButtonClasses}`}
           type="submit"
           onClick={event => this.handleSubmit(event)}
+          disabled={!this.canEditUser()}
         >
           {submitButtonText}
         </button>
@@ -137,8 +165,10 @@ export class EditUserModal extends React.Component {
           </button>
         </div>
 
+        { !this.canEditUser() && EditUserModal.accountAdminErrorHTML() }
+
         <form>
-          <div className="modal__main">
+          <fieldset className="modal__main" disabled={!this.canEditUser()}>
             <div className="row">
               <div className="column u-half">
                 <div className="input">
@@ -189,7 +219,7 @@ export class EditUserModal extends React.Component {
                 </div>
               </div>
             </div>
-          </div>
+          </fieldset>
           <div className="modal__bottom">
             { confirmingUpdates && (
               <p>Are you sure you want to apply the current changes to this user?</p>
@@ -203,4 +233,4 @@ export class EditUserModal extends React.Component {
   }
 }
 
-export default connect(select, { updateUser })(EditUserModal);
+export default connect(select, { getAccountUser, updateAccountUser })(EditUserModal);
