@@ -133,6 +133,22 @@ RSpec.describe CanvasUserChange, type: :model do
       it "populates the failed_attributes field" do
         expect(@canvas_user_change.failed_attributes).to eq(["email"])
       end
+
+      context "but the attribute is unchanged" do
+        it "does not include that attribute in the failed_attributes field" do
+          new_attrs[:email] = original_attrs[:email]
+
+          canvas_user_change = described_class.create_by_diffing_attrs!(
+            admin_making_changes_lms_id: admin_id,
+            user_being_changed_lms_id: user_id,
+            original_attrs: original_attrs,
+            new_attrs: new_attrs,
+            failed_attrs: [:email, :login_id],
+          )
+
+          expect(canvas_user_change.failed_attributes).to eq(["login_id"])
+        end
+      end
     end
 
     context "when the record is invalid" do
