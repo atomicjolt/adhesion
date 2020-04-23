@@ -19,13 +19,13 @@ describe('SuccessMessages', () => {
   });
 
   describe('when there are no messages', () => {
-    it('renders nothing', () => {
+    it('only renders the outer div', () => {
       const successMessages = shallow(<SuccessMessages
         clearSuccessMessages={props.clearSuccessMessages}
         messages={[]}
       />);
 
-      expect(successMessages.html()).toEqual(null);
+      expect(successMessages).toMatchSnapshot();
     });
   });
 });

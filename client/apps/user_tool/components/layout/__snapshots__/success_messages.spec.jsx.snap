@@ -2,14 +2,26 @@
 
 exports[`SuccessMessages renders the messages 1`] = `
 <div
-  className="messages success"
+  aria-live="polite"
+  id="success-messages"
 >
-  <ul>
-    <li
-      key="0"
-    >
-      User updated successfully.
-    </li>
-  </ul>
+  <div
+    className="messages success"
+  >
+    <ul>
+      <li
+        key="0"
+      >
+        User updated successfully.
+      </li>
+    </ul>
+  </div>
 </div>
+`;
+
+exports[`SuccessMessages when there are no messages only renders the outer div 1`] = `
+<div
+  aria-live="polite"
+  id="success-messages"
+/>
 `;

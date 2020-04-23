@@ -2,32 +2,44 @@
 
 exports[`Errors renders the errors 1`] = `
 <div
-  className="messages error"
+  aria-live="assertive"
+  id="errors"
 >
-  <ul>
-    <li
-      key="0"
-    >
-      Something went wrong.
-    </li>
-    <li
-      key="1"
-    >
-      A terrible thing happened.
-    </li>
-  </ul>
-  <button
-    aria-label="clear errors"
-    onClick={[Function]}
-    onKeyPress={[Function]}
-    type="button"
+  <div
+    className="messages error"
   >
-    <i
-      aria-hidden="true"
-      className="material-icons"
+    <ul>
+      <li
+        key="0"
+      >
+        Something went wrong.
+      </li>
+      <li
+        key="1"
+      >
+        A terrible thing happened.
+      </li>
+    </ul>
+    <button
+      aria-label="clear errors"
+      onClick={[Function]}
+      onKeyPress={[Function]}
+      type="button"
     >
-      clear
-    </i>
-  </button>
+      <i
+        aria-hidden="true"
+        className="material-icons"
+      >
+        clear
+      </i>
+    </button>
+  </div>
 </div>
+`;
+
+exports[`Errors when there are no errors only renders the outer div 1`] = `
+<div
+  aria-live="assertive"
+  id="errors"
+/>
 `;

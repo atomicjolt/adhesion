@@ -22,13 +22,13 @@ describe('Errors', () => {
   });
 
   describe('when there are no errors', () => {
-    it('renders nothing', () => {
+    it('only renders the outer div', () => {
       const errors = shallow(<Errors
         clearErrors={props.clearErrors}
         errors={[]}
       />);
 
-      expect(errors.html()).toEqual(null);
+      expect(errors).toMatchSnapshot();
     });
   });
 
