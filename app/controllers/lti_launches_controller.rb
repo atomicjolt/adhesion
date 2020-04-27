@@ -7,6 +7,7 @@ class LtiLaunchesController < ApplicationController
   layout "client"
 
   skip_before_action :verify_authenticity_token
+  before_action :validate_user_is_admin_for_user_tool, except: [:init, :launch]
   before_action :do_lti, except: [:init, :launch]
   before_action :setup, only: %i[show]
 
