@@ -1,7 +1,16 @@
 ;;; -*- fill-column: 80; -*-
 
-Changes for 1.2.0
+Changes for 2.0.0
+  * Rails 5.2 upgrade and webpacker upgrade.
+  * Ruby 2.5 support.
+  * Node 10.x support.
+  * Add support for lti advantage.
+  * Add support for oauth scopes.
+  * Gem/npm package upgrades for security releases.
   * Add tool for managing users.
+  * Add support for custom subdomains for each app.
+  * Add canvas_user_id explicitly to apps that depend on it.
+
 
 Changes for 1.1.10:
   * Node upgrade 8->10 to match deployed version.
