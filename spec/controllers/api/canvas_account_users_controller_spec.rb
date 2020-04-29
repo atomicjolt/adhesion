@@ -153,7 +153,7 @@ RSpec.describe Api::CanvasAccountUsersController, type: :controller do
     let(:original_user) do
       {
         "id" => "412",
-        "name" => "John Adams",
+        "name" => "Old School John Adams",
         "login_id" => "adamsforindependence@greatbritain.com",
         "sis_user_id" => "old_john_123",
         "email" => "adamsforindependence@greatbritain.com",
@@ -440,6 +440,65 @@ RSpec.describe Api::CanvasAccountUsersController, type: :controller do
             new_attrs: params[:user],
             failed_attrs: [:login_id, :sis_user_id],
           )
+      end
+    end
+
+    context "when not updating the name or email of the user" do
+      before do
+        params[:user][:name] = original_user["name"]
+        params[:user][:email] = original_user["email"]
+      end
+
+      it "does not make the edit user call to the Canvas API" do
+        expect_any_instance_of(LMS::Canvas).to_not receive(:api_put_request).
+          with("users/#{params[:id]}", anything)
+
+        put(:update, format: :json, params: params)
+      end
+
+      it "returns the original user name" do
+        response = put(:update, params: params)
+
+        expect(JSON.parse(response.body)["name"]).to eq(original_user["name"])
+      end
+
+      it "returns the original user email" do
+        response = put(:update, params: params)
+
+        expect(JSON.parse(response.body)["email"]).to eq(original_user["email"])
+      end
+    end
+
+    context "when not updating the login_id or sis_user_id" do
+      before do
+        params[:user][:login_id] = original_user["login_id"]
+        params[:user][:sis_user_id] = original_user["sis_user_id"]
+      end
+
+      it "does not make the find user login call to the Canvas API" do
+        expect_any_instance_of(LMS::Canvas).to_not receive(:proxy).
+          with("LIST_USER_LOGINS_USERS", anything)
+
+        put(:update, format: :json, params: params)
+      end
+
+      it "does not make the edit user login call to the Canvas API" do
+        expect_any_instance_of(LMS::Canvas).to_not receive(:api_put_request).
+          with("accounts/#{lms_account_id}/logins/#{numeric_login_id}", anything)
+
+        put(:update, format: :json, params: params)
+      end
+
+      it "returns the original user login_id" do
+        response = put(:update, params: params)
+
+        expect(JSON.parse(response.body)["login_id"]).to eq(original_user["login_id"])
+      end
+
+      it "returns the original user sis_user_id" do
+        response = put(:update, params: params)
+
+        expect(JSON.parse(response.body)["sis_user_id"]).to eq(original_user["sis_user_id"])
       end
     end
   end

@@ -166,7 +166,45 @@ RSpec.describe CanvasUserChange, type: :model do
     end
   end
 
-  describe ".failed_attributes?" do
+  describe ".attr_changed?" do
+    context "when the attribute has changed" do
+      it "returns true" do
+        changed = described_class.attr_changed?(
+          { name: "Name" },
+          { name: "New Name" },
+          :name,
+        )
+
+        expect(changed).to be true
+      end
+    end
+
+    context "when the attribute has not changed" do
+      it "returns false" do
+        changed = described_class.attr_changed?(
+          { name: "Name" },
+          { name: "Name" },
+          :name,
+        )
+
+        expect(changed).to be false
+      end
+    end
+
+    context "when the attribute is nil" do
+      it "returns false" do
+        changed = described_class.attr_changed?(
+          { name: "Name" },
+          {},
+          :name,
+        )
+
+        expect(changed).to be false
+      end
+    end
+  end
+
+  describe "#failed_attributes?" do
     context "when the failed_attributes field is nil" do
       let(:canvas_user_change) do
         FactoryBot.create(:canvas_user_change, failed_attributes: nil)

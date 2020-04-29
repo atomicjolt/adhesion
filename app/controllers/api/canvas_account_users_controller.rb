@@ -39,7 +39,7 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
     pending_attrs = [:name, :email, :login_id, :sis_user_id]
 
     begin
-      edit_user_response = edit_user_on_canvas
+      edit_user_response = edit_user_on_canvas if name_or_email_changed?
       pending_attrs = [:login_id, :sis_user_id] # We updated name and email.
     rescue LMS::Canvas::CanvasException => e
       render_update_user_exception(:edit_user, e)
@@ -47,9 +47,11 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
     end
 
     begin
-      # This ID is the ID of the login record; it's different from the user's login ID.
-      numeric_login_id = find_canvas_user_login["id"]
-      edit_user_login_response = edit_user_login_on_canvas(numeric_login_id)
+      if login_id_or_sis_id_changed?
+        # This ID is the ID of the login record; it's different from the user's login ID.
+        numeric_login_id = find_canvas_user_login["id"]
+        edit_user_login_response = edit_user_login_on_canvas(numeric_login_id)
+      end
       pending_attrs = [] # We updated login_id and sis_user_id.
     rescue LMS::Canvas::CanvasException => e
       render_update_user_exception(:edit_user_login, e)
@@ -59,10 +61,10 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
     render(
       json: {
         id: params[:id],
-        name: edit_user_response["name"],
-        login_id: edit_user_login_response["unique_id"],
-        sis_user_id: edit_user_login_response["sis_user_id"],
-        email: edit_user_response["email"],
+        name: edit_user_response&.[]("name") || @original_user[:name],
+        login_id: edit_user_login_response&.[]("unique_id") || @original_user[:login_id],
+        sis_user_id: edit_user_login_response&.[]("sis_user_id") || @original_user[:sis_user_id],
+        email: edit_user_response&.[]("email") || @original_user[:email],
         is_account_admin: user_being_changed_is_account_admin?,
       },
       status: :ok,
@@ -193,5 +195,15 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
       "#{message} Canvas API Error: #{exception.message}",
       { exception: exception },
     )
+  end
+
+  def name_or_email_changed?
+    CanvasUserChange.attr_changed?(@original_user, params[:user], :name) ||
+      CanvasUserChange.attr_changed?(@original_user, params[:user], :email)
+  end
+
+  def login_id_or_sis_id_changed?
+    CanvasUserChange.attr_changed?(@original_user, params[:user], :login_id) ||
+      CanvasUserChange.attr_changed?(@original_user, params[:user], :sis_user_id)
   end
 end

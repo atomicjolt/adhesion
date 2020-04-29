@@ -29,13 +29,12 @@ class CanvasUserChange < ApplicationRecord
     create!(record_attrs)
   end
 
+  def self.attr_changed?(original_attrs, new_attrs, attr)
+    !new_attrs[attr].nil? && new_attrs[attr] != original_attrs[attr]
+  end
+
   def failed_attributes?
     failed_attributes.present?
   end
   alias_method :failed_attrs?, :failed_attributes?
-
-  def self.attr_changed?(original_attrs, new_attrs, attr)
-    !new_attrs[attr].nil? && new_attrs[attr] != original_attrs[attr]
-  end
-  private_class_method :attr_changed?
 end
