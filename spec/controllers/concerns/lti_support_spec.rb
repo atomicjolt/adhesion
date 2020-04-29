@@ -11,7 +11,7 @@ describe ApplicationController, type: :controller do
     include Concerns::LtiSupport
 
     skip_before_action :verify_authenticity_token
-    before_action :do_lti
+    before_action :validate_user_is_admin_for_user_tool, :do_lti
 
     def index
       render plain: "User: #{current_user.display_name}, Roles: #{current_user.roles.map(&:name)}"
@@ -228,6 +228,50 @@ describe ApplicationController, type: :controller do
         params[:context_title] = "invalid"
         post :index, params: params
         expect(response).to have_http_status(401)
+      end
+    end
+
+    context "when the application instance is a User Tool" do
+      before do
+        @application_instance.lti_key = Application::USERTOOL
+      end
+
+      context "when the LTI user is an admin" do
+        let(:params) do
+          lti_params(
+            @application_instance.lti_key,
+            @application_instance.lti_secret,
+            {
+              "launch_url" => @launch_url,
+              "roles" => "urn:lti:instrole:ims/lis/Administrator",
+            },
+          )
+        end
+
+        it "returns a 200 success" do
+          post :index, params: params
+
+          expect(response).to have_http_status(200)
+        end
+      end
+
+      context "when the LTI user is not an admin" do
+        let(:params) do
+          lti_params(
+            @application_instance.lti_key,
+            @application_instance.lti_secret,
+            {
+              "launch_url" => @launch_url,
+              "roles" => "urn:lti:sysrole:ims/lis/None",
+            },
+          )
+        end
+
+        it "returns a 401 unauthorized" do
+          post :index, params: params
+
+          expect(response).to have_http_status(401)
+        end
       end
     end
   end

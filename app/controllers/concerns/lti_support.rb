@@ -83,6 +83,14 @@ module Concerns
       user
     end
 
+    # The User Tool requires the launching user to be an LTI admin in the current context.
+    def validate_user_is_admin_for_user_tool
+      if current_application_instance.lti_key == Application::USERTOOL
+        roles = params[:roles].split(",")
+        user_not_authorized if (roles & LTI::Roles::ADMIN_ROLES).blank?
+      end
+    end
+
     private
 
     def valid_timestamp?
