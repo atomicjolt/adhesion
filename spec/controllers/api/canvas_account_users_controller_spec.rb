@@ -87,7 +87,7 @@ RSpec.describe Api::CanvasAccountUsersController, type: :controller do
     end
     let(:user) do
       {
-        "id" => "412",
+        "id" => 412,
         "name" => "John Adams",
         "login_id" => "adamsforindependence@greatbritain.com",
         "sis_user_id" => "old_john_123",
@@ -96,8 +96,12 @@ RSpec.describe Api::CanvasAccountUsersController, type: :controller do
     end
 
     before do
+      allow_any_instance_of(LMS::Canvas).to receive(:proxy).
+        with("SHOW_USER_DETAILS", id: params[:id]).
+        and_return(user.clone)
+
       allow_any_instance_of(LMS::Canvas).to receive(:api_get_request).
-        with(a_string_matching(/users\?.*search_term=#{params[:id]}/i)).
+        with(a_string_matching(/users\?.*#{{ search_term: user["login_id"] }.to_query}/i)).
         and_return([user.clone])
 
       allow_any_instance_of(LMS::Canvas).to receive(:proxy).
@@ -152,7 +156,7 @@ RSpec.describe Api::CanvasAccountUsersController, type: :controller do
     end
     let(:original_user) do
       {
-        "id" => "412",
+        "id" => 412,
         "name" => "Old School John Adams",
         "login_id" => "adamsforindependence@greatbritain.com",
         "sis_user_id" => "old_john_123",
@@ -162,8 +166,12 @@ RSpec.describe Api::CanvasAccountUsersController, type: :controller do
     let(:numeric_login_id) { 4989 }
 
     before do
+      allow_any_instance_of(LMS::Canvas).to receive(:proxy).
+        with("SHOW_USER_DETAILS", id: params[:id]).
+        and_return(original_user)
+
       allow_any_instance_of(LMS::Canvas).to receive(:api_get_request).
-        with(a_string_matching(/users\?.*search_term=#{params[:id]}/i)).
+        with(a_string_matching(/users\?.*#{{ search_term: original_user["login_id"] }.to_query}/i)).
         and_return([original_user])
 
       allow_any_instance_of(LMS::Canvas).to receive(:proxy).
