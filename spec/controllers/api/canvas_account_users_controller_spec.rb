@@ -94,17 +94,21 @@ RSpec.describe Api::CanvasAccountUsersController, type: :controller do
         "email" => "adamsforindependence@greatbritain.com",
       }
     end
+    let(:mock_canvas_api) { double(LMS::Canvas) }
 
     before do
-      allow_any_instance_of(LMS::Canvas).to receive(:proxy).
+      allow_any_instance_of(Integrations::CanvasApiSupport).to receive(:api).
+        and_return(mock_canvas_api)
+
+      allow(mock_canvas_api).to receive(:proxy).
         with("SHOW_USER_DETAILS", id: params[:id]).
         and_return(user.clone)
 
-      allow_any_instance_of(LMS::Canvas).to receive(:api_get_request).
+      allow(mock_canvas_api).to receive(:api_get_request).
         with(a_string_matching(/users\?.*#{{ search_term: user["login_id"] }.to_query}/i)).
         and_return([user.clone])
 
-      allow_any_instance_of(LMS::Canvas).to receive(:proxy).
+      allow(mock_canvas_api).to receive(:proxy).
         with("LIST_ACCOUNTS", anything).
         and_return([])
     end
@@ -129,7 +133,7 @@ RSpec.describe Api::CanvasAccountUsersController, type: :controller do
 
     context "when the user is an account admin" do
       before do
-        allow_any_instance_of(LMS::Canvas).to receive(:proxy).
+        allow(mock_canvas_api).to receive(:proxy).
           with("LIST_ACCOUNTS", anything).
           and_return([{ "id" => 123, "name" => "Some Account" }])
       end
@@ -164,27 +168,31 @@ RSpec.describe Api::CanvasAccountUsersController, type: :controller do
       }
     end
     let(:numeric_login_id) { 4989 }
+    let(:mock_canvas_api) { double(LMS::Canvas) }
 
     before do
-      allow_any_instance_of(LMS::Canvas).to receive(:proxy).
+      allow_any_instance_of(Integrations::CanvasApiSupport).to receive(:api).
+        and_return(mock_canvas_api)
+
+      allow(mock_canvas_api).to receive(:proxy).
         with("SHOW_USER_DETAILS", id: params[:id]).
         and_return(original_user)
 
-      allow_any_instance_of(LMS::Canvas).to receive(:api_get_request).
+      allow(mock_canvas_api).to receive(:api_get_request).
         with(a_string_matching(/users\?.*#{{ search_term: original_user["login_id"] }.to_query}/i)).
         and_return([original_user])
 
-      allow_any_instance_of(LMS::Canvas).to receive(:proxy).
+      allow(mock_canvas_api).to receive(:proxy).
         with("LIST_ACCOUNTS", anything).
         and_return([])
 
-      allow_any_instance_of(LMS::Canvas).to receive(:api_put_request).
+      allow(mock_canvas_api).to receive(:api_put_request).
         with("users/#{params[:id]}", anything).
         and_return(
           { "name" => params[:user][:name], "email" => params[:user][:email] },
         )
 
-      allow_any_instance_of(LMS::Canvas).to receive(:proxy).
+      allow(mock_canvas_api).to receive(:proxy).
         with("LIST_USER_LOGINS_USERS", anything).
         and_return(
           [{
@@ -195,7 +203,7 @@ RSpec.describe Api::CanvasAccountUsersController, type: :controller do
           }],
         )
 
-      allow_any_instance_of(LMS::Canvas).to receive(:api_put_request).
+      allow(mock_canvas_api).to receive(:api_put_request).
         with("accounts/#{lms_account_id}/logins/#{numeric_login_id}", anything).
         and_return(
           {
@@ -266,7 +274,7 @@ RSpec.describe Api::CanvasAccountUsersController, type: :controller do
 
     context "when the user is an account admin" do
       before do
-        allow_any_instance_of(LMS::Canvas).to receive(:proxy).
+        allow(mock_canvas_api).to receive(:proxy).
           with("LIST_ACCOUNTS", anything).
           and_return([{ "id" => 123, "name" => "Some Account" }])
       end
@@ -280,7 +288,7 @@ RSpec.describe Api::CanvasAccountUsersController, type: :controller do
 
     context "when the user is not in the admin's account or sub-account" do
       before do
-        allow_any_instance_of(LMS::Canvas).to receive(:api_get_request).
+        allow(mock_canvas_api).to receive(:api_get_request).
           with(a_string_including("accounts/#{lms_account_id}/users")).
           and_return(OpenStruct.new({ parsed_response: [] }))
       end
@@ -301,7 +309,7 @@ RSpec.describe Api::CanvasAccountUsersController, type: :controller do
 
     context "when the user is an admin in an account (any account)" do
       before do
-        allow_any_instance_of(LMS::Canvas).to receive(:proxy).
+        allow(mock_canvas_api).to receive(:proxy).
           with("LIST_ACCOUNTS", anything).
           and_return([{ "id" => 123, "name" => "Some Account" }])
       end
@@ -324,7 +332,7 @@ RSpec.describe Api::CanvasAccountUsersController, type: :controller do
       let(:exception_message) { "Something terrible happened." }
 
       before do
-        allow_any_instance_of(LMS::Canvas).to receive(:api_put_request).
+        allow(mock_canvas_api).to receive(:api_put_request).
           with("users/#{params[:id]}", anything).
           and_raise(LMS::Canvas::CanvasException, exception_message)
       end
@@ -366,7 +374,7 @@ RSpec.describe Api::CanvasAccountUsersController, type: :controller do
 
     context "when no matching login is found for the user on Canvas" do
       before do
-        allow_any_instance_of(LMS::Canvas).to receive(:proxy).
+        allow(mock_canvas_api).to receive(:proxy).
           with("LIST_USER_LOGINS_USERS", anything).
           and_return([])
       end
@@ -411,7 +419,7 @@ RSpec.describe Api::CanvasAccountUsersController, type: :controller do
       let(:exception_message) { "A very bad thing occurred." }
 
       before do
-        allow_any_instance_of(LMS::Canvas).to receive(:api_put_request).
+        allow(mock_canvas_api).to receive(:api_put_request).
           with("accounts/#{lms_account_id}/logins/#{numeric_login_id}", anything).
           and_raise(LMS::Canvas::CanvasException, exception_message)
       end
@@ -458,7 +466,7 @@ RSpec.describe Api::CanvasAccountUsersController, type: :controller do
       end
 
       it "does not make the edit user call to the Canvas API" do
-        expect_any_instance_of(LMS::Canvas).to_not receive(:api_put_request).
+        expect(mock_canvas_api).to_not receive(:api_put_request).
           with("users/#{params[:id]}", anything)
 
         put(:update, format: :json, params: params)
@@ -484,14 +492,14 @@ RSpec.describe Api::CanvasAccountUsersController, type: :controller do
       end
 
       it "does not make the find user login call to the Canvas API" do
-        expect_any_instance_of(LMS::Canvas).to_not receive(:proxy).
+        expect(mock_canvas_api).to_not receive(:proxy).
           with("LIST_USER_LOGINS_USERS", anything)
 
         put(:update, format: :json, params: params)
       end
 
       it "does not make the edit user login call to the Canvas API" do
-        expect_any_instance_of(LMS::Canvas).to_not receive(:api_put_request).
+        expect(mock_canvas_api).to_not receive(:api_put_request).
           with("accounts/#{lms_account_id}/logins/#{numeric_login_id}", anything)
 
         put(:update, format: :json, params: params)
