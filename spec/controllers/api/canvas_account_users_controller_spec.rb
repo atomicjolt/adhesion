@@ -303,7 +303,7 @@ RSpec.describe Api::CanvasAccountUsersController, type: :controller do
         response = put(:update, format: :json, params: params)
 
         expect(JSON.parse(response.body)["message"]).
-          to match(/modify users from the account/i)
+          to match(/view or modify users from the current account/i)
       end
     end
 

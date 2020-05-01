@@ -88,7 +88,7 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
 
     unless user_is_in_account
       user_not_authorized(
-        "You are only authorized to modify users from the account or sub-accounts you administer.",
+        "You are only authorized to view or modify users from the current account.",
       )
     end
 
