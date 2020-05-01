@@ -3,11 +3,7 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
 
   before_action :validate_token
   before_action :validate_current_user_lti_admin
-  # These two actions should be done together. We should always verify the fetched
-  # user is in the account because we're depending on the ID passed by the client.
-  before_action :fetch_canvas_user,
-    :validate_user_being_changed_is_in_account,
-    only: [:show, :update]
+  before_action :fetch_canvas_user, only: [:show, :update]
   before_action :validate_user_being_changed_is_not_admin, only: [:update]
 
   # This action only lists users who are members of the Canvas account given in the LTI launch.
@@ -83,18 +79,11 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
   end
 
   def fetch_canvas_user
-    canvas_user = canvas_api.proxy(
-      "SHOW_USER_DETAILS",
-      { id: params[:id] },
-    )
+    canvas_user = canvas_api.proxy("SHOW_USER_DETAILS", { id: params[:id] })
 
-    @canvas_user = HashWithIndifferentAccess.new(canvas_user)
-  end
-
-  def validate_user_being_changed_is_in_account
     # We're searching with the login ID because it's more likely to be unique than the numeric ID.
     # Also, the numeric ID may not be 3 characters long as required by the API.
-    matching_users = search_for_users_in_account(@canvas_user[:login_id])
+    matching_users = search_for_users_in_account(canvas_user["login_id"])
     user_is_in_account = matching_users.any? { |user| user["id"] == params[:id].to_i }
 
     unless user_is_in_account
@@ -102,6 +91,8 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
         "You are only authorized to modify users from the account or sub-accounts you administer.",
       )
     end
+
+    @canvas_user = HashWithIndifferentAccess.new(canvas_user)
   end
 
   def validate_user_being_changed_is_not_admin
