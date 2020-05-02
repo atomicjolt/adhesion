@@ -24,6 +24,9 @@
 # Ignore mac files
 .DS_Store
 
+# DB backups
+db/backups/
+
 # TODO Comment out these rules if you are OK with secrets being uploaded to the repo
 .env
 config/secrets.yml
