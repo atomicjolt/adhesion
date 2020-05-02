@@ -3,14 +3,13 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
 
   before_action :validate_token
   before_action :validate_current_user_lti_admin
-  before_action :fetch_original_user, only: [:update]
-  before_action :validate_user_being_changed_is_in_account, only: [:update]
+  before_action :fetch_canvas_user, only: [:show, :update]
   before_action :validate_user_being_changed_is_not_admin, only: [:update]
 
   # This action only lists users who are members of the Canvas account given in the LTI launch.
   # Users from sub-accounts of that account are also included.
   def index
-    canvas_response = search_for_users_on_canvas(params[:search_term], params[:page])
+    canvas_response = search_for_users_in_account(params[:search_term], params[:page])
 
     render(
       json: {
@@ -26,11 +25,9 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
   # Users from sub-accounts of that account are also shown.
   # This action shows additional user information that is not included in the index action response.
   def show
-    user = search_for_users_on_canvas(params[:id]).first
+    @canvas_user[:is_account_admin] = user_being_changed_is_account_admin?
 
-    user[:is_account_admin] = user_being_changed_is_account_admin?
-
-    render(json: user, status: :ok)
+    render(json: @canvas_user, status: :ok)
   end
 
   # This action can only update users who are members of the Canvas account given in the LTI launch.
@@ -61,10 +58,10 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
     render(
       json: {
         id: params[:id],
-        name: edit_user_response&.[]("name") || @original_user[:name],
-        login_id: edit_user_login_response&.[]("unique_id") || @original_user[:login_id],
-        sis_user_id: edit_user_login_response&.[]("sis_user_id") || @original_user[:sis_user_id],
-        email: edit_user_response&.[]("email") || @original_user[:email],
+        name: edit_user_response&.[]("name") || @canvas_user[:name],
+        login_id: edit_user_login_response&.[]("unique_id") || @canvas_user[:login_id],
+        sis_user_id: edit_user_login_response&.[]("sis_user_id") || @canvas_user[:sis_user_id],
+        email: edit_user_response&.[]("email") || @canvas_user[:email],
         is_account_admin: user_being_changed_is_account_admin?,
       },
       status: :ok,
@@ -81,20 +78,21 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
     end
   end
 
-  def fetch_original_user
-    original_user = search_for_users_on_canvas(params[:id]).first
+  def fetch_canvas_user
+    canvas_user = canvas_api.proxy("SHOW_USER_DETAILS", { id: params[:id] })
 
-    @original_user = HashWithIndifferentAccess.new(original_user)
-  end
-
-  def validate_user_being_changed_is_in_account
-    user_is_in_account = @original_user.present?
+    # We're searching with the login ID because it's more likely to be unique than the numeric ID.
+    # Also, the numeric ID may not be 3 characters long as required by the API.
+    matching_users = search_for_users_in_account(canvas_user["login_id"])
+    user_is_in_account = matching_users.any? { |user| user["id"] == params[:id].to_i }
 
     unless user_is_in_account
       user_not_authorized(
-        "You are only authorized to modify users from the account or sub-accounts you administer.",
+        "You are only authorized to view or modify users from the current account.",
       )
     end
+
+    @canvas_user = HashWithIndifferentAccess.new(canvas_user)
   end
 
   def validate_user_being_changed_is_not_admin
@@ -107,7 +105,7 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
     end
   end
 
-  def search_for_users_on_canvas(search_term, page = nil)
+  def search_for_users_in_account(search_term, page = nil)
     # We're manually constructing the URL here and using `api_get_request` instead of
     # `canvas_api.proxy("LIST_USERS_IN_ACCOUNT", params)` because `proxy("LIST_USERS_IN_ACCOUNT")`
     # doesn't support the `include` param since it's undocumented.
@@ -148,12 +146,12 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
     )
 
     matching_login = list_user_logins_response.detect do |login|
-      login["unique_id"] == @original_user[:login_id]
+      login["unique_id"] == @canvas_user[:login_id]
     end
 
     unless matching_login
       raise LMS::Canvas::CanvasException.new(
-        "Failed to find matching login for user with login ID: #{@original_user[:login_id]}",
+        "Failed to find matching login for user with login ID: #{@canvas_user[:login_id]}",
       )
     end
 
@@ -172,7 +170,7 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
     CanvasUserChange.create_by_diffing_attrs!(
       admin_making_changes_lms_id: current_user.lms_user_id,
       user_being_changed_lms_id: params[:id],
-      original_attrs: @original_user,
+      original_attrs: @canvas_user,
       new_attrs: params[:user].permit([:name, :login_id, :sis_user_id, :email]).to_h,
       failed_attrs: failed_attrs,
     )
@@ -198,12 +196,12 @@ class Api::CanvasAccountUsersController < Api::ApiApplicationController
   end
 
   def name_or_email_changed?
-    CanvasUserChange.attr_changed?(@original_user, params[:user], :name) ||
-      CanvasUserChange.attr_changed?(@original_user, params[:user], :email)
+    CanvasUserChange.attr_changed?(@canvas_user, params[:user], :name) ||
+      CanvasUserChange.attr_changed?(@canvas_user, params[:user], :email)
   end
 
   def login_id_or_sis_id_changed?
-    CanvasUserChange.attr_changed?(@original_user, params[:user], :login_id) ||
-      CanvasUserChange.attr_changed?(@original_user, params[:user], :sis_user_id)
+    CanvasUserChange.attr_changed?(@canvas_user, params[:user], :login_id) ||
+      CanvasUserChange.attr_changed?(@canvas_user, params[:user], :sis_user_id)
   end
 end
