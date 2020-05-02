@@ -1,5 +1,9 @@
 ;;; -*- fill-column: 80; -*-
 
+Changes for 2.0.1
+  * Remove searching by User ID.
+
+
 Changes for 2.0.0
   * Rails 5.2 upgrade and webpacker upgrade.
   * Ruby 2.5 support.
