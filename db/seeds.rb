@@ -79,8 +79,8 @@ applications = [
   },
   {
     key: Application::ATOMICDOCS,
-    name: "Atomic Docs",
-    description: "Atomic Docs app",
+    name: "Atomicdocs",
+    description: "Atomicdocs app",
     client_application_name: "atomicdocs",
     canvas_api_permissions: {
       default: [],
