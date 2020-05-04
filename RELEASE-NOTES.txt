@@ -1,5 +1,9 @@
 ;;; -*- fill-column: 80; -*-
 
+Changes for 2.0.2
+  * Upgrade dependency to address possible security vulnerability.
+
+
 Changes for 2.0.1
   * Remove searching by User ID.
 
