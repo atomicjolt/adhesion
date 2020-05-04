@@ -78,6 +78,22 @@ applications = [
     }],
   },
   {
+    key: Application::ATOMICDOCS,
+    name: "Atomic Docs",
+    description: "Atomic Docs app",
+    client_application_name: "atomicdocs_app",
+    canvas_api_permissions: {
+      default: [],
+      common: [],
+    },
+    kind: Application.kinds[:app],
+    application_instances: [{
+      lti_key: Application::ATOMICDOCS,
+      site_url: secrets.canvas_url,
+      domain: "#{secrets.atomicdocs_subdomain.presence || Application::ATOMICDOCS}.#{Rails.application.secrets.application_root_domain}",
+    }],
+  },
+  {
     key: Application::SCORM,
     name: "SCORM",
     description: "SCORM",
