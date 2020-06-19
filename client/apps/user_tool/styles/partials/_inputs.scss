@@ -14,9 +14,13 @@
     color: $gray3;
     padding: 0 1rem;
     margin-right: 0.4rem;
+    -webkit-appearance: none; //fix safari
 
     &:focus{
       outline: thin dotted $blue;
+    }
+    &::-webkit-search-decoration{
+      -webkit-appearance: none; //fix safari
     }
   }
 
