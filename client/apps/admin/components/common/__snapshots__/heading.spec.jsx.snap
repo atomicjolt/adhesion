@@ -33,9 +33,8 @@ exports[`common heading matches the snapshot 1`] = `
       onSelection={[Function]}
       tag="div"
     >
-      <AriaMenuButtonButton
+      <withManagerContext(AriaMenuButtonButton)
         className="c-username"
-        tag="span"
       >
         <span>
           username
@@ -43,16 +42,14 @@ exports[`common heading matches the snapshot 1`] = `
         <i
           className="i-dropdown"
         />
-      </AriaMenuButtonButton>
-      <_class
+      </withManagerContext(AriaMenuButtonButton)>
+      <withManagerContext(AriaMenuButtonMenu)
         className="c-dropdown"
-        tag="div"
       >
         <ul>
           <li>
-            <AriaMenuButtonMenuItem
+            <withManagerContext(AriaMenuButtonMenuItem)
               className="c-menu-item"
-              tag="div"
               text="Edit"
             >
               <a>
@@ -60,12 +57,11 @@ exports[`common heading matches the snapshot 1`] = `
                   Edit
                 </span>
               </a>
-            </AriaMenuButtonMenuItem>
+            </withManagerContext(AriaMenuButtonMenuItem)>
           </li>
           <li>
-            <AriaMenuButtonMenuItem
+            <withManagerContext(AriaMenuButtonMenuItem)
               className="c-menu-item"
-              tag="div"
               text="Logout"
               value="https://www.example.com"
             >
@@ -76,12 +72,11 @@ exports[`common heading matches the snapshot 1`] = `
                   Logout
                 </span>
               </a>
-            </AriaMenuButtonMenuItem>
+            </withManagerContext(AriaMenuButtonMenuItem)>
           </li>
           <li>
-            <AriaMenuButtonMenuItem
+            <withManagerContext(AriaMenuButtonMenuItem)
               className="c-menu-item"
-              tag="div"
               text="Delete"
               value="https://www.example.com?destroy_authentications=true"
             >
@@ -92,10 +87,10 @@ exports[`common heading matches the snapshot 1`] = `
                   Delete Canvas Authentications and Sign Out
                 </span>
               </a>
-            </AriaMenuButtonMenuItem>
+            </withManagerContext(AriaMenuButtonMenuItem)>
           </li>
         </ul>
-      </_class>
+      </withManagerContext(AriaMenuButtonMenu)>
     </AriaMenuButtonWrapper>
   </header>
   <SubNav
