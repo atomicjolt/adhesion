@@ -71,7 +71,7 @@ export const Complete = (props) => {
     if (enrollments) {
       const enrollment = _.find(
         enrollments,
-        (i) => i.type === 'StudentEnrollment'
+        i => i.type === 'StudentEnrollment'
       ) || _.first(enrollments);
 
       // Couldn't find an enrollment in the course to end
@@ -131,6 +131,7 @@ Complete.propTypes = {
   processing: PropTypes.bool,
   result: PropTypes.object,
   enrollments: PropTypes.array,
+  canvasRequest: PropTypes.func,
 };
 
 export default connect(select,
