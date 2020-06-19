@@ -1,15 +1,25 @@
+import _ from 'lodash';
 import { listEnrollmentsUsers } from 'atomic-canvas/libs/constants/enrollments';
 import { Constants as CourseCompletionConstants } from '../actions/course_completion';
 
 const initialState = {};
+let enrollments = [];
+let enrollmentsLoading = false;
 
 export default (state = initialState, action) => {
   switch (action.type) {
 
     case `${listEnrollmentsUsers.type}_DONE`:
+      enrollments = _.flatten([state.enrollments, action.payload]);
+      enrollments = _.compact(enrollments);
+      enrollments = _.uniqBy(enrollments, 'id');
+
+      enrollmentsLoading = !!action.response.links.next;
+
       return {
         ...state,
-        enrollments: action.payload,
+        enrollments,
+        enrollmentsLoading,
         completed: false,
       };
 
