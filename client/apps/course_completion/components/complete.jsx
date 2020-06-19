@@ -71,8 +71,8 @@ export const Complete = (props) => {
     if (enrollments) {
       const enrollment = _.find(
         enrollments,
-        (i) => i.course_id === parseInt(lmsCourseId, 10)
-      );
+        (i) => i.type === 'StudentEnrollment'
+      ) || _.first(enrollments);
 
       // Couldn't find an enrollment in the course to end
       if (enrollments === [] || enrollment === undefined) {
