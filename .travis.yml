@@ -1,6 +1,6 @@
 language: ruby
 sudo: required
-dist: bionic
+dist: trusty
 
 env:
   - CXX=g++-4.8
