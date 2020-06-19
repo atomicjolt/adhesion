@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import canvasRequest from 'atomic-canvas/libs/action';
-import { listEnrollmentsUsers } from 'atomic-canvas/libs/constants/enrollments';
+import { listEnrollmentsCourses } from 'atomic-canvas/libs/constants/enrollments';
 import { markCourseAsCompleted } from '../actions/course_completion';
 import Loader from './loader';
 
@@ -43,8 +43,8 @@ export const Complete = (props) => {
 
     if (!enrollments) {
       const filter = { state: ['active', 'completed'] };
-      const params = { user_id: lmsUserId, ...filter };
-      props.canvasRequest(listEnrollmentsUsers, params, {});
+      const params = { course_id: lmsCourseId, user_id: lmsUserId, ...filter };
+      props.canvasRequest(listEnrollmentsCourses, params, {});
     }
 
     // Still in progress of submitting completion to Canvas
