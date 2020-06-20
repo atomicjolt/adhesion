@@ -1,9 +1,13 @@
-import React from 'react';
+import React, {
+  useState,
+  useEffect,
+} from 'react';
+import PropTypes from 'prop-types';
+
 import _ from 'lodash';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import canvasRequest from 'atomic-canvas/libs/action';
-import { listEnrollmentsUsers } from 'atomic-canvas/libs/constants/enrollments';
+import { listEnrollmentsCourses } from 'atomic-canvas/libs/constants/enrollments';
 import { markCourseAsCompleted } from '../actions/course_completion';
 import Loader from './loader';
 
@@ -11,97 +15,124 @@ const select = ({ settings, complete }) => ({
   lmsCourseId: settings.lms_course_id,
   lmsUserId: settings.lms_user_id,
   enrollments: complete.enrollments,
+  enrollmentsLoading: complete.enrollmentsLoading,
   processing: complete.processing || false,
   completed: complete.completed || false,
   error: complete.error || undefined,
   result: complete.result || undefined,
 });
 
-export class Complete extends React.Component {
-  static propTypes = {
-    markCourseAsCompleted: PropTypes.func.isRequired,
-    lmsCourseId: PropTypes.string.isRequired,
-    lmsUserId: PropTypes.string.isRequired,
-  }
+export const Complete = (props) => {
+  const [valid, setValid] = useState(false);
+  const [msg, setMsg] = useState('');
 
-  state = {
-    valid: false,
-    ready: false,
-    msg: '',
-  }
+  const {
+    lmsUserId,
+    lmsCourseId,
+    completed,
+    processing,
+    result,
+    enrollments,
+    enrollmentsLoading,
+  } = props;
 
-  componentWillMount() {
-    const filter = { state: ['active', 'completed'] };
-    const params = { user_id: this.props.lmsUserId, ...filter };
-    this.props.canvasRequest(listEnrollmentsUsers, params, {});
-  }
+  useEffect(() => {
+    if (enrollmentsLoading) {
+      return;
+    }
 
-  componentWillUpdate(nextProps) {
-    // If Enrollment has just been returned from Canvas API
-    if (_.isEmpty(this.props.enrollments) && !_.isEmpty(nextProps.enrollments)) {
-      this.state.ready = true;
+    if (!enrollments) {
+      const filter = { state: ['active', 'completed'] };
+      const params = { course_id: lmsCourseId, user_id: lmsUserId, ...filter };
+      props.canvasRequest(listEnrollmentsCourses, params, {});
+    }
+
+    // Still in progress of submitting completion to Canvas
+    if (processing) {
+      setMsg('Submitting');
+      setValid(false);
+      return;
+    }
+
+    // Reducer has recieved response from Canvas API to conclude enrollment
+    if (completed) {
+      if (result && result.status === 200) {
+        setMsg('Course Completed!');
+        setValid(true);
+      } else {
+        setMsg(
+          `Unable to complete course at this time.
+          Please try again later.`
+        );
+      }
+      return;
+    }
+
+    if (enrollments) {
       const enrollment = _.find(
-        nextProps.enrollments,
-        i => i.course_id === parseInt(this.props.lmsCourseId, 10)
-      );
+        enrollments,
+        i => i.type === 'StudentEnrollment'
+      ) || _.first(enrollments);
+
+      // Couldn't find an enrollment in the course to end
+      if (enrollments === [] || enrollment === undefined) {
+        setMsg('No enrollment to complete');
+        return;
+      }
+
       if (enrollment.type === 'StudentEnrollment') {
         if (enrollment.enrollment_state === 'active') {
-          this.setState({ valid: true });
+          setValid(true);
         } else {
-          this.setState({ msg: 'Already Completed' });
+          setMsg('Already Completed');
         }
+        return;
       }
+
       if (enrollment.type !== 'StudentEnrollment') {
-        this.setState({ msg: 'Cannot complete non-student enrollment' });
-      }
-      // Couldn't find an enrollment in the course to end
-      if (nextProps.enrollments === [] || enrollment === undefined) {
-        this.setState({ msg: 'No enrollment to complete' });
+        setMsg('Cannot complete non-student enrollment');
       }
     }
-    // Reducer has recieved response from Canvas API to conclude enrollment
-    if (!this.props.completed && nextProps.completed) {
-      if (nextProps.result && nextProps.result.status === 200) {
-        this.setState({ msg: 'Course Completed!', valid: true });
-      } else {
-        this.setState({
-          msg: 'Unable to complete course at this time.\nPlease try again later.'
-        });
-      }
-    }
-    // Still in progress of submitting completion to Canvas
-    if (!this.props.processing && nextProps.processing) {
-      this.setState({ msg: 'Submitting', valid: false });
-    }
-  }
+  });
 
-  render() {
-    if (!this.state.ready) {
-      return null;
-    }
-    const button = (
-      <button
-        id="ajau-button"
-        onClick={() => this.props.markCourseAsCompleted(this.props.lmsCourseId)}
-      >
-        Complete Course
-      </button>
-    );
-    const noButton = (
-      <h3 id="ajau-msgBox">{ this.state.msg }</h3>
-    );
-    const loader = (
-      <Loader />
-    );
-    return (
-      <div>
-        { this.state.valid && !this.props.completed ? button : noButton }
-        { this.props.processing ? loader : null }
-      </div>
-    );
+  const button = (
+    <button
+      id="ajau-button"
+      type="button"
+      onClick={() => props.markCourseAsCompleted(props.lmsCourseId)}
+    >
+      Complete Course
+    </button>
+  );
+  const noButton = (
+    <h3 id="ajau-msgBox">{ msg }</h3>
+  );
+  const loader = (
+    <Loader />
+  );
+  if (enrollmentsLoading) {
+    return <div>{loader}</div>;
   }
+  return (
+    <div>
+      { valid && !completed ? button : noButton }
+      { processing ? loader : null }
+    </div>
+  );
 
-}
+};
+
+Complete.propTypes = {
+  markCourseAsCompleted: PropTypes.func.isRequired,
+  lmsCourseId: PropTypes.string.isRequired,
+  lmsUserId: PropTypes.string.isRequired,
+  enrollmentsLoading: PropTypes.bool,
+  completed: PropTypes.bool,
+  processing: PropTypes.bool,
+  result: PropTypes.object,
+  enrollments: PropTypes.array,
+  canvasRequest: PropTypes.func,
+};
 
 export default connect(select,
   {
