@@ -1,5 +1,12 @@
 ;;; -*- fill-column: 80; -*-
 
+Changes for 2.0.2
+  * Fix course completion paging issue
+  * Update gems to match deploy
+  * Fix user tool search with safari
+  * Update seeds to include atomicdocs app instance
+
+
 Changes for 2.0.1
   * Remove searching by User ID.
 
