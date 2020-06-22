@@ -368,7 +368,7 @@ applications = [
     canvas_api_permissions: {
       default: [],
       common: [],
-      LIST_ENROLLMENTS_USERS: [
+      LIST_ENROLLMENTS_COURSES: [
         "urn:lti:sysrole:ims/lis/SysAdmin",
         "urn:lti:sysrole:ims/lis/Administrator",
         "urn:lti:instrole:ims/lis/Administrator",
