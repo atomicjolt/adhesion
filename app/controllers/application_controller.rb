@@ -112,7 +112,9 @@ class ApplicationController < ActionController::Base
     @backtrace = e.backtrace
     @status = ActionDispatch::ExceptionWrapper.new(request.env, e).status_code
 
-    ErrorMailer.error_email(current_user, error_info.to_json).deliver_later
+    if send_error_email_for(e.class)
+      ErrorMailer.error_email(current_user, error_info.to_json).deliver_later
+    end
 
     respond_to do |format|
       format.html { render_html_error }
@@ -171,6 +173,16 @@ class ApplicationController < ActionController::Base
       exception: "#{@exception_name} : #{@exception}",
       backtrace: @backtrace,
     }
+  end
+
+  def ignore_exception_level_filters
+    [
+      ActionController::RoutingError,
+    ]
+  end
+
+  def send_error_email_for(error_class)
+    ignore_exception_level_filters.exclude?(error_class)
   end
 
   # **********************************************
