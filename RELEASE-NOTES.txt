@@ -1,5 +1,10 @@
 ;;; -*- fill-column: 80; -*-
 
+Changes for 2.0.3
+  * Adjust error handling for routing error
+    * Don't send an email for a routing error. Just display the 404 page.
+
+
 Changes for 2.0.2
   * Fix course completion paging issue
   * Update gems to match deploy
