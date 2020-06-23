@@ -178,6 +178,7 @@ class ApplicationController < ActionController::Base
   def ignore_exception_level_filters
     [
       ActionController::RoutingError,
+      ActionController::InvalidAuthenticityToken,
     ]
   end
 
