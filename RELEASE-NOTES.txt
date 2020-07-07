@@ -14,6 +14,7 @@ Changes for 2.0.2
   * Update gems to match deploy
   * Fix user tool search with safari
   * Update seeds to include atomicdocs app instance
+  * Upgrade dependency to address possible security vulnerability.
 
 
 Changes for 2.0.1
