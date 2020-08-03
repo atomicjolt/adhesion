@@ -123,10 +123,6 @@ FactoryBot.define do
     n + 1024
   end
 
-  sequence :context_id do |n|
-    "b43d050b8cd75d5c2734fbc117ab917882a16a9a#{n}"
-  end
-
   sequence :common_grade do
     ["100.0", "97.2", "95.8", "92.1", "90.6", "87.0", "85.1", "82.9", "80.3", "77.0", "75.8", "72.3", "67.2"].sample
   end
