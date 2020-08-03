@@ -76,6 +76,7 @@ Rails.application.routes.draw do
           get :check_auth
         end
       end
+      resources :lti_install_keys
     end
 
     resources :canvas_accounts, only: [:index]

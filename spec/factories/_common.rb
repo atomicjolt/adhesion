@@ -183,6 +183,18 @@ FactoryBot.define do
     SecureRandom.uuid
   end
 
+  sequence :context_id do |n|
+    "123aba321_#{n}"
+  end
+
+  sequence :client_id do |n|
+    "1200000#{n}"
+  end
+
+  sequence :deployment_id do |n|
+    "#{SecureRandom.hex}#{n}"
+  end
+
   sequence :user_id do |n|
     n
   end
