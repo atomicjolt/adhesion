@@ -1,5 +1,10 @@
 ;;; -*- fill-column: 80; -*-
 
+Changes for 2.0.5
+  * Increase client-side timeout from 20 seconds to 60 seconds to accommodate
+    slow response times.
+
+
 Changes for 2.0.4
   * Don't send error emails for invalid auth tokens.
 
