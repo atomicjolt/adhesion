@@ -46,6 +46,6 @@ class UsersController < ApplicationController
   end
 
   def check_admin
-    authorize! :manage, User
+    authorize! :manage, :all
   end
 end
