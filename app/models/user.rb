@@ -15,7 +15,11 @@ class User < ApplicationRecord
   enum create_method: %i{sign_up oauth lti}
 
   scope :oauth_user, -> { where(create_method: create_methods[:oauth]) }
+  scope :sign_up_user, -> { where(create_method: create_methods[:sign_up]) }
   scope :unconfirmed, -> { where(confirmed_at: nil) }
+  scope :with_role_id, ->(role_ids) { joins(:permissions).where(permissions: { role_id: role_ids }) }
+  scope :by_name, -> { order(:name) }
+  scope :by_email, -> { order(:email) }
 
   def display_name
     name || email

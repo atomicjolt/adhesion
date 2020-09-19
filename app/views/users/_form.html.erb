@@ -1,0 +1,31 @@
+<h1><%= link_to 'Users', users_path %></h1>
+
+<div class="panel panel-default">
+  <div class="panel-body">
+    <%= form_for @user, url: submit_url, html: { class: "form-horizontal" } do |f| %>
+      <div class="form-group">
+        <%= f.label :name, "Name", class: "form-labels control-label" %>
+        <div class="form-main">
+          <div class="col-md-7">
+            <%= f.text_field :name, class: 'form-control' %>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <%= f.label :name, "Email", class: "form-labels control-label" %>
+        <div class="form-main">
+          <div class="col-md-7">
+            <%= f.text_field :email, class: 'form-control' %>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-md-4 col-md-offset-3" style="padding-left:30px;">
+          <%= f.submit class: "btn btn-primary" do %>
+            <%= submit_value %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
