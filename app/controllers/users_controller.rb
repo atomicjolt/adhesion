@@ -2,9 +2,13 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :check_admin
   load_and_authorize_resource
+  before_action :setup_will_paginate, only: %i[index]
 
   def index
-    @users = User.sign_up_user.by_email
+    @users = User.
+      sign_up_user.
+      by_email.
+      paginate(page: @page, per_page: 10)
   end
 
   def show; end
