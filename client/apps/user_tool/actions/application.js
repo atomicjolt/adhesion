@@ -1,6 +1,9 @@
 import wrapper from 'atomic-fuel/libs/constants/wrapper';
 import Network from 'atomic-fuel/libs/constants/network';
 
+// Increasing timeout to accomodate slow environments. Default is 20_000.
+Network.TIMEOUT = 60_000;
+
 // Local actions
 const actions = [];
 
