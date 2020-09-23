@@ -3,7 +3,7 @@ import { searchForAccountUsers, getAccountUser, updateAccountUser } from './appl
 describe('application actions', () => {
   describe('searchForAccountUsers', () => {
     it('generates the correct action', () => {
-      const searchTerm = 'student name';
+      const searchTerm = 'student_name';
       const page = '2';
       const expectedAction = {
         type: 'SEARCH_FOR_ACCOUNT_USERS',
@@ -33,6 +33,23 @@ describe('application actions', () => {
         };
 
         expect(searchForAccountUsers(searchTerm, page)).toEqual(expectedAction);
+      });
+    });
+
+    describe('when the search term includes a plus sign', () => {
+      it('escapes the plus sign in the search term', () => {
+        const searchTerm = 'john+smith';
+        const expectedAction = {
+          type: 'SEARCH_FOR_ACCOUNT_USERS',
+          method: 'get',
+          url: 'api/canvas_account_users',
+          params: {
+            search_term: 'john%2Bsmith',
+            page: undefined,
+          },
+        };
+
+        expect(searchForAccountUsers(searchTerm)).toEqual(expectedAction);
       });
     });
   });

@@ -1,6 +1,8 @@
 ;;; -*- fill-column: 80; -*-
 
 Changes for 2.0.5
+  * Fix bug in the user tool where search terms with a "+" character were not
+    returning the expected results.
   * Increase client-side timeout from 20 seconds to 60 seconds to accommodate
     slow response times.
 

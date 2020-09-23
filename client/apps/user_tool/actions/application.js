@@ -12,15 +12,19 @@ const requests = ['SEARCH_FOR_ACCOUNT_USERS', 'GET_ACCOUNT_USER', 'UPDATE_ACCOUN
 
 export const Constants = wrapper(actions, requests);
 
-export const searchForAccountUsers = (searchTerm, page) => ({
-  type: Constants.SEARCH_FOR_ACCOUNT_USERS,
-  method: Network.GET,
-  url: 'api/canvas_account_users',
-  params: {
-    search_term: searchTerm,
-    page,
-  },
-});
+export const searchForAccountUsers = (searchTerm, page) => {
+  const encodedSearchTerm = encodeURIComponent(searchTerm);
+
+  return {
+    type: Constants.SEARCH_FOR_ACCOUNT_USERS,
+    method: Network.GET,
+    url: 'api/canvas_account_users',
+    params: {
+      search_term: encodedSearchTerm,
+      page,
+    },
+  };
+};
 
 export const getAccountUser = userId => ({
   type: Constants.GET_ACCOUNT_USER,
