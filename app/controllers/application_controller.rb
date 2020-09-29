@@ -203,15 +203,6 @@ class ApplicationController < ActionController::Base
     @per_page = (params[:per_page] || (Rails.env.test? ? 1 : 40)).to_i
   end
 
-  # **********************************************
-  # Paging methods
-  #
-  def setup_will_paginate
-    @page = (params[:page] || 1).to_i
-    @page = 1 if @page < 1
-    @per_page = (params[:per_page] || (Rails.env.test? ? 1 : 40)).to_i
-  end
-
   def canvas_url
     @canvas_url ||= session[:canvas_url] ||
       custom_canvas_api_domain ||
