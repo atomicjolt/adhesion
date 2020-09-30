@@ -109,12 +109,6 @@ group :development, :build, :ci, :test do
   gem "sassc-rails"
 end
 
-group :ci do
-  gem "pronto", git: "https://github.com/prontolabs/pronto"
-  gem "pronto-eslint_npm", require: false
-  gem "pronto-rubocop", require: false
-end
-
 group :development, :test do
   gem "byebug", platform: :mri
   gem "debase"
