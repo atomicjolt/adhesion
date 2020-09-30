@@ -50,7 +50,6 @@ exports[`common heading matches the snapshot 1`] = `
           <li>
             <withManagerContext(AriaMenuButtonMenuItem)
               className="c-menu-item"
-              tag="div"
               text="Admin Users"
             >
               <a>
@@ -58,12 +57,11 @@ exports[`common heading matches the snapshot 1`] = `
                   Admin Users
                 </span>
               </a>
-            </AriaMenuButtonMenuItem>
+            </withManagerContext(AriaMenuButtonMenuItem)>
           </li>
           <li>
-            <AriaMenuButtonMenuItem
+            <withManagerContext(AriaMenuButtonMenuItem)
               className="c-menu-item"
-              tag="div"
               text="Edit"
             >
               <a>
