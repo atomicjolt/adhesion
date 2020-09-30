@@ -2,10 +2,12 @@ require "rails_helper"
 
 RSpec.describe Api::ScormCoursesController, type: :controller do
   before do
+    setup_application_instance
     @user = FactoryBot.create(:user)
     @user.confirm
     @user_token = AuthToken.issue_token(
       {
+        application_instance_id: @application_instance.id,
         user_id: @user.id,
         lms_course_id: "123",
         tool_consumer_instance_guid: "123abc",
@@ -108,26 +110,6 @@ RSpec.describe Api::ScormCoursesController, type: :controller do
   end
 
   describe "PUT update" do
-    before do
-      canvas_api_permissions = {
-        default: [
-          "administrator", # Internal (non-LTI) role
-          "urn:lti:sysrole:ims/lis/SysAdmin",
-          "urn:lti:sysrole:ims/lis/Administrator",
-          "urn:lti:role:ims/lis/Instructor",
-        ],
-        common: [],
-        CREATE_ASSIGNMENT: [],
-      }
-      @application = create(
-        :application,
-        canvas_api_permissions: canvas_api_permissions,
-      )
-      @application_instance = create(:application_instance, application: @application)
-      allow(controller).to receive(:current_application_instance).and_return(@application_instance)
-      allow(Application).to receive(:find_by).with(:lti_key).and_return(@application_instance)
-    end
-
     it "should update scorm package" do
       course = create(:scorm_course)
       course_params = { points_possible: "50" }

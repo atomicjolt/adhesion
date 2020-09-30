@@ -50,6 +50,18 @@ exports[`common heading matches the snapshot 1`] = `
           <li>
             <withManagerContext(AriaMenuButtonMenuItem)
               className="c-menu-item"
+              text="Admin Users"
+            >
+              <a>
+                <span>
+                  Admin Users
+                </span>
+              </a>
+            </withManagerContext(AriaMenuButtonMenuItem)>
+          </li>
+          <li>
+            <withManagerContext(AriaMenuButtonMenuItem)
+              className="c-menu-item"
               text="Edit"
             >
               <a>

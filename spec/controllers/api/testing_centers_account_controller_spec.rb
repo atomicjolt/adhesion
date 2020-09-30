@@ -2,9 +2,7 @@ require "rails_helper"
 
 RSpec.describe Api::TestingCentersAccountsController, type: :controller do
   before do
-    @user = FactoryBot.create(:user)
-    @user.confirm
-    @user_token = AuthToken.issue_token({ user_id: @user.id })
+    setup_users
   end
 
   describe "GET index" do

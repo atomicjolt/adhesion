@@ -18,27 +18,7 @@ RSpec.describe Api::SubmissionsController, type: :controller do
 
   context "valid jwt" do
     before do
-      canvas_api_permissions = {
-        default: [
-          "administrator", # Internal (non-LTI) role
-          "urn:lti:sysrole:ims/lis/SysAdmin",
-          "urn:lti:sysrole:ims/lis/Administrator",
-          "urn:lti:role:ims/lis/Learner",
-        ],
-        common: [],
-        LIST_ENROLLMENTS_SECTIONS: [],
-        LIST_ASSIGNMENT_SUBMISSIONS_SECTIONS: [],
-      }
-      @application = create(
-        :application,
-        canvas_api_permissions: canvas_api_permissions,
-      )
-      @application_instance = create(:application_instance, application: @application)
-      @user = create(:user, lms_user_id: 1)
-      @user.confirm
-      @user.add_to_role("urn:lti:role:ims/lis/Learner")
-      @user.save!
-      @user_token = AuthToken.issue_token({ user_id: @user.id })
+      setup_users
       @user_token_header = "Bearer #{@user_token}"
     end
 
