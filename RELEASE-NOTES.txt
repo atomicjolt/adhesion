@@ -7,6 +7,10 @@ Changes for 2.1.0
   * LTI Advantage improvements.
 
 
+Changes for 2.0.6
+  * Remove pronto gems as we don't use them in our CI.
+
+
 Changes for 2.0.5
   * Fix bug in the user tool where search terms with a "+" character were not
     returning the expected results.
