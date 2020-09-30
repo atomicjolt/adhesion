@@ -2,9 +2,7 @@ require "rails_helper"
 
 RSpec.describe Api::AttendancesController, type: :controller do
   before do
-    @user = create(:user)
-    @user.confirm
-    @user_token = AuthToken.issue_token(user_id: @user.id)
+    setup_users
     request.headers["Authorization"] = @user_token
   end
 

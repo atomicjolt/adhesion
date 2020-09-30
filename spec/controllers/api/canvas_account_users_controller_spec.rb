@@ -10,6 +10,7 @@ RSpec.describe Api::CanvasAccountUsersController, type: :controller do
     admin = create(:user, lms_user_id: admin_lms_user_id)
     admin.confirm
     request.headers["Authorization"] = AuthToken.issue_token(
+      application_instance_id: @application_instance.id,
       user_id: admin.id,
       lms_account_id: lms_account_id,
     )
