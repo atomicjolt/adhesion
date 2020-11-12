@@ -64,20 +64,24 @@ module ScormCommonService
     )
     if registration.nil?
       registration = create_local_registration(result_params, lti_credentials)
-      user = {
-        first_name: result_params[:lis_person_name_given],
-        last_name: result_params[:lis_person_name_family],
-        lms_user_id: result_params[:custom_canvas_user_id],
-      }
-      setup_scorm_registration(
-        registration,
-        user,
-        postback_url,
-        lti_credentials.lti_key,
-        result_params[:course_id],
-      )
+      create_scorm_registration(postback_url, result_params, registration, lti_credentials)
     end
     registration
+  end
+
+  def create_scorm_registration(postback_url, result_params, registration, lti_credentials)
+    user = {
+      first_name: result_params[:lis_person_name_given],
+      last_name: result_params[:lis_person_name_family],
+      lms_user_id: result_params[:custom_canvas_user_id],
+    }
+    setup_scorm_registration(
+      registration,
+      user,
+      postback_url,
+      lti_credentials.lti_key,
+      result_params[:course_id],
+    )
   end
 
   ### Sync Utilities
