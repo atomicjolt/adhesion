@@ -117,7 +117,7 @@ class ApplicationController < ActionController::Base
   def error(e)
     @exception = e.message
     @exception_name = e.class.name
-    @backtrace = e.backtrace
+    @backtrace = e.backtrace.select { |trace| trace.starts_with? Rails.root.to_s }
     @status = ActionDispatch::ExceptionWrapper.new(request.env, e).status_code
 
     if send_error_email_for(e.class)
