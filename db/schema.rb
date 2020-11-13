@@ -10,10 +10,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_14_195556) do
+ActiveRecord::Schema.define(version: 2020_11_13_174439) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "annotation_comments", force: :cascade do |t|
+    t.uuid "uuid"
+    t.uuid "annotation"
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "annotations", force: :cascade do |t|
+    t.integer "page"
+    t.string "document_id"
+    t.string "submission_id"
+    t.string "type"
+    t.uuid "uuid"
+    t.float "width"
+    t.float "height"
+    t.integer "x"
+    t.integer "y"
+    t.integer "size"
+    t.string "color"
+    t.string "rectangles"
+    t.string "lines"
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "api_tokens", force: :cascade do |t|
     t.string "name"
