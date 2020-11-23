@@ -5,6 +5,7 @@ Changes for 2.2.0
   * Remove Atomic Jolt logo from error pages.
   * Ensure Rustici engine has student registration.
   * Stop leaking gems in backtrace for errors.
+  * Gem updates to match release.
 
 
 Changes for 2.1.0
