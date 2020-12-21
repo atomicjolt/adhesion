@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import ReactModal from 'react-modal';
 import routes from './routes';
 import configureStore from './store/configure_store';
+import './styles/styles.scss';
 
 const settings = getInitialSettings(window.DEFAULT_SETTINGS);
 const store = configureStore({ settings, jwt: window.DEFAULT_JWT });

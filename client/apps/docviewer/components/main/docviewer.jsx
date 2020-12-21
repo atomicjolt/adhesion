@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import * as pdfjsLib from 'pdfjs-dist/webpack';
 import * as pdfjsViewer from 'pdfjs-dist/web/pdf_viewer';
 import MyAdapter from './MyAdapter';
+import Toolbar from './toolbar';
 import workerURL from "../../pdf.worker.min.data";
 import store from '../../app';
 import * as submissionActions from '../../actions/submissions';
@@ -21,36 +22,57 @@ export class Docviewer extends React.Component {
     super();
     this.UI = null;
     this.RENDER_OPTIONS = {};
+    this.PAGE_HEIGHT = null;
     this.adapter = null;
     this.file = null;
     this.viewer = null;
+    this.rendered = false;
   }
 
   componentDidMount() {
     console.log("MOUNTED");
+    // this.getSubmission();
   }
 
-
-  renderDocument() {
-    this.RENDER_OPTIONS = {
-      documentId: 12345678,
-      document: this.file,
-      pdfDocument: null,
-      scale: 1,
-      rotate: 0
-    };
-    pdfjsLib.GlobalWorkerOptions.workerSrc = workerURL;
-    const loadingDocument = pdfjsLib.getDocument(this.RENDER_OPTIONS.document);
+  pdfRender = () => {
+    if (this.rendered === false) return;
+    const loadingDocument = pdfjsLib.getDocument(this.RENDER_OPTIONS.pdfDocument);
     loadingDocument.promise.then((pdf) => {
-      console.log("PDF Loaded!!");
+      console.log("pdf", pdf);
       this.RENDER_OPTIONS.pdfDocument = pdf;
+      this.viewer.innerHTML = '';
+
+      for (let i = 0; i < pdf.numPages; i += 1) {
+        const page = this.UI.createPage(i + 1);
+        this.viewer.appendChild(page);
+      }
       this.viewer.appendChild(this.UI.createPage(1));
       window.pdfjsViewer = pdfjsViewer;
       this.UI.renderPage(1, this.RENDER_OPTIONS).then(([pdfPage, annotations]) => {
         console.log("pdfPage", pdfPage);
         console.log("annotations", annotations);
+        const viewport = pdfPage.getViewport({
+          scale: this.RENDER_OPTIONS.scale,
+          rotation: this.RENDER_OPTIONS.rotate,
+        });
+        console.log("viewport", viewport);
+        this.PAGE_HEIGHT = viewport.height;
+        this.rendered = true;
       });
     });
+  }
+
+  loadConfiguration() {
+    this.RENDER_OPTIONS = {
+      documentId: '12345678',
+      pdfDocument: this.file,
+      scale: 1,
+      rotate: 0
+    };
+    // pdfjsLib.GlobalWorkerOptions.workerSrc = workerURL;
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'pdf.worker.js';
+    this.rendered = true;
+    this.UI.enableEdit();
   }
 
   loadAdapter() {
@@ -64,28 +86,16 @@ export class Docviewer extends React.Component {
     this.adapter = myAdapter;
   }
 
-  enableUI() {
-    this.UI.enableUI();
-    this.UI.enableEdit();
-  }
-
   handleFileInput = (e) => {
     const file = e.target.files[0];
     const fileReader = new FileReader();
     fileReader.onload = (event) => {
       this.file = new Uint8Array(event.target.result);
-      console.log("this.file: ", this.file);
       this.loadAdapter();
-      this.renderDocument();
+      this.loadConfiguration();
+      this.pdfRender();
     };
     fileReader.readAsArrayBuffer(file);
-  }
-
-  pdfRender = () => {
-    const loadingDocument = pdfjsLib.getDocument(this.RENDER_OPTIONS.pdfDocument);
-    loadingDocument.promise.then((pdf) => {
-      console.log("PDF Loaded!!");
-    });
   }
 
   enablePen = () => {
@@ -169,72 +179,32 @@ export class Docviewer extends React.Component {
 
   render() {
     const showTests = false;
+    const viewerStyle = {
+      position: 'relative',
+    };
     return (
       <div>
+        <Toolbar />
         <div className="toolbar" />
         <input
           type="file"
           onChange={this.handleFileInput}
         />
         <button
+          type="submit"
           className="deleteCommentButton"
-          onClick={()=> this.enablePen()}
+          onClick={() => this.enablePen()}
         >
           ENABLE PEN
         </button>
         <button
+          type="submit"
           className="deleteCommentButton"
           onClick={()=> this.disablePen()}
         >
           DISABLE PEN
         </button>
-        <div id="viewer">
-          { showTests &&
-            <div className="tests">
-              <button
-                className="getAnnotationsButton"
-                onClick={()=> this.getAnnotationsHandler('1234', 1)}
-              >
-                GET ANNOTATIONS
-              </button>
-              <button
-                className="getAnnotationButton"
-                onClick={()=> this.getAnnotationHandler('1234', '12341234')}
-              >
-                GET ANNOTATION
-              </button>
-              <button
-                className="addAnnotationsButton"
-                onClick={
-                  ()=> this.addAnnotationHandler( '1234', 1, { type: 'area', width: 100, height: 50, x: 250, y: 100, size: 10, color: "FF0000", content: "Hello world 2", rectangles: [ { "height": 75, "width": 150, "x": 19, "y": 37 } ] } ) } >
-                ADD ANNOTATION
-              </button>
-              <button
-                className="editAnnotationsButton"
-                onClick={()=> this.editAnnotationHandler('1234', 1, { id: 11, type: 'HELLO', width: 20, height: 20, x: 20, y: 20 })}
-              >
-                EDIT ANNOTATION
-              </button>
-              <button
-                className="deleteAnnotationsButton"
-                onClick={()=> this.deleteAnnotationHandler('1234', 11)}
-              >
-                DELETE ANNOTATION
-              </button>
-              <button
-                className="addCommentButton"
-                onClick={()=> this.addCommentHandler('1234', 12, 'THIS IS A TEST')}
-              >
-                ADD COMMENT
-              </button>
-              <button
-                className="deleteCommentButton"
-                onClick={()=> this.deleteCommentHandler('1234', 2)}
-              >
-                DELETE COMMENT
-              </button>
-            </div>
-           }
+        <div id="viewer" style={viewerStyle}>
         </div>
       </div>
     );

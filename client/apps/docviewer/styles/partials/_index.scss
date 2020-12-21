@@ -1,3 +1,48 @@
+.primary-controls {
+  display: flex;
+  font-size: 14px;
+  line-height: 24px;
+  background: #5B6673 0% 0% no-repeat padding-box;
+  opacity: 1;
+}
+
+.primary-controls_download {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.download-button {
+  background-color: transparent;
+  font-size: 16px;
+  border: none;
+  height: 48px;
+  width: 48px;
+}
+
+.primary-controls_divider {
+  border-left: 2px dotted white;
+  height: 15px;
+}
+
+i.icon-white {
+  color: white;
+}
+
+.document-controls {
+  display: inline-flex;
+  align-items: center;
+  user-select: none;
+}
+
+.document-controls_zoom {
+  text-transform: uppercase;
+  color: rgb(238, 238, 239);
+  margin-left: 4px;
+  margin-right: 4px;
+}
+
 .c-top-bar{
   height: 6rem;
   padding: 1rem;
