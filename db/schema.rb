@@ -10,25 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_13_174439) do
+ActiveRecord::Schema.define(version: 2020_11_24_193638) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "annotation_comments", force: :cascade do |t|
-    t.uuid "uuid"
-    t.uuid "annotation"
+    t.string "document_id"
+    t.bigint "annotation_id"
     t.text "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["annotation_id"], name: "index_annotation_comments_on_annotation_id"
   end
 
   create_table "annotations", force: :cascade do |t|
     t.integer "page"
     t.string "document_id"
     t.string "submission_id"
-    t.string "type"
-    t.uuid "uuid"
+    t.string "annotation_type"
     t.float "width"
     t.float "height"
     t.integer "x"

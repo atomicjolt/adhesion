@@ -1,0 +1,453 @@
+.c-top-bar{
+  height: 6rem;
+  padding: 1rem;
+  min-width: 70rem;
+  width: 100%;
+  position: relative;
+}
+
+.c-btn{
+  padding: 1rem 2rem;
+  @include bold;
+  color: $gray;
+  text-transform: uppercase;
+  font-size: 1.4rem;
+  border: none;
+  outline: none;
+  background: none;
+  @include transition(all 0.1s ease);
+  cursor: pointer;
+  height: 4rem;
+  &:focus{
+    outline: thin dotted;
+  }
+}
+
+.c-btn--sections{
+    position: absolute;
+    z-index: 1;
+    display: inline-block;
+    padding: 0rem;
+    background: $lightest-gray;
+    &:hover{
+      background: $gray;
+      color: $white;
+    }
+    .Dropdown-root{
+      background: $lightest-gray;
+      &:hover{
+        background: $gray;
+        color: $white;
+      }
+    }
+    .Dropdown-placeholder{
+      padding: 1.2rem;
+    }
+    .Dropdown-option{
+      padding: 1rem;
+    }
+}
+
+.c-btn--mark-all{
+    background: $lightest-gray;
+    margin-right: 1rem;
+    &:hover{
+      background: $green;
+      color: $white;
+    }
+}
+
+.c-btn--unmark-all{
+    background: $lightest-gray;
+    margin-right: 1rem;
+    &:hover{
+      background: $gray;
+      color: $white;
+    }
+}
+
+.c-btn--cancel{
+  position: absolute;
+  background: $lightest-gray;
+  padding: .8rem;
+  &:hover{
+    background: $gray;
+    color: $white;
+  }
+}
+
+.c-date-picker{
+  position: absolute;
+  display: inline-block;
+  right: 1rem;
+  z-index: 1;
+}
+
+.c-btn--previous{
+  padding: 0;
+  height: 4rem;
+  background: $lightest-gray;
+  svg{
+    width: 2rem;
+    height: 2rem;
+    position: relative;
+    top: 0rem;
+    @include transform(rotate(90deg));
+    path:nth-of-type(1){
+      fill: $gray;
+    }
+  }
+  &:hover{
+    background: $light-gray;
+    svg path:nth-of-type(1){
+      fill: $white;
+    }
+  }
+}
+.c-btn--date{
+  padding: 0;
+  width: 170px;
+  border: 0.2rem solid $lightest-gray;
+  position: relative;
+  color: $dark-gray;
+  span{
+    margin-right: 18px
+  }
+  svg{
+    width: 2rem;
+    height: 2rem;
+    position: absolute;
+    top: 0.8rem;
+    right: 0.8rem;
+    path:nth-of-type(1){
+      fill: $gray;
+    }
+  }
+  &:hover{
+    svg path:nth-of-type(1){
+      fill: $blue;
+    }
+  }
+}
+.c-btn--next{
+  padding: 0;
+  height: 4rem;
+  background: $lightest-gray;
+  svg{
+    width: 2rem;
+    height: 2rem;
+    position: relative;
+    top: 0rem;
+    @include transform(rotate(-90deg));
+    path:nth-of-type(1){
+      fill: $gray;
+    }
+  }
+  &:hover{
+    background: $light-gray;
+    svg path:nth-of-type(1){
+      fill: $white;
+    }
+  }
+}
+
+.c-table{
+  margin-top: 1rem;
+  width: 100%;
+  max-width: 175rem;
+  min-width: 70rem;
+  border-collapse: collapse;
+
+  tr{
+
+    &:hover{
+      td, th{
+        background: $lightest-gray;
+        .c-loading-icon:before{
+          border-color: $lightest-gray;
+        }
+      }
+    }
+
+    td, th{
+      vertical-align: middle;
+      padding: 1rem;
+      border-bottom: 0.1rem solid $light-gray;
+      border-top: 0.1rem solid $light-gray;
+    }
+    td:nth-of-type(1){
+      width: 6rem;
+      text-align: center;
+    }
+    th{
+      text-align: left;
+    }
+    td:nth-of-type(2){
+      text-align: right;
+      width: 17.5rem;
+    }
+  }
+}
+
+.c-name{
+  @include semi-bold;
+  color: $dark-gray;
+  font-size: 1.6rem;
+}
+
+.c-profile-pic{
+  width: 4rem;
+  height: 4rem;
+}
+
+.c-attendance{
+
+  div{
+    display: inline;
+  }
+  input[type="radio"]{
+    width: 0.01rem;
+    height: 0.01rem;
+    position: absolute;
+    pointer-events: none;
+    opacity: 0;
+  }
+  label{
+    width: 4rem;
+    height: 4rem;
+    padding: 0.3rem;
+    border-radius: 50%;
+    position: relative;
+    margin: 0 0.5rem;
+    display: inline-block;
+    cursor: pointer;
+  }
+  input[type="radio"]:focus ~ label{
+    outline: thin dotted;
+  }
+}
+
+.loading{
+  width: 100%;
+
+  .c-loading-icon{
+    margin: 0 auto;
+    width: 2.8rem;
+    height: 2.8rem;
+    border-radius: 50%;
+    border: 0.3rem solid $blue;
+    position: relative;
+    @include animation(spinner 1.5s linear infinite);
+
+    &:before{
+      content: '';
+      width: 0.1rem;
+      height: 0.1rem;
+      border-top: 1.4rem solid $white;
+      border-right: 1.4rem solid $white;
+      border-bottom: none;
+      border-left: none;
+      position: absolute;
+      top: -0.3rem;
+      left: 50%;
+    }
+  }
+  @keyframes spinner{
+    0%{
+      @include transform(rotate(0));
+    }
+    100%{
+      @include transform(rotate(360deg));
+    }
+  }
+}
+
+  .c-present {
+    label{
+      background: white;
+      svg{
+        width: 3.4rem;
+        height: 3.4rem;
+        path:nth-of-type(2), path:nth-of-type(3){
+          fill: $light-gray;
+        }
+      }
+    }
+    input[type="radio"]:checked ~ label svg{
+      path:nth-of-type(2), path:nth-of-type(3){fill: $green;}
+    }
+  }
+  .c-late{
+    label{
+      background: white;
+      svg{
+        width: 3.4rem;
+        height: 3.4rem;
+        path:nth-of-type(2), path:nth-of-type(3){
+          fill: $light-gray;
+        }
+      }
+    }
+    input[type="radio"]:checked ~ label svg{
+      path:nth-of-type(2), path:nth-of-type(3){fill: $yellow;}
+    }
+  }
+  .c-absent{
+    label{
+      background: white;
+      svg{
+        width: 3.4rem;
+        height: 3.4rem;
+        path:nth-of-type(2){
+          fill: $light-gray;
+        }
+      }
+    }
+    input[type="radio"]:checked ~ label svg{
+      path:nth-of-type(2){fill: $red;}
+    }
+  }
+
+
+.c-popup{
+  max-width: 30rem;
+  width: 100%;
+  background: $white;
+  box-shadow: 0 0 2rem rgba(0,0,0,.5);
+  position: absolute;
+  top: -30rem;
+  left: 50%;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  transition: all 0.4s ease;
+  -webkit-transition: all 0.4s ease;
+  -moz-transition: all 0.4s ease;
+  -ms-transition: all 0.4s ease;
+  z-index: 999;
+
+  &.is-open{
+    top: 10rem;
+  }
+}
+
+.c-popup--export{
+  max-width: 50rem;
+}
+
+  .c-popup__title{
+    @include bold;
+    font-size: 2.4rem;
+    font-weight: normal;
+    text-align: center;
+    margin: 3rem 2rem 1rem;
+    color: $red;
+    text-transform: uppercase;
+  }
+
+  .c-popup__message{
+    @include semi-bold;
+    font-size: 1.6rem;
+    text-align: center;
+    margin: 1rem 2rem 3rem;
+    color: $dark-gray;
+  }
+
+  .c-popup__btn{
+    background: $red;
+    @include bold;
+    display: block;
+    padding: 1.5rem 2rem;
+    text-align: center;
+    font-size: 1.4rem;
+    color: $white;
+    border: none;
+    outline: none;
+    text-transform: uppercase;
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.1s ease;
+    -webkit-transition: all 0.1s ease;
+    -moz-transition: all 0.1s ease;
+    -ms-transition: all 0.1s ease;
+
+    &:hover{
+      background: darken($red, 8%);
+    }
+  }
+
+  .c-btn--export{
+    background-color: #f5f5f5;
+  }
+
+  .c-popup__left{
+    width: 50%;
+    min-height: 1rem;
+    float: left;
+    height: 22rem;
+
+    button{
+      position: relative;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      -webkit-transform: translate(-50%,-50%);
+      -moz-transform: translate(-50%,-50%);
+      -ms-transform: translate(-50%,-50%);
+    }
+  }
+
+  .c-popup__right{
+    width: 50%;
+    float: left;
+    border-left: 0.1rem solid $light-gray;
+    padding: 2rem;
+
+    .c-btn--export{
+      margin-top: 1rem;
+      position: relative;
+      left: 50%;
+      transform: translate(-50%,0);
+      -webkit-transform: translate(-50%,0);
+      -moz-transform: translate(-50%,0);
+      -ms-transform: translate(-50%,0);
+    }
+  }
+
+.c-popup__label {
+  display: block;
+  padding: 0 1rem 1rem;
+
+  > span {
+    @include semi-bold;
+    display: block;
+    font-size: 1.2rem;
+    color: $gray;
+    margin-bottom: 0.5rem;
+  }
+
+  .c-btn--date {
+    width: 100%;
+    text-align: left;
+  }
+}
+
+.c-align-header {
+  text-align: left;
+  vertical-align:middle
+}
+
+.react-datepicker__input-container {
+  input {
+    @include semi-bold;
+    font-size: 14px;
+    border-color: transparent;
+    line-height: 30px;
+    width: 17rem;
+    padding-left: 1.2rem;
+    &:hover{
+      cursor: pointer;
+    }
+  }
+}

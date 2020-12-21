@@ -4,8 +4,7 @@ class CreateAnnotations < ActiveRecord::Migration[5.2]
       t.integer :page
       t.string :document_id
       t.string :submission_id
-      t.string :type
-      t.uuid :uuid
+      t.string :annotation_type
       t.float :width
       t.float :height
       t.integer :x
