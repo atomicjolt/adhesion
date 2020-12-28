@@ -1,5 +1,4 @@
 import React        from 'react';
-import ReactDOM     from 'react-dom';
 import ReactTestUtils    from 'react-dom/test-utils';
 import Index        from './index';
 
@@ -13,6 +12,6 @@ describe('index', () => {
   });
 
   it('renders the index', () => {
-    expect(ReactDOM.findDOMNode(result)).toBeDefined();
+    expect(result).toBeDefined();
   });
 });

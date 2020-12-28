@@ -12,10 +12,6 @@ import configureStore from './store/configure_store';
 
 import './styles/styles.scss';
 
-const settings = getInitialSettings(window.DEFAULT_SETTINGS);
-const store = configureStore({ settings, jwt: window.DEFAULT_JWT });
-export default store;
-
 class Root extends React.PureComponent {
   static propTypes = {
     store: PropTypes.object.isRequired,
@@ -33,6 +29,9 @@ class Root extends React.PureComponent {
   }
 }
 
+const settings = getInitialSettings(window.DEFAULT_SETTINGS);
+const store = configureStore({ settings, jwt: window.DEFAULT_JWT });
+export default store;
 if (window.DEFAULT_JWT) { // Setup JWT refresh
   jwt(store.dispatch, settings.user_id);
 }

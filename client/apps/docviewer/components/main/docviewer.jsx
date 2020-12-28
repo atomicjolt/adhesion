@@ -5,20 +5,10 @@ const select = () => ({
 });
 
 export class Docviewer extends React.Component {
-  constructor() {
-    super();
-  }
-
   render() {
-    const showTests = false;
     return (
       <div>
-        <input
-          type="file"
-          onChange={this.handleFileInput}
-        />
-        <div id="viewer">
-        </div>
+        <h1>Docviewer</h1>
       </div>
     );
   }
