@@ -31,6 +31,7 @@ class Application < ApplicationRecord
 
   SCORM = "scorm".freeze
   ATTENDANCE = "attendance".freeze
+  DOCVIEWER = "docviewer".freeze
   EXAMS = "exam".freeze
   EXAMPROCTOR = "proctor".freeze
   SURVEYAGGREGATION = "surveys".freeze

@@ -448,6 +448,55 @@ applications = [
       domain: "#{secrets.user_tool_subdomain.presence || Application::USERTOOL}.#{secrets.application_root_domain}",
     }],
   },
+  {
+    key: Application::DOCVIEWER,
+    name: "Docviewer",
+    description: "Tool for annotating submissions in SpeedGrader.",
+    client_application_name: "docviewer",
+    canvas_api_permissions: {
+      default: [],
+      common: [
+        "urn:lti:sysrole:ims/lis/SysAdmin",
+        "urn:lti:sysrole:ims/lis/Administrator",
+        "urn:lti:instrole:ims/lis/Administrator",
+        "urn:lti:role:ims/lis/Instructor",
+        "urn:lti:role:ims/lis/TeachingAssistant",
+        "urn:lti:role:ims/lis/ContentDeveloper",
+      ],
+      LIST_ASSIGNMENTS_ASSIGNMENTS: [
+        "urn:lti:role:ims/lis/Learner",
+        "urn:lti:sysrole:ims/lis/User",
+      ],
+      CREATE_ASSIGNMENT: [],
+      DELETE_ASSIGNMENT: [],
+      EDIT_ASSIGNMENT: [],
+      LIST_ASSIGNMENT_SUBMISSIONS: [],
+    },
+    kind: Application.kinds[:lti],
+    default_config: {},
+    lti_config: {
+      title: "Docviewer",
+      description: "Docviewer Application",
+      privacy_level: "public",
+      icon: "oauth_icon.png",
+      custom_fields: {
+        canvas_account_id: "$Canvas.account.id",
+        external_tool_url: "$Canvas.externalTool.url",
+        canvas_user_id: "$Canvas.user.id",
+      },
+      course_navigation: {
+        text: "Docviewer",
+        visibility: "admins",
+      },
+      content_migration: true,
+    },
+    application_instances: [{
+      lti_key: Application::DOCVIEWER,
+      site_url: secrets.canvas_url,
+      canvas_token: secrets.canvas_token,
+      domain: "#{secrets.docviewer_subdomain.presence || Application::DOCVIEWER}.#{secrets.application_root_domain}",
+    }],
+  },
 ]
 
 def setup_application_instances(application, application_instances)
