@@ -14,7 +14,10 @@ export default (state = defaultState, action) => {
       if (action.error) {
         newState.error = action.error;
       } else {
-        newState.annotation = action.payload;
+        const annotation = action.payload;
+        annotation.type = annotation.annotation_type;
+        delete annotation.annotation_type;
+        newState.annotation = annotation;
       }
       return newState;
     }
@@ -25,7 +28,8 @@ export default (state = defaultState, action) => {
       } else {
         _.forEach(action.payload, (annotation) => {
           const currentAnnotation = annotation;
-          currentAnnotation.type = delete currentAnnotation.annotation_type;
+          currentAnnotation.type = currentAnnotation.annotation_type;
+          delete currentAnnotation.annotation_type;
           newState.annotations.push(annotation);
         });
       }
@@ -45,7 +49,10 @@ export default (state = defaultState, action) => {
       if (action.errors) {
         newState.errors = action.errors;
       } else {
-        newState.annotation = action.payload;
+        const annotation = action.payload;
+        annotation.type = annotation.annotation_type;
+        delete annotation.annotation_type;
+        newState.annotation = annotation;
       }
       return newState;
     }

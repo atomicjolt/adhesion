@@ -1,30 +1,28 @@
 import React from 'react';
 
-export default class ToolButton extends React.Component {
+export default class RadioButton extends React.Component {
   render() {
     const {
-      onClick,
       icon,
       color,
-      size,
+      iconSize,
       isActive,
+      onClick,
       tool
     } = this.props;
     const iconColor = color ? `icon-${color}` : 'icon-white';
-    // TODO disabled for rotate
-    const disabled = false;
     return (
       <>
         <button
           type="button"
-          aria-disabled={disabled}
-          aria-pressed={isActive}
-          aria-label={tool}
+          role="radio"
+          aria-checked={isActive}
           tabIndex="-1"
+          aria-label={tool}
           className={`tool-button ${iconColor} `}
           onClick={onClick}
         >
-          <i className={`material-icons ${size}`} aria-hidden>{icon}</i>
+          <i className={`material-icons ${iconSize}`} aria-hidden>{icon}</i>
         </button>
       </>
     );

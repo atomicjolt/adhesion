@@ -31,7 +31,6 @@ class Api::AnnotationCommentsController < ApplicationController
   end
 
   def set_annotation
-    byebug
     @annotation = Annotation.find(params[:annotation_id])
   end
 

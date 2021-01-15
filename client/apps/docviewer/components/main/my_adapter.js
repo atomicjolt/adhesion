@@ -7,7 +7,7 @@ export default class MyAdapter extends PDFJSAnnotate.StoreAdapter {
   constructor() {
     super({
       getAnnotation(documentId, annotationId) {
-        console.log("getAnnotation");
+        console.log(`getAnnotation => documentId: ${documentId}, annotationId: ${annotationId}`);
         store.dispatch(annotationActions.getAnnotation(documentId, annotationId));
         return new Promise((resolve, reject) => {
           store.subscribe(() => {
@@ -21,12 +21,14 @@ export default class MyAdapter extends PDFJSAnnotate.StoreAdapter {
         });
       },
       getAnnotations(documentId, pageNumber) {
-        console.log("getAnnotations");
-        store.dispatch(annotationActions.getAnnotations(documentId, pageNumber));
+        console.log(`getAnnotations => documentId: ${documentId}, pageNumber: ${pageNumber}`);
+        store.dispatch(annotationActions.getAnnotations(2, 1));
+        // store.dispatch(annotationActions.getAnnotations(documentId, pageNumber));
         return new Promise((resolve, reject) => {
           store.subscribe(() => {
             const { annotations, error } = store.getState().annotations;
             if (annotations) {
+              console.log("getAnnotation => annotations: ", annotations);
               resolve(annotations);
             } else {
               reject(error);
@@ -36,8 +38,13 @@ export default class MyAdapter extends PDFJSAnnotate.StoreAdapter {
       },
 
       addAnnotation(documentId, pageNumber, annotationJSON) {
-        console.log("addAnnotation");
-        store.dispatch(annotationActions.addAnnotation(documentId, pageNumber, annotationJSON));
+        console.log(`addAnnotation => documentId: ${documentId}, pageNumber: ${pageNumber} annotationJSON: ${annotationJSON}`);
+        const curAnnotation = annotationJSON;
+        if (curAnnotation.color) {
+          curAnnotation.color = annotationJSON.color.replace('#', '');
+        }
+        // store.dispatch(annotationActions.addAnnotation(documentId, pageNumber, curAnnotation));
+        store.dispatch(annotationActions.addAnnotation(2, 1, curAnnotation));
         return new Promise((resolve, reject) => {
           store.subscribe(() => {
             const { annotation, error } = store.getState().annotations;
@@ -51,8 +58,9 @@ export default class MyAdapter extends PDFJSAnnotate.StoreAdapter {
       },
 
       editAnnotation(documentId, pageNumber, annotationJSON) {
-        console.log("editAnnotation");
-        store.dispatch(annotationActions.editAnnotation(documentId, pageNumber, annotationJSON));
+        console.log(`editAnnotation => documentId: ${documentId}, pageNumber: ${pageNumber} annotationJSON: ${annotationJSON}`);
+        // store.dispatch(annotationActions.editAnnotation(documentId, pageNumber, annotationJSON));
+        store.dispatch(annotationActions.editAnnotation(2, 1, annotationJSON));
         return new Promise((resolve, reject) => {
           store.subscribe(() => {
             const { annotation, error } = store.getState().annotations;
@@ -66,8 +74,9 @@ export default class MyAdapter extends PDFJSAnnotate.StoreAdapter {
       },
 
       deleteAnnotation(documentId, annotationId) {
-        console.log("deleteAnnotation");
-        store.dispatch(annotationActions.deleteAnnotation(documentId, annotationId));
+        console.log(`deleteAnnotation => documentId: ${documentId}, annotationId: ${annotationId}`);
+        // store.dispatch(annotationActions.deleteAnnotation(documentId, annotationId));
+        store.dispatch(annotationActions.deleteAnnotation(2, annotationId));
         return new Promise((resolve, reject) => {
           store.subscribe(() => {
             const { annotation, error } = store.getState().annotations;
