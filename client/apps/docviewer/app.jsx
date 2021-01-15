@@ -10,6 +10,7 @@ import ReactModal from 'react-modal';
 import routes from './routes';
 import configureStore from './store/configure_store';
 import './styles/styles.scss';
+// import './styles/pdf_viewer.css';
 
 const settings = getInitialSettings(window.DEFAULT_SETTINGS);
 const store = configureStore({ settings, jwt: window.DEFAULT_JWT });

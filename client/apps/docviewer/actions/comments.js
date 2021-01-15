@@ -6,11 +6,19 @@ const actions = [];
 
 // Actions that make an api request
 const requests = [
+  'GET_COMMENTS',
   'ADD_COMMENT',
   'DELETE_COMMENT',
 ];
 
 export const Constants = wrapper(actions, requests);
+
+export const getComments = (documentId, pageNumber) => ({
+  method: Network.GET,
+  type: Constants.GET_COMMENTS,
+  url: '/api/annotation_comments',
+  params: { document_id: documentId, page: pageNumber }
+});
 
 export const addComment = (documentId, annotationId, content) => ({
   method: Network.POST,

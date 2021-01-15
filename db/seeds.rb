@@ -8,6 +8,11 @@ secrets = Rails.application.secrets
 # Add sites
 sites = [
   {
+    url: "https://lms.dev.af.edu",
+    oauth_key: secrets.canvas_developer_id,
+    oauth_secret: secrets.canvas_developer_key,
+  },
+  {
     url: secrets.canvas_url,
     oauth_key: secrets.canvas_developer_id,
     oauth_secret: secrets.canvas_developer_key,
@@ -493,6 +498,12 @@ applications = [
     application_instances: [{
       lti_key: Application::DOCVIEWER,
       site_url: secrets.canvas_url,
+      canvas_token: secrets.canvas_token,
+      domain: "#{secrets.docviewer_subdomain.presence || Application::DOCVIEWER}.#{secrets.application_root_domain}",
+    },
+    {
+      lti_key: Application::DOCVIEWER,
+      site_url: "https://lms.dev.af.edu",
       canvas_token: secrets.canvas_token,
       domain: "#{secrets.docviewer_subdomain.presence || Application::DOCVIEWER}.#{secrets.application_root_domain}",
     }],

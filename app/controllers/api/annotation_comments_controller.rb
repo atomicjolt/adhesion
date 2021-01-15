@@ -6,6 +6,14 @@ class Api::AnnotationCommentsController < ApplicationController
 
   respond_to :json
 
+  def index
+    comments = AnnotationComment.where(
+      documentId: params[:document_id],
+      page: params[:page],
+    )
+    render json: comments
+  end
+
   # POST /api/annotation_comments
   def create
     comment = @annotation.annotation_comments.new(comment_params)
@@ -16,7 +24,7 @@ class Api::AnnotationCommentsController < ApplicationController
 
   # DELETE /api/annotation_comments/:id
   def destroy
-    if @annotation_comment.destroy
+    if @annotaton_comment.destroy
       head :no_content
     end
   end
