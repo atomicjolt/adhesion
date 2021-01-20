@@ -3,101 +3,133 @@ import PropTypes from 'prop-types';
 import ColorPicker from './color_picker';
 import SizePicker from './size_picker';
 
-
 export default class SecondaryToolbar extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.brushSizes = [
       { size: 1, iconSize: 'md-18' },
       { size: 5, iconSize: 'md-24' },
       { size: 8, iconSize: 'md-30' }
     ];
     this.textSizes = [
-      { size: 1, iconSize: 'md-18' },
-      { size: 5, iconSize: 'md-24' },
-      { size: 8, iconSize: 'md-30' }
+      { size: 5, iconSize: 'md-18' },
+      { size: 12, iconSize: 'md-24' },
+      { size: 18, iconSize: 'md-30' }
     ];
     this.state = {
       activeBrushSize: this.brushSizes[0],
       activeTextSize: this.textSizes[0],
-      color: 'EE0512'
+      color: 'EE0512',
+      highlightColor: 'FF999A'
     };
   }
 
+  componentDidMount() {
+    const { UI } = this.props;
+    const {
+      activeTextSize,
+      activeBrushSize,
+      color,
+      highlightColor
+    } = this.state;
+
+    UI.setText(activeTextSize.size, color);
+    UI.setPen(activeBrushSize.size, color);
+    UI.setHighlight(highlightColor);
+    UI.setStrikeout(color);
+    UI.setArea(color);
+  }
+
   choseColor = (color) => {
-    switch (this.props.tool) {
+    const { UI, tool } = this.props;
+    const { activeTextSize, activeBrushSize } = this.state;
+
+    switch (tool) {
       case 'point':
-        // TODO: PDFAnnotate does not support other point COLORS
-        console.log("point choseColor: ", this.state.color);
+        // TODO: PDFAnnotate does not support other point colors
+        this.setState({ color });
         break;
       case 'highlight':
-        // TODO: PDFAnnotate does not support other highlight COLORS
-        console.log("highlight choseColor: ", this.state.color);
+        this.setState({ highlightColor: color }, () => {
+          UI.setHighlight(color);
+        });
         break;
       case 'text':
         this.setState({ color }, () => {
-          this.props.UI.setPen(this.state.activeTextSize.size, this.state.color);
+          UI.setText(activeTextSize.size, color);
         });
         break;
       case 'strikeout':
-        // TODO: PDFAnnotate does not support other strikeout COLORS
-        console.log("strikeout choseColor: ", this.state.color);
+        this.setState({ color }, () => {
+          UI.setStrikeout(color);
+        });
         break;
       case 'brush':
         this.setState({ color }, () => {
-          console.log("this.state: ", this.state);
-          this.props.UI.setPen(this.state.activeBrushSize.size, this.state.color);
+          UI.setPen(activeBrushSize.size, color);
         });
         break;
       case 'area':
-        // TODO: PDFAnnotate does not support other area COLORS
-        console.log("area choseColor: ", this.state.color);
+        this.setState({ color }, () => {
+          UI.setArea(color);
+        });
         break;
       default:
-        console.log("Error chosing color");
+        break;
     }
   }
 
   choseSize = (size) => {
-    switch (this.props.tool) {
+    const { UI, tool } = this.props;
+    const {
+      color
+    } = this.state;
+
+    switch (tool) {
       case 'text':
         this.setState({ activeTextSize: size }, () => {
-          this.props.UI.setPen(this.state.activeTextSize.size, this.state.color);
+          UI.setText(size.size, color);
         });
         break;
       case 'brush':
         this.setState({ activeBrushSize: size }, () => {
-          this.props.UI.setPen(this.state.activeBrushSize.size, this.state.color);
+          UI.setPen(size.size, color);
         });
         break;
       default:
-        console.log("Error chosing color");
+        break;
     }
   }
 
   render() {
-    const { tool } = this.props
+    const { tool } = this.props;
+    const {
+      activeTextSize,
+      activeBrushSize,
+      color,
+      highlightColor
+    } = this.state;
 
     return (
       <div className="secondary-toolbar">
         <ColorPicker
-          choseColor={this.choseColor}
-          activeColor={this.state.color}
           tool={tool}
+          choseColor={this.choseColor}
+          activeColor={tool === 'highlight' ? highlightColor : color}
         />
-        { tool === 'text' &&
-          <SizePicker
+        { tool === 'text'
+          && <SizePicker
             tool={tool}
             choseSize={this.choseSize}
             SIZES={this.textSizes}
-            activeSize={this.state.activeTextSize}
+            activeSize={tool === 'text' ? activeTextSize : activeBrushSize}
           />}
-        { tool === 'brush' &&
-          <SizePicker
+        { tool === 'brush'
+          && <SizePicker
             tool={tool}
             choseSize={this.choseSize}
             SIZES={this.brushSizes}
-            activeSize={this.state.activeBrushSize}
+            activeSize={activeBrushSize}
           />}
       </div>
     );

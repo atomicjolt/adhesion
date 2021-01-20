@@ -1,30 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ToolButton from './tool_button';
+import ToolButton from '../common/tool_button';
 import SecondaryToolbar from './secondary_toolbar';
 import DocumentControls from './document_controls';
 import AnnotationControls from './annotation_controls';
 
-
 export default class PrimaryToolbar extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       showSecondary: false,
       tool: null,
-    }
+    };
   }
 
   toggleSecondary = (tool) => {
     if (tool) {
-      this.setState({ showSecondary: true, tool })
+      this.setState({ showSecondary: true, tool });
     } else {
-      this.setState({ showSecondary: false, tool })
+      this.setState({ showSecondary: false, tool });
     }
   }
 
   render() {
-    const { showSecondary } = this.state;
+    const { showSecondary, tool } = this.state;
+    const {
+      UI,
+      RENDER_OPTIONS,
+      handleRerender,
+      handleFullScreen,
+    } = this.props;
     return (
       <nav className="primary-toolbar">
         <div
@@ -40,18 +45,16 @@ export default class PrimaryToolbar extends React.Component {
             </svg>
           </div>
           <DocumentControls
-            RENDER_OPTIONS={this.props.RENDER_OPTIONS}
-            handleRerender={this.props.handleRerender}
-            handleFullScreen={this.props.handleFullScreen}
+            RENDER_OPTIONS={RENDER_OPTIONS}
+            handleRerender={handleRerender}
+            handleFullScreen={handleFullScreen}
           />
           <AnnotationControls
-            UI={this.props.UI}
+            UI={UI}
             toggleSecondary={this.toggleSecondary}
           />
         </div>
-        {
-          showSecondary && <SecondaryToolbar UI={this.props.UI} tool={this.state.tool} />
-        }
+        { showSecondary && <SecondaryToolbar UI={UI} tool={tool} /> }
       </nav>
     );
   }
@@ -60,4 +63,6 @@ export default class PrimaryToolbar extends React.Component {
 PrimaryToolbar.propTypes = {
   UI: PropTypes.object,
   RENDER_OPTIONS: PropTypes.object,
+  handleRerender: PropTypes.func,
+  handleFullScreen: PropTypes.func,
 };

@@ -30,7 +30,7 @@
   left: 0;
 }
 
-/* .viewer .canvasWrapper {
+.viewer .canvasWrapper {
   overflow: hidden;
   position: relative;
   display: block;
@@ -39,7 +39,7 @@
 .viewer .page {
   position: relative;
   display: inline-block;
-} */
+}
 
 .textLayer > span {
   color: transparent;

@@ -1,49 +1,38 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ToolButton from './tool_button';
+import { connect } from 'react-redux';
+import ToolButton from '../common/tool_button';
 
-export default class DocumentControls extends React.Component {
-  constructor(props) {
-    super(props);
-    this.RENDER_OPTIONS = null;
-    this.rendered = null;
-    this.fullScreenMode = false;
-    // TODO aria label keep tool in state
-  }
-
-  componentDidUpdate(prevProps) {
-    // console.log("updated RENDER_OPTIONS: ", this.props.RENDER_OPTIONS);
-    if (prevProps !== this.props) {
-      const { RENDER_OPTIONS, handleRerender, handleFullScreen } = this.props;
-      this.RENDER_OPTIONS = RENDER_OPTIONS;
-      this.handleRerender = handleRerender;
-      this.handleFullScreen = handleFullScreen;
-    }
-  }
-
+export class DocumentControls extends React.Component {
   rotate = () => {
-    this.RENDER_OPTIONS.rotate -= 90;
-    this.handleRerender();
+    const { RENDER_OPTIONS, handleRerender } = this.props;
+    RENDER_OPTIONS.rotate -= 90;
+    handleRerender();
   }
 
   zoomOut = () => {
-    this.RENDER_OPTIONS.scale -= 0.1;
-    this.handleRerender();
+    const { RENDER_OPTIONS, handleRerender } = this.props;
+    RENDER_OPTIONS.scale -= 0.1;
+    handleRerender();
   }
 
   zoomIn = () => {
-    this.RENDER_OPTIONS.scale += 0.1;
-    this.handleRerender();
+    const { RENDER_OPTIONS, handleRerender } = this.props;
+    RENDER_OPTIONS.scale += 0.1;
+    handleRerender();
   }
 
   fullScreen = () => {
-    this.handleFullScreen();
+    const { handleFullScreen } = this.props;
+    handleFullScreen();
   }
 
   render() {
+    const { annotations } = this.props;
     return (
       <nav className="document-controls">
         <ToolButton
+          disabled={annotations.length >= 0}
           icon="rotate_90_degrees_ccw"
           onClick={this.rotate}
         />
@@ -75,3 +64,11 @@ DocumentControls.propTypes = {
   handleRerender: PropTypes.func,
   handleFullScreen: PropTypes.func
 };
+
+const select = (state) => ({
+  annotations: state.annotations.annotations
+});
+
+export default connect(
+  select,
+)(DocumentControls);
