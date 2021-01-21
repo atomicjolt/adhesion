@@ -17,15 +17,6 @@ export default (state = defaultState, action) => {
       }
       return newState;
     }
-    case Constants.GET_LAST_SUBMISSION_DONE: {
-      const newState = _.cloneDeep(state);
-      if (action.error) {
-        newState.error = action.error;
-      } else {
-        newState.submission = action.response.text;
-      }
-      return newState;
-    }
     default:
       return state;
   }

@@ -15,18 +15,11 @@ export const Constants = wrapper(actions, requests);
 export const getSubmission = (courseId, assignmentId, studentId, submissionId) => ({
   method: Network.GET,
   type: Constants.GET_SUBMISSION,
-  url: '/api/submissions',
+  url: '/api/assignment_submissions',
   params: {
     course_id: courseId,
     assignment_id: assignmentId,
     user_id: studentId,
     submission_id: submissionId
   }
-});
-
-export const getLastSubmission = (id) => ({
-  method: Network.GET,
-  type: Constants.GET_LAST_SUBMISSION,
-  url: `/api/submissions/${id}`,
-  params: { id }
 });
