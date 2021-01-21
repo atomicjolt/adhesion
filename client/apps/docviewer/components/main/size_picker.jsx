@@ -14,7 +14,7 @@ export default class SizePicker extends React.Component {
     return (
       <div className="size-picker">
         <div className="secondary-toolbar_label">{tool === 'text' ? 'Size' : 'Line'}</div>
-        { SIZES.map((size) => (
+        { SIZES.map(size => (
           <div key={size.size}>
             <RadioButton
               icon={tool === 'text' ? 'title' : 'brush'}

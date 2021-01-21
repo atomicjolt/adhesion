@@ -76,7 +76,7 @@ export default class AnnotationControls extends React.Component {
         <svg viewBox="0 0 2 26" className="primary-controls_divider">
           <line stroke="currentColor" strokeDasharray="2, 1" strokeWidth="1" x1="1" y1="0" x2="1" y2="26" />
         </svg>
-        { this.ANNOTATION_TOOLS.map((curTool) => (
+        { this.ANNOTATION_TOOLS.map(curTool => (
           <RadioButton
             key={curTool.tool}
             icon={curTool.icon}

@@ -11,7 +11,7 @@ const requests = [
 
 export const Constants = wrapper(actions, requests);
 
-export const getSubmission = (id) => ({
+export const getSubmission = id => ({
   method: Network.GET,
   type: Constants.GET_SUBMISSION,
   url: `/api/submissions/${id}`,

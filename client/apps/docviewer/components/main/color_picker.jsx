@@ -32,7 +32,7 @@ export default class ColorPicker extends React.Component {
     return (
       <div className="color-picker">
         <div className="secondary-toolbar_label">Color</div>
-        { COLORS.map((color) => (
+        { COLORS.map(color => (
           <div key={color}>
             <button
               type="submit"

@@ -65,7 +65,7 @@ DocumentControls.propTypes = {
   handleFullScreen: PropTypes.func
 };
 
-const select = (state) => ({
+const select = state => ({
   annotations: state.annotations.annotations
 });
 

@@ -9,7 +9,6 @@ export default class Docviewer extends React.Component {
   constructor() {
     super();
     this.state = {
-      isFull: false,
       rendered: false,
       renderOptions: {
         url: null,
@@ -32,7 +31,7 @@ export default class Docviewer extends React.Component {
         pdfDocument: null,
         scale: 1,
         rotate: 0
-      }
+      };
       this.loadApp(renderOptions);
     };
     fileReader.readAsArrayBuffer(file);
