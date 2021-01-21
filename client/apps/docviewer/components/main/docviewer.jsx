@@ -5,17 +5,14 @@ import { connect } from 'react-redux';
 import FullScreen from 'react-full-screen';
 import * as pdfjsLib from 'pdfjs-dist/webpack';
 import * as pdfjsViewer from 'pdfjs-dist/web/pdf_viewer';
-import workerURL from '../../pdf.worker.min.data';
-import MyAdapter from './my_adapter';
+import Communicator, { broadcastRawMessage } from 'atomic-fuel/libs/communications/communicator';
+import MyAdapter from '../../libs/my_adapter';
 import PrimaryToolbar from './primary_toolbar';
-import Communicator from 'atomic-fuel/libs/communications/communicator';
-import { broadcastRawMessage } from 'atomic-fuel/libs/communications/communicator';
 import * as submissionActions from '../../actions/submissions';
 
 export class Docviewer extends React.Component {
-
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.communicator = new Communicator('*');
     this.state = {
       isFull: false,
@@ -31,23 +28,27 @@ export class Docviewer extends React.Component {
   }
 
   handleComm(e) {
-    const courseExp = /\/courses\/([0-9]+)/;
-    const assignmentExp = /\/assignments\/([0-9]+)/;
-    const studentExp = /\/submissions\/([0-9]+)/;
-    const submissionExp = /[?&]download=([^&]+).*$/;
+    const { getSubmission } = this.props;
     const message = Communicator.parseMessageFromEvent(e);
-    if (message) {
-      const courseId = message.match(courseExp)[1];
-      const assignmentId = message.match(assignmentExp)[1];
-      const studentId = message.match(studentExp)[1];
-      const submissionId = message.match(submissionExp)[1];
-      this.props.getSubmission(courseId, assignmentId, studentId, submissionId)
+    if (message && 'subject' in message) {
+      const { subject } = message;
+      if (subject === 'app.submissionSelectionChange') {
+        this.handleRerender();
+      }
+    } else if (message) {
+      const {
+        courseId,
+        assignmentId,
+        studentId,
+        submissionId
+      } = message;
+      getSubmission(courseId, assignmentId, studentId, submissionId);
     }
   }
 
   componentDidMount() {
     this.communicator.enableListener(this);
-    // this.getLastSubmission();
+    broadcastRawMessage('{ "subject": "app.loaded" }');
   }
 
   componentWillUnmount() {
@@ -63,23 +64,25 @@ export class Docviewer extends React.Component {
         documentId: submission.id,
         scale: 1,
         rotate: 0
-      }
-      this.setState({ renderOptions }, async() => {
-        this.loadAdapter();
-        this.loadPdf();
-
-      });
+      };
+      this.loadApp(renderOptions);
     }
   }
 
+  loadApp(renderOptions) {
+    this.setState({ renderOptions }, async() => {
+      this.loadAdapter();
+      this.loadPdf();
+    });
+  }
+
   renderPdf = () => {
-    console.log('renderPdf this.state: ', this.state);
-    if (this.state.rendered) return;
-    this.UI.renderPage(1, this.state.renderOptions).then(([pdfPage, annotations]) => {
-      console.log('annotations: ', annotations);
+    const { rendered, renderOptions } = this.state;
+    if (rendered) return;
+    this.UI.renderPage(1, renderOptions).then(([pdfPage]) => {
       const viewport = pdfPage.getViewport({
-        scale: this.state.renderOptions.scale,
-        rotation: this.state.renderOptions.rotate,
+        scale: renderOptions.scale,
+        rotation: renderOptions.rotate,
       });
       this.PAGE_HEIGHT = viewport.height;
       this.setState({ rendered: true });
@@ -93,15 +96,15 @@ export class Docviewer extends React.Component {
   }
 
   loadPdf() {
-    console.log("loadPdf renderOptions: ", this.state.renderOptions);
-    const loadingDocument = pdfjsLib.getDocument(this.state.renderOptions.url);
+    const { renderOptions } = this.state;
+    const loadingDocument = pdfjsLib.getDocument(renderOptions.url);
     loadingDocument.promise.then((pdf) => {
       this.setState({
         renderOptions: {
-          ...this.state.renderOptions,
+          ...renderOptions,
           pdfDocument: pdf
         }
-      })
+      });
       this.viewer.innerHTML = '';
 
       for (let i = 0; i < pdf.numPages; i += 1) {
@@ -128,29 +131,30 @@ export class Docviewer extends React.Component {
   }
 
   render() {
+    const { isFull, renderOptions } = this.state;
     return (
-      <div>
+      <>
         <FullScreen
-          enabled={this.state.isFull}
-          onChange={(isFull) => this.setState({ isFull })}
+          enabled={isFull}
+          onChange={(fullscreen) => this.setState({ isFull: fullscreen })}
         >
           <PrimaryToolbar
             UI={this.UI}
-            RENDER_OPTIONS={this.state.renderOptions}
+            RENDER_OPTIONS={renderOptions}
             handleRerender={this.handleRerender}
             handleFullScreen={this.handleFullScreen}
           />
           <div className="toolbar" />
           <div id="viewer" className="pdfViewer" />
         </FullScreen>
-      </div>
+      </>
     );
   }
 }
 
 Docviewer.propTypes = {
   getSubmission: PropTypes.func.isRequired,
-  submission: PropTypes.shape({})
+  submission: PropTypes.object
 };
 
 const select = (state) => ({

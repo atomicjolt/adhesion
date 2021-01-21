@@ -24,7 +24,7 @@ class Api::AnnotationCommentsController < ApplicationController
 
   # DELETE /api/annotation_comments/:id
   def destroy
-    if @annotaton_comment.destroy
+    if @annotation_comment.destroy!
       head :no_content
     end
   end

@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class ColorPicker extends React.Component {
-  render() {
-    const { tool } = this.props;
-    const ALL_COLORS = [
+  constructor() {
+    super();
+    this.ALL_COLORS = [
       'EE0512',
       'FC5E13',
       'FCBA00',
@@ -14,7 +15,7 @@ export default class ColorPicker extends React.Component {
       '363636',
       '741765',
     ];
-    const HIGHLIGHT_COLORS = [
+    this.HIGHLIGHT_COLORS = [
       'FF999A',
       'FFC067',
       'FCE680',
@@ -22,23 +23,27 @@ export default class ColorPicker extends React.Component {
       '81D0FF',
       'FFB9F1',
     ];
-    const COLORS = tool === 'highlight' ? HIGHLIGHT_COLORS : ALL_COLORS;
+  }
+
+  render() {
+    const { tool, activeColor, choseColor } = this.props;
+    const COLORS = tool === 'highlight' ? this.HIGHLIGHT_COLORS : this.ALL_COLORS;
 
     return (
       <div className="color-picker">
         <div className="secondary-toolbar_label">Color</div>
-        { COLORS.map((color, id) => (
-          <div key={id}>
+        { COLORS.map(color => (
+          <div key={color}>
             <button
               type="submit"
               role="radio"
               className="color-picker_button"
-              aria-checked={this.props.activeColor === color}
-              onClick={() => this.props.choseColor(color)}
+              aria-checked={activeColor === color}
+              onClick={() => choseColor(color)}
             >
               <div className="color-picker_button-inner">
                 <svg style={{ width: '27px', height: '27px' }}>
-                  <circle className="ColorButton-selection-circle" cx="13.5" cy="13.5" r="11.5" strokeWidth="2.5" fill="none"></circle>
+                  <circle className="ColorButton-selection-circle" cx="13.5" cy="13.5" r="11.5" strokeWidth="2.5" fill="none" />
                   <circle className="ColorButton-main-circle" cx="13.5" cy="13.5" r="8.5" fill={`#${color}`} />
                 </svg>
               </div>
@@ -49,3 +54,9 @@ export default class ColorPicker extends React.Component {
     );
   }
 }
+
+ColorPicker.propTypes = {
+  tool: PropTypes.string,
+  activeColor: PropTypes.string,
+  choseColor: PropTypes.func
+};
