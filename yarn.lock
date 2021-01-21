@@ -3560,6 +3560,11 @@ create-react-context@^0.3.0:
     gud "^1.0.0"
     warning "^4.0.3"
 
+create-stylesheet@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/create-stylesheet/-/create-stylesheet-0.3.0.tgz#37479d83c75131b0677d00510d0419fcccc9bc96"
+  integrity sha1-N0edg8dRMbBnfQBRDQQZ/MzJvJY=
+
 cross-spawn@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-3.0.1.tgz#1256037ecb9f0c5f79e3d6ef135e30770184b982"
@@ -8383,6 +8388,8 @@ pbkdf2@^3.0.3:
 
 "pdf-annotate.js@file:../pdf-annotate.js":
   version "0.0.0"
+  dependencies:
+    create-stylesheet "^0.3.0"
 
 pdfjs-dist@2.1.266:
   version "2.1.266"

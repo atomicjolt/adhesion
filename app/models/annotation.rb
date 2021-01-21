@@ -1,6 +1,6 @@
 class Annotation < ApplicationRecord
   serialize :rectangles, Array
-  serialize :lines, HashSerializer
+  serialize :lines, Array
   validates :document_id, presence: true
   has_many :annotation_comments, dependent: :destroy
 

@@ -32,7 +32,7 @@ export const getAnnotations = (documentId, pageNumber) => ({
 export const addAnnotation = (documentId, pageNumber, annotation) => ({
   method: Network.POST,
   type: Constants.ADD_ANNOTATION,
-  url: `/api/annotations`,
+  url: '/api/annotations',
   params: { document_id: documentId, page: pageNumber, annotation: JSON.stringify(annotation) }
 });
 
