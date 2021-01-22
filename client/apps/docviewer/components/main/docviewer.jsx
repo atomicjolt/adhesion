@@ -110,7 +110,7 @@ export default class Docviewer extends React.Component {
           onChange={this.handleFileInput}
         />
         <div id="viewer" className="pdfViewer" />
-      </ React.Fragment>
+      </React.Fragment>
     );
   }
 }
