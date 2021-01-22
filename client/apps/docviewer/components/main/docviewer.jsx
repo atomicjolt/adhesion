@@ -97,7 +97,7 @@ export default class Docviewer extends React.Component {
   render() {
     const { renderOptions } = this.state;
     return (
-      <>
+      <React.Fragment>
         <PrimaryToolbar
           UI={this.UI}
           RENDER_OPTIONS={renderOptions}
@@ -110,7 +110,7 @@ export default class Docviewer extends React.Component {
           onChange={this.handleFileInput}
         />
         <div id="viewer" className="pdfViewer" />
-      </>
+      </ React.Fragment>
     );
   }
 }
