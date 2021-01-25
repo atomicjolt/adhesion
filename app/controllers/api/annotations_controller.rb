@@ -40,7 +40,7 @@ class Api::AnnotationsController < ApplicationController
   private
 
   def annotation_params
-    params.require(:annotation).permit(
+    result = params.require(:annotation).permit(
       :document_id,
       :page,
       :annotation_type,
@@ -50,7 +50,6 @@ class Api::AnnotationsController < ApplicationController
       :y,
       :size,
       :color,
-      :lines,
       :content,
       rectangles: [
         :x,
@@ -58,7 +57,11 @@ class Api::AnnotationsController < ApplicationController
         :width,
         :height,
       ],
-    )
+    ).to_h
+    if params[:lines]
+      result[:lines] = params[:lines]
+    end
+    result
   end
 
   def parse_annotation
@@ -66,6 +69,9 @@ class Api::AnnotationsController < ApplicationController
     params[:annotation][:annotation_type] = params[:annotation].delete "type"
     params[:annotation][:document_id] = params[:document_id]
     params[:annotation][:page] = params[:page]
+    if params[:annotation][:lines]
+      params[:lines] = params[:annotation].delete "lines"
+    end
   end
 
   def set_annotation

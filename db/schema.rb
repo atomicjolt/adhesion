@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_24_193638) do
+ActiveRecord::Schema.define(version: 2021_01_15_191147) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,8 +31,8 @@ ActiveRecord::Schema.define(version: 2020_11_24_193638) do
     t.string "annotation_type"
     t.float "width"
     t.float "height"
-    t.integer "x"
-    t.integer "y"
+    t.float "x"
+    t.float "y"
     t.integer "size"
     t.string "color"
     t.string "rectangles"

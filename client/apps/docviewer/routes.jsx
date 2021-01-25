@@ -3,8 +3,8 @@ import { Router, Route, IndexRoute } from 'react-router3';
 
 import appHistory from './history';
 import Index from './components/layout/index';
-import Docviewer from './components/main/docviewer';
 import NotFound from '../../libs/components/not_found';
+import Docviewer from './components/main/docviewer';
 
 export default (
   <Router history={appHistory}>
