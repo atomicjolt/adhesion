@@ -19,6 +19,9 @@ module ScormCourseHelper
     launch = @scorm_connect.launch_course(
       registration,
       params[:launch_presentation_return_url],
+      scorm_courses_postback_url,
+      params,
+      current_application_instance,
     )
 
     @scorm_connect.sync_registration(params)

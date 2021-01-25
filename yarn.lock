@@ -8283,9 +8283,9 @@ pbkdf2@^3.0.3:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-pdf-annotate.js@atomicjolt/pdf-annotate.js#sb-tool-fixes:
+pdf-annotate.js@atomicjolt/pdf-annotate.js:
   version "0.0.0"
-  resolved "https://codeload.github.com/atomicjolt/pdf-annotate.js/tar.gz/dc0358a41c22d525cf458dfa1d69fd4af20bfce8"
+  resolved "https://codeload.github.com/atomicjolt/pdf-annotate.js/tar.gz/bd4c9e3d8d2eaa0dd4c0667fe415fb1ea4a7d6a7"
   dependencies:
     create-stylesheet "^0.3.0"
 

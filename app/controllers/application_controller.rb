@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
 
   def render_error(status, message, json_options = {})
     respond_to do |format|
-      format.html { render file: "public/#{status}.html", status: status }
+      format.html { render template: "errors/#{status}", layout: "errors", status: status }
       format.json do
         render json: {
           message: message,
@@ -117,7 +117,10 @@ class ApplicationController < ActionController::Base
   def error(e)
     @exception = e.message
     @exception_name = e.class.name
-    @backtrace = e.backtrace
+    @backtrace = e.
+      backtrace.
+      select { |trace| trace.starts_with? Rails.root.to_s }.
+      map { |trace| trace.gsub("#{Rails.root}/", "") } # rubocop:disable Rails/FilePath
     @status = ActionDispatch::ExceptionWrapper.new(request.env, e).status_code
 
     if send_error_email_for(e.class)
