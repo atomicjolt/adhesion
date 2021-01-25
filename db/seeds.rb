@@ -484,10 +484,6 @@ applications = [
         external_tool_url: "$Canvas.externalTool.url",
         canvas_user_id: "$Canvas.user.id",
       },
-      course_navigation: {
-        text: "Docviewer",
-        visibility: "admins",
-      },
       content_migration: true,
     },
     application_instances: [{

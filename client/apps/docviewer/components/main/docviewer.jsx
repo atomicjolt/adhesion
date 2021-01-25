@@ -133,10 +133,10 @@ export class Docviewer extends React.Component {
   render() {
     const { isFull, renderOptions } = this.state;
     return (
-      <>
+      <React.Fragment>
         <FullScreen
           enabled={isFull}
-          onChange={(fullscreen) => this.setState({ isFull: fullscreen })}
+          onChange={fullscreen => this.setState({ isFull: fullscreen })}
         >
           <PrimaryToolbar
             UI={this.UI}
@@ -147,7 +147,7 @@ export class Docviewer extends React.Component {
           <div className="toolbar" />
           <div id="viewer" className="pdfViewer" />
         </FullScreen>
-      </>
+      </React.Fragment>
     );
   }
 }
@@ -157,7 +157,7 @@ Docviewer.propTypes = {
   submission: PropTypes.object
 };
 
-const select = (state) => ({
+const select = state => ({
   submission: state.submissions.submission,
 });
 

@@ -60,7 +60,7 @@ describe "launch_course" do
     launch_route = "/launchLink"
     stub_request(:any, launch_url).to_return(body: "{ \"launchLink\": \"#{launch_route}\" }")
 
-    response = @subject.launch_course(@reg, "")
+    response = @subject.launch_course(@reg, "", Rails.application.routes.url_helpers.scorm_courses_postback_url)
     expect(response[:response]).to eq(Rails.application.secrets.scorm_url + launch_route)
     expect(response[:status]).to eq(200)
   end
