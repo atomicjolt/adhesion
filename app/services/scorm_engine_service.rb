@@ -9,8 +9,14 @@ class ScormEngineService
     @api_password = Rails.application.secrets.scorm_api_password
   end
 
-  def launch_course(registration, redirect_url)
-    launch_link = get_launch_link(registration.scorm_registration_id, redirect_url)
+  def launch_course(registration, redirect_url, postback_url, result_params = {}, lti_credentials = {})
+    launch_link = get_launch_link(
+      registration,
+      redirect_url,
+      postback_url,
+      result_params,
+      lti_credentials,
+    )
     setup_url_response(launch_link)
   end
 
@@ -229,9 +235,13 @@ class ScormEngineService
       end
   end
 
-  def get_launch_link(registration_id, redirect_url)
-    url = "#{@scorm_tenant_url}/registrations/#{registration_id}/launchLink"
+  def get_launch_link(registration, redirect_url, postback_url, result_params, lti_credentials)
+    url = "#{@scorm_tenant_url}/registrations/#{registration.scorm_registration_id}/launchLink"
     params = { redirectOnExitUrl: redirect_url }
+    response = send_get_request(url, params)
+    JSON.parse(response.body)["launchLink"]
+  rescue RestClient::NotFound
+    create_scorm_registration(postback_url, result_params, registration, lti_credentials)
     response = send_get_request(url, params)
     JSON.parse(response.body)["launchLink"]
   end
