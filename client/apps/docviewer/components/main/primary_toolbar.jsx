@@ -9,21 +9,19 @@ export default class PrimaryToolbar extends React.Component {
   constructor() {
     super();
     this.state = {
-      showSecondary: false,
       tool: null,
     };
   }
 
   toggleSecondary = (tool) => {
-    if (tool) {
-      this.setState({ showSecondary: true, tool });
-    } else {
-      this.setState({ showSecondary: false, tool });
-    }
+    const { toggleSecondary } = this.props;
+    toggleSecondary(tool);
+    this.setState({ tool });
   }
 
   render() {
-    const { showSecondary, tool } = this.state;
+    const { tool } = this.state;
+    const { showSecondary } = this.props;
     const {
       UI,
       RENDER_OPTIONS,
@@ -65,4 +63,6 @@ PrimaryToolbar.propTypes = {
   RENDER_OPTIONS: PropTypes.object,
   handleRerender: PropTypes.func,
   handleFullScreen: PropTypes.func,
+  toggleSecondary: PropTypes.func,
+  showSecondary: PropTypes.bool,
 };

@@ -2,12 +2,12 @@ import React from 'react';
 import PDFJSAnnotate from 'pdf-annotate.js';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import FullScreen from 'react-full-screen';
 import * as pdfjsLib from 'pdfjs-dist/webpack';
 import * as pdfjsViewer from 'pdfjs-dist/web/pdf_viewer';
 import Communicator, { broadcastRawMessage } from 'atomic-fuel/libs/communications/communicator';
 import MyAdapter from '../../libs/my_adapter';
 import PrimaryToolbar from './primary_toolbar';
+import CommentsSection from './comments_section';
 import * as submissionActions from '../../actions/submissions';
 
 export class Docviewer extends React.Component {
@@ -15,8 +15,8 @@ export class Docviewer extends React.Component {
     super();
     this.communicator = new Communicator('*');
     this.state = {
-      isFull: false,
       rendered: false,
+      showSecondary: false,
       renderOptions: {
         url: null,
         documentId: null,
@@ -68,6 +68,16 @@ export class Docviewer extends React.Component {
       this.loadApp(renderOptions);
     }
   }
+
+  toggleSecondary = (tool) => {
+    console.log("toggleSecondary tool: ", tool);
+    if (tool) {
+      this.setState({ showSecondary: true });
+    } else {
+      this.setState({ showSecondary: false });
+    }
+  }
+
 
   loadApp(renderOptions) {
     this.setState({ renderOptions }, async() => {
@@ -126,27 +136,22 @@ export class Docviewer extends React.Component {
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'pdf.worker.js';
   }
 
-  handleFullScreen = () => {
-    this.setState({ isFull: true });
-  }
-
   render() {
-    const { isFull, renderOptions } = this.state;
+    const { renderOptions, showSecondary } = this.state;
     return (
       <React.Fragment>
-        <FullScreen
-          enabled={isFull}
-          onChange={fullscreen => this.setState({ isFull: fullscreen })}
-        >
-          <PrimaryToolbar
-            UI={this.UI}
-            RENDER_OPTIONS={renderOptions}
-            handleRerender={this.handleRerender}
-            handleFullScreen={this.handleFullScreen}
-          />
-          <div className="toolbar" />
-          <div id="viewer" className="pdfViewer" />
-        </FullScreen>
+        <PrimaryToolbar
+          UI={this.UI}
+          RENDER_OPTIONS={renderOptions}
+          handleRerender={this.handleRerender}
+          toggleSecondary={this.toggleSecondary}
+          showSecondary={showSecondary}
+        />
+        <CommentsSection
+          UI={this.UI}
+          showSecondary={showSecondary}
+        />
+        <div id="viewer" className="pdfViewer" />
       </React.Fragment>
     );
   }

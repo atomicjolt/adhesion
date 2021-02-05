@@ -7,11 +7,11 @@ class Api::AnnotationsController < ApplicationController
   respond_to :json
 
   def index
-    annotations = Annotation.where(
+    annotations = Annotation.includes([:annotation_comments]).where(
       document_id: params[:document_id],
       page: params[:page],
     )
-    render json: annotations
+    render json: annotations, include: :annotation_comments
   end
 
   def show

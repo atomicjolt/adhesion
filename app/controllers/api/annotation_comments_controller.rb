@@ -8,8 +8,8 @@ class Api::AnnotationCommentsController < ApplicationController
 
   def index
     comments = AnnotationComment.where(
-      documentId: params[:document_id],
-      page: params[:page],
+      document_id: params[:document_id],
+      annotation_id: params[:annotation_id],
     )
     render json: comments
   end

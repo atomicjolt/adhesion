@@ -1,5 +1,129 @@
-:focus:not(:focus-visible) {
+:fcus:not(:focus-visible) {
   outline: none;
+}
+
+.pdfViewer {
+  padding-top: 110px;
+  background-color: #EEE;
+  .page {
+    border: 1px solid #B8BBBE;
+    box-sizing: content-box;
+  }
+}
+
+.comments-section {
+  z-index: 999;
+  position: fixed;
+  top: 48px;
+  right: 0px;
+  width: 320px;
+  height: calc(100vh - 48px);
+  border-left: 1px solid #B8BBBE;
+  background: white;
+  &.lowered {
+    top: 92px;
+  }
+}
+
+.user-container {
+  display: block;
+  span {
+    text-align: left;
+    font: normal normal bold 14px/17px Lato;
+    letter-spacing: 0px;
+    color: #262E38;
+  }
+}
+
+.comments-section_list {
+  width: 330px;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  margin: 0;
+  padding: 0;
+}
+
+.comments-section_item {
+  display: flex;
+  border-bottom: 1px solid #B8BBBE;
+  padding: 10px;
+  li {
+    padding-top: 6px;
+    border-bottom: 1px solid #B8BBBE;
+  }
+  li.no-bottom-border {
+    border: none;
+  }
+  .comments-section-item_comment-container {
+    width: 100%;
+  }
+}
+
+.comments-section_tool-type {
+  background: transparent 0% 0% no-repeat padding-box;
+  width: 28px;
+  height: 28px;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+
+  i {
+    font-size: 24px;
+    color: #fff;
+  }
+  &[aria-pressed="true"], &[aria-checked="true"] {
+    &::before {
+      background-color: #5B6673;
+    }
+  }
+}
+
+.comments-section_delete-button {
+  background: transparent 0% 0% no-repeat padding-box;
+  border: none;
+  float: right;
+  padding-right: 10px;
+  i {
+    font-size: 24px;
+    color: #5B6673;
+  }
+}
+
+.comment-section_form {
+  padding-right: 12px;
+}
+
+.comments-section_reply-button {
+  float: right;
+  margin: 12px;
+  width: 68px;
+  height: 40px;
+  background: #EEEEEE 0% 0% no-repeat padding-box;
+  border: 1px solid #D2D1D1;
+  border-radius: 3px;
+  span {
+    text-align: left;
+    font: normal normal bold 14px/17px Lato;
+    letter-spacing: 0px;
+    color: #222222;
+  }
+
+}
+
+.comment-section_reply-input {
+  height: 30px;
+  width: 100%;
+  border: 1px solid #D2D1D1;
+  border-radius: 3px;
+}
+
+.primary-toolbar {
+  position: fixed;
+  z-index: 999;
+  width: 100%;
+  top: 0;
+  left: 0;
 }
 
 .primary-controls {
@@ -96,6 +220,7 @@
   touch-action: none;
   overflow-x: auto;
   transform: translateX(0);
+  background-color: white;
 }
 
 .secondary-toolbar_label {

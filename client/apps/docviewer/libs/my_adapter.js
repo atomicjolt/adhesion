@@ -78,7 +78,8 @@ export default class MyAdapter extends PDFJSAnnotate.StoreAdapter {
       },
 
       getComments(documentId, annotationId) {
-        store.dispatch(commentActions.addComment(documentId, annotationId));
+        console.log(`getComments documentId: ${documentId}, annotationId: ${annotationId}`);
+        store.dispatch(commentActions.getComments(documentId, annotationId));
         return new Promise((resolve, reject) => {
           store.subscribe(() => {
             const { comments, error } = store.getState().comments;

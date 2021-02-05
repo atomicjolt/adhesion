@@ -6,13 +6,28 @@ const defaultState = {
   annotation: null,
   annotations: [],
 };
+function formatCommentFeilds(comment) {
+  const formattedComment = { ...comment };
+  formattedComment.annotationId = comment.annotation_id;
+  formattedComment.documentId = comment.document_id;
+  delete formattedComment.annotation_id;
+  delete formattedComment.document_id;
+  return formattedComment;
+}
 
 function formatAnnotationFeilds(annotation) {
   const formattedAnnotation = { ...annotation };
   formattedAnnotation.type = annotation.annotation_type;
   formattedAnnotation.documentId = annotation.document_id;
+  formattedAnnotation.annotationComments = [];
+  if (formattedAnnotation.annotation_comments) {
+    _.forEach(formattedAnnotation.annotation_comments, (comment) => {
+      formattedAnnotation.annotationComments.push(formatCommentFeilds(comment));
+    });
+  }
   delete formattedAnnotation.annotation_type;
   delete formattedAnnotation.document_id;
+  delete formattedAnnotation.annotation_comments;
   return formattedAnnotation;
 }
 
