@@ -1,8 +1,9 @@
 import React from 'react';
 import PDFJSAnnotate from 'pdf-annotate.js';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-export default class CommentsSectionItem extends React.Component {
+export class CommentsSectionItem extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -113,7 +114,7 @@ export default class CommentsSectionItem extends React.Component {
   }
 
   renderComments() {
-    const { annotation, selected } = this.props;
+    const { annotation, selected, currentUserName } = this.props;
     const { annotationComments } = annotation;
     return (
       <>
@@ -126,7 +127,7 @@ export default class CommentsSectionItem extends React.Component {
             >
               <div className="user-container">
                 <span className="comments-section_comment-user">
-                  Spencer Balling
+                  {comment.user ? comment.user.name : currentUserName}
                 </span>
                 { selected &&
                   <button
@@ -153,7 +154,6 @@ export default class CommentsSectionItem extends React.Component {
       handleCommentItemSelection,
     } = this.props;
 
-    console.log("*comments_section_item annotation: ", annotation);
     return (
       <li
         className="comments-section_item"
@@ -182,8 +182,16 @@ export default class CommentsSectionItem extends React.Component {
   }
 }
 
+const select = (state) => ({
+  currentUserName: state.settings.lis_person_name_full,
+});
+
 CommentsSectionItem.propTypes = {
   annotation: PropTypes.object,
   selected: PropTypes.bool,
   handleCommentItemSelection: PropTypes.func,
 };
+
+export default connect(
+  select,
+)(CommentsSectionItem);

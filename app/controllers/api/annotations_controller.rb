@@ -7,27 +7,27 @@ class Api::AnnotationsController < ApplicationController
   respond_to :json
 
   def index
-    annotations = Annotation.includes([:annotation_comments]).where(
+    annotations = Annotation.where(
       document_id: params[:document_id],
       page: params[:page],
     )
-    render json: annotations, include: :annotation_comments
+    render json: annotations, :include => [:user, :annotation_comments => {:include => {:user => {:only => :name}}}]
   end
 
   def show
-    render json: @annotation
+    render json: @annotation, :include => [:user, :annotation_comments => {:include => {:user => {:only => :name}}}]
   end
 
   def create
-    annotation = Annotation.new(annotation_params)
+    annotation = current_user.annotations.new(annotation_params)
     if annotation.save!
-      render json: annotation
+      render json: annotation, :include => [:user, :annotation_comments => {:include => {:user => {:only => :name}}}]
     end
   end
 
   def update
     if @annotation.update(annotation_params)
-      render json: @annotation
+      render json: @annotation, :include => [:user, :annotation_comments => {:include => {:user => {:only => :name}}}]
     end
   end
 

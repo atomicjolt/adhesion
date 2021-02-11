@@ -4,5 +4,5 @@ class Annotation < ApplicationRecord
   validates :document_id, presence: true
   has_many :annotation_comments, dependent: :destroy
 
-  # belongs_to :user
+  belongs_to :user
 end

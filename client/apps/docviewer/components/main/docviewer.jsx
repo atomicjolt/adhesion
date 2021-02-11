@@ -70,7 +70,6 @@ export class Docviewer extends React.Component {
   }
 
   toggleSecondary = (tool) => {
-    console.log("toggleSecondary tool: ", tool);
     if (tool) {
       this.setState({ showSecondary: true });
     } else {

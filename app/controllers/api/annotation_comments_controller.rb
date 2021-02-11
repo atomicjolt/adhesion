@@ -11,14 +11,14 @@ class Api::AnnotationCommentsController < ApplicationController
       document_id: params[:document_id],
       annotation_id: params[:annotation_id],
     )
-    render json: comments
+    render json: comments, include: :user
   end
 
   # POST /api/annotation_comments
   def create
     comment = @annotation.annotation_comments.new(comment_params)
     if comment.save!
-      render json: comment
+      render json: comment, include: :user
     end
   end
 
@@ -32,10 +32,13 @@ class Api::AnnotationCommentsController < ApplicationController
   private
 
   def comment_params
-    params.permit(
+    result = params.permit(
+      :annotation_id,
       :document_id,
       :content,
-    )
+    ).to_h
+    result[:user_id] = current_user.id
+    result
   end
 
   def set_annotation
