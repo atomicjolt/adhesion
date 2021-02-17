@@ -19,7 +19,7 @@ export class CommentsSection extends React.Component {
       UI.addEventListener('document:click', this.handleDocumentClick);
     }
   }
-  handleDocumentClick = (e) => {
+  handleDocumentClick = () => {
     this.setState({ selectedAnnotation: null });
   }
 
@@ -44,25 +44,13 @@ export class CommentsSection extends React.Component {
     UI.setEdit(selection);
   }
 
-  initialComments() {
-    const { annotations } = this.props;
-    let comments = false;
-    _.forEach(annotations, (annotation) => {
-      if (annotation.annotationComments.length) {
-        comments = true;
-        return false;
-      }
-    });
-    return comments;
-  }
-
   render() {
-    const { annotations, showSecondary, currentUserName } = this.props;
+    const { annotations, showSecondary, currentUserName, hasComments } = this.props;
     const { selectedAnnotation } = this.state;
 
     return (
       <>
-        { (this.initialComments() || selectedAnnotation)  &&
+        { (hasComments || selectedAnnotation)  &&
           <div className={`comments-section ${showSecondary ? 'lowered' : ''}`}>
             <ol className="comments-section_list">
               {
@@ -82,10 +70,11 @@ export class CommentsSection extends React.Component {
                     return (
                       <CommentsSectionItem
                         key={`annotation_section_item_${annotation.id}`}
-                        selected={annotation.id === selectedAnnotation}
+                        selected={true}
                         annotation={annotation}
                         handleCommentItemSelection={this.handleCommentItemSelection}
                         currentUserName
+                        showReply={false}
                       />
                     );
                   }
@@ -101,6 +90,7 @@ export class CommentsSection extends React.Component {
 CommentsSection.propTypes = {
   UI: PropTypes.object,
   showSecondary: PropTypes.bool,
+  hasComments: PropTypes.bool,
 };
 
 const select = (state) => ({

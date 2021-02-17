@@ -17,6 +17,7 @@ export class Docviewer extends React.Component {
     this.state = {
       rendered: false,
       showSecondary: false,
+      hasComments: false,
       renderOptions: {
         url: null,
         documentId: null,
@@ -56,7 +57,10 @@ export class Docviewer extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { submission } = this.props;
+    const { submission, annotations } = this.props;
+    if (prevProps.annotations !== annotations) {
+      this.findComments(annotations);
+    }
     if (prevProps.submission !== submission) {
       const renderOptions = {
         url: submission.url,
@@ -67,6 +71,17 @@ export class Docviewer extends React.Component {
       };
       this.loadApp(renderOptions);
     }
+  }
+
+  findComments(annotations) {
+    let hasComments = false;
+    _.forEach(annotations, (annotation) => {
+      if (annotation.annotationComments.length) {
+        hasComments = true;
+        return false;
+      }
+    });
+    this.setState({ hasComments });
   }
 
   toggleSecondary = (tool) => {
@@ -136,7 +151,7 @@ export class Docviewer extends React.Component {
   }
 
   render() {
-    const { renderOptions, showSecondary } = this.state;
+    const { renderOptions, showSecondary, hasComments } = this.state;
     return (
       <React.Fragment>
         <PrimaryToolbar
@@ -149,8 +164,9 @@ export class Docviewer extends React.Component {
         <CommentsSection
           UI={this.UI}
           showSecondary={showSecondary}
+          hasComments
         />
-        <div id="viewer" className="pdfViewer" />
+      <div id="viewer" className={`pdfViewer ${hasComments ? 'has-comment-section': ''}`} />
       </React.Fragment>
     );
   }
@@ -158,11 +174,13 @@ export class Docviewer extends React.Component {
 
 Docviewer.propTypes = {
   getSubmission: PropTypes.func.isRequired,
-  submission: PropTypes.object
+  submission: PropTypes.object,
+  annotations: PropTypes.arrayOf(PropTypes.shape({}))
 };
 
 const select = state => ({
   submission: state.submissions.submission,
+  annotations: state.annotations.annotations,
 });
 
 export default connect(
