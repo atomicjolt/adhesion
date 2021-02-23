@@ -1,14 +1,21 @@
 import React from 'react';
 import PDFJSAnnotate from 'pdf-annotate.js';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import FullScreen from 'react-full-screen';
 import * as pdfjsLib from 'pdfjs-dist/webpack';
 import * as pdfjsViewer from 'pdfjs-dist/web/pdf_viewer';
+import Communicator, { broadcastRawMessage } from 'atomic-fuel/libs/communications/communicator';
 import MyAdapter from '../../libs/my_adapter';
 import PrimaryToolbar from './primary_toolbar';
+import * as submissionActions from '../../actions/submissions';
 
-export default class Docviewer extends React.Component {
+export class Docviewer extends React.Component {
   constructor() {
     super();
+    this.communicator = new Communicator('*');
     this.state = {
+      isFull: false,
       rendered: false,
       renderOptions: {
         url: null,
@@ -20,21 +27,46 @@ export default class Docviewer extends React.Component {
     };
   }
 
-  handleFileInput = (e) => {
-    const file = e.target.files[0];
-    const fileReader = new FileReader();
-    fileReader.onload = (event) => {
-      const url = new Uint8Array(event.target.result);
+  handleComm(e) {
+    const { getSubmission } = this.props;
+    const message = Communicator.parseMessageFromEvent(e);
+    if (message && 'subject' in message) {
+      const { subject } = message;
+      if (subject === 'app.submissionSelectionChange') {
+        this.handleRerender();
+      }
+    } else if (message) {
+      const {
+        courseId,
+        assignmentId,
+        studentId,
+        submissionId
+      } = message;
+      getSubmission(courseId, assignmentId, studentId, submissionId);
+    }
+  }
+
+  componentDidMount() {
+    this.communicator.enableListener(this);
+    broadcastRawMessage('{ "subject": "app.loaded" }');
+  }
+
+  componentWillUnmount() {
+    this.communicator.removeListener();
+  }
+
+  componentDidUpdate(prevProps) {
+    const { submission } = this.props;
+    if (prevProps.submission !== submission) {
       const renderOptions = {
-        url,
-        documentId: 1234,
+        url: submission.url,
         pdfDocument: null,
+        documentId: submission.id,
         scale: 1,
         rotate: 0
       };
       this.loadApp(renderOptions);
-    };
-    fileReader.readAsArrayBuffer(file);
+    }
   }
 
   loadApp(renderOptions) {
@@ -94,23 +126,42 @@ export default class Docviewer extends React.Component {
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'pdf.worker.js';
   }
 
+  handleFullScreen = () => {
+    this.setState({ isFull: true });
+  }
+
   render() {
-    const { renderOptions } = this.state;
+    const { isFull, renderOptions } = this.state;
     return (
       <React.Fragment>
-        <PrimaryToolbar
-          UI={this.UI}
-          RENDER_OPTIONS={renderOptions}
-          handleRerender={this.handleRerender}
-          handleFullScreen={this.handleFullScreen}
-        />
-        <div className="toolbar" />
-        <input
-          type="file"
-          onChange={this.handleFileInput}
-        />
-        <div id="viewer" className="pdfViewer" />
+        <FullScreen
+          enabled={isFull}
+          onChange={fullscreen => this.setState({ isFull: fullscreen })}
+        >
+          <PrimaryToolbar
+            UI={this.UI}
+            RENDER_OPTIONS={renderOptions}
+            handleRerender={this.handleRerender}
+            handleFullScreen={this.handleFullScreen}
+          />
+          <div className="toolbar" />
+          <div id="viewer" className="pdfViewer" />
+        </FullScreen>
       </React.Fragment>
     );
   }
 }
+
+Docviewer.propTypes = {
+  getSubmission: PropTypes.func.isRequired,
+  submission: PropTypes.object
+};
+
+const select = state => ({
+  submission: state.submissions.submission,
+});
+
+export default connect(
+  select,
+  { ...submissionActions },
+)(Docviewer);
