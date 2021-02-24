@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import PDFJSAnnotate from 'pdf-annotate.js';
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import CommentsSectionItem from '../common/comments_section_item';
@@ -34,15 +33,14 @@ export class CommentsSection extends React.Component {
 
     // Move to last item in array if there are no previous comments
     if (id) {
-      const annotation = _.find(allAnnotations, {id: id});
-      if (annotation && annotation.annotationComments.length == 0) {
-        let index = _.indexOf(allAnnotations, annotation);
+      const annotation = _.find(allAnnotations, { id });
+      if (annotation && annotation.annotationComments.length === 0) {
+        const index = _.indexOf(allAnnotations, annotation);
         allAnnotations.push(allAnnotations.splice(index, 1)[0]);
         this.setState({ selectedAnnotation: id }, () => {
           handleSelection(true);
         });
-      }
-      else {
+      } else {
         this.setState({ selectedAnnotation: id }, () => {
           handleSelection(true);
         });
@@ -50,8 +48,8 @@ export class CommentsSection extends React.Component {
     }
   }
 
-  handleAnnotationDelete = (e) => {
-    const {handleRerender} = this.props;
+  handleAnnotationDelete = () => {
+    const { handleRerender } = this.props;
     handleRerender();
   }
 
@@ -62,16 +60,20 @@ export class CommentsSection extends React.Component {
   }
 
   render() {
-    const { allAnnotations, showSecondary, currentUserName, hasComments } = this.props;
+    const {
+      allAnnotations,
+      showSecondary,
+      hasComments
+    } = this.props;
     const { selectedAnnotation } = this.state;
 
     if (hasComments || selectedAnnotation) {
       return (
-        <>
+        <React.Fragment>
           <div className={`comments-section ${showSecondary ? 'lowered' : ''}`}>
             <ol className="comments-section_list">
               {
-                _.map(allAnnotations, (annotation, i) => {
+                _.map(allAnnotations, (annotation) => {
                   if (annotation.annotationComments.length > 0) {
                     return (
                       <CommentsSectionItem
@@ -87,7 +89,7 @@ export class CommentsSection extends React.Component {
                     return (
                       <CommentsSectionItem
                         key={`annotation_section_item_${annotation.id}`}
-                        selected={true}
+                        selected
                         annotation={annotation}
                         handleCommentItemSelection={this.handleCommentItemSelection}
                         currentUserName
@@ -95,11 +97,12 @@ export class CommentsSection extends React.Component {
                       />
                     );
                   }
+                  return null;
                 })
               }
             </ol>
           </div>
-        </>
+        </React.Fragment>
       );
     }
     return null;
@@ -114,7 +117,7 @@ CommentsSection.propTypes = {
   handleRerender: PropTypes.func,
 };
 
-const select = (state) => ({
+const select = state => ({
   allAnnotations: state.annotations.allAnnotations,
 });
 

@@ -86,7 +86,7 @@ export class CommentsSectionItem extends React.Component {
         <span className="comments-section_comment-user">
           { (comment && comment.user) ? comment.user.name : currentUserName }
         </span>
-        { selected &&
+        { selected && (
           <button
             type="button"
             className="comments-section_delete-button"
@@ -95,20 +95,19 @@ export class CommentsSectionItem extends React.Component {
             <i className="material-icons" aria-hidden>
               delete_outline
             </i>
-          </button> }
+          </button>)}
       </div>
     );
   }
 
   renderReply() {
-    const { annotation } = this.props;
     return (
       <li>
         <div className="flex-right">
           <button
             type="button"
             className="comments-section_reply-button"
-            onClick={() => {this.handleReply()}}
+            onClick={() => this.handleReply()}
           >
             <span>Reply</span>
           </button>
@@ -118,7 +117,7 @@ export class CommentsSectionItem extends React.Component {
   }
 
   renderForm() {
-    const { annotation, currentUserName } = this.props;
+    const { annotation } = this.props;
     const { content } = this.state;
     const { annotationComments } = annotation;
     return (
@@ -126,13 +125,13 @@ export class CommentsSectionItem extends React.Component {
         { this.renderUser() }
         <form
           className="comment-section_form"
-          onSubmit={(e) => this.handleAddComment(e, annotation, content)}
+          onSubmit={e => this.handleAddComment(e, annotation, content)}
         >
           <input
             type="text"
             className="comment-section_reply-input"
             onChange={this.handleInputChange}
-            placeholder={ annotationComments.length ? "Leave a reply" : "Leave a comment" }
+            placeholder={annotationComments.length ? 'Leave a reply' : 'Leave a comment'}
           />
         </form>
       </li>
@@ -144,31 +143,29 @@ export class CommentsSectionItem extends React.Component {
     const { reply } = this.state;
     const { annotationComments } = annotation;
     return (
-      <>
+      <React.Fragment>
         <ul>
-          { annotationComments.map((comment) => (
+          { annotationComments.map(comment => (
             <li
               key={`comments-section-item_comment-${comment.id}`}
             >
               { this.renderUser(comment) }
-              { comment.content && <p>{comment.content}</p>}
+              { comment.content && <p>{comment.content}</p> }
             </li>
           ))}
           { (selected && annotationComments.length && !reply) ? this.renderReply() : null }
           { (selected && annotationComments.length && reply) ? this.renderForm() : null }
           { selected && !annotationComments.length && this.renderForm() }
         </ul>
-      </>
+      </React.Fragment>
     );
   }
 
   render() {
     const {
       annotation,
-      selected,
       handleCommentItemSelection,
     } = this.props;
-    const { reply } = this.state;
 
     return (
       <li
@@ -197,7 +194,7 @@ export class CommentsSectionItem extends React.Component {
   }
 }
 
-const select = (state) => ({
+const select = state => ({
   currentUserName: state.settings.lis_person_name_full,
 });
 

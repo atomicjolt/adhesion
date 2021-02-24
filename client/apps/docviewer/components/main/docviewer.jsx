@@ -83,7 +83,7 @@ export class Docviewer extends React.Component {
   }
 
   findComments(allAnnotations) {
-    for (let i = 0; i < allAnnotations.length; i++) {
+    for (let i = 0; i < allAnnotations.length; i += 1) {
       if (allAnnotations[i].annotationComments.length) {
         this.setState({ hasComments: true });
         return;
@@ -165,8 +165,12 @@ export class Docviewer extends React.Component {
   }
 
   render() {
-    const { renderOptions, showSecondary, hasComments, selectedAnnotation } = this.state;
-    const { allAnnotations } = this.props;
+    const {
+      renderOptions,
+      showSecondary,
+      hasComments,
+      selectedAnnotation
+    } = this.state;
     return (
       <React.Fragment>
         <PrimaryToolbar
@@ -186,7 +190,7 @@ export class Docviewer extends React.Component {
         <div id="wrapper" className="wrapper">
           <div
             id="viewer"
-            className={`pdfViewer ${hasComments || selectedAnnotation ? 'has-comment-section': ''}`}
+            className={`pdfViewer ${hasComments || selectedAnnotation ? 'has-comment-section' : ''}`}
           />
         </div>
       </React.Fragment>

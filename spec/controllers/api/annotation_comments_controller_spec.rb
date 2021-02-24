@@ -11,7 +11,7 @@ RSpec.describe Api::AnnotationCommentsController, type: :controller do
       user: @user,
       annotation_id: @annotation_id,
       document_id: @document_id,
-      content: "this is an annotation comment"
+      content: "this is an annotation comment",
     }
     @comment = @annotation.annotation_comments.create!(params)
   end
@@ -32,7 +32,7 @@ RSpec.describe Api::AnnotationCommentsController, type: :controller do
     it "returns a new comment" do
       post :create, params: {
         annotation_id: @annotation_id,
-        document_id: '5678',
+        document_id: "5678",
         content: "This is an annotation comment",
       }
       expect(response).to be_success
