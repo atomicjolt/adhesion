@@ -1,10 +1,11 @@
 import PDFJSAnnotate from 'pdf-annotate.js';
 import * as annotationActions from '../actions/annotations';
 import * as commentActions from '../actions/comments';
-import store from '../app';
+import storeProvider from '../store/store_provider';
 
 export default class MyAdapter extends PDFJSAnnotate.StoreAdapter {
   constructor() {
+    const store = storeProvider.getStore()
     super({
       getAnnotation(documentId, annotationId) {
         store.dispatch(annotationActions.getAnnotation(documentId, annotationId));
@@ -22,13 +23,16 @@ export default class MyAdapter extends PDFJSAnnotate.StoreAdapter {
 
       getAnnotations(documentId, pageNumber) {
         store.dispatch(annotationActions.getAnnotations(documentId, pageNumber));
+        let curAnnotations;
         return new Promise((resolve, reject) => {
           store.subscribe(() => {
-            const { annotations, error } = store.getState().annotations;
-            if (annotations) {
+            let prevAnnotations = curAnnotations;
+            const { annotations, errors } = store.getState().annotations;
+            curAnnotations = annotations;
+            if (curAnnotations !== null && prevAnnotations) {
               resolve({ documentId, pageNumber, annotations });
-            } else {
-              reject(error);
+            } else if (errors) {
+              reject(errors);
             }
           });
         });

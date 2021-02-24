@@ -5,6 +5,7 @@ const defaultState = {
   error: null,
   annotation: null,
   annotations: [],
+  allAnnotations: []
 };
 function formatCommentFeilds(comment) {
   const formattedComment = { ...comment };
@@ -46,11 +47,16 @@ export default (state = defaultState, action) => {
     case Constants.GET_ANNOTATIONS_DONE: {
       const newState = _.cloneDeep(state);
       newState.annotations = [];
+      newState.allAnnotations = [];
       if (action.error) {
         newState.error = action.error.message;
       } else {
         _.forEach(action.payload, (annotation) => {
-          newState.annotations.push(formatAnnotationFeilds(annotation));
+          const formattedAnnotation = formatAnnotationFeilds(annotation);
+          if (annotation.page === action.original.params.page) {
+            newState.annotations.push(formattedAnnotation);
+          }
+          newState.allAnnotations.push(formattedAnnotation);
         });
       }
       return newState;

@@ -1,4 +1,4 @@
-class Api::AnnotationsController < ApplicationController
+class Api::AnnotationsController < Api::ApiApplicationController
   include Concerns::JwtToken
   before_action :validate_token
   before_action :parse_annotation, only: [:create, :update]
@@ -9,8 +9,7 @@ class Api::AnnotationsController < ApplicationController
   def index
     annotations = Annotation.where(
       document_id: params[:document_id],
-      page: params[:page],
-    )
+    ).by_recent_comment
     render json: annotations, :include => [:user, :annotation_comments => {:include => {:user => {:only => :name}}}]
   end
 
@@ -19,7 +18,7 @@ class Api::AnnotationsController < ApplicationController
   end
 
   def create
-    annotation = current_user.annotations.new(annotation_params)
+    annotation = current_user.annotations.create!(annotation_params)
     if annotation.save!
       render json: annotation, :include => [:user, :annotation_comments => {:include => {:user => {:only => :name}}}]
     end
@@ -32,7 +31,7 @@ class Api::AnnotationsController < ApplicationController
   end
 
   def destroy
-    if @annotation.destroy
+    if @annotation.destroy!
       head :no_content
     end
   end

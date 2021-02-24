@@ -22,11 +22,12 @@ export default class PrimaryToolbar extends React.Component {
   render() {
     const { tool } = this.state;
     const { showSecondary } = this.props;
+    // TODO: export button is hidden until implemented
+    const showExportButton = false;
     const {
       UI,
       RENDER_OPTIONS,
       handleRerender,
-      handleFullScreen,
     } = this.props;
     return (
       <nav className="primary-toolbar">
@@ -37,15 +38,15 @@ export default class PrimaryToolbar extends React.Component {
           aria-controls="viewer"
         >
           <div className="primary-controls_download">
-            <ToolButton icon="save_alt" />
-            <svg viewBox="0 0 2 26" className="primary-controls_divider">
-              <line stroke="currentColor" strokeDasharray="2, 1" strokeWidth="1" x1="1" y1="0" x2="1" y2="26" />
-            </svg>
+            { showExportButton && <ToolButton icon="save_alt" />}
+            { showExportButton && <svg viewBox="0 0 2 26" className="primary-controls_divider">
+                <line stroke="currentColor" strokeDasharray="2, 1" strokeWidth="1" x1="1" y1="0" x2="1" y2="26" />
+              </svg>
+            }
           </div>
           <DocumentControls
             RENDER_OPTIONS={RENDER_OPTIONS}
             handleRerender={handleRerender}
-            handleFullScreen={handleFullScreen}
           />
           <AnnotationControls
             UI={UI}

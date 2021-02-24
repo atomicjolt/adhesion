@@ -1,4 +1,4 @@
-class Api::AnnotationCommentsController < ApplicationController
+class Api::AnnotationCommentsController < Api::ApiApplicationController
   include Concerns::JwtToken
   before_action :validate_token
   before_action :set_annotation, only: [:create]
@@ -16,8 +16,9 @@ class Api::AnnotationCommentsController < ApplicationController
 
   # POST /api/annotation_comments
   def create
-    comment = @annotation.annotation_comments.new(comment_params)
-    if comment.save!
+    comment = @annotation.annotation_comments.create!(comment_params)
+    @annotation.last_comment_created_at = comment.created_at
+    if @annotation.save!
       render json: comment, include: :user
     end
   end

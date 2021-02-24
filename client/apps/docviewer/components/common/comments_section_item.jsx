@@ -37,15 +37,11 @@ export class CommentsSectionItem extends React.Component {
     this.setState({ content: e.target.value });
   }
 
-  handleReply = (annotation) => {
-    const { annotationComments } = annotation;
-    annotationComments.push({ id: 'temp' });
+  handleReply = () => {
     this.setState({ reply: true });
   }
 
-  cancelComment = (annotation) => {
-    const { annotationComments } = annotation;
-    annotationComments.pop();
+  cancelComment = () => {
     this.setState({
       content: '',
       reply: false,
@@ -54,10 +50,11 @@ export class CommentsSectionItem extends React.Component {
 
   handleAddComment = (e, annotation, content) => {
     e.preventDefault();
-    this.cancelComment(annotation);
+    this.cancelComment();
     PDFJSAnnotate.getStoreAdapter().addComment(
       annotation.documentId,
-      annotation.id, content
+      annotation.id,
+      content
     ).then(() => {
       PDFJSAnnotate.getStoreAdapter().getAnnotations(
         annotation.documentId,
@@ -66,13 +63,13 @@ export class CommentsSectionItem extends React.Component {
     });
   }
 
-  handleDeleteComment = (annotation, commentId) => {
-    if (commentId === 'temp') {
-      this.cancelComment(annotation);
+  handleDeleteComment = (annotation, comment) => {
+    if (!comment) {
+      this.cancelComment();
     } else {
       PDFJSAnnotate.getStoreAdapter().deleteComment(
         annotation.documentId,
-        commentId
+        comment.id
       ).then(() => {
         PDFJSAnnotate.getStoreAdapter().getAnnotations(
           annotation.documentId,
@@ -82,71 +79,85 @@ export class CommentsSectionItem extends React.Component {
     }
   }
 
-  renderReply() {
-    const { annotation } = this.props;
+  renderUser(comment) {
+    const { annotation, selected, currentUserName } = this.props;
     return (
-      <div className="flex-right">
-        <button
-          type="button"
-          className="comments-section_reply-button"
-          onClick={() => {this.handleReply(annotation)}}
-        >
-          <span>Reply</span>
-        </button>
+      <div className="user-container">
+        <span className="comments-section_comment-user">
+          { (comment && comment.user) ? comment.user.name : currentUserName }
+        </span>
+        { selected &&
+          <button
+            type="button"
+            className="comments-section_delete-button"
+            onClick={() => this.handleDeleteComment(annotation, comment)}
+          >
+            <i className="material-icons" aria-hidden>
+              delete_outline
+            </i>
+          </button> }
       </div>
     );
   }
 
-  renderForm() {
+  renderReply() {
     const { annotation } = this.props;
-    const { content } = this.state;
     return (
-      <form
-        className="comment-section_form"
-        onSubmit={(e) => this.handleAddComment(e, annotation, content)}
-      >
-        <input
-          type="text"
-          className="comment-section_reply-input"
-          onChange={this.handleInputChange}
-          placeholder="Leave a reply"
-        />
-      </form>
+      <li>
+        <div className="flex-right">
+          <button
+            type="button"
+            className="comments-section_reply-button"
+            onClick={() => {this.handleReply()}}
+          >
+            <span>Reply</span>
+          </button>
+        </div>
+      </li>
     );
   }
 
-  renderComments() {
-    const { annotation, selected, currentUserName } = this.props;
+  renderForm() {
+    const { annotation, currentUserName } = this.props;
+    const { content } = this.state;
     const { annotationComments } = annotation;
+    return (
+      <li>
+        { this.renderUser() }
+        <form
+          className="comment-section_form"
+          onSubmit={(e) => this.handleAddComment(e, annotation, content)}
+        >
+          <input
+            type="text"
+            className="comment-section_reply-input"
+            onChange={this.handleInputChange}
+            placeholder={ annotationComments.length ? "Leave a reply" : "Leave a comment" }
+          />
+        </form>
+      </li>
+    );
+  }
+
+  renderCommentsList() {
+    const { annotation, selected } = this.props;
     const { reply } = this.state;
+    const { annotationComments } = annotation;
     return (
       <>
-        { annotationComments &&
         <ul>
-          { annotationComments.map((comment, i) => (
+          { annotationComments.map((comment) => (
             <li
               key={`comments-section-item_comment-${comment.id}`}
             >
-              <div className="user-container">
-                <span className="comments-section_comment-user">
-                  {comment.user ? comment.user.name : currentUserName}
-                </span>
-                { selected &&
-                  <button
-                    type="button"
-                    className="comments-section_delete-button"
-                    onClick={() => this.handleDeleteComment(annotation, comment.id)}
-                  >
-                    <i className="material-icons" aria-hidden>
-                      delete_outline
-                    </i>
-                  </button> }
-              </div>
+              { this.renderUser(comment) }
               { comment.content && <p>{comment.content}</p>}
             </li>
           ))}
-          { selected && reply && <li>{this.renderForm()}</li> }
-        </ul>}
+          { (selected && annotationComments.length && !reply) ? this.renderReply() : null }
+          { (selected && annotationComments.length && reply) ? this.renderForm() : null }
+          { selected && !annotationComments.length && this.renderForm() }
+        </ul>
       </>
     );
   }
@@ -179,8 +190,7 @@ export class CommentsSectionItem extends React.Component {
         <div
           className="comments-section-item_comment-container"
         >
-          { this.renderComments() }
-          { selected && !reply && this.renderReply() }
+          { this.renderCommentsList() }
         </div>
       </li>
     );

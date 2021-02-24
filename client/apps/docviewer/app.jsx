@@ -7,12 +7,14 @@ import jwt from 'atomic-fuel/libs/loaders/jwt';
 import { getInitialSettings } from 'atomic-fuel/libs/reducers/settings';
 import ReactModal from 'react-modal';
 import routes from './routes';
+import storeProvider from './store/store_provider';
 import configureStore from './store/configure_store';
 import './styles/styles.scss';
 
 const settings = getInitialSettings(window.DEFAULT_SETTINGS);
-const store = configureStore({ settings, jwt: window.DEFAULT_JWT });
-export default store;
+const doConfigureStore = () => configureStore({ settings, jwt: window.DEFAULT_JWT });
+storeProvider.init(doConfigureStore);
+const store = storeProvider.getStore();
 
 class Root extends React.PureComponent {
   render() {
