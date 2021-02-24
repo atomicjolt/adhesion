@@ -84,7 +84,7 @@ DocumentControls.propTypes = {
   handleRerender: PropTypes.func,
 };
 
-const select = (state) => ({
+const select = state => ({
   annotations: state.annotations.annotations
 });
 

@@ -19,10 +19,16 @@ export default class AnnotationControls extends React.Component {
     };
   }
 
-  componentDidUpdate() {
-    const { tool } = this.state;
+  componentDidUpdate(prevProps) {
     const { UI } = this.props;
-    if (UI && tool == null) {
+    if (prevProps.UI !== UI && UI !== null) {
+      this.initializeTools(UI);
+    }
+  }
+
+  initializeTools(UI) {
+    const { tool } = this.state;
+    if (tool === null) {
       this.setState({ tool: 'selection' }, () => {
         this.disableTools();
         UI.enableEdit();
