@@ -10,23 +10,23 @@ class Api::AnnotationsController < Api::ApiApplicationController
     annotations = Annotation.where(
       document_id: params[:document_id],
     ).by_recent_comment
-    render json: annotations, :include => [:user, :annotation_comments => {:include => {:user => {:only => :name}}}]
+    render json: annotations, :include => [:user, :annotation_comments => { :include => { :user => { :only => :name } } }]
   end
 
   def show
-    render json: @annotation, :include => [:user, :annotation_comments => {:include => {:user => {:only => :name}}}]
+    render json: @annotation, :include => [:user, :annotation_comments => { :include => { :user => { :only => :name } } }]
   end
 
   def create
     annotation = current_user.annotations.create!(annotation_params)
     if annotation.save!
-      render json: annotation, :include => [:user, :annotation_comments => {:include => {:user => {:only => :name}}}]
+      render json: annotation, :include => [:user, :annotation_comments => { :include => { :user => { :only => :name } } }]
     end
   end
 
   def update
     if @annotation.update(annotation_params)
-      render json: @annotation, :include => [:user, :annotation_comments => {:include => {:user => {:only => :name}}}]
+      render json: @annotation, :include => [:user, :annotation_comments => { :include => { :user => { :only => :name } } }]
     end
   end
 

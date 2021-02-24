@@ -5,7 +5,7 @@ import storeProvider from '../store/store_provider';
 
 export default class MyAdapter extends PDFJSAnnotate.StoreAdapter {
   constructor() {
-    const store = storeProvider.getStore()
+    const store = storeProvider.getStore();
     super({
       getAnnotation(documentId, annotationId) {
         store.dispatch(annotationActions.getAnnotation(documentId, annotationId));
@@ -26,7 +26,7 @@ export default class MyAdapter extends PDFJSAnnotate.StoreAdapter {
         let curAnnotations;
         return new Promise((resolve, reject) => {
           store.subscribe(() => {
-            let prevAnnotations = curAnnotations;
+            const prevAnnotations = curAnnotations;
             const { annotations, errors } = store.getState().annotations;
             curAnnotations = annotations;
             if (curAnnotations !== null && prevAnnotations) {

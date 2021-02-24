@@ -1,9 +1,9 @@
 let store;
 export default {
-    init(configureStore){
-        store = configureStore();
-    },
-    getStore(){
-        return store;
-    }
+  init(configureStore) {
+    store = configureStore();
+  },
+  getStore() {
+    return store;
+  }
 };
