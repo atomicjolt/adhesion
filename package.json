@@ -105,7 +105,6 @@
     "react-dnd-html5-backend": "^2.3.0",
     "react-dom": "^16.12.0",
     "react-dropzone-s3-uploader": "^1.0.0-rc.3",
-    "react-full-screen": "0.2.4",
     "react-modal": "^3.10.1",
     "react-modal1": "npm:react-modal@1.9.7",
     "react-paginate": "^5.2.4",

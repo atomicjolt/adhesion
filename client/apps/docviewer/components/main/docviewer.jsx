@@ -2,7 +2,6 @@ import React from 'react';
 import PDFJSAnnotate from 'pdf-annotate.js';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import FullScreen from 'react-full-screen';
 import * as pdfjsLib from 'pdfjs-dist/webpack';
 import * as pdfjsViewer from 'pdfjs-dist/web/pdf_viewer';
 import Communicator, { broadcastRawMessage } from 'atomic-fuel/libs/communications/communicator';
@@ -134,19 +133,14 @@ export class Docviewer extends React.Component {
     const { isFull, renderOptions } = this.state;
     return (
       <React.Fragment>
-        <FullScreen
-          enabled={isFull}
-          onChange={fullscreen => this.setState({ isFull: fullscreen })}
-        >
-          <PrimaryToolbar
-            UI={this.UI}
-            RENDER_OPTIONS={renderOptions}
-            handleRerender={this.handleRerender}
-            handleFullScreen={this.handleFullScreen}
-          />
-          <div className="toolbar" />
-          <div id="viewer" className="pdfViewer" />
-        </FullScreen>
+        <PrimaryToolbar
+          UI={this.UI}
+          RENDER_OPTIONS={renderOptions}
+          handleRerender={this.handleRerender}
+          handleFullScreen={this.handleFullScreen}
+        />
+        <div className="toolbar" />
+        <div id="viewer" className="pdfViewer" />
       </React.Fragment>
     );
   }
