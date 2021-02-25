@@ -13,11 +13,11 @@ const requests = [
 
 export const Constants = wrapper(actions, requests);
 
-export const getComments = (documentId, pageNumber) => ({
+export const getComments = (documentId, annotationId) => ({
   method: Network.GET,
   type: Constants.GET_COMMENTS,
   url: '/api/annotation_comments',
-  params: { document_id: documentId, page: pageNumber }
+  params: { document_id: documentId, annotation_id: annotationId }
 });
 
 export const addComment = (documentId, annotationId, content) => ({

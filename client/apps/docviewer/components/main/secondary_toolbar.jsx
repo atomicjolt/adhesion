@@ -38,6 +38,7 @@ export default class SecondaryToolbar extends React.Component {
     UI.setHighlight(highlightColor);
     UI.setStrikeout(color);
     UI.setArea(color);
+    UI.setPoint(color);
   }
 
   choseColor = (color) => {
@@ -46,8 +47,9 @@ export default class SecondaryToolbar extends React.Component {
 
     switch (tool) {
       case 'point':
-        // TODO: PDFAnnotate does not support other point colors
-        this.setState({ color });
+        this.setState({ color }, () => {
+          UI.setPoint(color);
+        });
         break;
       case 'highlight':
         this.setState({ highlightColor: color }, () => {
