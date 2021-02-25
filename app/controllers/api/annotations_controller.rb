@@ -14,9 +14,7 @@ class Api::AnnotationsController < Api::ApiApplicationController
       :user,
       {
         annotation_comments: {
-          include: {
-            user: { only: :name },
-          },
+          include: :user,
         },
       },
     ]
@@ -27,9 +25,7 @@ class Api::AnnotationsController < Api::ApiApplicationController
       :user,
       {
         annotation_comments: {
-          include: {
-            user: { only: :name },
-          },
+          include: :user,
         },
       },
     ]
@@ -42,9 +38,7 @@ class Api::AnnotationsController < Api::ApiApplicationController
         :user,
         {
           annotation_comments: {
-            include: {
-              user: { only: :name },
-            },
+            include: :user,
           },
         },
       ]
@@ -52,14 +46,14 @@ class Api::AnnotationsController < Api::ApiApplicationController
   end
 
   def update
-    if @annotation.update(annotation_params)
+    if @annotation.user.id != current_user.id
+      user_not_authorized "Only the original author may edit this annotation"
+    elsif @annotation.update!(annotation_params)
       render json: @annotation, include: [
         :user,
         {
           annotation_comments: {
-            include: {
-              user: { only: :name },
-            },
+            include: :user,
           },
         },
       ]
@@ -67,7 +61,9 @@ class Api::AnnotationsController < Api::ApiApplicationController
   end
 
   def destroy
-    if @annotation.destroy!
+    if @annotation.user.id != current_user.id
+      user_not_authorized "Only the original author may edit this annotation"
+    elsif @annotation.destroy!
       head :no_content
     end
   end

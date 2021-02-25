@@ -73,8 +73,8 @@ export default (state = defaultState, action) => {
     }
     case Constants.EDIT_ANNOTATION_DONE: {
       const newState = _.cloneDeep(state);
-      if (action.errors) {
-        newState.errors = action.errors;
+      if (action.error) {
+        newState.error = action.error;
       } else {
         const annotation = action.payload;
         newState.annotation = formatAnnotationFeilds(annotation);
@@ -83,8 +83,8 @@ export default (state = defaultState, action) => {
     }
     case Constants.DELETE_ANNOTATION_DONE: {
       const newState = _.cloneDeep(state);
-      if (action.errors) {
-        newState.errors = action.errors;
+      if (action.error) {
+        newState.error = action.error;
       } else {
         newState.annotation = true;
       }

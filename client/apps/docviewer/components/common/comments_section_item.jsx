@@ -80,13 +80,26 @@ export class CommentsSectionItem extends React.Component {
   }
 
   renderUser(comment) {
-    const { annotation, selected, currentUserName } = this.props;
+    const {
+      annotation,
+      selected,
+      settings
+    } = this.props;
+    const {
+      display_name: currentUserName,
+      lms_user_id: currentUserId
+    } = settings;
+    let commentUserId;
+    if (comment) {
+      commentUserId = comment.user.lms_user_id;
+    }
+
     return (
       <div className="user-container">
         <span className="comments-section_comment-user">
           { (comment && comment.user) ? comment.user.name : currentUserName }
         </span>
-        { selected && (
+        { commentUserId && (currentUserId === commentUserId) && selected && (
           <button
             type="button"
             className="comments-section_delete-button"
@@ -116,13 +129,13 @@ export class CommentsSectionItem extends React.Component {
     );
   }
 
-  renderForm() {
+  renderForm(comment) {
     const { annotation } = this.props;
     const { content } = this.state;
     const { annotationComments } = annotation;
     return (
       <li>
-        { this.renderUser() }
+        { comment ? this.renderUser(comment) : this.renderUser() }
         <form
           className="comment-section_form"
           onSubmit={e => this.handleAddComment(e, annotation, content)}
@@ -194,15 +207,16 @@ export class CommentsSectionItem extends React.Component {
   }
 }
 
-const select = state => ({
-  currentUserName: state.settings.lis_person_name_full,
-});
-
 CommentsSectionItem.propTypes = {
   annotation: PropTypes.object,
   selected: PropTypes.bool,
+  settings: PropTypes.object,
   handleCommentItemSelection: PropTypes.func,
 };
+
+const select = state => ({
+  settings: state.settings,
+});
 
 export default connect(
   select,

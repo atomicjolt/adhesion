@@ -25,7 +25,9 @@ class Api::AnnotationCommentsController < Api::ApiApplicationController
 
   # DELETE /api/annotation_comments/:id
   def destroy
-    if @annotation_comment.destroy!
+    if @annotation_comment.user.id != current_user.id
+      user_not_authorized "Only the original author may edit this annotation comment"
+    elsif @annotation_comment.destroy!
       head :no_content
     end
   end
