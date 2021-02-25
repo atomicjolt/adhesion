@@ -7,6 +7,7 @@ import * as pdfjsViewer from 'pdfjs-dist/web/pdf_viewer';
 import Communicator, { broadcastRawMessage } from 'atomic-fuel/libs/communications/communicator';
 import MyAdapter from '../../libs/my_adapter';
 import PrimaryToolbar from './primary_toolbar';
+import CommentsSection from './comments_section';
 import * as submissionActions from '../../actions/submissions';
 
 export class Docviewer extends React.Component {
@@ -14,14 +15,18 @@ export class Docviewer extends React.Component {
     super();
     this.communicator = new Communicator('*');
     this.state = {
-      isFull: false,
       rendered: false,
+      showSecondary: false,
+      hasComments: false,
+      selectedAnnotation: false,
       renderOptions: {
         url: null,
         documentId: null,
         pdfDocument: null,
+        numPages: null,
         scale: 1,
-        rotate: 0
+        rotate: 0,
+        pageHeight: null
       }
     };
   }
@@ -55,21 +60,48 @@ export class Docviewer extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { submission } = this.props;
+    const { submission, allAnnotations } = this.props;
+    if (prevProps.allAnnotations !== allAnnotations) {
+      this.findComments(allAnnotations);
+    }
     if (prevProps.submission !== submission) {
       const renderOptions = {
         url: submission.url,
         pdfDocument: null,
         documentId: submission.id,
+        numPages: null,
         scale: 1,
-        rotate: 0
+        rotate: 0,
+        pageHeight: null,
       };
       this.loadApp(renderOptions);
     }
   }
 
+  handleSelection = (selectedAnnotation) => {
+    this.setState({ selectedAnnotation });
+  }
+
+  findComments(allAnnotations) {
+    for (let i = 0; i < allAnnotations.length; i += 1) {
+      if (allAnnotations[i].annotationComments.length) {
+        this.setState({ hasComments: true });
+        return;
+      }
+    }
+    this.setState({ hasComments: false });
+  }
+
+  toggleSecondary = (tool) => {
+    if (tool) {
+      this.setState({ showSecondary: true });
+    } else {
+      this.setState({ showSecondary: false });
+    }
+  }
+
   loadApp(renderOptions) {
-    this.setState({ renderOptions }, async() => {
+    this.setState({ renderOptions }, () => {
       this.loadAdapter();
       this.loadPdf();
     });
@@ -78,14 +110,21 @@ export class Docviewer extends React.Component {
   renderPdf = () => {
     const { rendered, renderOptions } = this.state;
     if (rendered) return;
-    this.UI.renderPage(1, renderOptions).then(([pdfPage]) => {
-      const viewport = pdfPage.getViewport({
-        scale: renderOptions.scale,
-        rotation: renderOptions.rotate,
+    for (let page = 0; page < renderOptions.numPages; page += 1) {
+      this.UI.renderPage(page + 1, renderOptions).then(([pdfPage]) => {
+        const viewport = pdfPage.getViewport({
+          scale: renderOptions.scale,
+          rotation: renderOptions.rotate,
+        });
+        this.setState({
+          rendered: true,
+          renderOptions: {
+            ...renderOptions,
+            pageHeight: viewport.height
+          }
+        });
       });
-      this.PAGE_HEIGHT = viewport.height;
-      this.setState({ rendered: true });
-    });
+    }
   }
 
   handleRerender = () => {
@@ -101,7 +140,8 @@ export class Docviewer extends React.Component {
       this.setState({
         renderOptions: {
           ...renderOptions,
-          pdfDocument: pdf
+          pdfDocument: pdf,
+          numPages: pdf.numPages
         }
       });
       this.viewer.innerHTML = '';
@@ -110,7 +150,6 @@ export class Docviewer extends React.Component {
         const page = this.UI.createPage(i + 1);
         this.viewer.appendChild(page);
       }
-      this.viewer.appendChild(this.UI.createPage(1));
       window.pdfjsViewer = pdfjsViewer;
       this.handleRerender();
     });
@@ -125,22 +164,35 @@ export class Docviewer extends React.Component {
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'pdf.worker.js';
   }
 
-  handleFullScreen = () => {
-    this.setState({ isFull: true });
-  }
-
   render() {
-    const { isFull, renderOptions } = this.state;
+    const {
+      renderOptions,
+      showSecondary,
+      hasComments,
+      selectedAnnotation
+    } = this.state;
     return (
       <React.Fragment>
         <PrimaryToolbar
           UI={this.UI}
           RENDER_OPTIONS={renderOptions}
           handleRerender={this.handleRerender}
-          handleFullScreen={this.handleFullScreen}
+          toggleSecondary={this.toggleSecondary}
+          showSecondary={showSecondary}
         />
-        <div className="toolbar" />
-        <div id="viewer" className="pdfViewer" />
+        <CommentsSection
+          UI={this.UI}
+          showSecondary={showSecondary}
+          hasComments={hasComments}
+          handleRerender={this.handleRerender}
+          handleSelection={this.handleSelection}
+        />
+        <div id="wrapper" className="wrapper">
+          <div
+            id="viewer"
+            className={`pdfViewer ${hasComments || selectedAnnotation ? 'has-comment-section' : ''}`}
+          />
+        </div>
       </React.Fragment>
     );
   }
@@ -148,11 +200,13 @@ export class Docviewer extends React.Component {
 
 Docviewer.propTypes = {
   getSubmission: PropTypes.func.isRequired,
-  submission: PropTypes.object
+  submission: PropTypes.object,
+  allAnnotations: PropTypes.arrayOf(PropTypes.shape({}))
 };
 
 const select = state => ({
   submission: state.submissions.submission,
+  allAnnotations: state.annotations.allAnnotations,
 });
 
 export default connect(

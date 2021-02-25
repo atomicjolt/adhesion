@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :annotation do
-    document_id { "00000000-0000-0000-0000-000000000000" }
+    user
+    document_id { "1234" }
     annotation_type { "area" }
     color { "FF0000" }
     page { 1 }

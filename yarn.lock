@@ -8285,7 +8285,7 @@ pbkdf2@^3.0.3:
 
 pdf-annotate.js@atomicjolt/pdf-annotate.js:
   version "0.0.0"
-  resolved "https://codeload.github.com/atomicjolt/pdf-annotate.js/tar.gz/bd4c9e3d8d2eaa0dd4c0667fe415fb1ea4a7d6a7"
+  resolved "https://codeload.github.com/atomicjolt/pdf-annotate.js/tar.gz/8c513a7fe929b28b6c462c7bc8d5720bbbd37d36"
   dependencies:
     create-stylesheet "^0.3.0"
 
