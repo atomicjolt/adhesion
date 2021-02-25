@@ -11,12 +11,15 @@ RSpec.describe Api::AnnotationsController, type: :controller do
       allow(controller).to receive(:current_application_instance).and_return(@application_instance)
       allow(Application).to receive(:find_by).with(:lti_key).and_return(@application_instance)
       request.headers["Authorization"] = @user_token_header
-      @annotations = FactoryBot.create_list(:annotation, 5)
+      @annotation = FactoryBot.create(:annotation, user: @user)
     end
 
     describe "GET #index" do
       it "returns all annotations" do
-        get :index, params: { document_id: @annotations.first[:document_id], page: @annotations.first[:page] }
+        4.times do
+          FactoryBot.create(:annotation, user: @user)
+        end
+        get :index, params: { document_id: @annotation[:document_id], page: @annotation[:page] }
         expect(response).to be_success
         annotations = JSON.parse(response.body)
         expect(annotations.count).to eq(5)
@@ -25,8 +28,8 @@ RSpec.describe Api::AnnotationsController, type: :controller do
 
     describe "GET #show" do
       it "returns a single annotation" do
-        id = @annotations.first[:id]
-        document_id = @annotations.first[:document_id]
+        id = @annotation[:id]
+        document_id = @annotation[:document_id]
         get :show, params: {
           id: id,
           document_id: document_id,
@@ -61,8 +64,8 @@ RSpec.describe Api::AnnotationsController, type: :controller do
 
     describe "POST #update" do
       it "returns the updated annotation" do
-        id = @annotations.first[:id]
-        document_id = @annotations.first[:document_id]
+        id = @annotation[:id]
+        document_id = @annotation[:document_id]
         put :update, params: {
           id: id,
           document_id: document_id,
@@ -79,8 +82,8 @@ RSpec.describe Api::AnnotationsController, type: :controller do
 
     describe "GET #destroy" do
       it "returns nothing if annotation was deleted" do
-        id = @annotations.first[:id]
-        document_id = @annotations.first[:document_id]
+        id = @annotation[:id]
+        document_id = @annotation[:document_id]
         put :destroy, params: {
           id: id,
           document_id: document_id,
