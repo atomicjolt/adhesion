@@ -9,6 +9,7 @@ import jwt from 'atomic-fuel/libs/loaders/jwt';
 import PropTypes from 'prop-types';
 import Index from './components/layout/index';
 import initResizeHandler from '../../common/libs/resize_iframe';
+import storeProvider from './store/store_provider';
 import configureStore from './store/configure_store';
 
 import './styles/styles.scss';
@@ -34,7 +35,10 @@ class Root extends React.PureComponent {
 }
 
 const settings = getInitialSettings(window.DEFAULT_SETTINGS);
-const store = configureStore({ settings, jwt: window.DEFAULT_JWT });
+const doConfigureStore = () => configureStore({ settings, jwt: window.DEFAULT_JWT });
+storeProvider.init(doConfigureStore);
+const store = storeProvider.getStore();
+
 if (window.DEFAULT_JWT) { // Setup JWT refresh
   jwt(store.dispatch, settings.user_id);
 }

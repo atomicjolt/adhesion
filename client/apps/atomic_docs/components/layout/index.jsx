@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { getSessionStatus } from '../../actions/application';
 
 import PdfDisplay from '../common/pdf_display';
+import Docviewer from '../main/docviewer';
 
 const select = state => ({
   statusUrl: state.settings.status_url,
@@ -11,41 +12,12 @@ const select = state => ({
   sessionError: state.application.sessionError,
 });
 
-export class Index extends React.Component {
-
-  static propTypes = {
-    getSessionStatus: PropTypes.func.isRequired,
-    statusUrl: PropTypes.string.isRequired,
-    pdfDownloadUrl: PropTypes.string,
-    sessionError: PropTypes.bool,
-  };
-
-  static defaultProps = {}
-
-  componentDidMount() {
-    const {
-      statusUrl,
-    } = this.props;
-
-    this.props.getSessionStatus(statusUrl);
-  }
-
+export default class Index extends React.Component {
   render() {
-    const {
-      pdfDownloadUrl,
-      sessionError,
-    } = this.props;
-
     return (
       <div className="app-index">
-        <PdfDisplay
-          pdfDownloadUrl={pdfDownloadUrl}
-          sessionError={sessionError}
-        />
+        <Docviewer />
       </div>
     );
   }
-
 }
-
-export default connect(select, { getSessionStatus })(Index);
