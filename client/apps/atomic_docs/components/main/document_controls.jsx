@@ -41,12 +41,12 @@ export class DocumentControls extends React.Component {
   }
 
   render() {
-    const { annotations } = this.props;
+    const { allAnnotations } = this.props;
     const { fullscreen } = this.state;
     return (
       <nav className="document-controls">
         <ToolButton
-          disabled={annotations && annotations.length > 0}
+          disabled={allAnnotations && allAnnotations.length > 0}
           icon="rotate_90_degrees_ccw"
           onClick={this.rotate}
         />
@@ -82,10 +82,11 @@ export class DocumentControls extends React.Component {
 DocumentControls.propTypes = {
   RENDER_OPTIONS: PropTypes.object,
   handleRerender: PropTypes.func,
+  allAnnotations: PropTypes.array,
 };
 
 const select = state => ({
-  annotations: state.annotations.annotations
+  allAnnotations: state.annotations.allAnnotations
 });
 
 export default connect(

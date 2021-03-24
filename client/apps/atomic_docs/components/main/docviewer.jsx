@@ -15,7 +15,7 @@ export class Docviewer extends React.Component {
     super();
     this.communicator = new Communicator('*');
     this.state = {
-      rendered: false,
+      rendered: true,
       showSecondary: false,
       hasComments: false,
       selectedAnnotation: false,
@@ -53,10 +53,12 @@ export class Docviewer extends React.Component {
   componentDidMount() {
     this.communicator.enableListener(this);
     broadcastRawMessage('{ "subject": "app.loaded" }');
+    window.addEventListener('resize', this.updateDimensions);
   }
 
   componentWillUnmount() {
     this.communicator.removeListener();
+    window.removeEventListener('resize', this.updateDimensions);
   }
 
   componentDidUpdate(prevProps) {
@@ -76,6 +78,27 @@ export class Docviewer extends React.Component {
       };
       this.loadApp(renderOptions);
     }
+  }
+
+  handleRerender = () => {
+    const { rendered } = this.state;
+    if (rendered) {
+      this.setState({ rendered: false }, () => {
+        this.renderPdf();
+      });
+    }
+  }
+
+  updateDimensions = () => {
+    const { renderOptions } = this.state;
+    const scale = parseFloat((window.innerWidth / 1000).toFixed(2));
+
+    this.setState({
+      renderOptions: {
+        ...renderOptions,
+        scale,
+      }
+    }, () => this.handleRerender());
   }
 
   handleSelection = (selectedAnnotation) => {
@@ -110,27 +133,14 @@ export class Docviewer extends React.Component {
   renderPdf = () => {
     const { rendered, renderOptions } = this.state;
     if (rendered) return;
+    const promises = [];
     for (let page = 0; page < renderOptions.numPages; page += 1) {
-      this.UI.renderPage(page + 1, renderOptions).then(([pdfPage]) => {
-        const viewport = pdfPage.getViewport({
-          scale: renderOptions.scale,
-          rotation: renderOptions.rotate,
-        });
-        this.setState({
-          rendered: true,
-          renderOptions: {
-            ...renderOptions,
-            pageHeight: viewport.height
-          }
-        });
-      });
+      promises.push(this.UI.renderPage(page + 1, renderOptions));
     }
-  }
-
-  handleRerender = () => {
-    this.setState({ rendered: false }, () => {
-      this.renderPdf();
-    });
+    Promise.all(promises)
+      .then(() => {
+        this.setState({ rendered: true });
+      });
   }
 
   loadPdf() {
@@ -141,7 +151,8 @@ export class Docviewer extends React.Component {
         renderOptions: {
           ...renderOptions,
           pdfDocument: pdf,
-          numPages: pdf.numPages
+          numPages: pdf.numPages,
+          scale: parseFloat((window.innerWidth / 1000).toFixed(2))
         }
       });
       this.viewer.innerHTML = '';
