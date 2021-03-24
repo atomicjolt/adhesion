@@ -14,7 +14,7 @@ ManifestPlugin.options.merge = true;
 // Convert environment to Webpack config.
 const config = environment.toWebpackConfig();
 
-const globalJavascript = 'global_javascript'
+const globalJavascript = 'global_javascript';
 const standardConfig = _.cloneDeep(config);
 const globalJavascriptConfig = _.cloneDeep(config);
 

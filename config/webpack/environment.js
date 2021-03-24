@@ -1,5 +1,4 @@
 const { environment } = require('@rails/webpacker')
-const path = require('path');
 
 const graphqlLoader = {
   test: /\.(graphql|gql)$/,
