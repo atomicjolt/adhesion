@@ -1,3 +1,6 @@
+const $ = require('jquery');
+const _ = require('lodash');
+
 const CANVAS_DOMAIN = window.location.host;
 const SPEED_GRADER_REGEX = /\/courses\/\d+\/gradebook\/speed_grader/;
 const STUDENT_REVIEW_REGEX = /\/courses\/\d+\/assignments\/\d+\/submissions\/\d+/;
@@ -54,6 +57,21 @@ $(() => {
     }
   }
 
+  function sendPageMessage(iframe, page) {
+    let pageMessage;
+    if (page === 'speed_grader') {
+      pageMessage = {
+        subject: 'app.speedgraderPage',
+      };
+    } else if (page === 'student_review') {
+      pageMessage = {
+        subject: 'app.studentReviewPage',
+      };
+    }
+
+    iframe.contentWindow.postMessage(pageMessage, '*');
+  }
+
   function sendSubmissionMessage(iframe, href) {
     if (href) {
       const submissionMessage = {
@@ -87,29 +105,32 @@ $(() => {
           iframeDiv.remove();
           iframeHolder.append(`<iframe id="atomicdocs" allow="fullscreen" src="https://${CANVAS_DOMAIN}/courses/${ENV.course_id}/external_tools/retrieve?display=borderless&url=https://atomicdocs.atomicjolt.xyz/lti_launches?launch_context=ATOMICDOCS" width="100%" height="0" scrolling="yes" style="border:none;">`);
         }
-        if ($('#atomicdocs').length && APP_LOADED) {
-          // Send latest and last submission info
+        if ($('#atomicdocs').length) {
           const iframe = document.getElementById('atomicdocs');
-          const { href } = submissionLinks[submissionLinks.length - 1];
-          sendSubmissionMessage(iframe, href);
+          sendPageMessage(iframe, 'speed_grader');
+          if (APP_LOADED) {
+            // Send latest and last submission info
+            const { href } = submissionLinks[submissionLinks.length - 1];
+            sendSubmissionMessage(iframe, href);
 
-          // Setup listener for submission selection dropdown
-          if (submissionSelect.length) {
-            submissionSelect[0].addEventListener('change', () => {
-              const newIframe = document.getElementById('atomicdocs');
-              sendSubmissionMessage(newIframe);
-              initializeApp();
+            // Setup listener for submission selection dropdown
+            if (submissionSelect.length) {
+              submissionSelect[0].addEventListener('change', () => {
+                const newIframe = document.getElementById('atomicdocs');
+                sendSubmissionMessage(newIframe);
+                initializeApp();
+              });
+            }
+
+            // Prevent default behavior of submission links and attatch
+            // event listener to send the message to the iframe
+            submissionLinks.off('click');
+            submissionLinks.on('click', (e) => {
+              sendSubmissionMessage(iframe, e.target.href);
+              return false;
             });
+            clearInterval(findElement);
           }
-
-          // Prevent default behavior of submission links and attatch
-          // event listener to send the message to the iframe
-          submissionLinks.off('click');
-          submissionLinks.on('click', (e) => {
-            sendSubmissionMessage(iframe, e.target.href);
-            return false;
-          });
-          clearInterval(findElement);
         }
       }, 200);
     });

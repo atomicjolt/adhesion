@@ -42,7 +42,8 @@
     },
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/client/testing/__mocks__/file_mock.js",
-      "\\.(sass|scss|css|less)$": "<rootDir>/client/testing/__mocks__/style_mock.js"
+      "\\.(sass|scss|css|less)$": "<rootDir>/client/testing/__mocks__/style_mock.js",
+      "\\.worker.js": "<rootDir>/client/testing/__mocks__/worker_mock.js"
     },
     "setupFilesAfterEnv": [
       "<rootDir>/client/testing/shim.js",
@@ -87,6 +88,7 @@
     "graphql": "^14.5.8",
     "graphql-tag": "^2.5.0",
     "history": "^4.10.1",
+    "jquery": "^3.6.0",
     "lodash": "^4.17.20",
     "mime": "^2.4.4",
     "moment": "^2.22.2",

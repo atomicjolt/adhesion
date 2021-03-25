@@ -17,9 +17,13 @@ class AtomicDocJob < ApplicationJob
     filename, extension = full_filename.split(".")
 
     if extension != "pdf"
-      file = Tempfile.new([filename, ".pdf"])
-
-      Libreconv.convert(raw.file.path, file.path)
+      atomic_doc.update(
+        status: "invalid_file_type",
+      )
+      return
+      # TODO: Waiting on AU approval for LibrOffice conversion
+      # file = Tempfile.new([filename, ".pdf"])
+      # Libreconv.convert(raw.file.path, file.path)
     else
       file = raw.file
     end

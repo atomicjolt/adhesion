@@ -123,6 +123,8 @@ Rails.application.config.middleware.insert_before Warden::Manager, Apartment::El
     Application::AUTH
   elsif subdomain == Application::ADMIN
     Application::ADMIN
+  elsif subdomain == Application::ATOMICDOCS
+    Application::ATOMICDOCS
   elsif application_instance = ApplicationInstance.find_by(lti_key: key)
     application_instance.tenant
   elsif application_instance = ApplicationInstance.find_by(domain: host)
