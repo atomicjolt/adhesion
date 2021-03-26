@@ -1,4 +1,3 @@
-const $ = require('jquery');
 const _ = require('lodash');
 
 const CANVAS_DOMAIN = window.location.host;
@@ -148,9 +147,12 @@ $(() => {
         parentDiv.last().append(`<iframe id="atomicdocs" allow="fullscreen" src="https://${CANVAS_DOMAIN}/courses/${course}/external_tools/retrieve?display=borderless&url=https://atomicdocs.atomicjolt.xyz/lti_launches?launch_context=ATOMICDOCS" width="100%" height="100%" scrolling="yes" style="border:none;">`);
         ADDED_FRAME = true;
       }
-      if (atomicdocs.length && APP_LOADED) {
-        sendSubmissionMessage(atomicdocs[0], link);
-        clearInterval(findElement);
+      if (atomicdocs.length) {
+        sendPageMessage(atomicdocs[0], 'student_review');
+        if (APP_LOADED) {
+          sendSubmissionMessage(atomicdocs[0], link);
+          clearInterval(findElement);
+        }
       }
     }, 200);
   }

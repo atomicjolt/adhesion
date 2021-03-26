@@ -9,7 +9,6 @@ describe('layout index', () => {
 
   const text = 'hello';
   const children = <h1>{text}</h1>;
-  console.log("children", children);
 
   beforeEach(() => {
     props = {

@@ -88,7 +88,6 @@
     "graphql": "^14.5.8",
     "graphql-tag": "^2.5.0",
     "history": "^4.10.1",
-    "jquery": "^3.6.0",
     "lodash": "^4.17.20",
     "mime": "^2.4.4",
     "moment": "^2.22.2",
