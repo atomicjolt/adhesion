@@ -9,6 +9,9 @@ class User < ApplicationRecord
   has_many :permissions, dependent: :destroy
   has_many :roles, through: :permissions
 
+  has_many :annotations, dependent: :destroy
+  has_many :annotation_comments, dependent: :destroy
+
   validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, on: :create }
   validates :password, password_strength: { use_dictionary: true }, allow_nil: true
 

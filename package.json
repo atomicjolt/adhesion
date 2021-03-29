@@ -42,7 +42,8 @@
     },
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/client/testing/__mocks__/file_mock.js",
-      "\\.(sass|scss|css|less)$": "<rootDir>/client/testing/__mocks__/style_mock.js"
+      "\\.(sass|scss|css|less)$": "<rootDir>/client/testing/__mocks__/style_mock.js",
+      "\\.worker.js": "<rootDir>/client/testing/__mocks__/worker_mock.js"
     },
     "setupFilesAfterEnv": [
       "<rootDir>/client/testing/shim.js",
@@ -91,6 +92,7 @@
     "mime": "^2.4.4",
     "moment": "^2.22.2",
     "moment-timezone": "^0.5.27",
+    "pdf-annotate.js": "atomicjolt/pdf-annotate.js",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-accessible-dropdown": "^1.0.2",

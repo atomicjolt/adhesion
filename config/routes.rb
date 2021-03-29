@@ -83,6 +83,9 @@ Rails.application.routes.draw do
     resources :canvas_accounts, only: [:index]
     # This endpoint provides access to users belonging to the Canvas account associated with the LTI launch.
     resources :canvas_account_users, only: [:index, :show, :update]
+    resources :annotations
+    resources :annotation_comments, only: [:index, :create, :destroy]
+    resources :assignment_submissions, only: [:index]
 
     resources :testing_centers_accounts
     resources :scorm_courses do

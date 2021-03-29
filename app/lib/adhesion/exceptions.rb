@@ -41,5 +41,11 @@ module Adhesion
         super(msg)
       end
     end
+
+    class AtomicDocsGetAttachment < StandardError
+      def initialize(msg = "Unable to get attachment")
+        super(msg)
+      end
+    end
   end
 end

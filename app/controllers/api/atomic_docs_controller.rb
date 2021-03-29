@@ -42,6 +42,10 @@ class Api::AtomicDocsController < ApplicationController
     end
 
     atomic_doc = session.atomic_doc
+    if atomic_doc.status == "invalid_file_type"
+      render json: { error: "invalid_file_type" }, status: 403
+      return
+    end
     if atomic_doc.status == "complete"
       filename = atomic_doc.file_path.split("/").last
       render json: {
