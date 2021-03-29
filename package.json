@@ -42,7 +42,8 @@
     },
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/client/testing/__mocks__/file_mock.js",
-      "\\.(sass|scss|css|less)$": "<rootDir>/client/testing/__mocks__/style_mock.js"
+      "\\.(sass|scss|css|less)$": "<rootDir>/client/testing/__mocks__/style_mock.js",
+      "\\.worker.js": "<rootDir>/client/testing/__mocks__/worker_mock.js"
     },
     "setupFilesAfterEnv": [
       "<rootDir>/client/testing/shim.js",

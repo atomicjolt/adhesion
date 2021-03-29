@@ -53,11 +53,11 @@ export class CommentsSection extends React.Component {
           this.setState({ selectedAnnotation: id }, () => {
             handleSelection(true);
           });
+        } else {
+          this.setState({ selectedAnnotation: id }, () => {
+            handleSelection(true);
+          });
         }
-      } else {
-        this.setState({ selectedAnnotation: id }, () => {
-          handleSelection(true);
-        });
       }
     }
   }
@@ -126,14 +126,15 @@ CommentsSection.propTypes = {
   UI: PropTypes.object,
   showSecondary: PropTypes.bool,
   hasComments: PropTypes.bool,
-  handleSelection: PropTypes.func,
   handleRerender: PropTypes.func,
+  handleSelection: PropTypes.func,
   settings: PropTypes.object,
+  allAnnotations: PropTypes.arrayOf(PropTypes.shape({}))
 };
 
 const select = state => ({
-  allAnnotations: state.annotations.allAnnotations,
   settings: state.settings,
+  allAnnotations: state.annotations.allAnnotations,
 });
 
 export default connect(

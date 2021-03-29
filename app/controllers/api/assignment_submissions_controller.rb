@@ -24,11 +24,7 @@ class Api::AssignmentSubmissionsController < Api::ApiApplicationController
     if @attachment.present?
       render json: @attachment
     else
-      raise Adhesion::Exceptions::DocviewerGetAttachment
+      raise Adhesion::Exceptions::AtomicDocsGetAttachment
     end
-
-    # In the future we will want to send the binary data back for converted file types as shown below:
-    # @file = open(attachment["url"]).read
-    # send_data @file, filename: attachment["display_name"]
   end
 end

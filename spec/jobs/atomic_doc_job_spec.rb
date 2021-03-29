@@ -40,11 +40,14 @@ RSpec.describe AtomicDocJob, type: :job do
     end
 
     it "processes" do
-      expect_any_instance_of(subject).to receive(:copy_to_storage).and_return("storage_path")
+      _filename, extension = path.split(".")
+      unless extension != "pdf"
+        expect_any_instance_of(subject).to receive(:copy_to_storage).and_return("storage_path")
 
-      expect do
-        subject.perform_now(atomic_doc)
-      end.to change { atomic_doc.file_path }.to("storage_path")
+        expect do
+          subject.perform_now(atomic_doc)
+        end.to change { atomic_doc.file_path }.to("storage_path")
+      end
     end
   end
 end

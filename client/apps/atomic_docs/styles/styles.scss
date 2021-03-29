@@ -1,4 +1,10 @@
 // Partials
 @import "partials/pdf_display";
 
+@import "partials/base";
+
+@import "partials/index";
+
 @import 'react-pdf/dist/Page/AnnotationLayer.css';
+
+@import "pdf_viewer.css";
