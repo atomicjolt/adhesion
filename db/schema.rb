@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_14_195556) do
+ActiveRecord::Schema.define(version: 2021_02_10_195029) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -270,6 +270,7 @@ ActiveRecord::Schema.define(version: 2020_09_14_195556) do
     t.string "context_id"
     t.string "tool_consumer_instance_guid"
     t.bigint "scorm_course_id"
+    t.string "resource_link_id"
     t.index ["context_id"], name: "index_lti_launches_on_context_id"
     t.index ["scorm_course_id"], name: "index_lti_launches_on_scorm_course_id"
     t.index ["token", "context_id"], name: "index_lti_launches_on_token_and_context_id", unique: true

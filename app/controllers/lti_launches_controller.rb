@@ -16,10 +16,19 @@ class LtiLaunchesController < ApplicationController
       render file: File.join(Rails.root, "public", "disabled.html")
     end
 
-    # LTI advantage example code
     if @lti_token
+      # LTI advantage example code
       @lti_advantage_examples = LtiAdvantage::Examples.new(@lti_token, current_application_instance)
       @lti_advantage_examples.run
+
+      if params[:lti_launch_token].present?
+        @lti_launch = LtiLaunch.find_by(
+          token: params[:lti_launch_token],
+          context_id: @lti_token[LtiAdvantage::Definitions::CONTEXT_CLAIM]["id"],
+        )
+
+        set_lti_launch_resource_link_id
+      end
     end
 
     setup_lti_response
@@ -43,7 +52,9 @@ class LtiLaunchesController < ApplicationController
       launch_scorm_course(@lti_launch[:config][:scorm_service_id])
       return
     end
+    set_lti_launch_resource_link_id
     setup_lti_response
+
     render :index
   end
 
@@ -86,4 +97,14 @@ class LtiLaunchesController < ApplicationController
     set_lti_launch_values
   end
 
+  def set_lti_launch_resource_link_id
+    return unless @lti_launch
+    return if @lti_launch.resource_link_id.present?
+
+    if @lti_token && @lti_token[LtiAdvantage::Definitions::RESOURCE_LINK_CLAIM].present?
+      @lti_launch.update(resource_link_id: @lti_token[LtiAdvantage::Definitions::RESOURCE_LINK_CLAIM]["id"])
+    elsif params[:resource_link_id].present?
+      @lti_launch.update(resource_link_id: params[:resource_link_id])
+    end
+  end
 end
