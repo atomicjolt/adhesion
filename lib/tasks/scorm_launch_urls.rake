@@ -37,7 +37,7 @@ end
 
 desc "Updates scorm launch urls"
 task update_scorm_launch_urls: [:environment] do
-  include Concerns::CanvasSupport
+  include CanvasSupport
 
   puts "Fixing scorm launch urls"
 

@@ -50,7 +50,7 @@ class Api::CourseCompletionsController < Api::ApiApplicationController
       raise Adhesion::Exceptions::ConcludeEnrollment.new
     end
 
-    Integrations::SIS.post_grades_to_db(
+    Integrations::Sis.post_grades_to_db(
       enrollment["sis_course_id"],
       enrollment["sis_section_id"],
       SisGrade::FINAL,

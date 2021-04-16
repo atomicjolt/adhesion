@@ -15,7 +15,7 @@ class PostGradesJob < ApplicationJob
     submissions = extract_submissions(data[:sections], data[:assignment_id])
 
     submissions.each do |section_info|
-      Integrations::SIS.post_grades_to_db(
+      Integrations::Sis.post_grades_to_db(
         section_info[:section][:sis_course_id],
         section_info[:section][:sis_section_id],
         data[:gradetype],
