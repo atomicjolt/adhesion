@@ -6,7 +6,7 @@ class Api::ProctorLoginController < ApplicationController
 
   def signed_url
     exam_request = ExamRequest.find(params[:id])
-    exam_request.update_attributes(unlocked_by_id: current_user.lms_user_id, unlocked_by_name: current_user.name)
+    exam_request.update(unlocked_by_id: current_user.lms_user_id, unlocked_by_name: current_user.name)
     verifier = ActiveSupport::MessageVerifier.new(Rails.application.secrets.proctor_login_secret)
     date = Time.now.to_i
     params = {
