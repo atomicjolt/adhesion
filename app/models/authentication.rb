@@ -1,5 +1,5 @@
 class Authentication < ApplicationRecord
-  extend Concerns::EncryptionSupport
+  extend EncryptionSupport
 
   has_secure_token :id_token
 

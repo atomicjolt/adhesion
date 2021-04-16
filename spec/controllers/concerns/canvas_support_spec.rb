@@ -352,7 +352,7 @@ describe ApplicationController, type: :controller do
 
   describe "page methods" do
     class WrapperClass
-      include Concerns::CanvasSupport
+      include CanvasSupport
 
       def get_previous_page_available?(canvas_response)
         previous_page_available?(canvas_response)

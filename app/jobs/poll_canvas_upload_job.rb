@@ -1,5 +1,5 @@
 class PollCanvasUploadJob < ApplicationJob
-  include Concerns::CanvasSupport
+  include CanvasSupport
 
   queue_as :default
 

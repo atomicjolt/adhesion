@@ -1,5 +1,5 @@
 class WrapupUploadCanvasJob < ApplicationJob
-  include Concerns::CanvasSupport
+  include CanvasSupport
   include ScormCourseHelper
   queue_as :default
 

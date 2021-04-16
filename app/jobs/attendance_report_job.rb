@@ -1,6 +1,6 @@
 class AttendanceReportJob < ApplicationJob
   include AttendanceExportsHelper
-  include Concerns::CanvasSupport
+  include CanvasSupport
   queue_as :default
 
   def perform(

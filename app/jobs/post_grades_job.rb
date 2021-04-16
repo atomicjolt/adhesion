@@ -1,5 +1,5 @@
 class PostGradesJob < ApplicationJob
-  include Concerns::CanvasSupport
+  include CanvasSupport
 
   queue_as :post_grades
 

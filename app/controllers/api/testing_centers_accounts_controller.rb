@@ -1,6 +1,6 @@
 class Api::TestingCentersAccountsController < ApplicationController
-  include Concerns::JwtToken
-  include Concerns::CanvasSupport
+  include JwtToken
+  include CanvasSupport
   before_action :validate_token
 
   def index

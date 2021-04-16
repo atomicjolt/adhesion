@@ -1,5 +1,5 @@
 class Api::ProctorLoginController < ApplicationController
-  include Concerns::JwtToken
+  include JwtToken
   before_action :validate_token
 
   respond_to :jsons

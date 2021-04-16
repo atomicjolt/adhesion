@@ -1,5 +1,5 @@
 class Api::CourseCompletionsController < Api::ApiApplicationController
-  include Concerns::CanvasSupport
+  include CanvasSupport
 
   before_action :check_valid_enrollment
 

@@ -1,5 +1,5 @@
 class ImsImportJob < ApplicationJob
-  include Concerns::CanvasSupport
+  include CanvasSupport
 
   queue_as :ims_import
 

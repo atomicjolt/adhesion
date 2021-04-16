@@ -1,5 +1,5 @@
 class ApplicationInstance < ApplicationRecord
-  extend Concerns::EncryptionSupport
+  extend EncryptionSupport
 
   serialize :config, HashSerializer
   serialize :lti_config, HashSerializer
