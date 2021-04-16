@@ -13,7 +13,7 @@ class ImsImportJob < ApplicationJob
     @canvas_api = canvas_api(
       application_instance: application_instance,
       user: user,
-      course: nil,
+      canvas_course: nil,
     )
 
     lti_launches = data[:lti_launches]

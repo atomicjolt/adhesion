@@ -9,7 +9,7 @@ class PostGradesJob < ApplicationJob
     @canvas_api = canvas_api(
       application_instance: application_instance,
       user: user,
-      course: nil,
+      canvas_course: nil,
     )
 
     submissions = extract_submissions(data[:sections], data[:assignment_id])

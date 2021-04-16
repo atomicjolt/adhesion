@@ -43,7 +43,11 @@ task update_scorm_launch_urls: [:environment] do
 
   scorm_app_instance = ApplicationInstance.find_by lti_key: Application::SCORM
   Apartment::Tenant.switch(scorm_app_instance.tenant) do
-    @canvas_api = canvas_api(user: nil, course: nil, application_instance: scorm_app_instance)
+    @canvas_api = canvas_api(
+      user: nil,
+      canvas_course: nil,
+      application_instance: scorm_app_instance,
+    )
 
     i = 0
     scorm_courses = ScormCourse.where.not(lms_assignment_id: nil)

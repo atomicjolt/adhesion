@@ -9,7 +9,7 @@ module CanvasSupport
   def canvas_api(
     application_instance: current_application_instance,
     user: current_user,
-    course: current_course,
+    canvas_course: current_course,
     prefer_user: false
   )
     Integrations::CanvasApiSupport.new(user, canvas_course, application_instance, prefer_user).api

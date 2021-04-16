@@ -16,7 +16,7 @@ class AttendanceReportJob < ApplicationJob
     @canvas_api = canvas_api(
       application_instance: application_instance,
       user: current_user,
-      course: current_course,
+      canvas_course: current_course,
     )
     attendances = AttendanceExportsHelper.get_attendances(lms_course_id, start_date, end_date)
     final_csv = AttendanceExportsHelper.generate_csv(attendances)
