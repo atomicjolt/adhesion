@@ -24,8 +24,15 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     @user.save!
     @canvas_auth_required = false
 
-    if params["oauth_complete_url"].present?
-      redirect_to params["oauth_complete_url"]
+    admin_oauth_aii = params["admin_oauth_aii"]
+    if admin_oauth_aii.present? && ai = application_instance(admin_oauth_aii)
+      # brakeman doesn't like redirecting based on user input.
+      # this finds an app instance by the id passed in to it and redirects to a
+      # predefined url.
+      root_domain = Rails.application.secrets.application_root_domain
+      path = "applications/#{ai.application_id}/application_instances/#{ai.id}/installs"
+      oauth_complete_url = "//#{Application::ADMIN}.#{root_domain}#{admin_root_path}##{path}"
+      redirect_to oauth_complete_url
     else
       set_lti_launch_values if params[:oauth_consumer_key].present?
       set_lti_advantage_launch_values if params[:id_token].present?
@@ -34,6 +41,10 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   protected
+
+  def application_instance(id)
+    ApplicationInstance.find(id)
+  end
 
   # This will ensure that a user previously logged in via LTI will
   # still be logged in after the OAuth Dance with Canvas
@@ -55,15 +66,13 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     # Check for OAuth errors
     return if request.env["omniauth.auth"].present?
 
-    origin_url = request.env["omniauth.origin"]
-    if origin_url.present?
-      query_params = redirect_params.to_h.to_query
-      redirect_to query_params.empty? ? origin_url : "#{origin_url}?#{query_params}"
-    else
-      error = oauth_error_message
-      flash[:error] = format_oauth_error_message(error)
-      render "shared/_omniauth_error", status: 403
+    if oauth_state = OauthState.find_by(state: request.params["state"])
+      oauth_state.destroy
     end
+
+    flash.discard
+    flash[:error] = format_oauth_error_message(oauth_error_message)
+    render "shared/_omniauth_error", status: :forbidden
   end
 
   def oauth_error_message
@@ -76,7 +85,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     if request.env["omniauth.strategy"].present? && request.env["omniauth.strategy"].name.present?
       %{
         There was a problem communicating with #{request.env['omniauth.strategy'].name.titleize}.
-        Error: #{error_type}
+        Error: #{error_type} - #{request.env['omniauth.error'].error_reason}
       }
     else
       "There was a problem communicating with the remote service. Error: #{error_type}"
@@ -84,7 +93,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def format_oauth_error_message(error)
-    if request.env["omniauth.strategy"].name == "canvas"
+    if request.env["omniauth.strategy"]&.name == "canvas"
       error
     else
       %{#{error} If this problem persists try signing up with a different service

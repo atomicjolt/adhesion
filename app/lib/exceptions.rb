@@ -11,4 +11,6 @@ module Exceptions
   end
   class CanvasApiTokenRequired < LMS::Canvas::CanvasException
   end
+  class UnAuthorizedGraphQLCanvasRequest < GraphQL::ExecutionError
+  end
 end

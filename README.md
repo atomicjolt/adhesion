@@ -144,6 +144,12 @@ To get started run:
 ```
 $ npm install
 ```
+Or, if you're on Linux:
+```
+$ ./bin/setup-linux
+$ ./bin/bootstrap
+```
+Depending on the system, this script may require superuser privileges.
 
 or if you have yarn installed:
 
@@ -216,7 +222,7 @@ https://adhesion.atomicjolt.xyz/auth/[provider]/callback
 **Key Name:**
 Can be anything you choose (e.g. Adhesion)
 
-**Owner Email:***
+**Owner Email:**
 Address that will receive email about technical issues related to the tool.
 
 **Tool ID:**
@@ -232,7 +238,11 @@ https://adhesion.atomicjolt.xyz/images/icon.png
 OR
 https://Adhesion.herokuapp.com/images/icon.png
 
-Once you press Save Key, a Developer ID and Key will be generated and displayed in the Details column of the Developer Keys table when you mouse over the row. Add these credentials to your .env file or `config/secrets.yml` file under CANVAS_DEVELOPER_ID and CANVAS_DEVELOPER_KEY (in .env) or `canvas_developer_id` and `canvas_developer_key` (in secrets.yml).
+**Target Link URI:**
+```
+https://ltistarterapp.atomicjolt.xyz/lti_launches
+```
+This will be the url used by the LMS when launching the LTI application
 
 ## Canvas API
 -----------
@@ -242,91 +252,44 @@ The LTI Starter app makes working with the Canvas API simple. See [Canvas](Canva
 
 ## Admin Page
 
-There is an admin page where one can setup the tools located at `/admin`.
-In the settings for an Application Instance, Visibility can be configured to affect who can see the tool when it gets installed.
+There is an admin page where one can setup the tools located at `/admin`. The Admin email and password can be found in `config/secrets.yml`. In the settings for an Application Instance, Visibility can be configured to affect who can see the tool when it gets installed.
 
 ## Development Details
 
-#### Webpack
-Webpack is used to build the client side application. Configure the client application in client/config/settings.js
+### Webpack
+Webpack is used to build the client side application. Configure the client application in `config/webpacker.yml`
 
-#### React
-The React Rails Starter App uses React. All client side code can be found in the "client" directory. This project contains the code required to launch a React application. index.html.erb contains the following code which will launch a React application whose entry point is 'app.jsx'
+### React
+The React Rails Starter App uses React. All client side code can be found in the "client" directory. This project contains the code required to launch a React application. `app/views/lti_launches/index.html.erb` contains roughly the following code which will launch a React application whose entry point is 'app.jsx'
 
-```
+```erb
 <% content_for :head do -%>
   <%= stylesheet_pack_tag 'styles' %>
 <% end -%>
 
 <%= render 'shared/default_client_settings' %>
 <div id="main-app"></div>
-<%= javascript_packs_with_chunks_tag "app, "data-turbolinks-track": "reload" %>
+<%= javascript_packs_with_chunks_tag "app", "data-turbolinks-track": "reload" %>
 ```
 
-##### Custom Build Settings
------------
-Default build settings can be overridden by adding an options.json file to the application directory.
-
-###### Options:
------------
-* outName - Change the output directory for an application by specifying "outName" which will override the default name
-used when generating a path.
-* port - Hard code a port for the application to run. Typically, you won't need to set this value as the build process
-will calculate one for you.
-* onlyPack - If true don't generate html files. Instead, only run the webpack process and output the resulting files.
-* noClean - If true then don't delete files before starting a new build.
-* rootOutput - Dump the application directly into the root directory.
-
-Example options.json
-`
-{
-  "outName": "hello_world",
-  "port": 8080,
-  "onlyPack": true,
-  "noClean": false,
-  "rootOutput": false,
-  "codeSplittingOff": true, // Turn off code splitting
-  "extractCssOff": true     // Turn off css extraction
-}
-`
-
-By default app.jsx is used as the webpack entry point. This can be overriden in webpack.json. Change the buildSuffix,
-filename, chunkFilename and other settings:
-
-In webpack.json
-`
-{
-  "file": "app.js",         // The webpack entry. Default is app.jsx
-  "buildSuffix": ".js",     // Change the build suffix. Default is _bundle.js
-  "filename": "[name]",     // Change the output file name. Default is based on production/development
-  "chunkFilename": "[id]",  // Change the chunkFilename. Default is based on production/development
-}
-`
-
-#### Assets
+### Assets
 Any files added to the assets directory can be used by in code and assigned to a variable. This allows for referring to assets using dynamically generated strings. The assets will be built according to the rules specified in your webpack configuration. Typically, this means that in production the names will be changed to include a SHA.
 
-First importing the assets:
-  `import assets from '../libs/assets';`
-
-Then assign the assest to a variable:
-  `const img = assets("./images/atomicjolt.jpg");`
+```js
+import assets from '../libs/assets'; # First importing the assets
+const img = assets("./images/atomicjolt.jpg"); # Then assign an asset to a variable
+```
 
 The value can then be used when rendering:
-  `render(){
+```js
+render() {
     const img = assets("./images/atomicjolt.jpg");
-    return<div>
-    <img src={img} />
-    </div>;
-  }`
-
-#### Static
-Files added to the static directory will be copied directly into the build. These files will not be renamed.
-
-#### Check for updates
-Inside the client directory run:
-```
-yarn upgrade-interactive
+    return(
+      <div>
+        <img src={img} />
+      </div>
+    );
+  }
 ```
 
 
