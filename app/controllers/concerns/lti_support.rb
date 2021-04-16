@@ -88,7 +88,7 @@ module LtiSupport
   def validate_user_is_admin_for_user_tool
     if current_application_instance.lti_key == Application::USERTOOL
       roles = params[:roles].split(",")
-      user_not_authorized if (roles & LTI::Roles::ADMIN_ROLES).blank?
+      user_not_authorized if (roles & Lti::Roles::ADMIN_ROLES).blank?
     end
   end
 
