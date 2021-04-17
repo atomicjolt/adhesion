@@ -11,7 +11,7 @@ RSpec.describe Api::ProctorLoginController, type: :controller do
       student = create(:user)
       exam_request = create(:exam_request, student_id: student.id)
       get :signed_url, params: { id: exam_request.id }
-      expect(response).to be_success
+      expect(response).to be_successful
 
       body = JSON.parse(response.body)
       expect(body).to be_present

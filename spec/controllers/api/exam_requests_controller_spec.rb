@@ -11,7 +11,7 @@ RSpec.describe Api::ExamRequestsController, type: :controller do
       student = create(:user)
       exam_request = create(:exam_request, student_id: student.id)
       get :index, params: { student_id: student.id }
-      expect(response).to be_success
+      expect(response).to be_successful
       exam_requests = JSON.parse(response.body)
       expect(exam_requests.count).to eq(1)
       found = exam_requests.any? { |er| er["id"] == exam_request.id }
@@ -21,7 +21,7 @@ RSpec.describe Api::ExamRequestsController, type: :controller do
     it "returns exam requests for student" do
       exam_request = create(:exam_request, testing_center_id: 123)
       get :index, params: { testing_center_id: 123 }
-      expect(response).to be_success
+      expect(response).to be_successful
       exam_requests = JSON.parse(response.body)
       expect(exam_requests.count).to eq(1)
       found = exam_requests.any? { |er| er["id"] == exam_request.id }
@@ -61,7 +61,7 @@ RSpec.describe Api::ExamRequestsController, type: :controller do
         status: "meh",
       }
       put :update, params: { id: exam_request.id, exam_request: exam_request_params }
-      expect(response).to be_success
+      expect(response).to be_successful
       updated_exam_request = JSON.parse(response.body)
       expect(updated_exam_request["status"]).to eq(exam_request_params[:status])
     end
@@ -71,7 +71,7 @@ RSpec.describe Api::ExamRequestsController, type: :controller do
     it "should destroy the exam request" do
       exam_request = create(:exam_request)
       delete :destroy, params: { id: exam_request.id }
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 end

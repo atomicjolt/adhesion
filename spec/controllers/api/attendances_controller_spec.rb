@@ -45,7 +45,7 @@ RSpec.describe Api::AttendancesController, type: :controller do
 
       params_clone[:status] = "ABSENT"
       post :create, params: params_clone
-      expect(response).to be_success
+      expect(response).to be_successful
       attendances = JSON.parse(response.body)
       expect(attendances.count).to eq(2)
       expect(attendances.first["status"]).to eq("ABSENT")
