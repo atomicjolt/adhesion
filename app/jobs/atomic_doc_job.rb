@@ -17,13 +17,15 @@ class AtomicDocJob < ApplicationJob
     filename, extension = full_filename.split(".")
 
     if extension != "pdf"
-      atomic_doc.update(
-        status: "invalid_file_type",
-      )
-      return
-      # TODO: Waiting on AU approval for LibrOffice conversion
-      # file = Tempfile.new([filename, ".pdf"])
-      # Libreconv.convert(raw.file.path, file.path)
+      if Rails.application.secrets.enable_libre_office
+        file = Tempfile.new([filename, ".pdf"])
+        Libreconv.convert(raw.file.path, file.path)
+      else
+        atomic_doc.update(
+          status: "invalid_file_type",
+        )
+        return
+      end
     else
       file = raw.file
     end

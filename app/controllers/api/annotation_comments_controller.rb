@@ -1,6 +1,4 @@
 class Api::AnnotationCommentsController < Api::ApiApplicationController
-  include Concerns::JwtToken
-  before_action :validate_token
   before_action :set_annotation, only: [:create]
   before_action :set_comment, only: [:destroy]
 

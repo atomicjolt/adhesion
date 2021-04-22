@@ -1,6 +1,4 @@
 class Api::AnnotationsController < Api::ApiApplicationController
-  include Concerns::JwtToken
-  before_action :validate_token
   before_action :parse_annotation, only: [:create, :update]
   before_action :set_annotation, only: [:show, :update, :destroy]
 
@@ -89,7 +87,7 @@ class Api::AnnotationsController < Api::ApiApplicationController
         :height,
       ],
     ).to_h
-    if params[:lines]
+    if params[:lines].present?
       result[:lines] = params[:lines]
     end
     result

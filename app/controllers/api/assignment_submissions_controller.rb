@@ -1,13 +1,11 @@
 class Api::AssignmentSubmissionsController < Api::ApiApplicationController
   include Concerns::CanvasSupport
-  include Concerns::JwtToken
-
-  before_action :validate_token
 
   def index
     all_submissions = canvas_api.proxy(
       "GET_SINGLE_SUBMISSION_COURSES",
       {
+        as_user_id: current_user.lms_user_id,
         assignment_id: params[:assignment_id],
         course_id: params[:course_id],
         user_id: params[:user_id],
