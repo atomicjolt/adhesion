@@ -1,4 +1,5 @@
 class Api::AnnotationsController < Api::ApiApplicationController
+  before_action :validate_current_user
   before_action :parse_annotation, only: [:create, :update]
   before_action :set_annotation, only: [:show, :update, :destroy]
 
@@ -67,6 +68,13 @@ class Api::AnnotationsController < Api::ApiApplicationController
   end
 
   private
+
+  def validate_current_user
+    current_user.lti_instructor?(jwt_context_id) ||
+      current_user.lti_ta?(jwt_context_id) ||
+      current_user.lti_admin?(jwt_context_id) ||
+      current_user.student_in_course?(jwt_context_id)
+  end
 
   def annotation_params
     result = params.require(:annotation).permit(

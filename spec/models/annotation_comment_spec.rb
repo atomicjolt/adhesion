@@ -8,7 +8,7 @@ RSpec.describe AnnotationComment, type: :model do
       user: @user,
       annotation_id: @annotation.id,
       document_id: @annotation.document_id,
-      content: "test annotation comment"
+      content: "test annotation comment",
     )
   end
   describe "create annotation comment" do

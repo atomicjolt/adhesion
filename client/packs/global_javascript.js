@@ -1,3 +1,5 @@
+/* global $ */
+/* global ENV */
 const _ = require('lodash');
 
 const CANVAS_DOMAIN = window.location.host;
@@ -102,7 +104,9 @@ $(() => {
         if (iframeHolder.length && speedgraderIframe.length) {
           speedgraderIframe.remove();
           iframeDiv.remove();
+          // In developement use the atomicjolt.xyz tool domain below
           iframeHolder.append(`<iframe id="atomicdocs" allow="fullscreen" src="https://${CANVAS_DOMAIN}/courses/${ENV.course_id}/external_tools/retrieve?display=borderless&url=https://atomicdocs.atomicjolt.xyz/lti_launches?launch_context=ATOMICDOCS" width="100%" height="0" scrolling="yes" style="border:none;">`);
+          // iframeHolder.append(`<iframe id="atomicdocs" allow="fullscreen" src="https://${CANVAS_DOMAIN}/courses/${ENV.course_id}/external_tools/retrieve?display=borderless&url=https://${CANVAS_DOMAIN}/lti_launches?launch_context=ATOMICDOCS" width="100%" height="0" scrolling="yes" style="border:none;">`);
         }
         if ($('#atomicdocs').length) {
           const iframe = document.getElementById('atomicdocs');
@@ -144,7 +148,9 @@ $(() => {
       if (iframe.length && parentDiv.length && !ADDED_FRAME) {
         iframe.remove();
         const course = link.match(COURSE_REGEX)[1];
-        parentDiv.last().append(`<iframe id="atomicdocs" allow="fullscreen" src="https://${CANVAS_DOMAIN}/courses/${course}/external_tools/retrieve?display=borderless&url=https://atomicdocs.atomicjolt.xyz/lti_launches?launch_context=ATOMICDOCS" width="100%" height="100%" scrolling="yes" style="border:none;">`);
+        // In developement use the atomicjolt.xyz tool domain below
+        parentDiv.last().append(`<iframe id="atomicdocs" allow="fullscreen" src="https://${CANVAS_DOMAIN}/courses/${course}/external_tools/retrieve?display=borderless&url=https://atomicdocs.atomicjolt.xyz/lti_launches?launch_context=ATOMICDOCS" width="100%" height="0" scrolling="yes" style="border:none;">`);
+        // parentDiv.last().append(`<iframe id="atomicdocs" allow="fullscreen" src="https://${CANVAS_DOMAIN}/courses/${course}/external_tools/retrieve?display=borderless&url=https://${CANVAS_DOMAIN}/lti_launches?launch_context=ATOMICDOCS" width="100%" height="100%" scrolling="yes" style="border:none;">`);
         ADDED_FRAME = true;
       }
       if (atomicdocs.length) {

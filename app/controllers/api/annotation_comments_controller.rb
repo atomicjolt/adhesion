@@ -1,4 +1,5 @@
 class Api::AnnotationCommentsController < Api::ApiApplicationController
+  before_action :validate_current_user
   before_action :set_annotation, only: [:create]
   before_action :set_comment, only: [:destroy]
 
@@ -31,6 +32,13 @@ class Api::AnnotationCommentsController < Api::ApiApplicationController
   end
 
   private
+
+  def validate_current_user
+    current_user.lti_instructor?(jwt_context_id) ||
+      current_user.lti_ta?(jwt_context_id) ||
+      current_user.lti_admin?(jwt_context_id) ||
+      current_user.student_in_course?(jwt_context_id)
+  end
 
   def comment_params
     result = params.permit(

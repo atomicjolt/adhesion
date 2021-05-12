@@ -10,7 +10,7 @@ RSpec.describe Annotation, type: :model do
       user: @user,
       annotation_id: @annotation_two.id,
       document_id: @annotation_two.document_id,
-      content: "test annotation comment 2"
+      content: "test annotation comment 2",
     )
     @annotation_two.last_comment_created_at = @annotation_two_comment.created_at
     @annotation_two.save!
@@ -19,7 +19,7 @@ RSpec.describe Annotation, type: :model do
       user: @user,
       annotation_id: @annotation_one.id,
       document_id: @annotation_one.document_id,
-      content: "test annotation comment 1"
+      content: "test annotation comment 1",
     )
     @annotation_one.last_comment_created_at = @annotation_one_comment.created_at
     @annotation_one.save!
