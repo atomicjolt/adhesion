@@ -1,10 +1,10 @@
 @mixin font-regular {
-  font-family: 'Lato', Arial, Helvetica, sans-serif;
+  font-family: "Lato", Arial, Helvetica, sans-serif;
   font-weight: 400;
 }
 
 @mixin font-bold {
-  font-family: 'Lato', Arial, Helvetica, sans-serif;
+  font-family: "Lato", Arial, Helvetica, sans-serif;
   font-weight: 700;
 }
 
@@ -21,9 +21,9 @@
 .pdfViewer {
   padding-top: 110px;
   padding-bottom: 100px;
-  background-color: #EEE;
+  background-color: #eee;
   .page {
-    border: 1px solid #B8BBBE;
+    border: 1px solid #b8bbbe;
     box-sizing: content-box;
     margin-bottom: 10px;
   }
@@ -39,7 +39,7 @@
   right: 0px;
   width: 320px;
   height: calc(100vh - 48px);
-  border-left: 1px solid #B8BBBE;
+  border-left: 1px solid #b8bbbe;
   background: white;
   overflow-y: auto;
   overflow-x: hidden;
@@ -57,7 +57,7 @@
     @include font-bold;
     font-size: 14px;
     text-align: left;
-    color: #262E38;
+    color: #262e38;
   }
 }
 
@@ -69,11 +69,11 @@
 
 .comments-section_item {
   display: flex;
-  border-bottom: 1px solid #B8BBBE;
+  border-bottom: 1px solid #b8bbbe;
   padding: 10px 0 10px 10px;
   li + li {
     padding-top: 10px;
-    border-top: 1px solid #B8BBBE;
+    border-top: 1px solid #b8bbbe;
   }
   li {
     padding-right: 10px;
@@ -101,12 +101,13 @@
   margin-right: 10px;
 
   i {
-    font-size: 24px;
+    font-size: 18px;
     color: #fff;
   }
-  &[aria-pressed="true"], &[aria-checked="true"] {
+  &[aria-pressed="true"],
+  &[aria-checked="true"] {
     &::before {
-      background-color: #5B6673;
+      background-color: #5b6673;
     }
   }
 }
@@ -121,13 +122,14 @@
   align-items: center;
   justify-content: center;
 
-  &:hover, &:focus {
-    background-color: #EEEEEE;
+  &:hover,
+  &:focus {
+    background-color: #eeeeee;
     cursor: pointer;
   }
   i {
     font-size: 24px;
-    color: #5B6673;
+    color: #5b6673;
   }
 }
 
@@ -137,12 +139,13 @@
 
 .comments-section_reply-button {
   height: 40px;
-  background-color: #EEEEEE;
-  border: 1px solid #D2D1D1;
+  background-color: #eeeeee;
+  border: 1px solid #d2d1d1;
   border-radius: 3px;
   padding: 0 16px;
-  &:hover, &:focus {
-    background-color: #D2D1D1;
+  &:hover,
+  &:focus {
+    background-color: #d2d1d1;
     cursor: pointer;
   }
   span {
@@ -155,7 +158,7 @@
 .comment-section_reply-input {
   height: 30px;
   width: 100%;
-  border: 1px solid #D2D1D1;
+  border: 1px solid #d2d1d1;
   border-radius: 3px;
   padding: 0 6px;
 }
@@ -172,7 +175,7 @@
   display: flex;
   align-items: center;
   font-size: 14px;
-  background-color: #5B6673;
+  background-color: #5b6673;
 }
 
 .primary-controls_download {
@@ -192,20 +195,22 @@
     i {
       color: white;
     }
-    &:hover, &:focus-visible {
+    &:hover,
+    &:focus-visible {
       background-color: #5f707b;
     }
     &:focus-visible {
       outline: 2px solid #fff;
       outline-offset: -4px;
     }
-    &[aria-pressed="true"], &[aria-checked="true"] {
+    &[aria-pressed="true"],
+    &[aria-checked="true"] {
       background-color: #fff;
       i {
-        color: #5B6673;
+        color: #5b6673;
       }
       &:focus-visible {
-        outline-color: #5B6673;
+        outline-color: #5b6673;
       }
     }
   }
@@ -213,33 +218,35 @@
     position: relative;
     z-index: 2;
     height: 40px;
-    width: 36px;
+    width: 40px;
     i {
-      color: #5B6673;
+      color: #5b6673;
     }
     &::before {
-      content: '';
+      content: "";
       z-index: -1;
       position: absolute;
       left: 5px;
       top: 5px;
-      width: 26px;
+      width: 30px;
       height: 30px;
       background-color: transparent;
       border-radius: 3px;
     }
-    &:hover, &:focus-visible {
+    &:hover,
+    &:focus-visible {
       &::before {
-        background-color: #EDEFF2;
+        background-color: #edeff2;
       }
     }
     &:focus-visible {
-      outline: 2px solid #5B6673;
+      outline: 2px solid #5b6673;
       outline-offset: -4px;
     }
-    &[aria-pressed="true"], &[aria-checked="true"] {
+    &[aria-pressed="true"],
+    &[aria-checked="true"] {
       &::before {
-        background-color: #5B6673;
+        background-color: #5b6673;
       }
       i {
         color: #fff;
@@ -282,11 +289,9 @@
 
 .ColorButton-selection-circle {
   stroke: transparent;
-
 }
 
 .ColorButton-main-circle {
-
 }
 
 .color-picker {
@@ -303,9 +308,11 @@
   background-color: white;
   padding: 0;
   margin: 0;
-  &:hover, &:focus-visible, &[aria-checked="true"]:focus-visible {
+  &:hover,
+  &:focus-visible,
+  &[aria-checked="true"]:focus-visible {
     .ColorButton-selection-circle {
-      stroke: #AAA;
+      stroke: #aaa;
     }
   }
   &:focus-visible {
@@ -313,7 +320,7 @@
   }
   &[aria-checked="true"] {
     .ColorButton-selection-circle {
-      stroke: #5B6673;
+      stroke: #5b6673;
     }
   }
 }
@@ -331,7 +338,6 @@
   height: 26px;
   color: rgb(171, 179, 186);
 }
-
 
 i.md-18 {
   font-size: 18px;
