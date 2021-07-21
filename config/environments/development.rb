@@ -102,9 +102,6 @@ Rails.application.configure do
   #   password: Rails.application.secrets.email_provider_password
   # }
 
-  # Job Worker backend
-  config.active_job.queue_adapter = :que
-
   # ActionMailer Config
   config.action_mailer.default_url_options = { host: "localhost:#{ENV['APP_PORT']}" }
   config.action_mailer.delivery_method = :smtp
