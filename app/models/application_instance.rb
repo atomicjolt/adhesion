@@ -18,6 +18,7 @@ class ApplicationInstance < ApplicationRecord
 
   before_validation :set_lti
   before_validation :set_domain
+  before_validation :set_nickname
 
   before_validation on: [:update] do
     errors.add(:lti_key, "cannot be changed after creation") if lti_key_changed?
@@ -43,6 +44,20 @@ class ApplicationInstance < ApplicationRecord
   scope :by_oldest, -> { order(created_at: :asc) }
   scope :by_latest, -> { order(updated_at: :desc) }
 
+  # Attempts to find an existing application instance that doesn't have a matching lti deployment
+  def self.match_application_instance(lti_install, deployment_id)
+    if application_instance = lti_install.application.application_instances.first
+      if application_instance.lti_deployments.count == 0
+        LtiDeployment.create!(
+          application_instance: application_instance,
+          lti_install: lti_install,
+          deployment_id: deployment_id,
+        )
+        application_instance
+      end
+    end
+  end
+
   # Create a new application instance if the deployment id isn't found
   # TODO add a setting on the application to indicate if it's freely available, trial, or restricted
   def self.by_client_and_deployment(client_id, deployment_id, iss, lms_url)
@@ -52,9 +67,10 @@ class ApplicationInstance < ApplicationRecord
         where("lti_deployments.deployment_id =?", deployment_id)
 
       # There should only be one that matches
-      application_instance = application_instances.first
+      application_instance = application_instances.first ||
+        match_application_instance(lti_install, deployment_id)
 
-      if application_instance.blank?
+      if !application_instance
         # Create a new application instance for the deployment id
         site = Site.find_by(url: lms_url)
         # Create a new application instance and lti_deployment
@@ -71,8 +87,9 @@ class ApplicationInstance < ApplicationRecord
     end
   end
 
-  def lti_defaults
+  def lti_defaults(config_options = {})
     config = lti_config.dup
+    config = config.merge(config_options) unless config_options.blank?
     if config.present?
       config[:launch_url] ||= launch_url
       config[:secure_launch_url] ||= launch_url
@@ -85,8 +102,8 @@ class ApplicationInstance < ApplicationRecord
     config
   end
 
-  def lti_config_xml
-    config = lti_defaults
+  def lti_config_xml(config_options = {})
+    config = lti_defaults(config_options)
     Lti::Config.xml(config) if config.present?
   end
 
@@ -156,6 +173,13 @@ class ApplicationInstance < ApplicationRecord
     self.lti_key = lti_key || key
     self.lti_secret = ::SecureRandom::hex(64) if lti_secret.blank?
     self.tenant ||= lti_key
+    set_domain
+  end
+
+  def set_nickname
+    if !nickname
+      self.nickname = lti_key || "no nickname"
+    end
   end
 
   def set_domain

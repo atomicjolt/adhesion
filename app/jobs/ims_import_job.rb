@@ -1,8 +1,5 @@
 class ImsImportJob < ApplicationJob
   include CanvasSupport
-
-  queue_as :ims_import
-
   retry_on StandardError, attempts: 16
 
   def perform(job_data, application_instance, user)
