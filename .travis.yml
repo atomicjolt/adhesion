@@ -6,7 +6,7 @@ env:
   - CXX=g++-4.8 RAILS_GROUPS=build
 
 addons:
-  postgresql: "9.5"
+  postgresql: "13.4"
   apt:
     sources:
       - ubuntu-toolchain-r-test
