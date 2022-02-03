@@ -173,7 +173,8 @@ class ScormEngineService
   end
 
   def preview_course(course_id, redirect_url)
-    body = { redirectOnExitUrl: redirect_url } if redirect_url
+    redirect_on_exit_url = redirect_url.presence || "noop_message=Preview is over. Please close this window."
+    body = { redirectOnExitUrl: redirect_on_exit_url }
     url = "#{@scorm_tenant_url}/courses/#{course_id}/preview"
     response = send_get_request(url, body)
     launch_link = JSON.parse(response.body)["launchLink"]
