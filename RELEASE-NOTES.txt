@@ -1,5 +1,12 @@
 ;;; -*- fill-column: 80; -*-
 
+Changes for 2.3.0
+  * Update ruby version
+  * Update node version
+  * Update postgres version
+  * Update gems with security patches
+  * Fix SCORM preview to send noop_message for redirect
+
 Changes for 2.2.0
   * Custom message on error page.
   * Remove Atomic Jolt logo from error pages.
