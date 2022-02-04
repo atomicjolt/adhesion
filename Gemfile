@@ -28,7 +28,7 @@ gem "devise"
 gem "devise_invitable"
 gem "strong_password"
 gem "ims-lti", "~> 2.1.5" # IMS LTI tool consumers and providers
-gem "aj-ims-lti", git: "https://github.com/atomicjolt/aj_lms_lti"
+gem "aj-ims-lti", "~> 1.2.0"
 gem "json-jwt"
 gem "jwt"
 gem "lms-api", "~>1.12.0"
