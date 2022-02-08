@@ -1,13 +1,4 @@
 GIT
-  remote: https://github.com/atomicjolt/aj_lms_lti
-  revision: f16755afb81632208db7706eff83ca9e9b6f8c5b
-  specs:
-    aj-ims-lti (1.1.0)
-      builder
-      oauth (~> 0.4.5)
-      uuid
-
-GIT
   remote: https://github.com/instructure/scorm-cloud.git
   revision: 99b672c87e25044b2f603dd83985fed824ad69a4
   specs:
@@ -61,6 +52,10 @@ GEM
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
     aes_key_wrap (1.1.0)
+    aj-ims-lti (1.2.0)
+      builder
+      oauth (~> 0.5.5)
+      uuid
     apartment (2.2.1)
       activerecord (>= 3.1.2, < 6.0)
       parallel (>= 0.7.1)
@@ -243,7 +238,7 @@ GEM
       shellany (~> 0.0)
     nuclear_secrets (1.0.5)
       rails (>= 5.0.0)
-    oauth (0.4.7)
+    oauth (0.5.8)
     oauth2 (1.4.7)
       faraday (>= 0.8, < 2.0)
       jwt (>= 1.0, < 3.0)
@@ -454,7 +449,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  aj-ims-lti!
+  aj-ims-lti (~> 1.2.0)
   apartment
   apartment-activejob-que
   attr_encrypted
