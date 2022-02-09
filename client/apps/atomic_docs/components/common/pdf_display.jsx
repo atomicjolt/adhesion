@@ -4,7 +4,8 @@ import _ from 'lodash';
 
 import { Document, Page, pdfjs } from 'react-pdf';
 
-pdfjs.GlobalWorkerOptions.workerSrc = window.DEFAULT_SETTINGS.pdf_worker_js_url;
+import workerSrc from '!!file-loader!pdfjs-dist/build/pdf.worker.min.js'
+pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
 
 export default class PdfDisplay extends Component {
   static propTypes = {
