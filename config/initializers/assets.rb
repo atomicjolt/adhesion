@@ -13,4 +13,4 @@ Rails.application.config.assets.paths << Rails.root.join("node_modules")
 Rails.application.config.assets.precompile += %w(errors.scss)
 Rails.application.config.assets.precompile += %w(client.scss scorm_course.scss)
 
-Rails.application.config.assets.precompile += %w(errors.js pdf.worker.js)
+Rails.application.config.assets.precompile += %w(errors.js)
