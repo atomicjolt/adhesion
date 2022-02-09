@@ -266,7 +266,7 @@ GEM
     public_suffix (4.0.6)
     puma (5.6.1)
       nio4r (~> 2.0)
-    que (1.0.0)
+    que (0.14.3)
     racc (1.6.0)
     rack (2.2.3)
     rack-cors (1.1.1)
@@ -488,7 +488,7 @@ DEPENDENCIES
   omniauth-canvas (~> 1.0.2)
   pg
   puma
-  que
+  que (~> 0.14.3)
   rack-cors
   rails (= 5.2.6)
   rails-controller-testing
