@@ -48,7 +48,7 @@ gem "puma"
 
 # job worker
 gem "apartment-activejob-que"
-gem "que"
+gem "que", "~> 0.14.3"
 
 # API Related
 gem "rack-cors", require: "rack/cors"
