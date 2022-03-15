@@ -11,5 +11,14 @@ module LtiAdvantage
 
     class ScoreError < StandardError
     end
+
+    class NoLTIDeployment < StandardError
+    end
+
+    class InvalidIssuer < StandardError
+    end
+
+    class InvalidOIDCRegistrationEndpoint < StandardError
+    end
   end
 end

@@ -10,6 +10,7 @@ class LtiLaunchesController < ApplicationController
   before_action :validate_user_is_admin_for_user_tool, except: [:init, :launch]
   before_action :do_lti, except: [:init, :launch]
   before_action :setup, only: %i[show]
+  before_action :debug_data, except: [:init, :launch]
 
   def index
     if current_application_instance.disabled_at
@@ -86,6 +87,17 @@ class LtiLaunchesController < ApplicationController
     if current_application_instance.application.client_application_name == "scorm"
       @scorm_connect = scorm_connect_service(params[:custom_canvas_course_id])
     end
+  end
+
+  def debug_data
+    @debug_data = {
+      "Tenant Name" => Apartment::Tenant.current,
+      "LTI Advantage" => !!@lti_token,
+      "App Name" => current_application&.name,
+      "Client App" => current_application&.client_application_name,
+      "LTI Key" => current_application_instance&.lti_key,
+      "Domain" => current_application_instance&.domain,
+    }
   end
 
   def setup_lti_response

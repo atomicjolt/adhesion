@@ -244,6 +244,62 @@ https://ltistarterapp.atomicjolt.xyz/lti_launches
 ```
 This will be the url used by the LMS when launching the LTI application
 
+**OpenID Connect Initiation Url:**
+```
+https://ltistarterapp.atomicjolt.xyz/lti_launches/init
+```
+
+**JWK Method (Only for LTI Advantage Installs):** Public JWK
+
+Navigate to `https://ltistarterapp.atomicjolt.xyz/jwks.json` to get a list of JWK keys that are usable for development. Normally for production you would use a *Public JWK Url* to generate the keys as needed
+
+There are many more settings and options available to play around with when creating a key, but these are the nessecary ones when getting a basic app setup.
+
+Some of these other options are:
+- LTI Advantage Services - Various services that LTI Advantage compliant apps can utillize
+- Icon settings - Image to display in relation to your app
+- (Canvas) Custom Fields - Canvas can provide various extra data in an LTI launch
+- Account navigation - Where navigation to your app shows up
+
+Once you press Save Key, a Developer ID and Key will be generated and displayed in the Details column of the Developer Keys table when you mouse over the row.
+Add these credentials under `CANVAS_DEVELOPER_ID` and `CANVAS_DEVELOPER_KEY` (in .env) or `canvas_developer_id` and `canvas_developer_key` (in secrets.yml). These will be used to preform the OAuth Dance with Canvas and obtain the user's auth token.
+
+# Installing The App
+Now that we've got the dev servers up and running and we've got a developer key we can go and get our app installed! This starter app supports both LTI 1.3 and LTI Advantage
+
+## LTI 1.3
+To install an LTI 1.3 application to to `Account / Course -> Settings -> Apps` and add a new app. There are serveral different ways that an app can be installed, we will be installing via XML, so select that in the Configuration Type dropdown.
+
+Now run this command:
+```
+$ rake lti:configs
+```
+This will output the Consumer Key, Shared Secret, and XML Configuration of each LTI app in the project. Copy and paste those into the relevant fields and click the submit button. Now your app should be ready to go!
+
+## LTI Advantage
+Currenlty the only way to install an LTI advantage app (at least on Canvas) is by using the "By Client ID" Configuration type. Create a LTI Key with your required services. Copy the Client Id it provides and paste it as the value of `client_id` in `db/seeds.rb` for both the Canvas and Test Canvas instance. Seed the DB with this value.
+
+Got to `Account / Course -> Settings -> Apps` and add a new app. Select by Client Id in the Configuration Type dropdown. Paste in the key and hit submit. Canvas should ask you if you want to install an app with the app name you provided while creating the key. If this looks write, click submit. Your LTI Advantage app should now be installed.
+
+# Development Notes
+Run a cloudflare tunnel to connect your dev machine to a remote LMS for testing.
+`cloudflared tunnel --hostname helloworld.atomicjolt.win --url localhost:3030 --name helloworld ----overwrite-dns, -f`
+
+For Admin
+`cloudflared tunnel --hostname admin.atomicjolt.win --url localhost:3030 --name admin ----overwrite-dns, -f`
+
+List tunnels
+`cloudflared tunnel list`
+Dyanmic registration URL:
+
+## Versions
+We follow some conservative rules:
+
+  1. Use what’s packaged by Debian/Ubuntu, whenever possible, except for Gems and NPM packages.
+  2. For software not packaged by Debian/Ubuntu, use the oldest version that still receives security updates.
+  3. Gems and NPM packages may use the newest version, as long as doing so does
+  not conflict with other software adhering to the previous two rules.
+
 ## Canvas API
 -----------
 The LTI Starter app makes working with the Canvas API simple. See [Canvas](Canvas.md) for more information.
@@ -328,6 +384,10 @@ To run tests:
 
 ```
 $ rake spec
+```
+
+```
+$ yarn test
 ```
 
 ## TODO

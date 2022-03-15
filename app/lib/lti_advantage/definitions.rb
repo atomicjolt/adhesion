@@ -51,6 +51,9 @@ module LtiAdvantage
     COURSE_CONTEXT = "http://purl.imsglobal.org/vocab/lis/v2/course#CourseOffering".freeze
     ACCOUNT_CONTEXT = "Account".freeze
 
+    # Configuration
+    TOOL_CONFIGURATION = "https://purl.imsglobal.org/spec/lti-tool-configuration".freeze
+
     # Specfies all available scopes.
     def self.scopes
       [
@@ -108,6 +111,23 @@ module LtiAdvantage
     MANAGER_CONTEXT_ROLE = "http://purl.imsglobal.org/vocab/lis/v2/membership#Manager".freeze
     MEMBER_CONTEXT_ROLE = "http://purl.imsglobal.org/vocab/lis/v2/membership#Member".freeze
     OFFICER_CONTEXT_ROLE = "http://purl.imsglobal.org/vocab/lis/v2/membership#Officer".freeze
+
+    ADMINISTRATOR_ROLES = [
+      ADMINISTRATOR_SYSTEM_ROLE,
+      ACCOUNT_ADMIN_SYSTEM_ROLE,
+      ADMINISTRATOR_INSTITUTION_ROLE,
+      ADMINISTRATOR_CONTEXT_ROLE,
+    ].freeze
+
+    INSTRUCTOR_ROLES = [
+      INSTRUCTOR_INSTITUTION_ROLE,
+      INSTRUCTOR_CONTEXT_ROLE,
+    ].freeze
+
+    STUDENT_ROLES = [
+      STUDENT_INSTITUTION_ROLE,
+      LEARNER_CONTEXT_ROLE,
+    ].freeze
 
     def self.lms_host(payload)
       host = if deep_link_launch?(payload)
