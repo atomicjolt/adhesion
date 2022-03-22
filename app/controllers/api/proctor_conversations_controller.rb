@@ -1,5 +1,5 @@
 class Api::ProctorConversationsController < Api::ApiApplicationController
-  include Concerns::CanvasSupport
+  include CanvasSupport
   respond_to :json
 
   def initiate_conversation

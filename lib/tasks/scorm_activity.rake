@@ -6,7 +6,7 @@ task set_scorm_activity_depth: [:environment] do
     puts "Setting for #{instance.tenant} tenant"
     ScormActivity.find_each do |scorm_activity|
       depth = get_depth(scorm_activity.parent_activity_id)
-      scorm_activity.update_attributes(depth: depth)
+      scorm_activity.update(depth: depth)
     end
   end
   puts "     DONE!"

@@ -1,6 +1,6 @@
 class ExportsController < ApplicationController
-  include Concerns::JwtToken
-  include Concerns::CanvasSupport
+  include JwtToken
+  include CanvasSupport
   include AttendanceExportsHelper
   include ExamExportHelper
   before_action :validate_token

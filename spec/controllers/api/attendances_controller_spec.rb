@@ -32,7 +32,7 @@ RSpec.describe Api::AttendancesController, type: :controller do
 
     it "returns index json" do
       post :create, params: @params
-      expect(response.content_type).to eq("application/json")
+      expect(response.content_type).to eq("application/json; charset=utf-8")
     end
 
     it "successfully updates existing attendance record" do
@@ -45,7 +45,7 @@ RSpec.describe Api::AttendancesController, type: :controller do
 
       params_clone[:status] = "ABSENT"
       post :create, params: params_clone
-      expect(response).to be_success
+      expect(response).to be_successful
       attendances = JSON.parse(response.body)
       expect(attendances.count).to eq(2)
       expect(attendances.first["status"]).to eq("ABSENT")
@@ -82,7 +82,7 @@ RSpec.describe Api::AttendancesController, type: :controller do
     it "renders json" do
       attendance = create(:attendance)
       get :search, params: { course_id: attendance[:lms_course_id], date: attendance.date }
-      expect(response.content_type).to eq("application/json")
+      expect(response.content_type).to eq("application/json; charset=utf-8")
     end
   end
 end

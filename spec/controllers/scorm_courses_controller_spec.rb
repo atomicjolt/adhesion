@@ -6,7 +6,7 @@ RSpec.describe ScormCoursesController, type: :controller do
     before(:example) do
       @application_instance = FactoryBot.create(:application_instance)
       @application_instance.application.
-        update_attributes(default_config: { scorm_type: "cloud" })
+        update(default_config: { scorm_type: "cloud" })
       allow(controller).to receive(
         :current_application_instance,
       ).and_return(@application_instance)
@@ -70,7 +70,7 @@ RSpec.describe ScormCoursesController, type: :controller do
       ).and_return(MockScorm.new)
       @application_instance = FactoryBot.create(:application_instance)
       @application_instance.application.
-        update_attributes(default_config: { scorm_type: "cloud" })
+        update(default_config: { scorm_type: "cloud" })
       allow(controller).to receive(
         :current_application_instance,
       ).and_return(@application_instance)
@@ -107,7 +107,7 @@ RSpec.describe ScormCoursesController, type: :controller do
   #   before(:example) do
   #     @application_instance = FactoryBot.create(:application_instance)
   #     @application_instance.application.
-  #       update_attributes(default_config: { scorm_type: "engine" })
+  #       update(default_config: { scorm_type: "engine" })
   #     allow(controller).to receive(
   #       :current_application_instance,
   #     ).and_return(@application_instance)

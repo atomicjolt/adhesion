@@ -1,5 +1,5 @@
 class ScormCoursesController < ApplicationController
-  include Concerns::LtiSupport
+  include LtiSupport
   include ScormCourseHelper
 
   protect_from_forgery with: :null_session

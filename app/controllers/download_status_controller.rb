@@ -1,5 +1,5 @@
 class DownloadStatusController < ApplicationController
-  include Concerns::JwtToken
+  include JwtToken
   before_action :validate_token
 
   def index

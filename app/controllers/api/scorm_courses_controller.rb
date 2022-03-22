@@ -1,6 +1,6 @@
 class Api::ScormCoursesController < ApplicationController
-  include Concerns::CanvasSupport
-  include Concerns::JwtToken
+  include CanvasSupport
+  include JwtToken
   include ScormCourseHelper
 
   before_action :validate_token, except: %i[create update]
@@ -155,7 +155,7 @@ class Api::ScormCoursesController < ApplicationController
     @api = canvas_api(
       application_instance: current_application_instance,
       user: current_user,
-      course: current_course,
+      canvas_course: current_course,
     )
   end
 

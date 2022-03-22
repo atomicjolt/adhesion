@@ -1,6 +1,6 @@
 class Api::TestingCentersAccountsController < ApplicationController
-  include Concerns::JwtToken
-  include Concerns::CanvasSupport
+  include JwtToken
+  include CanvasSupport
   before_action :validate_token
 
   def index
@@ -16,7 +16,7 @@ class Api::TestingCentersAccountsController < ApplicationController
     center_account = TestingCentersAccount.find_or_create_by(
       canvas_instance_name: params[:canvas_instance_name],
     )
-    center_account.update_attributes(
+    center_account.update(
       testing_centers_account_id: account["parent_account_id"],
     )
     render json: center_account

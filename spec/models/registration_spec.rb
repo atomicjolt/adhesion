@@ -100,7 +100,7 @@ RSpec.describe Registration, type: :model do
 
   describe "#scores_statistics" do
     it "gets the scores statistics" do
-      @registration.update_attributes(lms_course_id: @scorm_course.id)
+      @registration.update(lms_course_id: @scorm_course.id)
       @registration.store_activities(@report[:registrationreport][:activity])
       course_analytics = @scorm_course.course_analytics
       course_scores = @registration.scores_statistics(course_analytics[:scores])

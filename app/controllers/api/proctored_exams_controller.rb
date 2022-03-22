@@ -1,6 +1,6 @@
 class Api::ProctoredExamsController < Api::ApiApplicationController
   skip_before_action :validate_token
-  include Concerns::CanvasSupport
+  include CanvasSupport
 
   respond_to :json
 

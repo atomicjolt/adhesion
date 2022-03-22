@@ -1,5 +1,5 @@
 class UploadCanvasJob < ApplicationJob
-  include Concerns::CanvasSupport
+  include CanvasSupport
   include ScormCourseHelper
   queue_as :default
 
@@ -19,7 +19,7 @@ class UploadCanvasJob < ApplicationJob
     @canvas_api = canvas_api(
       application_instance: application_instance,
       user: current_user,
-      course: current_course,
+      canvas_course: current_course,
     )
 
     if !skip_canvas_upload

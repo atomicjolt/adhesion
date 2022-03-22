@@ -1,5 +1,5 @@
 class Api::AttendancesController < ApplicationController
-  include Concerns::JwtToken
+  include JwtToken
 
   protect_from_forgery with: :null_session
   before_action :validate_token

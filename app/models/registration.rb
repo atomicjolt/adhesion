@@ -1,5 +1,5 @@
 class Registration < ActiveRecord::Base
-  extend Concerns::EncryptionSupport
+  extend EncryptionSupport
 
   attr_encrypted :scorm_cloud_passback_secret,
                  key: decode_hex(Rails.application.secrets.encryption_key)

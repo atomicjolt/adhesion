@@ -19,7 +19,6 @@ NuclearSecrets.configure do |config|
     auth0_client_secret: String,
     shared_auth_secret: String,
     secret_key_base: String,
-    secret_token: String,
     canvas_proctor_url: String,
     scorm_url: String,
     scorm_api_path: String,

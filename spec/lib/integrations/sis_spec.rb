@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe Integrations::SIS, type: :integration do
+describe Integrations::Sis, type: :integration do
   describe "post_grades_to_db" do
     context "for a user" do
       before do
@@ -16,7 +16,7 @@ describe Integrations::SIS, type: :integration do
 
       it "creates new sis_grade" do
         expect do
-          Integrations::SIS.post_grades_to_db(
+          Integrations::Sis.post_grades_to_db(
             @sis_course_id,
             @sis_section_id,
             SisGrade::FINAL,
@@ -37,7 +37,7 @@ describe Integrations::SIS, type: :integration do
           gradetype: SisGrade::FINAL,
         )
         expect do
-          Integrations::SIS.post_grades_to_db(
+          Integrations::Sis.post_grades_to_db(
             @sis_course_id,
             @sis_section_id,
             SisGrade::FINAL,
@@ -76,7 +76,7 @@ describe Integrations::SIS, type: :integration do
 
       it "creates new sis_grade" do
         expect do
-          Integrations::SIS.post_grades_to_db(
+          Integrations::Sis.post_grades_to_db(
             @sis_course_id,
             @sis_section_id,
             SisGrade::FINAL,
@@ -95,7 +95,7 @@ describe Integrations::SIS, type: :integration do
           gradetype: SisGrade::FINAL,
         )
         expect do
-          Integrations::SIS.post_grades_to_db(
+          Integrations::Sis.post_grades_to_db(
             @sis_course_id,
             @sis_section_id,
             SisGrade::FINAL,

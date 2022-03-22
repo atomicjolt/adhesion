@@ -1,5 +1,5 @@
 class PollCanvasUploadJob < ApplicationJob
-  include Concerns::CanvasSupport
+  include CanvasSupport
 
   queue_as :default
 
@@ -19,7 +19,7 @@ class PollCanvasUploadJob < ApplicationJob
     @canvas_api = canvas_api(
       application_instance: application_instance,
       user: current_user,
-      course: current_course,
+      canvas_course: current_course,
     )
 
     course_files = @canvas_api.proxy(

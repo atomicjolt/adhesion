@@ -1,7 +1,7 @@
 class LtiLaunchesController < ApplicationController
-  include Concerns::CanvasSupport
-  include Concerns::LtiSupport
-  include Concerns::OpenIdConnectSupport
+  include CanvasSupport
+  include LtiSupport
+  include OpenIdConnectSupport
   include ScormCourseHelper
 
   layout "client"
@@ -72,7 +72,9 @@ class LtiLaunchesController < ApplicationController
   # Support Open ID connect flow for LTI 1.3
   def init
     nonce = SecureRandom.hex(64)
-    url = build_response(LtiAdvantage::OpenId.state, params, nonce)
+    state = LtiAdvantage::OpenId.state
+    url = build_response(state, params, nonce)
+    cookies[:open_id_state] = state
     respond_to do |format|
       format.html { redirect_to url }
     end

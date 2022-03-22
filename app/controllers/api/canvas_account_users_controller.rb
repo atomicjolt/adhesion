@@ -1,5 +1,5 @@
 class Api::CanvasAccountUsersController < Api::ApiApplicationController
-  include Concerns::CanvasSupport
+  include CanvasSupport
 
   before_action :validate_token
   before_action :validate_current_user_lti_admin

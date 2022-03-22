@@ -2,7 +2,7 @@ require "rest-client"
 
 module Integrations
 
-  module SIS
+  module Sis
     def self.post_grades_to_db(sis_course_id, sis_section_id, gradetype, grades, sis_user_id = nil)
       sis_grade = SisGrade.find_by(
         gradetype: gradetype,
@@ -24,7 +24,7 @@ module Integrations
     end
 
     def self.post_grades_to_sis(sis_course_id, sis_section_id, gradetype, grades)
-      cookie = SIS.get_cookie
+      cookie = Sis.get_cookie
       RestClient.post(
         "#{Rails.application.secrets.u4sm_url}/U4SMAPI/Canvas/CanvasGradePush",
         {

@@ -1,5 +1,5 @@
 class PostGradesJob < ApplicationJob
-  include Concerns::CanvasSupport
+  include CanvasSupport
 
   queue_as :post_grades
 
@@ -9,13 +9,13 @@ class PostGradesJob < ApplicationJob
     @canvas_api = canvas_api(
       application_instance: application_instance,
       user: user,
-      course: nil,
+      canvas_course: nil,
     )
 
     submissions = extract_submissions(data[:sections], data[:assignment_id])
 
     submissions.each do |section_info|
-      Integrations::SIS.post_grades_to_db(
+      Integrations::Sis.post_grades_to_db(
         section_info[:section][:sis_course_id],
         section_info[:section][:sis_section_id],
         data[:gradetype],

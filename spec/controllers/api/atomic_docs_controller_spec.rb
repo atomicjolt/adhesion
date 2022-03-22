@@ -198,7 +198,7 @@ RSpec.describe Api::AtomicDocsController, type: :controller do
         get :pdf_file, params: params
         expect(response).to have_http_status(200)
         expect(response.headers["Content-Type"]).to eq("application/pdf")
-        expect(response.headers["Content-Disposition"]).to eq("inline; filename=\"test.pdf\"")
+        expect(response.headers["Content-Disposition"]).to eq("inline; filename=\"test.pdf\"; filename*=UTF-8''test.pdf")
       end
 
       it "returns invalid session" do

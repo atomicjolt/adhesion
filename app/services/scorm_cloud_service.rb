@@ -43,7 +43,7 @@ class ScormCloudService
   def upload_scorm_course(file, course_id, cleanup)
     scorm_cloud_request(cleanup) do
       response = import_course(file, course_id)
-      @scorm_cloud.course.update_attributes(course_id, registrationInstancingOption: "incomplete")
+      @scorm_cloud.course.update(course_id, registrationInstancingOption: "incomplete")
       response
     end
   end

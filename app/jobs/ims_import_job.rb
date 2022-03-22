@@ -1,8 +1,5 @@
 class ImsImportJob < ApplicationJob
-  include Concerns::CanvasSupport
-
-  queue_as :ims_import
-
+  include CanvasSupport
   retry_on StandardError, attempts: 16
 
   def perform(job_data, application_instance, user)
@@ -13,7 +10,7 @@ class ImsImportJob < ApplicationJob
     @canvas_api = canvas_api(
       application_instance: application_instance,
       user: user,
-      course: nil,
+      canvas_course: nil,
     )
 
     lti_launches = data[:lti_launches]
