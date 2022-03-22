@@ -28,7 +28,7 @@ gem "devise"
 gem "devise_invitable"
 gem "strong_password"
 gem "ims-lti", "~> 2.1.5" # IMS LTI tool consumers and providers
-gem "aj-ims-lti", git: "https://github.com/atomicjolt/aj_lms_lti"
+gem "aj-ims-lti", "~> 1.2.0"
 gem "json-jwt"
 gem "jwt"
 gem "lms-api", "~>1.12.0"
@@ -48,7 +48,7 @@ gem "puma"
 
 # job worker
 gem "apartment-activejob-que"
-gem "que"
+gem "que", "~> 0.14.3"
 
 # API Related
 gem "rack-cors", require: "rack/cors"
