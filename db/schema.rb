@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_10_161432) do
+ActiveRecord::Schema.define(version: 2022_01_21_170405) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -285,6 +285,7 @@ ActiveRecord::Schema.define(version: 2021_05_10_161432) do
     t.string "oidc_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "registration_client_uri"
     t.index ["application_id", "iss"], name: "index_lti_installs_on_application_id_and_iss"
     t.index ["application_id"], name: "index_lti_installs_on_application_id"
     t.index ["client_id", "iss"], name: "index_lti_installs_on_client_id_and_iss", unique: true
@@ -303,6 +304,7 @@ ActiveRecord::Schema.define(version: 2021_05_10_161432) do
     t.string "resource_link_id"
     t.index ["context_id"], name: "index_lti_launches_on_context_id"
     t.index ["scorm_course_id"], name: "index_lti_launches_on_scorm_course_id"
+    t.index ["resource_link_id"], name: "index_lti_launches_on_resource_link_id"
     t.index ["token", "context_id"], name: "index_lti_launches_on_token_and_context_id", unique: true
   end
 
@@ -548,6 +550,12 @@ ActiveRecord::Schema.define(version: 2021_05_10_161432) do
     t.bigint "invited_by_id"
     t.integer "invitations_count", default: 0
     t.string "legacy_lti_user_id"
+    t.string "encrypted_otp_secret"
+    t.string "encrypted_otp_secret_iv"
+    t.string "encrypted_otp_secret_salt"
+    t.integer "consumed_timestep"
+    t.boolean "otp_required_for_login"
+    t.string "otp_backup_codes", array: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true
     t.index ["invitations_count"], name: "index_users_on_invitations_count"

@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   helper_method :current_application_instance,
+                :current_application,
                 :current_bundle_instance,
                 :current_course,
                 :canvas_url,
@@ -110,6 +111,12 @@ class ApplicationController < ActionController::Base
       backtrace: exception.backtrace,
     }
     render_error 500, "An error occured when calling the Canvas API: #{exception.message}", json_options
+  end
+
+  rescue_from LtiAdvantage::Exceptions::NoLTIDeployment, with: :handle_no_deployment
+  def handle_no_deployment
+    @token = params["id_token"]
+    render "lti_deployments/index", layout: "application"
   end
 
   rescue_from StandardError, with: :error unless Rails.application.config.consider_all_requests_local
@@ -222,6 +229,7 @@ class ApplicationController < ActionController::Base
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
     devise_parameter_sanitizer.permit(:account_update, keys: [:name])
+    devise_parameter_sanitizer.permit(:sign_in, keys: [:otp_attempt])
   end
 
   def current_application_instance
@@ -266,6 +274,8 @@ class ApplicationController < ActionController::Base
   def set_lti_launch_values
     @is_lti_launch = true
     @app_name = current_application_instance.application.client_application_name
+    @launch_locale = params[:launch_presentation_locale]
+    set_i18n_locale
   end
 
   def set_lti_advantage_launch_values
@@ -279,6 +289,12 @@ class ApplicationController < ActionController::Base
     @app_name = current_application_instance.application.client_application_name
     @title = current_application_instance.application.name
     @description = current_application_instance.application.description
+  end
+
+  def set_i18n_locale
+    if locale = Localization.get_locale(@launch_locale) || Localization.get_default_locale(current_application_instance)
+      I18n.locale = locale
+    end
   end
 
   def targeted_app_instance

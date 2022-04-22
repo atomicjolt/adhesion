@@ -89,7 +89,7 @@ GEM
       encryptor (~> 3.0.0)
     autoprefixer-rails (10.4.2.0)
       execjs (~> 2)
-    bcrypt (3.1.16)
+    bcrypt (3.1.17)
     better_errors (2.9.1)
       coderay (>= 1.0.0)
       erubi (>= 1.0.0)
@@ -114,6 +114,7 @@ GEM
       xpath (~> 3.2)
     childprocess (4.1.0)
     choice (0.2.0)
+    chunky_png (1.4.0)
     coderay (1.1.3)
     concurrent-ruby (1.1.10)
     crack (0.4.5)
@@ -135,6 +136,12 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
+    devise-two-factor (4.0.1)
+      activesupport (< 6.2)
+      attr_encrypted (>= 1.3, < 4, != 2)
+      devise (~> 4.0)
+      railties (< 6.2)
+      rotp (~> 6.0)
     devise_invitable (2.0.6)
       actionmailer (>= 5.0)
       devise (>= 4.6)
@@ -219,7 +226,7 @@ GEM
     lms-graphql-api (2.0.0)
       graphql (>= 1.8.2)
       lms-api (>= 1.5.0)
-    loofah (2.13.0)
+    loofah (2.15.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     lumberjack (1.2.8)
@@ -353,6 +360,11 @@ GEM
       parallel (< 2.0)
       public_suffix (>= 2.0.5, < 5.0)
       rack (>= 1.3.6, < 3.0)
+    rotp (6.2.0)
+    rqrcode (2.1.0)
+      chunky_png (~> 1.0)
+      rqrcode_core (~> 1.0)
+    rqrcode_core (1.2.0)
     rspec (3.10.0)
       rspec-core (~> 3.10.0)
       rspec-expectations (~> 3.10.0)
@@ -487,6 +499,7 @@ DEPENDENCIES
   database_cleaner
   debase
   devise
+  devise-two-factor
   devise_invitable
   dotenv-rails
   factory_bot_rails
@@ -525,6 +538,7 @@ DEPENDENCIES
   rest-client
   rolify
   ros-apartment
+  rqrcode (~> 2.1)
   rspec-rails
   rubocop (~> 0.88.0)
   rubocop-performance (~> 1.7.1)
@@ -550,4 +564,4 @@ DEPENDENCIES
   yajl-ruby
 
 BUNDLED WITH
-   1.17.3
+   2.3.4

@@ -114,14 +114,14 @@ export function Header(props) {
       <button type="button" onClick={goBack} className="back-btn">
         <i className="fas fa-chevron-left aj-icon" />
         {application.name}
-        Instances
+        &nbsp;Instances
       </button>
       <div className="header-row space-between">
         <div className="title">
           {nickname}
         </div>
         <div className="flex-center">
-          <button type="button" onClick={saveAppInstance} className="save-btn">
+          <button type="button" onClick={saveAppInstance} className="aj-btn">
             Save
           </button>
           {instanceMenu()}
