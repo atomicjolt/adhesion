@@ -3,6 +3,8 @@ class AtomicDoc < ApplicationRecord
 
   before_save :ensure_status
 
+  scope :old, -> { where(arel_table[:created_at].lt(8.days.ago)) }
+
   private
 
   def ensure_status
